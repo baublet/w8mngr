@@ -15,7 +15,7 @@ const dbSettings = {
     host: "localhost",
     user: "",
     password: "",
-    database: "rscdm",
+    database: "w8mngr-test",
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000

@@ -1,0 +1,1 @@
+w8mngr utilizing Netlify's functions and a React SPA

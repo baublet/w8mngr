@@ -12,7 +12,7 @@
     "start:lambda": "NODE_ENV=dev netlify-lambda serve ./api -c webpack.config.js",
     "build:lambda": "netlify-lambda build ./api -c webpack.config.js",
     "build:client": "webpack --config webpack.client.config.js",
-    "watch:client": "WATCH=1 NODE_ENV=development webpack-dev-server --config webpack.client.config.js --hot"
+    "start:client": "WATCH=1 NODE_ENV=development webpack-dev-server --config webpack.client.config.js --hot"
   },
   "author": "Ryan M. Poe",
   "license": "ISC",

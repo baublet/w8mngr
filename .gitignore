@@ -4,3 +4,4 @@ functions/*
 *.
 lambda/*
 !lambda/.gitignore
+*.log

@@ -6,6 +6,7 @@ import { Route, Link } from "react-router-dom";
 
 const Home = lazify("pages/Home");
 const Register = lazify("pages/Register");
+
 class App extends React.Component {
   render() {
     return (

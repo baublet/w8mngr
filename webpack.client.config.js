@@ -2,6 +2,7 @@ const path = require("path"),
   webpack = require("webpack"),
   HtmlWebpackPlugin = require("html-webpack-plugin"),
   watch = process.env.WATCH ? !!process.env.WATCH : false,
+  { TsConfigPathsPlugin } = require("awesome-typescript-loader"),
   // Our index.html file is automatically generated from a template in
   // src/index.html using the HtmlWebpackPlugin. Use the options here to
   // configure the template.
@@ -70,6 +71,7 @@ const webpackConfig = {
   resolve: {
     modules: ["src", "node_modules"],
     extensions: [".ts", ".tsx", ".json", ".js", ".gql", ".graphql", ".mjs"],
+    plugins: [new TsConfigPathsPlugin()],
     alias: {
       // Page composite components
       components: path.resolve(__dirname, "components"),

@@ -8,7 +8,7 @@ export default gql`
   }
   type Mutation {
     register(email: String, password: String): AuthPayload
-    login(email: string, login: string): AuthPayload
+    login(email: String, password: String): AuthPayload
     addFoodEntry(
       day: Int
       description: String

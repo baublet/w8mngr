@@ -2,14 +2,14 @@ import * as React from "react";
 import Button from "components/Button/Primary";
 import { withRouter } from "react-router-dom";
 import { History } from "history";
-import RegisterPageValidationHandler from "pages/Register.validate";
+import LoginPageValidationHandler from "pages/Login.validate";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import userSchema from "schema/user";
 
-const REGISTER = gql`
-  mutation register($email: String, $password: String) {
-    register(email: $email, password: $password) {
+const LOGIN = gql`
+  mutation login($email: String, $password: String) {
+    login(email: $email, password: $password) {
       user {
         email
       }
@@ -18,24 +18,22 @@ const REGISTER = gql`
   }
 `;
 
-export interface RegisterPageState {
+export interface LoginPageState {
   email: string;
   password: string;
-  confirm: string;
   error: string;
 }
 
-interface RegisterPageProps {
+interface LoginPageProps {
   history: History;
 }
 
-const RegisterPage = function({
+const LoginPage = function({
   history
-}: RegisterPageProps): React.ReactComponentElement<any> {
+}: LoginPageProps): React.ReactComponentElement<any> {
   const [values, setValues] = React.useState({
     email: "",
     password: "",
-    confirm: "",
     error: ""
   });
 
@@ -48,23 +46,23 @@ const RegisterPage = function({
     });
   };
 
-  const validate = RegisterPageValidationHandler(setValues);
+  const validate = LoginPageValidationHandler(setValues);
 
   return (
     <Mutation
-      mutation={REGISTER}
+      mutation={LOGIN}
       update={(cache, { data }) => {
-        localStorage.setItem("token", data.register.token);
+        localStorage.setItem("token", data.login.token);
         cache.writeQuery({
           query: userSchema,
-          data: { user: data.register.user }
+          data: { user: data.login.user }
         });
         history.push("/");
       }}
     >
-      {register => (
+      {login => (
         <>
-          <h1>Register</h1>
+          <h1>Log In</h1>
           {!values.error ? (
             false
           ) : (
@@ -75,8 +73,9 @@ const RegisterPage = function({
           <form
             onSubmit={e => {
               e.preventDefault();
+              console.log(values);
               if (validate(values)) {
-                register({
+                login({
                   variables: {
                     email: values.email,
                     password: values.password
@@ -106,20 +105,11 @@ const RegisterPage = function({
               value={values.password}
               onChange={onChange}
             />
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              name="confirm"
-              required
-              minLength={8}
-              value={values.confirm}
-              onChange={onChange}
-            />
             <Button
               type="submit"
               disabled={values.email && values.error == "" ? false : true}
             >
-              Register
+              Log In
             </Button>
           </form>
         </>
@@ -128,4 +118,4 @@ const RegisterPage = function({
   );
 };
 
-export default withRouter(RegisterPage);
+export default withRouter(LoginPage);

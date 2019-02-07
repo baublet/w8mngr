@@ -29,7 +29,12 @@ const webpackConfig = {
     inline: true,
     open: true,
     disableHostCheck: true,
-    contentBase: path.join(__dirname, "public")
+    contentBase: path.join(__dirname, "public"),
+    proxy: {
+      "/.netlify/lambda/graphql": "http://localhost:9000/graphql",
+      "/.netlify/lambda/register": "http://localhost:9000/register",
+      "/.netlify/lambda/login": "http://localhost:9000/login"
+    }
   },
   module: {
     rules: [
@@ -40,7 +45,13 @@ const webpackConfig = {
           configFileName: "tsconfig.client.json"
         }
       },
-      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
+      // fixes https://github.com/graphql/graphql-js/issues/1272
+      {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: "javascript/auto"
+      }
     ]
   },
   plugins: [
@@ -58,7 +69,7 @@ const webpackConfig = {
   ],
   resolve: {
     modules: ["src", "node_modules"],
-    extensions: [".ts", ".tsx", ".json", ".js"],
+    extensions: [".ts", ".tsx", ".json", ".js", ".gql", ".graphql", ".mjs"],
     alias: {
       // Page composite components
       components: path.resolve(__dirname, "components"),

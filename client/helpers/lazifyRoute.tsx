@@ -1,6 +1,8 @@
 import * as React from "react";
 
-export default function(path: string): React.LazyExoticComponent<any> {
+export default function lazifyRoute(
+  path: string
+): React.LazyExoticComponent<any> {
   return React.lazy(() => {
     return Promise.all([
       import(`../${path}`),

@@ -1,7 +1,7 @@
 import * as React from "react";
 import Button from "components/Button/Primary";
 import { Query } from "react-apollo";
-import userSchema from "schema/user";
+import userQuery from "queries/user";
 import { withRouter } from "react-router-dom";
 import { History } from "history";
 
@@ -14,7 +14,7 @@ const logoutPage = ({ history }: LogoutPageProps) => {
     <div>
       <h1>Logout</h1>
       <p>Are you sure?</p>
-      <Query query={userSchema}>
+      <Query query={userQuery}>
         {({ client, loading, data }) => (
           <Button
             onClick={() => {

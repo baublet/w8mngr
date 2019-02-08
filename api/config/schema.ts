@@ -4,7 +4,7 @@ export default gql`
   type Query {
     hello: String
     user: User
-    foodEntries(day: Int): [FoodEntry]!
+    foodEntries(days: [Int]): [FoodEntry]!
   }
   type Mutation {
     register(email: String, password: String): AuthPayload

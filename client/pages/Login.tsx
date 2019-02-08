@@ -5,19 +5,9 @@ import { History } from "history";
 import LoginPageValidationHandler from "pages/Login.validate";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-import userSchema from "schema/user";
+import userQuery from "queries/user";
+import loginQuery from "queries/login";
 import Input from "components/Forms/Input";
-
-const LOGIN = gql`
-  mutation login($email: String, $password: String) {
-    login(email: $email, password: $password) {
-      user {
-        email
-      }
-      token
-    }
-  }
-`;
 
 export interface LoginPageState {
   email: string;
@@ -50,11 +40,11 @@ const LoginPage = function({
 
   return (
     <Mutation
-      mutation={LOGIN}
+      mutation={loginQuery}
       update={(cache, { data }) => {
         localStorage.setItem("token", data.login.token);
         cache.writeQuery({
-          query: userSchema,
+          query: userQuery,
           data: { user: data.login.user }
         });
         history.push("/");

@@ -5,18 +5,8 @@ import { History } from "history";
 import RegisterPageValidationHandler from "pages/Register.validate";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-import userSchema from "schema/user";
-
-const REGISTER = gql`
-  mutation register($email: String, $password: String) {
-    register(email: $email, password: $password) {
-      user {
-        email
-      }
-      token
-    }
-  }
-`;
+import userQuery from "queries/user";
+import registerQuery from "queries/register";
 
 export interface RegisterPageState {
   email: string;
@@ -52,11 +42,11 @@ const RegisterPage = function({
 
   return (
     <Mutation
-      mutation={REGISTER}
+      mutation={registerQuery}
       update={(cache, { data }) => {
         localStorage.setItem("token", data.register.token);
         cache.writeQuery({
-          query: userSchema,
+          query: userQuery,
           data: { user: data.register.user }
         });
         history.push("/");

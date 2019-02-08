@@ -10,6 +10,7 @@ const Home = lazify("pages/Home");
 const Register = lazify("pages/Register");
 const Logout = lazify("pages/Logout");
 const Login = lazify("pages/Login");
+const FoodLog = lazify("pages/FoodLog");
 
 class App extends React.Component {
   render() {
@@ -20,6 +21,7 @@ class App extends React.Component {
         <Link to="/">Home</Link>
         <IsLoggedIn>
           <>
+            &nbsp;|&nbsp;<Link to="/foodlog">Food Log</Link>
             &nbsp;|&nbsp;<Link to="/logout">Logout</Link>
           </>
         </IsLoggedIn>
@@ -39,6 +41,11 @@ class App extends React.Component {
           />
           <Route exact path="/logout" render={props => <Logout {...props} />} />
           <Route exact path="/login" render={props => <Login {...props} />} />
+          <Route
+            exact
+            path="/foodlog"
+            render={props => <FoodLog {...props} />}
+          />
         </React.Suspense>
       </>
     );

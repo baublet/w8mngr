@@ -12,8 +12,8 @@
       "components/*": ["client/components/*"],
       "pages/*": ["client/pages/*"],
       "helpers/*": ["client/helpers/*"],
-      "schema/*": ["client/schema/*"],
-      "shared/*": ["shared/*"]
+      "queries/*": ["client/queries/*"],
+      "sharedHelpers/*": ["shared/helpers/*"]
     }
   },
   "include": ["./client/**/*"]

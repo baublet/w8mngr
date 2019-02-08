@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Query } from "react-apollo";
-import userSchema from "schema/user";
+import userQuery from "queries/user";
 
 interface IsLoggedInType {
   children: React.ReactChildren | React.ReactChild;
@@ -8,7 +8,7 @@ interface IsLoggedInType {
 
 export default function IsLoggedIn({ children }: IsLoggedInType) {
   return (
-    <Query query={userSchema}>
+    <Query query={userQuery}>
       {({ loading, error, data }) => {
         if (loading) return false;
         if (error) return `Error! ${error.message}`;

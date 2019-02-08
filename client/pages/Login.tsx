@@ -6,6 +6,7 @@ import LoginPageValidationHandler from "pages/Login.validate";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import userSchema from "schema/user";
+import Input from "components/Forms/Input";
 
 const LOGIN = gql`
   mutation login($email: String, $password: String) {
@@ -37,11 +38,10 @@ const LoginPage = function({
     error: ""
   });
 
-  const onChange = (event: React.ChangeEvent) => {
-    const target = event.target as HTMLInputElement;
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
       ...values,
-      [target.name]: target.value,
+      [event.target.name]: event.target.value,
       error: ""
     });
   };
@@ -73,7 +73,6 @@ const LoginPage = function({
           <form
             onSubmit={e => {
               e.preventDefault();
-              console.log(values);
               if (validate(values)) {
                 login({
                   variables: {
@@ -84,9 +83,8 @@ const LoginPage = function({
               }
             }}
           >
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
+            <Input
+              label="Email"
               type="email"
               name="email"
               placeholder="Email address"
@@ -94,10 +92,9 @@ const LoginPage = function({
               value={values.email}
               onChange={onChange}
             />
-            <label htmlFor="password">Password</label>
-            <input
+            <Input
+              label="Password"
               type="password"
-              id="password"
               placeholder="Password"
               name="password"
               required

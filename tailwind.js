@@ -4,10 +4,13 @@ let colors = {
   inherit: "inherit",
   transparent: "transparent",
 
-  foreground: "#333",
-  foregroundLight: "#777",
+  foreground: "rgb(50, 50, 50)",
+  foregroundLight: "rgba(50, 50, 50, .75)",
+  foregroundLighter: "rgba(50, 50, 50, .5)",
 
-  background: "#fafafa",
+  background: "rgb(250, 250, 250)",
+  backgroundLight: "rgba(250, 250, 250, .75)",
+  backgroundLight: "rgba(250, 250, 250, .5)",
 
   primary: "rgb(100, 70, 225)",
   primaryText: "#fafafa"
@@ -308,7 +311,7 @@ module.exports = {
     negativeMargin: ["responsive"],
     objectFit: false,
     objectPosition: false,
-    opacity: ["responsive"],
+    opacity: ["responsive", "hover", "focus"],
     outline: ["focus"],
     overflow: ["responsive"],
     padding: ["responsive"],

@@ -1,9 +1,10 @@
 import * as React from "react";
+import { InputProps } from "./Input";
 
 let count = 0;
 
 export default function Input(
-  props: React.HTMLProps<HTMLInputElement>
+  props: InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-${count++}`,
     newProps = Object.assign({}, props, { id });
@@ -11,21 +12,11 @@ export default function Input(
     <>
       <input
         {...newProps}
-        className="text-background bg-transparent w-full py-2"
+        className="text-background bg-transparent w-full py-2 uppercase text-xs text-inherit opacity-75 hover:opacity-100 focus:opacity-100 border-b border-background block"
       />
-      {!props.label ? (
-        false
-      ) : (
-        <>
-          <br />
-          <label
-            htmlFor={newProps.id}
-            className="uppercase text-xs text-inherit opacity-75 hover:opacity-100 border-b border-background block"
-          >
-            {newProps.label}
-          </label>
-        </>
-      )}
+      <label htmlFor={newProps.id} className="screen-reader-text">
+        {newProps.label}
+      </label>
     </>
   );
 }

@@ -70,6 +70,21 @@ export default function FoodLog(
     );
   };
 
+  const onToday = () => {
+    const newToday = shortDate();
+    if (newToday == values.today) {
+      return;
+    }
+    setValues(
+      Object.assign({
+        ...values,
+        today: newToday,
+        yesterday: yesterday(newToday),
+        tomorrow: tomorrow(newToday)
+      })
+    );
+  };
+
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
       ...values,
@@ -83,6 +98,7 @@ export default function FoodLog(
     return (
       <Input
         label={label}
+        placeholder={label}
         type={type}
         name={name}
         value={value}
@@ -104,6 +120,7 @@ export default function FoodLog(
               day={values.today}
               onTomorrow={onTomorrow}
               onYesterday={onYesterday}
+              onToday={onToday}
             />
             <div className="mx-2 mt-3">
               {!props.foodEntries ? (
@@ -170,7 +187,7 @@ export default function FoodLog(
                         </div>
                       </div>
                       <div className="mt-5 flex justify-end">
-                        <Button type="submit">Log In</Button>
+                        <Button type="submit">Add</Button>
                       </div>
                     </form>
                   </PanelInverted>

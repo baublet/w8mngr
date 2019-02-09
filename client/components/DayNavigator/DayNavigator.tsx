@@ -7,6 +7,7 @@ interface DayNavigatorProps {
   day: number;
   onTomorrow: () => void;
   onYesterday: () => void;
+  onToday: () => void;
 }
 
 export default function DayNavigator(
@@ -18,7 +19,7 @@ export default function DayNavigator(
   return (
     <div>
       <i onClick={props.onYesterday}>before</i>
-      <b>{displayToday}</b>
+      <b onClick={props.onToday}>{displayToday}</b>
       <i onClick={props.onTomorrow}>after</i>
     </div>
   );

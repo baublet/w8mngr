@@ -1,6 +1,12 @@
 @tailwind preflight;
 @tailwind components;
 
+*,
+*:after,
+*:before {
+  box-sizing: border-box !important;
+}
+
 h3,
 h4,
 h5 {
@@ -21,7 +27,7 @@ h5 {
 }
 
 ::placeholder {
-  opacity: 0.5;
+  opacity: 0.75;
   text-transform: uppercase;
   @apply text-xs;
 }

@@ -46,6 +46,11 @@ class App extends React.Component {
             path="/foodlog"
             render={props => <FoodLog {...props} />}
           />
+          <Route
+            exact
+            path="/foodlog/:day"
+            render={props => <FoodLog {...props} />}
+          />
         </React.Suspense>
       </>
     );

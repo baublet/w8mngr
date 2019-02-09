@@ -3,6 +3,7 @@ const path = require("path"),
   HtmlWebpackPlugin = require("html-webpack-plugin"),
   watch = process.env.WATCH ? !!process.env.WATCH : false,
   { TsConfigPathsPlugin } = require("awesome-typescript-loader"),
+  ExtractTextPlugin = require("extract-text-webpack-plugin"),
   // Our index.html file is automatically generated from a template in
   // src/index.html using the HtmlWebpackPlugin. Use the options here to
   // configure the template.
@@ -20,7 +21,10 @@ const path = require("path"),
 
 const webpackConfig = {
   mode: process.env.NODE_ENV,
-  entry: path.resolve(__dirname, "client", "index.tsx"),
+  entry: {
+    main: path.resolve(__dirname, "client", "index.tsx"),
+    tailwind: path.resolve(__dirname, "client", "styles.css")
+  },
   output: {
     path: path.resolve(__dirname, "public"),
     publicPath: "/"
@@ -52,6 +56,16 @@ const webpackConfig = {
         test: /\.mjs$/,
         include: /node_modules/,
         type: "javascript/auto"
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: [
+            { loader: "css-loader", options: { importLoaders: 1 } },
+            "postcss-loader"
+          ]
+        })
       }
     ]
   },
@@ -66,7 +80,10 @@ const webpackConfig = {
       }
     }),
     new webpack.NamedModulesPlugin(),
-    new HtmlWebpackPlugin(indexOptions)
+    new HtmlWebpackPlugin(indexOptions),
+    new ExtractTextPlugin("src/styles.css", {
+      disable: process.env.NODE_ENV === "development"
+    })
   ],
   resolve: {
     modules: ["src", "node_modules"],

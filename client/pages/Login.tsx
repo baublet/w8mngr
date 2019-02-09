@@ -3,7 +3,6 @@ import Button from "components/Button/Primary";
 import { withRouter } from "react-router-dom";
 import { History } from "history";
 import LoginPageValidationHandler from "pages/Login.validate";
-import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import userQuery from "queries/user";
 import loginQuery from "queries/login";

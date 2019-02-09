@@ -4,7 +4,7 @@ import createFoodEntry from "../foodEntries/create";
 
 export function getFoodEntries(
   _,
-  { days },
+  { day },
   context
 ): Promise<Array<FoodEntryType> | Boolean> {
   return new Promise(async resolve => {
@@ -13,7 +13,7 @@ export function getFoodEntries(
     if (!user) {
       return resolve([]);
     }
-    resolve((await foodEntriesByUserIdAndDays(user.id, days)) || []);
+    resolve((await foodEntriesByUserIdAndDays(user.id, [day])) || []);
   });
 }
 

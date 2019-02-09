@@ -34,7 +34,6 @@ export default function FoodEntry(props: any) {
         name="description"
         value={values.description}
         placeholder="Description"
-        label="Calories"
         onChange={onChange}
       />
       <div className="flex">
@@ -43,7 +42,6 @@ export default function FoodEntry(props: any) {
             name="calories"
             value={values.calories}
             placeholder="Calories"
-            label="Calories"
             onChange={onChange}
           />
         </div>
@@ -52,7 +50,6 @@ export default function FoodEntry(props: any) {
             name="fat"
             value={values.fat}
             placeholder="Fat"
-            label="Fat"
             onChange={onChange}
           />
         </div>
@@ -61,7 +58,6 @@ export default function FoodEntry(props: any) {
             name="carbs"
             value={values.carbs}
             placeholder="Carbs"
-            label="Carbs"
             onChange={onChange}
           />
         </div>
@@ -70,7 +66,6 @@ export default function FoodEntry(props: any) {
             name="protein"
             value={values.protein}
             placeholder="Protein"
-            label="Protein"
             onChange={onChange}
           />
         </div>

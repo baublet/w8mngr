@@ -48,6 +48,7 @@ export default function FoodLog(
 
   const onTomorrow = () => {
     const newToday = tomorrow(values.today);
+    props.history.replace(`/foodlog/${newToday}`);
     setValues(
       Object.assign({
         ...values,
@@ -60,6 +61,7 @@ export default function FoodLog(
 
   const onYesterday = () => {
     const newToday = yesterday(values.today);
+    props.history.replace(`/foodlog/${newToday}`);
     setValues(
       Object.assign({
         ...values,
@@ -72,6 +74,7 @@ export default function FoodLog(
 
   const onToday = () => {
     const newToday = shortDate();
+    props.history.replace(`/foodlog/${newToday}`);
     if (newToday == values.today) {
       return;
     }

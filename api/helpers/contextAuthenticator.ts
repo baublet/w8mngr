@@ -11,7 +11,6 @@ export default function contextAuthenticator({ event: request }) {
     );
     return {};
   }
-  console.log(request.headers.authorization);
   return new Promise(resolve => {
     try {
       const token = request.headers.authorization;

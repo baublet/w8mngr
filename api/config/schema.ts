@@ -9,7 +9,7 @@ export default gql`
   type Mutation {
     register(email: String, password: String): AuthPayload
     login(email: String, password: String): AuthPayload
-    addFoodEntry(
+    createFoodEntry(
       day: Int
       description: String
       calories: Int
@@ -17,6 +17,15 @@ export default gql`
       carbs: Int
       protein: Int
     ): FoodEntry!
+    updateFoodEntry(
+      id: Int
+      description: String
+      calories: Int
+      fat: Int
+      carbs: Int
+      protein: Int
+    ): FoodEntry!
+    deleteFoodEntry(id: Int): Boolean
   }
   type AuthPayload {
     user: User

@@ -9,6 +9,7 @@
     "jsx": "react",
     "lib": ["esnext", "es2015", "dom"],
     "paths": {
+      "api/*": ["api/*"],
       "components/*": ["client/components/*"],
       "pages/*": ["client/pages/*"],
       "helpers/*": ["client/helpers/*"],

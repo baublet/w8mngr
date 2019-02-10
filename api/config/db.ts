@@ -1,5 +1,4 @@
-import { QueryResult } from "pg";
-import { Pool } from "pg";
+import { Pool, QueryResult } from "pg";
 
 const dbSettings = {
   dev: {

@@ -72,25 +72,25 @@ export default function FoodLog(
   };
 
   return (
-    <Query
-      query={foodLogQuery}
-      variables={{ day: values.today }}
-      pollInterval={60000}
-    >
-      {(props: any) => (
-        <>
-          <DayNavigator
-            day={values.today}
-            onTomorrow={onTomorrow}
-            onYesterday={onYesterday}
-            onToday={onToday}
-          />
-          <div className="mx-2 mt-3">
+    <>
+      <DayNavigator
+        day={values.today}
+        onTomorrow={onTomorrow}
+        onYesterday={onYesterday}
+        onToday={onToday}
+      />
+      <div className="mx-2 mt-3">
+        <Query
+          query={foodLogQuery}
+          variables={{ day: values.today }}
+          pollInterval={60000}
+        >
+          {(props: any) => (
             <FoodEntries foodEntries={props.foodEntries} day={day} />
-          </div>
-          <NewFoodEntry day={day} />
-        </>
-      )}
-    </Query>
+          )}
+        </Query>
+      </div>
+      <NewFoodEntry day={day} />
+    </>
   );
 }

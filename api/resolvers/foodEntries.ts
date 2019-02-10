@@ -11,7 +11,6 @@ export function readFoodEntriesResolver(
 ): Promise<Array<FoodEntryType> | Boolean> {
   return new Promise(async resolve => {
     const user = context.user;
-    console.log(user);
     if (!user) {
       return resolve([]);
     }

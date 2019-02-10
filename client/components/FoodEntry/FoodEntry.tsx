@@ -13,10 +13,10 @@ interface FoodEntryState {
 export default function FoodEntry(props: any) {
   const initialState: FoodEntryState = {
     description: props.description,
-    calories: "",
-    fat: "",
-    carbs: "",
-    protein: ""
+    calories: props.calories,
+    fat: props.fat,
+    carbs: props.carbs,
+    protein: props.protein
   };
 
   const [values, setValues] = React.useState(initialState),

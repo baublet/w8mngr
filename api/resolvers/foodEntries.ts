@@ -43,7 +43,7 @@ export function createFoodEntryResolver(
 
 export function updateFoodEntryResolver(
   _,
-  { id, description, calories, fat, carbs, protein, day },
+  { id, description, calories, fat, carbs, protein },
   context
 ): Promise<FoodEntryType | false> {
   return new Promise(async resolve => {

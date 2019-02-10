@@ -62,11 +62,11 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
               e.preventDefault();
               addFoodEntry({
                 variables: {
-                  description: values.description,
-                  calories: parseInt(values.calories),
-                  fat: parseInt(values.fat),
-                  carbs: parseInt(values.carbs),
-                  protein: parseInt(values.protein),
+                  description: values.description || "",
+                  calories: parseInt(values.calories, 10) || 0,
+                  fat: parseInt(values.fat, 10) || 0,
+                  carbs: parseInt(values.carbs, 10) || 0,
+                  protein: parseInt(values.protein, 10) || 0,
                   day: props.day
                 },
                 optimisticResponse: {
@@ -74,10 +74,10 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
                   createFoodEntry: {
                     __typename: "FoodEntry",
                     description: values.description,
-                    calories: parseInt(values.calories),
-                    fat: parseInt(values.fat),
-                    carbs: parseInt(values.carbs),
-                    protein: parseInt(values.protein),
+                    calories: parseInt(values.calories, 10) || 0,
+                    fat: parseInt(values.fat, 10) || 0,
+                    carbs: parseInt(values.carbs, 10) || 0,
+                    protein: parseInt(values.protein, 10) || 0,
                     id: -1,
                     day: props.day
                   }
@@ -106,7 +106,6 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
                     variables: { day: props.day },
                     data
                   });
-                  console.log(data);
                 }
               });
             }}
@@ -127,7 +126,7 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
               <div className="flex-grow ml-1">{InputComponent("Protein")}</div>
             </div>
             <div className="mt-5 flex justify-end">
-              <Button type="submit">Add</Button>
+              <Button type="submit">&#43;&nbsp;&nbsp;Add</Button>
             </div>
           </form>
         </PanelInverted>

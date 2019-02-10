@@ -1,5 +1,10 @@
 import * as React from "react";
 import Input from "components/Forms/InputFoodEntry";
+import { FoodEntryType } from "api/foodEntries/types";
+import PrimaryIcon from "components/Button/PrimaryIcon";
+import { Mutation } from "react-apollo";
+import deleteFoodEntryQuery from "queries/foodEntryDelete";
+import foodLogQuery from "queries/foodLog";
 
 interface FoodEntryState {
   description: string;
@@ -10,13 +15,13 @@ interface FoodEntryState {
   [key: string]: string | number;
 }
 
-export default function FoodEntry(props: any) {
+export default function FoodEntry(props: FoodEntryType) {
   const initialState: FoodEntryState = {
-    description: props.description,
-    calories: props.calories,
-    fat: props.fat,
-    carbs: props.carbs,
-    protein: props.protein
+    description: props.description || "",
+    calories: props.calories ? props.calories.toString() : "",
+    fat: props.fat ? props.fat.toString() : "",
+    carbs: props.carbs ? props.carbs.toString() : "",
+    protein: props.protein ? props.protein.toString() : ""
   };
 
   const [values, setValues] = React.useState(initialState),
@@ -28,7 +33,41 @@ export default function FoodEntry(props: any) {
     };
 
   return (
-    <>
+    <div className="relative">
+      {props.id == -1 ? (
+        false
+      ) : (
+        <Mutation mutation={deleteFoodEntryQuery}>
+          {deleteFoodEntry => (
+            <PrimaryIcon
+              className="absolute pin-r pin-t"
+              onClick={e => {
+                deleteFoodEntry({
+                  variables: { id: props.id },
+                  update: (proxy, { data: { deleteFoodEntry } }) => {
+                    // Read the data from our cache for this query.
+                    const data: any = proxy.readQuery({
+                      query: foodLogQuery,
+                      variables: { day: props.day }
+                    });
+                    proxy.writeQuery({
+                      query: foodLogQuery,
+                      variables: { day: props.day },
+                      data: {
+                        foodEntries: data.foodEntries.filter(
+                          (entry: FoodEntryType) => entry.id !== props.id
+                        )
+                      }
+                    });
+                  }
+                });
+              }}
+            >
+              &times;
+            </PrimaryIcon>
+          )}
+        </Mutation>
+      )}
       <Input
         name="description"
         value={values.description}
@@ -45,7 +84,7 @@ export default function FoodEntry(props: any) {
             onChange={onChange}
           />
         </div>
-        <div className="ml-1">
+        <div>
           <Input
             name="fat"
             value={values.fat}
@@ -53,7 +92,7 @@ export default function FoodEntry(props: any) {
             onChange={onChange}
           />
         </div>
-        <div className="ml-1">
+        <div>
           <Input
             name="carbs"
             value={values.carbs}
@@ -61,7 +100,7 @@ export default function FoodEntry(props: any) {
             onChange={onChange}
           />
         </div>
-        <div className="ml-1">
+        <div>
           <Input
             name="protein"
             value={values.protein}
@@ -70,6 +109,6 @@ export default function FoodEntry(props: any) {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

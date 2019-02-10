@@ -1,12 +1,12 @@
 export interface FoodEntryType {
-  id: Number;
-  description: String;
-  calories: Number;
-  fat: Number;
-  carbs: Number;
-  protein: Number;
-  day: Number;
-  user_id: Number;
-  created_at: String;
-  updated_at: String;
+  id: number;
+  description: string;
+  calories: number;
+  fat: number;
+  carbs: number;
+  protein: number;
+  day: number;
+  user_id: number;
+  created_at: string;
+  updated_at: string;
 }

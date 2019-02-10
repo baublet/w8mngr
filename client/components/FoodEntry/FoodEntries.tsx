@@ -20,7 +20,7 @@ export default function FoodEntries(props: FoodEntriesProps) {
           {index == 0 ? (
             false
           ) : (
-            <div className="h-px bg-foreground opacity-25 my-3 -mx-3">
+            <div className="h-px bg-foreground opacity-10 my-3 -mx-3">
               &nbsp;
             </div>
           )}

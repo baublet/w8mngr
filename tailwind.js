@@ -4,16 +4,21 @@ let colors = {
   inherit: "inherit",
   transparent: "transparent",
 
-  foreground: "rgb(50, 50, 50)",
-  foregroundLight: "rgba(50, 50, 50, .75)",
-  foregroundLighter: "rgba(50, 50, 50, .5)",
+  foreground: "rgb(250, 250, 250)",
+  foregroundLight: "rgba(250, 250, 250, .75)",
+  foregroundLighter: "rgba(250, 250, 250, .5)",
 
-  background: "rgb(250, 250, 250)",
-  backgroundLight: "rgba(250, 250, 250, .75)",
-  backgroundLight: "rgba(250, 250, 250, .5)",
+  background: "rgb(70, 45, 155)",
+  backgroundDark: "rgb(60, 35, 145)",
+  backgroundLight: "rgba(70, 45, 155, .75)",
+  backgroundLighter: "rgba(70, 45, 155, .5)",
 
-  primary: "rgb(100, 70, 225)",
-  primaryText: "#fafafa"
+  primary: "rgb(40, 40, 40)",
+  primaryText: "rgb(250, 250, 250)",
+
+  secondary: "rgb(65, 120, 225)",
+  secondaryDark: "rgb(45, 100, 200)",
+  secondaryText: "rgb(250, 250, 250)"
 };
 
 module.exports = {
@@ -61,15 +66,15 @@ module.exports = {
   },
 
   textSizes: {
-    xs: ".65rem", // 12px
-    sm: ".875rem", // 14px
-    base: "1rem", // 16px
-    lg: "1.125rem", // 18px
-    xl: "1.25rem", // 20px
-    "2xl": "1.5rem", // 24px
-    "3xl": "1.875rem", // 30px
-    "4xl": "2.25rem", // 36px
-    "5xl": "3rem" // 48px
+    xxs: ".4rem",
+    xs: ".65rem",
+    base: ".8rem",
+    lg: "1.125rem",
+    xl: "1.25rem",
+    "2xl": "1.5rem",
+    "3xl": "1.875rem",
+    "4xl": "2.25rem",
+    "5xl": "3rem"
   },
 
   fontWeights: {

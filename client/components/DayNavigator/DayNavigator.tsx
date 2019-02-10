@@ -10,6 +10,8 @@ interface DayNavigatorProps {
   onToday: () => void;
 }
 
+const buttonClasses = "p-3 bg-secondaryDark";
+
 export default function DayNavigator(
   props: DayNavigatorProps
 ): React.ReactComponentElement<any> {
@@ -17,10 +19,21 @@ export default function DayNavigator(
     displayTomorrow = displayDate(tomorrow(props.day)),
     displayYesterday = displayDate(yesterday(props.day));
   return (
-    <div>
-      <i onClick={props.onYesterday}>before</i>
-      <b onClick={props.onToday}>{displayToday}</b>
-      <i onClick={props.onTomorrow}>after</i>
+    <div className="flex justify-around bg-secondary text-secondaryText">
+      <button onClick={props.onYesterday} className={buttonClasses}>
+        <span>&larr;</span>
+        <span className="screen-reader-text">{displayYesterday}</span>
+      </button>
+      <div
+        onClick={props.onToday}
+        className="flex-grow py-3 text-xs uppercase font-bold flex items-center justify-center"
+      >
+        {displayToday}
+      </div>
+      <button onClick={props.onTomorrow} className={buttonClasses}>
+        <span>&rarr;</span>
+        <span className="screen-reader-text">{displayTomorrow}</span>
+      </button>
     </div>
   );
 }

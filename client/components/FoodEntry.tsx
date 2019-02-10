@@ -1,6 +1,5 @@
 import * as React from "react";
-import Panel from "components/Panels/Panel";
-import Input from "components/Forms/Input";
+import Input from "components/Forms/InputFoodEntry";
 
 interface FoodEntryState {
   description: string;
@@ -29,19 +28,20 @@ export default function FoodEntry(props: any) {
     };
 
   return (
-    <Panel>
+    <>
       <Input
         name="description"
         value={values.description}
         placeholder="Description"
         onChange={onChange}
+        hideLabel={true}
       />
       <div className="flex">
         <div>
           <Input
             name="calories"
             value={values.calories}
-            placeholder="Calories"
+            label="Calories"
             onChange={onChange}
           />
         </div>
@@ -49,7 +49,7 @@ export default function FoodEntry(props: any) {
           <Input
             name="fat"
             value={values.fat}
-            placeholder="Fat"
+            label="Fat"
             onChange={onChange}
           />
         </div>
@@ -57,7 +57,7 @@ export default function FoodEntry(props: any) {
           <Input
             name="carbs"
             value={values.carbs}
-            placeholder="Carbs"
+            label="Carbs"
             onChange={onChange}
           />
         </div>
@@ -65,11 +65,11 @@ export default function FoodEntry(props: any) {
           <Input
             name="protein"
             value={values.protein}
-            placeholder="Protein"
+            label="Protein"
             onChange={onChange}
           />
         </div>
       </div>
-    </Panel>
+    </>
   );
 }

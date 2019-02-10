@@ -6,7 +6,7 @@ export default function GhostInvertedButton(
   return (
     <button
       {...props}
-      className="bg-transparent p-3 border border-background text-background rounded uppercase text-xs"
+      className="bg-transparent p-3 border border-primaryText text-primaryText rounded uppercase text-xs"
     />
   );
 }

@@ -12,6 +12,7 @@ import { Mutation } from "react-apollo";
 import addFoodEntryQuery from "queries/foodEntryAdd";
 import PanelInverted from "components/Panels/Inverted";
 import FoodEntry from "components/FoodEntry";
+import Panel from "components/Panels/Panel";
 
 const get = require("lodash.get");
 
@@ -126,12 +127,23 @@ export default function FoodLog(
               onToday={onToday}
             />
             <div className="mx-2 mt-3">
-              {!props.foodEntries ? (
+              {!props.foodEntries || !props.foodEntries.length ? (
                 <b>No food entries today!</b>
               ) : (
-                props.foodEntries.map((props: any) => (
-                  <FoodEntry {...props} key={`${day}-${count++}`} />
-                ))
+                <Panel>
+                  {props.foodEntries.map((props: any, index: number) => (
+                    <div key={`${day}-${count++}`}>
+                      {index == 0 ? (
+                        false
+                      ) : (
+                        <div className="h-px bg-foreground opacity-25 my-3 -mx-3">
+                          &nbsp;
+                        </div>
+                      )}
+                      <FoodEntry {...props} key={`${day}-${count++}`} />
+                    </div>
+                  ))}
+                </Panel>
               )}
             </div>
             <div>

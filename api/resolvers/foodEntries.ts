@@ -64,11 +64,7 @@ export function updateFoodEntryResolver(
   });
 }
 
-export function deleteFoodEntryResolver(
-  _,
-  { id, description, calories, fat, carbs, protein, day },
-  context
-): Promise<boolean> {
+export function deleteFoodEntryResolver(_, { id }, context): Promise<boolean> {
   return new Promise(async resolve => {
     const user = context.user;
     if (!user) {

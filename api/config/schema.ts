@@ -5,7 +5,9 @@ export default gql`
     hello: String
     user: User
     foodEntries(day: Int): [FoodEntry]!
+    searchFoods(term: String, limit: Int, offset: Int): [FoodEntry]!
   }
+
   type Mutation {
     register(email: String, password: String): AuthPayload
     login(email: String, password: String): AuthPayload
@@ -28,10 +30,12 @@ export default gql`
     createFood(name: String, description: String): Food!
     deleteFoodEntry(id: Int): Boolean
   }
+
   type AuthPayload {
     user: User
     token: String
   }
+
   type User {
     id: Int
     email: String
@@ -40,6 +44,7 @@ export default gql`
     role: String
     preferences: UserPreferences
   }
+
   type UserPreferences {
     sex: String
     name: String
@@ -56,11 +61,13 @@ export default gql`
     target_calories: Int
     differential_metric: Int
   }
+
   type UserPreferencesAlerts {
     food_log_reminder: Boolean
     food_log_reminder_hours: Int
     target_calories_reminder: Boolean
   }
+
   type FoodEntry {
     id: Int
     description: String
@@ -72,6 +79,7 @@ export default gql`
     created_at: String
     updated_at: String
   }
+
   type Food {
     id: Int
     user_id: Int
@@ -84,6 +92,7 @@ export default gql`
     deleted: Boolean
     measurements: [Measurement]!
   }
+
   type Measurement {
     id: Int
     food_id: Int

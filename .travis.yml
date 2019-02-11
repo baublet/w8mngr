@@ -8,7 +8,7 @@ addons:
 before_script:
   - psql -c 'DROP DATABASE IF EXISTS w8mngr_test;'
   - psql -c 'CREATE DATABASE w8mngr_test;'
-  - psql w8mngr_test -c 'CREATE EXTENSION IF NOT EXISTS hstore' -U postgres
+  - psql w8mngr_test -c 'CREATE EXTENSION IF NOT EXISTS hstore'
   - psql w8mngr_test < ./test/initial_structure.sql
 script:
   - npm run test:all

@@ -43,6 +43,7 @@ function query({
   return new Promise(resolve => {
     pool.connect((err, client, release) => {
       if (err) {
+        console.error(err);
         return resolve({ error: err });
       }
       client.query(text, values, (err, result) => {

@@ -45,7 +45,7 @@ export default function FoodEntries(props: FoodEntriesProps) {
           </div>
         ))}
       </Panel>
-      <div className="flex text-center justify-between mt-5">
+      <div className="flex text-center justify-around mt-5">
         {Metric("Calories")}
         {Metric("Fat")}
         {Metric("Carbs")}

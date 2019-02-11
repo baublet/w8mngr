@@ -1,11 +1,9 @@
 import * as React from "react";
 import Input from "components/Forms/InputFoodEntry";
 import { FoodEntryType } from "api/foodEntries/types";
-import PrimaryIcon from "components/Button/PrimaryIcon";
 import { Mutation } from "react-apollo";
-import deleteFoodEntryQuery from "queries/foodEntryDelete";
 import updateFoodEntryQuery from "queries/foodEntryUpdate";
-import foodLogQuery from "queries/foodLog";
+import FoodEntryDelete from "components/FoodEntry/FoodEntryDelete";
 
 interface FoodEntryState {
   description: string;
@@ -16,7 +14,9 @@ interface FoodEntryState {
   [key: string]: string | number;
 }
 
-export default function FoodEntry(props: FoodEntryType) {
+export default function FoodEntry(
+  props: FoodEntryType
+): React.ReactComponentElement<any> {
   const initialState: FoodEntryState = {
     description: props.description || "",
     calories: props.calories ? props.calories.toString() : "",
@@ -35,103 +35,51 @@ export default function FoodEntry(props: FoodEntryType) {
 
   return (
     <div className="relative">
-      {props.id == -1 ? (
-        false
-      ) : (
-        <Mutation mutation={deleteFoodEntryQuery}>
-          {deleteFoodEntry => (
-            <PrimaryIcon
-              className="absolute pin-r pin-t"
-              onClick={e => {
-                deleteFoodEntry({
-                  variables: { id: props.id },
-                  update: (proxy, { data: { deleteFoodEntry } }) => {
-                    // Read the data from our cache for this query.
-                    const data: any = proxy.readQuery({
-                      query: foodLogQuery,
-                      variables: { day: props.day }
-                    });
-                    proxy.writeQuery({
-                      query: foodLogQuery,
-                      variables: { day: props.day },
-                      data: {
-                        foodEntries: data.foodEntries.filter(
-                          (entry: FoodEntryType) => entry.id !== props.id
-                        )
-                      }
-                    });
-                  }
-                });
-              }}
-            >
-              &times;
-            </PrimaryIcon>
-          )}
-        </Mutation>
-      )}
+      <FoodEntryDelete id={props.id} day={props.day} />
       <Mutation mutation={updateFoodEntryQuery}>
         {updateFoodEntry => {
-          const updateOnBlur = () => {
-            updateFoodEntry({
-              variables: {
-                id: props.id,
-                description: values.description,
-                calories: parseInt(values.calories, 10),
-                fat: parseInt(values.fat, 10),
-                carbs: parseInt(values.carbs, 10),
-                protein: parseInt(values.protein, 10)
-              }
-            });
-          };
-          return (
-            <>
+          const updater = () => {
+              console.log("updating");
+              updateFoodEntry({
+                variables: {
+                  id: props.id,
+                  description: values.description,
+                  calories: parseInt(values.calories, 10),
+                  fat: parseInt(values.fat, 10),
+                  carbs: parseInt(values.carbs, 10),
+                  protein: parseInt(values.protein, 10)
+                }
+              });
+            },
+            EntryInput = (type: string, hideLabel = false) => (
               <Input
-                name="description"
-                value={values.description}
-                placeholder="Description"
+                name={type.toLowerCase()}
+                value={values[type.toLocaleLowerCase()]}
+                placeholder={type}
                 onChange={onChange}
-                hideLabel={true}
-                onBlur={updateOnBlur}
+                hideLabel={hideLabel}
+                onBlur={updater}
+                autoComplete="off"
               />
+            );
+          return (
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                updater();
+              }}
+            >
+              <div className="pr-5">{EntryInput("Description", true)}</div>
               <div className="flex">
-                <div>
-                  <Input
-                    name="calories"
-                    value={values.calories}
-                    label="Calories"
-                    onChange={onChange}
-                    onBlur={updateOnBlur}
-                  />
-                </div>
-                <div>
-                  <Input
-                    name="fat"
-                    value={values.fat}
-                    label="Fat"
-                    onChange={onChange}
-                    onBlur={updateOnBlur}
-                  />
-                </div>
-                <div>
-                  <Input
-                    name="carbs"
-                    value={values.carbs}
-                    label="Carbs"
-                    onChange={onChange}
-                    onBlur={updateOnBlur}
-                  />
-                </div>
-                <div>
-                  <Input
-                    name="protein"
-                    value={values.protein}
-                    label="Protein"
-                    onChange={onChange}
-                    onBlur={updateOnBlur}
-                  />
-                </div>
+                <div>{EntryInput("Calories")}</div>
+                <div>{EntryInput("Fat")}</div>
+                <div>{EntryInput("Carbs")}</div>
+                <div>{EntryInput("Protein")}</div>
               </div>
-            </>
+              <button type="submit" className="screen-reader-text">
+                Save Food Entry
+              </button>
+            </form>
           );
         }}
       </Mutation>

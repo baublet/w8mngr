@@ -4,7 +4,7 @@ import { InputProps } from "./Input";
 let count = 0;
 
 interface FoodEntryInputProps {
-  hideLabel?: true;
+  hideLabel?: boolean;
 }
 
 export default function InputFoodEntry(

@@ -110,15 +110,7 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
               });
             }}
           >
-            <Input
-              label="Description"
-              type="description"
-              name="description"
-              placeholder="e.g., cereal"
-              required
-              value={values.description}
-              onChange={onChange}
-            />
+            {InputComponent("Description", "text")}
             <div className="flex mt-2 w-full">
               <div className="flex-grow">{InputComponent("Calories")}</div>
               <div className="flex-grow ml-1">{InputComponent("Fat")}</div>

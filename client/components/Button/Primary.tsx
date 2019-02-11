@@ -6,7 +6,7 @@ export default function BaseButton(
   return (
     <button
       {...props}
-      className="bg-primary p-3 text-primaryText rounded-sm shadow hover:shadow-md focus:shadow:md"
+      className="bg-primary p-3 text-primaryText rounded text-xs uppercase shadow hover:shadow-md focus:shadow:md"
     />
   );
 }

@@ -4,6 +4,7 @@ import { FoodEntryType } from "api/foodEntries/types";
 import PrimaryIcon from "components/Button/PrimaryIcon";
 import { Mutation } from "react-apollo";
 import deleteFoodEntryQuery from "queries/foodEntryDelete";
+import updateFoodEntryQuery from "queries/foodEntryUpdate";
 import foodLogQuery from "queries/foodLog";
 
 interface FoodEntryState {
@@ -68,47 +69,72 @@ export default function FoodEntry(props: FoodEntryType) {
           )}
         </Mutation>
       )}
-      <Input
-        name="description"
-        value={values.description}
-        placeholder="Description"
-        onChange={onChange}
-        hideLabel={true}
-      />
-      <div className="flex">
-        <div>
-          <Input
-            name="calories"
-            value={values.calories}
-            label="Calories"
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <Input
-            name="fat"
-            value={values.fat}
-            label="Fat"
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <Input
-            name="carbs"
-            value={values.carbs}
-            label="Carbs"
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <Input
-            name="protein"
-            value={values.protein}
-            label="Protein"
-            onChange={onChange}
-          />
-        </div>
-      </div>
+      <Mutation mutation={updateFoodEntryQuery}>
+        {updateFoodEntry => {
+          const updateOnBlur = () => {
+            updateFoodEntry({
+              variables: {
+                id: props.id,
+                description: values.description,
+                calories: parseInt(values.calories, 10),
+                fat: parseInt(values.fat, 10),
+                carbs: parseInt(values.carbs, 10),
+                protein: parseInt(values.protein, 10)
+              }
+            });
+          };
+          return (
+            <>
+              <Input
+                name="description"
+                value={values.description}
+                placeholder="Description"
+                onChange={onChange}
+                hideLabel={true}
+                onBlur={updateOnBlur}
+              />
+              <div className="flex">
+                <div>
+                  <Input
+                    name="calories"
+                    value={values.calories}
+                    label="Calories"
+                    onChange={onChange}
+                    onBlur={updateOnBlur}
+                  />
+                </div>
+                <div>
+                  <Input
+                    name="fat"
+                    value={values.fat}
+                    label="Fat"
+                    onChange={onChange}
+                    onBlur={updateOnBlur}
+                  />
+                </div>
+                <div>
+                  <Input
+                    name="carbs"
+                    value={values.carbs}
+                    label="Carbs"
+                    onChange={onChange}
+                    onBlur={updateOnBlur}
+                  />
+                </div>
+                <div>
+                  <Input
+                    name="protein"
+                    value={values.protein}
+                    label="Protein"
+                    onChange={onChange}
+                    onBlur={updateOnBlur}
+                  />
+                </div>
+              </div>
+            </>
+          );
+        }}
+      </Mutation>
     </div>
   );
 }

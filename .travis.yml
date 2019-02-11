@@ -3,6 +3,8 @@ node_js:
   - 8.10
 services:
   - postgresql
+addons:
+  postgresql: "9.6"
 before_script:
   - psql -c 'DROP DATABASE IF EXISTS w8mngr_test;'
   - psql -c "create extension hstore"

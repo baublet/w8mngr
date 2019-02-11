@@ -25,6 +25,7 @@ export default gql`
       carbs: Int
       protein: Int
     ): FoodEntry!
+    createFood(name: String, description: String): Food!
     deleteFoodEntry(id: Int): Boolean
   }
   type AuthPayload {
@@ -70,5 +71,28 @@ export default gql`
     day: Int
     created_at: String
     updated_at: String
+  }
+  type Food {
+    id: Int
+    user_id: Int
+    name: String
+    description: String
+    upc: String
+    popularity: Int
+    created_at: String
+    updated_at: String
+    deleted: Boolean
+    measurements: [Measurement]!
+  }
+  type Measurement {
+    id: Int
+    food_id: Int
+    amount: Int
+    unit: String
+    calories: Int
+    fat: Int
+    carbs: Int
+    protein: Int
+    popularity: Int
   }
 `;

@@ -4,6 +4,8 @@ node_js:
 services:
   - postgresql
 before_script:
+  - psql -c 'DROP DATABASE IF EXISTS w8mngr_test;'
+  - psql -c "create extension hstore"
   - psql -c 'create database w8mngr_test;'
   - psql -a -f ./test/initial_structure.sql w8mngr_test
 script:

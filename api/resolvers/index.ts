@@ -8,18 +8,28 @@ import {
 } from "./foodEntries";
 import login from "./login";
 import register from "./register";
+import {
+  foodsResolver,
+  createFoodResolver,
+  updateFoodResolver,
+  deleteFoodResolver
+} from "./foods";
 
 export default {
   Query: {
     hello: () => "Hello world!",
     user: <ResolverType>user,
-    foodEntries: <ResolverType>readFoodEntriesResolver
+    foodEntries: <ResolverType>readFoodEntriesResolver,
+    foods: <ResolverType>foodsResolver
   },
   Mutation: {
     login: <ResolverType>login,
     register: <ResolverType>register,
     createFoodEntry: <ResolverType>createFoodEntryResolver,
     updateFoodEntry: <ResolverType>updateFoodEntryResolver,
-    deleteFoodEntry: <ResolverType>deleteFoodEntryResolver
+    deleteFoodEntry: <ResolverType>deleteFoodEntryResolver,
+    createFood: <ResolverType>createFoodResolver,
+    updateFood: <ResolverType>updateFoodResolver,
+    deleteFood: <ResolverType>deleteFoodResolver
   }
 };

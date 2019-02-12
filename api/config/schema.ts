@@ -5,7 +5,8 @@ export default gql`
     hello: String
     user: User
     foodEntries(day: Int): [FoodEntry]!
-    searchFoods(term: String, limit: Int, offset: Int): [FoodEntry]!
+    foods: [Food]!
+    searchFoods(term: String, limit: Int, offset: Int): [Food]!
   }
 
   type Mutation {
@@ -27,8 +28,10 @@ export default gql`
       carbs: Int
       protein: Int
     ): FoodEntry!
-    createFood(name: String, description: String): Food!
     deleteFoodEntry(id: Int): Boolean
+    createFood(name: String, description: String): Food!
+    updateFood(id: Int, name: String, description: String): Food!
+    deleteFood(id: Int): Boolean
   }
 
   type AuthPayload {

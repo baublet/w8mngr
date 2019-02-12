@@ -5,13 +5,15 @@ import { History } from "history";
 import RegisterPageValidationHandler from "pages/Register.validate";
 import { Mutation } from "react-apollo";
 import userQuery from "queries/user";
-import registerQuery from "queries/register";
+import registerQuery from "queries/user.create";
+import Input from "components/Forms/Input";
 
 export interface RegisterPageState {
   email: string;
   password: string;
   confirm: string;
   error: string;
+  [key: string]: string | number;
 }
 
 interface RegisterPageProps {
@@ -21,14 +23,16 @@ interface RegisterPageProps {
 const RegisterPage = function({
   history
 }: RegisterPageProps): React.ReactComponentElement<any> {
-  const [values, setValues] = React.useState({
+  const initialState: RegisterPageState = {
     email: "",
     password: "",
     confirm: "",
     error: ""
-  });
+  };
 
-  const onChange = (event: React.ChangeEvent) => {
+  const [values, setValues] = React.useState(initialState);
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     setValues({
       ...values,
@@ -38,6 +42,23 @@ const RegisterPage = function({
   };
 
   const validate = RegisterPageValidationHandler(setValues);
+
+  const RegistrationInput = (
+    type: string,
+    name: string,
+    placeholder: string,
+    minLength: number = 320
+  ) => (
+    <Input
+      type={type}
+      name={name}
+      placeholder={placeholder}
+      required
+      value={values[name]}
+      onChange={onChange}
+      minLength={minLength}
+    />
+  );
 
   return (
     <Mutation
@@ -74,36 +95,9 @@ const RegisterPage = function({
               }
             }}
           >
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="Email address"
-              required
-              value={values.email}
-              onChange={onChange}
-            />
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Password"
-              name="password"
-              required
-              minLength={8}
-              value={values.password}
-              onChange={onChange}
-            />
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              name="confirm"
-              required
-              minLength={8}
-              value={values.confirm}
-              onChange={onChange}
-            />
+            {RegistrationInput("email", "email", "Email Address")}
+            {RegistrationInput("password", "password", "Password", 8)}
+            {RegistrationInput("password", "confirm", "Confirm Password", 8)}
             <Button
               type="submit"
               disabled={values.email && values.error == "" ? false : true}

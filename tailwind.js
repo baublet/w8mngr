@@ -131,6 +131,7 @@ module.exports = {
   },
 
   width: {
+    contentWidth: "940px",
     auto: "auto",
     px: "1px",
     "1": "0.25rem",
@@ -195,6 +196,7 @@ module.exports = {
   },
 
   maxWidth: {
+    contentWidth: "960px",
     xs: "20rem",
     sm: "30rem",
     md: "40rem",

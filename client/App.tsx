@@ -16,6 +16,7 @@ function Application(): React.ReactComponentElement<any> {
       <IsLoggedIn>
         <>
           &nbsp;|&nbsp;<Link to="/foodlog">Food Log</Link>
+          &nbsp;|&nbsp;<Link to="/foods">Foods</Link>
           &nbsp;|&nbsp;<Link to="/logout">Logout</Link>
         </>
       </IsLoggedIn>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import Panel from "components/Panels/Panel";
+import Panel from "components/Containers/Panel";
 import FoodEntry from "components/FoodEntry/FoodEntry";
 import { FoodEntryType } from "api/foodEntries/types";
 

@@ -9,6 +9,7 @@ const Register = lazify("pages/Register");
 const Logout = lazify("pages/Logout");
 const Login = lazify("pages/Login");
 const FoodLog = lazify("pages/FoodLog");
+const Foods = lazify("pages/Foods");
 
 export default withRouter(function Routes({
   location
@@ -22,6 +23,7 @@ export default withRouter(function Routes({
         <Route exact path="/login" component={Login} />
         <Route exact path="/foodlog" component={FoodLog} />
         <Route exact path="/foodlog/:day" component={FoodLog} />
+        <Route exact path="/foods" component={Foods} />
         <Route render={() => <div>Not Found</div>} />
       </Switch>
     </React.Suspense>

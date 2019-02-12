@@ -2,7 +2,7 @@ import * as React from "react";
 import Input from "components/Forms/InputFoodEntry";
 import { FoodEntryType } from "api/foodEntries/types";
 import { Mutation } from "react-apollo";
-import updateFoodEntryQuery from "queries/foodEntryUpdate";
+import updateFoodEntryQuery from "queries/foodEntry.update";
 import FoodEntryDelete from "components/FoodEntry/FoodEntryDelete";
 
 interface FoodEntryState {

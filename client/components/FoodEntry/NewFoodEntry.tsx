@@ -3,8 +3,8 @@ import foodLogQuery from "queries/foodLog";
 import Input from "components/Forms/InputInverted";
 import Button from "components/Button/GhostInverted";
 import { Mutation } from "react-apollo";
-import addFoodEntryQuery from "queries/foodEntryAdd";
-import PanelInverted from "components/Panels/Inverted";
+import addFoodEntryQuery from "queries/foodEntry.add";
+import PanelInverted from "components/Containers/PanelInverted";
 
 interface NewFoodEntryProps {
   day: number;

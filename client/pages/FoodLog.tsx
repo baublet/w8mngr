@@ -79,7 +79,7 @@ export default function FoodLog(
         onYesterday={onYesterday}
         onToday={onToday}
       />
-      <div className="mx-2 mt-3">
+      <div className="px-5 mt-3">
         <Query
           query={foodLogQuery}
           variables={{ day: values.today }}

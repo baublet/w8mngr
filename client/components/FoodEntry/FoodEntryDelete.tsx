@@ -1,7 +1,7 @@
 import * as React from "react";
 import PrimaryIcon from "components/Button/PrimaryIcon";
 import { Mutation } from "react-apollo";
-import deleteFoodEntryQuery from "queries/foodEntryDelete";
+import deleteFoodEntryQuery from "queries/foodEntry.delete";
 import foodLogQuery from "queries/foodLog";
 import { FoodEntryType } from "api/foodEntries/types";
 

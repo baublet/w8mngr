@@ -5,7 +5,7 @@ import { History } from "history";
 import LoginPageValidationHandler from "pages/Login.validate";
 import { Mutation } from "react-apollo";
 import userQuery from "queries/user";
-import loginQuery from "queries/login";
+import loginQuery from "queries/user.login";
 import Input from "components/Forms/Input";
 
 export interface LoginPageState {

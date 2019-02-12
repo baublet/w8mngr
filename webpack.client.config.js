@@ -35,10 +35,9 @@ const webpackConfig = {
     open: true,
     disableHostCheck: true,
     contentBase: path.join(__dirname, "public"),
+    historyApiFallback: true,
     proxy: {
-      "/.netlify/lambda/graphql": "http://localhost:9000/graphql",
-      "/.netlify/lambda/register": "http://localhost:9000/register",
-      "/.netlify/lambda/login": "http://localhost:9000/login"
+      "/.netlify/lambda/graphql": "http://localhost:9000/graphql"
     }
   },
   module: {

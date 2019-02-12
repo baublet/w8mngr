@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import Loading from "components/Loading/Primary";
 
 import { Query, QueryResult } from "react-apollo";
@@ -11,10 +12,12 @@ interface ApolloQueryProps {
   pollInterval?: number;
   ssr?: boolean;
   loading?: () => React.ReactNode | false;
+  hideLoader?: true;
 }
 
 export default function ApolloQuery(props: ApolloQueryProps) {
-  const { children, loading: loader, ...queryProps } = props;
+  const { hideLoader = true, children, loading: loader, ...queryProps } = props;
+
   return (
     <Query {...queryProps}>
       {({ loading, error, data }) => {
@@ -24,7 +27,7 @@ export default function ApolloQuery(props: ApolloQueryProps) {
               <b>ERROR:</b> {error}
             </>
           );
-        if (loading) return loader || <Loading />;
+        if (!hideLoader && loading) return loader || <Loading />;
         return children(data);
       }}
     </Query>

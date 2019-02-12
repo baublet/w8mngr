@@ -84,6 +84,7 @@ export default function FoodLog(
           query={foodLogQuery}
           variables={{ day: values.today }}
           pollInterval={60000}
+          hideLoader={true}
         >
           {(props: any) => (
             <FoodEntries foodEntries={props.foodEntries} day={day} />

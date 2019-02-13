@@ -1,9 +1,10 @@
 import * as React from "react";
-import PrimaryIcon from "components/Button/PrimaryIcon";
 import { Mutation } from "react-apollo";
 import deleteFoodEntryQuery from "queries/foodEntry.delete";
 import foodLogQuery from "queries/foodLog";
 import { FoodEntryType } from "api/foodEntries/types";
+import TransparentIconButton from "components/Button/TransparentIcon";
+import CloseIcon from "components/Icons/Close";
 
 interface FoodEntryDeleteProps {
   id: number;
@@ -17,7 +18,7 @@ export default function FoodEntryDelete(
   return (
     <Mutation mutation={deleteFoodEntryQuery}>
       {deleteFoodEntry => (
-        <PrimaryIcon
+        <TransparentIconButton
           className="absolute pin-r pin-t"
           onClick={e => {
             deleteFoodEntry({
@@ -41,8 +42,8 @@ export default function FoodEntryDelete(
             });
           }}
         >
-          &times;
-        </PrimaryIcon>
+          <CloseIcon />
+        </TransparentIconButton>
       )}
     </Mutation>
   );

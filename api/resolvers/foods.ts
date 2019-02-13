@@ -4,6 +4,7 @@ import findByUserId from "../foods/findByUserId";
 import createFood from "../foods/create";
 import updateFood from "../foods/update";
 import deleteFood from "../foods/delete";
+import readFood from "../foods/read";
 
 export function foodsResolver(
   _,
@@ -32,6 +33,21 @@ export function searchFoodsResolver(
     }
     const foods = await search(user.id, term);
     resolve(foods);
+  });
+}
+
+export function readFoodResolver(
+  _,
+  { id },
+  context
+): Promise<FoodType | false> {
+  return new Promise(async resolve => {
+    const user = context.user;
+    if (!user) {
+      return resolve(false);
+    }
+    const food = await readFood(user.id, id);
+    resolve(food);
   });
 }
 

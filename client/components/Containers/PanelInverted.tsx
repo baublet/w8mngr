@@ -6,5 +6,9 @@ export default function PanelInverted(
   const classNames = `bg-primary text-primaryText p-3 shadow rounded ${
     props.className
   }`;
-  return <div className={classNames}>{props.children}</div>;
+  return (
+    <div className={classNames}>
+      <div className="relative">{props.children}</div>
+    </div>
+  );
 }

@@ -1,7 +1,12 @@
 import * as React from "react";
+import ContentContainer from "components/Containers/ContentContainer";
 
-export default function FoodLog(
+export default function PageHeading(
   props: React.HTMLProps<HTMLInputElement>
 ): React.ReactComponentElement<any> {
-  return <h4 className="mt-8 mb-5">{props.children}</h4>;
+  return (
+    <ContentContainer>
+      <h3 className="my-3">{props.children}</h3>
+    </ContentContainer>
+  );
 }

@@ -1,10 +1,10 @@
 import * as React from "react";
 import BaseButton from "./Base";
 
-export default function PrimaryIconButton(
+export default function TransparentIconButton(
   props: React.HTMLProps<HTMLButtonElement>
 ): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
-  const newClassNames = `rounded-full p-1 bg-primary color-primaryText
+  const newClassNames = `p-1 color-inherit text-xs
       ${props.className || ""}
     `;
   return <BaseButton {...props} className={newClassNames} />;

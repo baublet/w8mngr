@@ -33,8 +33,8 @@ module.exports = {
       "system-ui",
       "BlinkMacSystemFont",
       "-apple-system",
-      "Segoe UI",
       "Roboto",
+      "Segoe UI",
       "Oxygen",
       "Ubuntu",
       "Cantarell",
@@ -42,26 +42,6 @@ module.exports = {
       "Droid Sans",
       "Helvetica Neue",
       "sans-serif"
-    ],
-    serif: [
-      "Constantia",
-      "Lucida Bright",
-      "Lucidabright",
-      "Lucida Serif",
-      "Lucida",
-      "DejaVu Serif",
-      "Bitstream Vera Serif",
-      "Liberation Serif",
-      "Georgia",
-      "serif"
-    ],
-    mono: [
-      "Menlo",
-      "Monaco",
-      "Consolas",
-      "Liberation Mono",
-      "Courier New",
-      "monospace"
     ]
   },
 

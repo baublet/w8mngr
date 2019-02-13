@@ -1,20 +1,20 @@
 import * as React from "react";
 import Query from "components/Apollo/Query";
-import foodsQuery from "queries/foods";
+import foodReadQuery from "queries/foods.read";
 import { RouteChildrenProps } from "react-router";
-import Foods from "components/Food/Foods";
+import Food from "components/Food/Food";
 import PageHeading from "components/Type/PageHeading";
 import ContentContainer from "components/Containers/ContentContainer";
 
-export default function FoodLog(
+export default function EditFood(
   props: RouteChildrenProps
 ): React.ReactComponentElement<any> {
   return (
     <>
-      <PageHeading>Food Log</PageHeading>
+      <PageHeading>Edit Log</PageHeading>
       <ContentContainer>
-        <Query query={foodsQuery} pollInterval={60000}>
-          {(props: any) => <Foods foods={props.foods} />}
+        <Query query={foodReadQuery} pollInterval={60000}>
+          {(props: any) => <Food {...props} />}
         </Query>
       </ContentContainer>
     </>

@@ -2,6 +2,7 @@ import * as React from "react";
 import Panel from "components/Containers/Panel";
 import FoodEntry from "components/FoodEntry/FoodEntry";
 import { FoodEntryType } from "api/foodEntries/types";
+import EmptyNote from "components/Type/EmptyNote";
 
 interface FoodEntriesProps {
   foodEntries: Array<FoodEntryType>;
@@ -26,9 +27,9 @@ export default function FoodEntries(props: FoodEntriesProps) {
   };
 
   return !props.foodEntries || !props.foodEntries.length ? (
-    <div className="mt-5 text-xs">
+    <EmptyNote>
       No food entries today! Use the form below to begin tracking.
-    </div>
+    </EmptyNote>
   ) : (
     <>
       <Panel>

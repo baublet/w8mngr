@@ -17,5 +17,6 @@
       "sharedHelpers/*": ["shared/helpers/*"]
     }
   },
-  "include": ["./client/**/*"]
+  "include": ["./client/**/*"],
+  "exclude": ["node_modules"]
 }

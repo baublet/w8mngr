@@ -34,7 +34,7 @@ export default function FoodEntry(
     };
 
   return (
-    <div className="relative">
+    <>
       <FoodEntryDelete id={props.id} day={props.day} />
       <Mutation mutation={updateFoodEntryQuery}>
         {updateFoodEntry => {
@@ -83,6 +83,6 @@ export default function FoodEntry(
           );
         }}
       </Mutation>
-    </div>
+    </>
   );
 }

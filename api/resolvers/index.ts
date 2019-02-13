@@ -11,8 +11,10 @@ import register from "./register";
 import {
   foodsResolver,
   createFoodResolver,
+  readFoodResolver,
   updateFoodResolver,
-  deleteFoodResolver
+  deleteFoodResolver,
+  searchFoodsResolver
 } from "./foods";
 
 export default {
@@ -20,7 +22,9 @@ export default {
     hello: () => "Hello world!",
     user: <ResolverType>user,
     foodEntries: <ResolverType>readFoodEntriesResolver,
-    foods: <ResolverType>foodsResolver
+    foods: <ResolverType>foodsResolver,
+    food: <ResolverType>readFoodResolver,
+    searchFoods: <ResolverType>searchFoodsResolver
   },
   Mutation: {
     login: <ResolverType>login,

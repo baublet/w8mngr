@@ -15,7 +15,10 @@ export default function Food(
 ): React.ReactComponentElement<any> {
   return (
     <Panel className={props.index == 0 ? "" : "mt-3"}>
-      <TransparentIconButton className="absolute pin-r pin-t">
+      <TransparentIconButton
+        className="absolute pin-r pin-t"
+        to={`/foods/${props.id}/edit`}
+      >
         <EditIcon />
         <span className="screen-reader-text">Edit Food</span>
       </TransparentIconButton>

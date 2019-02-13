@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, LinkProps } from "react-router-dom";
 
-export default function BaseButton(props: any): React.ReactElement<any, any> {
-  return props.href ? <Link {...props} /> : <button {...props} />;
+export default function BaseButton(props: any): any {
+  return props.to ? <Link {...props} /> : <button {...props} />;
 }

@@ -20,7 +20,7 @@ export default function FoodEntryDelete(
       {deleteFoodEntry => (
         <TransparentIconButton
           className="absolute pin-r pin-t"
-          onClick={e => {
+          onClick={(e: any) => {
             deleteFoodEntry({
               variables: { id: props.id },
               update: (proxy, { data: { deleteFoodEntry } }) => {

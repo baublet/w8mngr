@@ -5,8 +5,12 @@ import { LinkProps } from "react-router-dom";
 export default function TransparentIconButton(
   props: React.HTMLProps<HTMLButtonElement> | LinkProps
 ): React.ReactElement<React.HTMLProps<HTMLButtonElement | LinkProps>, any> {
-  const newClassNames = `p-1 color-inherit text-xs
-      ${props.className || ""}
-    `;
-  return <BaseButton {...props} className={newClassNames} />;
+  return (
+    <BaseButton
+      {...props}
+      className={`p-1 color-inherit text-xs
+  ${props.className || ""}
+`}
+    />
+  );
 }

@@ -2,15 +2,15 @@ import * as React from "react";
 
 let count = 0;
 
-interface InputWithLabel {
+interface MultilineInputWithLabel {
   label: string;
 }
-interface InputWithPlaceholder {
+interface MultilineInputWithPlaceholder {
   placeholder: string;
 }
-type InputBasicProps = React.HTMLProps<HTMLInputElement>;
+type InputBasicProps = React.HTMLProps<HTMLTextAreaElement>;
 export type InputProps = InputBasicProps &
-  (InputWithLabel | InputWithPlaceholder);
+  (MultilineInputWithLabel | MultilineInputWithPlaceholder);
 
 export default function Input(
   props: InputProps
@@ -20,14 +20,14 @@ export default function Input(
     newProps = Object.assign({}, props, { id });
   return (
     <>
-      <input
-        {...newProps}
-        className={`bg-transparent w-full py-2 border-b border-foregroundLighter hover:border-foreground focus:border-foreground ${props.className ||
-          ""}`}
-      />
       <label htmlFor={newProps.id} className="screen-reader-text">
         {label}
       </label>
+      <textarea
+        {...newProps}
+        className={`bg-foregroundSlight w-full py-2 border rounded p-3 border-foregroundLighter hover:border-foreground focus:border-foreground h-64 shadow-inner ${props.className ||
+          ""}`}
+      />
     </>
   );
 }

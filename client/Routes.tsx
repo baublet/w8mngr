@@ -25,7 +25,11 @@ export default withRouter(function Routes({
         <Route exact path="/foodlog" component={FoodLog} />
         <Route exact path="/foodlog/:day" component={FoodLog} />
         <Route exact path="/foods" component={Foods} />
-        <Route exact path="/food/:id/edit" component={EditFood} />
+        <Route
+          exact
+          path="/foods/:id/edit"
+          render={({ match }) => <EditFood id={match.params.id} />}
+        />
         <Route render={() => <div>Not Found</div>} />
       </Switch>
     </React.Suspense>

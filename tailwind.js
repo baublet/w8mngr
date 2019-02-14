@@ -7,6 +7,7 @@ let colors = {
   foreground: "rgb(250, 250, 250)",
   foregroundLight: "rgba(250, 250, 250, .75)",
   foregroundLighter: "rgba(250, 250, 250, .5)",
+  foregroundSlight: "rgba(250, 250, 250, .05)",
 
   background: "rgb(70, 45, 155)",
   backgroundDark: "rgb(60, 35, 145)",
@@ -33,8 +34,8 @@ module.exports = {
       "system-ui",
       "BlinkMacSystemFont",
       "-apple-system",
-      "Roboto",
       "Segoe UI",
+      "Roboto",
       "Oxygen",
       "Ubuntu",
       "Cantarell",
@@ -46,9 +47,9 @@ module.exports = {
   },
 
   textSizes: {
-    xxs: ".4rem",
+    xxs: ".5rem",
     xs: ".7rem",
-    base: ".8rem",
+    base: "16px",
     lg: "1.125rem",
     xl: "1.25rem",
     "2xl": "1.5rem",

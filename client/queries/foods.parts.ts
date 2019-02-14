@@ -1,5 +1,5 @@
 export default `
-  id
+  id,
   name,
   description
 `;

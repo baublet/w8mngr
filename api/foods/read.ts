@@ -12,7 +12,7 @@ export default function findUserByUserIdAndDays(
     });
 
     if (queryResult.result.rows && queryResult.result.rows.length) {
-      resolve(queryResult.result.rows);
+      resolve(queryResult.result.rows[0]);
     } else {
       resolve(false);
     }

@@ -1,13 +1,15 @@
 import * as React from "react";
 import BaseButton from "./Base";
 
-export default function PrimaryButton(
+export default function GhostButton(
   props: React.HTMLProps<HTMLButtonElement>
 ): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
   return (
     <BaseButton
       {...props}
-      className="bg-primary p-3 text-primaryText rounded text-xs uppercase shadow hover:shadow-md focus:shadow:md"
+      className={`bg-transparent p-3 text-foreground rounded text-xs uppercase hover:bg-foregroundSlight focus:bg-foregroundSlight ${
+        props.className
+      }`}
     />
   );
 }

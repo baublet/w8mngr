@@ -4,8 +4,12 @@ import BaseButton from "./Base";
 export default function PrimaryIconButton(
   props: React.HTMLProps<HTMLButtonElement>
 ): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
-  const newClassNames = `rounded-full p-1 bg-primary color-primaryText
-      ${props.className || ""}
-    `;
-  return <BaseButton {...props} className={newClassNames} />;
+  return (
+    <BaseButton
+      {...props}
+      className={`rounded-full p-1 bg-primary color-primaryText
+  ${props.className || ""}
+`}
+    />
+  );
 }

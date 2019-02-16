@@ -107,5 +107,7 @@ export default gql`
     carbs: Int
     protein: Int
     popularity: Int
+    created_at: String
+    updated_at: String
   }
 `;

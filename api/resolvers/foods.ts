@@ -5,6 +5,7 @@ import createFood from "../foods/create";
 import updateFood from "../foods/update";
 import deleteFood from "../foods/delete";
 import readFood from "../foods/read";
+import findMeasurementByFoodId from "../measurements/findByFoodId";
 
 export function foodsResolver(
   _,
@@ -16,7 +17,33 @@ export function foodsResolver(
     if (!user) {
       return resolve(false);
     }
-    const foods = await findByUserId(user.id);
+    const foods = await findByUserId(user.id),
+      foodIds = !Array.isArray(foods) ? [] : foods.map(food => food.id);
+
+    if (!foods) {
+      return resolve(foods);
+    }
+
+    if (foodIds.length) {
+      // Attach measurements to foods
+      const measurements = await findMeasurementByFoodId(user.id, foodIds);
+      if (Array.isArray(measurements)) {
+        const sortedFoods = {};
+        foods.forEach(food => {
+          food.measurements = [];
+          sortedFoods[food.id] = food;
+        });
+        measurements.forEach(measurement => {
+          sortedFoods[measurement.food_id].measurements.push(measurement);
+        });
+        const sortedFoodsArray = [];
+        Object.keys(sortedFoods).forEach(food =>
+          sortedFoodsArray.push(sortedFoods[food])
+        );
+        return resolve(sortedFoodsArray);
+      }
+    }
+
     resolve(foods);
   });
 }

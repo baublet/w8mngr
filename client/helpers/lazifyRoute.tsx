@@ -6,7 +6,7 @@ export default function lazifyRoute(
   return React.lazy(() => {
     return Promise.all([
       import(`../${path}`),
-      new Promise(resolve => setTimeout(resolve, 500))
+      new Promise(resolve => setTimeout(resolve, 300))
     ]).then(([moduleExports]) => moduleExports);
   });
 }

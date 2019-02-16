@@ -2,12 +2,12 @@ import gql from "graphql-tag";
 import foodParts from "./foods.parts";
 
 export default gql`
-mutation createFood(
+mutation updateFood(
   $id: Int
   $name: String
   $description: String
 ) {
-  createFoodEntry(
+  updateFood(
     id: $id
     name: $name
     description: $description

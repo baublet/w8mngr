@@ -11,6 +11,7 @@ const Login = lazify("pages/Login");
 const FoodLog = lazify("pages/FoodLog");
 const Foods = lazify("pages/Foods");
 const EditFood = lazify("pages/Food.Edit");
+const CreateFood = lazify("pages/Food.Create");
 
 export default withRouter(function Routes({
   location
@@ -25,6 +26,7 @@ export default withRouter(function Routes({
         <Route exact path="/foodlog" component={FoodLog} />
         <Route exact path="/foodlog/:day" component={FoodLog} />
         <Route exact path="/foods" component={Foods} />
+        <Route exact path="/foods/new" component={CreateFood} />
         <Route
           exact
           path="/foods/:id/edit"

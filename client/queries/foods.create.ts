@@ -3,12 +3,10 @@ import foodParts from "./foods.parts";
 
 export default gql`
 mutation createFood(
-  $id: Int
   $name: String
   $description: String
 ) {
-  createFoodEntry(
-    id: $id
+  createFood(
     name: $name
     description: $description
   ) {

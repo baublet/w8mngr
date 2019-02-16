@@ -5,7 +5,7 @@ import { clearDatabase } from "../../test/helpers";
 import findByUserId from "./findByUserId";
 import { UserType } from "../user/types";
 
-describe("Food Entry: find by user id and days", function() {
+describe("Food: find by user id", function() {
   let user: UserType;
 
   beforeEach(async () => {

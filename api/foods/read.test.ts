@@ -14,7 +14,7 @@ describe("Foods: read", function() {
     return Promise.resolve();
   });
 
-  it("should create foods for the user", async () => {
+  it("should read foods by id", async () => {
     return new Promise(async (resolve, reject) => {
       const firstCount = await count(user.id),
         created1 = await createFoodEntry(user.id, "Name", "Description"),

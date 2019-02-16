@@ -6,7 +6,6 @@ import { UserType } from "../user/types";
 
 describe("Food: create", function() {
   let user: UserType;
-  const day = 20180501;
 
   beforeEach(async () => {
     await clearDatabase();
@@ -14,7 +13,7 @@ describe("Food: create", function() {
     return Promise.resolve();
   });
 
-  it("should create food entry for the user and day", async () => {
+  it("should create food for the user", async () => {
     return new Promise(async (resolve, reject) => {
       const firstCount = await count(user.id),
         created = await create(user.id, "Name", "Description"),

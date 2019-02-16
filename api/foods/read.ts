@@ -1,7 +1,7 @@
 import { FoodType } from "./types";
 import { query } from "../config/db";
 
-export default function findUserByUserIdAndDays(
+export default function readFood(
   userId: number,
   id: number
 ): Promise<FoodType | false> {

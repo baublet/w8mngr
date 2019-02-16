@@ -15,7 +15,7 @@ describe("Food: update", function() {
     entity = await create(user.id, "Name", "Description");
   });
 
-  it("should update food entry properly", () => {
+  it("should update food properly", () => {
     return new Promise(async (resolve, reject) => {
       const updated = await update(
         entity.id,

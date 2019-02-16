@@ -1,4 +1,4 @@
-import createFoodEntry from "./create";
+import createFood from "./create";
 import createUser from "../user/create";
 import count from "./countByUserId";
 import { clearDatabase } from "../../test/helpers";
@@ -14,11 +14,11 @@ describe("Foods: search", function() {
     return Promise.resolve();
   });
 
-  it("should create foods for the user", async () => {
+  it("should search foods for the user", async () => {
     return new Promise(async (resolve, reject) => {
       const firstCount = await count(user.id),
-        created1 = await createFoodEntry(user.id, "Name", "Description"),
-        created2 = await createFoodEntry(user.id, "Name", "Description"),
+        created1 = await createFood(user.id, "Name", "Description"),
+        created2 = await createFood(user.id, "Name", "Description"),
         secondCount = await count(user.id);
 
       if (!created1 || !created2 || secondCount < firstCount) {

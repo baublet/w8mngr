@@ -32,7 +32,7 @@ describe("Food: delete", function() {
       if (!measurement) {
         return resolve("failed to create measurement");
       }
-      const deleted = await deleteMeasurement(measurement.id, user.id);
+      const deleted = await deleteMeasurement(measurement.id, food.id, user.id);
       if (deleted) {
         resolve();
       } else {

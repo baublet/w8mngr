@@ -1,6 +1,8 @@
 import { MeasurementType } from "../measurements/types";
 import findMeasurementByFoodId from "../measurements/findByFoodId";
-import createMeasurement from "api/measurements/create";
+import createMeasurement from "../measurements/create";
+import updateMeasurement from "../measurements/update";
+import deleteMeasurement from "../measurements/delete";
 
 export function measurementsResolver(
   _,
@@ -20,9 +22,9 @@ export function measurementsResolver(
   });
 }
 
-export function createFoodResolver(
+export function createMeasurementResolver(
   _,
-  { foodId, userId, amount, unit, calories, fat, carbs, protein },
+  { foodId, amount, unit, calories, fat, carbs, protein },
   context
 ): Promise<MeasurementType | false> {
   return new Promise(async resolve => {
@@ -32,7 +34,7 @@ export function createFoodResolver(
     }
     const newEntry = await createMeasurement(
       foodId,
-      userId,
+      user.id,
       amount,
       unit,
       calories,
@@ -41,5 +43,44 @@ export function createFoodResolver(
       protein
     );
     resolve(newEntry);
+  });
+}
+
+export function updateMeasurementResolver(
+  _,
+  { id, foodId, amount, unit, calories, fat, carbs, protein },
+  context
+): Promise<MeasurementType | false> {
+  return new Promise(async resolve => {
+    const user = context.user;
+    if (!user) {
+      return resolve(false);
+    }
+    const updatedEntry = await updateMeasurement(
+      id,
+      foodId,
+      user.id,
+      amount,
+      unit,
+      calories,
+      fat,
+      carbs,
+      protein
+    );
+    resolve(updatedEntry);
+  });
+}
+
+export function deleteMeasurementResolver(
+  _,
+  { id, foodId },
+  context
+): Promise<MeasurementType | boolean> {
+  return new Promise(async resolve => {
+    const user = context.user;
+    if (!user) {
+      return resolve(false);
+    }
+    resolve(await deleteMeasurement(id, foodId, user.id));
   });
 }

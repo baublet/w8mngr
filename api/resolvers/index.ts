@@ -16,6 +16,12 @@ import {
   deleteFoodResolver,
   searchFoodsResolver
 } from "./foods";
+import {
+  createMeasurementResolver,
+  updateMeasurementResolver,
+  deleteMeasurementResolver,
+  measurementsResolver
+} from "./measurements";
 
 export default {
   Query: {
@@ -24,7 +30,8 @@ export default {
     foodEntries: <ResolverType>readFoodEntriesResolver,
     foods: <ResolverType>foodsResolver,
     food: <ResolverType>readFoodResolver,
-    searchFoods: <ResolverType>searchFoodsResolver
+    searchFoods: <ResolverType>searchFoodsResolver,
+    measurements: <ResolverType>measurementsResolver
   },
   Mutation: {
     login: <ResolverType>login,
@@ -34,6 +41,9 @@ export default {
     deleteFoodEntry: <ResolverType>deleteFoodEntryResolver,
     createFood: <ResolverType>createFoodResolver,
     updateFood: <ResolverType>updateFoodResolver,
-    deleteFood: <ResolverType>deleteFoodResolver
+    deleteFood: <ResolverType>deleteFoodResolver,
+    createMeasurement: <ResolverType>createMeasurementResolver,
+    updateMeasurement: <ResolverType>updateMeasurementResolver,
+    deleteMeasurement: <ResolverType>deleteMeasurementResolver
   }
 };

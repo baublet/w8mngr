@@ -8,6 +8,7 @@ export default gql`
     foods: [Food]!
     food(id: Int): Food
     searchFoods(term: String, limit: Int, offset: Int): [Food]!
+    measurements(foodIds: [Int]): [Measurement]
   }
 
   type Mutation {
@@ -33,6 +34,26 @@ export default gql`
     createFood(name: String, description: String): Food!
     updateFood(id: Int, name: String, description: String): Food!
     deleteFood(id: Int): Boolean
+    createMeasurement(
+      foodId: Int
+      amount: Int
+      unit: String
+      calories: Int
+      fat: Int
+      carbs: Int
+      protein: Int
+    ): Measurement
+    updateMeasurement(
+      id: Int
+      foodId: Int
+      amount: Int
+      unit: String
+      calories: Int
+      fat: Int
+      carbs: Int
+      protein: Int
+    ): Measurement
+    deleteMeasurement(id: Int, foodId: Int): Boolean
   }
 
   type AuthPayload {

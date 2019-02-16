@@ -1,7 +1,7 @@
 import { MeasurementType } from "./types";
 import { query } from "../config/db";
 
-export default function findByFoodId(
+export default function findMeasurementByFoodId(
   foodId: number
 ): Promise<Array<MeasurementType> | false> {
   return new Promise(async resolve => {

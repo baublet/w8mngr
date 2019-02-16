@@ -1,18 +1,46 @@
-import { FoodType } from "./types";
+import { MeasurementType } from "./types";
 import { DBResultType } from "../config/db";
 import { query } from "../config/db";
 
-export default function updateFood(
+export default function updateMeasurement(
   id: number,
+  foodId: number,
   userId: number,
-  name: string,
-  description: string
-): Promise<FoodType> {
+  amount: number,
+  unit: string,
+  calories: number,
+  fat: number,
+  carbs: number,
+  protein: number
+): Promise<MeasurementType> {
   return new Promise(async resolve => {
     const queryResult = <DBResultType>await query({
-      text:
-        "UPDATE foods SET (name, description) = ($3, $4) WHERE id = $1 AND user_id = $2 RETURNING *",
-      values: [<number>id, <number>userId, <string>name, <string>description]
+      text: `
+        UPDATE measurements
+        SET amount = $4,
+          unit = $5,
+          calories = $6,
+          fat = $7,
+          carbs = $8,
+          protein = $9
+      FROM measurements as m
+      INNER JOIN foods
+      ON m.id = $1
+        AND foods.id = $2
+        AND foods.user_id = $3
+      RETURNING measurements.*
+        `,
+      values: [
+        <number>id,
+        <number>foodId,
+        <number>userId,
+        <number>amount,
+        <string>unit,
+        <number>calories,
+        <number>fat,
+        <number>carbs,
+        <number>protein
+      ]
     });
     resolve(queryResult.result.rows[0]);
   });

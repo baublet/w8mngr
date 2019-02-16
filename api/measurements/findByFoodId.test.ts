@@ -1,10 +1,10 @@
 import createUser from "../user/create";
-import count from "./countByUserId";
+import count from "./countByFoodId";
 import { clearDatabase } from "../../test/helpers";
 import { UserType } from "../user/types";
 import createMeasurement from "./create";
-import createFood from "api/foods/create";
-import { FoodType } from "api/foods/types";
+import createFood from "../foods/create";
+import { FoodType } from "../foods/types";
 import { MeasurementType } from "./types";
 import findByFoodId from "./findByFoodId";
 

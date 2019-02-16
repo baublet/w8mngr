@@ -1,4 +1,4 @@
-import count from "./countByUserId";
+import count from "./countByFoodId";
 
 describe("Measurements: count", function() {
   it("return a count", async () => {

@@ -13,8 +13,7 @@ export default function createMeasurement(
 ): Promise<MeasurementType> {
   return new Promise(async resolve => {
     const queryResult = <DBResultType>await query({
-      text:
-        "INSERT INTO measurements (food_id, amount, unit, calories, fat, carbs, protein, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, now(), now()) RETURNING *",
+      text: `INSERT INTO measurements (food_id, amount, unit, calories, fat, carbs, protein, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, now(), now()) RETURNING *`,
       values: [
         <number>foodId,
         <number>amount,
@@ -25,6 +24,6 @@ export default function createMeasurement(
         <number>protein
       ]
     });
-    resolve(queryResult.result.rows[0]);
+    resolve(queryResult.result ? queryResult.result.rows[0] : []);
   });
 }

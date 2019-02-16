@@ -1,31 +1,43 @@
-import create from "./create";
 import update from "./update";
 import createUser from "../user/create";
 import { clearDatabase } from "../../test/helpers";
 import { UserType } from "../user/types";
-import { FoodType } from "./types";
+import { FoodType } from "../foods/types";
+import { MeasurementType } from "./types";
+import createFood from "../foods/create";
+import createMeasurement from "./create";
 
 describe("Food: update", function() {
-  let user: UserType, entity: FoodType;
-  const day = 20180501;
+  let user: UserType, food: FoodType, measurement: MeasurementType;
 
   beforeEach(async () => {
     await clearDatabase();
     user = await createUser("testMan@test.com", "test password");
-    entity = await create(user.id, "Name", "Description");
+    food = await createFood(user.id, "Name", "Description");
+    measurement = await createMeasurement(food.id, 1, "oz", 2, 3, 4, 5);
   });
 
   it("should update food entry properly", () => {
     return new Promise(async (resolve, reject) => {
       const updated = await update(
-        entity.id,
+        measurement.id,
+        food.id,
         user.id,
-        "New Name",
-        "New Description"
+        2,
+        "parsecs",
+        3,
+        4,
+        5,
+        6
       );
       if (
         updated &&
-        (updated.description == "New Description" && updated.name == "New Name")
+        (updated.amount == 2 &&
+          updated.unit == "parsecs" &&
+          updated.calories == 3 &&
+          updated.fat == 4 &&
+          updated.carbs == 5 &&
+          updated.protein == 6)
       ) {
         resolve();
       } else {

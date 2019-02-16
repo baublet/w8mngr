@@ -19,7 +19,7 @@ describe("Measurement: create", function() {
   it("should create measurement for a food", async () => {
     return new Promise(async (resolve, reject) => {
       const firstCount = await count(food.id),
-        created = await create(food.id, 1, "oz", 2, 3, 4, 5),
+        created = await create(food.id, user.id, 1, "oz", 2, 3, 4, 5),
         secondCount = await count(food.id);
       if (created && secondCount > firstCount) {
         resolve();

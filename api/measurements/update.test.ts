@@ -8,17 +8,29 @@ import createFood from "../foods/create";
 import createMeasurement from "./create";
 
 describe("Food: update", function() {
-  let user: UserType, food: FoodType, measurement: MeasurementType;
+  let user: UserType, food: FoodType, measurement: MeasurementType | false;
 
   beforeEach(async () => {
     await clearDatabase();
     user = await createUser("testMan@test.com", "test password");
     food = await createFood(user.id, "Name", "Description");
-    measurement = await createMeasurement(food.id, 1, "oz", 2, 3, 4, 5);
+    measurement = await createMeasurement(
+      food.id,
+      user.id,
+      1,
+      "oz",
+      2,
+      3,
+      4,
+      5
+    );
   });
 
   it("should update food entry properly", () => {
     return new Promise(async (resolve, reject) => {
+      if (!measurement) {
+        return resolve("failed to create measurement");
+      }
       const updated = await update(
         measurement.id,
         food.id,

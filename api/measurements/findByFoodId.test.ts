@@ -20,8 +20,26 @@ describe("Measurement: find by food id", function() {
   it("should create foods for the id", async () => {
     return new Promise(async (resolve, reject) => {
       const firstCount = await count(user.id),
-        created1 = await createMeasurement(food.id, 1, "oz", 2, 3, 4, 5),
-        created2 = await createMeasurement(food.id, 2, "grams", 2, 3, 4, 5),
+        created1 = await createMeasurement(
+          food.id,
+          user.id,
+          1,
+          "oz",
+          2,
+          3,
+          4,
+          5
+        ),
+        created2 = await createMeasurement(
+          food.id,
+          user.id,
+          2,
+          "grams",
+          2,
+          3,
+          4,
+          5
+        ),
         secondCount = await count(user.id);
 
       if (!created1 || !created2 || secondCount < firstCount) {
@@ -30,7 +48,7 @@ describe("Measurement: find by food id", function() {
         );
       }
 
-      const found = await findByFoodId(food.id);
+      const found = await findByFoodId(user.id, [food.id]);
       if (!found || found.length < 2) {
         return reject(`Expected to find two elements.`);
       }

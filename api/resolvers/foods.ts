@@ -7,6 +7,32 @@ import deleteFood from "../foods/delete";
 import readFood from "../foods/read";
 import findMeasurementByFoodId from "../measurements/findByFoodId";
 
+function attachMeasurementsToFoods(
+  userId: number,
+  foods: Array<FoodType>
+): Promise<Array<FoodType>> {
+  return new Promise(async resolve => {
+    const foodIds = !Array.isArray(foods) ? [] : foods.map(food => food.id),
+      measurements = await findMeasurementByFoodId(userId, foodIds);
+    if (Array.isArray(measurements)) {
+      const sortedFoods = {};
+      foods.forEach(food => {
+        food.measurements = [];
+        sortedFoods[food.id] = food;
+      });
+      measurements.forEach(measurement => {
+        sortedFoods[measurement.food_id].measurements.push(measurement);
+      });
+      const sortedFoodsArray = [];
+      Object.keys(sortedFoods).forEach(food =>
+        sortedFoodsArray.push(sortedFoods[food])
+      );
+      resolve(sortedFoodsArray);
+    }
+    resolve(foods);
+  });
+}
+
 export function foodsResolver(
   _,
   __,
@@ -17,34 +43,13 @@ export function foodsResolver(
     if (!user) {
       return resolve(false);
     }
-    const foods = await findByUserId(user.id),
-      foodIds = !Array.isArray(foods) ? [] : foods.map(food => food.id);
 
+    const foods = await findByUserId(user.id);
     if (!foods) {
       return resolve(foods);
     }
 
-    if (foodIds.length) {
-      // Attach measurements to foods
-      const measurements = await findMeasurementByFoodId(user.id, foodIds);
-      if (Array.isArray(measurements)) {
-        const sortedFoods = {};
-        foods.forEach(food => {
-          food.measurements = [];
-          sortedFoods[food.id] = food;
-        });
-        measurements.forEach(measurement => {
-          sortedFoods[measurement.food_id].measurements.push(measurement);
-        });
-        const sortedFoodsArray = [];
-        Object.keys(sortedFoods).forEach(food =>
-          sortedFoodsArray.push(sortedFoods[food])
-        );
-        return resolve(sortedFoodsArray);
-      }
-    }
-
-    resolve(foods);
+    resolve(await attachMeasurementsToFoods(user.id, foods));
   });
 }
 
@@ -58,8 +63,13 @@ export function searchFoodsResolver(
     if (!user) {
       return resolve(false);
     }
+
     const foods = await search(user.id, term);
-    resolve(foods);
+    if (!foods) {
+      return resolve(foods);
+    }
+
+    resolve(await attachMeasurementsToFoods(user.id, foods));
   });
 }
 
@@ -73,7 +83,20 @@ export function readFoodResolver(
     if (!user) {
       return resolve(false);
     }
+
     const food = await readFood(user.id, id);
+    if (!food) {
+      return resolve(food);
+    }
+
+    const measurements = await findMeasurementByFoodId(user.id, [food.id]);
+    food.measurements = [];
+    if (Array.isArray(measurements)) {
+      measurements.forEach(measurement => {
+        food.measurements.push(measurement);
+      });
+    }
+
     resolve(food);
   });
 }
@@ -88,7 +111,9 @@ export function createFoodResolver(
     if (!user) {
       return resolve(false);
     }
+
     const newEntry = await createFood(user.id, name, description);
+
     resolve(newEntry);
   });
 }
@@ -103,7 +128,9 @@ export function updateFoodResolver(
     if (!user) {
       return resolve(false);
     }
+
     const newEntry = await updateFood(id, user.id, name, description);
+
     resolve(newEntry);
   });
 }

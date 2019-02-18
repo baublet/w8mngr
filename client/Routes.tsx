@@ -19,14 +19,26 @@ export default withRouter(function Routes({
   return (
     <React.Suspense fallback={<Loading />}>
       <Switch location={location}>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/logout" component={Logout} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/foodlog" component={FoodLog} />
-        <Route exact path="/foodlog/:day" component={FoodLog} />
-        <Route exact path="/foods" component={Foods} />
-        <Route exact path="/foods/new" component={CreateFood} />
+        <Route exact path="/" render={props => <Home {...props} />} />
+        <Route
+          exact
+          path="/register"
+          render={props => <Register {...props} />}
+        />
+        <Route exact path="/logout" render={props => <Logout {...props} />} />
+        <Route exact path="/login" render={props => <Login {...props} />} />
+        <Route exact path="/foodlog" render={props => <FoodLog {...props} />} />
+        <Route
+          exact
+          path="/foodlog/:day"
+          render={props => <FoodLog {...props} />}
+        />
+        <Route exact path="/foods" render={props => <Foods {...props} />} />
+        <Route
+          exact
+          path="/foods/new"
+          render={props => <CreateFood {...props} />}
+        />
         <Route
           exact
           path="/foods/:id/edit"

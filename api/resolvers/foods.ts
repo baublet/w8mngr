@@ -130,9 +130,17 @@ export function updateFoodResolver(
       return resolve(false);
     }
 
-    const newEntry = await updateFood(id, user.id, name, description);
+    const food = await updateFood(id, user.id, name, description);
 
-    resolve(newEntry);
+    const measurements = await findMeasurementByFoodId(user.id, [food.id]);
+    food.measurements = [];
+    if (Array.isArray(measurements)) {
+      measurements.forEach(measurement => {
+        food.measurements.push(measurement);
+      });
+    }
+
+    resolve(food);
   });
 }
 

@@ -5,6 +5,7 @@ import ItemHeading from "components/Type/ItemHeading";
 import EditIcon from "components/Icons/Edit";
 import TransparentIconButton from "components/Button/TransparentIcon";
 import Markdown from "components/Markdown";
+import MeasurementComponent from "components/Measurement/Measurement";
 
 interface FoodDisplayType extends FoodType {
   index: number;
@@ -27,6 +28,15 @@ export default function Food(
         false
       ) : (
         <Markdown content={props.description} className="mt-3" />
+      )}
+      {!props.measurements.length ? (
+        false
+      ) : (
+        <div className="mt-5">
+          {props.measurements.map((measurement, index) => (
+            <MeasurementComponent {...measurement} key={index} />
+          ))}
+        </div>
       )}
     </Panel>
   );

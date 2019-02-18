@@ -1,5 +1,15 @@
 export default `
   id,
   name,
-  description
+  description,
+  measurements {
+    id,
+    food_id,
+    amount,
+    unit,
+    calories,
+    fat,
+    carbs,
+    protein
+  }
 `;

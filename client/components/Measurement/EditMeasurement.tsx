@@ -72,7 +72,7 @@ export default function EditMeasurements(
             e.preventDefault();
             const variables = {
               id: props.id,
-              foodId: props.food_id,
+              food_id: props.food_id,
               amount: parseFloat(values.amount),
               unit: values.unit,
               calories: parseInt(values.calories, 10),
@@ -109,7 +109,10 @@ export default function EditMeasurements(
                   <span className="screen-reader-text">Save measurement</span>
                 </GhostButton>
               ) : (
-                <DeleteMeasurementsButton id={props.id} />
+                <DeleteMeasurementsButton
+                  id={props.id}
+                  food_id={props.food_id}
+                />
               )}
             </div>
           </div>

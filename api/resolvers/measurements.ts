@@ -24,7 +24,7 @@ export function measurementsResolver(
 
 export function createMeasurementResolver(
   _,
-  { foodId, amount, unit, calories, fat, carbs, protein },
+  { food_id, amount, unit, calories, fat, carbs, protein },
   context
 ): Promise<MeasurementType | false> {
   return new Promise(async resolve => {
@@ -33,7 +33,7 @@ export function createMeasurementResolver(
       return resolve(false);
     }
     const newEntry = await createMeasurement(
-      foodId,
+      food_id,
       user.id,
       amount,
       unit,
@@ -48,7 +48,7 @@ export function createMeasurementResolver(
 
 export function updateMeasurementResolver(
   _,
-  { id, foodId, amount, unit, calories, fat, carbs, protein },
+  { id, food_id, amount, unit, calories, fat, carbs, protein },
   context
 ): Promise<MeasurementType | false> {
   return new Promise(async resolve => {
@@ -58,7 +58,7 @@ export function updateMeasurementResolver(
     }
     const updatedEntry = await updateMeasurement(
       id,
-      foodId,
+      food_id,
       user.id,
       amount,
       unit,
@@ -73,7 +73,7 @@ export function updateMeasurementResolver(
 
 export function deleteMeasurementResolver(
   _,
-  { id, foodId },
+  { id, food_id },
   context
 ): Promise<MeasurementType | boolean> {
   return new Promise(async resolve => {
@@ -81,6 +81,6 @@ export function deleteMeasurementResolver(
     if (!user) {
       return resolve(false);
     }
-    resolve(await deleteMeasurement(id, foodId, user.id));
+    resolve(await deleteMeasurement(id, food_id, user.id));
   });
 }

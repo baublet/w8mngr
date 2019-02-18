@@ -35,7 +35,7 @@ export default gql`
     updateFood(id: Int, name: String, description: String): Food!
     deleteFood(id: Int): Boolean
     createMeasurement(
-      foodId: Int
+      food_id: Int
       amount: Float
       unit: String
       calories: Int
@@ -45,7 +45,7 @@ export default gql`
     ): Measurement
     updateMeasurement(
       id: Int
-      foodId: Int
+      food_id: Int
       amount: Float
       unit: String
       calories: Int
@@ -53,7 +53,7 @@ export default gql`
       carbs: Int
       protein: Int
     ): Measurement
-    deleteMeasurement(id: Int, foodId: Int): Boolean
+    deleteMeasurement(id: Int, food_id: Int): Boolean
   }
 
   type AuthPayload {

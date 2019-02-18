@@ -4,7 +4,7 @@ import measurementParts from "./measurement.parts";
 export default gql`
 mutation updateMeasurement(
   $id: Int
-  $foodId: Int,
+  $food_id: Int,
   $amount: Float,
   $unit: String,
   $calories: Int
@@ -14,7 +14,7 @@ mutation updateMeasurement(
 ) {
   updateMeasurement(
     id: $id
-    foodId: $foodId
+    food_id: $food_id
     amount: $amount
     unit: $unit
     calories: $calories

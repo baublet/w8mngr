@@ -7,6 +7,7 @@ import deleteFood from "../foods/delete";
 import readFood from "../foods/read";
 import findMeasurementByFoodId from "../measurements/findByFoodId";
 
+// This is used to stop n+1 problems
 function attachMeasurementsToFoods(
   userId: number,
   foods: Array<FoodType>

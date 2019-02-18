@@ -7,7 +7,7 @@ export default function findMeasurementByFoodId(
 ): Promise<Array<MeasurementType> | false> {
   return new Promise(async resolve => {
     const queryResult = await query({
-      text: `SELECT measurements.* FROM measurements INNER JOIN foods ON foods.user_id = $1 AND foods.id = ANY ($2::int[]) AND measurements.food_id = ANY ($2::int[])`,
+      text: `SELECT * FROM measurements WHERE food_id = ANY (SELECT id FROM foods WHERE user_id = $1 AND id = ANY($2::int[]))`,
       values: [userId, foodId]
     });
 

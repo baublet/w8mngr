@@ -6,9 +6,8 @@ import { UserType } from "../user/types";
 import { FoodType } from "../foods/types";
 import createMeasurement from "./create";
 import { MeasurementType } from "./types";
-import { resolveSoa } from "dns";
 
-describe("Food: delete", function() {
+describe("Measurement: delete", function() {
   let user: UserType, food: FoodType, measurement: MeasurementType | false;
 
   beforeEach(async () => {

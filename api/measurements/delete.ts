@@ -16,8 +16,6 @@ export default function deleteMeasurement(
       values: [<number>foodId, <number>userId]
     });
 
-    console.log(id, userId, foodId);
-
     if (!initialQueryResult.result || !initialQueryResult.result.rowCount) {
       return resolve(false);
     }

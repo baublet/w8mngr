@@ -33,8 +33,8 @@ export default function Food(
         false
       ) : (
         <div className="mt-5">
-          {props.measurements.map((measurement, index) => (
-            <MeasurementComponent {...measurement} key={index} />
+          {props.measurements.map(measurement => (
+            <MeasurementComponent {...measurement} key={measurement.id} />
           ))}
         </div>
       )}

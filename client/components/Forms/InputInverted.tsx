@@ -3,7 +3,7 @@ import { InputProps } from "./Input";
 
 let count = 0;
 
-export default function Input(
+export default function InputInverted(
   props: InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-${count++}`,
@@ -13,7 +13,9 @@ export default function Input(
     <>
       <input
         {...newProps}
-        className="text-primaryText bg-transparent w-full py-2 text-inherit opacity-75 hover:opacity-100 focus:opacity-100 border-b border-primaryText block"
+        className={`text-primaryText bg-transparent w-full py-2 text-inherit opacity-75 hover:opacity-100 focus:opacity-100 border-b border-primaryText block
+          ${props.className || ""}
+        `}
       />
       <label htmlFor={newProps.id} className="screen-reader-text">
         {label}

@@ -36,6 +36,7 @@ export default function EditFoodPage(
                     id={props.food.id}
                     name={props.food.name}
                     description={props.food.description}
+                    measurements={props.food.measurements}
                     loading={loading}
                     onChange={() => setSaved(false)}
                     onSave={(food: any) => {

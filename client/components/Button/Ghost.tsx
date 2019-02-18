@@ -7,9 +7,8 @@ export default function GhostButton(
   return (
     <BaseButton
       {...props}
-      className={`bg-transparent p-3 text-foreground rounded text-xs uppercase hover:bg-foregroundSlight focus:bg-foregroundSlight ${
-        props.className
-      }`}
+      className={`bg-transparent p-3 text-foreground rounded text-xs uppercase hover:bg-foregroundSlight focus:bg-foregroundSlight ${props.className ||
+        ""}`}
     />
   );
 }

@@ -36,7 +36,7 @@ export default gql`
     deleteFood(id: Int): Boolean
     createMeasurement(
       foodId: Int
-      amount: Int
+      amount: Float
       unit: String
       calories: Int
       fat: Int
@@ -46,7 +46,7 @@ export default gql`
     updateMeasurement(
       id: Int
       foodId: Int
-      amount: Int
+      amount: Float
       unit: String
       calories: Int
       fat: Int
@@ -121,7 +121,7 @@ export default gql`
   type Measurement {
     id: Int
     food_id: Int
-    amount: Int
+    amount: Float
     unit: String
     calories: Int
     fat: Int

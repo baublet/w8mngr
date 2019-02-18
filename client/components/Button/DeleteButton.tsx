@@ -13,9 +13,8 @@ export default function DeleteButton(
   return (
     <GhostButton
       {...newProps}
-      className={`bg-transparent p-3 text-foreground rounded text-xs uppercase hover:bg-foregroundSlight focus:bg-foregroundSlight ${
-        props.className
-      }`}
+      className={`bg-transparent p-3 text-foreground rounded text-xs hover:bg-foregroundSlight focus:bg-foregroundSlight ${props.className ||
+        ""}`}
       onClick={newOnclick}
     />
   );

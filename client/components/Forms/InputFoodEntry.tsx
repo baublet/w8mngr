@@ -10,7 +10,7 @@ interface FoodEntryInputProps {
 export default function InputFoodEntry(
   props: FoodEntryInputProps & InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
-  const id = props.id || `input-inverted-${count++}`,
+  const id = props.id || `input-inverted-food-entry-${count++}`,
     label = props.placeholder || props.label,
     newProps = Object.assign({}, props, { id }),
     { hideLabel, className, ...inputOnlyProps } = newProps;

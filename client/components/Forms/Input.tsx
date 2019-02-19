@@ -21,7 +21,7 @@ export default function Input(
   props: InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-${count++}`,
-    label = props.placeholder || props.label,
+    label = props.label || props.placeholder,
     newProps = Object.assign({}, props, { id });
   if (newProps.showLabel) {
     delete newProps.showLabel;
@@ -44,7 +44,6 @@ export default function Input(
           className={`block text-xxs uppercase mt-1 whitespace-no-wrap overflow-hidden pb-1 text-foregroundLight ${
             props.showLabel ? border : ""
           }`}
-          style={{ textOverflow: "clip ellipsis" }}
         >
           {label}
         </label>

@@ -1,8 +1,11 @@
 import * as React from "react";
 import { MeasurementType } from "api/measurements/types";
 import EditMeasurement from "./EditMeasurement";
+import NewMeasurement from "./NewMeasurement";
+import measurementCreate from "queries/measurement.create";
 
 interface EditMeasurementsProps {
+  food_id: number;
   measurements: Array<MeasurementType>;
 }
 
@@ -15,24 +18,7 @@ export default function EditMeasurements(
       {props.measurements.map(measurement => (
         <EditMeasurement {...measurement} key={measurement.id} />
       ))}
-      {/* <div>{props.amount}</div>
-      <div className="flex-grow ml-2">{props.unit}</div>
-      <div className="ml-2 text-center">
-        {props.calories}
-        <div className="uppercase opacity-50 text-xxs">Calories</div>
-      </div>
-      <div className="ml-2 text-center">
-        {props.fat}
-        <div className="uppercase opacity-50 text-xxs">Fat</div>
-      </div>
-      <div className="ml-2 text-center">
-        {props.carbs}
-        <div className="uppercase opacity-50 text-xxs">Carbs</div>
-      </div>
-      <div className="ml-2 text-center">
-        {props.protein}
-        <div className="uppercase opacity-50 text-xxs">Protein</div>
-      </div> */}
+      <NewMeasurement food_id={props.food_id} />
     </div>
   );
 }

@@ -84,7 +84,10 @@ export default function EditFood(
       {!props.id ? (
         false
       ) : (
-        <EditMeasurements measurements={props.measurements} />
+        <EditMeasurements
+          measurements={props.measurements}
+          food_id={props.id}
+        />
       )}
     </>
   );

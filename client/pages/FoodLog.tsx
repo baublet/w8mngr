@@ -8,6 +8,7 @@ import DayNavigator from "components/DayNavigator/DayNavigator";
 import { RouteChildrenProps } from "react-router";
 import FoodEntries from "components/FoodEntry/FoodEntries";
 import NewFoodEntry from "components/FoodEntry/NewFoodEntry";
+import ContentContainer from "components/Containers/ContentContainer";
 
 const get = require("lodash.get");
 
@@ -79,7 +80,7 @@ export default function FoodLog(
         onYesterday={onYesterday}
         onToday={onToday}
       />
-      <div className="px-5 mt-3">
+      <ContentContainer>
         <Query
           query={foodLogQuery}
           variables={{ day: values.today }}
@@ -90,7 +91,7 @@ export default function FoodLog(
             <FoodEntries foodEntries={props.foodEntries} day={day} />
           )}
         </Query>
-      </div>
+      </ContentContainer>
       <NewFoodEntry day={day} />
     </>
   );

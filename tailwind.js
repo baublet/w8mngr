@@ -31,17 +31,17 @@ module.exports = {
 
   fonts: {
     sans: [
+      "Roboto",
+      "Droid Sans",
+      "Fira Sans",
+      "Helvetica Neue",
       "system-ui",
       "BlinkMacSystemFont",
       "-apple-system",
       "Segoe UI",
-      "Roboto",
       "Oxygen",
       "Ubuntu",
       "Cantarell",
-      "Fira Sans",
-      "Droid Sans",
-      "Helvetica Neue",
       "sans-serif"
     ]
   },

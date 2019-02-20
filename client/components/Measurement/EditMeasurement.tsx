@@ -1,11 +1,12 @@
 import * as React from "react";
 import { MeasurementType } from "api/measurements/types";
-import updateMeasurement from "queries/measurement.update";
+import updateMeasurementQuery from "queries/measurement.update";
 import Input from "components/Forms/Input";
 import GhostButton from "components/Button/Ghost";
 import UpdateIcon from "components/Icons/Update";
 import { Mutation } from "react-apollo";
 import DeleteMeasurementsButton from "./DeleteMeasurement";
+import updateMeasurement from "operations/measurements/update";
 
 type EditMeasurementProps = MeasurementType;
 
@@ -65,31 +66,17 @@ export default function EditMeasurements(
   };
 
   return (
-    <Mutation mutation={updateMeasurement}>
-      {updateMeasurement => (
+    <Mutation mutation={updateMeasurementQuery}>
+      {updateMeasurementFn => (
         <form
           onSubmit={(e: any) => {
             e.preventDefault();
-            const variables = {
-              id: props.id,
-              food_id: props.food_id,
-              amount: parseFloat(values.amount),
-              unit: values.unit,
-              calories: parseInt(values.calories, 10),
-              fat: parseInt(values.fat, 10),
-              carbs: parseInt(values.carbs, 10),
-              protein: parseInt(values.protein, 10)
-            };
-            updateMeasurement({
-              variables,
-              optimisticResponse: {
-                __typename: "Mutation",
-                updateMeasurement: {
-                  __typename: "Measurement",
-                  ...variables
-                }
-              }
-            });
+            updateMeasurement(
+              props.id,
+              props.food_id,
+              values,
+              updateMeasurementFn
+            );
           }}
         >
           <div className="mt-2 flex items-center">

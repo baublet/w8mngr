@@ -2,16 +2,16 @@ import * as React from "react";
 import createMeasurement from "queries/measurement.create";
 import Input from "components/Forms/InputInverted";
 import GhostInvertedButton from "components/Button/GhostInverted";
-import UpdateIcon from "components/Icons/Update";
 import { Mutation } from "react-apollo";
 import PanelInverted from "components/Containers/PanelInverted";
-import readFood from "queries/foods.read";
+import createNewMeasurement from "operations/measurements/create";
+import objectEmpty from "helpers/objectEmpty";
 
 interface NewMeasurementProps {
   food_id: number;
 }
 
-interface MeasurementFormState {
+export interface MeasurementFormState {
   amount: string;
   unit: string;
   calories: string;
@@ -39,15 +39,7 @@ export default function NewMeasurement(
         [event.target.name]: event.target.value
       });
     },
-    changed = (() => {
-      if (!values.amount) return false;
-      if (!values.calories) return false;
-      if (!values.fat) return false;
-      if (!values.carbs) return false;
-      if (!values.protein) return false;
-      if (!values.unit) return false;
-      return true;
-    })();
+    changed = objectEmpty(values);
 
   const InputField = (
     name: string,
@@ -72,39 +64,7 @@ export default function NewMeasurement(
         <form
           onSubmit={(e: any) => {
             e.preventDefault();
-            const variables = {
-              food_id: props.food_id,
-              amount: parseFloat(values.amount) || 0,
-              unit: values.unit,
-              calories: parseInt(values.calories, 10) || 0,
-              fat: parseInt(values.fat, 10) || 0,
-              carbs: parseInt(values.carbs, 10) || 0,
-              protein: parseInt(values.protein, 10) || 0
-            };
-            createMeasurement({
-              variables,
-              optimisticResponse: {
-                __typename: "Mutation",
-                createMeasurement: {
-                  __typename: "Measurement",
-                  id: -1,
-                  food_id: props.food_id,
-                  ...variables
-                }
-              },
-              update: (proxy, { data: { createMeasurement } }) => {
-                const data: any = proxy.readQuery({
-                  query: readFood,
-                  variables: { id: props.food_id }
-                });
-                data.food.measurements.push(createMeasurement);
-                proxy.writeQuery({
-                  query: readFood,
-                  variables: { id: props.food_id },
-                  data
-                });
-              }
-            });
+            createNewMeasurement(props.food_id, values, createMeasurement);
           }}
         >
           <PanelInverted className="mt-5">
@@ -121,9 +81,9 @@ export default function NewMeasurement(
             <div className="flex justify-end mt-3">
               <div className="relative">
                 <GhostInvertedButton
-                  className={`bg-transparent p-3 text-foreground rounded ${
-                    changed ? "" : "opacity-75"
-                  }`}
+                  className={`bg-transparent p-3 text-foreground rounded
+                      ${changed ? "" : "opacity-75"}
+                    `}
                   type="submit"
                   disabled={!changed}
                 >

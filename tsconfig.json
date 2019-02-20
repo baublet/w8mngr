@@ -6,8 +6,9 @@
     "paths": {
       "api/*": ["api/*"],
       "components/*": ["client/components/*"],
-      "pages/*": ["client/pages/*"],
       "helpers/*": ["client/helpers/*"],
+      "operations/*": ["client/operations/*"],
+      "pages/*": ["client/pages/*"],
       "queries/*": ["client/queries/*"],
       "sharedHelpers/*": ["shared/helpers/*"]
     }

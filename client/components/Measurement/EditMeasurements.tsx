@@ -2,7 +2,6 @@ import * as React from "react";
 import { MeasurementType } from "api/measurements/types";
 import EditMeasurement from "./EditMeasurement";
 import NewMeasurement from "./NewMeasurement";
-import measurementCreate from "queries/measurement.create";
 
 interface EditMeasurementsProps {
   food_id: number;

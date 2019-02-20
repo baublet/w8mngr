@@ -5,8 +5,9 @@ import PageHeading from "components/Type/PageHeading";
 import ContentContainer from "components/Containers/ContentContainer";
 import updateFoodQuery from "queries/foods.update";
 import { Mutation } from "react-apollo";
-import FoodForm from "components/Food/FoodForm";
+import FoodForm, { FoodFormState } from "components/Food/FoodForm";
 import SavedIcon from "components/Icons/Saved";
+import updateFood from "operations/foods/update";
 
 interface EditFoodProps {
   id: string;
@@ -31,7 +32,7 @@ export default function EditFoodPage(
             }
             return (
               <Mutation mutation={updateFoodQuery}>
-                {updateFood => (
+                {updateFoodFn => (
                   <FoodForm
                     id={props.food.id}
                     name={props.food.name}
@@ -39,17 +40,11 @@ export default function EditFoodPage(
                     measurements={props.food.measurements}
                     loading={loading}
                     onChange={() => setSaved(false)}
-                    onSave={(food: any) => {
+                    onSave={(food: FoodFormState) => {
                       if (!loading) {
                         setLoading(true);
                       }
-                      updateFood({
-                        variables: food,
-                        update: (_, { data: updateFoodEntryResult }) => {
-                          setSaved(true);
-                          setLoading(false);
-                        }
-                      });
+                      updateFood(food, setSaved, setLoading, updateFoodFn);
                     }}
                   />
                 )}

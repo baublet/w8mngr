@@ -3,7 +3,6 @@ import Input from "components/Forms/Input";
 import MultilineInput from "components/Forms/MultilineInput";
 import PrimaryButton from "components/Button/Primary";
 import FoodDeleteButton from "./FoodDeleteButton";
-import Primary from "components/Loading/Primary";
 import EditMeasurements from "components/Measurement/EditMeasurements";
 import { MeasurementType } from "api/measurements/types";
 
@@ -18,7 +17,8 @@ export interface FoodFormProps {
   onChange?: () => void;
 }
 
-interface FoodFormState {
+export interface FoodFormState {
+  id?: number;
   name: string;
   description: string;
   [key: string]: string | number;

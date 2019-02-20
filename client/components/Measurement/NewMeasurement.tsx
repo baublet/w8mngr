@@ -87,8 +87,7 @@ export default function NewMeasurement(
                   type="submit"
                   disabled={!changed}
                 >
-                  <span>&#43;</span>
-                  <span className="ml-2">Add</span>
+                  <span>&#43;&nbsp;&nbsp;Add</span>
                 </GhostInvertedButton>
               </div>
             </div>

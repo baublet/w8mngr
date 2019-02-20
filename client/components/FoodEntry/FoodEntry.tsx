@@ -4,8 +4,9 @@ import { FoodEntryType } from "api/foodEntries/types";
 import { Mutation } from "react-apollo";
 import updateFoodEntryQuery from "queries/foodEntry.update";
 import FoodEntryDelete from "components/FoodEntry/FoodEntryDelete";
+import updateFoodEntry from "operations/foodEntries/update";
 
-interface FoodEntryState {
+export interface FoodEntryState {
   description: string;
   calories: string;
   fat: string;
@@ -37,21 +38,10 @@ export default function FoodEntry(
     <>
       <FoodEntryDelete id={props.id} day={props.day} />
       <Mutation mutation={updateFoodEntryQuery}>
-        {updateFoodEntry => {
-          const updater = () => {
-              console.log("updating");
-              updateFoodEntry({
-                variables: {
-                  id: props.id,
-                  description: values.description,
-                  calories: parseInt(values.calories, 10),
-                  fat: parseInt(values.fat, 10),
-                  carbs: parseInt(values.carbs, 10),
-                  protein: parseInt(values.protein, 10)
-                }
-              });
-            },
-            EntryInput = (type: string, hideLabel = false) => (
+        {updateFoodEntryFn => {
+          const updater = () =>
+              updateFoodEntry(props.id, values, updateFoodEntryFn),
+            EntryInput = (type: string, hideLabel: boolean = false) => (
               <Input
                 name={type.toLowerCase()}
                 value={values[type.toLocaleLowerCase()]}

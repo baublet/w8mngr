@@ -5,6 +5,7 @@ import Button from "components/Button/GhostInverted";
 import { Mutation } from "react-apollo";
 import addFoodEntryQuery from "queries/foodEntry.add";
 import PanelInverted from "components/Containers/PanelInverted";
+import createFoodEntry from "operations/foodEntries/create";
 
 interface NewFoodEntryProps {
   day: number;
@@ -54,60 +55,13 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
 
   return (
     <Mutation mutation={addFoodEntryQuery}>
-      {addFoodEntry => (
+      {addFoodEntryFn => (
         <PanelInverted className="mt-5 mx-2">
           <h3 className="screen-reader-text">Add Food Entry</h3>
           <form
             onSubmit={e => {
               e.preventDefault();
-              addFoodEntry({
-                variables: {
-                  description: values.description || "",
-                  calories: parseInt(values.calories, 10) || 0,
-                  fat: parseInt(values.fat, 10) || 0,
-                  carbs: parseInt(values.carbs, 10) || 0,
-                  protein: parseInt(values.protein, 10) || 0,
-                  day: props.day
-                },
-                optimisticResponse: {
-                  __typename: "Mutation",
-                  createFoodEntry: {
-                    __typename: "FoodEntry",
-                    description: values.description,
-                    calories: parseInt(values.calories, 10) || 0,
-                    fat: parseInt(values.fat, 10) || 0,
-                    carbs: parseInt(values.carbs, 10) || 0,
-                    protein: parseInt(values.protein, 10) || 0,
-                    id: -1,
-                    day: props.day
-                  }
-                },
-                update: (proxy, { data: { createFoodEntry } }) => {
-                  setValues({
-                    ...values,
-                    description: "",
-                    calories: "",
-                    fat: "",
-                    carbs: "",
-                    protein: ""
-                  });
-                  // Read the data from our cache for this query.
-                  const data: any = proxy.readQuery({
-                    query: foodLogQuery,
-                    variables: { day: props.day }
-                  });
-                  // Add the food entry temporarily
-                  data.foodEntries.push(createFoodEntry);
-
-                  // Add our comment from the mutation to the end.
-                  // Write our data back to the cache.
-                  proxy.writeQuery({
-                    query: foodLogQuery,
-                    variables: { day: props.day },
-                    data
-                  });
-                }
-              });
+              createFoodEntry(props.day, values, setValues, addFoodEntryFn);
             }}
           >
             {InputComponent("Description", "text")}

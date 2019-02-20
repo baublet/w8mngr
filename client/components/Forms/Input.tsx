@@ -30,7 +30,7 @@ export default function Input(
     <>
       <input
         {...newProps}
-        className={`bg-transparent w-full py-2 ${
+        className={`leading-normal bg-transparent w-full pt-2 py-1 ${
           !props.showLabel ? border : ""
         } ${props.className || ""}`}
       />
@@ -41,7 +41,7 @@ export default function Input(
       ) : (
         <label
           htmlFor={newProps.id}
-          className={`block text-xxs uppercase mt-1 whitespace-no-wrap overflow-hidden pb-1 text-foregroundLight ${
+          className={`block text-xxs uppercase whitespace-no-wrap overflow-hidden pb-1 text-foregroundLight ${
             props.showLabel ? border : ""
           }`}
         >

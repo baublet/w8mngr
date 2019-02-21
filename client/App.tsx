@@ -7,30 +7,35 @@ import IsLoggedOut from "components/Auth/IsLoggedOut";
 
 import Routes from "./Routes";
 import ContentContainer from "components/Containers/ContentContainer";
+import HeartIcon from "components/Icons/Heart";
 
 function Application(): React.ReactComponentElement<any> {
   return (
     <div className="flex flex-col h-full">
-      <header>
-        <h1>w8mngr</h1>
-        <Link to="/">Home</Link>
-        <IsLoggedIn>
-          <>
-            &nbsp;|&nbsp;<Link to="/foodlog">Food Log</Link>
-            &nbsp;|&nbsp;<Link to="/foods">Foods</Link>
-            &nbsp;|&nbsp;<Link to="/logout">Logout</Link>
-          </>
-        </IsLoggedIn>
-        <IsLoggedOut>
-          <>
-            &nbsp;|&nbsp;<Link to="/register">Register</Link>
-            &nbsp;|&nbsp;<Link to="/login">Log In</Link>
-          </>
-        </IsLoggedOut>
-      </header>
-      <main className="flex-grow flex-1 flex-col">
-        <Routes />
-      </main>
+      <div className="min-h-screen">
+        <header className="my-5">
+          <h1 className="text-center text-secondary text-5xl">
+            <Link to="/" title="w8mngr">
+              <HeartIcon />
+            </Link>
+          </h1>
+          <div className="flex justify-around">
+            <Link to="/">Home</Link>
+            <IsLoggedIn>
+              <Link to="/foodlog">Food Log</Link>
+              <Link to="/foods">Foods</Link>
+              <Link to="/logout">Logout</Link>
+            </IsLoggedIn>
+            <IsLoggedOut>
+              <Link to="/register">Register</Link>
+              <Link to="/login">Log In</Link>
+            </IsLoggedOut>
+          </div>
+        </header>
+        <main className="flex-grow flex-1 flex-col">
+          <Routes />
+        </main>
+      </div>
       <footer className="bg-primary text-primaryText mt-13 py-8 min-h-screen flex items-center">
         <ContentContainer>Footer</ContentContainer>
       </footer>

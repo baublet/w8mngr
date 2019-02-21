@@ -2,11 +2,7 @@ import * as React from "react";
 import { Query } from "react-apollo";
 import userQuery from "queries/user";
 
-interface IsLoggedInType {
-  children: React.ReactChildren | React.ReactChild;
-}
-
-export default function IsLoggedIn({ children }: IsLoggedInType) {
+export default function IsLoggedIn({ children }: React.ComponentProps<any>) {
   return (
     <Query query={userQuery}>
       {({ loading, error, data }) => {

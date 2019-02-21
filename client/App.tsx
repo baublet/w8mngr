@@ -6,13 +6,13 @@ import IsLoggedIn from "components/Auth/IsLoggedIn";
 import IsLoggedOut from "components/Auth/IsLoggedOut";
 
 import Routes from "./Routes";
+import ContentContainer from "components/Containers/ContentContainer";
 
 function Application(): React.ReactComponentElement<any> {
   return (
     <div className="flex flex-col h-full">
-      <h1>w8mngr</h1>
-      <hr />
-      <div>
+      <header>
+        <h1>w8mngr</h1>
         <Link to="/">Home</Link>
         <IsLoggedIn>
           <>
@@ -27,13 +27,13 @@ function Application(): React.ReactComponentElement<any> {
             &nbsp;|&nbsp;<Link to="/login">Log In</Link>
           </>
         </IsLoggedOut>
-      </div>
-      <hr />
-      <div className="flex-grow flex-1 flex-col">
+      </header>
+      <main className="flex-grow flex-1 flex-col">
         <Routes />
-      </div>
-      <hr />
-      <div className="footer">Footer</div>
+      </main>
+      <footer className="bg-primary text-primaryText mt-13 py-8 min-h-screen flex items-center">
+        <ContentContainer>Footer</ContentContainer>
+      </footer>
     </div>
   );
 }

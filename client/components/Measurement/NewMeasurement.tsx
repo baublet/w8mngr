@@ -1,11 +1,11 @@
 import * as React from "react";
 import createMeasurement from "queries/measurement.create";
 import Input from "components/Forms/InputInverted";
-import GhostInvertedButton from "components/Button/GhostInverted";
 import { Mutation } from "react-apollo";
 import PanelInverted from "components/Containers/PanelInverted";
 import createNewMeasurement from "operations/measurements/create";
 import objectEmpty from "helpers/objectEmpty";
+import AddButton from "components/Button/AddButton";
 
 interface NewMeasurementProps {
   food_id: number;
@@ -80,15 +80,13 @@ export default function NewMeasurement(
             </div>
             <div className="flex justify-end mt-3">
               <div className="relative">
-                <GhostInvertedButton
-                  className={`bg-transparent p-3 text-foreground rounded
-                      ${changed ? "" : "opacity-75"}
-                    `}
+                <AddButton
+                  className={changed ? "" : "opacity-75"}
                   type="submit"
                   disabled={!changed}
                 >
                   <span>&#43;&nbsp;&nbsp;Add</span>
-                </GhostInvertedButton>
+                </AddButton>
               </div>
             </div>
           </PanelInverted>

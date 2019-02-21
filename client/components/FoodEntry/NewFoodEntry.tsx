@@ -1,11 +1,10 @@
 import * as React from "react";
-import foodLogQuery from "queries/foodLog";
 import Input from "components/Forms/InputInverted";
-import Button from "components/Button/GhostInverted";
 import { Mutation } from "react-apollo";
 import addFoodEntryQuery from "queries/foodEntry.add";
 import PanelInverted from "components/Containers/PanelInverted";
 import createFoodEntry from "operations/foodEntries/create";
+import AddButton from "components/Button/AddButton";
 
 interface NewFoodEntryProps {
   day: number;
@@ -72,7 +71,7 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
               <div className="flex-grow ml-1">{InputComponent("Protein")}</div>
             </div>
             <div className="mt-5 flex justify-end">
-              <Button type="submit">&#43;&nbsp;&nbsp;Add</Button>
+              <AddButton type="submit">&#43;&nbsp;&nbsp;Add</AddButton>
             </div>
           </form>
         </PanelInverted>

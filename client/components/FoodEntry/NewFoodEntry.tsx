@@ -5,6 +5,7 @@ import addFoodEntryQuery from "queries/foodEntry.add";
 import PanelInverted from "components/Containers/PanelInverted";
 import createFoodEntry from "operations/foodEntries/create";
 import AddButton from "components/Button/AddButton";
+import FoodAutocomplete from "./FoodAutocomplete";
 
 interface NewFoodEntryProps {
   day: number;
@@ -74,6 +75,11 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
               <AddButton type="submit">&#43;&nbsp;&nbsp;Add</AddButton>
             </div>
           </form>
+          {!values.description || values.description.length < 3 ? (
+            false
+          ) : (
+            <FoodAutocomplete input={values.description} />
+          )}
         </PanelInverted>
       )}
     </Mutation>

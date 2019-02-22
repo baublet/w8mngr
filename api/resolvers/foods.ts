@@ -13,6 +13,9 @@ function attachMeasurementsToFoods(
   foods: Array<FoodType>
 ): Promise<Array<FoodType>> {
   return new Promise(async resolve => {
+    Object.keys(foods).forEach(food => {
+      foods[food].measurements = [];
+    });
     const foodIds = !Array.isArray(foods) ? [] : foods.map(food => food.id),
       measurements = await findMeasurementByFoodId(userId, foodIds);
     if (Array.isArray(measurements)) {
@@ -28,7 +31,7 @@ function attachMeasurementsToFoods(
       Object.keys(sortedFoods).forEach(food =>
         sortedFoodsArray.push(sortedFoods[food])
       );
-      resolve(sortedFoodsArray);
+      return resolve(sortedFoodsArray);
     }
     resolve(foods);
   });
@@ -42,7 +45,7 @@ export function foodsResolver(
   return new Promise(async resolve => {
     const user = context.user;
     if (!user) {
-      return resolve(false);
+      return resolve([]);
     }
 
     const foods = await findByUserId(user.id);
@@ -58,16 +61,16 @@ export function searchFoodsResolver(
   _,
   { term },
   context
-): Promise<Array<FoodType> | false> {
+): Promise<Array<FoodType>> {
   return new Promise(async resolve => {
     const user = context.user;
     if (!user) {
-      return resolve(false);
+      return resolve([]);
     }
 
     const foods = await search(user.id, term);
     if (!foods) {
-      return resolve(foods);
+      return resolve(foods || []);
     }
 
     resolve(await attachMeasurementsToFoods(user.id, foods));

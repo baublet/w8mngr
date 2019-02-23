@@ -15,7 +15,9 @@ let colors = {
   backgroundLighter: "rgba(70, 45, 155, .5)",
 
   primary: "rgb(40, 40, 40)",
+  primaryLight: "rgba(50, 50, 50)",
   primaryText: "rgb(250, 250, 250)",
+  primaryTextSlight: "rgba(250, 250, 250, .1)",
 
   secondary: "rgb(65, 120, 225)",
   secondaryDark: "rgb(45, 100, 200)",

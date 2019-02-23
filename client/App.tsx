@@ -9,7 +9,7 @@ import Routes from "./Routes";
 
 function Application(): React.ReactComponentElement<any> {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col min-h-full">
       <div className="min-h-screen">
         <header className="my-5">
           <h1 className="text-center text-secondary text-5xl">

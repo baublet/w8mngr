@@ -21,25 +21,28 @@ export interface MeasurementFormState {
   [key: string]: string | number;
 }
 
+function initialState(): MeasurementFormState {
+  return {
+    amount: "",
+    unit: "",
+    calories: "",
+    fat: "",
+    carbs: "",
+    protein: ""
+  };
+}
+
 export default function NewMeasurement(
   props: NewMeasurementProps
 ): React.ReactComponentElement<any> {
-  const initialState: MeasurementFormState = {
-      amount: "",
-      unit: "",
-      calories: "",
-      fat: "",
-      carbs: "",
-      protein: ""
-    },
-    [values, setValues] = React.useState(initialState),
+  const [values, setValues] = React.useState(initialState()),
     onChange = (event: any) => {
       setValues({
         ...values,
         [event.target.name]: event.target.value
       });
     },
-    changed = objectEmpty(values);
+    changed = !objectEmpty(values);
 
   const InputField = (
     name: string,
@@ -51,7 +54,7 @@ export default function NewMeasurement(
         name={name.toLowerCase()}
         label={name}
         placeholder={name}
-        defaultValue={`${values[name.toLowerCase()]}`}
+        value={`${values[name.toLowerCase()]}`}
         onChange={onChange}
         className={`text-base`}
       />
@@ -65,6 +68,7 @@ export default function NewMeasurement(
           onSubmit={(e: any) => {
             e.preventDefault();
             createNewMeasurement(props.food_id, values, createMeasurement);
+            setValues(initialState());
           }}
         >
           <PanelInverted className="mt-5">
@@ -81,7 +85,7 @@ export default function NewMeasurement(
             <div className="flex justify-end mt-3">
               <div className="relative">
                 <AddButton
-                  className={changed ? "" : "opacity-75"}
+                  className={changed ? "" : "opacity-50"}
                   type="submit"
                   disabled={!changed}
                 >

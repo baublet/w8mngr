@@ -4,10 +4,15 @@ import foodSearchQuery from "queries/foods.search";
 import { FoodType } from "api/foods/types";
 import AutocompleteFood from "components/Food/AutocompleteFood";
 
-const debounce = require("lodash.debounce");
-
 interface FoodAutocompleteComponentProps {
   input: string;
+  pushMacros: (
+    description: string,
+    calories: string,
+    fat: string,
+    carbs: string,
+    protein: string
+  ) => void;
 }
 
 export default function FoodAutocomplete(
@@ -16,16 +21,15 @@ export default function FoodAutocomplete(
   const [wait, setWait] = React.useState(false),
     [term, setTerm] = React.useState(props.input),
     [selectedFood, setSelectedFood] = React.useState(null),
-    onClick = (id: number) => () =>
-      setSelectedFood(selectedFood == id ? null : id);
+    onClick = (id: number) => () => setSelectedFood(id);
 
   React.useEffect(() => {
     if (wait) return;
     setWait(true);
     setTimeout(() => {
       setWait(false);
-      setTerm(props.input);
-    }, 750);
+      if (props.input !== term) setTerm(props.input);
+    }, 250);
   });
 
   return (
@@ -45,6 +49,7 @@ export default function FoodAutocomplete(
                   onClick={onClick(food.id)}
                   showMeasurements={selectedFood == food.id}
                   index={index}
+                  pushMacros={props.pushMacros}
                 />
               )
             )}

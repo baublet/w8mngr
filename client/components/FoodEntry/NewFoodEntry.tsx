@@ -1,6 +1,6 @@
 import * as React from "react";
 import Input from "components/Forms/InputInverted";
-import { Mutation } from "react-apollo";
+import { Mutation, MutationFn } from "react-apollo";
 import addFoodEntryQuery from "queries/foodEntry.add";
 import PanelInverted from "components/Containers/PanelInverted";
 import createFoodEntry from "operations/foodEntries/create";
@@ -29,9 +29,31 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
     protein: ""
   };
 
-  const [values, setValues] = React.useState(initialState);
+  const [values, setValues] = React.useState(initialState),
+    pushMacros = (
+      description: string,
+      calories: string,
+      fat: string,
+      carbs: string,
+      protein: string
+    ) => {
+      if (description == values.description) return;
+      if (calories == values.calories) return;
+      if (fat == values.fat) return;
+      if (carbs == values.carbs) return;
+      if (protein == values.protein) return;
+      console.log("setValues");
+      setValues({
+        description,
+        calories,
+        fat,
+        carbs,
+        protein
+      });
+    };
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (event: any) => {
+    console.log("onChange");
     setValues({
       ...values,
       [event.target.name]: event.target.value
@@ -78,7 +100,10 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
           {!values.description || values.description.length < 3 ? (
             false
           ) : (
-            <FoodAutocomplete input={values.description} />
+            <FoodAutocomplete
+              input={values.description}
+              pushMacros={pushMacros}
+            />
           )}
         </PanelInverted>
       )}

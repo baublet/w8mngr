@@ -88,7 +88,7 @@ export default function FoodLog(
           hideLoader={true}
         >
           {(props: any) => (
-            <FoodEntries foodEntries={props.foodEntries} day={day} />
+            <FoodEntries foodEntries={props.foodEntries} day={values.today} />
           )}
         </Query>
       </ContentContainer>

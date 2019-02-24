@@ -6,34 +6,29 @@ import AutocompleteFood from "components/Food/AutocompleteFood";
 
 interface FoodAutocompleteComponentProps {
   input: string;
-  pushMacros: (
+  handlePushFoodEntryData: (
     description: string,
     calories: string,
     fat: string,
     carbs: string,
     protein: string
   ) => void;
+  handleAddFoodEntry: () => void;
 }
 
 export default function FoodAutocomplete(
   props: FoodAutocompleteComponentProps
 ): React.ReactComponentElement<any> {
-  const [wait, setWait] = React.useState(false),
-    [term, setTerm] = React.useState(props.input),
-    [selectedFood, setSelectedFood] = React.useState(null),
+  console.log("Render FoodAutocomplete");
+
+  const [selectedFood, setSelectedFood] = React.useState(null),
     onClick = (id: number) => () => setSelectedFood(id);
 
-  React.useEffect(() => {
-    if (wait) return;
-    setWait(true);
-    setTimeout(() => {
-      setWait(false);
-      if (props.input !== term) setTerm(props.input);
-    }, 250);
-  });
-
   return (
-    <Query query={foodSearchQuery} variables={{ term, limit: 10, offset: 0 }}>
+    <Query
+      query={foodSearchQuery}
+      variables={{ term: props.input, limit: 10, offset: 0 }}
+    >
       {(foods: any) => {
         return !foods.data.searchFoods || !foods.data.searchFoods.length ? (
           false
@@ -49,7 +44,8 @@ export default function FoodAutocomplete(
                   onClick={onClick(food.id)}
                   showMeasurements={selectedFood == food.id}
                   index={index}
-                  pushMacros={props.pushMacros}
+                  handlePushFoodEntryData={props.handlePushFoodEntryData}
+                  handleAddFoodEntry={props.handleAddFoodEntry}
                 />
               )
             )}

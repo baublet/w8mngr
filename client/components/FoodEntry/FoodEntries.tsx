@@ -34,7 +34,7 @@ export default function FoodEntries(props: FoodEntriesProps) {
     <>
       <Panel>
         {props.foodEntries.map((props: any, index: number) => (
-          <div key={`${props.day}-${count++}`}>
+          <div key={`${props.id}`}>
             {index == 0 ? (
               false
             ) : (

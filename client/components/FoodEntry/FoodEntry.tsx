@@ -35,7 +35,7 @@ export default function FoodEntry(
     };
 
   return (
-    <>
+    <div className="relative">
       <FoodEntryDelete id={props.id} day={props.day} />
       <Mutation mutation={updateFoodEntryQuery}>
         {updateFoodEntryFn => {
@@ -45,7 +45,7 @@ export default function FoodEntry(
               <Input
                 name={type.toLowerCase()}
                 value={values[type.toLocaleLowerCase()]}
-                placeholder={type}
+                label={type}
                 onChange={onChange}
                 hideLabel={hideLabel}
                 onBlur={updater}
@@ -73,6 +73,6 @@ export default function FoodEntry(
           );
         }}
       </Mutation>
-    </>
+    </div>
   );
 }

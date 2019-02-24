@@ -10,13 +10,14 @@ interface AutocompleteFoodComponentProps extends FoodType {
   onClick: () => void;
   showMeasurements: boolean;
   index: number;
-  pushMacros: (
+  handlePushFoodEntryData: (
     description: string,
     calories: string,
     fat: string,
     carbs: string,
     protein: string
   ) => void;
+  handleAddFoodEntry: () => void;
 }
 
 function calculateMultiplier(
@@ -29,45 +30,99 @@ function calculateMultiplier(
   return 1 + (newAmount - originalAmount) / originalAmount;
 }
 
+function calculatedProps(
+  inputAmount: number,
+  amount: number,
+  calories: number,
+  fat: number,
+  carbs: number,
+  protein: number
+) {
+  const calculatedAmount = isNaN(inputAmount) ? amount : inputAmount,
+    multiplier = calculateMultiplier(amount, calculatedAmount);
+  return {
+    amount: calculatedAmount,
+    calories: Math.round(calories * multiplier),
+    fat: Math.round(fat * multiplier),
+    carbs: Math.round(carbs * multiplier),
+    protein: Math.round(protein * multiplier)
+  };
+}
+
 export default function AutocompleteFood(
   props: AutocompleteFoodComponentProps
 ): React.ReactComponentElement<any> {
+  console.log("Render AutocompleteFood");
   const [selectedMeasurement, setSelectedMeasurement] = React.useState(0),
     [amount, setAmount] = React.useState(
       props.measurements[selectedMeasurement].amount
     ),
     canDoPrev = selectedMeasurement > 0,
     canDoNext = selectedMeasurement < props.measurements.length - 1,
-    amountChange = (event: any) => {
+    handleAmountChange = (event: any) => {
       setAmount(event.target.value);
     },
-    calculatedAmount = isNaN(amount)
-      ? props.measurements[selectedMeasurement].amount
-      : amount,
-    multiplier = calculateMultiplier(
+    {
+      amount: calculatedAmount,
+      calories,
+      fat,
+      carbs,
+      protein
+    } = calculatedProps(
+      amount,
       props.measurements[selectedMeasurement].amount,
-      calculatedAmount
+      props.measurements[selectedMeasurement].calories,
+      props.measurements[selectedMeasurement].fat,
+      props.measurements[selectedMeasurement].carbs,
+      props.measurements[selectedMeasurement].protein
     ),
-    calc = (num: number) => {
-      return Math.round(num * multiplier);
+    renderMacro = (label: string, value: number) => {
+      return (
+        <div className="flex-grow text-center">
+          {value}
+          <div className="text-xxs uppercase opacity-50">{label}</div>
+        </div>
+      );
     },
-    calculatedCalories = calc(props.measurements[selectedMeasurement].calories),
-    calculatedFat = calc(props.measurements[selectedMeasurement].fat),
-    calculatedCarbs = calc(props.measurements[selectedMeasurement].carbs),
-    calculatedProtein = calc(props.measurements[selectedMeasurement].protein);
+    renderButton = (
+      label: string,
+      canDo: boolean,
+      nextIndex: number,
+      ButtonIcon: any
+    ) => {
+      return (
+        <Button
+          className={`p-2 ${canDo ? "" : "opacity-50"}`}
+          onClick={
+            !canDo
+              ? () => {}
+              : () => {
+                  setSelectedMeasurement(nextIndex);
+                  setAmount(props.measurements[nextIndex].amount);
+                }
+          }
+        >
+          <ButtonIcon />
+          <span className="screen-reader-text">{label}</span>
+        </Button>
+      );
+    };
 
   let measurementAmountRef: React.RefObject<HTMLInputElement> = null;
 
   React.useEffect(() => {
     if (!props.showMeasurements) return;
-    props.pushMacros(
+    // When a user clicks a food and shows a measurement, we want to add
+    // that measurement data to the add food entry form. We pass down the
+    // handlePushFoodEntryData function to handle this for us.
+    props.handlePushFoodEntryData(
       `${calculatedAmount} ${props.measurements[selectedMeasurement].unit} ${
         props.name
       }`,
-      calculatedCalories.toString(),
-      calculatedFat.toString(),
-      calculatedCarbs.toString(),
-      calculatedProtein.toString()
+      calories.toString(),
+      fat.toString(),
+      carbs.toString(),
+      protein.toString()
     );
     if (measurementAmountRef && measurementAmountRef.current) {
       measurementAmountRef.current.focus();
@@ -83,23 +138,14 @@ export default function AutocompleteFood(
       `}
       onClick={props.onClick}
     >
-      {!props.showMeasurements ? (
-        false
-      ) : (
-        <Button
-          className={`p-2 ${canDoPrev ? "" : "opacity-50"}`}
-          onClick={
-            !canDoPrev
-              ? () => {}
-              : () => {
-                  setSelectedMeasurement(selectedMeasurement - 1);
-                  setAmount(props.measurements[selectedMeasurement - 1].amount);
-                }
-          }
-        >
-          <LeftIcon />
-        </Button>
-      )}
+      {!props.showMeasurements
+        ? false
+        : renderButton(
+            "Previous Measurement",
+            canDoPrev,
+            selectedMeasurement - 1,
+            LeftIcon
+          )}
       <div className={`flex-grow ${!props.showMeasurements ? "" : "p-2"}`}>
         <div>{props.name}</div>
         {!props.showMeasurements ? (
@@ -111,54 +157,43 @@ export default function AutocompleteFood(
               key={props.measurements[selectedMeasurement].id}
             >
               <div className="w-8">
-                <Input
-                  name="amount"
-                  placeholder=""
-                  onChange={amountChange}
-                  value={amount.toString()}
-                  getRef={ref => (measurementAmountRef = ref)}
-                />
+                <form
+                  onSubmit={e => {
+                    e.preventDefault();
+                    props.handleAddFoodEntry();
+                  }}
+                >
+                  <Input
+                    name="amount"
+                    placeholder=""
+                    onChange={handleAmountChange}
+                    value={amount.toString()}
+                    getRef={ref => (measurementAmountRef = ref)}
+                  />
+                  <Button type="submit" className="screen-reader-text">
+                    Add Food Entry to Food Log
+                  </Button>
+                </form>
               </div>
               <div className="w-16">
                 {props.measurements[selectedMeasurement].unit}
               </div>
-              <div className="flex-grow text-center">
-                {calculatedCalories}
-                <div className="text-xxs uppercase opacity-50">Calories</div>
-              </div>
-              <div className="flex-grow text-center">
-                {calculatedFat}
-                <div className="text-xxs uppercase opacity-50">Fat</div>
-              </div>
-              <div className="flex-grow text-center">
-                {calculatedCarbs}
-                <div className="text-xxs uppercase opacity-50">Carbs</div>
-              </div>
-              <div className="flex-grow text-center">
-                {calculatedProtein}
-                <div className="text-xxs uppercase opacity-50">Protein</div>
-              </div>
+              {renderMacro("Calories", calories)}
+              {renderMacro("Fat", fat)}
+              {renderMacro("Carbs", carbs)}
+              {renderMacro("Protein", protein)}
             </div>
           </div>
         )}
       </div>
-      {!props.showMeasurements ? (
-        false
-      ) : (
-        <Button
-          className={`p-2 ${canDoNext ? "" : "opacity-50"}`}
-          onClick={
-            !canDoNext
-              ? () => {}
-              : () => {
-                  setSelectedMeasurement(selectedMeasurement + 1);
-                  setAmount(props.measurements[selectedMeasurement + 1].amount);
-                }
-          }
-        >
-          <RightIcon />
-        </Button>
-      )}
+      {!props.showMeasurements
+        ? false
+        : renderButton(
+            "Next Measurement",
+            canDoNext,
+            selectedMeasurement + 1,
+            RightIcon
+          )}
     </div>
   );
 }

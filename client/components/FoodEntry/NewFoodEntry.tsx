@@ -21,6 +21,7 @@ interface NewFoodLogState {
 }
 
 export default function NewFoodEntry(props: NewFoodEntryProps) {
+  console.log("Render NewFoodEntry");
   const initialState: NewFoodLogState = {
     description: "",
     calories: "",
@@ -30,19 +31,19 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
   };
 
   const [values, setValues] = React.useState(initialState),
-    pushMacros = (
+    setFoodEntryData = (
       description: string,
       calories: string,
       fat: string,
       carbs: string,
       protein: string
     ) => {
+      console.log("setValues");
       if (description == values.description) return;
       if (calories == values.calories) return;
       if (fat == values.fat) return;
       if (carbs == values.carbs) return;
       if (protein == values.protein) return;
-      console.log("setValues");
       setValues({
         description,
         calories,
@@ -60,7 +61,11 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
     });
   };
 
-  const InputComponent = (label: string, type: string = "number") => {
+  const InputComponent = (
+    label: string,
+    type: string = "number",
+    required: boolean = false
+  ) => {
     const name = label.toLowerCase(),
       value = values[name];
     return (
@@ -71,42 +76,51 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
         name={name}
         value={value}
         onChange={onChange}
+        required={required}
       />
     );
   };
 
   return (
     <Mutation mutation={addFoodEntryQuery}>
-      {addFoodEntryFn => (
-        <PanelInverted className="mt-5 mx-2">
-          <h3 className="screen-reader-text">Add Food Entry</h3>
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              createFoodEntry(props.day, values, setValues, addFoodEntryFn);
-            }}
-          >
-            {InputComponent("Description", "text")}
-            <div className="flex mt-2 w-full">
-              <div className="flex-grow">{InputComponent("Calories")}</div>
-              <div className="flex-grow ml-1">{InputComponent("Fat")}</div>
-              <div className="flex-grow ml-1">{InputComponent("Carbs")}</div>
-              <div className="flex-grow ml-1">{InputComponent("Protein")}</div>
-            </div>
-            <div className="mt-5 flex justify-end">
-              <AddButton type="submit">&#43;&nbsp;&nbsp;Add</AddButton>
-            </div>
-          </form>
-          {!values.description || values.description.length < 3 ? (
-            false
-          ) : (
-            <FoodAutocomplete
-              input={values.description}
-              pushMacros={pushMacros}
-            />
-          )}
-        </PanelInverted>
-      )}
+      {addFoodEntryFn => {
+        const handleSubmit = () => {
+          createFoodEntry(props.day, values, setValues, addFoodEntryFn);
+        };
+        return (
+          <PanelInverted className="mt-5 mx-2">
+            <h3 className="screen-reader-text">Add Food Entry</h3>
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                handleSubmit();
+              }}
+            >
+              {InputComponent("Description", "text", true)}
+              <div className="flex mt-2 w-full">
+                <div className="flex-grow">{InputComponent("Calories")}</div>
+                <div className="flex-grow ml-1">{InputComponent("Fat")}</div>
+                <div className="flex-grow ml-1">{InputComponent("Carbs")}</div>
+                <div className="flex-grow ml-1">
+                  {InputComponent("Protein")}
+                </div>
+              </div>
+              <div className="mt-5 flex justify-end">
+                <AddButton type="submit" />
+              </div>
+            </form>
+            {!values.description || values.description.length < 3 ? (
+              false
+            ) : (
+              <FoodAutocomplete
+                input={values.description}
+                handlePushFoodEntryData={setFoodEntryData}
+                handleAddFoodEntry={handleSubmit}
+              />
+            )}
+          </PanelInverted>
+        );
+      }}
     </Mutation>
   );
 }

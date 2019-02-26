@@ -3,7 +3,7 @@ import typeDefs from "./config/schema";
 import resolvers from "./resolvers";
 import contextAuthenticator from "./helpers/contextAuthenticator";
 
-const server = new ApolloServer({
+export const server = new ApolloServer({
   typeDefs,
   resolvers: resolvers,
   introspection: true,

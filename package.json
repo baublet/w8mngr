@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha --require ts-node/register --recursive --exit",
-    "test:all": "npm run test -- api/**/*.test.ts api/*.test.ts shared/**/*.test.ts shared/**/**/*.test.ts",
-    "test:api": "npm run test -- api/**/*.test.ts api/*.test.ts",
+    "test:all": "npm run test -- api/**/*.test.ts api/**/*.test.ts api/*.test.ts shared/**/*.test.ts shared/**/**/*.test.ts",
+    "test:api": "npm run test -- api/**/*.test.[jt]s api/*.test.[jt]s",
     "test:shared": "npm run test -- shared/**/*.test.ts shared/**/**/*.test.ts",
     "test:init": "psql -f test/initial_structure.sql",
     "start:lambda": "NODE_ENV=dev netlify-lambda serve ./api -c webpack.config.js",
@@ -52,6 +52,7 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/react-transition-group": "^2.0.15",
     "apollo-link-context": "^1.0.14",
+    "apollo-server-testing": "^2.4.6",
     "awesome-typescript-loader": "^5.2.1",
     "chai": "^4.2.0",
     "css-loader": "^2.1.0",

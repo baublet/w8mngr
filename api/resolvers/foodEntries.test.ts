@@ -1,15 +1,14 @@
+import createUser from "../user/create";
+import addFoodEntryQuery from "../../client/queries/foodEntry.add";
+import updateFoodEntryQuery from "../../client/queries/foodEntry.update";
+import deleteFoodEntryQuery from "../../client/queries/foodEntry.delete";
+import foodLogQuery from "../../client/queries/foodLog";
+import { clearDatabase } from "../../test/helpers";
+import { expect } from "chai";
+import count from "../foodEntries/countByUserId";
+
 const { createTestClient } = require("apollo-server-testing");
 const { createTestServer } = require("../helpers/createTestServer");
-const createUser = require("../user/create").default;
-const addFoodEntryQuery = require("../../client/queries/foodEntry.add").default;
-const updateFoodEntryQuery = require("../../client/queries/foodEntry.update")
-  .default;
-const deleteFoodEntryQuery = require("../../client/queries/foodEntry.delete")
-  .default;
-const foodLogQuery = require("../../client/queries/foodLog").default;
-const { clearDatabase } = require("../../test/helpers");
-const expect = require("chai").expect;
-const count = require("../foodEntries/countByUserId").default;
 
 describe("FoodEntry Integration Test", async function() {
   let user, server, query, mutate;

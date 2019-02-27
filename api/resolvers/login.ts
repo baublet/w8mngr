@@ -5,36 +5,27 @@ import findByEmailAndPassword from "../user/findByEmailAndPassword";
 import secrets from "../config/secrets";
 import { RequestError, AuthType } from "./types";
 
-export default (_, { email, password }): Promise<AuthType | RequestError> => {
-  return new Promise(resolve => {
-    findByEmailAndPassword(email, password)
-      .then(async result => {
-        if (result) {
-          const remember_digest =
-              result.remember_digest || (await issueToken(result.id)),
-            token = sign(
-              {
-                email: result.email,
-                token: remember_digest
-              },
-              secrets.jwtSecret
-            );
-          resolve({
-            token,
-            user: result
-          });
-        } else {
-          resolve({
-            status: 200,
-            message: loginErrorMessage
-          });
-        }
-      })
-      .catch(e => {
-        resolve({
-          status: 500,
-          message: JSON.stringify(e)
-        });
-      });
-  });
+export default async (
+  _,
+  { email, password }
+): Promise<AuthType | RequestError> => {
+  const user = await findByEmailAndPassword(email, password);
+  if (!user) {
+    return {
+      status: 200,
+      message: loginErrorMessage
+    };
+  }
+  const remember_digest = user.remember_digest || (await issueToken(user.id)),
+    token = sign(
+      {
+        email: user.email,
+        token: remember_digest
+      },
+      secrets.jwtSecret
+    );
+  return {
+    token,
+    user
+  };
 };

@@ -14,14 +14,10 @@ describe("Food: delete", function() {
     food = await createFood(user.id, "Name", "Description");
   });
 
-  it("should delete properly", () => {
-    return new Promise(async (resolve, reject) => {
-      const deleted = await deleteFood(food.id, user.id);
-      if (deleted) {
-        resolve();
-      } else {
-        resolve("Did not delete properly!");
-      }
-    });
+  it("should delete properly", async () => {
+    const deleted = await deleteFood(food.id, user.id);
+    if (!deleted) {
+      return "Did not delete properly!";
+    }
   });
 });

@@ -1,4 +1,4 @@
-export default function countFoodsByUseId(userId: Number): Promise<Number> {
+export default function countFoodsByUseId(userId: number): Promise<number> {
   return new Promise(async (resolve, reject) => {
     const { query } = require("../config/db"),
       queryResult = await query({

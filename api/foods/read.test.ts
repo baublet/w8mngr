@@ -8,30 +8,24 @@ import { UserType } from "../user/types";
 describe("Foods: read", function() {
   let user: UserType;
 
-  beforeEach(async () => {
+  before(async () => {
     await clearDatabase();
     user = await createUser("testMan@test.com", "test password");
     return Promise.resolve();
   });
 
   it("should read foods by id", async () => {
-    return new Promise(async (resolve, reject) => {
-      const firstCount = await count(user.id),
-        created1 = await createFoodEntry(user.id, "Name", "Description"),
-        secondCount = await count(user.id);
+    const firstCount = await count(user.id),
+      created1 = await createFoodEntry(user.id, "Name", "Description"),
+      secondCount = await count(user.id);
 
-      if (!created1 || secondCount < firstCount) {
-        return reject(
-          `Second count (${secondCount}) is not greater than first count (${firstCount}).`
-        );
-      }
+    if (!created1 || secondCount < firstCount) {
+      return `Second count (${secondCount}) is not greater than first count (${firstCount}).`;
+    }
 
-      const found = await read(user.id, created1.id);
-      if (!found) {
-        return reject(`Expected to read food properly`);
-      }
-
-      resolve();
-    });
+    const found = await read(user.id, created1.id);
+    if (!found) {
+      return `Expected to read food properly`;
+    }
   });
 });

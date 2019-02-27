@@ -118,6 +118,11 @@ export function createFoodResolver(
 
     const newEntry = await createFood(user.id, name, description);
 
+    // We never want to allow a food to have measurements: null
+    // So we want to add an empty array here, indicating that
+    // there are no measurements yet.
+    newEntry.measurements = [];
+
     resolve(newEntry);
   });
 }

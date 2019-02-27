@@ -4,23 +4,17 @@ import findUserByEmail from "./findByEmail";
 import { clearDatabase } from "../../test/helpers";
 
 describe("User: issue token", function() {
-  before(() => {
-    return clearDatabase();
+  before(async () => {
+    return await clearDatabase();
   });
   it("should issue a fresh token when requested", async () => {
-    return new Promise(async resolve => {
-      const created = await createUser("testMan@test.com", "test password"),
-        issuedToken = await issueToken(created.id),
-        user = await findUserByEmail("testman@test.com");
-      if (user && user.remember_digest == issuedToken) {
-        resolve();
-      } else {
-        resolve(
-          `Expected issued toke (${issueToken}) to equal token represented in persistence layer (${
-            user ? user.remember_digest : ""
-          })`
-        );
-      }
-    });
+    const created = await createUser("testMan@test.com", "test password"),
+      issuedToken = await issueToken(created.id),
+      user = await findUserByEmail("testman@test.com");
+    if (!user || user.remember_digest != issuedToken) {
+      return `Expected issued toke (${issueToken}) to equal token represented in persistence layer (${
+        user ? user.remember_digest : ""
+      })`;
+    }
   });
 });

@@ -1,11 +1,11 @@
 import create from "./create";
-import read from "./read";
+import findByUserId from "./findByUserId";
 import createUser from "../user/create";
 import { clearDatabase } from "../../test/helpers";
 import { UserType } from "../user/types";
 import { expect } from "chai";
 
-describe("Activity: read", function() {
+describe("Activity: find by user ID", function() {
   let user: UserType;
 
   before(async () => {
@@ -13,14 +13,18 @@ describe("Activity: read", function() {
     user = await createUser("testMan@test.com", "test password");
   });
 
-  it("should read activity for the user", async () => {
-    const created = await create(
+  it("should read activities for the user", async () => {
+    const created1 = await create(
         user.id,
         "Test Activity",
         "Description goes here"
       ),
-      fromRead = await read(created.id, user.id);
-
-    expect(created).to.deep.equal(fromRead);
+      created2 = await create(
+        user.id,
+        "Test Activity",
+        "Description goes here"
+      ),
+      activities = await findByUserId(user.id);
+    expect(activities.length).to.equal(2);
   });
 });

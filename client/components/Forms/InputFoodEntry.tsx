@@ -25,7 +25,7 @@ export default function InputFoodEntry(
         className={
           newProps.hideLabel
             ? "screen-reader-text"
-            : "border-b border-transparent hover:opacity-100 focus:opacity-100 text-xxs uppercase opacity-50"
+            : "block border-b border-transparent hover:opacity-100 focus:opacity-100 text-xxs uppercase opacity-50"
         }
       >
         {label}

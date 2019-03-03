@@ -10,7 +10,7 @@ import deleteFoodQuery from "../../client/queries/foods.delete";
 const { createTestClient } = require("apollo-server-testing");
 const { createTestServer } = require("../helpers/createTestServer");
 
-describe("Foods Integration Test", async function() {
+describe("Foods GraphQL Test", async function() {
   let user, server, query, mutate;
 
   before(async () => {

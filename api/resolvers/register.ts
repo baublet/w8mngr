@@ -6,35 +6,21 @@ import {
 import findByEmail from "../user/findByEmail";
 import createUser from "../user/create";
 import { RequestError, AuthType } from "./types";
-import login from "./login";
+import { login } from "./login";
 
-export default (_, { email, password }): Promise<AuthType | RequestError> => {
-  return new Promise(async resolve => {
-    try {
-      const existingUser = await findByEmail(email);
+export async function register(
+  _,
+  { email, password }
+): Promise<AuthType | RequestError> {
+  const existingUser = await findByEmail(email);
 
-      if (existingUser) {
-        return resolve({
-          status: 400,
-          message: registrationErrorEmailTaken
-        });
-      }
+  if (existingUser) {
+    return {
+      status: 400,
+      message: registrationErrorEmailTaken
+    };
+  }
 
-      createUser(email, password)
-        .then(async result => {
-          resolve(await login({}, { email, password }));
-        })
-        .catch(e => {
-          resolve({
-            status: 500,
-            message: JSON.stringify(e)
-          });
-        });
-    } catch (e) {
-      resolve({
-        status: 400,
-        message: bodyParseError
-      });
-    }
-  });
-};
+  const register = await createUser(email, password);
+  return await login({}, { email, password });
+}

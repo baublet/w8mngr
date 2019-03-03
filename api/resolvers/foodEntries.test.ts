@@ -10,7 +10,7 @@ import count from "../foodEntries/countByUserId";
 const { createTestClient } = require("apollo-server-testing");
 const { createTestServer } = require("../helpers/createTestServer");
 
-describe("FoodEntry Integration Test", async function() {
+describe("FoodEntry GraphQL Test", async function() {
   let user, server, query, mutate;
 
   before(async () => {

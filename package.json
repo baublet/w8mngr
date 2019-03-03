@@ -4,7 +4,7 @@
   "description": "w8mngr utilizing Netlify's functions and a React SPA",
   "main": "src/index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --require ts-node/register --recursive --exit --extension ts --extension",
+    "test": "NODE_ENV=test mocha --require ts-node/register --recursive --exit --watch-extensions ts",
     "test:all": "npm run test -- api/**/*.test.[jt]s shared/**/*.test.[jt]s client/**/*.test.[jt]s",
     "test:api": "npm run test -- api/**/*.test.[jt]s",
     "test:shared": "npm run test -- shared/**/*.test.[jt]s",

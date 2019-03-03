@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import userParts from "queries/user.parts";
+import userParts from "./user.parts";
 
 export default gql`
   mutation login($email: String, $password: String) {

@@ -5,10 +5,10 @@ import findByEmailAndPassword from "../user/findByEmailAndPassword";
 import secrets from "../config/secrets";
 import { RequestError, AuthType } from "./types";
 
-export default async (
+export async function login(
   _,
   { email, password }
-): Promise<AuthType | RequestError> => {
+): Promise<AuthType | RequestError> {
   const user = await findByEmailAndPassword(email, password);
   if (!user) {
     return {
@@ -28,4 +28,4 @@ export default async (
     token,
     user
   };
-};
+}

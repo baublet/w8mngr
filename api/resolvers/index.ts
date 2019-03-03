@@ -6,8 +6,8 @@ import {
   updateFoodEntryResolver,
   deleteFoodEntryResolver
 } from "./foodEntries";
-import login from "./login";
-import register from "./register";
+import { login } from "./login";
+import { register } from "./register";
 import {
   foodsResolver,
   createFoodResolver,

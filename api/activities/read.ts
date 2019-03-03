@@ -12,6 +12,7 @@ export default async function readActivity(
         FROM activities
       WHERE id = $1
         AND user_id = $2
+        AND deleted = false
       `,
     values: [<number>id, <number>userId]
   });

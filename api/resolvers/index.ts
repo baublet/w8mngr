@@ -1,5 +1,5 @@
 import { ResolverType } from "../resolvers/types";
-import user from "./user";
+
 import {
   readFoodEntriesResolver,
   createFoodEntryResolver,
@@ -22,6 +22,14 @@ import {
   deleteMeasurementResolver,
   measurementsResolver
 } from "./measurements";
+import user from "./user";
+import {
+  readActivitiesResolver,
+  readActivityResolver,
+  createActivityResolver,
+  updateActivityResolver,
+  deleteActvityResolver
+} from "./activities";
 
 export default {
   Query: {
@@ -31,7 +39,9 @@ export default {
     foods: <ResolverType>foodsResolver,
     food: <ResolverType>readFoodResolver,
     searchFoods: <ResolverType>searchFoodsResolver,
-    measurements: <ResolverType>measurementsResolver
+    measurements: <ResolverType>measurementsResolver,
+    activity: <ResolverType>readActivityResolver,
+    activities: <ResolverType>readActivitiesResolver
   },
   Mutation: {
     login: <ResolverType>login,
@@ -44,6 +54,9 @@ export default {
     deleteFood: <ResolverType>deleteFoodResolver,
     createMeasurement: <ResolverType>createMeasurementResolver,
     updateMeasurement: <ResolverType>updateMeasurementResolver,
-    deleteMeasurement: <ResolverType>deleteMeasurementResolver
+    deleteMeasurement: <ResolverType>deleteMeasurementResolver,
+    createActivity: <ResolverType>createActivityResolver,
+    updateActivity: <ResolverType>updateActivityResolver,
+    deleteActivity: <ResolverType>deleteActvityResolver
   }
 };

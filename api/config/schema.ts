@@ -9,6 +9,8 @@ export default gql`
     food(id: Int): Food
     searchFoods(term: String, limit: Int, offset: Int): [Food]!
     measurements(foodIds: [Int]): [Measurement]
+    activity(id: Int): Activity
+    activities: [Activity]
   }
 
   type Mutation {
@@ -54,6 +56,24 @@ export default gql`
       protein: Int
     ): Measurement
     deleteMeasurement(id: Int, food_id: Int): Boolean
+    createActivity(
+      name: String
+      description: String
+      exrx: String
+      activity_type: Int
+      muscle_groups: String
+      intensity: Int
+    ): Activity
+    updateActivity(
+      id: Int
+      name: String
+      description: String
+      exrx: String
+      activity_type: Int
+      muscle_groups: String
+      intensity: Int
+    ): Activity
+    deleteActivity(id: Int): Boolean
   }
 
   type AuthPayload {
@@ -127,6 +147,20 @@ export default gql`
     fat: Int
     carbs: Int
     protein: Int
+    popularity: Int
+    created_at: String
+    updated_at: String
+  }
+
+  type Activity {
+    id: Int
+    user_id: Int
+    name: String
+    description: String
+    exrx: String
+    activity_type: Int
+    muscle_groups: String
+    intensity: Int
     popularity: Int
     created_at: String
     updated_at: String

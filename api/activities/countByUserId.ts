@@ -1,4 +1,4 @@
-export default function countActivitiesByUseId(
+export default function countActivitiesByUserId(
   userId: number
 ): Promise<number> {
   return new Promise(async (resolve, reject) => {

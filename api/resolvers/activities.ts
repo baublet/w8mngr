@@ -19,7 +19,7 @@ export async function readActivitiesResolver(
 
 export async function readActivityResolver(
   _,
-  { id, userId },
+  { id },
   context
 ): Promise<ActivityType | false> {
   const user = context.user;

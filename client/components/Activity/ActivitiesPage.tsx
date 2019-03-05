@@ -1,25 +1,29 @@
 import * as React from "react";
 import Query from "components/Apollo/Query";
-import foodsQuery from "queries/foods";
+import activitiesQuery from "queries/activities";
 import { RouteChildrenProps } from "react-router";
-import Foods from "components/Food/Foods";
 import PageHeading from "components/Type/PageHeading";
 import ContentContainer from "components/Containers/ContentContainer";
 import PrimaryButton from "components/Button/Primary";
+import ActivitiesListComponent from "components/Activity/Activities";
 
-export default function FoodLog(
+export default function ActivitiesPage(
   props: RouteChildrenProps
 ): React.ReactComponentElement<any> {
   return (
     <>
       <PageHeading
-        quickLinks={<PrimaryButton to="/foods/new">Create Food</PrimaryButton>}
+        quickLinks={
+          <PrimaryButton to="/activity/new">New Activity</PrimaryButton>
+        }
       >
-        Food Log
+        Activities
       </PageHeading>
       <ContentContainer>
-        <Query query={foodsQuery}>
-          {(props: any) => <Foods foods={props.foods} />}
+        <Query query={activitiesQuery}>
+          {(props: any) => (
+            <ActivitiesListComponent activities={props.activities} />
+          )}
         </Query>
       </ContentContainer>
     </>

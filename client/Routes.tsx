@@ -11,7 +11,9 @@ const Login = lazify("pages/Login");
 const FoodLog = lazify("pages/FoodLog");
 const Foods = lazify("pages/Foods");
 const EditFood = lazify("pages/Food.Edit");
-const CreateFood = lazify("pages/Food.Create");
+const NewFood = lazify("pages/Food.New");
+const NewActivity = lazify("components/Activity/NewActivityPage");
+const Activities = lazify("components/Activity/ActivitiesPage");
 
 export default withRouter(function Routes({
   location
@@ -37,12 +39,22 @@ export default withRouter(function Routes({
         <Route
           exact
           path="/foods/new"
-          render={props => <CreateFood {...props} />}
+          render={props => <NewFood {...props} />}
         />
         <Route
           exact
           path="/foods/:id/edit"
           render={({ match }) => <EditFood id={match.params.id} />}
+        />
+        <Route
+          exact
+          path="/activities"
+          render={props => <Activities {...props} />}
+        />
+        <Route
+          exact
+          path="/activity/new"
+          render={props => <NewActivity {...props} />}
         />
         <Route render={() => <div>Not Found</div>} />
       </Switch>

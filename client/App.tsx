@@ -17,11 +17,12 @@ function Application(): React.ReactComponentElement<any> {
               <HeartIcon />
             </Link>
           </h1>
-          <div className="flex justify-around">
+          <div className="flex justify-around text-xs">
             <Link to="/">Home</Link>
             <IsLoggedIn>
               <Link to="/foodlog">Food Log</Link>
               <Link to="/foods">Foods</Link>
+              <Link to="/activities">Activities</Link>
               <Link to="/logout">Logout</Link>
             </IsLoggedIn>
             <IsLoggedOut>

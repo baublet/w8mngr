@@ -1,4 +1,4 @@
 export interface ResponseType {
-  statusCode: Number;
-  body: String;
+  statusCode: number;
+  body: string;
 }

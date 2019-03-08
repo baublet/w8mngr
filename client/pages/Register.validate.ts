@@ -1,4 +1,4 @@
-import { RegisterPageState } from "pages/Register";
+import { RegisterPageState } from "client/pages/Register";
 
 export default function registerFormSubmission(
   setValues: (arg0: RegisterPageState) => void

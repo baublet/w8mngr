@@ -1,11 +1,11 @@
 import * as React from "react";
-import FoodForm, { FoodFormState } from "components/Food/FoodForm";
-import PageHeading from "components/Type/PageHeading";
-import ContentContainer from "components/Containers/ContentContainer";
+import FoodForm, { FoodFormState } from "client/components/Food/FoodForm";
+import PageHeading from "client/components/Type/PageHeading";
+import ContentContainer from "client/components/Containers/ContentContainer";
 import { Mutation } from "react-apollo";
-import createFoodQuery from "queries/foods.create";
+import createFoodQuery from "shared/queries/foods.create";
 import { History } from "history";
-import createFood from "operations/foods/create";
+import createFood from "client/operations/foods/create";
 
 interface EditFoodProps {
   id: string;

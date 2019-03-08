@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Query } from "react-apollo";
-import foodSearchQuery from "queries/foods.search";
+import foodSearchQuery from "shared/queries/foods.search";
 import { FoodType } from "api/foods/types";
-import AutocompleteFood from "components/Food/AutocompleteFood";
+import AutocompleteFood from "client/components/Food/AutocompleteFood";
 
 interface FoodAutocompleteComponentProps {
   input: string;

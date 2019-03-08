@@ -1,10 +1,10 @@
 import * as React from "react";
-import Input from "components/Forms/InputFoodEntry";
+import Input from "client/components/Forms/InputFoodEntry";
 import { FoodEntryType } from "api/foodEntries/types";
 import { Mutation } from "react-apollo";
-import updateFoodEntryQuery from "queries/foodEntry.update";
-import FoodEntryDelete from "components/FoodEntry/FoodEntryDelete";
-import updateFoodEntry from "operations/foodEntries/update";
+import updateFoodEntryQuery from "shared/queries/foodEntry.update";
+import FoodEntryDelete from "client/components/FoodEntry/FoodEntryDelete";
+import updateFoodEntry from "client/operations/foodEntries/update";
 
 export interface FoodEntryState {
   description: string;

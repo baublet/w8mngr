@@ -1,4 +1,4 @@
-export default function countUsers(): Promise<Number> {
+export default function countUsers(): Promise<number> {
   return new Promise(async resolve => {
     const { query } = require("../config/db"),
       queryResult = await query({ text: "SELECT COUNT(id) AS cnt FROM users" });

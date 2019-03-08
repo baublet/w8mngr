@@ -1,7 +1,7 @@
 import { History } from "history";
 import { MutationFn } from "react-apollo";
 import { FoodType } from "api/foods/types";
-import foodsQuery from "queries/foods";
+import foodsQuery from "shared/queries/foods";
 
 export default function deleteFood(
   id: number,

@@ -24,6 +24,6 @@ This will run you through all of the unit and integration tests.
 See the steps above for initializing the DB structure. Once that's done and you have installed your dependencies via `npm install`, you should be good to go with
 
 ```bash
-npm run watch:client    # Starts the React client
+npm run start:client    # Starts the React client
 npm run start:lambda    # Starts the GraphQL/Auth server
 ```

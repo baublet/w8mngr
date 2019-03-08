@@ -1,5 +1,5 @@
 import { MutationFn } from "react-apollo";
-import foodLogQuery from "queries/foodLog";
+import foodLogQuery from "shared/queries/foodLog";
 import { FoodEntryType } from "api/foodEntries/types";
 
 export default function deleteFoodEntry(

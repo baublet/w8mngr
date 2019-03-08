@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import Loading from "components/Loading/Primary";
+import Loading from "client/components/Loading/Primary";
 
 import { Query, QueryResult } from "react-apollo";
 import { DocumentNode } from "graphql";

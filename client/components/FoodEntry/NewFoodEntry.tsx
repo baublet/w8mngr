@@ -1,10 +1,10 @@
 import * as React from "react";
-import Input from "components/Forms/InputInverted";
+import Input from "client/components/Forms/InputInverted";
 import { Mutation, MutationFn } from "react-apollo";
-import addFoodEntryQuery from "queries/foodEntry.add";
-import PanelInverted from "components/Containers/PanelInverted";
-import createFoodEntry from "operations/foodEntries/create";
-import AddButton from "components/Button/AddButton";
+import addFoodEntryQuery from "shared/queries/foodEntry.add";
+import PanelInverted from "client/components/Containers/PanelInverted";
+import createFoodEntry from "client/operations/foodEntries/create";
+import AddButton from "client/components/Button/AddButton";
 import FoodAutocomplete from "./FoodAutocomplete";
 
 interface NewFoodEntryProps {

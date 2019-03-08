@@ -1,7 +1,7 @@
 import * as React from "react";
-import Input from "components/Forms/Input";
-import MultilineInput from "components/Forms/MultilineInput";
-import PrimaryButton from "components/Button/Primary";
+import Input from "client/components/Forms/Input";
+import MultilineInput from "client/components/Forms/MultilineInput";
+import PrimaryButton from "client/components/Button/Primary";
 
 export interface ActivityFormProps {
   onSave: (food: any) => void;

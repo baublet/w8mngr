@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ActivityType } from "api/activities/types";
-import Panel from "components/Containers/Panel";
+import Panel from "client/components/Containers/Panel";
 
 export interface ActivityComponentType extends ActivityType {
   index: number;

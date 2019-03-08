@@ -1,4 +1,4 @@
-import readFood from "queries/foods.read";
+import readFood from "shared/queries/foods.read";
 import { MutationFn } from "react-apollo";
 
 export default function deleteMeasurement(

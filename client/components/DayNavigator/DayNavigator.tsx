@@ -1,10 +1,10 @@
 import * as React from "react";
-import yesterday from "sharedHelpers/date/yesterday";
-import tomorrow from "sharedHelpers/date/tomorrow";
-import displayDate from "sharedHelpers/date/displayDate";
-import LeftIcon from "components/Icons/Left";
-import RightIcon from "components/Icons/Right";
-import TransparentIconButton from "components/Button/TransparentIcon";
+import yesterday from "shared/helpers/date/yesterday";
+import tomorrow from "shared/helpers/date/tomorrow";
+import displayDate from "shared/helpers/date/displayDate";
+import LeftIcon from "client/components/Icons/Left";
+import RightIcon from "client/components/Icons/Right";
+import TransparentIconButton from "client/components/Button/TransparentIcon";
 
 interface DayNavigatorProps {
   day: number;

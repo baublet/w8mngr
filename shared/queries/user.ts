@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import userParts from "queries/user.parts";
+import userParts from "shared/queries/user.parts";
 
 export default gql`
   {

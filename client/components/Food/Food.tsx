@@ -1,11 +1,11 @@
 import * as React from "react";
 import { FoodType } from "api/foods/types";
-import Panel from "components/Containers/Panel";
-import ItemHeading from "components/Type/ItemHeading";
-import EditIcon from "components/Icons/Edit";
-import TransparentIconButton from "components/Button/TransparentIcon";
-import Markdown from "components/Markdown";
-import MeasurementComponent from "components/Measurement/Measurement";
+import Panel from "client/components/Containers/Panel";
+import ItemHeading from "client/components/Type/ItemHeading";
+import EditIcon from "client/components/Icons/Edit";
+import TransparentIconButton from "client/components/Button/TransparentIcon";
+import Markdown from "client/components/Markdown";
+import MeasurementComponent from "client/components/Measurement/Measurement";
 
 interface FoodDisplayType extends FoodType {
   index: number;

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { FoodType } from "api/foods/types";
-import Input from "components/Forms/InputAutocompleteFood";
-import Button from "components/Button/SecondaryIconFill";
-import RightIcon from "components/Icons/Right";
-import LeftIcon from "components/Icons/Left";
+import Input from "client/components/Forms/InputAutocompleteFood";
+import Button from "client/components/Button/SecondaryIconFill";
+import RightIcon from "client/components/Icons/Right";
+import LeftIcon from "client/components/Icons/Left";
 
 interface AutocompleteFoodComponentProps extends FoodType {
   key: number;

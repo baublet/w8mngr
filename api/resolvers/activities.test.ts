@@ -1,10 +1,10 @@
 import createUser from "../user/create";
 import { clearDatabase } from "../../test/helpers";
-import createActivityQuery from "../../client/queries/activities.create";
-import updateActivityQuery from "../../client/queries/activities.update";
-import deleteActivityQuery from "../../client/queries/activities.delete";
-import activitiesQuery from "../../client/queries/activities";
-import readActivityQuery from "../../client/queries/activities.read";
+import createActivityQuery from "shared/queries/activities.create";
+import updateActivityQuery from "shared/queries/activities.update";
+import deleteActivityQuery from "shared/queries/activities.delete";
+import activitiesQuery from "shared/queries/activities";
+import readActivityQuery from "shared/queries/activities.read";
 import { expect } from "chai";
 import countActivitiesByUserId from "../activities/countByUserId";
 
@@ -12,7 +12,7 @@ const { createTestClient } = require("apollo-server-testing");
 const { createTestServer } = require("../helpers/createTestServer");
 
 describe("Activities GraphQL Test", async function() {
-  let user, server, query, mutate;
+  let user: any, server: any, query: any, mutate: any;
 
   before(async () => {
     await clearDatabase();
@@ -86,11 +86,11 @@ describe("Activities GraphQL Test", async function() {
     expect(initialCount).to.be.greaterThan(afterDeleteCount);
   });
 
-  // it("lists activities properly", async () => {
-  //   const create = await createActivity(),
-  //     activities = await query({
-  //       query: activitiesQuery
-  //     });
-  //   expect(activities.data.activities.length).to.equal(5);
-  // });
+  it("lists activities properly", async () => {
+    const create = await createActivity(),
+      activities = await query({
+        query: activitiesQuery
+      });
+    expect(activities.data.activities.length).to.equal(4);
+  });
 });

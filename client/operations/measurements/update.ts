@@ -1,4 +1,4 @@
-import { MeasurementFormState } from "components/Measurement/NewMeasurement";
+import { MeasurementFormState } from "client/components/Measurement/NewMeasurement";
 import { MutationFn } from "react-apollo";
 
 export default function updateMeasurement(

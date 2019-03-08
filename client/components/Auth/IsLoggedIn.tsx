@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Query } from "react-apollo";
-import userQuery from "queries/user";
+import userQuery from "shared/queries/user";
 
 export default function IsLoggedIn({ children }: React.ComponentProps<any>) {
   return (

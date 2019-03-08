@@ -1,12 +1,12 @@
 import * as React from "react";
 import { MeasurementType } from "api/measurements/types";
-import updateMeasurementQuery from "queries/measurement.update";
-import Input from "components/Forms/Input";
-import GhostButton from "components/Button/Ghost";
-import UpdateIcon from "components/Icons/Update";
+import updateMeasurementQuery from "shared/queries/measurement.update";
+import Input from "client/components/Forms/Input";
+import GhostButton from "client/components/Button/Ghost";
+import UpdateIcon from "client/components/Icons/Update";
 import { Mutation } from "react-apollo";
 import DeleteMeasurementsButton from "./DeleteMeasurement";
-import updateMeasurement from "operations/measurements/update";
+import updateMeasurement from "client/operations/measurements/update";
 
 type EditMeasurementProps = MeasurementType;
 

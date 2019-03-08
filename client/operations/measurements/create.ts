@@ -1,5 +1,5 @@
-import readFood from "queries/foods.read";
-import { MeasurementFormState } from "components/Measurement/NewMeasurement";
+import readFood from "shared/queries/foods.read";
+import { MeasurementFormState } from "client/components/Measurement/NewMeasurement";
 import { MutationFn } from "react-apollo";
 
 export default function submitNewMeasurement(

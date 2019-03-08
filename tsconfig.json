@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
-    "lib": ["es2015"],
     "baseUrl": ".",
+    "outDir": "./public/",
+    "sourceMap": true,
+    "module": "commonjs",
+    "target": "es5",
     "jsx": "react",
+    "lib": ["esnext", "es2015", "dom"],
+    "esModuleInterop": true,
     "paths": {
       "api/*": ["api/*"],
-      "components/*": ["client/components/*"],
-      "helpers/*": ["client/helpers/*"],
-      "operations/*": ["client/operations/*"],
-      "pages/*": ["client/pages/*"],
-      "queries/*": ["client/queries/*"],
-      "sharedHelpers/*": ["shared/helpers/*"]
+      "client/*": ["client/*"],
+      "shared/*": ["shared/*"]
     }
   },
-  "include": ["./client/**/*", "./api/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["**/*"],
+  "exclude": ["node_modules", "**/*.test.ts"]
 }

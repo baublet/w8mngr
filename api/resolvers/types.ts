@@ -13,6 +13,6 @@ export interface AuthType {
 }
 
 export interface RequestError {
-  status: Number;
+  status: number;
   message: string;
 }

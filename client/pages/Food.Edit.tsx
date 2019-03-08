@@ -1,13 +1,13 @@
 import * as React from "react";
-import Query from "components/Apollo/Query";
-import foodReadQuery from "queries/foods.read";
-import PageHeading from "components/Type/PageHeading";
-import ContentContainer from "components/Containers/ContentContainer";
-import updateFoodQuery from "queries/foods.update";
+import Query from "client/components/Apollo/Query";
+import foodReadQuery from "shared/queries/foods.read";
+import PageHeading from "client/components/Type/PageHeading";
+import ContentContainer from "client/components/Containers/ContentContainer";
+import updateFoodQuery from "shared/queries/foods.update";
 import { Mutation } from "react-apollo";
-import FoodForm, { FoodFormState } from "components/Food/FoodForm";
-import SavedIcon from "components/Icons/Saved";
-import updateFood from "operations/foods/update";
+import FoodForm, { FoodFormState } from "client/components/Food/FoodForm";
+import SavedIcon from "client/components/Icons/Saved";
+import updateFood from "client/operations/foods/update";
 
 interface EditFoodProps {
   id: string;

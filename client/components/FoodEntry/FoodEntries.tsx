@@ -1,8 +1,8 @@
 import * as React from "react";
-import Panel from "components/Containers/Panel";
-import FoodEntry from "components/FoodEntry/FoodEntry";
+import Panel from "client/components/Containers/Panel";
+import FoodEntry from "client/components/FoodEntry/FoodEntry";
 import { FoodEntryType } from "api/foodEntries/types";
-import EmptyNote from "components/Type/EmptyNote";
+import EmptyNote from "client/components/Type/EmptyNote";
 
 interface FoodEntriesProps {
   foodEntries: Array<FoodEntryType>;

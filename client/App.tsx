@@ -1,10 +1,10 @@
 import { hot } from "react-hot-loader";
 import { Link } from "react-router-dom";
 import * as React from "react";
-import ContentContainer from "components/Containers/ContentContainer";
-import HeartIcon from "components/Icons/Heart";
-import IsLoggedIn from "components/Auth/IsLoggedIn";
-import IsLoggedOut from "components/Auth/IsLoggedOut";
+import ContentContainer from "client/components/Containers/ContentContainer";
+import HeartIcon from "client/components/Icons/Heart";
+import IsLoggedIn from "client/components/Auth/IsLoggedIn";
+import IsLoggedOut from "client/components/Auth/IsLoggedOut";
 import Routes from "./Routes";
 
 function Application(): React.ReactComponentElement<any> {

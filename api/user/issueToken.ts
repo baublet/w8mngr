@@ -1,7 +1,7 @@
 import { query } from "../config/db";
 import { genSalt } from "bcryptjs";
 
-export default async (userId: Number): Promise<String> => {
+export default async (userId: number): Promise<string> => {
   return new Promise(async resolve => {
     const token = await genSalt(),
       queryResult = await query({

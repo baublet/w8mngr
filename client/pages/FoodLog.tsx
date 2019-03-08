@@ -1,14 +1,14 @@
 import * as React from "react";
-import Query from "components/Apollo/Query";
-import foodLogQuery from "queries/foodLog";
-import shortDate from "sharedHelpers/date/shortDate";
-import yesterday from "sharedHelpers/date/yesterday";
-import tomorrow from "sharedHelpers/date/tomorrow";
-import DayNavigator from "components/DayNavigator/DayNavigator";
+import Query from "client/components/Apollo/Query";
+import foodLogQuery from "shared/queries/foodLog";
+import shortDate from "shared/helpers/date/shortDate";
+import yesterday from "shared/helpers/date/yesterday";
+import tomorrow from "shared/helpers/date/tomorrow";
+import DayNavigator from "client/components/DayNavigator/DayNavigator";
 import { RouteChildrenProps } from "react-router";
-import FoodEntries from "components/FoodEntry/FoodEntries";
-import NewFoodEntry from "components/FoodEntry/NewFoodEntry";
-import ContentContainer from "components/Containers/ContentContainer";
+import FoodEntries from "client/components/FoodEntry/FoodEntries";
+import NewFoodEntry from "client/components/FoodEntry/NewFoodEntry";
+import ContentContainer from "client/components/Containers/ContentContainer";
 
 const get = require("lodash.get");
 

@@ -1,7 +1,7 @@
 import { UserType } from "./types";
 
 export default function findUserByEmail(
-  email: String
+  email: string
 ): Promise<UserType | false> {
   return new Promise(async (resolve, reject) => {
     email = (<string>email).toLowerCase();

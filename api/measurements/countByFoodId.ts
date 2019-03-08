@@ -1,6 +1,6 @@
 export default function countMeasurementsByFoodId(
-  foodId: Number
-): Promise<Number> {
+  foodId: number
+): Promise<number> {
   return new Promise(async (resolve, reject) => {
     const { query } = require("../config/db"),
       queryResult = await query({

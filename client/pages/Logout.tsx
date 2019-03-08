@@ -1,7 +1,7 @@
 import * as React from "react";
-import Button from "components/Button/Primary";
+import Button from "client/components/Button/Primary";
 import { Query } from "react-apollo";
-import userQuery from "queries/user";
+import userQuery from "shared/queries/user";
 import { withRouter } from "react-router-dom";
 import { History } from "history";
 

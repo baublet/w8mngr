@@ -1,7 +1,7 @@
-import { FoodFormState } from "components/Food/FoodForm";
+import { FoodFormState } from "client/components/Food/FoodForm";
 import { MutationFn } from "react-apollo";
-import readFoodQuery from "queries/foods.read";
-import foodsQuery from "queries/foods";
+import readFoodQuery from "shared/queries/foods.read";
+import foodsQuery from "shared/queries/foods";
 import { History } from "history";
 
 export default function createFood(

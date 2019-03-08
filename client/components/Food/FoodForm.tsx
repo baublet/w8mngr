@@ -1,9 +1,9 @@
 import * as React from "react";
-import Input from "components/Forms/Input";
-import MultilineInput from "components/Forms/MultilineInput";
-import PrimaryButton from "components/Button/Primary";
+import Input from "client/components/Forms/Input";
+import MultilineInput from "client/components/Forms/MultilineInput";
+import PrimaryButton from "client/components/Button/Primary";
 import FoodDeleteButton from "./FoodDeleteButton";
-import EditMeasurements from "components/Measurement/EditMeasurements";
+import EditMeasurements from "client/components/Measurement/EditMeasurements";
 import { MeasurementType } from "api/measurements/types";
 
 export interface FoodFormProps {

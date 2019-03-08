@@ -1,9 +1,9 @@
 import * as React from "react";
-import DeleteButton from "components/Button/DeleteButton";
-import CloseIcon from "components/Icons/Close";
+import DeleteButton from "client/components/Button/DeleteButton";
+import CloseIcon from "client/components/Icons/Close";
 import { Mutation } from "react-apollo";
-import deleteMeasurementQuery from "queries/measurement.delete";
-import deleteMeasurement from "operations/measurements/delete";
+import deleteMeasurementQuery from "shared/queries/measurement.delete";
+import deleteMeasurement from "client/operations/measurements/delete";
 
 interface DeleteMeasurementsProps {
   id: number;

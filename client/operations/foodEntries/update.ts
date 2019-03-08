@@ -1,4 +1,4 @@
-import { FoodEntryState } from "components/FoodEntry/FoodEntry";
+import { FoodEntryState } from "client/components/FoodEntry/FoodEntry";
 import { MutationFn } from "react-apollo";
 
 export default function updateFoodEntry(

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Mutation } from "react-apollo";
-import deleteFoodEntryQuery from "queries/foodEntry.delete";
-import TransparentIconButton from "components/Button/TransparentIcon";
-import CloseIcon from "components/Icons/Close";
-import deleteFoodEntry from "operations/foodEntries/delete";
+import deleteFoodEntryQuery from "shared/queries/foodEntry.delete";
+import TransparentIconButton from "client/components/Button/TransparentIcon";
+import CloseIcon from "client/components/Icons/Close";
+import deleteFoodEntry from "client/operations/foodEntries/delete";
 
 interface FoodEntryDeleteProps {
   id: number;

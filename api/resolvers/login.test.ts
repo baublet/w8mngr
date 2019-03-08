@@ -1,13 +1,13 @@
 import createUser from "../user/create";
 import { clearDatabase } from "../../test/helpers";
 import { expect } from "chai";
-import loginQuery from "../../client/queries/user.login";
+import loginQuery from "shared/queries/user.login";
 
 const { createTestClient } = require("apollo-server-testing");
 const { createTestServer } = require("../helpers/createTestServer");
 
 describe("Login GraphQL Test", async function() {
-  let user, server, query, mutate;
+  let user: any, server: any, query: any, mutate: any;
 
   before(async () => {
     await clearDatabase();

@@ -1,5 +1,5 @@
 import * as React from "react";
-import ContentContainer from "components/Containers/ContentContainer";
+import ContentContainer from "client/components/Containers/ContentContainer";
 import { ReactComponentLike } from "prop-types";
 
 interface PageHeadingProps extends React.HTMLProps<HTMLInputElement> {

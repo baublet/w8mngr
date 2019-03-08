@@ -1,11 +1,11 @@
 import * as React from "react";
-import createMeasurement from "queries/measurement.create";
-import Input from "components/Forms/InputInverted";
+import createMeasurement from "shared/queries/measurement.create";
+import Input from "client/components/Forms/InputInverted";
 import { Mutation } from "react-apollo";
-import PanelInverted from "components/Containers/PanelInverted";
-import createNewMeasurement from "operations/measurements/create";
-import objectEmpty from "helpers/objectEmpty";
-import AddButton from "components/Button/AddButton";
+import PanelInverted from "client/components/Containers/PanelInverted";
+import createNewMeasurement from "client/operations/measurements/create";
+import objectEmpty from "client/helpers/objectEmpty";
+import AddButton from "client/components/Button/AddButton";
 
 interface NewMeasurementProps {
   food_id: number;

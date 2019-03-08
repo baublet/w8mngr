@@ -2,7 +2,7 @@ import * as React from "react";
 import { MeasurementType } from "api/measurements/types";
 import EditMeasurement from "./EditMeasurement";
 import NewMeasurement from "./NewMeasurement";
-import EmptyNote from "components/Type/EmptyNote";
+import EmptyNote from "client/components/Type/EmptyNote";
 
 interface EditMeasurementsProps {
   food_id: number;

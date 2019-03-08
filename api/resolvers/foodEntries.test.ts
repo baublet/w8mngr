@@ -1,8 +1,8 @@
 import createUser from "../user/create";
-import addFoodEntryQuery from "../../client/queries/foodEntry.add";
-import updateFoodEntryQuery from "../../client/queries/foodEntry.update";
-import deleteFoodEntryQuery from "../../client/queries/foodEntry.delete";
-import foodLogQuery from "../../client/queries/foodLog";
+import addFoodEntryQuery from "shared/queries/foodEntry.add";
+import updateFoodEntryQuery from "shared/queries/foodEntry.update";
+import deleteFoodEntryQuery from "shared/queries/foodEntry.delete";
+import foodLogQuery from "shared/queries/foodLog";
 import { clearDatabase } from "../../test/helpers";
 import { expect } from "chai";
 import count from "../foodEntries/countByUserId";
@@ -11,7 +11,7 @@ const { createTestClient } = require("apollo-server-testing");
 const { createTestServer } = require("../helpers/createTestServer");
 
 describe("FoodEntry GraphQL Test", async function() {
-  let user, server, query, mutate;
+  let user: any, server: any, query: any, mutate: any;
 
   before(async () => {
     await clearDatabase();

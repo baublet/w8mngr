@@ -1,4 +1,4 @@
-import { FoodFormState } from "components/Food/FoodForm";
+import { FoodFormState } from "client/components/Food/FoodForm";
 import { MutationFn } from "react-apollo";
 import { Dispatch, SetStateAction } from "react";
 

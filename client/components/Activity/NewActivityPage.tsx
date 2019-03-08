@@ -1,12 +1,12 @@
 import * as React from "react";
-import Query from "components/Apollo/Query";
-import activitiesQuery from "queries/activities";
+import Query from "client/components/Apollo/Query";
+import activitiesQuery from "shared/queries/activities";
 import { RouteChildrenProps } from "react-router";
-import PageHeading from "components/Type/PageHeading";
-import ContentContainer from "components/Containers/ContentContainer";
+import PageHeading from "client/components/Type/PageHeading";
+import ContentContainer from "client/components/Containers/ContentContainer";
 import ActivityForm, {
   ActivityFormState
-} from "components/Activity/ActivityForm";
+} from "client/components/Activity/ActivityForm";
 
 export default function NewActivityPage(
   props: RouteChildrenProps

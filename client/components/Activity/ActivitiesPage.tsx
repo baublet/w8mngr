@@ -1,11 +1,11 @@
 import * as React from "react";
-import Query from "components/Apollo/Query";
-import activitiesQuery from "queries/activities";
+import Query from "client/components/Apollo/Query";
+import activitiesQuery from "shared/queries/activities";
 import { RouteChildrenProps } from "react-router";
-import PageHeading from "components/Type/PageHeading";
-import ContentContainer from "components/Containers/ContentContainer";
-import PrimaryButton from "components/Button/Primary";
-import ActivitiesListComponent from "components/Activity/Activities";
+import PageHeading from "client/components/Type/PageHeading";
+import ContentContainer from "client/components/Containers/ContentContainer";
+import PrimaryButton from "client/components/Button/Primary";
+import ActivitiesListComponent from "client/components/Activity/Activities";
 
 export default function ActivitiesPage(
   props: RouteChildrenProps

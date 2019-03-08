@@ -1,6 +1,6 @@
-import { FoodEntryState } from "components/FoodEntry/FoodEntry";
+import { FoodEntryState } from "client/components/FoodEntry/FoodEntry";
 import { MutationFn } from "react-apollo";
-import foodLogQuery from "queries/foodLog";
+import foodLogQuery from "shared/queries/foodLog";
 import { Dispatch, SetStateAction } from "react";
 
 export default function createFoodEntry(

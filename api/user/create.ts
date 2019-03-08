@@ -4,8 +4,8 @@ import { query } from "../config/db";
 import { UserType } from "./types";
 
 export default function createUser(
-  email: String,
-  password: String
+  email: string,
+  password: string
 ): Promise<UserType> {
   return new Promise(async (resolve, reject) => {
     email = (<string>email).toLowerCase();

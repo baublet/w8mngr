@@ -1,6 +1,6 @@
 import { Pool, QueryResult } from "pg";
 
-const dbSettings = {
+const dbSettings: any = {
   dev: {
     host: "localhost",
     user: "",
@@ -26,13 +26,13 @@ const dbSettings = {
 const pool = new Pool(dbSettings[process.env.NODE_ENV]);
 
 export interface DBResultType {
-  error: String | false;
+  error: string | false | Error;
   result?: QueryResult;
 }
 
 export interface DBQueryParameters {
-  text: String;
-  values?: Array<String | Number | Array<String> | Array<Number>>;
+  text: string;
+  values?: Array<string | number | Array<string> | Array<number>>;
 }
 
 // Our general-purpose query handler

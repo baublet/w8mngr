@@ -1,17 +1,17 @@
 import createUser from "../user/create";
 import { clearDatabase } from "../../test/helpers";
 import { expect } from "chai";
-import addFoodQuery from "../../client/queries/foods.create";
-import createMeasurementQuery from "../../client/queries/measurement.create";
-import updateMeasurementQuery from "../../client/queries/measurement.update";
-import deleteMeasurementQuery from "../../client/queries/measurement.delete";
-import foodReadQuery from "../../client/queries/foods.read";
+import addFoodQuery from "shared/queries/foods.create";
+import createMeasurementQuery from "shared/queries/measurement.create";
+import updateMeasurementQuery from "shared/queries/measurement.update";
+import deleteMeasurementQuery from "shared/queries/measurement.delete";
+import foodReadQuery from "shared/queries/foods.read";
 
 const { createTestClient } = require("apollo-server-testing");
 const { createTestServer } = require("../helpers/createTestServer");
 
 describe("Measurements GraphQL Test", async function() {
-  let user, server, query, mutate, food;
+  let user: any, server: any, query: any, mutate: any, food: any;
 
   before(async () => {
     await clearDatabase();

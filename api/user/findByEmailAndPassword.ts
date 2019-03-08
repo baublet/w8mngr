@@ -3,8 +3,8 @@ import { query } from "../config/db";
 import { compare } from "bcryptjs";
 
 export default function findUserByEmail(
-  email: String,
-  password: String
+  email: string,
+  password: string
 ): Promise<UserType | false> {
   return new Promise(async resolve => {
     email = (<string>email).toLowerCase();

@@ -1,12 +1,12 @@
 import * as React from "react";
-import Button from "components/Button/Primary";
+import Button from "client/components/Button/Primary";
 import { withRouter } from "react-router-dom";
 import { History } from "history";
-import LoginPageValidationHandler from "pages/Login.validate";
+import LoginPageValidationHandler from "client/pages/Login.validate";
 import { Mutation } from "react-apollo";
-import userQuery from "queries/user";
-import loginQuery from "queries/user.login";
-import Input from "components/Forms/Input";
+import userQuery from "shared/queries/user";
+import loginQuery from "shared/queries/user.login";
+import Input from "client/components/Forms/Input";
 
 export interface LoginPageState {
   email: string;

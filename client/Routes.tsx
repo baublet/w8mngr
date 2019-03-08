@@ -1,6 +1,6 @@
 import * as React from "react";
-import lazify from "helpers/lazifyRoute";
-import Loading from "components/Loading/Primary";
+import lazify from "client/helpers/lazifyRoute";
+import Loading from "client/components/Loading/Primary";
 import { Route, Switch } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
@@ -12,8 +12,8 @@ const FoodLog = lazify("pages/FoodLog");
 const Foods = lazify("pages/Foods");
 const EditFood = lazify("pages/Food.Edit");
 const NewFood = lazify("pages/Food.New");
-const NewActivity = lazify("components/Activity/NewActivityPage");
-const Activities = lazify("components/Activity/ActivitiesPage");
+const NewActivity = lazify("Activity/NewActivityPage");
+const Activities = lazify("Activity/ActivitiesPage");
 
 export default withRouter(function Routes({
   location

@@ -2,8 +2,8 @@ import { FoodEntryType } from "./types";
 import { query } from "../config/db";
 
 export default function findUserByUserIdAndDays(
-  userId: Number,
-  days: Array<Number>
+  userId: number,
+  days: Array<number>
 ): Promise<Array<FoodEntryType> | false> {
   return new Promise(async resolve => {
     const queryResult = await query({

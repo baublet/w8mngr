@@ -1,4 +1,4 @@
-import { LoginPageState } from "pages/Login";
+import { LoginPageState } from "client/pages/Login";
 
 export default function registerFormSubmission(
   setValues: (_: LoginPageState) => void

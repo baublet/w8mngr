@@ -1,12 +1,13 @@
 import * as React from "react";
-import Query from "client/components/Apollo/Query";
-import activitiesQuery from "shared/queries/activities";
 import { RouteChildrenProps } from "react-router";
 import PageHeading from "client/components/Type/PageHeading";
 import ContentContainer from "client/components/Containers/ContentContainer";
 import ActivityForm, {
   ActivityFormState
 } from "client/components/Activity/ActivityForm";
+import { Mutation } from "react-apollo";
+import createActivityQuery from "shared/queries/activities.create";
+import createActivityOperation from "./operations/createActivity";
 
 export default function NewActivityPage(
   props: RouteChildrenProps
@@ -15,12 +16,21 @@ export default function NewActivityPage(
     <>
       <PageHeading>New Activity</PageHeading>
       <ContentContainer>
-        <ActivityForm
-          saveLabel="Create Activity"
-          onSave={(activity: ActivityFormState) => {
-            console.log(activity);
-          }}
-        />
+        <Mutation mutation={createActivityQuery}>
+          {createActivityFn => (
+            <ActivityForm
+              saveLabel="Create Activity"
+              onSave={(activity: ActivityFormState) => {
+                createActivityOperation(
+                  activity.name,
+                  activity.description,
+                  props.history,
+                  createActivityFn
+                );
+              }}
+            />
+          )}
+        </Mutation>
       </ContentContainer>
     </>
   );

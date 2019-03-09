@@ -3,6 +3,7 @@ import lazify from "client/helpers/lazifyRoute";
 import Loading from "client/components/Loading/Primary";
 import { Route, Switch } from "react-router-dom";
 import { withRouter } from "react-router-dom";
+import EditActivityPage from "./components/Activity/EditActivityPage";
 
 const Home = lazify("pages/Home");
 const Register = lazify("pages/Register");
@@ -55,6 +56,13 @@ export default withRouter(function Routes({
           exact
           path="/activity/new"
           render={props => <NewActivity {...props} />}
+        />
+        <Route
+          exact
+          path="/activity/:id/edit"
+          render={({ match, history }) => (
+            <EditActivityPage id={match.params.id} history={history} />
+          )}
         />
         <Route render={() => <div>Not Found</div>} />
       </Switch>

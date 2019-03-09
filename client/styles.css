@@ -61,4 +61,26 @@ button:focus svg {
   background-attachment: fixed;
 }
 
+.minimalSelect {
+  background-image: linear-gradient(45deg, transparent 50%, #ccc 50%),
+    linear-gradient(135deg, #ccc 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px);
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+}
+
+.bodyOutline {
+  @apply stroke-current;
+  @apply text-foregroundLight;
+}
+
+.muscleGroup {
+  @apply text-foregroundLighter;
+}
+
+.muscleGroup--selected {
+  @apply text-foreground;
+}
+
 @tailwind utilities;

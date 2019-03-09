@@ -37,11 +37,7 @@ function attachMeasurementsToFoods(
   });
 }
 
-export function foodsResolver(
-  _,
-  __,
-  context
-): Promise<Array<FoodType> | false> {
+export function foodsResolver(_, __, context): Promise<Array<FoodType>> {
   return new Promise(async resolve => {
     const user = context.user;
     if (!user) {
@@ -50,7 +46,7 @@ export function foodsResolver(
 
     const foods = await findByUserId(user.id);
     if (!foods) {
-      return resolve(foods);
+      return resolve(foods || []);
     }
 
     resolve(await attachMeasurementsToFoods(user.id, foods));

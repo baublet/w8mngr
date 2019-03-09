@@ -9,7 +9,7 @@ export async function readActivitiesResolver(
   _,
   __,
   context
-): Promise<Array<ActivityType> | boolean> {
+): Promise<Array<ActivityType>> {
   const user = context.user;
   if (!user) {
     return [];

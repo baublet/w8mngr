@@ -12,8 +12,8 @@ const FoodLog = lazify("pages/FoodLog");
 const Foods = lazify("pages/Foods");
 const EditFood = lazify("pages/Food.Edit");
 const NewFood = lazify("pages/Food.New");
-const NewActivity = lazify("Activity/NewActivityPage");
-const Activities = lazify("Activity/ActivitiesPage");
+const NewActivity = lazify("components/Activity/NewActivityPage");
+const Activities = lazify("components/Activity/ActivitiesPage");
 
 export default withRouter(function Routes({
   location

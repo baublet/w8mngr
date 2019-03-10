@@ -24,6 +24,7 @@ export default function NewActivityPage(
                 createActivityOperation(
                   activity.name,
                   activity.description,
+                  activity.activity_type.toString(),
                   props.history,
                   createActivityFn
                 );

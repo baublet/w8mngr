@@ -4,6 +4,8 @@ import Panel from "client/components/Containers/Panel";
 import ItemHeading from "../Type/ItemHeading";
 import TransparentIconButton from "../Button/TransparentIcon";
 import EditIcon from "../Icons/Edit";
+import activityTypeToString from "shared/transformers/activity/typeToString";
+import MuscleGroups from "./MuscleGroups";
 
 export interface ActivityComponentType extends ActivityType {
   index: number;
@@ -12,6 +14,7 @@ export interface ActivityComponentType extends ActivityType {
 export default function ActivityComponent(
   props: ActivityComponentType
 ): React.ReactComponentElement<any> {
+  const activityType = activityTypeToString(props.activity_type);
   return (
     <Panel className={!props.index ? "" : `mt-3`}>
       <TransparentIconButton
@@ -22,7 +25,12 @@ export default function ActivityComponent(
         <span className="screen-reader-text">Edit Food</span>
       </TransparentIconButton>
       <ItemHeading>{props.name}</ItemHeading>
-      {!props.description ? false : <p>{props.description}</p>}
+      <p className="opacity-50 text-xs">{activityType}</p>
+      {!parseInt(props.muscle_groups, 10) ? (
+        false
+      ) : (
+        <MuscleGroups selectedGroups={props.muscle_groups} />
+      )}
     </Panel>
   );
 }

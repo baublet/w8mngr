@@ -7,15 +7,15 @@ import PageHeading from "client/components/Type/PageHeading";
 import ContentContainer from "client/components/Containers/ContentContainer";
 import PrimaryButton from "client/components/Button/Primary";
 
-export default function FoodLog(
+export default function FoodsPage(
   props: RouteChildrenProps
 ): React.ReactComponentElement<any> {
   return (
     <>
       <PageHeading
-        quickLinks={<PrimaryButton to="/foods/new">Create Food</PrimaryButton>}
+        quickLinks={<PrimaryButton to="/food/new">New Food</PrimaryButton>}
       >
-        Food Log
+        Foods
       </PageHeading>
       <ContentContainer>
         <Query query={foodsQuery}>

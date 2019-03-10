@@ -6,6 +6,7 @@ export default function DeleteButton(
 ): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
   const { onClick, ...newProps } = props,
     newOnclick = (e: any) => {
+      e.preventDefault();
       if (window.confirm("Are you sure?")) {
         onClick(e);
       }

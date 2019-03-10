@@ -6,7 +6,7 @@ import GhostButton from "client/components/Button/Ghost";
 import UpdateIcon from "client/components/Icons/Update";
 import { Mutation } from "react-apollo";
 import DeleteMeasurementsButton from "./DeleteMeasurement";
-import updateMeasurement from "client/operations/measurements/update";
+import updateMeasurement from "./operations/update";
 
 type EditMeasurementProps = MeasurementType;
 

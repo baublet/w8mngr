@@ -2,7 +2,7 @@ import * as React from "react";
 import Button from "client/components/Button/Primary";
 import { withRouter } from "react-router-dom";
 import { History } from "history";
-import LoginPageValidationHandler from "client/pages/Login.validate";
+import LoginPageValidationHandler from "client/components/User/Login.validate";
 import { Mutation } from "react-apollo";
 import userQuery from "shared/queries/user";
 import loginQuery from "shared/queries/user.login";

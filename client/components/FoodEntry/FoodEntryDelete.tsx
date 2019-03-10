@@ -3,7 +3,7 @@ import { Mutation } from "react-apollo";
 import deleteFoodEntryQuery from "shared/queries/foodEntry.delete";
 import TransparentIconButton from "client/components/Button/TransparentIcon";
 import CloseIcon from "client/components/Icons/Close";
-import deleteFoodEntry from "client/operations/foodEntries/delete";
+import deleteFoodEntry from "./operations/delete";
 
 interface FoodEntryDeleteProps {
   id: number;

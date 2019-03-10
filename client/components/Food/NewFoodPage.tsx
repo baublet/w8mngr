@@ -5,14 +5,14 @@ import ContentContainer from "client/components/Containers/ContentContainer";
 import { Mutation } from "react-apollo";
 import createFoodQuery from "shared/queries/foods.create";
 import { History } from "history";
-import createFood from "client/operations/foods/create";
+import createFood from "./operations/create";
 
 interface EditFoodProps {
   id: string;
   history: History;
 }
 
-export default function CreateFoodPage(
+export default function NewFoodPage(
   props: EditFoodProps
 ): React.ReactComponentElement<any> {
   return (

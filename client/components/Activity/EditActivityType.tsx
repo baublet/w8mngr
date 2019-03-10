@@ -12,13 +12,10 @@ export default function EditActivityType(props: ActivityTypeEditProps) {
       name="activity_type"
       className="minimalSelect bg-foregroundSlight border rounded border-foregroundLighter w-full p-2"
       onChange={props.onChange}
+      value={props.selectedType}
     >
       {activityTypes.map((activityType: string, index: number) => (
-        <option
-          value={index}
-          key={index}
-          selected={props.selectedType !== index ? false : true}
-        >
+        <option value={index} key={index}>
           {activityType}
         </option>
       ))}

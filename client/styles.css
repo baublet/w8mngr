@@ -80,7 +80,7 @@ button:focus svg {
 }
 
 .muscleGroup--selected {
-  @apply text-foreground;
+  @apply text-secondaryLight;
 }
 
 @tailwind utilities;

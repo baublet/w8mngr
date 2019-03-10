@@ -3,7 +3,7 @@ import DeleteButton from "client/components/Button/DeleteButton";
 import { Mutation } from "react-apollo";
 import deleteFoodQuery from "shared/queries/foods.delete";
 import { withRouter, RouteChildrenProps } from "react-router";
-import deleteFood from "client/operations/foods/delete";
+import deleteFood from "./operations/delete";
 
 interface FoodDeleteProps extends RouteChildrenProps {
   id: number;

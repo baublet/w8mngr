@@ -3,7 +3,7 @@ import createMeasurement from "shared/queries/measurement.create";
 import Input from "client/components/Forms/InputInverted";
 import { Mutation } from "react-apollo";
 import PanelInverted from "client/components/Containers/PanelInverted";
-import createNewMeasurement from "client/operations/measurements/create";
+import createNewMeasurement from "./operations/create";
 import objectEmpty from "client/helpers/objectEmpty";
 import AddButton from "client/components/Button/AddButton";
 

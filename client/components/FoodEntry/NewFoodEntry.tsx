@@ -3,7 +3,7 @@ import Input from "client/components/Forms/InputInverted";
 import { Mutation, MutationFn } from "react-apollo";
 import addFoodEntryQuery from "shared/queries/foodEntry.add";
 import PanelInverted from "client/components/Containers/PanelInverted";
-import createFoodEntry from "client/operations/foodEntries/create";
+import createFoodEntry from "./operations/create";
 import AddButton from "client/components/Button/AddButton";
 import FoodAutocomplete from "./FoodAutocomplete";
 

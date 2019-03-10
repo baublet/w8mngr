@@ -3,7 +3,7 @@ import DeleteButton from "client/components/Button/DeleteButton";
 import CloseIcon from "client/components/Icons/Close";
 import { Mutation } from "react-apollo";
 import deleteMeasurementQuery from "shared/queries/measurement.delete";
-import deleteMeasurement from "client/operations/measurements/delete";
+import deleteMeasurement from "./operations/delete";
 
 interface DeleteMeasurementsProps {
   id: number;

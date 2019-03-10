@@ -4,7 +4,7 @@ import { FoodEntryType } from "api/foodEntries/types";
 import { Mutation } from "react-apollo";
 import updateFoodEntryQuery from "shared/queries/foodEntry.update";
 import FoodEntryDelete from "client/components/FoodEntry/FoodEntryDelete";
-import updateFoodEntry from "client/operations/foodEntries/update";
+import updateFoodEntry from "./operations/update";
 
 export interface FoodEntryState {
   description: string;

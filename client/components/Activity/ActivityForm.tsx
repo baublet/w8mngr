@@ -4,7 +4,7 @@ import MultilineInput from "client/components/Forms/MultilineInput";
 import PrimaryButton from "client/components/Button/Primary";
 import ActivityDeleteButton from "./ActivityDeleteButton";
 import EditActivityType from "./EditActivityType";
-import MuscleGroups from "./MuscleGroups";
+import MuscleGroupsForm from "./MuscleGroupsForm";
 
 export interface ActivityFormProps {
   onSave: (food: any) => void;
@@ -23,7 +23,6 @@ export interface ActivityFormState {
   name: string;
   description: string;
   activity_type: number;
-  muscle_groups?: string;
   [key: string]: string | number;
 }
 
@@ -33,10 +32,12 @@ export default function ActivityForm(
   const initialState: ActivityFormState = {
       name: props.name || "",
       description: props.description || "",
-      activity_type: props.activity_type || 0,
-      muscle_groups: props.muscle_groups || "00000000000000"
+      activity_type: props.activity_type || 0
     },
     [values, setValues] = React.useState(initialState),
+    [muscleGroups, setMuscleGroups] = React.useState(
+      props.muscle_groups || "00000000000000"
+    ),
     onChange = (event: any) => {
       if (props.onChange) {
         props.onChange();
@@ -50,7 +51,7 @@ export default function ActivityForm(
       if (values.name != props.name) return true;
       if (values.description != props.description) return true;
       if (values.activity_type != props.activity_type) return true;
-      if (values.muscle_groups != props.muscle_groups) return true;
+      if (muscleGroups != props.muscle_groups) return true;
       return false;
     };
   return (
@@ -58,7 +59,12 @@ export default function ActivityForm(
       <form
         onSubmit={e => {
           e.preventDefault();
-          props.onSave(Object.assign({}, values, { id: props.id }));
+          props.onSave(
+            Object.assign({}, values, {
+              id: props.id,
+              muscle_groups: muscleGroups
+            })
+          );
         }}
       >
         <Input
@@ -83,14 +89,21 @@ export default function ActivityForm(
             selectedType={values.activity_type}
           />
         </div>
-        <div className="mt-3">
-          <MuscleGroups values={values.muscle_groups} />
-        </div>
+        {!props.muscle_groups ? (
+          ""
+        ) : (
+          <div className="mt-3">
+            <MuscleGroupsForm
+              values={props.muscle_groups}
+              handleValueUpdate={setMuscleGroups}
+            />
+          </div>
+        )}
         <div className="flex flex-row-reverse mt-3">
           <PrimaryButton
             type="submit"
             disabled={props.loading || !changed()}
-            className={props.loading || !changed() ? "opacity-75" : "fart"}
+            className={props.loading || !changed() ? "opacity-50" : ""}
           >
             {props.saveLabel || "Save Food"}
           </PrimaryButton>

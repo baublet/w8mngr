@@ -12,7 +12,7 @@ export default function FoodLog(
 ): React.ReactComponentElement<any> {
   return (
     <>
-      {!props.foods ? (
+      {!props.foods || !props.foods.length ? (
         <EmptyNote>You don't yet have any foods.</EmptyNote>
       ) : (
         props.foods.map((food, index) => (

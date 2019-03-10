@@ -6,13 +6,15 @@ import readActivityQuery from "shared/queries/activities.read";
 export default function createActivityOperation(
   name: string,
   description: string,
+  activity_type: string,
   history: History,
   createActivityFn: MutationFn
 ) {
   createActivityFn({
     variables: {
       name,
-      description
+      description,
+      activity_type: parseInt(activity_type, 10)
     },
     optimisticResponse: {
       __typename: "Mutation",
@@ -20,7 +22,8 @@ export default function createActivityOperation(
         __typename: "Activity",
         id: -1,
         name,
-        description
+        description,
+        activity_type: parseInt(activity_type, 10)
       }
     },
     update: (proxy, { data: { createActivity } }) => {
@@ -45,6 +48,7 @@ export default function createActivityOperation(
         }
       });
       history.replace(`/activity/${createActivity.id}/edit`);
+      window.scrollTo(0, 0);
     }
   });
 }

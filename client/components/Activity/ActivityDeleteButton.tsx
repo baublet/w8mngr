@@ -3,6 +3,7 @@ import { Mutation } from "react-apollo";
 import deleteActivityQuery from "shared/queries/activities.delete";
 import activitiesQuery from "shared/queries/activities";
 import DeleteButton from "../Button/DeleteButton";
+import history from "client/history";
 
 interface ActivityDeleteButtonProps {
   id: number;
@@ -31,6 +32,8 @@ export default function ActivityDeleteButton(props: ActivityDeleteButtonProps) {
                     )
                   }
                 });
+                history.replace("/activities");
+                window.scrollTo(0, 0);
               }
             });
           }}

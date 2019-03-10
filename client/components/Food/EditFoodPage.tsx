@@ -7,7 +7,7 @@ import updateFoodQuery from "shared/queries/foods.update";
 import { Mutation } from "react-apollo";
 import FoodForm, { FoodFormState } from "client/components/Food/FoodForm";
 import SavedIcon from "client/components/Icons/Saved";
-import updateFood from "client/operations/foods/update";
+import updateFood from "./operations/update";
 
 interface EditFoodProps {
   id: string;

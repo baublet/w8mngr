@@ -2,7 +2,7 @@ import * as React from "react";
 import Button from "client/components/Button/Primary";
 import { withRouter } from "react-router-dom";
 import { History } from "history";
-import RegisterPageValidationHandler from "client/pages/Register.validate";
+import RegisterPageValidationHandler from "client/components/User/Register.validate";
 import { Mutation } from "react-apollo";
 import userQuery from "shared/queries/user";
 import registerQuery from "shared/queries/user.create";

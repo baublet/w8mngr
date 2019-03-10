@@ -20,6 +20,7 @@ let colors = {
   primaryTextSlight: "rgba(250, 250, 250, .1)",
 
   secondary: "rgb(65, 120, 225)",
+  secondaryLight: "rgb(100, 170, 255)",
   secondaryDark: "rgb(45, 100, 200)",
   secondaryText: "rgb(250, 250, 250)"
 };

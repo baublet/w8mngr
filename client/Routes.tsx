@@ -4,15 +4,19 @@ import Loading from "client/components/Loading/Primary";
 import { Route, Switch } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import EditActivityPage from "./components/Activity/EditActivityPage";
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory();
+export { history };
 
 const Home = lazify("pages/Home");
-const Register = lazify("pages/Register");
-const Logout = lazify("pages/Logout");
-const Login = lazify("pages/Login");
-const FoodLog = lazify("pages/FoodLog");
-const Foods = lazify("pages/Foods");
-const EditFood = lazify("pages/Food.Edit");
-const NewFood = lazify("pages/Food.New");
+const Register = lazify("components/User/RegisterPage");
+const Logout = lazify("components/User/LogoutPage");
+const Login = lazify("components/User/LoginPage");
+const FoodLog = lazify("components/FoodEntry/FoodLogPage");
+const Foods = lazify("components/Food/FoodsPage");
+const EditFood = lazify("components/Food/EditFoodPage");
+const NewFood = lazify("components/Food/NewFoodPage");
 const NewActivity = lazify("components/Activity/NewActivityPage");
 const Activities = lazify("components/Activity/ActivitiesPage");
 
@@ -39,12 +43,12 @@ export default withRouter(function Routes({
         <Route exact path="/foods" render={props => <Foods {...props} />} />
         <Route
           exact
-          path="/foods/new"
+          path="/food/new"
           render={props => <NewFood {...props} />}
         />
         <Route
           exact
-          path="/foods/:id/edit"
+          path="/food/:id/edit"
           render={({ match }) => <EditFood id={match.params.id} />}
         />
         <Route

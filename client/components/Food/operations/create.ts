@@ -31,7 +31,7 @@ export default function createFood(
           food: createFood
         }
       });
-      history.replace(`/foods/${createFood.id}/edit`);
+      history.replace(`/food/${createFood.id}/edit`);
     }
   });
 }

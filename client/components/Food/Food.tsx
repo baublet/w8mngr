@@ -18,7 +18,7 @@ export default function Food(
     <Panel className={props.index == 0 ? "" : "mt-3"}>
       <TransparentIconButton
         className="absolute pin-r pin-t"
-        to={`/foods/${props.id}/edit`}
+        to={`/food/${props.id}/edit`}
       >
         <EditIcon />
         <span className="screen-reader-text">Edit Food</span>

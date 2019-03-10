@@ -5,7 +5,7 @@ export default gql`
     hello: String
     user: User
     foodEntries(day: Int): [FoodEntry]!
-    foods: [Food]!
+    foods(offset: Int = 0, limit: Int = 10): [Food]!
     food(id: Int): Food
     searchFoods(term: String, limit: Int, offset: Int): [Food]!
     measurements(foodIds: [Int]): [Measurement]

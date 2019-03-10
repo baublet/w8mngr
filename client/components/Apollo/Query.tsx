@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
 import Loading from "client/components/Loading/Primary";
 
 import { Query, QueryResult } from "react-apollo";

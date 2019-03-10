@@ -14,6 +14,7 @@ export async function readActivitiesResolver(
   if (!user) {
     return [];
   }
+  console.log("RESOLVERS LIMIT: ", limit);
   return (
     (await findActivitiesByUserId(user.id, order_by, sort, offset, limit)) || []
   );

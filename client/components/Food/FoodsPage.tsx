@@ -6,6 +6,8 @@ import Foods from "client/components/Food/Foods";
 import PageHeading from "client/components/Type/PageHeading";
 import ContentContainer from "client/components/Containers/ContentContainer";
 import PrimaryButton from "client/components/Button/Primary";
+import ApolloPaginatedQuery, { LoadMoreType } from "../Apollo/PaginatedQuery";
+import OnVisible from "react-on-visible";
 
 export default function FoodsPage(
   props: RouteChildrenProps
@@ -18,9 +20,24 @@ export default function FoodsPage(
         Foods
       </PageHeading>
       <ContentContainer>
-        <Query query={foodsQuery}>
-          {(props: any) => <Foods foods={props.foods} />}
-        </Query>
+        <ApolloPaginatedQuery query={foodsQuery} prop="foods">
+          {(props: any, loadMore: LoadMoreType) => (
+            <>
+              <Foods foods={props.foods} />
+              {!loadMore ? (
+                false
+              ) : (
+                <OnVisible
+                  onChange={(visible: boolean) => {
+                    if (visible && loadMore) loadMore();
+                  }}
+                >
+                  <div />
+                </OnVisible>
+              )}
+            </>
+          )}
+        </ApolloPaginatedQuery>
       </ContentContainer>
     </>
   );

@@ -7,14 +7,16 @@ import readActivity from "../activities/read";
 
 export async function readActivitiesResolver(
   _,
-  __,
+  { offset, limit, order_by, sort },
   context
 ): Promise<Array<ActivityType>> {
   const user = context.user;
   if (!user) {
     return [];
   }
-  return (await findActivitiesByUserId(user.id)) || [];
+  return (
+    (await findActivitiesByUserId(user.id, order_by, sort, offset, limit)) || []
+  );
 }
 
 export async function readActivityResolver(

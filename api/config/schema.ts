@@ -10,7 +10,12 @@ export default gql`
     searchFoods(term: String, limit: Int, offset: Int): [Food]!
     measurements(foodIds: [Int]): [Measurement]
     activity(id: Int): Activity
-    activities: [Activity]!
+    activities(
+      order_by: String = "updated_at"
+      sort: String = "desc"
+      offset: Int = 0
+      limit: Int = 10
+    ): [Activity]!
   }
 
   type Mutation {

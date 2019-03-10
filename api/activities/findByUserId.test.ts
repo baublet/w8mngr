@@ -26,6 +26,6 @@ describe("Activity: find by user ID", function() {
       ),
       activities = await findByUserId(user.id);
     expect(activities.length).to.equal(2);
-    expect(activities).to.deep.equal([created1, created2]);
+    expect(activities).to.deep.equal([created2, created1]);
   });
 });

@@ -3,7 +3,9 @@ import { DBResultType } from "../config/db";
 import { query } from "../config/db";
 
 export default async function findActivitiesByUserId(
-  id: number,
+  userId: number,
+  orderBy: string = "updated_at",
+  sort: "DESC" | "ASC" = "DESC",
   offset: number = 0,
   limit: number = 10
 ): Promise<Array<ActivityType>> {
@@ -17,10 +19,11 @@ export default async function findActivitiesByUserId(
             user_id = $1::int
             OR user_id = 1
           )
-      OFFSET  $2::int
-      LIMIT   $3::int
-      `,
-    values: [<number>id, <number>offset, <number>limit]
+      ORDER BY $2 ${sort}, id DESC
+      OFFSET $3::int
+      LIMIT $4::int
+    `,
+    values: [<number>userId, <string>orderBy, <number>offset, <number>limit]
   });
   return queryResult.result.rows;
 }

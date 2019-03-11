@@ -9,7 +9,6 @@ export default async function findActivitiesByUserId(
   offset: number = 0,
   limit: number = 10
 ): Promise<Array<ActivityType>> {
-  console.log("LIMIT: ", limit);
   const queryResult = <DBResultType>await query({
     text: `
       SELECT *

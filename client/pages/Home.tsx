@@ -1,10 +1,5 @@
 import * as React from "react";
-import {
-  BrowserRouter,
-  Route,
-  Link,
-  RouteComponentProps
-} from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 

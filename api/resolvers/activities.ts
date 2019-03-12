@@ -130,21 +130,11 @@ export async function searchActivitiesResolver(
 
   term = term ? `%${term}%` : "%";
   const muscleGroups = muscleGroupsToQuery(muscle_groups);
-  console.log(
-    `
-      UserID: ${user.id}
-      Terms: ${term}
-      Muscle Groups: ${muscleGroups}
-      OrderBy: ${order_by}
-      Sort: ${sort}
-      Offset: ${offset}
-      Limit: ${limit}
-    `
-  );
 
   return await searchActivities(
     user.id,
-    { term, muscleGroups },
+    term,
+    muscleGroups,
     order_by,
     sort,
     offset,

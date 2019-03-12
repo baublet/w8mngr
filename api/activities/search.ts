@@ -2,14 +2,10 @@ import { ActivityType } from "./types";
 import { DBResultType } from "../config/db";
 import { query } from "../config/db";
 
-interface QueryObject {
-  term: string;
-  muscleGroups?: string;
-}
-
 export default async function searchActivities(
   userId: number,
-  { term = "%", muscleGroups = "%" }: QueryObject,
+  term: string = "%",
+  muscleGroups: string = "%",
   orderBy: string = "updated_at",
   sort: "DESC" | "ASC" = "DESC",
   offset: number = 0,
@@ -33,8 +29,8 @@ export default async function searchActivities(
     `,
     values: [
       <number>userId,
-      <string>term,
       <string>muscleGroups,
+      <string>term,
       <string>orderBy,
       <number>offset,
       <number>limit

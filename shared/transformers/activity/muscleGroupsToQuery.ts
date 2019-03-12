@@ -13,5 +13,5 @@ export default function muscleGroupsToQuery(groups: Array<string>) {
   muscleGroups.forEach((group: string) => {
     muscleGroupsSearchTerm += groups.includes(group) ? "1" : "_";
   });
-  return `${muscleGroupsSearchTerm}?`;
+  return `${muscleGroupsSearchTerm}%`;
 }

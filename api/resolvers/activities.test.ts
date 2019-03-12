@@ -104,6 +104,6 @@ describe("Activities GraphQL Test", async function() {
           muscle_groups: ["biceps"]
         }
       });
-    expect(activities.data.searchActivity.length).to.be.greaterThan(0);
+    expect(activities.data.searchActivities.length).to.be.greaterThan(0);
   });
 });

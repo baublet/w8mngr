@@ -4,15 +4,26 @@ export default gql`
   type Query {
     hello: String
     user: User
+
     foodEntries(day: Int): [FoodEntry]!
+
     foods(offset: Int = 0, limit: Int = 10): [Food]!
     food(id: Int): Food
     searchFoods(term: String, limit: Int, offset: Int): [Food]!
     measurements(foodIds: [Int]): [Measurement]
+
     activity(id: Int): Activity
     activities(
       order_by: String = "updated_at"
       sort: String = "desc"
+      offset: Int = 0
+      limit: Int = 10
+    ): [Activity]!
+    searchActivities(
+      term: String = ""
+      muscle_groups: [String] = []
+      order_by: String = "updated_at"
+      sort: String = "DESC"
       offset: Int = 0
       limit: Int = 10
     ): [Activity]!

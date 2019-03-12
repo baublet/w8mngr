@@ -28,7 +28,8 @@ import {
   readActivityResolver,
   createActivityResolver,
   updateActivityResolver,
-  deleteActvityResolver
+  deleteActvityResolver,
+  searchActivitiesResolver
 } from "./activities";
 
 export default {
@@ -41,7 +42,8 @@ export default {
     searchFoods: <ResolverType>searchFoodsResolver,
     measurements: <ResolverType>measurementsResolver,
     activity: <ResolverType>readActivityResolver,
-    activities: <ResolverType>readActivitiesResolver
+    activities: <ResolverType>readActivitiesResolver,
+    searchActivities: <ResolverType>searchActivitiesResolver
   },
   Mutation: {
     login: <ResolverType>login,

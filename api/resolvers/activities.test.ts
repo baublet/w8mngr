@@ -5,6 +5,7 @@ import updateActivityQuery from "shared/queries/activities.update";
 import deleteActivityQuery from "shared/queries/activities.delete";
 import activitiesQuery from "shared/queries/activities";
 import readActivityQuery from "shared/queries/activities.read";
+import searchActivitiesQuery from "shared/queries/activities.search";
 import { expect } from "chai";
 import countActivitiesByUserId from "../activities/countByUserId";
 
@@ -27,7 +28,8 @@ describe("Activities GraphQL Test", async function() {
       mutation: createActivityQuery,
       variables: {
         name: "Test activity",
-        description: "Test description"
+        description: "Test description",
+        muscle_groups: "10000000000000"
       }
     });
   }
@@ -92,5 +94,16 @@ describe("Activities GraphQL Test", async function() {
         query: activitiesQuery
       });
     expect(activities.data.activities.length).to.equal(4);
+  });
+
+  it("searches activities properly", async () => {
+    const create = await createActivity(),
+      activities = await query({
+        query: searchActivitiesQuery,
+        variables: {
+          muscle_groups: ["biceps"]
+        }
+      });
+    expect(activities.data.searchActivity.length).to.be.greaterThan(0);
   });
 });

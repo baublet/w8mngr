@@ -4,6 +4,8 @@ import createActivity from "../activities/create";
 import updateActivity from "../activities/update";
 import deleteActivity from "../activities/delete";
 import readActivity from "../activities/read";
+import searchActivities from "api/activities/search";
+import muscleGroupsToQuery from "shared/transformers/activity/muscleGroupsToQuery";
 
 export async function readActivitiesResolver(
   _,
@@ -114,4 +116,38 @@ export async function deleteActvityResolver(
     return false;
   }
   return await deleteActivity(id, user.id);
+}
+
+export async function searchActivitiesResolver(
+  _,
+  { term, muscle_groups, offset, limit, order_by, sort },
+  context
+): Promise<Array<ActivityType>> {
+  const user = context.user;
+  if (!user) {
+    return [];
+  }
+
+  term = term ? `%${term}%` : "%";
+  const muscleGroups = muscleGroupsToQuery(muscle_groups);
+  console.log(
+    `
+      UserID: ${user.id}
+      Terms: ${term}
+      Muscle Groups: ${muscleGroups}
+      OrderBy: ${order_by}
+      Sort: ${sort}
+      Offset: ${offset}
+      Limit: ${limit}
+    `
+  );
+
+  return await searchActivities(
+    user.id,
+    { term, muscleGroups },
+    order_by,
+    sort,
+    offset,
+    limit
+  );
 }

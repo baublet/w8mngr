@@ -1,4 +1,4 @@
-import muscleGroups from "shared/data/activity/muscleGroups";
+import muscleGroups from "../../../shared/data/activity/muscleGroups";
 
 // Returns the LIKE column search string for querying the database based on
 // muscle groups targeted. For instance, if you want to search for only activities

@@ -19,6 +19,7 @@ const EditFood = lazify("components/Food/EditFoodPage");
 const NewFood = lazify("components/Food/NewFoodPage");
 const NewActivity = lazify("components/Activity/NewActivityPage");
 const Activities = lazify("components/Activity/ActivitiesPage");
+const ActivitiesSearchPage = lazify("components/Activity/ActivitiesSearchPage");
 
 export default withRouter(function Routes({
   location
@@ -55,6 +56,11 @@ export default withRouter(function Routes({
           exact
           path="/activities"
           render={props => <Activities {...props} />}
+        />
+        <Route
+          exact
+          path="/activities/search"
+          render={props => <ActivitiesSearchPage {...props} />}
         />
         <Route
           exact

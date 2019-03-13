@@ -5,7 +5,7 @@ import { RouteChildrenProps } from "react-router";
 import Foods from "client/components/Food/Foods";
 import PageHeading from "client/components/Type/PageHeading";
 import ContentContainer from "client/components/Containers/ContentContainer";
-import PrimaryButton from "client/components/Button/Primary";
+import Button from "client/components/Button/PrimaryButtonSmall";
 import ApolloPaginatedQuery, { LoadMoreType } from "../Apollo/PaginatedQuery";
 import OnVisible from "react-on-visible";
 
@@ -14,9 +14,7 @@ export default function FoodsPage(
 ): React.ReactComponentElement<any> {
   return (
     <>
-      <PageHeading
-        quickLinks={<PrimaryButton to="/food/new">New Food</PrimaryButton>}
-      >
+      <PageHeading quickLinks={<Button to="/food/new">New Food</Button>}>
         Foods
       </PageHeading>
       <ContentContainer>

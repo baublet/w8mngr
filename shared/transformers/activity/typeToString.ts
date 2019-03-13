@@ -1,4 +1,4 @@
-import activityTypes from "shared/data/activity/activityTypes";
+import activityTypes from "../../../shared/data/activity/activityTypes";
 
 export default function activityTypeToString(type: number): string {
   if (activityTypes[type]) {

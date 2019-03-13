@@ -31,4 +31,18 @@ describe("Activity: search", function() {
     const fromSearch = await search(user.id, "%test%");
     expect(fromSearch[0]).to.deep.equal(activity);
   });
+
+  it("should not show results outside of muscle groups", async () => {
+    const activity2 = await create(
+      user.id,
+      "Test Activity",
+      "Description goes here",
+      "",
+      0,
+      "00000000000001"
+    );
+    const fromSearch = await search(user.id, "%", "1____________%");
+    expect(fromSearch[0]).to.deep.equal(activity);
+    expect(fromSearch.length).to.equal(1);
+  });
 });

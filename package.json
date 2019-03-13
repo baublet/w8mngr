@@ -9,7 +9,7 @@
     "test:shared": "npm run test -- shared/**/*.test.[jt]s",
     "test:client": "npm run test -- client/**/*.test.[jt]s",
     "test:init": "psql -f test/initial_structure.sql",
-    "start:lambda": "ts-node-dev --respawn --transpileOnly ./serve.ts",
+    "start:lambda": "ts-node-dev --respawn ./serve.ts",
     "build:lambda": "netlify-lambda build ./api -c webpack.config.js",
     "build:client": "webpack --config webpack.config.js",
     "start:client": "WATCH=1 NODE_ENV=development webpack-dev-server --hot"
@@ -65,6 +65,7 @@
     "mocha": "^5.2.0",
     "postcss": "^7.0.14",
     "postcss-loader": "^3.0.0",
+    "query-string": "^6.3.0",
     "react-hot-loader": "^4.6.5",
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.1",

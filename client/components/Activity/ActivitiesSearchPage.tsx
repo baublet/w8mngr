@@ -1,16 +1,18 @@
 import * as React from "react";
-import activitiesQuery from "shared/queries/activities";
+import searchActivitiesQuery from "shared/queries/activities.search";
 import { RouteChildrenProps } from "react-router";
 import PageHeading from "client/components/Type/PageHeading";
 import ContentContainer from "client/components/Containers/ContentContainer";
-import PrimarySmallButton from "client/components/Button/PrimaryButtonSmall";
 import ActivitiesListComponent from "client/components/Activity/Activities";
 import ApolloPaginatedQuery, { LoadMoreType } from "../Apollo/PaginatedQuery";
 import OnVisible from "react-on-visible";
+import { parse } from "query-string";
+import PrimarySmallButton from "../Button/PrimaryButtonSmall";
 
-export default function ActivitiesPage(
+export default function ActivitiesSearchPage(
   props: RouteChildrenProps
 ): React.ReactComponentElement<any> {
+  const { term = "", muscle_groups = "" } = parse(props.location.search);
   return (
     <>
       <PageHeading
@@ -23,10 +25,17 @@ export default function ActivitiesPage(
         Activities
       </PageHeading>
       <ContentContainer>
-        <ApolloPaginatedQuery query={activitiesQuery} prop="activities">
+        <ApolloPaginatedQuery
+          query={searchActivitiesQuery}
+          variables={{
+            term,
+            muscle_groups
+          }}
+          prop="searchActivities"
+        >
           {(props: any, loadMore: LoadMoreType) => (
             <>
-              <ActivitiesListComponent activities={props.activities} />
+              <ActivitiesListComponent activities={props.searchActivities} />
               {!loadMore ? (
                 false
               ) : (

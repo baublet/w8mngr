@@ -4,8 +4,8 @@ import createActivity from "../activities/create";
 import updateActivity from "../activities/update";
 import deleteActivity from "../activities/delete";
 import readActivity from "../activities/read";
-import searchActivities from "api/activities/search";
-import muscleGroupsToQuery from "shared/transformers/activity/muscleGroupsToQuery";
+import searchActivities from "../activities/search";
+import muscleGroupsToQuery from "../../shared/transformers/activity/muscleGroupsToQuery";
 
 export async function readActivitiesResolver(
   _,

@@ -22,7 +22,7 @@ export default async function searchActivities(
             OR user_id = 1
           )
         AND muscle_groups LIKE $2::text
-        AND name LIKE $3::text
+        AND name ILIKE $3::text
       ORDER BY $4 ${sort}, id DESC
       OFFSET $5::int
       LIMIT $6::int

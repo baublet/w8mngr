@@ -89,21 +89,29 @@ describe("Activities GraphQL Test", async function() {
   });
 
   it("lists activities properly", async () => {
-    const create = await createActivity(),
-      activities = await query({
-        query: activitiesQuery
-      });
-    expect(activities.data.activities.length).to.equal(4);
+    const activities = await query({
+      query: activitiesQuery
+    });
+    expect(activities.data.activities.length).to.equal(3);
   });
 
   it("searches activities properly", async () => {
-    const create = await createActivity(),
-      activities = await query({
-        query: searchActivitiesQuery,
-        variables: {
-          muscle_groups: ["biceps"]
-        }
-      });
-    expect(activities.data.searchActivities.length).to.be.greaterThan(0);
+    const activitiesByMuscleGroup = await query({
+      query: searchActivitiesQuery,
+      variables: {
+        muscle_groups: ["biceps"]
+      }
+    });
+    expect(
+      activitiesByMuscleGroup.data.searchActivities.length
+    ).to.be.greaterThan(0);
+
+    const activitiesByTerm = await query({
+      query: searchActivitiesQuery,
+      variables: {
+        term: "test"
+      }
+    });
+    expect(activitiesByTerm.data.searchActivities.length).to.be.greaterThan(0);
   });
 });

@@ -1,4 +1,7 @@
 import * as React from "react";
+
+// TODO: Don't import this if I publish this as an NPM module.
+// Show nothing if no loader is passed in.
 import Loading from "client/components/Loading/Primary";
 
 import { Query, QueryResult } from "react-apollo";
@@ -11,6 +14,10 @@ export type LoadMoreType = false | LoadMoreFn;
 
 interface ApolloQueryProps {
   query: DocumentNode;
+  // TODO: Don't require this.
+  // Most Apollo query data returns a single child node.
+  // We should be checking for a single child node, and
+  // defaulting to that, rather than requiring a prop.
   prop: string;
   perPage?: number;
   variables?: any;
@@ -32,6 +39,8 @@ export default function ApolloPaginatedQuery(props: ApolloQueryProps) {
 
   const [moreResults, setMoreResults] = React.useState(true);
 
+  // TODO: support cursor method of pagination? (Only if I publish this.)
+  // Would require a prop to set it, but shouldn't be a huge deal.
   queryProps.variables = Object.assign({}, queryProps.variables, {
     offset: 0,
     limit: props.perPage || defaultPerPage
@@ -41,12 +50,15 @@ export default function ApolloPaginatedQuery(props: ApolloQueryProps) {
     <Query {...queryProps}>
       {({ loading, error, data, fetchMore }) => {
         if (error)
+          // TODO: Allow custom error handling in component props.
           return (
             <>
               <b>ERROR:</b> {error}
             </>
           );
+
         if (loading) return loader || <Loading />;
+
         const loadMore =
           !moreResults ||
           !hasMoreToLoad(data, props.prop, props.perPage || defaultPerPage)

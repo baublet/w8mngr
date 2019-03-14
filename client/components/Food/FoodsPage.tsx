@@ -1,5 +1,4 @@
 import * as React from "react";
-import Query from "client/components/Apollo/Query";
 import foodsQuery from "shared/queries/foods";
 import { RouteChildrenProps } from "react-router";
 import Foods from "client/components/Food/Foods";
@@ -8,6 +7,11 @@ import ContentContainer from "client/components/Containers/ContentContainer";
 import Button from "client/components/Button/PrimaryButtonSmall";
 import ApolloPaginatedQuery, { LoadMoreType } from "../Apollo/PaginatedQuery";
 import OnVisible from "react-on-visible";
+import { FoodType } from "api/foods/types";
+
+interface FoodsQueryResultType {
+  food: Array<FoodType>;
+}
 
 export default function FoodsPage(
   props: RouteChildrenProps
@@ -18,7 +22,7 @@ export default function FoodsPage(
         Foods
       </PageHeading>
       <ContentContainer>
-        <ApolloPaginatedQuery query={foodsQuery} prop="foods">
+        <ApolloPaginatedQuery query={foodsQuery}>
           {(props: any, loadMore: LoadMoreType) => (
             <>
               <Foods foods={props.foods} />

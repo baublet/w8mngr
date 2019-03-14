@@ -8,6 +8,7 @@ export default async function createActivityEntry(
   day: number,
   reps: number,
   work: number,
+  calories: number = 0,
   routine_id: number | null = null
 ): Promise<ActivityEntryType> {
   const queryResult = <DBResultType>await query({
@@ -20,11 +21,12 @@ export default async function createActivityEntry(
               day,
               reps,
               work,
+              calories,
               routine_id,
               created_at,
               updated_at
             )
-          VALUES ($1, $2, $3, $4, $5, $6, now(), now())
+          VALUES ($1, $2, $3, $4, $5, $6, $7, now(), now())
         RETURNING *
       `,
     values: [
@@ -33,6 +35,7 @@ export default async function createActivityEntry(
       <number>day,
       <number>reps,
       <number>work,
+      <number>calories,
       <number | null>routine_id
     ]
   });

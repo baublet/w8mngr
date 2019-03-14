@@ -7,7 +7,7 @@ import Loading from "client/components/Loading/Primary";
 import { Query, QueryResult } from "react-apollo";
 import { DocumentNode } from "graphql";
 
-const defaultPerPage = 25;
+const defaultPerPage = 2;
 
 type LoadMoreFn = () => void;
 export type LoadMoreType = false | LoadMoreFn;
@@ -18,7 +18,7 @@ interface ApolloQueryProps {
   // Most Apollo query data returns a single child node.
   // We should be checking for a single child node, and
   // defaulting to that, rather than requiring a prop.
-  prop: string;
+  prop?: string;
   perPage?: number;
   variables?: any;
   children: (result: QueryResult, loadMore: LoadMoreType) => React.ReactNode;
@@ -27,7 +27,7 @@ interface ApolloQueryProps {
   loading?: () => React.ReactNode | false;
 }
 
-function hasMoreToLoad(data, prop, limit) {
+function hasMoreToLoad(data: any, prop: string, limit: number): boolean {
   if (!data) return false;
   if (!data[prop]) return false;
   if (data[prop].length < limit) return false;
@@ -49,8 +49,12 @@ export default function ApolloPaginatedQuery(props: ApolloQueryProps) {
   return (
     <Query {...queryProps}>
       {({ loading, error, data, fetchMore }) => {
+        const prop: string = props.prop || Object.keys(data)[0];
+
+        console.log(loading, error, prop, data);
+
         if (error)
-          // TODO: Allow custom error handling in component props.
+          // TODO: Allow custom error handling in component props
           return (
             <>
               <b>ERROR:</b> {error}
@@ -61,33 +65,32 @@ export default function ApolloPaginatedQuery(props: ApolloQueryProps) {
 
         const loadMore =
           !moreResults ||
-          !hasMoreToLoad(data, props.prop, props.perPage || defaultPerPage)
+          !hasMoreToLoad(data, prop, props.perPage || defaultPerPage)
             ? false
             : () => {
+                console.log("Has more to load");
                 fetchMore({
                   variables: {
-                    offset: data[props.prop].length
+                    offset: data[prop].length
                   },
                   updateQuery: (prev, { fetchMoreResult }) => {
+                    console.log("We have called the update query");
                     if (
                       !fetchMoreResult ||
-                      !fetchMoreResult[props.prop] ||
-                      !fetchMoreResult[props.prop].length
+                      !fetchMoreResult[prop] ||
+                      !fetchMoreResult[prop].length
                     ) {
                       setMoreResults(false);
                       return prev;
                     }
                     if (
-                      fetchMoreResult[props.prop].length <
+                      fetchMoreResult[prop].length <
                       (props.perPage || defaultPerPage)
                     ) {
                       setMoreResults(false);
                     }
                     return Object.assign({}, prev, {
-                      [props.prop]: [
-                        ...prev[props.prop],
-                        ...fetchMoreResult[props.prop]
-                      ]
+                      [prop]: [...prev[prop], ...fetchMoreResult[prop]]
                     });
                   }
                 });

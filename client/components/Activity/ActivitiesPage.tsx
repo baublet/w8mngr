@@ -23,7 +23,7 @@ export default function ActivitiesPage(
         Activities
       </PageHeading>
       <ContentContainer>
-        <ApolloPaginatedQuery query={activitiesQuery} prop="activities">
+        <ApolloPaginatedQuery query={activitiesQuery}>
           {(props: any, loadMore: LoadMoreType) => (
             <>
               <ActivitiesListComponent activities={props.activities} />

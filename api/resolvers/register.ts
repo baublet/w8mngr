@@ -1,8 +1,4 @@
-import {
-  registrationSuccess,
-  bodyParseError,
-  registrationErrorEmailTaken
-} from "../config/messages";
+import { registrationErrorEmailTaken } from "../config/messages";
 import findByEmail from "../user/findByEmail";
 import createUser from "../user/create";
 import { RequestError, AuthType } from "./types";

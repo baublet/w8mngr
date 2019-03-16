@@ -8,156 +8,142 @@ import readFood from "../foods/read";
 import findMeasurementByFoodId from "../measurements/findByFoodId";
 
 // This is used to stop n+1 problems
-function attachMeasurementsToFoods(
+async function attachMeasurementsToFoods(
   userId: number,
   foods: Array<FoodType>
 ): Promise<Array<FoodType>> {
-  return new Promise(async resolve => {
-    Object.keys(foods).forEach(food => {
-      foods[food].measurements = [];
-    });
-    const foodIds = !Array.isArray(foods) ? [] : foods.map(food => food.id),
-      measurements = await findMeasurementByFoodId(userId, foodIds);
-    if (Array.isArray(measurements)) {
-      const sortedFoods = {};
-      foods.forEach(food => {
-        food.measurements = [];
-        sortedFoods[food.id] = food;
-      });
-      measurements.forEach(measurement => {
-        sortedFoods[measurement.food_id].measurements.push(measurement);
-      });
-      const sortedFoodsArray = [];
-      Object.keys(sortedFoods).forEach(food =>
-        sortedFoodsArray.push(sortedFoods[food])
-      );
-      return resolve(sortedFoodsArray);
-    }
-    resolve(foods);
+  Object.keys(foods).forEach(food => {
+    foods[food].measurements = [];
   });
+  const foodIds = !Array.isArray(foods) ? [] : foods.map(food => food.id),
+    measurements = await findMeasurementByFoodId(userId, foodIds);
+  if (Array.isArray(measurements)) {
+    const sortedFoods = {};
+    foods.forEach(food => {
+      food.measurements = [];
+      sortedFoods[food.id] = food;
+    });
+    measurements.forEach(measurement => {
+      sortedFoods[measurement.food_id].measurements.push(measurement);
+    });
+    const sortedFoodsArray = [];
+    Object.keys(sortedFoods).forEach(food =>
+      sortedFoodsArray.push(sortedFoods[food])
+    );
+    return sortedFoodsArray;
+  }
+  return foods;
 }
 
-export function foodsResolver(
+export async function foodsResolver(
   _,
   { offset, limit },
   context
 ): Promise<Array<FoodType>> {
-  return new Promise(async resolve => {
-    const user = context.user;
-    if (!user) {
-      return resolve([]);
-    }
+  const user = context.user;
+  if (!user) {
+    return [];
+  }
 
-    const foods = await findByUserId(user.id, offset, limit);
-    if (!foods) {
-      return resolve(foods || []);
-    }
+  const foods = await findByUserId(user.id, offset, limit);
+  if (!foods) {
+    return foods || [];
+  }
 
-    resolve(await attachMeasurementsToFoods(user.id, foods));
-  });
+  return await attachMeasurementsToFoods(user.id, foods);
 }
 
-export function searchFoodsResolver(
+export async function searchFoodsResolver(
   _,
   { term },
   context
 ): Promise<Array<FoodType>> {
-  return new Promise(async resolve => {
-    const user = context.user;
-    if (!user) {
-      return resolve([]);
-    }
+  const user = context.user;
+  if (!user) {
+    return [];
+  }
 
-    const foods = await search(user.id, term);
-    if (!foods) {
-      return resolve(foods || []);
-    }
+  const foods = await search(user.id, term);
+  if (!foods) {
+    return foods || [];
+  }
 
-    resolve(await attachMeasurementsToFoods(user.id, foods));
-  });
+  return await attachMeasurementsToFoods(user.id, foods);
 }
 
-export function readFoodResolver(
+export async function readFoodResolver(
   _,
   { id },
   context
 ): Promise<FoodType | false> {
-  return new Promise(async resolve => {
-    const user = context.user;
-    if (!user) {
-      return resolve(false);
-    }
+  const user = context.user;
+  if (!user) {
+    return false;
+  }
 
-    const food = await readFood(user.id, id);
-    if (!food) {
-      return resolve(food);
-    }
+  const food = await readFood(user.id, id);
+  if (!food) {
+    return food;
+  }
 
-    const measurements = await findMeasurementByFoodId(user.id, [food.id]);
-    food.measurements = [];
-    if (Array.isArray(measurements)) {
-      measurements.forEach(measurement => {
-        food.measurements.push(measurement);
-      });
-    }
+  const measurements = await findMeasurementByFoodId(user.id, [food.id]);
+  food.measurements = [];
+  if (Array.isArray(measurements)) {
+    measurements.forEach(measurement => {
+      food.measurements.push(measurement);
+    });
+  }
 
-    resolve(food);
-  });
+  return food;
 }
 
-export function createFoodResolver(
+export async function createFoodResolver(
   _,
   { name, description },
   context
 ): Promise<FoodType | false> {
-  return new Promise(async resolve => {
-    const user = context.user;
-    if (!user) {
-      return resolve(false);
-    }
+  const user = context.user;
+  if (!user) {
+    return false;
+  }
 
-    const newEntry = await createFood(user.id, name, description);
+  const newEntry = await createFood(user.id, name, description);
 
-    // We never want to allow a food to have measurements: null
-    // So we want to add an empty array here, indicating that
-    // there are no measurements yet.
-    newEntry.measurements = [];
+  // We never want to allow a food to have measurements: null
+  // So we want to add an empty array here, indicating that
+  // there are no measurements yet.
+  newEntry.measurements = [];
 
-    resolve(newEntry);
-  });
+  return newEntry;
 }
 
-export function updateFoodResolver(
+export async function updateFoodResolver(
   _,
   { id, name, description },
   context
 ): Promise<FoodType | false> {
-  return new Promise(async resolve => {
-    const user = context.user;
-    if (!user) {
-      return resolve(false);
-    }
+  const user = context.user;
+  if (!user) {
+    return false;
+  }
 
-    const food = await updateFood(id, user.id, name, description);
+  const food = await updateFood(id, user.id, name, description);
 
-    const measurements = await findMeasurementByFoodId(user.id, [food.id]);
-    food.measurements = [];
-    if (Array.isArray(measurements)) {
-      measurements.forEach(measurement => {
-        food.measurements.push(measurement);
-      });
-    }
+  const measurements = await findMeasurementByFoodId(user.id, [food.id]);
+  food.measurements = [];
+  if (Array.isArray(measurements)) {
+    measurements.forEach(measurement => {
+      food.measurements.push(measurement);
+    });
+  }
 
-    resolve(food);
-  });
+  return food;
 }
 
-export function deleteFoodResolver(_, { id }, context): Promise<boolean> {
-  return new Promise(async resolve => {
-    const user = context.user;
-    if (!user) {
-      return resolve(false);
-    }
-    resolve(await deleteFood(id, user.id));
-  });
+export async function deleteFoodResolver(_, { id }, context): Promise<boolean> {
+  const user = context.user;
+  if (!user) {
+    return false;
+  }
+  return await deleteFood(id, user.id);
 }

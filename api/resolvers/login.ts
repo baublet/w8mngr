@@ -1,4 +1,4 @@
-import { bodyParseError, loginErrorMessage } from "../config/messages";
+import { loginErrorMessage } from "../config/messages";
 import { sign } from "jsonwebtoken";
 import issueToken from "../user/issueToken";
 import findByEmailAndPassword from "../user/findByEmailAndPassword";

@@ -1,14 +1,11 @@
-export default function countMeasurementsByFoodId(
+import { query } from "../config/db";
+
+export default async function countMeasurementsByFoodId(
   foodId: number
 ): Promise<number> {
-  return new Promise(async (resolve, reject) => {
-    const { query } = require("../config/db"),
-      queryResult = await query({
-        text: "SELECT COUNT(id) AS cnt FROM measurements WHERE food_id = $1",
-        values: [foodId]
-      });
-    resolve(
-      queryResult.result ? parseInt(queryResult.result.rows[0].cnt, 10) : 0
-    );
+  const queryResult = await query({
+    text: "SELECT COUNT(id) AS cnt FROM measurements WHERE food_id = $1",
+    values: [foodId]
   });
+  return queryResult.result ? parseInt(queryResult.result.rows[0].cnt, 10) : 0;
 }

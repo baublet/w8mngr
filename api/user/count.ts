@@ -1,8 +1,8 @@
-export default function countUsers(): Promise<number> {
-  return new Promise(async resolve => {
-    const { query } = require("../config/db"),
-      queryResult = await query({ text: "SELECT COUNT(id) AS cnt FROM users" });
+import { query } from "../config/db";
 
-    resolve(parseInt(queryResult.result.rows[0].cnt, 10));
-  });
+export default async function countUsers(): Promise<number> {
+  const { query } = require("../config/db"),
+    queryResult = await query({ text: "SELECT COUNT(id) AS cnt FROM users" });
+
+  return parseInt(queryResult.result.rows[0].cnt, 10);
 }

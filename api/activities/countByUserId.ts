@@ -1,18 +1,17 @@
-export default function countActivitiesByUserId(
+import { query } from "../config/db";
+
+export default async function countActivitiesByUserId(
   userId: number
 ): Promise<number> {
-  return new Promise(async (resolve, reject) => {
-    const { query } = require("../config/db"),
-      queryResult = await query({
-        text: `
+  const queryResult = await query({
+    text: `
           SELECT
             COUNT(id) AS cnt
           FROM activities
           WHERE user_id = $1
             AND deleted = false
         `,
-        values: [userId]
-      });
-    resolve(parseInt(queryResult.result.rows[0].cnt, 10));
+    values: [userId]
   });
+  return parseInt(queryResult.result.rows[0].cnt, 10);
 }

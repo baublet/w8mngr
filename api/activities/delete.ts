@@ -1,5 +1,5 @@
-import { DBResultType } from "../config/db";
-import { query } from "../config/db";
+import { DBResultType } from "api/config/db";
+import { query } from "api/config/db";
 
 export default async function deleteActivity(
   id: number,

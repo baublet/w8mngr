@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import findUserByEmailAndToken from "../user/findByEmailAndToken";
-import secrets from "../config/secrets";
-import { log } from "../config/log";
+import findUserByEmailAndToken from "api/user/findByEmailAndToken";
+import secrets from "api/config/secrets";
+import { log } from "api/config/log";
 
 export default function contextAuthenticator({ event: request }) {
   if (!request || !request.headers || !request.headers.authorization) {

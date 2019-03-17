@@ -1,5 +1,5 @@
 import { UserType } from "./types";
-import { query } from "../config/db";
+import { query } from "api/config/db";
 import { compare } from "bcryptjs";
 
 export default async function findUserByEmail(

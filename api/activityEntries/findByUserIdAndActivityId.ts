@@ -1,4 +1,4 @@
-import { query } from "../config/db";
+import { query } from "api/config/db";
 import { ActivityEntryType } from "./types";
 
 export default function findActivityEntriesByUserIdAndActivityId(

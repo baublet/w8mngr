@@ -1,14 +1,13 @@
 import { FoodType } from "./types";
-import { query } from "../config/db";
+import { query } from "api/config/db";
 
-export default function findUserByUserIdAndDays(
+export default async function findUserByUserIdAndDays(
   userId: number,
   offset: number = 0,
   limit: number = 10
 ): Promise<Array<FoodType> | false> {
-  return new Promise(async resolve => {
-    const queryResult = await query({
-      text: `
+  const queryResult = await query({
+    text: `
         SELECT *
           FROM foods
         WHERE user_id = $1::int
@@ -16,13 +15,12 @@ export default function findUserByUserIdAndDays(
         OFFSET $2::int
         LIMIT $3::int
       `,
-      values: [<number>userId, <number>offset, <number>limit]
-    });
-
-    if (queryResult.result.rows && queryResult.result.rows.length) {
-      resolve(queryResult.result.rows);
-    } else {
-      resolve(false);
-    }
+    values: [<number>userId, <number>offset, <number>limit]
   });
+
+  if (queryResult.result.rows && queryResult.result.rows.length) {
+    return queryResult.result.rows;
+  } else {
+    return false;
+  }
 }

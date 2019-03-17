@@ -1,11 +1,11 @@
-import { ActivityType } from "../activities/types";
-import findActivitiesByUserId from "../activities/findByUserId";
-import createActivity from "../activities/create";
-import updateActivity from "../activities/update";
-import deleteActivity from "../activities/delete";
-import readActivity from "../activities/read";
-import searchActivities from "../activities/search";
-import muscleGroupsToQuery from "../../shared/transformers/activity/muscleGroupsToQuery";
+import { ActivityType } from "api/activities/types";
+import findActivitiesByUserId from "api/activities/findByUserId";
+import createActivity from "api/activities/create";
+import updateActivity from "api/activities/update";
+import deleteActivity from "api/activities/delete";
+import readActivity from "api/activities/read";
+import searchActivities from "api/activities/search";
+import muscleGroupsToQuery from "shared/transformers/activity/muscleGroupsToQuery";
 
 export async function readActivitiesResolver(
   _,

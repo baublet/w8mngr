@@ -1,4 +1,4 @@
-import { query } from "../config/db";
+import { query } from "api/config/db";
 
 export default async function countUsers(): Promise<number> {
   const { query } = require("../config/db"),

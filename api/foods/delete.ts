@@ -1,19 +1,17 @@
-import { DBResultType } from "../config/db";
-import { query } from "../config/db";
+import { DBResultType } from "api/config/db";
+import { query } from "api/config/db";
 
-export default function deleteFood(
+export default async function deleteFood(
   id: number,
   userId: number
 ): Promise<boolean> {
-  return new Promise(async resolve => {
-    const queryResult = <DBResultType>await query({
-      text: "DELETE FROM foods WHERE id = $1 AND user_id = $2",
-      values: [<number>id, <number>userId]
-    });
-    if (queryResult.result && queryResult.result.rowCount > 0) {
-      resolve(true);
-    } else {
-      resolve(false);
-    }
+  const queryResult = <DBResultType>await query({
+    text: "DELETE FROM foods WHERE id = $1 AND user_id = $2",
+    values: [<number>id, <number>userId]
   });
+  if (queryResult.result && queryResult.result.rowCount > 0) {
+    return true;
+  } else {
+    return false;
+  }
 }

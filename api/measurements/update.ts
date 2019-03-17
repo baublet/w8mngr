@@ -1,8 +1,8 @@
 import { MeasurementType } from "./types";
-import { DBResultType } from "../config/db";
-import { query } from "../config/db";
+import { DBResultType } from "api/config/db";
+import { query } from "api/config/db";
 
-export default function updateMeasurement(
+export default async function updateMeasurement(
   id: number,
   foodId: number,
   userId: number,
@@ -13,9 +13,8 @@ export default function updateMeasurement(
   carbs: number,
   protein: number
 ): Promise<MeasurementType> {
-  return new Promise(async resolve => {
-    const queryResult = <DBResultType>await query({
-      text: `
+  const queryResult = <DBResultType>await query({
+    text: `
       UPDATE measurements
         SET amount = $4,
           unit = $5,
@@ -29,18 +28,17 @@ export default function updateMeasurement(
       AND id = $1
       RETURNING *
         `,
-      values: [
-        <number>id,
-        <number>foodId,
-        <number>userId,
-        <number>amount,
-        <string>unit,
-        <number>calories,
-        <number>fat,
-        <number>carbs,
-        <number>protein
-      ]
-    });
-    resolve(queryResult.result.rows[0]);
+    values: [
+      <number>id,
+      <number>foodId,
+      <number>userId,
+      <number>amount,
+      <string>unit,
+      <number>calories,
+      <number>fat,
+      <number>carbs,
+      <number>protein
+    ]
   });
+  return queryResult.result.rows[0];
 }

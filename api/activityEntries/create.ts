@@ -1,6 +1,6 @@
 import { ActivityEntryType } from "./types";
-import { DBResultType } from "../config/db";
-import { query } from "../config/db";
+import { DBResultType } from "api/config/db";
+import { query } from "api/config/db";
 
 export default async function createActivityEntry(
   user_id: number,

@@ -7,5 +7,6 @@ export default async (userId: number): Promise<string> => {
       text: "UPDATE users SET remember_digest = $1 WHERE id = $2",
       values: [token, userId]
     });
+  // TODO: handle error case with the above query
   return token;
 };

@@ -1,6 +1,6 @@
 import findByEmail from "./findByEmail";
 import { hash } from "bcryptjs";
-import { query } from "../config/db";
+import { query } from "api/config/db";
 import { UserType } from "./types";
 
 export default async function createUser(

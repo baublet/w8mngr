@@ -1,7 +1,4 @@
-const TSModuleAlias = require("@momothepug/tsmodule-alias"),
-  tsconfigToReadFromRoot = "./",
-  aliasRegister = TSModuleAlias.play(tsconfigToReadFromRoot);
-
+require("module-alias/register");
 const express = require("express"),
   bodyParser = require("body-parser"),
   queryString = require("querystring"),
@@ -92,7 +89,7 @@ function buildClientContext(headers) {
   }
 }
 
-function createHandler(dir, static, timeout) {
+function createHandler(dir, staticFile, timeout) {
   return function(request, response) {
     // handle proxies without path re-writes (http-servr)
     const cleanPath = request.path.replace(/^\/.netlify\/functions/, "");
@@ -101,7 +98,7 @@ function createHandler(dir, static, timeout) {
       return e;
     })[0];
     const module = path.join(__dirname, "api", `${func}.ts`);
-    if (static) {
+    if (staticFile) {
       delete require.cache[require.resolve(module)];
     }
     let handler;

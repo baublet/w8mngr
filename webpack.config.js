@@ -46,7 +46,7 @@ const webpackConfig = {
         test: /\.tsx?$/,
         loader: "awesome-typescript-loader",
         options: {
-          configFileName: "tsconfig.json"
+          configFileName: "tsconfig.client.json"
         }
       },
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },

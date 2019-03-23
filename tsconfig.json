@@ -1,17 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "./public/",
-    "sourceMap": true,
-    "module": "commonjs",
-    "target": "es5",
-    "jsx": "react",
-    "lib": ["esnext", "es2015", "dom"],
-    "esModuleInterop": true,
     "paths": {
       "api/*": ["api/*"],
-      "client/*": ["client/*"],
-      "shared/*": ["shared/*"]
+      "shared/*": ["shared/*"],
+      "client/*": ["client/*"]
     }
   },
   "include": ["**/*"],

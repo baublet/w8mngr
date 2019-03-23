@@ -3,5 +3,7 @@ node_modules
 functions/*
 *.
 lambda/*
-!lambda/.gitignore
+!lambda/.gitkeep
+public/*
+!public/.gitkeep
 *.log

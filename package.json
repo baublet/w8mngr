@@ -9,10 +9,15 @@
     "test:shared": "npm run test -- shared/**/*.test.[jt]s",
     "test:client": "npm run test -- client/**/*.test.[jt]s",
     "test:init": "psql -f test/initial_structure.sql",
-    "start:lambda": "ts-node-dev --respawn ./serve.ts --ignore client/*",
-    "build:lambda": "netlify-lambda build ./api -c webpack.config.js",
+    "start:lambda": "ts-node-dev --project tsconfig.api.json --respawn --transpileOnly ./serve.ts",
+    "build:lambda": "tsc --project tsconfig.api.json",
     "build:client": "webpack --config webpack.config.js",
     "start:client": "WATCH=1 NODE_ENV=development webpack-dev-server --hot"
+  },
+  "_moduleAliases": {
+    "api": "./api",
+    "shared": "./shared",
+    "client": "./client"
   },
   "author": "Ryan M. Poe",
   "license": "ISC",
@@ -29,6 +34,7 @@
     "lodash.memoize": "^4.1.2",
     "markdown-to-jsx": "^6.9.1",
     "mathjs": "^5.7.0",
+    "module-alias": "^2.2.0",
     "pg": "^7.8.0",
     "pg-hstore": "^2.3.2",
     "react": "^16.8.0",

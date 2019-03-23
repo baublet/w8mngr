@@ -1,3 +1,7 @@
+const TSModuleAlias = require("@momothepug/tsmodule-alias"),
+  tsconfigToReadFromRoot = "./",
+  aliasRegister = TSModuleAlias.play(tsconfigToReadFromRoot);
+
 const express = require("express"),
   bodyParser = require("body-parser"),
   queryString = require("querystring"),
@@ -101,7 +105,7 @@ function createHandler(dir, static, timeout) {
       delete require.cache[require.resolve(module)];
     }
     let handler;
-    console.log(module, dir, func);
+
     try {
       handler = require(module);
     } catch (err) {

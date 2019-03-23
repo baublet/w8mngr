@@ -5,7 +5,8 @@
     "target": "ES2017",
     "moduleResolution": "node",
     "types": ["node", "mocha"],
-    "lib": ["esnext"],
+    "lib": ["esnext", "es2015", "es2017"],
+    "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "paths": {
       "api/*": ["api/*"],

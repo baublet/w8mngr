@@ -7,6 +7,25 @@ import IsLoggedIn from "client/components/Auth/IsLoggedIn";
 import IsLoggedOut from "client/components/Auth/IsLoggedOut";
 import Routes from "./Routes";
 import history from "client/history";
+import FoodCircleIcon from "./components/Icons/FoodCircle";
+import HealthCircleIcon from "./components/Icons/HealthCircle";
+import LogoutCircleIcon from "./components/Icons/LogoutCircleIcon";
+
+interface NavigationIconProps {
+  to: string;
+  icon: React.ReactComponentElement<any>;
+  text: string;
+}
+
+function NavigationIcon(props: NavigationIconProps) {
+  const { to, icon, text } = props;
+  return (
+    <Link to={to} className="block">
+      <div className="text-xl block text-center">{icon}</div>
+      <span>{text}</span>
+    </Link>
+  );
+}
 
 function Application(): React.ReactComponentElement<any> {
   return (
@@ -20,12 +39,22 @@ function Application(): React.ReactComponentElement<any> {
               </Link>
             </h1>
             <div className="flex justify-around text-xs">
-              <Link to="/">Home</Link>
               <IsLoggedIn>
-                <Link to="/foodlog">Food Log</Link>
-                <Link to="/foods">Foods</Link>
-                <Link to="/activities">Activities</Link>
-                <Link to="/logout">Logout</Link>
+                <NavigationIcon
+                  to="/foodlog"
+                  icon={<FoodCircleIcon />}
+                  text="Nutrition"
+                />
+                <NavigationIcon
+                  to="/activities"
+                  icon={<HealthCircleIcon />}
+                  text="Activity"
+                />
+                <NavigationIcon
+                  to="/logout"
+                  icon={<LogoutCircleIcon />}
+                  text="Logout"
+                />
               </IsLoggedIn>
               <IsLoggedOut>
                 <Link to="/register">Register</Link>

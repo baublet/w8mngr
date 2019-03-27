@@ -7,6 +7,7 @@ import { Mutation } from "react-apollo";
 import userQuery from "shared/queries/user";
 import registerQuery from "shared/queries/user.create";
 import Input from "client/components/Forms/Input";
+import ContentContainer from "../Containers/ContentContainer";
 
 export interface RegisterPageState {
   email: string;
@@ -47,7 +48,7 @@ const RegisterPage = function({
     type: string,
     name: string,
     placeholder: string,
-    minLength: number = 320
+    minLength: number = 8
   ) => (
     <Input
       type={type}
@@ -73,7 +74,7 @@ const RegisterPage = function({
       }}
     >
       {register => (
-        <>
+        <ContentContainer>
           <h1>Register</h1>
           {!values.error ? (
             false
@@ -95,9 +96,9 @@ const RegisterPage = function({
               }
             }}
           >
-            {RegistrationInput("email", "email", "Email Address")}
-            {RegistrationInput("password", "password", "Password", 8)}
-            {RegistrationInput("password", "confirm", "Confirm Password", 8)}
+            {RegistrationInput("email", "email", "Email Address", 3)}
+            {RegistrationInput("password", "password", "Password")}
+            {RegistrationInput("password", "confirm", "Confirm Password")}
             <Button
               type="submit"
               disabled={values.email && values.error == "" ? false : true}
@@ -105,7 +106,7 @@ const RegisterPage = function({
               Register
             </Button>
           </form>
-        </>
+        </ContentContainer>
       )}
     </Mutation>
   );

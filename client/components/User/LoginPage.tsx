@@ -94,12 +94,14 @@ const LoginPage = function({
                 value={values.password}
                 onChange={onChange}
               />
-              <Button
-                type="submit"
-                disabled={values.email && values.error == "" ? false : true}
-              >
-                Log In
-              </Button>
+              <div className="mt-3">
+                <Button
+                  type="submit"
+                  disabled={values.email && values.error == "" ? false : true}
+                >
+                  Log In
+                </Button>
+              </div>
             </form>
           </ContentContainer>
         </>

@@ -10,6 +10,7 @@ import ContentContainer from "../Containers/ContentContainer";
 import registerAction from "./operations/create";
 import { ApolloCache } from "apollo-cache";
 import ErrorMessage from "../Type/ErrorMessage";
+import PageHeading from "../Type/PageHeading";
 
 export interface RegisterPageState {
   email: string;
@@ -72,33 +73,37 @@ const RegisterPage = function({
       }}
     >
       {register => (
-        <ContentContainer>
-          <h1>Register</h1>
-          {!error ? false : <ErrorMessage message={errorMessage} />}
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              if (validate(values)) {
-                register({
-                  variables: {
-                    email: values.email,
-                    password: values.password
-                  }
-                });
-              }
-            }}
-          >
-            {RegistrationInput("email", "email", "Email Address", 3)}
-            {RegistrationInput("password", "password", "Password")}
-            {RegistrationInput("password", "confirm", "Confirm Password")}
-            <Button
-              type="submit"
-              disabled={values.email && !error ? false : true}
+        <>
+          <PageHeading>Register</PageHeading>
+          <ContentContainer>
+            {!error ? false : <ErrorMessage message={errorMessage} />}
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                if (validate(values)) {
+                  register({
+                    variables: {
+                      email: values.email,
+                      password: values.password
+                    }
+                  });
+                }
+              }}
             >
-              Register
-            </Button>
-          </form>
-        </ContentContainer>
+              {RegistrationInput("email", "email", "Email Address", 3)}
+              {RegistrationInput("password", "password", "Password")}
+              {RegistrationInput("password", "confirm", "Confirm Password")}
+              <div className="mt-3">
+                <Button
+                  type="submit"
+                  disabled={values.email && !error ? false : true}
+                >
+                  Register
+                </Button>
+              </div>
+            </form>
+          </ContentContainer>
+        </>
       )}
     </Mutation>
   );

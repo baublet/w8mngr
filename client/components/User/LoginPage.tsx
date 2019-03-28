@@ -7,6 +7,8 @@ import { Mutation } from "react-apollo";
 import userQuery from "shared/queries/user";
 import loginQuery from "shared/queries/user.login";
 import Input from "client/components/Forms/Input";
+import PageHeading from "../Type/PageHeading";
+import ContentContainer from "../Containers/ContentContainer";
 
 export interface LoginPageState {
   email: string;
@@ -51,53 +53,55 @@ const LoginPage = function({
     >
       {login => (
         <>
-          <h1>Log In</h1>
-          {!values.error ? (
-            false
-          ) : (
-            <div>
-              <b>Error: </b> {values.error}
-            </div>
-          )}
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              if (validate(values)) {
-                login({
-                  variables: {
-                    email: values.email,
-                    password: values.password
-                  }
-                });
-              }
-            }}
-          >
-            <Input
-              label="Email"
-              type="email"
-              name="email"
-              placeholder="Email address"
-              required
-              value={values.email}
-              onChange={onChange}
-            />
-            <Input
-              label="Password"
-              type="password"
-              placeholder="Password"
-              name="password"
-              required
-              minLength={8}
-              value={values.password}
-              onChange={onChange}
-            />
-            <Button
-              type="submit"
-              disabled={values.email && values.error == "" ? false : true}
+          <PageHeading>Log In</PageHeading>
+          <ContentContainer>
+            {!values.error ? (
+              false
+            ) : (
+              <div>
+                <b>Error: </b> {values.error}
+              </div>
+            )}
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                if (validate(values)) {
+                  login({
+                    variables: {
+                      email: values.email,
+                      password: values.password
+                    }
+                  });
+                }
+              }}
             >
-              Log In
-            </Button>
-          </form>
+              <Input
+                label="Email"
+                type="email"
+                name="email"
+                placeholder="Email address"
+                required
+                value={values.email}
+                onChange={onChange}
+              />
+              <Input
+                label="Password"
+                type="password"
+                placeholder="Password"
+                name="password"
+                required
+                minLength={8}
+                value={values.password}
+                onChange={onChange}
+              />
+              <Button
+                type="submit"
+                disabled={values.email && values.error == "" ? false : true}
+              >
+                Log In
+              </Button>
+            </form>
+          </ContentContainer>
         </>
       )}
     </Mutation>

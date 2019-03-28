@@ -2,18 +2,19 @@ import * as React from "react";
 import Button from "client/components/Button/Primary";
 import { withRouter } from "react-router-dom";
 import { History } from "history";
-import RegisterPageValidationHandler from "client/components/User/Register.validate";
+import RegisterPageValidationHandler from "client/components/User/operations/validateCreate";
 import { Mutation } from "react-apollo";
-import userQuery from "shared/queries/user";
 import registerQuery from "shared/queries/user.create";
 import Input from "client/components/Forms/Input";
 import ContentContainer from "../Containers/ContentContainer";
+import registerAction from "./operations/create";
+import { ApolloCache } from "apollo-cache";
+import ErrorMessage from "../Type/ErrorMessage";
 
 export interface RegisterPageState {
   email: string;
   password: string;
   confirm: string;
-  error: string;
   [key: string]: string | number;
 }
 
@@ -27,22 +28,23 @@ const RegisterPage = function({
   const initialState: RegisterPageState = {
     email: "",
     password: "",
-    confirm: "",
-    error: ""
+    confirm: ""
   };
 
   const [values, setValues] = React.useState(initialState);
+  const [error, setError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false);
     const target = event.target as HTMLInputElement;
     setValues({
       ...values,
-      [target.name]: target.value,
-      error: ""
+      [target.name]: target.value
     });
   };
 
-  const validate = RegisterPageValidationHandler(setValues);
+  const validate = RegisterPageValidationHandler(setError, setErrorMessage);
 
   const RegistrationInput = (
     type: string,
@@ -58,31 +60,21 @@ const RegisterPage = function({
       value={values[name]}
       onChange={onChange}
       minLength={minLength}
+      autoComplete="new-password"
     />
   );
 
   return (
     <Mutation
       mutation={registerQuery}
-      update={(cache, { data }) => {
-        localStorage.setItem("token", data.register.token);
-        cache.writeQuery({
-          query: userQuery,
-          data: { user: data.register.user }
-        });
-        history.push("/");
+      update={(cache: ApolloCache<any>, { data }) => {
+        registerAction(cache, data, history, setError, setErrorMessage);
       }}
     >
       {register => (
         <ContentContainer>
           <h1>Register</h1>
-          {!values.error ? (
-            false
-          ) : (
-            <div>
-              <b>Error: </b> {values.error}
-            </div>
-          )}
+          {!error ? false : <ErrorMessage message={errorMessage} />}
           <form
             onSubmit={e => {
               e.preventDefault();
@@ -101,7 +93,7 @@ const RegisterPage = function({
             {RegistrationInput("password", "confirm", "Confirm Password")}
             <Button
               type="submit"
-              disabled={values.email && values.error == "" ? false : true}
+              disabled={values.email && !error ? false : true}
             >
               Register
             </Button>

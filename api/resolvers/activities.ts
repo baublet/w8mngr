@@ -53,7 +53,6 @@ export async function createActivityResolver(
   context
 ): Promise<ActivityType | false> {
   const user = context.user;
-  console.log("Creating new activity...", user);
   if (!user) {
     return false;
   }
@@ -66,7 +65,6 @@ export async function createActivityResolver(
     muscle_groups,
     intensity
   );
-  console.log(newEntry);
   return newEntry;
 }
 

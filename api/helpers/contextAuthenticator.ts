@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 import findUserByEmailAndToken from "api/user/findByEmailAndToken";
 import secrets from "api/config/secrets";
 import { log } from "api/config/log";
@@ -22,9 +22,12 @@ export default function contextAuthenticator({ event: request }) {
           decoded.email,
           decoded.token
         );
+        console.log(decoded);
         resolve(user ? { user } : {});
       });
     } catch (e) {
+      console.log(e);
+      log(`Error verifying JSON token`, e);
       resolve({ messages: `Authentication failed: ${e}` });
     }
   });

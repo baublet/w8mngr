@@ -6,6 +6,7 @@ import PanelInverted from "client/components/Containers/PanelInverted";
 import createFoodEntry from "./operations/create";
 import AddButton from "client/components/Button/AddButton";
 import FoodAutocomplete from "./FoodAutocomplete";
+import PillButton from "../Button/PillGhostButton";
 
 interface NewFoodEntryProps {
   day: number;
@@ -105,8 +106,13 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
                   {InputComponent("Protein")}
                 </div>
               </div>
-              <div className="mt-5 flex justify-end">
-                <AddButton type="submit" />
+              <div className="mt-5 flex justify-between items-end">
+                <div>
+                  <PillButton to="/foods/">Saved Foods</PillButton>
+                </div>
+                <div>
+                  <AddButton type="submit" />
+                </div>
               </div>
             </form>
             {!values.description || values.description.length < 3 ? (

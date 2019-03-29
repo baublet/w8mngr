@@ -18,9 +18,10 @@ interface NavigationIconProps {
 }
 
 function NavigationIcon(props: NavigationIconProps) {
-  const { to, icon, text } = props;
+  const { to, icon, text } = props,
+    active = history.location.pathname == to;
   return (
-    <Link to={to} className="block">
+    <Link to={to} className={`block ${active ? "" : "opacity-75"}`}>
       <div className="text-xl block text-center">{icon}</div>
       <span>{text}</span>
     </Link>

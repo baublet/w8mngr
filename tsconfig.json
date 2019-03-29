@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "jsx": "react",
+    "lib": ["esnext", "es2015", "dom"],
     "paths": {
       "api/*": ["api/*"],
       "shared/*": ["shared/*"],

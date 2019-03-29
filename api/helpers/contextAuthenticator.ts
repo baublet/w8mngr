@@ -22,7 +22,6 @@ export default function contextAuthenticator({ event: request }) {
           decoded.email,
           decoded.token
         );
-        console.log(decoded);
         resolve(user ? { user } : {});
       });
     } catch (e) {

@@ -7,7 +7,7 @@ import Loading from "client/components/Loading/Primary";
 import { Query, QueryResult } from "react-apollo";
 import { DocumentNode } from "graphql";
 
-const defaultPerPage = 2;
+export const defaultPerPage = 25;
 
 type LoadMoreFn = () => void;
 export type LoadMoreType = false | LoadMoreFn;

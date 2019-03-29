@@ -3,6 +3,8 @@ import { History } from "history";
 import activitiesQuery from "shared/queries/activities";
 import readActivityQuery from "shared/queries/activities.read";
 
+import { defaultPerPage } from "client/components/Apollo/PaginatedQuery";
+
 export default function createActivityOperation(
   name: string,
   description: string,
@@ -30,12 +32,24 @@ export default function createActivityOperation(
       if (!createActivity || !createActivity.id) {
         return;
       }
-      const data: any = proxy.readQuery({
-        query: activitiesQuery
-      });
-      data.activities = data.activities || [];
+      let data: any = {};
+      try {
+        data = proxy.readQuery({
+          query: activitiesQuery,
+          variables: {
+            offset: 0,
+            limit: defaultPerPage
+          }
+        });
+      } catch (e) {
+        data = { activities: [] };
+      }
       proxy.writeQuery({
         query: activitiesQuery,
+        variables: {
+          offset: 0,
+          limit: defaultPerPage
+        },
         data: {
           activities: [...data.activities, createActivity]
         }

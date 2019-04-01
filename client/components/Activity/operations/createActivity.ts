@@ -51,7 +51,7 @@ export default function createActivityOperation(
           limit: defaultPerPage
         },
         data: {
-          activities: [...data.activities, createActivity]
+          activities: [createActivity, ...data.activities]
         }
       });
       proxy.writeQuery({

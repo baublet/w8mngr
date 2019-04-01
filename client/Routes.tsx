@@ -17,6 +17,7 @@ const FoodLog = lazify("components/FoodEntry/FoodLogPage");
 const Foods = lazify("components/Food/FoodsPage");
 const EditFood = lazify("components/Food/EditFoodPage");
 const NewFood = lazify("components/Food/NewFoodPage");
+const Activity = lazify("components/Activity/ActivityPage");
 const NewActivity = lazify("components/Activity/NewActivityPage");
 const Activities = lazify("components/Activity/ActivitiesPage");
 const ActivitiesSearchPage = lazify("components/Activity/ActivitiesSearchPage");
@@ -51,6 +52,11 @@ export default withRouter(function Routes({
           exact
           path="/food/:id/edit"
           render={({ match }) => <EditFood id={match.params.id} />}
+        />
+        <Route
+          exact
+          path="/activity/:id"
+          render={({ match }) => <Activity id={match.params.id} />}
         />
         <Route
           exact

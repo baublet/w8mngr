@@ -6,6 +6,8 @@ import TransparentIconButton from "../Button/TransparentIcon";
 import EditIcon from "../Icons/Edit";
 import activityTypeToString from "shared/transformers/activity/typeToString";
 import MuscleGroups from "./MuscleGroups";
+import { Link } from "react-router-dom";
+import ItemHeadingLink from "../Type/ItemHeadingLink";
 
 export interface ActivityComponentType extends ActivityType {
   index: number;
@@ -24,7 +26,9 @@ export default function ActivityComponent(
         <EditIcon />
         <span className="screen-reader-text">Edit Food</span>
       </TransparentIconButton>
-      <ItemHeading>{props.name}</ItemHeading>
+      <ItemHeadingLink to={`/activity/${props.id}`}>
+        {props.name}
+      </ItemHeadingLink>
       <p className="opacity-50 text-xs">{activityType}</p>
       {!parseInt(props.muscle_groups, 10) ? (
         false

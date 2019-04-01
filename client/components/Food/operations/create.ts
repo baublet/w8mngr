@@ -15,13 +15,17 @@ export default function createFood(
       if (!createFood || !createFood.id) {
         return;
       }
-      const data: any = proxy.readQuery({
-        query: foodsQuery
-      });
+      let foods = [];
+      try {
+        const data: any = proxy.readQuery({
+          query: foodsQuery
+        });
+        foods = data.foods;
+      } catch (e) {}
       proxy.writeQuery({
         query: foodsQuery,
         data: {
-          foods: [...data.foods, createFood]
+          foods: [createFood, ...foods]
         }
       });
       proxy.writeQuery({

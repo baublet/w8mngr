@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ActivityType } from "api/activities/types";
 import EmptyNote from "client/components/Type/EmptyNote";
-import ActivityComponent from "./Activity";
+import ActivityComponent from "./ActivityComponent";
 
 interface ActivitiesListProps {
   activities: Array<ActivityType>;

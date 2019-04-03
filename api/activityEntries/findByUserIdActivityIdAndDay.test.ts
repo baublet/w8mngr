@@ -5,7 +5,7 @@ import { clearDatabase } from "../../test/helpers";
 import { UserType } from "../user/types";
 import { ActivityType } from "../activities/types";
 import { ActivityEntryType } from "./types";
-import findByUserIdAndActivityId from "./findByUserIdAndActivityId";
+import findByUserIdAndActivityId from "./findByUserIdActivityIdAndDay";
 import { expect } from "chai";
 
 describe("ActivityEntries: find by user ID and activity ID", function() {
@@ -26,7 +26,11 @@ describe("ActivityEntries: find by user ID and activity ID", function() {
   });
 
   it("should read activity entries by user id and activity id", async () => {
-    const find = await findByUserIdAndActivityId(user.id, activity.id);
+    const find = await findByUserIdAndActivityId(
+      user.id,
+      activity.id,
+      20200202
+    );
     expect(find).to.deep.equal(entries);
   });
 });

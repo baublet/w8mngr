@@ -1,22 +1,22 @@
 import { query } from "api/config/db";
 import { ActivityEntryType } from "./types";
 
-export default function findActivityEntriesByUserIdAndActivityId(
+export default async function findActivityEntriesByUserIdAndActivityIdAndDay(
   user_id: number,
-  activity_id: number
+  activity_id: number,
+  day: number
 ): Promise<Array<ActivityEntryType>> {
-  return new Promise(async resolve => {
-    const queryResult = await query({
-      text: `
+  const queryResult = await query({
+    text: `
           SELECT
             *
           FROM activity_entries
           WHERE
             user_id = $1
             AND activity_id = $2
+            AND day = $3
         `,
-      values: [<number>user_id, <number>activity_id]
-    });
-    resolve(queryResult.result.rows);
+    values: [<number>user_id, <number>activity_id, <number>day]
   });
+  return queryResult.result.rows;
 }

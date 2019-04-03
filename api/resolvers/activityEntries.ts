@@ -3,6 +3,32 @@ import createActivityEntry from "../activityEntries/create";
 import readActivity from "../activities/read";
 
 import weightToGrams from "../../shared/transformers/activity/weightToGrams";
+import findActivityEntries from "../activityEntries/findByUserIdActivityIdAndDay";
+
+export async function activityEntriesResolver(
+  _,
+  {
+    activity_id,
+    day
+  }: {
+    activity_id: number;
+    day: number;
+  },
+  context
+): Promise<Array<ActivityEntryType> | false> {
+  const user = context.user;
+  if (!user) {
+    return false;
+  }
+
+  const activity = await readActivity(activity_id, user.id);
+
+  if (!activity) {
+    return false;
+  }
+
+  return await findActivityEntries(user.id, activity_id, day);
+}
 
 export async function createActivityEntryResolver(
   _,

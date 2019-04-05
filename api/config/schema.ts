@@ -27,6 +27,7 @@ export default gql`
       offset: Int = 0
       limit: Int = 10
     ): [Activity]!
+    activityEntries(activityId: Int, day: Int): [ActivityEntry]
   }
 
   type Mutation {
@@ -90,6 +91,15 @@ export default gql`
       intensity: Int
     ): Activity
     deleteActivity(id: Int): Boolean
+
+    createActivityEntry(
+      activityId: Int
+      day: Int
+      reps: Int
+      work: Int
+    ): ActivityEntry
+    updateActivityEntry(id: Int, reps: Int, work: Int): ActivityEntry
+    deleteActivityEntry(id: Int): Boolean
   }
 
   type AuthPayload {
@@ -170,7 +180,6 @@ export default gql`
 
   type Activity {
     id: Int
-    user_id: Int
     name: String
     description: String
     exrx: String
@@ -180,5 +189,13 @@ export default gql`
     popularity: Int
     created_at: String
     updated_at: String
+  }
+
+  type ActivityEntry {
+    id: Int
+    activity_id: Int
+    day: Int
+    reps: Int
+    work: Int
   }
 `;

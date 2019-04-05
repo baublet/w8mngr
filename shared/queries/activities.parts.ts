@@ -1,6 +1,5 @@
 export default `
   id,
-  user_id,
   name,
   description,
   exrx,

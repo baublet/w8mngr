@@ -8,10 +8,10 @@ import findActivityEntries from "../activityEntries/findByUserIdActivityIdAndDay
 export async function activityEntriesResolver(
   _,
   {
-    activity_id,
+    activityId,
     day
   }: {
-    activity_id: number;
+    activityId: number;
     day: number;
   },
   context
@@ -21,13 +21,12 @@ export async function activityEntriesResolver(
     return false;
   }
 
-  const activity = await readActivity(activity_id, user.id);
-
+  const activity = await readActivity(activityId, user.id);
   if (!activity) {
     return false;
   }
 
-  return await findActivityEntries(user.id, activity_id, day);
+  return await findActivityEntries(user.id, activityId, day);
 }
 
 export async function createActivityEntryResolver(

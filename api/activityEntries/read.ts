@@ -8,7 +8,7 @@ export default async function readActivityEntry(
   const queryResult = <DBResultType>await query({
     text: `
       SELECT *
-        FROM activities_entries
+        FROM activity_entries
       WHERE id = $1
       `,
     values: [<number>id]

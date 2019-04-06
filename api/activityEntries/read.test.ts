@@ -5,8 +5,9 @@ import { clearDatabase } from "../../test/helpers";
 import { UserType } from "../user/types";
 import { expect } from "chai";
 import createActivity from "../activities/create";
+import { ActivityType } from "../activities/types";
 
-describe("Activity: read", function() {
+describe("ActivityEntries: read", function() {
   let user: UserType, activity: ActivityType;
 
   before(async () => {
@@ -19,7 +20,7 @@ describe("Activity: read", function() {
     );
   });
 
-  it("should read activity for the user", async () => {
+  it("should read activity entry for the user", async () => {
     const created = await create(user.id, activity.id, 20020909, 2, 2500),
       fromRead = await read(created.id);
 

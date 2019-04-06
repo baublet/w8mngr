@@ -1,16 +1,16 @@
-import { unit as convert, Unit } from "mathjs";
+import * as Unit from "mathjs";
 
 // Returns grams from an arbitrary string.
 export default async function weightToGrams(
   weight: string,
-  unit: string = "lb"
+  unitString: string = "lb"
 ): Promise<number> {
   return new Promise((resolve, reject) => {
-    let convertedUnit: null | Unit = null;
+    let convertedUnit: null | Unit.Unit = null;
     if (isNaN(Number(weight))) {
-      convertedUnit = convert(weight);
+      convertedUnit = Unit.unit(weight);
     } else {
-      convertedUnit = convert(parseInt(weight, 10), unit);
+      convertedUnit = Unit.unit(parseInt(weight, 10), unitString);
     }
     resolve(Math.round(convertedUnit.toNumber("gram")));
   });

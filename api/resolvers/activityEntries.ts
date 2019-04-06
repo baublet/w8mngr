@@ -4,6 +4,10 @@ import readActivity from "../activities/read";
 
 import weightToGrams from "../../shared/transformers/activity/weightToGrams";
 import findActivityEntries from "../activityEntries/findByUserIdActivityIdAndDay";
+import readActivityEntry from "../activityEntries/read";
+import updateActivityEntry from "api/activityEntries/update";
+import activityAndWorkToCalculated from "shared/transformers/activity/activityAndWorkToCalculated";
+import deleteActivityEntry from "api/activityEntries/delete";
 
 export async function activityEntriesResolver(
   _,
@@ -32,17 +36,17 @@ export async function activityEntriesResolver(
 export async function createActivityEntryResolver(
   _,
   {
-    activity_id,
+    activityId,
     day,
     reps,
     work,
-    routine_id = null
+    routineId = null
   }: {
-    activity_id: number;
+    activityId: number;
     day: number;
     reps: number;
     work: string;
-    routine_id: number | null;
+    routineId: number | null;
   },
   context
 ): Promise<ActivityEntryType | false> {
@@ -50,24 +54,57 @@ export async function createActivityEntryResolver(
   if (!user) {
     return false;
   }
-
-  const activity = await readActivity(activity_id, user.id);
-
-  let calculatedWork = 0;
-
-  switch (activity.activity_type) {
-    case 0:
-      calculatedWork = await weightToGrams(work);
-      break;
-  }
+  const activity = await readActivity(activityId, user.id),
+    calculatedWork = await activityAndWorkToCalculated(activity, work);
 
   const newEntry = await createActivityEntry(
     user.id,
-    activity_id,
+    activityId,
     day,
     reps,
     calculatedWork,
-    routine_id
+    routineId
   );
   return newEntry;
+}
+
+export async function updateActivityEntryResolver(
+  _,
+  {
+    id,
+    reps,
+    work
+  }: {
+    id: number;
+    reps: number;
+    work: string;
+  },
+  context
+): Promise<ActivityEntryType | false> {
+  const user = context.user;
+  if (!user) {
+    return false;
+  }
+  const activityEntry = await readActivityEntry(id),
+    activity = await readActivity(activityEntry.activity_id, user.id),
+    calculatedWork = await activityAndWorkToCalculated(activity, work);
+
+  return await updateActivityEntry(id, user.id, reps, calculatedWork);
+}
+
+export async function deleteActivityEntryResolver(
+  _,
+  {
+    id
+  }: {
+    id: number;
+  },
+  context
+): Promise<boolean> {
+  const user = context.user;
+  if (!user) {
+    return false;
+  }
+
+  return await deleteActivityEntry(id, user.id);
 }

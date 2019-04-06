@@ -1,10 +1,16 @@
 import createUser from "../user/create";
 import { clearDatabase } from "../../test/helpers";
 import { expect } from "chai";
+import activityAndWorkToCalculated from "../../shared/transformers/activity/activityAndWorkToCalculated";
 
 import createActivityEntry from "../activityEntries/create";
-import createActivityQuery from "../../shared/queries/activities.create";
+
 import activityEntriesQuery from "../../shared/queries/activityEntries";
+import createActivityEntryQuery from "../../shared/queries/activityEntries.create";
+import deleteActivityEntryQuery from "../../shared/queries/activityEntries.delete";
+
+import createActivityQuery from "../../shared/queries/activities.create";
+import { ActivityEntryType } from "../activityEntries/types";
 
 const { createTestClient } = require("apollo-server-testing");
 const { createTestServer } = require("../helpers/createTestServer");
@@ -29,7 +35,7 @@ describe("ActivityEntry GraphQL Test", async function() {
     activity = activityCreator.data.createActivity;
   });
 
-  it("lists food entries properly", async () => {
+  it("lists activity entries properly", async () => {
     const activityEntry: any = await createActivityEntry(
       user.id,
       activity.id,
@@ -45,5 +51,47 @@ describe("ActivityEntry GraphQL Test", async function() {
 
     expect(activityLog.data.activityEntries.length).to.equal(1);
     expect(activityLog.data.activityEntries[0].id).to.equal(activityEntry.id);
+  });
+
+  it("creates activity entries properly", async () => {
+    const createActivityEntry = await mutate({
+      query: createActivityEntryQuery,
+      variables: {
+        activityId: activity.id,
+        day: 20020909,
+        reps: 3,
+        work: 2500
+      }
+    });
+    expect(createActivityEntry.data.createActivityEntry).to.have.property("id");
+
+    const activityEntry: ActivityEntryType =
+      createActivityEntry.data.createActivityEntry;
+    expect(activityEntry.reps).to.equal(3);
+    expect(activityEntry.work).to.equal(
+      await activityAndWorkToCalculated(activity, "2500")
+    );
+  });
+
+  it("deletes activity entries properly", async () => {
+    const createActivityEntry = await mutate({
+      query: createActivityEntryQuery,
+      variables: {
+        activityId: activity.id,
+        day: 20020909,
+        reps: 3,
+        work: 2500
+      }
+    });
+    expect(createActivityEntry.data.createActivityEntry).to.have.property("id");
+
+    const deleteActivityEntry = await mutate({
+      query: deleteActivityEntryQuery,
+      variables: {
+        id: createActivityEntry.data.createActivityEntry.id
+      }
+    });
+
+    expect(deleteActivityEntry.data.deleteActivityEntry).to.equal(true);
   });
 });

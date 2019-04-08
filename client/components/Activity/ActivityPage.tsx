@@ -8,6 +8,7 @@ import shortDate from "shared/helpers/date/shortDate";
 import calcYesterday from "shared/helpers/date/yesterday";
 import calcTomorrow from "shared/helpers/date/tomorrow";
 import PanelHeading from "../Type/PanelHeading";
+import ActivityEntries from "./ActivityEntries";
 
 const get = require("lodash.get");
 
@@ -46,6 +47,7 @@ export default function ActivityPage(
               onYesterday={onYesterday}
             />
             <ContentContainer>
+              <ActivityEntries activityId={props.id} day={day} />
               <PanelInverted>
                 <PanelHeading>{props.activity.name}</PanelHeading>
                 {!props.activity.description ? (

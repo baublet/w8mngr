@@ -2,7 +2,6 @@ import { ActivityEntryType } from "../activityEntries/types";
 import createActivityEntry from "../activityEntries/create";
 import readActivity from "../activities/read";
 
-import weightToGrams from "../../shared/transformers/activity/weightToGrams";
 import findActivityEntries from "../activityEntries/findByUserIdActivityIdAndDay";
 import readActivityEntry from "../activityEntries/read";
 import updateActivityEntry from "api/activityEntries/update";

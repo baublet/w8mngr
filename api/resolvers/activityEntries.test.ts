@@ -4,9 +4,11 @@ import { expect } from "chai";
 import activityAndWorkToCalculated from "../../shared/transformers/activity/activityAndWorkToCalculated";
 
 import createActivityEntry from "../activityEntries/create";
+import countActivityEntriesByUserId from "../activityEntries/countByUserId";
 
 import activityEntriesQuery from "../../shared/queries/activityEntries";
 import createActivityEntryQuery from "../../shared/queries/activityEntries.create";
+import updateActivityEntryQuery from "../../shared/queries/activityEntries.update";
 import deleteActivityEntryQuery from "../../shared/queries/activityEntries.delete";
 
 import createActivityQuery from "../../shared/queries/activities.create";
@@ -60,7 +62,7 @@ describe("ActivityEntry GraphQL Test", async function() {
         activityId: activity.id,
         day: 20020909,
         reps: 3,
-        work: 2500
+        work: "2500"
       }
     });
     expect(createActivityEntry.data.createActivityEntry).to.have.property("id");
@@ -80,10 +82,12 @@ describe("ActivityEntry GraphQL Test", async function() {
         activityId: activity.id,
         day: 20020909,
         reps: 3,
-        work: 2500
+        work: "2500"
       }
     });
     expect(createActivityEntry.data.createActivityEntry).to.have.property("id");
+
+    const beforeCount = await countActivityEntriesByUserId(user.id);
 
     const deleteActivityEntry = await mutate({
       query: deleteActivityEntryQuery,
@@ -92,6 +96,40 @@ describe("ActivityEntry GraphQL Test", async function() {
       }
     });
 
+    const afterCount = await countActivityEntriesByUserId(user.id);
+
     expect(deleteActivityEntry.data.deleteActivityEntry).to.equal(true);
+    expect(beforeCount).to.be.greaterThan(afterCount);
+  });
+
+  it("updates activity entries properly", async () => {
+    const createActivityEntry = await mutate({
+      query: createActivityEntryQuery,
+      variables: {
+        activityId: activity.id,
+        day: 20020909,
+        reps: 3,
+        work: "2500"
+      }
+    });
+    expect(createActivityEntry.data.createActivityEntry).to.have.property("id");
+
+    const updateActivityEntry = await mutate({
+      query: updateActivityEntryQuery,
+      variables: {
+        id: createActivityEntry.data.createActivityEntry.id,
+        reps: 4,
+        work: "3000"
+      }
+    });
+
+    expect(createActivityEntry.data.createActivityEntry).to.not.deep.equal(
+      updateActivityEntry.data.updateActivityEntry
+    );
+
+    expect(updateActivityEntry.data.updateActivityEntry.reps).to.equal(4);
+    expect(updateActivityEntry.data.updateActivityEntry.work).to.equal(
+      await activityAndWorkToCalculated(activity, "3000")
+    );
   });
 });

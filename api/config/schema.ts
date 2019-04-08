@@ -96,9 +96,9 @@ export default gql`
       activityId: Int
       day: Int
       reps: Int
-      work: Int
+      work: String
     ): ActivityEntry
-    updateActivityEntry(id: Int, reps: Int, work: Int): ActivityEntry
+    updateActivityEntry(id: Int, reps: Int, work: String): ActivityEntry
     deleteActivityEntry(id: Int): Boolean
   }
 

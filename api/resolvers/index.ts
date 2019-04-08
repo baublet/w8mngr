@@ -34,6 +34,7 @@ import {
 import {
   activityEntriesResolver,
   createActivityEntryResolver,
+  updateActivityEntryResolver,
   deleteActivityEntryResolver
 } from "./activityEntries";
 
@@ -67,6 +68,7 @@ export default {
     updateActivity: <ResolverType>updateActivityResolver,
     deleteActivity: <ResolverType>deleteActvityResolver,
     createActivityEntry: <ResolverType>createActivityEntryResolver,
+    updateActivityEntry: <ResolverType>updateActivityEntryResolver,
     deleteActivityEntry: <ResolverType>deleteActivityEntryResolver
   }
 };

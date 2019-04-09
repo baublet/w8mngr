@@ -9,6 +9,8 @@ import calcYesterday from "shared/helpers/date/yesterday";
 import calcTomorrow from "shared/helpers/date/tomorrow";
 import PanelHeading from "../Type/PanelHeading";
 import ActivityEntries from "./ActivityEntries";
+import ActivityEntryForm from "./NewActivityEntry";
+import Panel from "../Containers/Panel";
 
 const get = require("lodash.get");
 
@@ -48,14 +50,17 @@ export default function ActivityPage(
             />
             <ContentContainer>
               <ActivityEntries activityId={props.id} day={day} />
-              <PanelInverted>
+              <PanelInverted className="mt-3">
+                <ActivityEntryForm day={day} activityId={props.id} />
+              </PanelInverted>
+              <Panel className="mt-3">
                 <PanelHeading>{props.activity.name}</PanelHeading>
                 {!props.activity.description ? (
                   false
                 ) : (
                   <div>{props.activity.description}</div>
                 )}
-              </PanelInverted>
+              </Panel>
             </ContentContainer>
           </>
         );

@@ -4,16 +4,23 @@ import { Mutation } from "react-apollo";
 import createActivityEntryQuery from "shared/queries/activityEntries.create";
 import createActivityEntryOperation from "./operations/createActivityEntry";
 import ActivityEntryForm from "./ActivityEntryForm";
+import DeleteButton from "../Button/DeleteIconButton";
 
-export interface NewActivityEntryFormProps {
-  day: number;
+export interface ActivityEntryProps {
   activityId: number;
   activityType: number;
+  activityEntryId: number;
+  reps: number;
+  work: number;
 }
 
-export default function NewActivityEntryForm(
-  props: NewActivityEntryFormProps
-): React.ReactComponentElement<any> {
+export default function ActivityEntry({
+  activityId,
+  activityType,
+  activityEntryId,
+  reps,
+  work
+}: ActivityEntryProps): React.ReactComponentElement<any> {
   return (
     <Mutation mutation={createActivityEntryQuery}>
       {createActivityEntryFn => {
@@ -25,8 +32,8 @@ export default function NewActivityEntryForm(
         ) => {
           createActivityEntryOperation(
             createActivityEntryFn,
-            props.day,
-            props.activityId,
+            20120101,
+            activityId,
             reps,
             work,
             setReps,
@@ -35,9 +42,16 @@ export default function NewActivityEntryForm(
         };
         return (
           <ActivityEntryForm
-            activityType={props.activityType}
+            activityType={activityType}
             onSubmit={onSubmit}
-            actions={<AddButton type="submit" className="ml-3" />}
+            actions={
+              <div>
+                <AddButton type="submit" className="screen-reader-text" />
+                <DeleteButton onClick={() => console.log("Delete")} />
+              </div>
+            }
+            reps={reps}
+            work={`${work}`}
           />
         );
       }}

@@ -9,8 +9,9 @@ import calcYesterday from "shared/helpers/date/yesterday";
 import calcTomorrow from "shared/helpers/date/tomorrow";
 import PanelHeading from "../Type/PanelHeading";
 import ActivityEntries from "./ActivityEntries";
-import ActivityEntryForm from "./NewActivityEntry";
+import NewActivityEntryForm from "./NewActivityEntry";
 import Panel from "../Containers/Panel";
+import { ActivityType } from "api/activities/types";
 
 const get = require("lodash.get");
 
@@ -35,11 +36,16 @@ export default function ActivityPage(
     onTomorrow = () => setDay(tomorrow);
 
   return (
-    <Query query={readActivityQuery} variables={{ id: parseInt(props.id, 10) }}>
+    <Query
+      query={readActivityQuery}
+      variables={{ id: parseInt(props.id, 10) }}
+      pollInterval={360000}
+    >
       {(props: any) => {
         if (!props.activity) {
           return false;
         }
+        const activity: ActivityType = props.activity;
         return (
           <>
             <DayNavigator
@@ -49,16 +55,24 @@ export default function ActivityPage(
               onYesterday={onYesterday}
             />
             <ContentContainer>
-              <ActivityEntries activityId={props.id} day={day} />
+              <ActivityEntries
+                activityId={activity.id}
+                activityType={activity.activity_type}
+                day={day}
+              />
               <PanelInverted className="mt-3">
-                <ActivityEntryForm day={day} activityId={props.id} />
+                <NewActivityEntryForm
+                  day={day}
+                  activityId={activity.id}
+                  activityType={activity.activity_type}
+                />
               </PanelInverted>
               <Panel className="mt-3">
                 <PanelHeading>{props.activity.name}</PanelHeading>
-                {!props.activity.description ? (
+                {!activity.description ? (
                   false
                 ) : (
-                  <div>{props.activity.description}</div>
+                  <div>{activity.description}</div>
                 )}
               </Panel>
             </ContentContainer>

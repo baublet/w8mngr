@@ -5,7 +5,7 @@ export default function createActivityEntryOperation(
   createActivityEntryFn: MutationFn,
   day: number,
   activityId: number,
-  reps: string,
+  reps: number,
   work: string,
   setReps: React.Dispatch<string>,
   setWork: React.Dispatch<string>

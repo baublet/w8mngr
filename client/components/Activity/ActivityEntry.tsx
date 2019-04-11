@@ -5,6 +5,7 @@ import createActivityEntryQuery from "shared/queries/activityEntries.create";
 import createActivityEntryOperation from "./operations/createActivityEntry";
 import ActivityEntryForm from "./ActivityEntryForm";
 import DeleteButton from "../Button/DeleteIconButton";
+import DeleteActivityEntryButton from "./DeleteActivityEntryButton";
 
 export interface ActivityEntryProps {
   activityId: number;
@@ -12,6 +13,7 @@ export interface ActivityEntryProps {
   activityEntryId: number;
   reps: number;
   work: number;
+  day: number;
 }
 
 export default function ActivityEntry({
@@ -19,7 +21,8 @@ export default function ActivityEntry({
   activityType,
   activityEntryId,
   reps,
-  work
+  work,
+  day
 }: ActivityEntryProps): React.ReactComponentElement<any> {
   return (
     <Mutation mutation={createActivityEntryQuery}>
@@ -47,7 +50,11 @@ export default function ActivityEntry({
             actions={
               <div>
                 <AddButton type="submit" className="screen-reader-text" />
-                <DeleteButton onClick={() => console.log("Delete")} />
+                <DeleteActivityEntryButton
+                  activityId={activityId}
+                  day={day}
+                  id={activityEntryId}
+                />
               </div>
             }
             reps={reps}

@@ -40,11 +40,13 @@ export default function ActivityEntries({
               {props.data.activityEntries.map(entry => {
                 return (
                   <ActivityEntry
+                    key={entry.id}
                     activityId={activityId}
                     activityEntryId={entry.id}
                     activityType={activityType}
                     reps={entry.reps}
                     work={entry.work}
+                    day={entry.day}
                   />
                 );
               })}

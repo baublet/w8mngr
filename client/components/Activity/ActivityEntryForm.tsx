@@ -3,13 +3,14 @@ import Input from "client/components/Forms/Input";
 
 export interface ActivityEntryFormProps {
   activityType: number;
-  onSubmit: (
+  actions: any;
+  onSubmit?: (
     reps: number,
     work: string,
     setReps: React.Dispatch<string>,
     setWork: React.Dispatch<string>
   ) => void;
-  actions: any;
+  onChange?: (reps: number, work: string) => void;
   reps?: number;
   work?: string;
 }
@@ -34,6 +35,9 @@ export default function ActivityEntryForm(
           placeholder="reps"
           value={reps}
           onChange={(e: any) => setReps(e.target.value)}
+          onBlur={() =>
+            props.onChange ? props.onChange(parseInt(reps, 10), work) : ""
+          }
         />
         {props.activityType !== 0 ? (
           false
@@ -45,6 +49,9 @@ export default function ActivityEntryForm(
             className="ml-2"
             value={work}
             onChange={(e: any) => setWork(e.target.value)}
+            onBlur={() =>
+              props.onChange ? props.onChange(parseInt(reps, 10), work) : ""
+            }
           />
         )}
         {props.actions}

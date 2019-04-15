@@ -32,7 +32,6 @@ export default function DeleteActivityEntryButton({
                 }
               },
               update: (proxy, { data: { deleteActivityEntry } }) => {
-                console.log(deleteActivityEntry);
                 let data: any = proxy.readQuery({
                   query: activityEntriesQuery,
                   variables: {

@@ -1,11 +1,10 @@
 import * as React from "react";
 import AddButton from "../Button/AddButton";
 import { Mutation } from "react-apollo";
-import createActivityEntryQuery from "shared/queries/activityEntries.create";
-import createActivityEntryOperation from "./operations/createActivityEntry";
+import updateActivityEntryQuery from "shared/queries/activityEntries.update";
+import updateActivityEntryOperation from "./operations/updateActivityEntry";
 import ActivityEntryForm from "./ActivityEntryForm";
-import DeleteButton from "../Button/DeleteIconButton";
-import DeleteActivityEntryButton from "./DeleteActivityEntryButton";
+import DeleteActivityEntryButton from "./ActivityEntryDeleteButton";
 
 export interface ActivityEntryProps {
   activityId: number;
@@ -25,37 +24,31 @@ export default function ActivityEntry({
   day
 }: ActivityEntryProps): React.ReactComponentElement<any> {
   return (
-    <Mutation mutation={createActivityEntryQuery}>
-      {createActivityEntryFn => {
-        const onSubmit = (
-          reps: number,
-          work: string,
-          setReps: React.Dispatch<string>,
-          setWork: React.Dispatch<string>
-        ) => {
-          createActivityEntryOperation(
-            createActivityEntryFn,
-            20120101,
+    <Mutation mutation={updateActivityEntryQuery}>
+      {updateActivityEntryFn => {
+        const onChange = (reps: number, work: string) => {
+          updateActivityEntryOperation(
+            updateActivityEntryFn,
+            day,
             activityId,
+            activityEntryId,
             reps,
-            work,
-            setReps,
-            setWork
+            work
           );
         };
         return (
           <ActivityEntryForm
             activityType={activityType}
-            onSubmit={onSubmit}
+            onChange={onChange}
             actions={
-              <div>
+              <>
                 <AddButton type="submit" className="screen-reader-text" />
                 <DeleteActivityEntryButton
                   activityId={activityId}
                   day={day}
                   id={activityEntryId}
                 />
-              </div>
+              </>
             }
             reps={reps}
             work={`${work}`}

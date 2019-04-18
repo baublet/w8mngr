@@ -1,4 +1,5 @@
-import * as Unit from "mathjs";
+import splitNumeric from "shared/helpers/splitNumeric";
+import toGramsFrom from "./toGramsFrom";
 
 // Returns grams from an arbitrary string.
 export default async function weightToGrams(
@@ -6,12 +7,9 @@ export default async function weightToGrams(
   unitString: string = "lb"
 ): Promise<number> {
   return new Promise((resolve, reject) => {
-    let convertedUnit: null | Unit.Unit = null;
-    if (isNaN(Number(weight))) {
-      convertedUnit = Unit.unit(weight);
-    } else {
-      convertedUnit = Unit.unit(parseInt(weight, 10), unitString);
-    }
-    resolve(Math.round(convertedUnit.toNumber("gram")));
+    const parts = splitNumeric(weight),
+      numeric = parts[0],
+      unit = parts[1] || unitString;
+    resolve(Math.round(toGramsFrom(numeric, unit)));
   });
 }

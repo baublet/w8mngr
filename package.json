@@ -6,7 +6,7 @@
     "test": "NODE_ENV=test mocha -r ts-node/register -r tsconfig-paths/register --recursive --exit --watch-extensions ts",
     "test:all": "npm run test:shared && npm run test:api",
     "test:api": "TS_NODE_PROJECT='./tsconfig.api.json' npm run test -- api/**/*.test.[jt]s",
-    "test:shared": "TS_NODE_PROJECT='tsconfig.api.json' npm run test -- shared/**/*.test.[jt]s",
+    "test:shared": "TS_NODE_PROJECT='tsconfig.api.json' npm run test -- shared/**/*.test.[jt]s shared/**/**/*.test.[jt]s",
     "test:client": "TS_NODE_PROJECT='tsconfig.client.json' npm run test -- client/**/*.test.[jt]s",
     "test:init": "psql -f test/initial_structure.sql",
     "start:lambda": "ts-node-dev --project tsconfig.api.json --respawn --transpileOnly ./serve.ts",

@@ -1,32 +1,32 @@
-import weightToGrams from "./weightToGrams";
+import toGramsFrom from "./toGramsFrom";
 import { expect } from "chai";
 
-describe("weightToGrams", function() {
+describe("toGramsFrom", function() {
   it("should convert properly", async () => {
     const tests = [
       {
-        toConvert: "1",
+        num: 1,
+        unit: "lb",
         expected: 453
       },
       {
-        toConvert: "1lb",
-        expected: 453
-      },
-      {
-        toConvert: "1kg",
+        num: 1,
+        unit: "kg",
         expected: 1000
       },
       {
-        toConvert: "1stone",
+        num: 1,
+        unit: "stone",
         expected: 6350
       },
       {
-        toConvert: "20 stone",
+        num: 20,
+        unit: "stone",
         expected: 127005
       }
     ];
     for (let i = 0; i < tests.length; i++) {
-      const converted = await weightToGrams(tests[i].toConvert);
+      const converted = await toGramsFrom(tests[i].num, tests[i].unit);
       expect(converted).to.equal(tests[i].expected);
     }
   });

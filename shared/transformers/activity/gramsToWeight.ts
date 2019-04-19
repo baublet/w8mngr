@@ -1,4 +1,4 @@
-import * as Unit from "mathjs";
+import { massUnits } from "shared/data/units";
 
 // Resolves grams into display weight
 export default async function gramsToWeight(
@@ -6,8 +6,6 @@ export default async function gramsToWeight(
   unitString: string = "lb"
 ): Promise<string> {
   return new Promise((resolve, reject) => {
-    const gramsUnit = Unit.unit(grams, "grams"),
-      numeric = Unit.round(gramsUnit.toNumber(unitString), 1);
-    resolve(numeric + " " + unitString);
+    resolve(Math.round(grams / massUnits[unitString]) + " " + unitString);
   });
 }

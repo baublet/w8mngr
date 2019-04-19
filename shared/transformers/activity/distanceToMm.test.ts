@@ -10,11 +10,27 @@ describe("distanceToMm", function() {
       },
       {
         toConvert: "12 feet",
-        expected: 3658
+        expected: 3657
       },
       {
         toConvert: "3",
         expected: 4828032
+      },
+      {
+        toConvert: "12yd",
+        expected: 10972
+      },
+      {
+        toConvert: "5k",
+        expected: 5000000
+      },
+      {
+        toConvert: "1 marathon",
+        expected: 42195068
+      },
+      {
+        toConvert: "3 marathons",
+        expected: 126585204
       }
     ];
     for (let i = 0; i < tests.length; i++) {

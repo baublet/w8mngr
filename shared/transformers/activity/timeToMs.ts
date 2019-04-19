@@ -1,17 +1,18 @@
-import { unit as convert, Unit } from "mathjs";
+import splitNumeric from "shared/helpers/splitNumeric";
+import toMsFrom from "./toMsFrom";
 
 // Returns grams from an arbitrary string.
-export default async function timeToMs(
+export default function timeToMs(
   original: string,
-  unit: string = "ms"
+  unitString: string = "ms"
 ): Promise<number> {
   return new Promise((resolve, reject) => {
-    let convertedUnit: null | Unit = null;
-    if (isNaN(Number(original))) {
-      convertedUnit = convert(original);
-    } else {
-      convertedUnit = convert(parseInt(original, 10), unit);
-    }
-    resolve(Math.round(convertedUnit.toNumber("ms")));
+    const parts = splitNumeric(original),
+      numeric = parts[0],
+      unit = parts[1] || unitString;
+
+    const converted = toMsFrom(numeric, unit);
+
+    resolve(Math.round(converted));
   });
 }

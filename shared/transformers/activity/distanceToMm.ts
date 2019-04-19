@@ -1,17 +1,18 @@
-import { unit as convert, Unit } from "mathjs";
+import splitNumeric from "shared/helpers/splitNumeric";
+import toMmFrom from "./toMmFrom";
 
-// Returns grams from an arbitrary string.
-export default async function distanceToMm(
+// Returns mm from an arbitrary string.
+export default function distanceToMm(
   original: string,
-  unit: string = "miles"
+  unitString: string = "mi"
 ): Promise<number> {
   return new Promise((resolve, reject) => {
-    let convertedUnit: null | Unit = null;
-    if (isNaN(Number(original))) {
-      convertedUnit = convert(original);
-    } else {
-      convertedUnit = convert(parseInt(original, 10), unit);
-    }
-    resolve(Math.round(convertedUnit.toNumber("mm")));
+    const parts = splitNumeric(original),
+      numeric = parts[0],
+      unit = parts[1] || unitString;
+
+    const converted = toMmFrom(numeric, unit);
+
+    resolve(Math.round(converted));
   });
 }

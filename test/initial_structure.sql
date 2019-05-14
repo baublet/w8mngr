@@ -1,20 +1,7 @@
--- -------------------------------------------------------------
--- TablePlus 1.2(185)
---
--- https://tableplus.com/
---
--- Database: w8mngr
--- Generation Time: 2019-01-27 11:54:27.2670
--- -------------------------------------------------------------
-
-
 DROP TABLE IF EXISTS "public"."weight_entries";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
--- Sequence
 CREATE SEQUENCE IF NOT EXISTS weight_entries_id_seq;
 
--- Table Definition
 CREATE TABLE "public"."weight_entries" (
     "id" int4 NOT NULL DEFAULT nextval('weight_entries_id_seq'::regclass),
     "value" int4,
@@ -27,12 +14,9 @@ CREATE TABLE "public"."weight_entries" (
 );
 
 DROP TABLE IF EXISTS "public"."users";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
--- Sequence
 CREATE SEQUENCE IF NOT EXISTS users_id_seq;
 
--- Table Definition
 CREATE TABLE "public"."users" (
     "id" int4 NOT NULL DEFAULT nextval('users_id_seq'::regclass),
     "email" varchar,
@@ -47,13 +31,7 @@ CREATE TABLE "public"."users" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."tags";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence
-CREATE SEQUENCE IF NOT EXISTS tags_id_seq;
-
--- Table Definition
+DROP TABLE IF EXISTS "public"."tags";CREATE SEQUENCE IF NOT EXISTS tags_id_seq;
 CREATE TABLE "public"."tags" (
     "id" int4 NOT NULL DEFAULT nextval('tags_id_seq'::regclass),
     "name" varchar,
@@ -61,13 +39,7 @@ CREATE TABLE "public"."tags" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."taggings";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence
-CREATE SEQUENCE IF NOT EXISTS taggings_id_seq;
-
--- Table Definition
+DROP TABLE IF EXISTS "public"."taggings";CREATE SEQUENCE IF NOT EXISTS taggings_id_seq;
 CREATE TABLE "public"."taggings" (
     "id" int4 NOT NULL DEFAULT nextval('taggings_id_seq'::regclass),
     "tag_id" int4,
@@ -80,21 +52,11 @@ CREATE TABLE "public"."taggings" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."schema_migrations";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."schema_migrations" (
+DROP TABLE IF EXISTS "public"."schema_migrations";CREATE TABLE "public"."schema_migrations" (
     "version" varchar NOT NULL
 );
 
-DROP TABLE IF EXISTS "public"."routines";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence
-CREATE SEQUENCE IF NOT EXISTS routines_id_seq;
-
--- Table Definition
+DROP TABLE IF EXISTS "public"."routines";CREATE SEQUENCE IF NOT EXISTS routines_id_seq;
 CREATE TABLE "public"."routines" (
     "id" int4 NOT NULL DEFAULT nextval('routines_id_seq'::regclass),
     "user_id" int4,
@@ -107,13 +69,7 @@ CREATE TABLE "public"."routines" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."recipes";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence
-CREATE SEQUENCE IF NOT EXISTS recipes_id_seq;
-
--- Table Definition
+DROP TABLE IF EXISTS "public"."recipes";CREATE SEQUENCE IF NOT EXISTS recipes_id_seq;
 CREATE TABLE "public"."recipes" (
     "id" int4 NOT NULL DEFAULT nextval('recipes_id_seq'::regclass),
     "name" text NOT NULL,
@@ -128,13 +84,7 @@ CREATE TABLE "public"."recipes" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."pt_messages";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence
-CREATE SEQUENCE IF NOT EXISTS pt_messages_id_seq;
-
--- Table Definition
+DROP TABLE IF EXISTS "public"."pt_messages";CREATE SEQUENCE IF NOT EXISTS pt_messages_id_seq;
 CREATE TABLE "public"."pt_messages" (
     "id" int4 NOT NULL DEFAULT nextval('pt_messages_id_seq'::regclass),
     "user_id" int4,
@@ -151,13 +101,7 @@ CREATE TABLE "public"."pt_messages" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."measurements";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence
-CREATE SEQUENCE IF NOT EXISTS measurements_id_seq;
-
--- Table Definition
+DROP TABLE IF EXISTS "public"."measurements";CREATE SEQUENCE IF NOT EXISTS measurements_id_seq;
 CREATE TABLE "public"."measurements" (
     "id" int4 NOT NULL DEFAULT nextval('measurements_id_seq'::regclass),
     "amount" text NOT NULL,
@@ -173,13 +117,7 @@ CREATE TABLE "public"."measurements" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."ingredients";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence
-CREATE SEQUENCE IF NOT EXISTS ingredients_id_seq;
-
--- Table Definition
+DROP TABLE IF EXISTS "public"."ingredients";CREATE SEQUENCE IF NOT EXISTS ingredients_id_seq;
 CREATE TABLE "public"."ingredients" (
     "id" int4 NOT NULL DEFAULT nextval('ingredients_id_seq'::regclass),
     "recipe_id" int4,
@@ -195,13 +133,7 @@ CREATE TABLE "public"."ingredients" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."foods";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence
-CREATE SEQUENCE IF NOT EXISTS foods_id_seq;
-
--- Table Definition
+DROP TABLE IF EXISTS "public"."foods";CREATE SEQUENCE IF NOT EXISTS foods_id_seq;
 CREATE TABLE "public"."foods" (
     "id" int4 NOT NULL DEFAULT nextval('foods_id_seq'::regclass),
     "name" text NOT NULL,
@@ -217,13 +149,7 @@ CREATE TABLE "public"."foods" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."food_entries";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence
-CREATE SEQUENCE IF NOT EXISTS food_entries_id_seq;
-
--- Table Definition
+DROP TABLE IF EXISTS "public"."food_entries";CREATE SEQUENCE IF NOT EXISTS food_entries_id_seq;
 CREATE TABLE "public"."food_entries" (
     "id" int4 NOT NULL DEFAULT nextval('food_entries_id_seq'::regclass),
     "description" text NOT NULL,
@@ -239,13 +165,7 @@ CREATE TABLE "public"."food_entries" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."activity_entries";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence
-CREATE SEQUENCE IF NOT EXISTS activity_entries_id_seq;
-
--- Table Definition
+DROP TABLE IF EXISTS "public"."activity_entries";CREATE SEQUENCE IF NOT EXISTS activity_entries_id_seq;
 CREATE TABLE "public"."activity_entries" (
     "id" int4 NOT NULL DEFAULT nextval('activity_entries_id_seq'::regclass),
     "activity_id" int4,
@@ -261,13 +181,7 @@ CREATE TABLE "public"."activity_entries" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."activities";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence
-CREATE SEQUENCE IF NOT EXISTS activities_id_seq;
-
--- Table Definition
+DROP TABLE IF EXISTS "public"."activities";CREATE SEQUENCE IF NOT EXISTS activities_id_seq;
 CREATE TABLE "public"."activities" (
     "id" int4 NOT NULL DEFAULT nextval('activities_id_seq'::regclass),
     "user_id" int4,

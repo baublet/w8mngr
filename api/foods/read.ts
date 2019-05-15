@@ -10,8 +10,8 @@ export default async function readFood(
     values: [userId, id]
   });
 
-  if (queryResult.result.rows && queryResult.result.rows.length) {
-    return queryResult.result.rows[0];
+  if (queryResult.rows && queryResult.rows.length) {
+    return queryResult.rows[0];
   } else {
     return false;
   }

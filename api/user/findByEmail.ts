@@ -11,12 +11,8 @@ export default async function findUserByEmail(
       values: [email]
     });
 
-  if (
-    !queryResult.error &&
-    queryResult.result.rows &&
-    queryResult.result.rows.length
-  ) {
-    return queryResult.result.rows[0];
+  if (!queryResult.error && queryResult.rows && queryResult.rows.length) {
+    return queryResult.rows[0];
   } else {
     return false;
   }

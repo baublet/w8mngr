@@ -1,5 +1,4 @@
 import { ActivityEntryType } from "./types";
-import { DBResultType } from "api/config/db";
 import { query } from "api/config/db";
 
 export default async function updateActivityEntry(
@@ -8,7 +7,7 @@ export default async function updateActivityEntry(
   reps: number,
   work: number
 ): Promise<ActivityEntryType> {
-  const queryResult = <DBResultType>await query({
+  const queryResult = await query({
     text: `
         UPDATE activity_entries
         SET reps = $3,
@@ -19,5 +18,5 @@ export default async function updateActivityEntry(
       `,
     values: [<number>id, <number>user_id, <number>reps, <number>work]
   });
-  return queryResult.result.rows[0];
+  return queryResult.rows[0];
 }

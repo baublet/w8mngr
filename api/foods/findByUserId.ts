@@ -18,8 +18,8 @@ export default async function findUserByUserIdAndDays(
     values: [<number>userId, <number>offset, <number>limit]
   });
 
-  if (queryResult.result.rows && queryResult.result.rows.length) {
-    return queryResult.result.rows;
+  if (queryResult.rows && queryResult.rows.length) {
+    return queryResult.rows;
   } else {
     return false;
   }

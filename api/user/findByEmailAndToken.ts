@@ -13,13 +13,9 @@ export default async function findUserByEmail(
       values: [email, token]
     });
 
-  if (
-    queryResult.error ||
-    !queryResult.result.rows ||
-    !queryResult.result.rows.length
-  ) {
+  if (queryResult.error || !queryResult.rows || !queryResult.rows.length) {
     return false;
   } else {
-    return queryResult.result.rows[0];
+    return queryResult.rows[0];
   }
 }

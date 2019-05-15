@@ -1,11 +1,10 @@
-import { DBResultType } from "api/config/db";
 import { query } from "api/config/db";
 
 export default async function deleteActivity(
   id: number,
   userId: number
 ): Promise<boolean> {
-  const queryResult = <DBResultType>await query({
+  const queryResult = await query({
     text: `
         UPDATE activities SET
           deleted = true
@@ -14,7 +13,7 @@ export default async function deleteActivity(
       `,
     values: [<number>id, <number>userId]
   });
-  if (queryResult.result && queryResult.result.rowCount > 0) {
+  if (queryResult && queryResult.rowCount > 0) {
     return true;
   } else {
     return false;

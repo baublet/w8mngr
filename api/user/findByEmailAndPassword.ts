@@ -13,23 +13,19 @@ export default async function findUserByEmail(
     values: [email]
   });
 
-  if (
-    queryResult.error ||
-    !queryResult.result.rows ||
-    !queryResult.result.rows.length
-  ) {
+  if (!queryResult.rows || !queryResult.rows.length) {
     return false;
   } else {
     const passwordValid = await compare(
       password,
-      queryResult.result.rows[0].password_digest
+      queryResult.rows[0].password_digest
     );
     if (!passwordValid) {
       // Password isn't valid? User not found
       return false;
     } else {
       // User found and password valid, pass it along
-      return queryResult.result.rows[0];
+      return queryResult.rows[0];
     }
   }
 }

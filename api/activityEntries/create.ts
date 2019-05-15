@@ -1,5 +1,4 @@
 import { ActivityEntryType } from "./types";
-import { DBResultType } from "api/config/db";
 import { query } from "api/config/db";
 
 export default async function createActivityEntry(
@@ -11,7 +10,7 @@ export default async function createActivityEntry(
   calories: number = 0,
   routine_id: number | null = null
 ): Promise<ActivityEntryType> {
-  const queryResult = <DBResultType>await query({
+  const queryResult = await query({
     text: `
         INSERT INTO
           activity_entries
@@ -39,5 +38,5 @@ export default async function createActivityEntry(
       <number | null>routine_id
     ]
   });
-  return queryResult.result.rows[0];
+  return queryResult.rows[0];
 }

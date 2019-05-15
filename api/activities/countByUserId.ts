@@ -13,5 +13,5 @@ export default async function countActivitiesByUserId(
         `,
     values: [userId]
   });
-  return parseInt(queryResult.result.rows[0].cnt, 10);
+  return parseInt(queryResult.rows[0].cnt, 10);
 }

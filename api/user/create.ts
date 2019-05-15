@@ -19,5 +19,5 @@ export default async function createUser(
       values: [email, password_digest]
     });
   // New user ID will be result.rows[0].id
-  return queryResult.result.rows[0];
+  return queryResult.rows[0];
 }

@@ -1,4 +1,3 @@
-import { DBResultType } from "api/config/db";
 import { query } from "api/config/db";
 import { MeasurementType } from "./types";
 
@@ -12,16 +11,16 @@ export default async function createMeasurement(
   carbs: number,
   protein: number
 ): Promise<MeasurementType | false> {
-  const validationResult = <DBResultType>await query({
+  const validationResult = await query({
     text: `SELECT * FROM foods WHERE id = $1 AND user_id = $2`,
     values: [<number>foodId, <number>userId]
   });
 
-  if (!validationResult.result.rows || !validationResult.result.rows.length) {
+  if (!validationResult.rows || !validationResult.rows.length) {
     return false;
   }
 
-  const queryResult = <DBResultType>await query({
+  const queryResult = await query({
     text: `INSERT INTO measurements (food_id, amount, unit, calories, fat, carbs, protein, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, now(), now()) RETURNING *`,
     values: [
       <number>foodId,
@@ -34,5 +33,5 @@ export default async function createMeasurement(
     ]
   });
 
-  return queryResult.result ? queryResult.result.rows[0] : false;
+  return queryResult ? queryResult.rows[0] : false;
 }

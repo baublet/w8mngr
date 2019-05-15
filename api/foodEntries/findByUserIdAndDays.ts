@@ -11,8 +11,8 @@ export default async function findUserByUserIdAndDays(
     values: [userId, days]
   });
 
-  if (queryResult.result.rows && queryResult.result.rows.length) {
-    return queryResult.result.rows;
+  if (queryResult.rows && queryResult.rows.length) {
+    return queryResult.rows;
   } else {
     return false;
   }

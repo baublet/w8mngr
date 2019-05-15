@@ -1,5 +1,4 @@
 import { ActivityType } from "./types";
-import { DBResultType } from "api/config/db";
 import { query } from "api/config/db";
 
 export default async function updateActivity(
@@ -12,7 +11,7 @@ export default async function updateActivity(
   muscle_groups: string = "00000000000000",
   intensity: number = 0
 ): Promise<ActivityType> {
-  const queryResult = <DBResultType>await query({
+  const queryResult = await query({
     text: `
         UPDATE activities SET
           name = $3,
@@ -37,5 +36,5 @@ export default async function updateActivity(
       <number>intensity
     ]
   });
-  return queryResult.result.rows[0];
+  return queryResult.rows[0];
 }

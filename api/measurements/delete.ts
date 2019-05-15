@@ -1,4 +1,3 @@
-import { DBResultType } from "api/config/db";
 import { query } from "api/config/db";
 
 export default async function deleteMeasurement(
@@ -8,24 +7,24 @@ export default async function deleteMeasurement(
 ): Promise<boolean> {
   // First, select the foodId to be sure it's
   // owned by the user
-  const initialQueryResult = <DBResultType>await query({
+  const initialQueryResult = await query({
     text: `
       SELECT * from foods WHERE id = $1 AND user_id = $2
       `,
     values: [<number>foodId, <number>userId]
   });
 
-  if (!initialQueryResult.result || !initialQueryResult.result.rowCount) {
+  if (!initialQueryResult.rowCount) {
     return false;
   }
 
-  const queryResult = <DBResultType>await query({
+  const queryResult = await query({
     text: `
       DELETE FROM measurements WHERE id = $1 AND food_id = $2
       `,
     values: [<number>id, <number>foodId]
   });
-  if (queryResult.result && queryResult.result.rowCount > 0) {
+  if (queryResult && queryResult.rowCount > 0) {
     return true;
   } else {
     return false;

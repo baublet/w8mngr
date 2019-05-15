@@ -1,5 +1,4 @@
 import { ActivityType } from "./types";
-import { DBResultType } from "api/config/db";
 import { query } from "api/config/db";
 
 export default async function searchActivities(
@@ -11,7 +10,7 @@ export default async function searchActivities(
   offset: number = 0,
   limit: number = 10
 ): Promise<Array<ActivityType>> {
-  const queryResult = <DBResultType>await query({
+  const queryResult = await query({
     text: `
       SELECT *
         FROM activities
@@ -36,5 +35,5 @@ export default async function searchActivities(
       <number>limit
     ]
   });
-  return queryResult.result.rows;
+  return queryResult.rows;
 }

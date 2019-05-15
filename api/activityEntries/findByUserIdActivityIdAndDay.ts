@@ -18,5 +18,5 @@ export default async function findActivityEntriesByUserIdAndActivityIdAndDay(
         `,
     values: [<number>user_id, <number>activity_id, <number>day]
   });
-  return queryResult.result.rows;
+  return queryResult.rows;
 }

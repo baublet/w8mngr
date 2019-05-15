@@ -1,5 +1,4 @@
 import { FoodType } from "./types";
-import { DBResultType } from "api/config/db";
 import { query } from "api/config/db";
 
 export default async function updateFood(
@@ -8,10 +7,10 @@ export default async function updateFood(
   name: string,
   description: string
 ): Promise<FoodType> {
-  const queryResult = <DBResultType>await query({
+  const queryResult = await query({
     text:
       "UPDATE foods SET (name, description) = ($3, $4) WHERE id = $1 AND user_id = $2 RETURNING *",
     values: [<number>id, <number>userId, <string>name, <string>description]
   });
-  return queryResult.result.rows[0];
+  return queryResult.rows[0];
 }

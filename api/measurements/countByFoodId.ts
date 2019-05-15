@@ -7,5 +7,5 @@ export default async function countMeasurementsByFoodId(
     text: "SELECT COUNT(id) AS cnt FROM measurements WHERE food_id = $1",
     values: [foodId]
   });
-  return queryResult.result ? parseInt(queryResult.result.rows[0].cnt, 10) : 0;
+  return queryResult ? parseInt(queryResult.rows[0].cnt, 10) : 0;
 }

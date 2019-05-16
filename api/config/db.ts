@@ -12,7 +12,7 @@ const dbSettings: any = {
   },
   test: {
     host: "localhost",
-    user: "w8mngr",
+    user: "postgres",
     password: "password",
     database: "w8mngr-test",
     max: 20,

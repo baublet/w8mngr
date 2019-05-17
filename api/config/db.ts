@@ -1,10 +1,10 @@
 import { Pool, QueryResult } from "pg";
 
 const dbSettings: any = {
-  dev: {
+  development: {
     host: "localhost",
     user: "postgres",
-    password: "",
+    password: "password",
     database: "w8mngr-dev",
     max: 20,
     idleTimeoutMillis: 30000,

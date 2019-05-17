@@ -1,6 +1,6 @@
 import { MutationFn } from "react-apollo";
 import activityEntriesQuery from "shared/queries/activityEntries";
-import { ActivityEntryType } from "lambda/api/activityEntries/types";
+import { ActivityEntryType } from "api/activityEntries/types";
 
 export default function updateActivityEntryOperation(
   updateActivityEntryFn: MutationFn,

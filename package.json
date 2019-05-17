@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "w8mngr utilizing Netlify's functions and a React SPA",
   "scripts": {
+    "develop:init": "sudo -u postgres psql -d postgres -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public; CREATE EXTENSION IF NOT EXISTS hstore;' && npm run develop:init:dropdb && npm run develop:init:createdb && sudo -u postgres psql -d w8mngr-dev -f test/initial_structure.sql",
+    "develop:init:dropdb": "sudo -u postgres psql -c 'DROP DATABASE IF EXISTS \"w8mngr-dev\";'",
+    "develop:init:createdb": "sudo -u postgres psql -c 'CREATE DATABASE \"w8mngr-dev\";'",
     "test": "NODE_ENV=test mocha -r ts-node/register -r tsconfig-paths/register --recursive --exit --watch-extensions ts",
     "test:all": "npm run test:shared && npm run test:api",
     "test:api": "TS_NODE_PROJECT='./tsconfig.api.json' npm run test -- api/**/*.test.[jt]s",
@@ -11,9 +14,9 @@
     "test:init:dropdb": "sudo -u postgres psql -c 'DROP DATABASE IF EXISTS \"w8mngr-test\";'",
     "test:init:createdb": "sudo -u postgres psql -c 'CREATE DATABASE \"w8mngr-test\";'",
     "test:init": "sudo -u postgres psql -d postgres -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public; CREATE EXTENSION IF NOT EXISTS hstore;' && npm run test:init:dropdb && npm run test:init:createdb && sudo -u postgres psql -d w8mngr-test -f test/initial_structure.sql",
-    "start:lambda": "ts-node-dev --project tsconfig.api.json --respawn --transpileOnly ./serve.ts",
     "build:lambda": "tsc --project tsconfig.api.json",
     "build:client": "webpack --config webpack.config.js",
+    "start:lambda": "ts-node-dev --project tsconfig.api.json --respawn --transpileOnly ./serve.ts",
     "start:client": "WATCH=1 NODE_ENV=development webpack-dev-server --hot"
   },
   "_moduleAliases": {

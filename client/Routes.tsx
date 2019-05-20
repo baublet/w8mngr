@@ -55,6 +55,11 @@ export default withRouter(function Routes({
         />
         <Route
           exact
+          path="/activity/new"
+          render={props => <NewActivity {...props} />}
+        />
+        <Route
+          exact
           path="/activity/:id"
           render={({ match }) => <Activity id={match.params.id} />}
         />
@@ -67,11 +72,6 @@ export default withRouter(function Routes({
           exact
           path="/activities/search"
           render={props => <ActivitiesSearchPage {...props} />}
-        />
-        <Route
-          exact
-          path="/activity/new"
-          render={props => <NewActivity {...props} />}
         />
         <Route
           exact

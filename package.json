@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "w8mngr utilizing Netlify's functions and a React SPA",
   "scripts": {
+    "develop": "",
     "develop:init": "npm run develop:init:dropdb && npm run develop:init:createdb && docker-compose exec -u postgres db psql -d w8mngr-dev -c 'CREATE EXTENSION IF NOT EXISTS hstore;' && docker-compose exec -u postgres db psql -d w8mngr-dev -f /db-tools/initial_structure.sql",
     "develop:init:dropdb": "docker-compose exec -u postgres db psql -c 'DROP DATABASE IF EXISTS \"w8mngr-dev\";'",
     "develop:init:createdb": "docker-compose exec -u postgres db psql -c 'CREATE DATABASE \"w8mngr-dev\";'",

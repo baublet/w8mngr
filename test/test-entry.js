@@ -76,6 +76,15 @@ console.log(`
 -- WATCHING ${watchDir} --
 Once the Docker volume caches warm up, your tests will
 automatically run when related files are updated...
+
+|---------------------------------------------|
+| Don't forget to initialize your development |
+| and testing environments! Otherwise, your   |
+| environments won't function properly:       |
+|                                             |
+| - npm run develop:init                      |
+| - npm run test:init                         |
+|---------------------------------------------|
 `);
 
 watch(watchDir, { recursive: true, filter: fileFilter }, function(evt, name) {

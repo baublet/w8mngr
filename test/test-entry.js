@@ -4,13 +4,14 @@ const dependencyTree = require("dependency-tree");
 const glob = require("glob");
 const { resolve } = require("path");
 
-const watchDir = resolve(__dirname, "..");
+// Global variables
 let changedFiles = [];
 let timeout = null;
 let trees = {};
 
+// Settings
+const watchDir = resolve(__dirname, "..");
 const testsGlob = "./shared/**/*.test.ts";
-
 const testFilter = /\.test\.ts?/;
 const fileFilter = /\.tsx?/;
 const testTypes = {

@@ -11,9 +11,9 @@ const dbSettings: any = {
     connectionTimeoutMillis: 2000
   },
   test: {
-    host: "localhost",
+    host: "db",
     user: "postgres",
-    password: "password",
+    password: "dev p455_word! #",
     database: "w8mngr-test",
     max: 20,
     idleTimeoutMillis: 30000,

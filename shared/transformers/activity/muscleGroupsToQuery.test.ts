@@ -6,7 +6,6 @@ describe("MuscleGroupsToQuery", function() {
     if (groups != "1____________1%") {
       return `Expected ${groups} to be 1____________1%`;
     }
-
     groups = muscleGroupsToQuery([
       "biceps",
       "deltoids",

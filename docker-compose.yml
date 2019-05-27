@@ -7,6 +7,8 @@ services:
       - ./test:/db-tools
     environment:
       POSTGRES_PASSWORD: dev p455_word! \#
+    ports:
+      - 5432:5432
   api:
     build:
       context: .
@@ -17,6 +19,14 @@ services:
     command: npm run start:lambda
     ports:
       - 9000:9000
+  test:
+    build:
+      context: .
+    volumes:
+      - .:/app/
+    depends_on:
+      - db
+    command: npm run test:server
   web:
     build:
       context: .

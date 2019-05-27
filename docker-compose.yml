@@ -1,0 +1,31 @@
+version: "3"
+services:
+  db:
+    image: postgres:latest
+    volumes:
+      - database_data:/var/lib/postgresql/data
+      - ./test:/db-tools
+    environment:
+      POSTGRES_PASSWORD: dev p455_word! \#
+  api:
+    build:
+      context: .
+    volumes:
+      - .:/app/
+    depends_on:
+      - db
+    command: npm run start:lambda
+    ports:
+      - 9000:9000
+  web:
+    build:
+      context: .
+    volumes:
+      - .:/app/
+    depends_on:
+      - api
+    command: npm run start:client
+    ports:
+      - 8080:8080
+volumes:
+  database_data:

@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS "public"."weight_entries";
+DROP TABLE IF EXISTS "weight_entries";
 
 CREATE SEQUENCE IF NOT EXISTS weight_entries_id_seq;
 
-CREATE TABLE "public"."weight_entries" (
+CREATE TABLE "weight_entries" (
     "id" int4 NOT NULL DEFAULT nextval('weight_entries_id_seq'::regclass),
     "value" int4,
     "day" int4,
@@ -13,11 +13,11 @@ CREATE TABLE "public"."weight_entries" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."users";
+DROP TABLE IF EXISTS "users";
 
 CREATE SEQUENCE IF NOT EXISTS users_id_seq;
 
-CREATE TABLE "public"."users" (
+CREATE TABLE "users" (
     "id" int4 NOT NULL DEFAULT nextval('users_id_seq'::regclass),
     "email" varchar,
     "created_at" timestamp NOT NULL,
@@ -31,16 +31,16 @@ CREATE TABLE "public"."users" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."tags";CREATE SEQUENCE IF NOT EXISTS tags_id_seq;
-CREATE TABLE "public"."tags" (
+DROP TABLE IF EXISTS "tags";CREATE SEQUENCE IF NOT EXISTS tags_id_seq;
+CREATE TABLE "tags" (
     "id" int4 NOT NULL DEFAULT nextval('tags_id_seq'::regclass),
     "name" varchar,
     "taggings_count" int4 DEFAULT 0,
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."taggings";CREATE SEQUENCE IF NOT EXISTS taggings_id_seq;
-CREATE TABLE "public"."taggings" (
+DROP TABLE IF EXISTS "taggings";CREATE SEQUENCE IF NOT EXISTS taggings_id_seq;
+CREATE TABLE "taggings" (
     "id" int4 NOT NULL DEFAULT nextval('taggings_id_seq'::regclass),
     "tag_id" int4,
     "taggable_id" int4,
@@ -52,12 +52,12 @@ CREATE TABLE "public"."taggings" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."schema_migrations";CREATE TABLE "public"."schema_migrations" (
+DROP TABLE IF EXISTS "schema_migrations";CREATE TABLE "schema_migrations" (
     "version" varchar NOT NULL
 );
 
-DROP TABLE IF EXISTS "public"."routines";CREATE SEQUENCE IF NOT EXISTS routines_id_seq;
-CREATE TABLE "public"."routines" (
+DROP TABLE IF EXISTS "routines";CREATE SEQUENCE IF NOT EXISTS routines_id_seq;
+CREATE TABLE "routines" (
     "id" int4 NOT NULL DEFAULT nextval('routines_id_seq'::regclass),
     "user_id" int4,
     "name" text,
@@ -69,8 +69,8 @@ CREATE TABLE "public"."routines" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."recipes";CREATE SEQUENCE IF NOT EXISTS recipes_id_seq;
-CREATE TABLE "public"."recipes" (
+DROP TABLE IF EXISTS "recipes";CREATE SEQUENCE IF NOT EXISTS recipes_id_seq;
+CREATE TABLE "recipes" (
     "id" int4 NOT NULL DEFAULT nextval('recipes_id_seq'::regclass),
     "name" text NOT NULL,
     "description" text,
@@ -84,8 +84,8 @@ CREATE TABLE "public"."recipes" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."pt_messages";CREATE SEQUENCE IF NOT EXISTS pt_messages_id_seq;
-CREATE TABLE "public"."pt_messages" (
+DROP TABLE IF EXISTS "pt_messages";CREATE SEQUENCE IF NOT EXISTS pt_messages_id_seq;
+CREATE TABLE "pt_messages" (
     "id" int4 NOT NULL DEFAULT nextval('pt_messages_id_seq'::regclass),
     "user_id" int4,
     "message_type" int2 NOT NULL,
@@ -101,8 +101,8 @@ CREATE TABLE "public"."pt_messages" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."measurements";CREATE SEQUENCE IF NOT EXISTS measurements_id_seq;
-CREATE TABLE "public"."measurements" (
+DROP TABLE IF EXISTS "measurements";CREATE SEQUENCE IF NOT EXISTS measurements_id_seq;
+CREATE TABLE "measurements" (
     "id" int4 NOT NULL DEFAULT nextval('measurements_id_seq'::regclass),
     "amount" text NOT NULL,
     "unit" text NOT NULL,
@@ -117,8 +117,8 @@ CREATE TABLE "public"."measurements" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."ingredients";CREATE SEQUENCE IF NOT EXISTS ingredients_id_seq;
-CREATE TABLE "public"."ingredients" (
+DROP TABLE IF EXISTS "ingredients";CREATE SEQUENCE IF NOT EXISTS ingredients_id_seq;
+CREATE TABLE "ingredients" (
     "id" int4 NOT NULL DEFAULT nextval('ingredients_id_seq'::regclass),
     "recipe_id" int4,
     "measurement_id" int4,
@@ -133,8 +133,8 @@ CREATE TABLE "public"."ingredients" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."foods";CREATE SEQUENCE IF NOT EXISTS foods_id_seq;
-CREATE TABLE "public"."foods" (
+DROP TABLE IF EXISTS "foods";CREATE SEQUENCE IF NOT EXISTS foods_id_seq;
+CREATE TABLE "foods" (
     "id" int4 NOT NULL DEFAULT nextval('foods_id_seq'::regclass),
     "name" text NOT NULL,
     "description" text,
@@ -149,8 +149,8 @@ CREATE TABLE "public"."foods" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."food_entries";CREATE SEQUENCE IF NOT EXISTS food_entries_id_seq;
-CREATE TABLE "public"."food_entries" (
+DROP TABLE IF EXISTS "food_entries";CREATE SEQUENCE IF NOT EXISTS food_entries_id_seq;
+CREATE TABLE "food_entries" (
     "id" int4 NOT NULL DEFAULT nextval('food_entries_id_seq'::regclass),
     "description" text NOT NULL,
     "calories" int8 NOT NULL DEFAULT 0,
@@ -165,8 +165,8 @@ CREATE TABLE "public"."food_entries" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."activity_entries";CREATE SEQUENCE IF NOT EXISTS activity_entries_id_seq;
-CREATE TABLE "public"."activity_entries" (
+DROP TABLE IF EXISTS "activity_entries";CREATE SEQUENCE IF NOT EXISTS activity_entries_id_seq;
+CREATE TABLE "activity_entries" (
     "id" int4 NOT NULL DEFAULT nextval('activity_entries_id_seq'::regclass),
     "activity_id" int4,
     "user_id" int4,
@@ -181,8 +181,8 @@ CREATE TABLE "public"."activity_entries" (
     PRIMARY KEY ("id")
 );
 
-DROP TABLE IF EXISTS "public"."activities";CREATE SEQUENCE IF NOT EXISTS activities_id_seq;
-CREATE TABLE "public"."activities" (
+DROP TABLE IF EXISTS "activities";CREATE SEQUENCE IF NOT EXISTS activities_id_seq;
+CREATE TABLE "activities" (
     "id" int4 NOT NULL DEFAULT nextval('activities_id_seq'::regclass),
     "user_id" int4,
     "name" text,

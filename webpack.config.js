@@ -32,12 +32,16 @@ const webpackConfig = {
   watch,
   devServer: {
     inline: true,
-    open: true,
     disableHostCheck: true,
     contentBase: path.join(__dirname, "public"),
     historyApiFallback: true,
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: 1000
+    },
+    port: 8080,
     proxy: {
-      "/.netlify/lambda/graphql": "http://localhost:9000/graphql"
+      "/.netlify/lambda/graphql": "http://api:9000/graphql"
     }
   },
   module: {

@@ -1,4 +1,5 @@
 import { Pool, QueryResult } from "pg";
+import isCi from "api/helpers/isCi";
 
 const dbSettings: any = {
   development: {
@@ -11,7 +12,7 @@ const dbSettings: any = {
     connectionTimeoutMillis: 2000
   },
   test: {
-    host: "db",
+    host: isCi() ? "localhost" : "db",
     user: "postgres",
     password: "postgres",
     database: "w8mngr-test",

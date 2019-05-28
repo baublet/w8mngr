@@ -4,7 +4,7 @@ const dbSettings: any = {
   development: {
     host: "db",
     user: "postgres",
-    password: "dev p455_word! #",
+    password: "postgres",
     database: "w8mngr-dev",
     max: 20,
     idleTimeoutMillis: 30000,
@@ -13,7 +13,7 @@ const dbSettings: any = {
   test: {
     host: "db",
     user: "postgres",
-    password: "dev p455_word! #",
+    password: "postgres",
     database: "w8mngr-test",
     max: 20,
     idleTimeoutMillis: 30000,

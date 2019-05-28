@@ -1,7 +1,7 @@
 const watch = require("node-watch");
 const execSync = require("child_process").execSync;
 const dependencyTree = require("dependency-tree");
-const glob = require("glob");
+const glob = require("fast-glob");
 const { resolve } = require("path");
 
 // Global variables
@@ -11,7 +11,7 @@ let trees = {};
 
 // Settings
 const watchDir = resolve(__dirname, "..");
-const testsGlob = "./shared/**/*.test.ts";
+const testsGlob = "./+(shared|api|client)/**/*.test.ts";
 const testFilter = /\.test\.ts?/;
 const fileFilter = /\.tsx?/;
 const testTypes = {
@@ -56,21 +56,20 @@ function buildDependencyTree(filename) {
   });
 }
 
-function scan(firstRun = false) {
+async function scan(firstRun = false) {
   console.log(
     `\n${firstRun ? "Scanning" : "Rescanning"} ${testsGlob} for test files...`
   );
-  glob(testsGlob, {}, function(er, files) {
-    trees = {};
+  const files = await glob(testsGlob);
+  trees = {};
 
-    for (let file of files) {
-      trees[file.replace("./", "")] = buildDependencyTree(file);
-    }
-    console.log(`Found ${files.length} test files to watch...`);
-  });
+  for (let file of files) {
+    trees[file.replace("./", "")] = buildDependencyTree(file);
+  }
+  console.log(`Found ${files.length} test files to watch...`);
 }
 
-scan();
+scan(true);
 
 console.log(`
 -- WATCHING ${watchDir} --

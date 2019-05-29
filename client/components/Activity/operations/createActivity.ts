@@ -4,6 +4,7 @@ import activitiesQuery from "shared/queries/activities";
 import readActivityQuery from "shared/queries/activities.read";
 
 import { defaultPerPage } from "client/components/Apollo/PaginatedQuery";
+import scrollTo from "client/helpers/scrollTo";
 
 export default function createActivityOperation(
   name: string,
@@ -61,8 +62,8 @@ export default function createActivityOperation(
           activity: createActivity
         }
       });
-      history.replace(`/activity/${createActivity.id}/edit`);
-      window.scrollTo(0, 0);
+      history.replace(`/activity/${createActivity.id}`);
+      scrollTo();
     }
   });
 }

@@ -18,7 +18,7 @@ const testTypes = {
   "shared and api": {
     test: /(\/shared\/|\/api\/)/,
     command:
-      "TS_NODE_FAST=true TS_NODE_PROJECT='./tsconfig.api.json' NODE_ENV=test ./node_modules/.bin/mocha -r ts-node/register -r tsconfig-paths/register '{{files}}' -P --exit"
+      "TS_NODE_FAST=true TS_NODE_PROJECT='./tsconfig.api.json' NODE_ENV=test ./node_modules/.bin/mocha -r ts-node/register -r tsconfig-paths/register {{files}} -P --exit"
   }
 };
 
@@ -39,7 +39,7 @@ function getTestType(file) {
 function runTests(testsByTypes) {
   const keys = Object.keys(testTypes);
   for (let i = 0; i < keys.length; i++) {
-    const files = testsByTypes[keys[i]].join(",");
+    const files = testsByTypes[keys[i]].join(" ");
     const command = testTypes[keys[i]].command.replace("{{files}}", files);
     console.log("\n-- RUNNING --");
     console.log(command);

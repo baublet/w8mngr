@@ -2,6 +2,7 @@ import { MutationFn } from "react-apollo";
 import { History } from "history";
 import activitiesQuery from "shared/queries/activities";
 import readActivityQuery from "shared/queries/activities.read";
+import scrollTo from "client/helpers/scrollTo";
 
 export default function updateActivityOperation(
   id: number,
@@ -63,7 +64,8 @@ export default function updateActivityOperation(
           activity: updateActivity
         }
       });
-      history.replace(`/activity/${updateActivity.id}/edit`);
+      history.replace(`/activity/${updateActivity.id}`);
+      scrollTo();
     }
   });
 }

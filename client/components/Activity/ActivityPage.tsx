@@ -9,6 +9,8 @@ import calcYesterday from "shared/helpers/date/yesterday";
 import calcTomorrow from "shared/helpers/date/tomorrow";
 import PanelHeading from "../Type/PanelHeading";
 import ActivityEntries from "./ActivityEntries";
+import TransparentIconButton from "../Button/TransparentIcon";
+import EditIcon from "../Icons/Edit";
 import NewActivityEntryForm from "./NewActivityEntry";
 import Panel from "../Containers/Panel";
 import { ActivityType } from "api/activities/types";
@@ -68,6 +70,13 @@ export default function ActivityPage(
                 />
               </PanelInverted>
               <Panel className="mt-3">
+                <TransparentIconButton
+                  className="absolute pin-r pin-t"
+                  to={`/activity/${activity.id}/edit`}
+                >
+                  <EditIcon />
+                  <span className="screen-reader-text">Edit Food</span>
+                </TransparentIconButton>
                 <PanelHeading>{props.activity.name}</PanelHeading>
                 {!activity.description ? (
                   false

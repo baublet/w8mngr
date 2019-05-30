@@ -1,12 +1,10 @@
 import * as React from "react";
 import { ActivityType } from "api/activities/types";
 import Panel from "client/components/Containers/Panel";
-import ItemHeading from "../Type/ItemHeading";
 import TransparentIconButton from "../Button/TransparentIcon";
 import EditIcon from "../Icons/Edit";
 import activityTypeToString from "shared/transformers/activity/typeToString";
 import MuscleGroups from "./MuscleGroups";
-import { Link } from "react-router-dom";
 import ItemHeadingLink from "../Type/ItemHeadingLink";
 
 export interface ActivityComponentType extends ActivityType {

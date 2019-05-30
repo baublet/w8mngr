@@ -1,5 +1,7 @@
 import * as React from "react";
 import Input from "client/components/Forms/Input";
+import gramsToWeight from "shared/transformers/activity/gramsToWeight";
+import weightToGrams from "shared/transformers/activity/weightToGrams";
 
 export interface ActivityEntryFormProps {
   activityType: number;
@@ -18,8 +20,15 @@ export interface ActivityEntryFormProps {
 export default function ActivityEntryForm(
   props: ActivityEntryFormProps
 ): React.ReactComponentElement<any> {
-  const [reps, setReps] = React.useState(props.reps ? `${props.reps}` : ""),
-    [work, setWork] = React.useState(props.work || "");
+  const [reps, setReps] = React.useState(props.reps ? `${props.reps}` : "");
+  const [work, setWork] = React.useState("");
+
+  React.useEffect(() => {
+    if (!props.work) {
+      return;
+    }
+    setWork(gramsToWeight(parseInt(props.work, 10)));
+  }, []);
 
   return (
     <form

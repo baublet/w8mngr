@@ -40,6 +40,7 @@ export default function ActivityEntry({
           <ActivityEntryForm
             activityType={activityType}
             onChange={onChange}
+            onSubmit={() => {}}
             actions={
               <>
                 <AddButton type="submit" className="screen-reader-text" />

@@ -15,7 +15,7 @@ describe("weightToGrams", function() {
       }
     ];
     for (let i = 0; i < tests.length; i++) {
-      const converted = await gramsToWeight(tests[i].toConvert);
+      const converted = gramsToWeight(tests[i].toConvert);
       expect(converted).to.equal(tests[i].expected);
     }
   });
@@ -32,7 +32,7 @@ describe("weightToGrams", function() {
       }
     ];
     for (let i = 0; i < tests.length; i++) {
-      const converted = await gramsToWeight(tests[i].toConvert, "kg");
+      const converted = gramsToWeight(tests[i].toConvert, "kg");
       expect(converted).to.equal(tests[i].expected);
     }
   });
@@ -49,7 +49,7 @@ describe("weightToGrams", function() {
       }
     ];
     for (let i = 0; i < tests.length; i++) {
-      const converted = await gramsToWeight(tests[i].toConvert, "stone");
+      const converted = gramsToWeight(tests[i].toConvert, "stone");
       expect(converted).to.equal(tests[i].expected);
     }
   });

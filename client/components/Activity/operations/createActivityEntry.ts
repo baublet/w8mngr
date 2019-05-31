@@ -8,7 +8,9 @@ export default function createActivityEntryOperation(
   reps: number,
   work: string,
   setReps: React.Dispatch<string>,
-  setWork: React.Dispatch<string>
+  setWork: React.Dispatch<string>,
+  repsEl: React.RefObject<HTMLInputElement>,
+  workEl: React.RefObject<HTMLInputElement>
 ): void {
   createActivityEntryFn({
     variables: {
@@ -56,6 +58,7 @@ export default function createActivityEntryOperation(
       });
       setReps("");
       setWork("");
+      repsEl.current.focus();
     }
   });
 }

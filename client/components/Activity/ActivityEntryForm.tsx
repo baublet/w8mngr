@@ -15,6 +15,8 @@ export interface ActivityEntryFormProps {
   onChange?: (reps: number, work: string) => void;
   reps?: number;
   work?: string;
+  forwardedRepsRef?: React.RefObject<HTMLInputElement>;
+  forwardedWorkRef?: React.RefObject<HTMLInputElement>;
 }
 
 export default function ActivityEntryForm(
@@ -43,6 +45,7 @@ export default function ActivityEntryForm(
           type="text"
           placeholder="reps"
           value={reps}
+          forwardedRef={props.forwardedRepsRef}
           onChange={(e: any) => setReps(e.target.value)}
           onBlur={() =>
             props.onChange ? props.onChange(parseInt(reps, 10), work) : ""
@@ -57,6 +60,7 @@ export default function ActivityEntryForm(
             placeholder="work"
             className="ml-2"
             value={work}
+            forwardedRef={props.forwardedWorkRef}
             onChange={(e: any) => setWork(e.target.value)}
             onBlur={() =>
               props.onChange ? props.onChange(parseInt(reps, 10), work) : ""

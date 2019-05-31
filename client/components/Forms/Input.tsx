@@ -13,6 +13,7 @@ interface InputWithPlaceholder {
 }
 interface InputBasicProps extends React.HTMLProps<HTMLInputElement> {
   showLabel?: true;
+  forwardedRef?: React.RefObject<HTMLInputElement>;
 }
 export type InputProps = InputBasicProps &
   (InputWithLabel | InputWithPlaceholder);
@@ -20,15 +21,18 @@ export type InputProps = InputBasicProps &
 export default function Input(
   props: InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
-  const id = props.id || `input-inverted-${count++}`,
-    label = props.label || props.placeholder,
-    newProps = Object.assign({}, props, { id });
+  const id = props.id || `input-inverted-${count++}`;
+  const label = props.label || props.placeholder;
+  const newProps = Object.assign({}, props, { id });
+
   if (newProps.showLabel) {
     delete newProps.showLabel;
   }
+
   return (
     <>
       <input
+        ref={props.forwardedRef}
         {...newProps}
         className={`leading-normal bg-transparent w-full pt-2 py-1 ${
           !props.showLabel ? border : ""

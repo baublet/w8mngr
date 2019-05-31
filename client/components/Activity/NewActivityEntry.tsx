@@ -14,6 +14,9 @@ export interface NewActivityEntryFormProps {
 export default function NewActivityEntryForm(
   props: NewActivityEntryFormProps
 ): React.ReactComponentElement<any> {
+  const repsEl = React.useRef(null);
+  const workEl = React.useRef(null);
+
   return (
     <Mutation mutation={createActivityEntryQuery}>
       {createActivityEntryFn => {
@@ -30,7 +33,9 @@ export default function NewActivityEntryForm(
             reps,
             work,
             setReps,
-            setWork
+            setWork,
+            repsEl,
+            workEl
           );
         };
         return (
@@ -38,6 +43,8 @@ export default function NewActivityEntryForm(
             activityType={props.activityType}
             onSubmit={onSubmit}
             actions={<AddButton type="submit" className="ml-3" />}
+            forwardedRepsRef={repsEl}
+            forwardedWorkRef={workEl}
           />
         );
       }}

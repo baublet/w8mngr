@@ -9,8 +9,7 @@ export default function createActivityEntryOperation(
   work: string,
   setReps: React.Dispatch<string>,
   setWork: React.Dispatch<string>,
-  repsEl: React.RefObject<HTMLInputElement>,
-  workEl: React.RefObject<HTMLInputElement>
+  repsEl: React.RefObject<HTMLInputElement>
 ): void {
   createActivityEntryFn({
     variables: {

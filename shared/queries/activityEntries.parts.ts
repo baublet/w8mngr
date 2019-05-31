@@ -3,5 +3,6 @@ export default `
   activity_id,
   day,
   work,
-  reps
+  reps,
+  calories
 `;

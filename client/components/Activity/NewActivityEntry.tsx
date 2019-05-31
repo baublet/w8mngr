@@ -34,8 +34,7 @@ export default function NewActivityEntryForm(
             work,
             setReps,
             setWork,
-            repsEl,
-            workEl
+            repsEl
           );
         };
         return (

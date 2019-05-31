@@ -97,6 +97,7 @@ export default gql`
       day: Int
       reps: Int
       work: String
+      calories: Int
     ): ActivityEntry
     updateActivityEntry(id: Int, reps: Int, work: String): ActivityEntry
     deleteActivityEntry(id: Int): Boolean
@@ -197,5 +198,6 @@ export default gql`
     day: Int
     reps: Int
     work: Int
+    calories: Int
   }
 `;

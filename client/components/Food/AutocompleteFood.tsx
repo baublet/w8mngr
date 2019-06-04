@@ -52,7 +52,6 @@ function calculatedProps(
 export default function AutocompleteFood(
   props: AutocompleteFoodComponentProps
 ): React.ReactComponentElement<any> {
-  console.log("Render AutocompleteFood");
   const [selectedMeasurement, setSelectedMeasurement] = React.useState(0),
     [amount, setAmount] = React.useState(
       props.measurements[selectedMeasurement].amount

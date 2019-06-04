@@ -22,11 +22,6 @@ const dbSettings: any = {
   }
 };
 
-console.log(
-  `Using DB creds for the environment: ${process.env.NODE_ENV}`,
-  dbSettings[process.env.NODE_ENV]
-);
-
 const pool = new Pool(dbSettings[process.env.NODE_ENV]);
 
 export interface DBQueryParameters {

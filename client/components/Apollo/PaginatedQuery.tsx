@@ -51,8 +51,6 @@ export default function ApolloPaginatedQuery(props: ApolloQueryProps) {
       {({ loading, error, data, fetchMore }) => {
         const prop: string = props.prop || Object.keys(data)[0];
 
-        console.log(loading, error, prop, data);
-
         if (error)
           // TODO: Allow custom error handling in component props
           return (
@@ -68,13 +66,11 @@ export default function ApolloPaginatedQuery(props: ApolloQueryProps) {
           !hasMoreToLoad(data, prop, props.perPage || defaultPerPage)
             ? false
             : () => {
-                console.log("Has more to load");
                 fetchMore({
                   variables: {
                     offset: data[prop].length
                   },
                   updateQuery: (prev, { fetchMoreResult }) => {
-                    console.log("We have called the update query");
                     if (
                       !fetchMoreResult ||
                       !fetchMoreResult[prop] ||

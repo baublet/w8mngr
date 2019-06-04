@@ -10,7 +10,6 @@ export default function registerAction(
   setError: Dispatch<React.SetStateAction<boolean>>,
   setErrorMessage: Dispatch<React.SetStateAction<string>>
 ): void {
-  console.log("DATA:", data);
   if (data.register && data.register.user) {
     localStorage.setItem("token", data.register.token);
     cache.writeQuery({

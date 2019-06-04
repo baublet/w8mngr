@@ -52,7 +52,7 @@ export default function ActivityEntry({
               </>
             }
             reps={reps}
-            work={`${work}`}
+            work={work.toString()}
           />
         );
       }}

@@ -4,6 +4,7 @@ import { Mutation } from "react-apollo";
 import createActivityEntryQuery from "shared/queries/activityEntries.create";
 import createActivityEntryOperation from "./operations/createActivityEntry";
 import ActivityEntryForm from "./ActivityEntryForm";
+import { ActivityEntryTypeType } from "api/activityEntries/types";
 
 export interface NewActivityEntryFormProps {
   day: number;
@@ -16,6 +17,17 @@ export default function NewActivityEntryForm(
 ): React.ReactComponentElement<any> {
   const repsEl = React.useRef(null);
   const workEl = React.useRef(null);
+
+  React.useEffect(() => {
+    switch (props.activityType) {
+      case ActivityEntryTypeType.DISTANCE:
+      case ActivityEntryTypeType.TIMED:
+        workEl.current.focus();
+        break;
+      default:
+        repsEl.current.focus();
+    }
+  }, []);
 
   return (
     <Mutation mutation={createActivityEntryQuery}>

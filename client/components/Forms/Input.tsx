@@ -23,11 +23,8 @@ export default function Input(
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-${count++}`;
   const label = props.label || props.placeholder;
-  const newProps = Object.assign({}, props, { id });
-
-  if (newProps.showLabel) {
-    delete newProps.showLabel;
-  }
+  const { showLabel, forwardedRef, ...newProps } = props;
+  newProps.id = id;
 
   return (
     <>

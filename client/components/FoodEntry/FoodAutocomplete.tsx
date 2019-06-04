@@ -19,8 +19,6 @@ interface FoodAutocompleteComponentProps {
 export default function FoodAutocomplete(
   props: FoodAutocompleteComponentProps
 ): React.ReactComponentElement<any> {
-  console.log("Render FoodAutocomplete");
-
   const [selectedFood, setSelectedFood] = React.useState(null),
     onClick = (id: number) => () => setSelectedFood(id);
 

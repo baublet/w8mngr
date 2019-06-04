@@ -12,3 +12,10 @@ export interface ActivityEntryType {
   created_at: string;
   updated_at: string;
 }
+
+export enum ActivityEntryTypeType {
+  WEIGHTLIFTING = 0,
+  TIMED = 1,
+  DISTANCE = 2,
+  REPETITIVE = 3
+}

@@ -30,30 +30,30 @@ export default function ActivityForm(
   props: ActivityFormProps
 ): React.ReactComponentElement<any> {
   const initialState: ActivityFormState = {
-      name: props.name || "",
-      description: props.description || "",
-      activity_type: props.activity_type || 0
-    },
-    [values, setValues] = React.useState(initialState),
-    [muscleGroups, setMuscleGroups] = React.useState(
-      props.muscle_groups || "00000000000000"
-    ),
-    onChange = (event: any) => {
-      if (props.onChange) {
-        props.onChange();
-      }
-      setValues({
-        ...values,
-        [event.target.name]: event.target.value
-      });
-    },
-    changed = () => {
-      if (values.name != props.name) return true;
-      if (values.description != props.description) return true;
-      if (values.activity_type != props.activity_type) return true;
-      if (muscleGroups != props.muscle_groups) return true;
-      return false;
-    };
+    name: props.name || "",
+    description: props.description || "",
+    activity_type: props.activity_type || 0
+  };
+  const [values, setValues] = React.useState(initialState);
+  const [muscleGroups, setMuscleGroups] = React.useState(
+    props.muscle_groups || "00000000000000"
+  );
+  const onChange = (event: any) => {
+    if (props.onChange) {
+      props.onChange();
+    }
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value
+    });
+  };
+  const changed = () => {
+    if (values.name != props.name) return true;
+    if (values.description != props.description) return true;
+    if (values.activity_type != props.activity_type) return true;
+    if (muscleGroups != props.muscle_groups) return true;
+    return false;
+  };
   return (
     <>
       <form
@@ -105,7 +105,7 @@ export default function ActivityForm(
             disabled={props.loading || !changed()}
             className={props.loading || !changed() ? "opacity-50" : ""}
           >
-            {props.saveLabel || "Save Food"}
+            {props.saveLabel || "Save"}
           </PrimaryButton>
           {!props.id ? false : <ActivityDeleteButton id={props.id} />}
         </div>

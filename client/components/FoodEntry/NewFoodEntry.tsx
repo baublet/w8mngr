@@ -22,7 +22,6 @@ interface NewFoodLogState {
 }
 
 export default function NewFoodEntry(props: NewFoodEntryProps) {
-  console.log("Render NewFoodEntry");
   const initialState: NewFoodLogState = {
     description: "",
     calories: "",
@@ -39,7 +38,6 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
       carbs: string,
       protein: string
     ) => {
-      console.log("setValues");
       if (description == values.description) return;
       if (calories == values.calories) return;
       if (fat == values.fat) return;
@@ -55,7 +53,6 @@ export default function NewFoodEntry(props: NewFoodEntryProps) {
     };
 
   const onChange = (event: any) => {
-    console.log("onChange");
     setValues({
       ...values,
       [event.target.name]: event.target.value

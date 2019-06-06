@@ -39,5 +39,9 @@ export default function splitNumeric(str: string): Array<number | string> {
     parts.push(accumulator.trim());
   }
 
+  if (parts.length % 2 > 0) {
+    parts.push("");
+  }
+
   return parts;
 }

@@ -8,8 +8,8 @@ export default function distanceToMm(
 ): Promise<number> {
   return new Promise((resolve, reject) => {
     const parts = splitNumeric(original),
-      numeric = parts[0],
-      unit = parts[1] || unitString;
+      numeric: number = parts[0] as number,
+      unit: string = (parts[1] || unitString) as string;
 
     const converted = toMmFrom(numeric, unit);
 

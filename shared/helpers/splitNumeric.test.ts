@@ -21,4 +21,22 @@ describe("SplitNumeric", function() {
     });
     done();
   });
+
+  it("should properly split strings with multiple things in it", () => {
+    [
+      ["4m2s", [4, "m", 2, "s"]],
+      ["4m 2s", [4, "m", 2, "s"]],
+      ["4 m 2s", [4, "m", 2, "s"]],
+      ["4m 2 s", [4, "m", 2, "s"]],
+      ["4 m 2 s", [4, "m", 2, "s"]]
+    ].forEach(test => {
+      const ret = splitNumeric(`${test[0]}`);
+      if (test[1][0] == ret[0] && test[1][1] == ret[1]) {
+        return;
+      }
+      throw new Error(
+        `Expected ${test[1][0]} == ${ret[0]} AND ${test[1][1]} == ${ret[1]}`
+      );
+    });
+  });
 });

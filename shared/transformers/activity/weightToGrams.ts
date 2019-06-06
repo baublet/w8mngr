@@ -10,6 +10,6 @@ export default function weightToGrams(
     const parts = splitNumeric(weight),
       numeric = parts[0],
       unit = parts[1] || unitString;
-    resolve(Math.round(toGramsFrom(numeric, unit)));
+    resolve(Math.round(toGramsFrom(numeric as number, unit as string)));
   });
 }

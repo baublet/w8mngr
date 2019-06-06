@@ -1,25 +1,43 @@
 const numeric = "1234567890.,";
 
-export default function splitNumeric(str: string): [number, string] {
+export default function splitNumeric(str: string): Array<number | string> {
   str = str.trim();
+
+  const parts: Array<number | string> = [];
 
   if (!str.length) {
     return [0, ""];
   }
 
-  let i: number;
-  for (i = 0; i < str.length; i++) {
-    if (!numeric.includes(str[i])) {
-      break;
+  let i: number = 0;
+  let accumulator: string = "";
+  let lastCharNumeric: boolean = true;
+  while (i < str.length) {
+    if (numeric.includes(str[i])) {
+      if (lastCharNumeric) {
+        accumulator += str[i];
+      } else {
+        parts.push(accumulator.trim());
+        lastCharNumeric = true;
+        accumulator = str[i];
+      }
+    } else {
+      if (lastCharNumeric) {
+        parts.push(parseFloat(accumulator.substring(0, i).trim()) || 0);
+        lastCharNumeric = false;
+        accumulator = str[i];
+      } else {
+        accumulator += str[i];
+      }
     }
+    i++;
   }
 
-  const numericPart = parseFloat(str.substring(0, i).trim()) || 0,
-    nonNumericPart = str
-      .substring(i)
-      .trim()
-      .replace(".", "")
-      .replace(",", "");
+  if (lastCharNumeric) {
+    parts.push(parseFloat(accumulator.substring(0, i).trim()) || 0);
+  } else {
+    parts.push(accumulator.trim());
+  }
 
-  return [numericPart, nonNumericPart];
+  return parts;
 }

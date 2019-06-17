@@ -8,6 +8,7 @@
     "develop:init": "npm run develop:init:dropdb && npm run develop:init:createdb && docker-compose exec -u postgres db psql -d w8mngr-dev -c 'CREATE EXTENSION IF NOT EXISTS hstore;' && docker-compose exec -u postgres db psql -d w8mngr-dev -f /db-tools/initial_structure.sql",
     "develop:init:dropdb": "docker-compose exec -u postgres db psql -c 'DROP DATABASE IF EXISTS \"w8mngr-dev\";'",
     "develop:init:createdb": "docker-compose exec -u postgres db psql -c 'CREATE DATABASE \"w8mngr-dev\";'",
+    "develop:test:all": "docker-compose exec test npm run test:all",
     "test": "NODE_ENV=test mocha -r ts-node/register -r tsconfig-paths/register --recursive --exit --watch-extensions ts,tsx,json,js",
     "test:all": "npm run test:shared && npm run test:api",
     "test:api": "TS_NODE_PROJECT='./tsconfig.api.json' npm run test -- api/**/*.test.[jt]s",

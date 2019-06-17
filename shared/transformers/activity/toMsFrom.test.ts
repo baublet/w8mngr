@@ -7,7 +7,7 @@ describe("toMsFrom", function() {
       {
         num: 1,
         unit: "s",
-        expected: 100
+        expected: 1000
       },
       {
         num: 1,

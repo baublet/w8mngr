@@ -15,7 +15,11 @@ describe("timeToMs", function() {
       {
         toConvert: "300",
         expected: 300
-      }
+      },
+       {
+         toConvert: '1m2s',
+         expected: 62000
+       }
     ];
     for (let i = 0; i < tests.length; i++) {
       const converted = await convert(tests[i].toConvert);

@@ -7,12 +7,15 @@ export default function timeToMs(
   unitString: string = "ms"
 ): Promise<number> {
   return new Promise((resolve, reject) => {
-    const parts = splitNumeric(original),
-      numeric: number = parts[0] as number,
-      unit: string = (parts[1] || unitString) as string;
+    let totalMs: number = 0;
+    const parts = splitNumeric(original);
 
-    const converted = toMsFrom(numeric, unit);
+    for (let i = 0; i < parts.length; i = i + 2) {
+      const unit: string =
+        parts.length > i + 1 ? (parts[i + 1] as string) : unitString;
+      totalMs += toMsFrom(parts[i] as number, unit);
+    }
 
-    resolve(Math.round(converted));
+    resolve(Math.round(totalMs));
   });
 }

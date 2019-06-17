@@ -1,5 +1,7 @@
-import { ActivityType } from "api/activities/types";
+import { ActivityType, ActivityTypeType } from "api/activities/types";
 import weightToGrams from "./weightToGrams";
+import timeToMs from "./timeToMs";
+import distanceToMm from "./distanceToMm";
 
 // Returns grams from an arbitrary string.
 export default async function activityAndWorkToCalculated(
@@ -7,8 +9,12 @@ export default async function activityAndWorkToCalculated(
   work: string
 ): Promise<number> {
   switch (activity.activity_type) {
-    case 0:
+    case ActivityTypeType.WEIGHTLIFTING:
       return await weightToGrams(work);
+    case ActivityTypeType.TIMED:
+      return await timeToMs(work);
+    case ActivityTypeType.DISTANCE:
+      return await distanceToMm(work);
   }
   return 0;
 }

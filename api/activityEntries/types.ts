@@ -1,5 +1,3 @@
-import { ActivityType } from "api/activities/types";
-
 export interface ActivityEntryType {
   id: number;
   user_id: number;
@@ -11,11 +9,4 @@ export interface ActivityEntryType {
   calories: number;
   created_at: string;
   updated_at: string;
-}
-
-export enum ActivityEntryTypeType {
-  WEIGHTLIFTING = 0,
-  TIMED = 1,
-  DISTANCE = 2,
-  REPETITIVE = 3
 }

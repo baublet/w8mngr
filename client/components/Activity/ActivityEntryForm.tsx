@@ -1,7 +1,8 @@
 import * as React from "react";
 import Input from "client/components/Forms/Input";
 import gramsToWeight from "shared/transformers/activity/gramsToWeight";
-import { ActivityEntryTypeType } from "api/activityEntries/types";
+import { ActivityTypeType } from "api/activities/types";
+import msToTime from "shared/transformers/activity/msToTime";
 
 export interface ActivityEntryFormProps {
   activityType: number;
@@ -19,32 +20,32 @@ export interface ActivityEntryFormProps {
   forwardedWorkRef?: React.RefObject<HTMLInputElement>;
 }
 
-function workFieldForType(type: ActivityEntryTypeType): string {
+function workFieldForType(type: ActivityTypeType): string {
   switch (type) {
-    case ActivityEntryTypeType.DISTANCE:
+    case ActivityTypeType.DISTANCE:
       return "Distance";
-    case ActivityEntryTypeType.TIMED:
+    case ActivityTypeType.TIMED:
       return "Time";
-    case ActivityEntryTypeType.WEIGHTLIFTING:
+    case ActivityTypeType.WEIGHTLIFTING:
       return "Weight";
   }
   return "";
 }
 
-function hasWork(type: ActivityEntryTypeType): boolean {
+function hasWork(type: ActivityTypeType): boolean {
   switch (type) {
-    case ActivityEntryTypeType.DISTANCE:
-    case ActivityEntryTypeType.TIMED:
-    case ActivityEntryTypeType.WEIGHTLIFTING:
+    case ActivityTypeType.DISTANCE:
+    case ActivityTypeType.TIMED:
+    case ActivityTypeType.WEIGHTLIFTING:
       return true;
   }
   return false;
 }
 
-function hasReps(type: ActivityEntryTypeType): boolean {
+function hasReps(type: ActivityTypeType): boolean {
   switch (type) {
-    case ActivityEntryTypeType.DISTANCE:
-    case ActivityEntryTypeType.TIMED:
+    case ActivityTypeType.DISTANCE:
+    case ActivityTypeType.TIMED:
       return false;
   }
   return true;
@@ -61,7 +62,17 @@ export default function ActivityEntryForm(
     if (!props.work) {
       return;
     }
-    setWork(gramsToWeight(parseInt(props.work, 10)));
+    switch (props.activityType) {
+      case ActivityTypeType.DISTANCE:
+        // setWork((parseInt(props.work, 10)));
+        return;
+      case ActivityTypeType.TIMED:
+        setWork(msToTime(parseInt(props.work, 10)));
+        return;
+      case ActivityTypeType.WEIGHTLIFTING:
+        setWork(gramsToWeight(parseInt(props.work, 10)));
+        return;
+    }
   }, []);
 
   return (

@@ -5,7 +5,7 @@ import contextAuthenticator from "api/helpers/contextAuthenticator";
 
 export const server = new ApolloServer({
   typeDefs,
-  resolvers: resolvers,
+  resolvers,
   introspection: true,
   playground: true,
   context: contextAuthenticator

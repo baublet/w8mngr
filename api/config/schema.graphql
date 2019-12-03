@@ -1,0 +1,37 @@
+type FoodEntry {
+  id: ID!
+  description: String
+  calories: Int
+  fat: Int
+  carbs: Int
+  protein: Int
+  day: Int!
+  userId: Float!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+type FoodEntryConnection {
+  totalCount: Int
+  nodes: [FoodEntry]
+}
+
+type FoodLog {
+  day: Int!
+  calories: Int!
+  fat: Int!
+  carbs: Int!
+  protein: Int!
+  entries: FoodEntryConnection!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  foodLog: FoodLog
+}
+
+type Query {
+  currentUser: User
+}

@@ -1,9 +1,17 @@
-import * as jwt from "jsonwebtoken";
-import findUserByEmailAndToken from "api/user/findByEmailAndToken";
-import secrets from "api/config/secrets";
+import { verify } from "jsonwebtoken";
+import { jwtSecret } from "api/config/secrets";
 import { log } from "api/config/log";
+import { User } from "graphql-types";
 
-export default function contextAuthenticator({ event: request }) {
+export interface Context {
+  currentUser: Promise<User>;
+}
+
+export default async function contextAuthenticator({
+  event: request
+}: {
+  event: any;
+}) {
   if (!request || !request.headers || !request.headers.authorization) {
     log(
       "GQL request has no auth headers " +
@@ -11,23 +19,6 @@ export default function contextAuthenticator({ event: request }) {
     );
     return {};
   }
-  return new Promise(resolve => {
-    try {
-      const token = request.headers.authorization;
-      jwt.verify(token, secrets.jwtSecret, async (err, decoded) => {
-        if (err) {
-          return resolve({});
-        }
-        const user = await findUserByEmailAndToken(
-          decoded.email,
-          decoded.token
-        );
-        resolve(user ? { user } : {});
-      });
-    } catch (e) {
-      console.log(e);
-      log(`Error verifying JSON token`, e);
-      resolve({ messages: `Authentication failed: ${e}` });
-    }
-  });
+  const token = request.headers.authorization;
+  return verify(token, jwtSecret);
 }

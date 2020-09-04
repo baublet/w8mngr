@@ -42,7 +42,7 @@
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
     "lodash.memoize": "^4.1.2",
-    "markdown-to-jsx": "^6.9.1",
+    "markdown-to-jsx": "^6.11.4",
     "module-alias": "^2.2.0",
     "pg-hstore": "^2.3.2",
     "react": "^16.12.0",

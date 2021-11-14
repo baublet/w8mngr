@@ -1,10 +1,17 @@
 import { createWriteStream } from "fs";
+import stringify from "json-stringify-safe";
 
 const stream = createWriteStream("logs/graphql.log", { flags: "a" });
 
-export const LOG_LEVEL_DEBUG = 5;
-
-export function log(data: string, level: number = LOG_LEVEL_DEBUG): void {
-  const text: string = "[" + new Date().toISOString() + "] " + data + "\n";
+export function log(
+  level: "debug" | "error" | "info" | "warn",
+  message: string,
+  details?: Record<string, any>
+): void {
+  let text: string = level + " [" + new Date().toISOString() + "] " + message;
+  if (details) {
+    text += stringify(details);
+  }
+  text += "\n";
   stream.write(text);
 }

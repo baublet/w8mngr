@@ -1,6 +1,7 @@
-export const bodyParseError = "Error parsing incoming request.";
-export const registrationSuccess = "Welcome to w8mngr.";
-export const loginSuccessMessage = "Welcome back to w8mngr.";
-export const loginErrorMessage = "Username or password invalid.";
-export const registrationErrorEmailTaken =
-  "This email address is already registered.";
+export const messages = {
+  bodyParseError: "Error parsing incoming request.",
+  registrationSuccess: "Welcome to w8mngr.",
+  loginSuccessMessage: "Welcome back to w8mngr.",
+  loginErrorMessage: "Username or password invalid.",
+  registrationErrorEmailTaken: "This email address is already registered.",
+};

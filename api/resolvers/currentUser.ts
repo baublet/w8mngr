@@ -1,13 +1,13 @@
-import { ResolversParentTypes, User } from "graphql-types";
+import { QueryResolvers } from "../../graphql-types";
 
-export async function currentUser(
-  parent: ResolversParentTypes,
-  _args: null,
+export const currentUser: QueryResolvers["currentUser"] = (
+  parent,
+  args,
   context
-): Promise<User> {
+) => {
   return {
     id: "id",
     name: "Test Name",
-    email: "test@gmail.com"
+    email: "test@gmail.com",
   };
-}
+};

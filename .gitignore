@@ -7,3 +7,4 @@ lambda/*
 public/*
 !public/.gitkeep
 *.log
+graphql-types.d.ts

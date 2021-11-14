@@ -1,47 +1,46 @@
-import { Pool, QueryResult } from "pg";
+import { Knex, knex } from "knex";
+import { Context } from "../context";
 
-const dbSettings: any = {
-  development: {
+const dbSettings: Knex.Config = {
+  client: "mysql",
+  connection: {
     host: "db",
     user: "postgres",
     password: "postgres",
     database: "w8mngr-dev",
-    max: 20,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000
   },
-  test: {
-    host: "localhost",
-    user: "postgres",
-    password: "postgres",
-    database: "w8mngr-test",
-    max: 20,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000
-  }
 };
 
-const pool = new Pool(dbSettings[process.env.NODE_ENV]);
-
-export interface DBQueryParameters {
-  text: string;
-  values?: Array<string | number | Array<string> | Array<number>>;
-}
-
 // Our general-purpose query handler
-async function query({
-  text,
-  values = []
-}: DBQueryParameters): Promise<QueryResult> {
-  const client = await pool.connect();
-  try {
-    const result = await client.query(text, values);
-    client.release();
-    return result;
-  } catch (e) {
-    client.release();
-    throw new Error(e);
-  }
+async function getConnection(): Promise<Knex> {
+  return knex(dbSettings);
 }
 
-export { query, dbSettings };
+async function dbService() {
+  const connection = await getConnection();
+  return {
+    connection,
+  };
+}
+
+export type DBConnection<TEntity = any> = Knex<TEntity>;
+export type DBQuery<TEntity = any, TResult = any> = Knex.QueryBuilder<
+  TEntity,
+  TResult
+>;
+
+function getQueryProvider<TEntity = any>(tableName: string) {
+  return async (
+    context: Context,
+    performQuery: (query: Knex.QueryBuilder<TEntity>) => any
+  ) => {
+    const { connection } = await context.services.get(dbService);
+
+    const query = connection<TEntity>(tableName);
+    await performQuery(query);
+
+    return query;
+  };
+}
+
+export { dbService, dbSettings, getQueryProvider };

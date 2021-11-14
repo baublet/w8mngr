@@ -1,3 +1,7 @@
+type Query {
+  currentUser: User
+}
+
 type FoodEntry {
   id: ID!
   description: String
@@ -12,7 +16,7 @@ type FoodEntry {
 }
 
 type FoodEntryConnection {
-  totalCount: Int
+  pageInfo: Int
   nodes: [FoodEntry]
 }
 
@@ -32,6 +36,8 @@ type User {
   foodLog: FoodLog
 }
 
-type Query {
-  currentUser: User
+type PageInfo {
+  totalCount: Int!
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
 }

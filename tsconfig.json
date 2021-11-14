@@ -4,12 +4,9 @@
     "jsx": "react",
     "esModuleInterop": true,
     "lib": ["es2018", "dom"],
-    "paths": {
-      "api/*": ["api/*"],
-      "shared/*": ["shared/*"],
-      "client/*": ["client/*"]
-    }
+    "strict": true,
+    "noImplicitAny": true
   },
-  "include": ["**/*"],
-  "exclude": ["node_modules", "**/*.test.ts"]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

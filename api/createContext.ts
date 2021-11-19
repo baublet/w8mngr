@@ -10,7 +10,7 @@ export interface Context {
   services: ServiceContainer;
 }
 
-export function getContext({
+export function createContext({
   user,
 }: {
   user?: UserEntity;

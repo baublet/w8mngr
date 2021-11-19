@@ -8,3 +8,6 @@ public/*
 !public/.gitkeep
 *.log
 graphql-types.d.ts
+api/graphql.js
+api/graphql.js.map
+dev.sqlite3

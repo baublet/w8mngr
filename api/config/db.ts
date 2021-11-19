@@ -19,7 +19,7 @@ async function getConnection(): Promise<Knex> {
 async function dbService() {
   const connection = await getConnection();
   return {
-    connection,
+    getConnection: () => connection,
   };
 }
 
@@ -34,7 +34,8 @@ function getQueryProvider<TEntity = any>(tableName: string) {
     context: Context,
     performQuery: (query: Knex.QueryBuilder<TEntity>) => any
   ) => {
-    const { connection } = await context.services.get(dbService);
+    const { getConnection } = await context.services.get(dbService);
+    const connection = await getConnection();
 
     const query = connection<TEntity>(tableName);
     await performQuery(query);

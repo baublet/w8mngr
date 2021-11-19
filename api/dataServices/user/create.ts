@@ -1,4 +1,4 @@
-import { Context } from "../../context";
+import { Context } from "../../createContext";
 import { UserEntity } from "./types";
 import { query } from "./query";
 

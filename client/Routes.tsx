@@ -7,9 +7,5 @@ const history = createBrowserHistory();
 export { history };
 
 export function Routes({ location }: any): React.ReactComponentElement<any> {
-  return (
-    <React.Suspense fallback={<PrimaryLoader />}>
-      <b>Hello world</b>
-    </React.Suspense>
-  );
+  return <b>Hello world</b>;
 }

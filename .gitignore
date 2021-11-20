@@ -10,3 +10,4 @@ api/graphql.js.map
 dev.sqlite3
 client/index.js
 client/index.js.map
+client/tailwind.css

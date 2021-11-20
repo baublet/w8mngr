@@ -1,6 +1,3 @@
-@tailwind preflight;
-@tailwind components;
-
 *,
 *:after,
 *:before {
@@ -26,39 +23,20 @@ svg {
 
 a svg,
 button svg {
-  @apply opacity-75;
+  opacity: 0.75;
 }
 
 a:hover svg,
 a:focus svg,
 button:hover svg,
 button:focus svg {
-  @apply opacity-100;
-}
-
-.screen-reader-text {
-  border: 0;
-  clip: rect(1px, 1px, 1px, 1px);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-  word-wrap: normal !important;
+  opacity: 1;
 }
 
 ::placeholder {
   opacity: 0.75;
   text-transform: uppercase;
   @apply text-xs;
-}
-
-.bg-linearGradient {
-  background-image: linear-gradient(25deg, #8433e8, #462d9b);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
 }
 
 select {
@@ -75,27 +53,3 @@ select option {
 select::-ms-expand {
   display: none;
 }
-
-.minimalSelect {
-  background-image: linear-gradient(45deg, transparent 50%, #ccc 50%),
-    linear-gradient(135deg, #ccc 50%, transparent 50%);
-  background-position: calc(100% - 20px) calc(1em - 1px),
-    calc(100% - 15px) calc(1em - 1px);
-  background-size: 5px 5px, 5px 5px, 1px 1.5em;
-  background-repeat: no-repeat;
-}
-
-.bodyOutline {
-  @apply stroke-current;
-  @apply text-foregroundLight;
-}
-
-.muscleGroup {
-  @apply text-foregroundLighter;
-}
-
-.muscleGroup--selected {
-  @apply text-secondaryLight;
-}
-
-@tailwind utilities;

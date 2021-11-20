@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 
-export default function FoodCircleIcon(): React.ReactComponentElement<any> {
+export function FoodCircleIcon(): React.ReactComponentElement<any> {
   return (
     <svg
       width="24"

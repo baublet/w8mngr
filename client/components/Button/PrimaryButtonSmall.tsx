@@ -1,8 +1,9 @@
-import * as React from "react";
-import BaseButton from "./Base";
+import React from "react";
 import { LinkProps } from "react-router-dom";
 
-export default function PrimarySmallButton(
+import { BaseButton } from "./Base";
+
+export function PrimarySmallButton(
   props: React.HTMLProps<HTMLButtonElement> | LinkProps
 ): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
   return (

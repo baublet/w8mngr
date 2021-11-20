@@ -10,7 +10,7 @@ export interface UseFormType {
 
 export type UseFormCallback = (values: ValuesType) => void;
 
-export default function useForm(
+export function useForm(
   callback: UseFormCallback,
   initialValues: ValuesType
 ): UseFormType {

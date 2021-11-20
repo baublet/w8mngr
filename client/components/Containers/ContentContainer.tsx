@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 
-export default function ContentContainer(
+export function ContentContainer(
   props: React.HTMLProps<HTMLInputElement>
 ) {
   const classNames = `mx-auto max-w-contentWidth w-full px-3

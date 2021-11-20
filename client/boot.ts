@@ -1,1 +1,1 @@
-export default function boot() {}
+export function boot() {}

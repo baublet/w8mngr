@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 
-export default function PanelInverted(
+export function PanelInverted(
   props: React.HTMLProps<HTMLInputElement>
 ) {
   const classNames = `bg-primary text-primaryText p-3 shadow rounded ${props.className ||

@@ -1,7 +1,7 @@
-import * as React from "react";
+import React from "react";
 import CheckMarkIcon from "./Check";
 
-export default function SavedIcon(
+export function SavedIcon(
   props: React.HTMLProps<HTMLInputElement>
 ): React.ReactComponentElement<any> {
   return (

@@ -1,4 +1,5 @@
-import * as React from "react";
+import React from "react";
+
 import { InputProps } from "./Input";
 
 let count = 0;
@@ -8,7 +9,7 @@ interface FoodEntryInputProps {
   getRef?: (ref: React.RefObject<HTMLInputElement>) => void;
 }
 
-export default function InputAutocompleteFood(
+export function InputAutocompleteFood(
   props: FoodEntryInputProps & InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-food-entry-${count++}`,

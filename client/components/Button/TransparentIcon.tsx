@@ -1,8 +1,9 @@
-import * as React from "react";
-import BaseButton from "./Base";
+import React from "react";
 import { LinkProps } from "react-router-dom";
 
-export default function TransparentIconButton(
+import { BaseButton } from "./Base";
+
+export function TransparentIconButton(
   props: React.HTMLProps<HTMLButtonElement> | LinkProps
 ): React.ReactElement<React.HTMLProps<HTMLButtonElement | LinkProps>, any> {
   return (

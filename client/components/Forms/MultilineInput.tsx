@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 let count = 0;
 
@@ -12,7 +12,7 @@ type InputBasicProps = React.HTMLProps<HTMLTextAreaElement>;
 export type InputProps = InputBasicProps &
   (MultilineInputWithLabel | MultilineInputWithPlaceholder);
 
-export default function MultilineInput(
+export function MultilineInput(
   props: InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-${count++}`,

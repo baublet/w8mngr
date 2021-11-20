@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 
-export default function LogoutCircleIcon(): React.ReactComponentElement<any> {
+export function LogoutCircleIcon(): React.ReactComponentElement<any> {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

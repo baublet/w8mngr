@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 
-export default function EditIcon(
+export function EditIcon(
   props: React.HTMLProps<HTMLInputElement>
 ): React.ReactComponentElement<any> {
   return (

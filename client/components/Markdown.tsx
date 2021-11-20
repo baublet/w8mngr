@@ -1,18 +1,14 @@
-import * as React from "react";
-//@ts-ignore
-import Markdown from "markdown-to-jsx";
+import React from "react";
 
 interface MarkdownProps {
   content: string;
   className?: string;
 }
 
-export default function MarkdownRenderer(
+export function MarkdownRenderer(
   props: MarkdownProps
 ): React.ReactComponentElement<any> {
   return (
-    <div className={`longForm ${props.className || ""}`}>
-      <Markdown children={props.content} />
-    </div>
+    <div className={`longForm ${props.className || ""}`}>{props.content}</div>
   );
 }

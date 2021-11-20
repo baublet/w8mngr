@@ -1,7 +1,8 @@
-import * as React from "react";
-import BaseButton from "./Base";
+import React from "react";
 
-export default function SecondaryIconButton(
+import { BaseButton } from "./Base";
+
+export function SecondaryIconButton(
   props: React.HTMLProps<HTMLButtonElement>
 ): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
   return (

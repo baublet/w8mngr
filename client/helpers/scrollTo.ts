@@ -1,8 +1,8 @@
-export default function scrollTo(element: string = "main") {
+export function scrollTo(element: string = "main") {
   if (!document) {
     return;
   }
   document
     .querySelector(element)
-    .scrollIntoView({ behavior: "smooth", block: "start" });
+    ?.scrollIntoView({ behavior: "smooth", block: "start" });
 }

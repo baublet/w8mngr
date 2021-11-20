@@ -1,15 +1,14 @@
-import { hot } from "react-hot-loader";
-import { Link, Router } from "react-router-dom";
-import * as React from "react";
-import ContentContainer from "client/components/Containers/ContentContainer";
-import HeartIcon from "client/components/Icons/Heart";
-import IsLoggedIn from "client/components/Auth/IsLoggedIn";
-import IsLoggedOut from "client/components/Auth/IsLoggedOut";
-import Routes from "./Routes";
-import history from "client/history";
-import FoodCircleIcon from "./components/Icons/FoodCircle";
-import HealthCircleIcon from "./components/Icons/HealthCircle";
-import LogoutCircleIcon from "./components/Icons/LogoutCircleIcon";
+import { Link, BrowserRouter } from "react-router-dom";
+import React from "react";
+
+import { ContentContainer } from "./components/Containers/ContentContainer";
+import { HeartIcon } from "./components/Icons/Heart";
+import { Routes } from "./Routes";
+import { FoodCircleIcon } from "./components/Icons/FoodCircle";
+import { HealthCircleIcon } from "./components/Icons/HealthCircle";
+import { LogoutCircleIcon } from "./components/Icons/LogoutCircleIcon";
+import { IsLoggedIn } from "./components/Auth/IsLoggedIn";
+import { IsLoggedOut } from "./components/Auth/IsLoggedOut";
 
 interface NavigationIconProps {
   to: string;
@@ -18,8 +17,8 @@ interface NavigationIconProps {
 }
 
 function NavigationIcon(props: NavigationIconProps) {
-  const { to, icon, text } = props,
-    active = history.location.pathname == to;
+  const { to, icon, text } = props;
+  const active = window.location.pathname == to;
   return (
     <Link to={to} className={`block ${active ? "" : "opacity-75"}`}>
       <div className="text-xl block text-center">{icon}</div>
@@ -28,9 +27,9 @@ function NavigationIcon(props: NavigationIconProps) {
   );
 }
 
-function Application(): React.ReactComponentElement<any> {
+export function Application(): React.ReactComponentElement<any> {
   return (
-    <Router history={history}>
+    <BrowserRouter>
       <div className="flex flex-col min-h-full">
         <div className="min-h-screen">
           <header className="my-5">
@@ -71,8 +70,6 @@ function Application(): React.ReactComponentElement<any> {
           <ContentContainer>Footer</ContentContainer>
         </footer>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
-
-export default hot(module)(Application);

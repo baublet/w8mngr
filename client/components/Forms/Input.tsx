@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 let count = 0;
 
@@ -18,7 +18,7 @@ interface InputBasicProps extends React.HTMLProps<HTMLInputElement> {
 export type InputProps = InputBasicProps &
   (InputWithLabel | InputWithPlaceholder);
 
-export default function Input(
+export function Input(
   props: InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-${count++}`;

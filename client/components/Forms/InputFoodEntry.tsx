@@ -1,4 +1,5 @@
-import * as React from "react";
+import React from "react";
+
 import { InputProps } from "./Input";
 
 let count = 0;
@@ -7,7 +8,7 @@ interface FoodEntryInputProps {
   hideLabel?: boolean;
 }
 
-export default function InputFoodEntry(
+export function InputFoodEntry(
   props: FoodEntryInputProps & InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-food-entry-${count++}`,

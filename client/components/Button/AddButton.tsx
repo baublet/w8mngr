@@ -1,16 +1,18 @@
-import * as React from "react";
-import GhostButton from "./GhostInverted";
+import React from "react";
 
-export default function AddButton(
+import { GhostInvertedButton } from "./GhostInverted";
+
+export function AddButton(
   props: React.HTMLProps<HTMLButtonElement>
 ): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
   return (
-    <GhostButton
+    <GhostInvertedButton
       {...props}
-      className={`bg-transparent p-3 text-foreground rounded text-xs hover:bg-foregroundSlight focus:bg-foregroundSlight ${props.className ||
-        ""}`}
+      className={`bg-transparent p-3 text-foreground rounded text-xs hover:bg-foregroundSlight focus:bg-foregroundSlight ${
+        props.className || ""
+      }`}
     >
       &#43;&nbsp;&nbsp;Add
-    </GhostButton>
+    </GhostInvertedButton>
   );
 }

@@ -1,12 +1,12 @@
-import * as React from "react";
-import ContentContainer from "client/components/Containers/ContentContainer";
-import { ReactComponentLike } from "prop-types";
+import React from "react";
+
+import { ContentContainer } from "../../components/Containers/ContentContainer";
 
 interface PageHeadingProps extends React.HTMLProps<HTMLInputElement> {
   quickLinks?: React.ReactComponentElement<any> | false;
 }
 
-export default function PageHeading(
+export function PageHeading(
   props: PageHeadingProps
 ): React.ReactComponentElement<any> {
   return (

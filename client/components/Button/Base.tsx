@@ -1,7 +1,7 @@
-import * as React from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-export default function BaseButton(props: any): any {
+export function BaseButton(props: any): any {
   return props.to ? (
     <Link {...props} className={`inline-block ${props.className}`} />
   ) : (

@@ -1,9 +1,6 @@
 node_modules
 .vscode
-functions/*
 *.
-lambda/*
-!lambda/.gitkeep
 public/*
 !public/.gitkeep
 *.log
@@ -11,3 +8,5 @@ graphql-types.d.ts
 api/graphql.js
 api/graphql.js.map
 dev.sqlite3
+client/index.js
+client/index.js.map

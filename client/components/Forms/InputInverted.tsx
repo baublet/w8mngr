@@ -1,9 +1,10 @@
-import * as React from "react";
+import React from "react";
+
 import { InputProps } from "./Input";
 
 let count = 0;
 
-export default function InputInverted(
+export function InputInverted(
   props: InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-${count++}`,

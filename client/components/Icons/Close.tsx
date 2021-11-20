@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 
-export default function CloseIcon(
+export function CloseIcon(
   props: React.HTMLProps<HTMLInputElement>
 ): React.ReactComponentElement<any> {
   return (

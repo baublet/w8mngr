@@ -1,6 +1,5 @@
 import {
   getTestGlobalContext,
-  getTestGlobalServiceContainer,
 } from "../../config/db";
 
 import { create } from "./create";
@@ -14,7 +13,7 @@ it("throws if the user account isn't found user account", async () => {
   );
 });
 
-it("throws if the user account isn't found user account", async () => {
+it("returns the user account if we can find it", async () => {
   await create(getTestGlobalContext(), {
     id: "here",
   });

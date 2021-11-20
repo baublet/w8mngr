@@ -1,11 +1,21 @@
+import { ulid } from "ulid";
+
 import { Context } from "../../createContext";
 import { UserEntity } from "./types";
 import { query } from "./query";
+import { findOneOrFail } from "./findOneOrFail";
 
 export async function create(
   context: Context,
-  user: Partial<UserEntity>
+  user: Omit<Partial<UserEntity>, "id">
 ): Promise<UserEntity> {
-  const inserted = await query(context, (query) => query.insert(user));
-  return inserted[0];
+  const id = ulid();
+  await query(context, (query) => {
+    query.insert({
+      ...user,
+      id,
+    });
+    return query;
+  });
+  return findOneOrFail(context, (q) => q.where("id", "=", id));
 }

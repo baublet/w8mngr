@@ -9,7 +9,8 @@ export async function update(
 ): Promise<UserAccountEntity> {
   const updated = await query(context, async (query) => {
     await where(query);
-    query.insert(userAccount);
+    query.update(userAccount);
+    return query;
   });
   return updated[0];
 }

@@ -1,6 +1,6 @@
 module.exports = {
-  globalSetup: "./testSetup.ts",
-  globalTeardown: "./testTeardown.ts",
+  setupFilesAfterEnv: ['./testSetup.ts'],
+  watchPathIgnorePatterns: ["dev.sqlite3", ".js"],
   transform: {
     "^.+\\.tsx?$": [
       "esbuild-jest",

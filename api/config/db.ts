@@ -1,12 +1,12 @@
-import {
-  createServiceContainer,
-  ServiceContainer,
-} from "@baublet/service-container";
+import path from "path";
+
+import { ServiceContainer } from "@baublet/service-container";
 import { Knex, knex } from "knex";
 
-import { Context } from "../createContext";
+import { Context, createContext } from "../createContext";
 import { log } from "./log";
 import knexConfig from "../../knexfile";
+import { disableExperimentalFragmentVariables } from "graphql-tag";
 
 const environment = process.env.NODE_ENV || "develop";
 assertIsValidEnvironment(environment);
@@ -28,8 +28,9 @@ if (!dbSettings) {
     )}`
   );
 } else {
-  console.log("\n")
-  log("info", "Database driver initializing", { dbSettings });
+  if (process.env.NODE_ENV !== "test") {
+    log("info", "Database driver initializing", { dbSettings });
+  }
 }
 
 // Our general-purpose query handler
@@ -40,8 +41,9 @@ async function getConnection(): Promise<Knex> {
 async function dbService() {
   const connection = await getConnection();
   return {
-    getConnection: () => connection,
-    closeConnection: () => connection.destroy(),
+    getConnection: () => {
+      return connection;
+    },
   };
 }
 
@@ -54,15 +56,15 @@ export type DBQuery<TEntity = any, TResult = any> = Knex.QueryBuilder<
 function getQueryProvider<TEntity = any>(tableName: string) {
   return async (
     context: Context,
-    performQuery: (query: Knex.QueryBuilder<TEntity>) => any
+    performQuery: <T extends Knex.QueryBuilder<TEntity>>(
+      query: T
+    ) => T | Promise<T>
   ) => {
     const { getConnection } = await context.services.get(dbService);
     const connection = await getConnection();
 
     const query = connection<TEntity>(tableName);
-    await performQuery(query);
-
-    return query;
+    return performQuery(query);
   };
 }
 
@@ -75,7 +77,13 @@ export type QueryBuilderForQuery<
   ) => Promise<any[]>
 > = Parameters<Parameters<T>[1]>[0];
 
-const testGlobalServiceContainer: ServiceContainer = createServiceContainer();
+const testGlobalContext = createContext();
+const testGlobalServiceContainer: ServiceContainer = testGlobalContext.services;
+
+export function getTestGlobalContext(): Context {
+  return testGlobalContext;
+}
+
 export function getTestGlobalServiceContainer(): ServiceContainer {
   if (process.env.NODE_ENV !== "test") {
     throw new Error(
@@ -83,4 +91,26 @@ export function getTestGlobalServiceContainer(): ServiceContainer {
     );
   }
   return testGlobalServiceContainer;
+}
+
+export async function testSetup() {
+  const databaseService = await getTestGlobalContext().services.get(dbService);
+  const connection = await databaseService.getConnection();
+  await connection.migrate.latest({
+    directory: path.resolve(process.cwd(), "migrations"),
+  });
+}
+
+export async function testCleanup() {
+  const databaseService = await getTestGlobalContext().services.get(dbService);
+  const connection = await databaseService.getConnection();
+  await connection.destroy();
+  getTestGlobalContext().services.delete(dbService);
+}
+
+export async function getTestGlobalDatabaseConnection() {
+  const service = await getTestGlobalServiceContainer().get(dbService);
+  const connection = await service.getConnection();
+  await connection.migrate.latest();
+  return connection;
 }

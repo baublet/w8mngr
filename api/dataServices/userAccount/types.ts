@@ -1,7 +1,8 @@
 export interface UserAccountEntity {
   id: string;
   userId: string;
-  source: "github";
+  source: "github" | "local";
   sourceIdentifier: string;
-  sourceData: Record<string, any>
+  sourceData: Record<string, any>;
+  passwordDigest?: string;
 }

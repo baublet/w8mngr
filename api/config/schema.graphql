@@ -4,6 +4,7 @@ type Query {
 
 type Mutation {
   login(input: LoginInput!): LoginMutationPayload!
+  logout: LogoutMutationPayload!
   register(input: RegisterInput!): LoginMutationPayload!
 }
 
@@ -25,6 +26,10 @@ input RegisterInput {
 #################
 # Types         #
 #################
+
+type LogoutMutationPayload {
+  expiredTokens: [String!]!
+}
 
 type LoginMutationPayload {
   token: String!

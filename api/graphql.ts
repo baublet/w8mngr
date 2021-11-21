@@ -60,10 +60,14 @@ export const server = new ApolloServer({
               for (const [cookieName, { value, options }] of Array.from(
                 context.getCookies().entries()
               )) {
-                response.cookie(cookieName, value, {
-                  ...options,
-                  httpOnly: true,
-                });
+                if (value !== undefined) {
+                  response.cookie(cookieName, value, {
+                    ...options,
+                    httpOnly: true,
+                  });
+                } else {
+                  response.clearCookie(cookieName);
+                }
               }
             }
           },

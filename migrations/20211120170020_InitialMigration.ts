@@ -25,7 +25,7 @@ export async function up(knex: Knex): Promise<void> {
     table.text("clientId").notNullable().index();
     table.text("userAccountId").notNullable().index();
     table.timestamp("createdAt").defaultTo(knex.fn.now());
-    table.timestamp("expires").notNullable();
+    table.date("expires").notNullable();
   });
 }
 

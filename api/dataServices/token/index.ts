@@ -1,4 +1,5 @@
 import { create } from "./create";
+import { deleteByTokenDigests } from "./deleteByTokenDigests";
 import { deleteExpiredTokens } from "./deleteExpiredTokens";
 import { getOrCreate } from "./getOrCreate";
 import { findOneOrFail } from "./findOneOrFail";
@@ -7,6 +8,7 @@ import { update } from "./update";
 
 export const tokenDataService = {
   create,
+  deleteByTokenDigests,
   deleteExpiredTokens,
   getOrCreate,
   findByToken,

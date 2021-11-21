@@ -24,6 +24,8 @@ export interface Context {
   getCookies: () => Map<string, { value: string | undefined; options: any }>;
   getResponse: () => Response | undefined;
   setResponse: (response: Response) => void;
+  getRequest: () => Request | undefined;
+  setRequest: (request: Request) => void;
 }
 
 export function createContext(
@@ -40,6 +42,7 @@ export function createContext(
     { value: string | undefined; options: any }
   >();
   let contextResponse: Response;
+  let contextRequest: Request;
 
   const context: Context = {
     getClientId: () => clientId,
@@ -50,6 +53,8 @@ export function createContext(
     getCookies: () => cookiesToSet,
     setResponse: (response) => (contextResponse = response),
     getResponse: () => contextResponse,
+    setRequest: (request) => (contextRequest = request),
+    getRequest: () => contextRequest,
   };
 
   return context;
@@ -70,6 +75,7 @@ export const createGraphqlContext: ContextFunction<
   });
 
   context.setResponse(res);
+  context.setRequest(req);
 
   log("debug", "New request", {
     token,

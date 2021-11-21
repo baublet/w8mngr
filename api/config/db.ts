@@ -80,7 +80,9 @@ function getQueryProvider<TEntity = any>(tableName: string) {
     const connection = await getConnection();
 
     const query = connection<TEntity>(tableName);
-    return performQuery(query);
+    const results = await performQuery(query);
+    log("debug", query.toQuery(), { bindings: query.toSQL().bindings });
+    return results;
   };
 }
 

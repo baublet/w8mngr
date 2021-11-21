@@ -8,8 +8,8 @@ export const login: Required<MutationResolvers>["login"] = async (
 ) => {
   const login = await userDataService.login(context, input);
 
-  if(login instanceof Error) {
-    throw new Error(`Login attempt failed`)
+  if (login instanceof Error) {
+    throw login;
   }
 
   return login;

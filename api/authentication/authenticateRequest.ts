@@ -1,6 +1,5 @@
 import { Request } from "express";
 
-import { TOKEN_EXPIRY_OFFSET } from "../dataServices/token/types";
 import { log } from "../config/log";
 import { Context } from "../createContext";
 import { UserEntity, userDataService } from "../dataServices";

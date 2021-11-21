@@ -1,5 +1,5 @@
 import { userDataService } from "../../dataServices";
-import { MutationResolvers } from "../../../graphql-types";
+import { MutationResolvers } from "../../graphql-types";
 
 export const register: Required<MutationResolvers>["register"] = async (
   parent,

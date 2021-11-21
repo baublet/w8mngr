@@ -5,8 +5,10 @@ import { Context } from "../../createContext";
 import { UserEntity } from "./types";
 import { userDataService } from "./";
 import { userAccountDataService } from "../userAccount/";
-import { createDigest } from "../../authentication";
+import { createDigest, hashPassword } from "../../authentication";
 import { ReturnTypeWithErrors, assertIsError } from "../../types";
+import { tokenDataService } from "../token";
+import { TOKEN_EXPIRY_OFFSET } from "../token/types";
 
 export async function register(
   context: Context,
@@ -23,18 +25,15 @@ export async function register(
   }>
 > {
   if (credentials.password !== credentials.passwordConfirmation) {
-    throw new Error(`Passwords don't match`);
+    throw new Error("Passwords don't match");
   }
   const databaseService = await context.services.get(dbService);
   await databaseService.transact();
   try {
-    const passwordDigest = createDigest(credentials.password);
+    const passwordHash = await hashPassword(credentials.password);
     const user = await userDataService.create(context, {
       preferredName: credentials.username,
     });
-
-    const token = ulid();
-    const rememberToken = ulid();
 
     const accountExists = await userAccountDataService.accountExists(context, {
       source: "local",
@@ -44,21 +43,36 @@ export async function register(
       throw new Error("Username taken");
     }
 
-    await userAccountDataService.create(context, {
+    const account = await userAccountDataService.create(context, {
       userId: user.id,
       source: "local",
       sourceIdentifier: credentials.username,
-      passwordDigest,
-      tokenDigest: createDigest(token),
-      rememberTokenDigest: createDigest(rememberToken),
+      passwordHash,
+    });
+
+    const authTokenResult = await tokenDataService.getOrCreate(context, {
+      type: "auth",
+      userAccountId: account.id,
+    });
+
+    const rememberTokenResult = await tokenDataService.getOrCreate(context, {
+      type: "remember",
+      userAccountId: account.id,
     });
 
     await databaseService.commit();
 
+    context.setCookie("w8mngrAuth", authTokenResult.token, {
+      expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
+    });
+    context.setCookie("w8mngrRemember", authTokenResult.token, {
+      expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.remember),
+    });
+
     return {
       user,
-      token,
-      rememberToken,
+      token: authTokenResult.token,
+      rememberToken: rememberTokenResult.token,
     };
   } catch (error) {
     await databaseService.rollback(error);

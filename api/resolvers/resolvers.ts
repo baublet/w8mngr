@@ -1,4 +1,4 @@
-import { Resolvers } from "../../graphql-types";
+import { Resolvers } from "../graphql-types";
 
 import { currentUser } from "./currentUser";
 

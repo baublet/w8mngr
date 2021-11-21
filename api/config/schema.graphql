@@ -60,9 +60,7 @@ type FoodLog {
 
 type User {
   id: ID!
-  name: String!
-  email: String!
-  foodLog: FoodLog
+  preferredName: String!
 }
 
 type PageInfo {

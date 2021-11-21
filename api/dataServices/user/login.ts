@@ -1,11 +1,14 @@
-import { ulid } from "ulid";
-
 import { Context } from "../../createContext";
 import { UserEntity } from "./types";
 import { userDataService } from "./";
 import { userAccountDataService } from "../userAccount/";
-import { createDigest } from "../../authentication";
+import { tokenDataService } from "../token";
+import { doesHashMatch } from "../../authentication";
 import { ReturnTypeWithErrors, assertIsError } from "../../types";
+import { errors } from "../../helpers";
+import { log } from "../../config";
+import { dbService } from "../../config";
+import { TOKEN_EXPIRY_OFFSET } from "../token/types";
 
 export async function login(
   context: Context,
@@ -20,35 +23,56 @@ export async function login(
     rememberToken: string;
   }>
 > {
+  const databaseService = await context.services.get(dbService);
+  await databaseService.transact();
   try {
-    const passwordDigest = createDigest(credentials.password);
     const account = await userAccountDataService.findOneOrFail(context, (q) =>
-      q
-        .where("sourceIdentifier", "=", credentials.username)
-        .andWhere("passwordDigest", "=", passwordDigest)
+      q.where("sourceIdentifier", "=", credentials.username)
     );
+
+    const passwordsMatch = await doesHashMatch(
+      credentials.password,
+      account.passwordHash
+    );
+    if (!passwordsMatch) {
+      log("error", "Login attempt failed. Passwords don't match.", {
+        account,
+      });
+      throw new errors.LoginFailedError("Invalid credentials", {
+        reason: "Hashes don't match",
+      });
+    }
+
     const user = await userDataService.findOneOrFail(context, (q) =>
       q.where("id", "=", account.userId)
     );
 
-    const token = ulid();
-    const rememberToken = ulid();
+    const authTokenResult = await tokenDataService.getOrCreate(context, {
+      type: "auth",
+      userAccountId: account.id,
+    });
 
-    await userAccountDataService.update(
-      context,
-      (q) => q.where("id", "=", account.id),
-      {
-        tokenDigest: createDigest(token),
-        rememberTokenDigest: createDigest(rememberToken),
-      }
-    );
+    const rememberTokenResult = await tokenDataService.getOrCreate(context, {
+      type: "remember",
+      userAccountId: account.id,
+    });
+
+    context.setCookie("w8mngrAuth", authTokenResult.token, {
+      expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
+    });
+    context.setCookie("w8mngrRemember", authTokenResult.token, {
+      expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.remember),
+    });
+
+    await databaseService.commit();
 
     return {
       user,
-      token,
-      rememberToken,
+      token: authTokenResult.token,
+      rememberToken: rememberTokenResult.token,
     };
   } catch (error) {
+    await databaseService.rollback(error);
     assertIsError(error);
     return error;
   }

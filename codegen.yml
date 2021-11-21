@@ -2,12 +2,12 @@ schema: api/config/schema.graphql
 documents: "./client/queries/**/*.graphql"
 
 generates:
-  ./graphql-types.d.ts:
+  ./api/graphql-types.ts:
     plugins:
       - typescript
       - typescript-resolvers
     config:
-      contextType: ./api/createContext#Context
+      contextType: ./createContext#Context
 
   ./client/generated.ts:
     plugins:

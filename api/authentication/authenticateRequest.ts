@@ -1,34 +1,27 @@
 import { Request } from "express";
 
+import { TOKEN_EXPIRY_OFFSET } from "../dataServices/token/types";
 import { log } from "../config/log";
 import { Context } from "../createContext";
-import {
-  UserEntity,
-  userDataService,
-  userAccountDataService,
-} from "../dataServices";
+import { UserEntity, userDataService } from "../dataServices";
 
 export async function authenticateRequest(
   request: Request,
   context: Context
 ): Promise<UserEntity | undefined> {
-  const cookie = request.cookies?.w8mngr;
+  const authenticationResult = await userDataService.authenticate(
+    request,
+    context
+  );
 
-  if (cookie) {
-    try {
-      const account = await userAccountDataService.findOneOrFail(context, (q) =>
-        q.where("tokenDigest", "=", cookie)
-      );
-      return userDataService.findOneOrFail(context, (q) =>
-        q.where("id", "=", account.userId)
-      );
-    } catch (error: any) {
-      log("warn", "Authorization rejected", {
-        cookies: request.cookies,
-        message: error?.message,
-        trace: error?.stack,
-      });
-    }
+  if (!authenticateRequest) {
+    log("debug", "Unauthorized request");
+    return;
   }
-  log("info", "Unauthorized request");
+
+  log("debug", "Request authenticated", {
+    authenticationResult,
+  });
+
+  return authenticationResult;
 }

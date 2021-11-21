@@ -1,9 +1,10 @@
 import path from "path";
 import fs from "fs";
 import http from "http";
-import cookieParser from "cookie-parser";
 
+import cookieParser from "cookie-parser";
 import express from "express";
+import cors from "cors";
 import createHandler from "@vendia/serverless-express";
 import { ApolloServer } from "apollo-server-express";
 import { makeExecutableSchema } from "@graphql-tools/schema";
@@ -23,6 +24,12 @@ const typeDefs = fs
 
 export const app = express();
 app.use(cookieParser());
+app.use(
+  cors({
+    credentials: true,
+    origin: "*",
+  })
+);
 
 export const httpServer = http.createServer(app);
 
@@ -35,7 +42,11 @@ export const server = new ApolloServer({
   context: createGraphqlContext,
   logger: console,
   plugins: [
-    ApolloServerPluginLandingPageGraphQLPlayground(),
+    ApolloServerPluginLandingPageGraphQLPlayground({
+      settings: {
+        "request.credentials": "include",
+      },
+    }),
     ApolloServerPluginDrainHttpServer({ httpServer }),
     {
       requestDidStart: async () => {
@@ -46,10 +57,13 @@ export const server = new ApolloServer({
 
             const response = context.getResponse();
             if (response) {
-              for (const [cookieName, cookieValue] of Array.from(
+              for (const [cookieName, { value, options }] of Array.from(
                 context.getCookies().entries()
               )) {
-                response.cookie(cookieName, cookieValue);
+                response.cookie(cookieName, value, {
+                  ...options,
+                  httpOnly: true,
+                });
               }
             }
           },

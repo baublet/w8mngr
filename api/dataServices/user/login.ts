@@ -60,7 +60,7 @@ export async function login(
     context.setCookie("w8mngrAuth", authTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
     });
-    context.setCookie("w8mngrRemember", authTokenResult.token, {
+    context.setCookie("w8mngrRemember", rememberTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.remember),
     });
 

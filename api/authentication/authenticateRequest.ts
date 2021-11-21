@@ -13,7 +13,7 @@ export async function authenticateRequest(
     context
   );
 
-  if (!authenticateRequest) {
+  if (!authenticationResult) {
     log("debug", "Unauthorized request");
     return;
   }

@@ -12,8 +12,8 @@ export async function authenticate(
   request: Request,
   context: Context
 ): Promise<UserEntity | undefined> {
-  const authToken = request.cookies?.w8mngrAuth;
-  const rememberToken = request.cookies?.w8mngrRemember;
+  const authToken: string | undefined = request.cookies?.w8mngrAuth;
+  const rememberToken: string | undefined = request.cookies?.w8mngrRemember;
   return globalInMemoryCache.getOrSet({
     key: "authentication-" + authToken + "-" + rememberToken,
     expiry: Date.now() + 1000 * 60, // 1 minute
@@ -37,10 +37,10 @@ export async function authenticate(
       if (rememberToken) {
         const tokenEntity = await tokenDataService.findByToken(
           context,
-          authToken
+          rememberToken
         );
         if (tokenEntity) {
-          // Make a new auth token and pass it back
+          // Make a new auth token to set
           const newAuthTokenResult = await tokenDataService.getOrCreate(
             context,
             {

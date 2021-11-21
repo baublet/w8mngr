@@ -2,6 +2,35 @@ type Query {
   currentUser: User
 }
 
+type Mutation {
+  login(input: LoginInput!): LoginMutationPayload!
+  register(input: RegisterInput!): LoginMutationPayload!
+}
+
+#################
+# Inputs        #
+#################
+
+input LoginInput {
+  username: String!
+  password: String!
+}
+
+input RegisterInput {
+  username: String!
+  password: String!
+  passwordConfirmation: String!
+}
+
+#################
+# Types         #
+#################
+
+type LoginMutationPayload {
+  token: String!
+  rememberToken: String!
+}
+
 type FoodEntry {
   id: ID!
   description: String

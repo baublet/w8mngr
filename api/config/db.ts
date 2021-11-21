@@ -40,9 +40,25 @@ async function getConnection(): Promise<Knex> {
 
 async function dbService() {
   const connection = await getConnection();
+  let transactingConnection: Knex.Transaction<any, any[]> | undefined;
+
   return {
-    getConnection: () => {
-      return connection;
+    getConnection: () => transactingConnection || connection,
+    transact: async () => {
+      if (!transactingConnection) {
+        transactingConnection = await connection.transaction();
+      }
+    },
+    commit: async () => {
+      if (transactingConnection) {
+        await transactingConnection.commit();
+        transactingConnection = undefined;
+      }
+    },
+    close: () => transactingConnection?.commit(),
+    rollback: async (error: unknown) => {
+      log("warn", "Transaction failed. Rolling back.", { error });
+      await transactingConnection?.rollback();
     },
   };
 }

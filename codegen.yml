@@ -1,6 +1,16 @@
 schema: api/config/schema.graphql
+documents: "./client/queries/**/*.graphql"
+
 generates:
   ./graphql-types.d.ts:
     plugins:
       - typescript
       - typescript-resolvers
+    config:
+      contextType: ./api/createContext#Context
+
+  ./client/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo

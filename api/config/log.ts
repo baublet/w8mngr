@@ -12,7 +12,21 @@ export function log(
 ): void {
   let text: string = level + " [" + new Date().toISOString() + "] " + message;
   if (details) {
-    text += " " + stringify(details);
+    const withSerializedErrors = Object.entries(details).reduce(
+      (withSerializedErrors, [key, value]) => {
+        if (value instanceof Error) {
+          withSerializedErrors[key] = {
+            message: value.message,
+            stack: value.stack,
+          };
+        } else {
+          withSerializedErrors[key] = value;
+        }
+        return withSerializedErrors;
+      },
+      {} as Record<string, any>
+    );
+    text += " " + stringify(withSerializedErrors);
   }
   text += "\n";
   stream.write(text);

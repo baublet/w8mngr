@@ -1,8 +1,10 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { Context } from './api/createContext';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -42,6 +44,33 @@ export type FoodLog = {
   protein: Scalars['Int'];
 };
 
+export type LoginInput = {
+  password: Scalars['String'];
+  username: Scalars['String'];
+};
+
+export type LoginMutationPayload = {
+  __typename?: 'LoginMutationPayload';
+  rememberToken: Scalars['String'];
+  token: Scalars['String'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  login: LoginMutationPayload;
+  register: LoginMutationPayload;
+};
+
+
+export type MutationLoginArgs = {
+  input: LoginInput;
+};
+
+
+export type MutationRegisterArgs = {
+  input: RegisterInput;
+};
+
 export type PageInfo = {
   __typename?: 'PageInfo';
   hasNextPage: Scalars['Boolean'];
@@ -52,6 +81,12 @@ export type PageInfo = {
 export type Query = {
   __typename?: 'Query';
   currentUser?: Maybe<User>;
+};
+
+export type RegisterInput = {
+  password: Scalars['String'];
+  passwordConfirmation: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type User = {
@@ -138,8 +173,12 @@ export type ResolversTypes = {
   FoodLog: ResolverTypeWrapper<FoodLog>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  LoginInput: LoginInput;
+  LoginMutationPayload: ResolverTypeWrapper<LoginMutationPayload>;
+  Mutation: ResolverTypeWrapper<{}>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Query: ResolverTypeWrapper<{}>;
+  RegisterInput: RegisterInput;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
 };
@@ -153,13 +192,17 @@ export type ResolversParentTypes = {
   FoodLog: FoodLog;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
+  LoginInput: LoginInput;
+  LoginMutationPayload: LoginMutationPayload;
+  Mutation: {};
   PageInfo: PageInfo;
   Query: {};
+  RegisterInput: RegisterInput;
   String: Scalars['String'];
   User: User;
 };
 
-export type FoodEntryResolvers<ContextType = any, ParentType extends ResolversParentTypes['FoodEntry'] = ResolversParentTypes['FoodEntry']> = {
+export type FoodEntryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['FoodEntry'] = ResolversParentTypes['FoodEntry']> = {
   calories?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   carbs?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
@@ -173,13 +216,13 @@ export type FoodEntryResolvers<ContextType = any, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FoodEntryConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['FoodEntryConnection'] = ResolversParentTypes['FoodEntryConnection']> = {
+export type FoodEntryConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['FoodEntryConnection'] = ResolversParentTypes['FoodEntryConnection']> = {
   nodes?: Resolver<Maybe<Array<Maybe<ResolversTypes['FoodEntry']>>>, ParentType, ContextType>;
   pageInfo?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type FoodLogResolvers<ContextType = any, ParentType extends ResolversParentTypes['FoodLog'] = ResolversParentTypes['FoodLog']> = {
+export type FoodLogResolvers<ContextType = Context, ParentType extends ResolversParentTypes['FoodLog'] = ResolversParentTypes['FoodLog']> = {
   calories?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   carbs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   day?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -189,18 +232,29 @@ export type FoodLogResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
+export type LoginMutationPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['LoginMutationPayload'] = ResolversParentTypes['LoginMutationPayload']> = {
+  rememberToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  login?: Resolver<ResolversTypes['LoginMutationPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
+  register?: Resolver<ResolversTypes['LoginMutationPayload'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>;
+};
+
+export type PageInfoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
   hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   hasPreviousPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   foodLog?: Resolver<Maybe<ResolversTypes['FoodLog']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -208,10 +262,12 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = any> = {
+export type Resolvers<ContextType = Context> = {
   FoodEntry?: FoodEntryResolvers<ContextType>;
   FoodEntryConnection?: FoodEntryConnectionResolvers<ContextType>;
   FoodLog?: FoodLogResolvers<ContextType>;
+  LoginMutationPayload?: LoginMutationPayloadResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

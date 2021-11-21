@@ -5,4 +5,6 @@ export interface UserAccountEntity {
   sourceIdentifier: string;
   sourceData: Record<string, any>;
   passwordDigest?: string;
+  tokenDigest?: string;
+  rememberTokenDigest?: string;
 }

@@ -1,6 +1,11 @@
 import React from "react";
 
+import { useGetCurrentUserQuery } from "../../generated";
+
 export function IsLoggedOut({ children }: React.ComponentProps<any>) {
-  return null;
+  const { data } = useGetCurrentUserQuery();
+  if (data?.currentUser) {
+    return null;
+  }
   return children;
 }

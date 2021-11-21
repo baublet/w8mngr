@@ -1,5 +1,2 @@
-import { UserEntity } from "./user";
-
-export type Entities = {
-  UserEntity: UserEntity;
-};
+export { UserEntity, userDataService } from "./user";
+export { UserAccountEntity, userAccountDataService } from "./userAccount";

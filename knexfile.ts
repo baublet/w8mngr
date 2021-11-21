@@ -1,8 +1,6 @@
-// Update with your config settings.
-
 export default {
   develop: {
-    client: "sqlite3",
+    client: require("knex/lib/dialects/sqlite3"),
     useNullAsDefault: true,
     connection: {
       filename: "./dev.sqlite3",
@@ -10,7 +8,7 @@ export default {
   },
 
   test: {
-    client: "sqlite3",
+    client: require("knex/lib/dialects/sqlite3"),
     useNullAsDefault: true,
     connection: {
       filename: ":memory:",
@@ -18,7 +16,7 @@ export default {
   },
 
   production: {
-    client: "postgresql",
+    client: require("knex/lib/dialects/postgres"),
     connection: {
       database: "my_db",
       user: "username",
@@ -27,9 +25,6 @@ export default {
     pool: {
       min: 2,
       max: 10,
-    },
-    migrations: {
-      tableName: "knex_migrations",
     },
   },
 };

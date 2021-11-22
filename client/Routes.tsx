@@ -1,11 +1,18 @@
 import React from "react";
-import { createBrowserHistory } from "history";
+import { Route, Switch } from "react-router-dom";
 
-import { PrimaryLoader } from "./components/Loading/Primary";
+import { Home } from "./pages/Home";
+import { Logout } from "./pages/Logout";
+import { NotFound } from "./pages/NotFound";
+import { Register } from "./pages/Register";
 
-const history = createBrowserHistory();
-export { history };
-
-export function Routes({ location }: any): React.ReactComponentElement<any> {
-  return <b>Hello world</b>;
+export function Routes() {
+  return (
+    <Switch>
+      <Route path="/register" component={Register} exact />
+      <Route path="/logout" component={Logout} exact />
+      <Route path="/" component={Home} exact />
+      <Route component={NotFound} />
+    </Switch>
+  );
 }

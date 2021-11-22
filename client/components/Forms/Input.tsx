@@ -1,39 +1,40 @@
 import React from "react";
+import cx from "classnames";
 
 let count = 0;
 
 const border =
   "border-b border-foregroundLighter hover:border-foreground focus:border-foreground";
 
-interface InputWithLabel {
-  label: string;
-}
-interface InputWithPlaceholder {
+export type InputProps = {
+  id?: string;
+  label?: string;
   placeholder: string;
-}
-interface InputBasicProps extends React.HTMLProps<HTMLInputElement> {
-  showLabel?: true;
-  forwardedRef?: React.RefObject<HTMLInputElement>;
-}
-export type InputProps = InputBasicProps &
-  (InputWithLabel | InputWithPlaceholder);
+  showLabel?: boolean;
+  className?: string;
+  type: "text" | "password";
+  onChange: (value: string) => void;
+};
 
 export function Input(
   props: InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-${count++}`;
-  const label = props.label || props.placeholder;
-  const { showLabel, forwardedRef, ...newProps } = props;
+  const label = props.label;
+  const { showLabel = true, className = "", onChange, ...newProps } = props;
   newProps.id = id;
 
   return (
     <>
       <input
-        ref={props.forwardedRef}
         {...newProps}
-        className={`leading-normal bg-transparent w-full pt-2 py-1 ${
-          !props.showLabel ? border : ""
-        } ${props.className || ""}`}
+        onChange={(event) => {
+          onChange(event.target.value);
+        }}
+        className={cx("leading-normal bg-transparent w-full px-2 py-2 border", {
+          [border]: showLabel,
+          [className]: className,
+        })}
       />
       {!props.showLabel ? (
         <label htmlFor={newProps.id} className="screen-reader-text">
@@ -42,9 +43,10 @@ export function Input(
       ) : (
         <label
           htmlFor={newProps.id}
-          className={`block text-xxs uppercase whitespace-no-wrap overflow-hidden pb-1 text-foregroundLight ${
-            props.showLabel ? border : ""
-          }`}
+          className={cx(
+            "block text-xxs uppercase whitespace-no-wrap overflow-hidden pb-1 text-foregroundLight",
+            { [border]: showLabel }
+          )}
         >
           {label}
         </label>

@@ -1,5 +1,6 @@
 import React from "react";
 import { LinkProps } from "react-router-dom";
+import cx from "classnames";
 
 import { BaseButton } from "./Base";
 
@@ -9,7 +10,10 @@ export function PrimaryButton(
   return (
     <BaseButton
       {...props}
-      className={`bg-primary p-3 text-primaryText rounded text-xs uppercase shadow hover:shadow-md focus:shadow:md ${props.className}`}
+      className={cx(
+        "bg-primary text-primaryText hover:bg-primaryLight p-4 text-white rounded text-xs uppercase shadow hover:shadow-md focus:shadow:md text-l",
+        props.className
+      )}
     />
   );
 }

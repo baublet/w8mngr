@@ -11,7 +11,7 @@ export function Application(): React.ReactComponentElement<any> {
     <div className="max-w-screen-xl w-full flex flex-col min-h-full px-8">
       <div className="min-h-screen">
         <header className="my-8 flex items-center">
-          <h1 className="text-center text-secondary text-5xl mr-8">
+          <h1 className="text-center text-secondaryText text-5xl mr-8">
             <Link to="/" title="w8mngr" className="block">
               <HeartIcon />
             </Link>

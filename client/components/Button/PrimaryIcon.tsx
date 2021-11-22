@@ -1,4 +1,5 @@
 import React from "react";
+import cx from "classnames";
 
 import { BaseButton } from "./Base";
 
@@ -8,9 +9,10 @@ export function PrimaryIconButton(
   return (
     <BaseButton
       {...props}
-      className={`rounded-full p-1 bg-primary color-primaryText
-  ${props.className || ""}
-`}
+      className={cx(
+        "rounded-full p-1 bg-primary color-primaryText",
+        props.className
+      )}
     />
   );
 }

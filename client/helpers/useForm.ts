@@ -1,37 +1,33 @@
-import { useState } from "react";
+import React from "react";
 
-type ValuesType = object;
-
-export interface UseFormType {
-  handleChange: (event: React.FormEvent<HTMLInputElement>) => void;
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  values: ValuesType;
-}
-
-export type UseFormCallback = (values: ValuesType) => void;
-
-export function useForm(
-  callback: UseFormCallback,
-  initialValues: ValuesType
-): UseFormType {
-  const [values, setValues] = useState(initialValues);
-
-  const handleSubmit = (event: React.FormEvent) => {
-    if (event) event.preventDefault();
-    callback(values);
-  };
-
-  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    event.persist();
-    setValues(values => ({
-      ...values,
-      [event.currentTarget.name]: event.currentTarget.value
-    }));
-  };
+export function useForm<T extends Record<string, any>>(
+  initialValues?: Partial<T>
+) {
+  const formState = React.useMemo(() => new Map<keyof T, [keyof T]>(), []);
+  const formHandlers = React.useMemo(() => {
+    return new Map<keyof T, (data: T[keyof T]) => void>(initialValues as any);
+  }, []);
+  const [, uptickCounter] = React.useState(0);
+  const render = React.useCallback(
+    () => uptickCounter((value) => value + 1),
+    []
+  );
 
   return {
-    handleChange,
-    handleSubmit,
-    values
+    getValues() {
+      return Array.from(formState.keys()).reduce((copiedFormState, key) => {
+        copiedFormState[key] = formState.get(key) as T[keyof T];
+        return copiedFormState;
+      }, {} as T);
+    },
+    getHandler<TElement extends keyof T>(element: TElement) {
+      if (!formHandlers.has(element)) {
+        formHandlers.set(element, (data) => {
+          formState.set(element, data);
+          render();
+        });
+      }
+      return formHandlers.get(element) as (data: T[keyof T]) => void;
+    },
   };
 }

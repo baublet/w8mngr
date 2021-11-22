@@ -9,11 +9,11 @@ interface MultilineInputWithPlaceholder {
   placeholder: string;
 }
 type InputBasicProps = React.HTMLProps<HTMLTextAreaElement>;
-export type InputProps = InputBasicProps &
+export type MultilineInputProps = InputBasicProps &
   (MultilineInputWithLabel | MultilineInputWithPlaceholder);
 
 export function MultilineInput(
-  props: InputProps
+  props: MultilineInputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-${count++}`,
     label = props.placeholder || props.label,
@@ -25,8 +25,9 @@ export function MultilineInput(
       </label>
       <textarea
         {...newProps}
-        className={`bg-foregroundSlight w-full py-2 border rounded p-3 border-foregroundLighter hover:border-foreground focus:border-foreground h-64 shadow-inner ${props.className ||
-          ""}`}
+        className={`bg-foregroundSlight w-full py-2 border rounded p-3 border-foregroundLighter hover:border-foreground focus:border-foreground h-64 shadow-inner ${
+          props.className || ""
+        }`}
       />
     </>
   );

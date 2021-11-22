@@ -26,4 +26,4 @@
   directory = "functions/"
   node_bundler = "esbuild"
   included_files = ["functions/config/schema.graphql", "root.crt"]
-  external_node_modules = ["knex", "bcrypt"]
+  external_node_modules = ["knex", "bcrypt", "pg"]

@@ -6,9 +6,15 @@
   publish = "client/"
 
   # Default build command.
-  command = "yarn gql:generate && yarn build:css && yarn build:client"
+  command = "yarn gql:generate && yarn build:api & yarn build:css && yarn build:client"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[functions]
+  # Directory with serverless functions, including background functions,
+  # to deploy. This is relative to the base directory if one has been set, 
+  # or the root directory if a base hasn’t been set.
+  directory = "api/"

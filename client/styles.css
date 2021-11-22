@@ -96,6 +96,6 @@ html {
 
 .fade-exit-active {
   opacity: 0;
-  transform: scale(0.9);
+  transform: translate(0, 100px);
   transition: opacity 500ms cubic-bezier(0,.98,.04,.96), transform 500ms cubic-bezier(0,1,.02,.96);
 }

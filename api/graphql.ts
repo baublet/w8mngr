@@ -16,6 +16,7 @@ import {
 
 import { resolvers } from "./resolvers";
 import { Context, createGraphqlContext } from "./createContext";
+import { log } from "./config";
 
 const typeDefs = fs
   .readFileSync(path.resolve(__dirname, "config", "schema.graphql"))
@@ -79,6 +80,7 @@ export const server = new ApolloServer({
 export const handler = createHandler(app);
 
 if ((process.env.NETLIFY == "true")) {
+  log("info", "Netlify build detected. Booting server and applying GQL middleware")
   server.start().then(() => {
     server.applyMiddleware({ app });
   });

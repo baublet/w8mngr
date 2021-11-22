@@ -30,6 +30,12 @@ app.use(
     origin: "*",
   })
 );
+app.use((req, res, next) => {
+  log("debug", "Request", {
+    ip: req.ip,
+  });
+  next();
+});
 
 export const httpServer = http.createServer(app);
 
@@ -79,8 +85,11 @@ export const server = new ApolloServer({
 
 export const handler = createHandler(app);
 
-if ((process.env.NETLIFY == "true")) {
-  log("info", "Netlify build detected. Booting server and applying GQL middleware")
+if (process.env.NETLIFY == "true") {
+  log(
+    "info",
+    "Netlify build detected. Booting server and applying GQL middleware"
+  );
   server.start().then(() => {
     server.applyMiddleware({ app });
   });

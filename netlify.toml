@@ -6,7 +6,7 @@
   publish = "client/"
 
   # Default build command.
-  command = "yarn gql:generate && yarn build:api & yarn build:css && yarn build:client"
+  command = "yarn build:netlify"
 
 [[redirects]]
   from = "/*"

@@ -76,4 +76,15 @@ export const server = new ApolloServer({
   ],
 });
 
-export const handler = createHandler({ app });
+const apolloHandler = createHandler({ app, eventSource: {} });
+export const handler = (event: any, context: any, ...args: any[]) => {
+  return apolloHandler(
+    {
+      ...event,
+      requestContext: context,
+    },
+    context,
+    // @ts-expect-error
+    ...args
+  );
+};

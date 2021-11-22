@@ -7,13 +7,15 @@ import { FoodCircleIcon } from "../Icons/FoodCircle";
 import { HealthCircleIcon } from "../Icons/HealthCircle";
 import { LogoutCircleIcon } from "../Icons/LogoutCircleIcon";
 import { NavigationIcon } from "./NavigationIcon";
+import { Register } from "../Icons/Register";
+import { Login } from "../Icons/Login";
 
 export function HeaderNavigation() {
   return (
     <div className="flex justify-around text-xs w-full">
       <IsLoggedIn>
         <NavigationIcon
-          to="/foodlog"
+          to="/nutrition"
           icon={<FoodCircleIcon />}
           text="Nutrition"
         />
@@ -30,8 +32,9 @@ export function HeaderNavigation() {
         />
       </IsLoggedIn>
       <IsLoggedOut>
-        <Link to="/register">Register</Link>
-        <Link to="/login">Log In</Link>
+        <div className="flex-grow" />
+        <NavigationIcon to="/register" icon={<Register />} text="Register" />
+        <NavigationIcon to="/login" icon={<Login />} text="Login" />
       </IsLoggedOut>
     </div>
   );

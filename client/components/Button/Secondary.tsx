@@ -3,16 +3,16 @@ import cx from "classnames";
 
 import { BaseButton, BaseButtonProps } from "./Base";
 
-type PrimaryButtonProps = BaseButtonProps;
+type SecondaryButtonProps = BaseButtonProps;
 
-export function PrimaryButton(
-  props: PrimaryButtonProps
+export function SecondaryButton(
+  props: SecondaryButtonProps
 ): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
   return (
     <BaseButton
       {...props}
       className={cx(
-        "bg-purple-900 text-gray-50 font-bold bg-opacity-90 hover:bg-opacity-100 p-4 text-white rounded text-sm uppercase shadow hover:shadow-md focus:shadow:md text-l",
+        "bg-green-500 text-gray-50 font-bold bg-opacity-90 hover:bg-opacity-100 p-4 text-white rounded text-sm uppercase shadow hover:shadow-md focus:shadow:md text-l",
         props.className
       )}
     />

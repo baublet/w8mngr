@@ -4,9 +4,9 @@ import { PageHeading } from "../components/Type/PageHeading";
 
 export function Home() {
   return (
-    <>
+    <div>
       <PageHeading>Home</PageHeading>
       <ContentContainer />
-    </>
+    </div>
   );
 }

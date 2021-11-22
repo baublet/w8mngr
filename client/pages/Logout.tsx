@@ -23,11 +23,13 @@ export function Logout() {
   }, []);
 
   return (
-    <>
-      <PageHeading>Logging out...</PageHeading>
+    <div>
+      <PageHeading className="text-center">Logging out...</PageHeading>
       <ContentContainer>
-        <PrimaryLoader />
+        <div className="mx-auto">
+          <PrimaryLoader />
+          </div>
       </ContentContainer>
-    </>
+    </div>
   );
 }

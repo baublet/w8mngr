@@ -34,9 +34,23 @@ button:focus svg {
 }
 
 ::placeholder {
-  opacity: 0.75;
   text-transform: uppercase;
-  @apply text-xs;
+  font-size: 0.85em;
+}
+
+.screen-reader-text:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+body {
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 select {
@@ -47,9 +61,41 @@ select {
 
 select option {
   all: initial;
-  @apply font-sans;
 }
 
 select::-ms-expand {
   display: none;
+}
+
+html {
+  font-size: 18px;
+  font-family: "Roboto", sans-serif;
+}
+
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+  transform: translate(0, 100px);
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition: opacity 1000ms cubic-bezier(0,1,.02,.96),
+    transform 1000ms cubic-bezier(0,1,.02,.96);
+}
+
+.fade-exit {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 500ms cubic-bezier(0,.98,.04,.96), transform 500ms cubic-bezier(0,1,.02,.96);
 }

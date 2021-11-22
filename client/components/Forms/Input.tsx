@@ -4,7 +4,8 @@ import cx from "classnames";
 let count = 0;
 
 const border =
-  "border-b border-foregroundLighter hover:border-foreground focus:border-foreground";
+  "border border-gray-500 border-opacity-25 hover:border-opacity-50 focus:border-opacity-100 rounded";
+const background = "bg-white bg-opacity-50 hover:bg-opacity-100";
 
 export type InputProps = {
   id?: string;
@@ -14,6 +15,7 @@ export type InputProps = {
   className?: string;
   type: "text" | "password";
   onChange: (value: string) => void;
+  focusOnFirstRender?: boolean;
 };
 
 export function Input(
@@ -23,20 +25,28 @@ export function Input(
   const label = props.label;
   const { showLabel = true, className = "", onChange, ...newProps } = props;
   newProps.id = id;
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  console.log({ focusOnFirstRender: props.focusOnFirstRender });
+  React.useEffect(() => {
+    if (props.focusOnFirstRender) {
+      inputRef.current?.focus();
+    }
+  }, []);
 
   return (
-    <>
+    <div className="group">
       <input
         {...newProps}
+        ref={inputRef}
         onChange={(event) => {
           onChange(event.target.value);
         }}
-        className={cx("leading-normal bg-transparent w-full px-2 py-2 border", {
-          [border]: showLabel,
+        className={cx("leading-normal w-full px-2 py-2", border, background, {
           [className]: className,
         })}
       />
-      {!props.showLabel ? (
+      {props.showLabel === false ? (
         <label htmlFor={newProps.id} className="screen-reader-text">
           {label}
         </label>
@@ -44,13 +54,12 @@ export function Input(
         <label
           htmlFor={newProps.id}
           className={cx(
-            "block text-xxs uppercase whitespace-no-wrap overflow-hidden pb-1 text-foregroundLight",
-            { [border]: showLabel }
+            "block text-xs uppercase whitespace-no-wrap overflow-hidden pt-1 text-gray-400 hover:text-gray-600 group-hover:text-gray-600"
           )}
         >
           {label}
         </label>
       )}
-    </>
+    </div>
   );
 }

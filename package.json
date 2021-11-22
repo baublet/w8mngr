@@ -24,7 +24,6 @@
     "@baublet/service-container": "^0.5.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.2",
-    "@vendia/serverless-express": "^4.5.2",
     "apollo-server": "^3.5.0",
     "apollo-server-core": "^3.5.0",
     "apollo-server-lambda": "^3.5.0",

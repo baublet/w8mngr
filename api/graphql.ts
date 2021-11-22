@@ -30,12 +30,6 @@ app.use(
     origin: "*",
   })
 );
-app.use((req, res, next) => {
-  log("debug", "Request", {
-    ip: req.ip,
-  });
-  next();
-});
 
 export const httpServer = http.createServer(app);
 

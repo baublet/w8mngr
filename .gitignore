@@ -12,3 +12,4 @@ client/index.js
 client/index.js.map
 client/tailwind.css
 client/generated.ts
+functions/*

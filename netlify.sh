@@ -8,7 +8,6 @@ else
   yarn db:reset:develop
 fi
 
-yarn gql:generate
 yarn build:css
 yarn build:api
 yarn build:client

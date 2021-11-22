@@ -85,6 +85,7 @@ if (process.env.NETLIFY == "true") {
     "Netlify build detected. Booting server and applying GQL middleware"
   );
   server.start().then(() => {
+    console.log("\n\n", __dirname, "-", process.cwd(), "\n\n");
     server.applyMiddleware({ app, path: "/.netlify/functions/graphql" });
   });
 }

@@ -1,6 +1,8 @@
 #/bin/bash
 set -e
 
+yarn gql:generate
+
 if [ "$BRANCH" == "master" ]; then
   bash -c '$DOWNLOAD_DB_SSL_COMMAND'
   yarn migrate:production

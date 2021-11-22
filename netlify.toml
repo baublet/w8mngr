@@ -25,5 +25,5 @@
   # or the root directory if a base hasn’t been set.
   directory = "functions/"
   node_bundler = "esbuild"
-  included_files = ["functions/config/schema.graphql"]
-  external_node_modules = ["knex", "bcrypt", "sqlite3"]
+  included_files = ["functions/config/schema.graphql", "root.crt"]
+  external_node_modules = ["knex", "bcrypt"]

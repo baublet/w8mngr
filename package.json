@@ -4,7 +4,7 @@
   "description": "w8mngr utilizing Netlify's functions and a React SPA",
   "scripts": {
     "gql:generate": "graphql-codegen",
-    "build:netlify": "db:reset:develop && yarn gql:generate && yarn build:css && yarn build:api && yarn build:client && mkdir -p functions/config && cp api/graphql.js functions/graphql.js && cp api/config/schema.graphql functions/config/schema.graphql && cp ",
+    "build:netlify": "yarn db:reset:develop && yarn gql:generate && yarn build:css && yarn build:api && yarn build:client && mkdir -p functions/config && cp api/graphql.js functions/graphql.js && cp api/config/schema.graphql functions/config/schema.graphql && cp ",
     "build:api": "esbuild api/graphql.ts --sourcemap=external --outfile=api/graphql.js --bundle --platform=node --external:knex --external:bcrypt",
     "build:client": "esbuild client/index.tsx --sourcemap=external --outfile=client/index.js --bundle",
     "build:css": " tailwindcss -o client/tailwind.css",

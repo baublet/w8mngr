@@ -5,7 +5,12 @@ yarn gql:generate
 
 if [ "$BRANCH" == "master" ]; then
   bash -c '$DOWNLOAD_DB_SSL_COMMAND'
-  yarn migrate:production
+
+  # When we're ready to go live, use this
+  # yarn migrate:production
+
+  # In development, reset the database every deploy
+  yarn db:reset:production
 else
   yarn db:reset:develop
 fi

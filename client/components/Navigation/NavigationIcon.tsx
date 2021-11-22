@@ -16,13 +16,13 @@ export function NavigationIcon(props: NavigationIconProps) {
     <Link
       to={to}
       className={cx(
-        "block border-b-4 border-r-4 border-transparent hover:border-green-200 opacity-50 hover:opacity-75 h-24 w-24 p-8 hover:bg-green-400 hover:text-white",
+        "flex items-center justify-center border-b-4 border-r-4 border-transparent hover:border-green-200 opacity-50 hover:opacity-75 h-24 w-24 p-4 hover:bg-green-400 hover:text-white",
         { "rounded-lg": !active, "opacity-100 pointer-events-none": active }
       )}
     >
       <div className="flex flex-col justify-center items-center">
         <div className="text-2xl block mb-2">{icon}</div>
-        <span>{text}</span>
+        <div>{text}</div>
       </div>
     </Link>
   );

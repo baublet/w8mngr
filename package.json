@@ -12,6 +12,7 @@
     "migrate:develop": "knex migrate:latest --env develop",
     "migrate:production": "knex migrate:latest --env production",
     "db:reset:develop": "rm -rf dev.sqlite3; yarn migrate:develop",
+    "db:reset:production": "DATABASE=production ts-node scripts/resetDatabase.ts && yarn migrate:production",
     "db:migrate:production": "yarn migrate:production",
     "develop": "pm2 delete ecosystem.config.js; pm2 start; pm2 logs",
     "test": "node -r ts-node/register ./node_modules/.bin/jest"

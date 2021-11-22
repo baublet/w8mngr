@@ -14,12 +14,11 @@ import {
   ApolloServerPluginDrainHttpServer,
 } from "apollo-server-core";
 
-import { dbService } from "./config/db";
 import { resolvers } from "./resolvers";
 import { Context, createGraphqlContext } from "./createContext";
 
 const typeDefs = fs
-  .readFileSync(path.resolve(process.cwd(), "api", "config", "schema.graphql"))
+  .readFileSync(path.resolve(__dirname, "config", "schema.graphql"))
   .toString();
 
 export const app = express();

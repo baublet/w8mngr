@@ -18,5 +18,6 @@
   # to deploy. This is relative to the base directory if one has been set, 
   # or the root directory if a base hasn’t been set.
   directory = "api/"
-  included_files = ["api/*.js", "*.graphql"]
+  node_bundler = "esbuild"
+  included_files = ["*.graphql"]
   external_node_modules = ["knex", "bcrypt"]

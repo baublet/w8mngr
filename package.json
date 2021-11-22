@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "w8mngr utilizing Netlify's functions and a React SPA",
   "scripts": {
-    "gql:generate": "graphql-codegen",
+    "gql:generate": "cd nod_modules/.bin; ls -la",
     "build:netlify": "yarn gql:generate; bash ./netlify.sh",
     "build:api": "esbuild api/graphql.ts --sourcemap=external --outfile=api/graphql.js --bundle --platform=node --external:knex --external:bcrypt",
     "build:client": "esbuild client/index.tsx --sourcemap=external --outfile=client/index.js --bundle",

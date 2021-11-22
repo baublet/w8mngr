@@ -5,7 +5,7 @@ import http from "http";
 import cookieParser from "cookie-parser";
 import express from "express";
 import cors from "cors";
-import createHandler from "@vendia/serverless-express";
+import createHandler from "serverless-http";
 import { ApolloServer } from "apollo-server-express";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import {
@@ -76,15 +76,4 @@ export const server = new ApolloServer({
   ],
 });
 
-const apolloHandler = createHandler({ app, eventSource: {} });
-export const handler = (event: any, context: any, ...args: any[]) => {
-  return apolloHandler(
-    {
-      ...event,
-      requestContext: context,
-    },
-    context,
-    // @ts-expect-error
-    ...args
-  );
-};
+export const handler = createHandler(app);

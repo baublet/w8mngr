@@ -16,8 +16,8 @@ export function NavigationIcon(props: NavigationIconProps) {
     <Link
       to={to}
       className={cx(
-        "block border-b-4 border-transparent opacity-50 hover:opacity-75 h-24 w-24 p-8 hover:bg-green-600 hover:text-white",
-        { "rounded-full": !active, "opacity-100 rounded border-purple-100 pointer-events-none": active }
+        "block border-b-4 border-r-4 border-transparent hover:border-green-200 opacity-50 hover:opacity-75 h-24 w-24 p-8 hover:bg-green-400 hover:text-white",
+        { "rounded-lg": !active, "opacity-100 pointer-events-none": active }
       )}
     >
       <div className="flex flex-col justify-center items-center">

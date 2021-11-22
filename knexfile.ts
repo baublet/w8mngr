@@ -1,6 +1,6 @@
 export default {
   develop: {
-    client: require("knex/lib/dialects/sqlite3"),
+    client: "sqlite3",
     useNullAsDefault: true,
     connection: {
       filename: "./dev.sqlite3",
@@ -8,7 +8,7 @@ export default {
   },
 
   test: {
-    client: require("knex/lib/dialects/sqlite3"),
+    client: "sqlite3",
     useNullAsDefault: true,
     connection: {
       filename: ":memory:",
@@ -16,12 +16,10 @@ export default {
   },
 
   production: {
-    client: require("knex/lib/dialects/postgres"),
-    connection: {
-      database: "my_db",
-      user: "username",
-      password: "password",
-    },
+    client: "pg",
+    version: "7.2",
+    connection: process.env.DB_CONNECTION_STRING,
+    searchPath: ["knex", "public"],
     pool: {
       min: 2,
       max: 10,

@@ -6,7 +6,6 @@ import { Knex, knex } from "knex";
 import { Context, createContext } from "../createContext";
 import { log } from "./log";
 import knexConfig from "../../knexfile";
-import { disableExperimentalFragmentVariables } from "graphql-tag";
 
 const environment = process.env.NODE_ENV || "develop";
 assertIsValidEnvironment(environment);

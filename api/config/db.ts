@@ -7,22 +7,22 @@ import { Context, createContext } from "../createContext";
 import { log } from "./log";
 import knexConfig from "../../knexfile";
 
-const environment = process.env.NODE_ENV || "develop";
-assertIsValidEnvironment(environment);
-const dbSettings: Knex.Config = knexConfig[environment];
+const database = process.env.DATABASE || "develop";
+assertIsValidDatabase(database);
+const dbSettings: Knex.Config = knexConfig[database];
 
-function assertIsValidEnvironment(
-  environment: string
-): asserts environment is keyof typeof knexConfig {
-  if (environment in knexConfig) {
+function assertIsValidDatabase(
+  database: string
+): asserts database is keyof typeof knexConfig {
+  if (database in knexConfig) {
     return;
   }
-  throw new Error(`Invalid database config environment: ${environment}`);
+  throw new Error(`Invalid database config environment: ${database}`);
 }
 
 if (!dbSettings) {
   throw new Error(
-    `Unable to startup. Invalid database config. Environment: ${environment}. Available environments: ${Object.keys(
+    `Unable to startup. Invalid database config. Database: ${database}. Available databases: ${Object.keys(
       knexConfig
     )}`
   );

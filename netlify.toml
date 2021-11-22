@@ -7,3 +7,8 @@
 
   # Default build command.
   command = "yarn gql:generate && yarn build:css && yarn build:client"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -4,7 +4,7 @@ const path = require("path")
 const { server, httpServer, app } = require("./api/graphql.js");
 
 server.start().then(async () => {
-  server.applyMiddleware({ app, path: "/graphql" });
+  server.applyMiddleware({ app, path: "/.netlify/functions/graphql" });
   app.use("/", express.static("client"));
 
   app.use(function (req, res) {

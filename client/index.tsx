@@ -11,7 +11,7 @@ boot();
 const MOUNT_NODE = document.getElementById("root");
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  uri: "/graphql",
+  uri: "/.netlify/functions/graphql",
 });
 
 ReactDOM.render(

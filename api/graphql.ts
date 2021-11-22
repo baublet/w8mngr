@@ -77,3 +77,7 @@ export const server = new ApolloServer({
 });
 
 export const handler = createHandler(app);
+
+if ((process.env.NETLIFY = "true")) {
+  server.applyMiddleware({ app });
+}

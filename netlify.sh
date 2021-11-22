@@ -1,4 +1,5 @@
 #/bin/bash
+node -v
 
 if [ "$BRANCH" == "master" ]; then
   bash -c '$DOWNLOAD_DB_SSL_COMMAND'

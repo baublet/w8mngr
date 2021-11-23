@@ -5,18 +5,16 @@ import { findOneOrFail } from "./findOneOrFail";
 import { update } from "./update";
 
 it("updates the record", async () => {
-  await create(getTestGlobalContext(), {
-    id: "here",
-  });
-  await update(getTestGlobalContext(), (q) => q.where("id", "=", "here"), {
+  const user = await create(getTestGlobalContext());
+  await update(getTestGlobalContext(), (q) => q.where("id", "=", user.id), {
     userId: "updated user id",
   });
 
   await expect(
     findOneOrFail(getTestGlobalContext(), (q) => {
-      q.where("id", "=", "here");
+      q.where("id", "=", user.id);
     })
   ).resolves.toEqual(
-    expect.objectContaining({ id: "here", userId: "updated user id" })
+    expect.objectContaining({ id: user.id, userId: "updated user id" })
   );
 });

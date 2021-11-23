@@ -4,8 +4,9 @@ import cx from "classnames";
 let count = 0;
 
 const border =
-  "border-b-4 border-purple-100 border-opacity-50 hover:border-opacity-75 focus:border-opacity-100 rounded-sm";
-const background = "bg-purple-600 bg-opacity-0 hover:bg-opacity-50 focus:bg-opacity-50";
+  "border-b-4 border-white border-opacity-60 hover:border-opacity-75 focus:border-opacity-100 rounded-sm";
+const background =
+  "bg-white bg-opacity-0 hover:bg-opacity-10 focus:bg-opacity-10";
 
 export type InputProps = {
   id?: string;
@@ -18,7 +19,7 @@ export type InputProps = {
   focusOnFirstRender?: boolean;
 };
 
-export function InputPrimaryInverted(
+export function InputInverted(
   props: InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-${count++}`;
@@ -27,7 +28,6 @@ export function InputPrimaryInverted(
   newProps.id = id;
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  console.log({ focusOnFirstRender: props.focusOnFirstRender });
   React.useEffect(() => {
     if (props.focusOnFirstRender) {
       inputRef.current?.focus();
@@ -54,7 +54,7 @@ export function InputPrimaryInverted(
         <label
           htmlFor={newProps.id}
           className={cx(
-            "block text-xs uppercase whitespace-no-wrap overflow-hidden pt-1 text-purple-400 hover:text-purple-100 group-hover:text-purple-100"
+            "block text-xs uppercase whitespace-no-wrap overflow-hidden pt-1 text-white text-opacity-40 hover:text-opacity-100 group-hover:text-opacity-100"
           )}
         >
           {label}

@@ -15,16 +15,9 @@ export function FoodLog() {
     <div>
       <DayNavigator onChange={setDayString} rootUrl="/foodlog/" />
       <Spacer />
-      <div className="flex flex-col text-center mx-auto max-w-md pointer-events-none">
-        <div className="pt-4 border-t border-gray-50 mt-4 opacity-40 max-w-sm">
-          Nothing here, yet! Get started by entering<br /> a food in the form below.
-        </div>
-        <div className="opacity-5"
-          style={{
-            fontSize: "200px",
-          }}
-        >
-          <BricksIcon />
+      <div className="flex flex-col max-w-md pointer-events-none">
+        <div className="pt-4 border-t border-gray-50 mt-4 opacity-25 max-w-sm font-thin text-2xl">
+          Nothing here, yet! Get started by entering a food in the form below.
         </div>
       </div>
       <Spacer />

@@ -1,5 +1,5 @@
-import { format } from "date-fns"
+import { format } from "date-fns";
 
 export const formatDate = {
-  foodLog: (date: Date) => format(date, "MMMM do")
-}
+  foodLog: (date: Date) => format(date, "MMMM do"),
+};

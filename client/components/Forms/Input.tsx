@@ -27,7 +27,6 @@ export function Input(
   newProps.id = id;
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  console.log({ focusOnFirstRender: props.focusOnFirstRender });
   React.useEffect(() => {
     if (props.focusOnFirstRender) {
       inputRef.current?.focus();

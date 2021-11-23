@@ -1,7 +1,7 @@
 import { createWriteStream } from "fs";
 import stringify from "json-stringify-safe";
 
-const suppressConsoleLogging = process.env.SUPPRESS_CONSOLE_LOGGING === "true";
+const suppressConsoleLogging = process.env.SUPPRESS_CONSOLE_LOGGING === "true" || process.env.NODE_ENV === "test";
 
 export function log(
   level: "debug" | "error" | "info" | "warn",

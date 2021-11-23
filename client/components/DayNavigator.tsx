@@ -77,6 +77,11 @@ export function DayNavigator({
     replace(`${rootUrl}${today}`);
   }, []);
 
+  console.log({
+    dayDate,
+    dayString,
+  });
+
   return (
     <div className="flex items-stretch filter">
       <PrimaryIconButton
@@ -86,23 +91,23 @@ export function DayNavigator({
         <LeftIcon />
       </PrimaryIconButton>
       <button
-        className={cx("bg-green-500 flex-grow flex justify-center items-center", {
+        className={cx("group bg flex-grow flex justify-center items-center bg-green-500", {
           "pointer-events-none": isCurrentDayToday,
         })}
         type="button"
         onClick={today}
         title="Go to today"
       >
-        <div className="relative text-green-50 px-4 py-2 text-center flex items-center justify-center">
-          <div className="rounded absolute -bottom-5 bg-white px-2 py-1 text-xs text-green-900 text-opacity-50">
+        <div className="relative text-gray-800 px-4 py-2 text-center flex items-center justify-center">
+          <div className="rounded absolute -bottom-5 px-2 py-1 text-xs text-gray-400 text-opacity-50 bg-white">
             {dayDate.getFullYear()}
           </div>
           {isCurrentDayToday ? null : (
-            <div className="flex absolute text-xs -top-4 rounded-full bg-purple-600 px-2 py-1 shadow left-0">
+            <div className="flex absolute text-purple-50 text-xs -top-5 rounded-full bg-purple-600 px-2 py-1 shadow left-0 group-hover:bg-purple-500">
               today
             </div>
           )}
-          {formatDate.foodLog(dayDate)}
+          <span className="font-bold text-green-50">{formatDate.foodLog(dayDate)}</span>
         </div>
       </button>
       <PrimaryIconButton

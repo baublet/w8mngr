@@ -1,5 +1,6 @@
 import { dayStringToDate } from "./dayStringToDate";
 
 it("returns the right date", () => {
-  expect(dayStringToDate("20211122")).toMatchInlineSnapshot(`2020-02-22T06:00:00.000Z`);
+  const date = dayStringToDate("20211122");
+  expect(date.toISOString()).toContain("2021-11-22");
 });

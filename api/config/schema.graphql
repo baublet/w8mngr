@@ -11,6 +11,7 @@ type Mutation {
   register(input: RegisterInput!): LoginMutationPayload!
   saveFoodLog(input: SaveFoodLogInput!): FoodLogConnection!
   deleteFoodLog(input: DeleteFoodLogInput!): FoodLogConnection!
+  saveFood(input: FoodInput!): FoodMutationPayload!
 }
 
 #################
@@ -54,9 +55,48 @@ input DeleteFoodLogInput {
   id: ID!
 }
 
+input FoodInput {
+  id: ID
+  name: String
+  description: String
+  measurements: [MeasurementInput!]
+}
+
+input MeasurementInput {
+  id: ID
+  measure: String!
+  amount: Int!
+  calories: Int!
+  fat: Int!
+  carbs: Int!
+  protein: Int!
+}
+
+input FoodQueryInput {
+  before: String
+  after: String
+  first: Int
+  last: Int
+}
+
 #################
 # Types         #
 #################
+
+type FoodConnection {
+  pageInfo: PageInfo!
+  edges: [FoodEdge!]!
+}
+
+type FoodEdge {
+  cursor: String!
+  node: Food!
+}
+
+type FoodMutationPayload {
+  errors: [String!]
+  food: Food
+}
 
 type LogoutMutationPayload {
   expiredTokens: [String!]!
@@ -71,6 +111,7 @@ type User {
   id: ID!
   preferredName: String!
   foodLog(day: String!): FoodLogConnection!
+  foods(input: FoodQueryInput): FoodConnection!
 }
 
 type FoodLogConnection {

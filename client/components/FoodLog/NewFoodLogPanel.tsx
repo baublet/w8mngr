@@ -2,8 +2,8 @@ import React from "react";
 
 import { PanelInverted } from "../Containers/PanelInverted";
 import { useForm } from "../../helpers/useForm";
-import { InputPrimaryInverted } from "../Forms";
-import { PrimaryLightButton } from "../Button/PrimaryLight";
+import { InputInverted } from "../Forms";
+import { SecondaryButton } from "../Button/Secondary";
 import { Spacer } from "../Spacer";
 
 export function NewFoodLogPanel({ day }: { day: string }) {
@@ -17,32 +17,32 @@ export function NewFoodLogPanel({ day }: { day: string }) {
 
   return (
     <PanelInverted className="p-2 max-w-sm">
-      <InputPrimaryInverted
+      <InputInverted
         placeholder=""
         label="Description"
         type="text"
         onChange={newFoodLogForm.getHandler("name")}
       />
-      <div className="flex gap-1">
-        <InputPrimaryInverted
+      <div className="flex gap-1 mt-2">
+        <InputInverted
           placeholder=""
           label="Calories"
           type="text"
           onChange={newFoodLogForm.getHandler("calories")}
         />
-        <InputPrimaryInverted
+        <InputInverted
           placeholder=""
           label="Fat"
           type="text"
           onChange={newFoodLogForm.getHandler("fat")}
         />
-        <InputPrimaryInverted
+        <InputInverted
           placeholder=""
           label="Carbs"
           type="text"
           onChange={newFoodLogForm.getHandler("carbs")}
         />
-        <InputPrimaryInverted
+        <InputInverted
           placeholder=""
           label="Protein"
           type="text"
@@ -53,7 +53,7 @@ export function NewFoodLogPanel({ day }: { day: string }) {
         <div className="flex-grow" />
         <div className="flex flex-col">
           <Spacer size="s" />
-          <PrimaryLightButton>New Entry</PrimaryLightButton>
+          <SecondaryButton>New Entry</SecondaryButton>
         </div>
       </div>
     </PanelInverted>

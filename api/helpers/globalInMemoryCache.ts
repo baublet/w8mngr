@@ -2,22 +2,24 @@ import { log } from "../config";
 
 const cache = new Map<string, { value: any; expiry: number }>();
 
-const pruneInterval = setInterval(() => {
-  // Prune expired tokens
-  log("debug", "Pruning expired in-memory cache keys");
-  const now = Date.now();
-  for (const key of Array.from(cache.keys())) {
-    const cacheItem = cache.get(key);
-    if (cacheItem && cacheItem.expiry < now) {
-      log("debug", "Pruning key " + key, { cacheItem });
-      cache.delete(key);
+if (process.env.NODE_ENV !== "test") {
+  const pruneInterval = setInterval(() => {
+    // Prune expired tokens
+    log("debug", "Pruning expired in-memory cache keys");
+    const now = Date.now();
+    for (const key of Array.from(cache.keys())) {
+      const cacheItem = cache.get(key);
+      if (cacheItem && cacheItem.expiry < now) {
+        log("debug", "Pruning key " + key, { cacheItem });
+        cache.delete(key);
+      }
     }
-  }
-}, 30000);
+  }, 30000);
 
-process.on("exit", () => {
-  clearInterval(pruneInterval);
-});
+  process.on("exit", () => {
+    clearInterval(pruneInterval);
+  });
+}
 
 export const globalInMemoryCache = {
   clear: (key: string) => cache.delete(key),

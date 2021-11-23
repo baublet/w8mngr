@@ -1,3 +1,6 @@
+scalar Date
+scalar ID
+
 type Query {
   currentUser: User
 }
@@ -6,6 +9,8 @@ type Mutation {
   login(input: LoginInput!): LoginMutationPayload!
   logout: LogoutMutationPayload!
   register(input: RegisterInput!): LoginMutationPayload!
+  saveFoodLog(input: SaveFoodLogInput!): FoodLogConnection!
+  deleteFoodLog(input: DeleteFoodLogInput!): FoodLogConnection!
 }
 
 #################
@@ -23,6 +28,32 @@ input RegisterInput {
   passwordConfirmation: String!
 }
 
+input FoodLogConnectionInput {
+  before: String
+  after: String
+  first: Int
+  last: Int
+  day: String
+}
+
+input SaveFoodLogInput {
+  day: String!
+  foodLogs: [FoodLogInput!]!
+}
+
+input FoodLogInput {
+  id: ID
+  description: String!
+  calories: Int
+  fat: Int
+  carbs: Int
+  protein: Int
+}
+
+input DeleteFoodLogInput {
+  id: ID!
+}
+
 #################
 # Types         #
 #################
@@ -36,40 +67,58 @@ type LoginMutationPayload {
   rememberToken: String!
 }
 
-type FoodEntry {
+type User {
   id: ID!
-  description: String
+  preferredName: String!
+  foodLog(day: String!): FoodLogConnection!
+}
+
+type FoodLogConnection {
+  pageInfo: PageInfo!
+  edges: [FoodLogEdge!]!
+}
+
+type FoodLogEdge {
+  cursor: String!
+  node: FoodLog!
+}
+
+type FoodLog {
+  id: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  description: String!
   calories: Int
   fat: Int
   carbs: Int
   protein: Int
-  day: Int!
-  userId: Float!
-  createdAt: Float!
-  updatedAt: Float!
-}
-
-type FoodEntryConnection {
-  pageInfo: Int
-  nodes: [FoodEntry]
-}
-
-type FoodLog {
-  day: Int!
-  calories: Int!
-  fat: Int!
-  carbs: Int!
-  protein: Int!
-  entries: FoodEntryConnection!
-}
-
-type User {
-  id: ID!
-  preferredName: String!
+  food: Food
 }
 
 type PageInfo {
   totalCount: Int!
   hasPreviousPage: Boolean!
   hasNextPage: Boolean!
+}
+
+type Food {
+  id: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  name: String!
+  description: String
+  measurements: [Measurement!]!
+}
+
+type Measurement {
+  id: ID!
+  food: Food!
+  createdAt: Date!
+  updatedAt: Date!
+  measure: String!
+  amount: Int!
+  calories: Int!
+  fat: Int!
+  carbs: Int!
+  protein: Int!
 }

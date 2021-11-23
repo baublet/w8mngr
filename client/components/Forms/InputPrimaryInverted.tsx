@@ -4,8 +4,8 @@ import cx from "classnames";
 let count = 0;
 
 const border =
-  "border border-gray-500 border-opacity-25 hover:border-opacity-50 focus:border-opacity-100 rounded";
-const background = "bg-white bg-opacity-50 hover:bg-opacity-100";
+  "border-b-4 border-purple-100 border-opacity-50 hover:border-opacity-75 focus:border-opacity-100 rounded-sm";
+const background = "bg-purple-600 bg-opacity-0 hover:bg-opacity-50 focus:bg-opacity-50";
 
 export type InputProps = {
   id?: string;
@@ -18,10 +18,10 @@ export type InputProps = {
   focusOnFirstRender?: boolean;
 };
 
-export function Input(
+export function InputPrimaryInverted(
   props: InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
-  const id = props.id || `input-${count++}`;
+  const id = props.id || `input-inverted-${count++}`;
   const label = props.label;
   const { showLabel = true, className = "", onChange, ...newProps } = props;
   newProps.id = id;
@@ -54,7 +54,7 @@ export function Input(
         <label
           htmlFor={newProps.id}
           className={cx(
-            "block text-xs uppercase whitespace-no-wrap overflow-hidden pt-1 text-gray-400 hover:text-gray-600 group-hover:text-gray-600"
+            "block text-xs uppercase whitespace-no-wrap overflow-hidden pt-1 text-purple-400 hover:text-purple-100 group-hover:text-purple-100"
           )}
         >
           {label}

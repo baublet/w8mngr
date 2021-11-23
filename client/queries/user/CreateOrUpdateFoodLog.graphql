@@ -1,0 +1,5 @@
+mutation CreateOrUpdateFoodLog($input: SaveFoodLogInput!) {
+  saveFoodLog(input: $input) {
+    day
+  }
+}

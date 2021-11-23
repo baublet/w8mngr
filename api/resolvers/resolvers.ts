@@ -6,6 +6,7 @@ import { login } from "./mutations/login";
 import { logout } from "./mutations/logout";
 import { register } from "./mutations/register";
 import { saveFoodLog } from "./mutations/saveFoodLog";
+import { deleteFoodLog } from "./mutations/deleteFoodLog";
 
 import { foodLog } from "./user/foodLog";
 
@@ -20,6 +21,7 @@ export const resolvers: Resolvers = {
     login,
     logout,
     register,
+    deleteFoodLog,
     saveFoodLog,
   },
 };

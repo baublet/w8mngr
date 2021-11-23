@@ -5,7 +5,7 @@ import { CloseIcon } from "../Icons/Close";
 
 export function DeleteIconButton(
   props: React.HTMLProps<HTMLButtonElement>
-): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
+) {
   const { onClick, ...newProps } = props,
     newOnclick = (e: any) => {
       e.preventDefault();
@@ -16,7 +16,7 @@ export function DeleteIconButton(
   return (
     <GhostButton
       {...newProps}
-      className={`bg-transparent p-3 text-foreground rounded text-xs hover:bg-foregroundSlight focus:bg-foregroundSlight ${
+      className={`bg-transparent p-3 text-gray-400 rounded-full text-xs hover:bg-red-700 focus:bg-red-700 focus:text-white hover:text-white ${
         props.className || ""
       }`}
       onClick={newOnclick}

@@ -1,0 +1,18 @@
+query GetCurrentUserFoodLog($day: String!) {
+  currentUser {
+    id
+    foodLog(day: $day) {
+      day
+      edges {
+        node {
+          id
+          description
+          calories
+          fat
+          carbs
+          protein
+        }
+      }
+    }
+  }
+}

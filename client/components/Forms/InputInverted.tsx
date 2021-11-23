@@ -17,6 +17,8 @@ export type InputProps = {
   type: "text" | "password";
   onChange: (value: string) => void;
   focusOnFirstRender?: boolean;
+  defaultValue?: string | null;
+  value?: string | null;
 };
 
 export function InputInverted(
@@ -24,7 +26,14 @@ export function InputInverted(
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-inverted-${count++}`;
   const label = props.label;
-  const { showLabel = true, className = "", onChange, ...newProps } = props;
+  const {
+    showLabel = true,
+    value,
+    defaultValue,
+    className = "",
+    onChange,
+    ...newProps
+  } = props;
   newProps.id = id;
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -39,9 +48,9 @@ export function InputInverted(
       <input
         {...newProps}
         ref={inputRef}
-        onChange={(event) => {
-          onChange(event.target.value);
-        }}
+        value={value === null ? undefined : value}
+        defaultValue={!defaultValue ? undefined : defaultValue}
+        onChange={(event) => onChange(event.target.value)}
         className={cx("leading-normal w-full px-2 py-2", border, background, {
           [className]: className,
         })}

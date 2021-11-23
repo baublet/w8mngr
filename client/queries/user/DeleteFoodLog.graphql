@@ -1,0 +1,5 @@
+mutation DeleteFoodLog($id: ID!) {
+  deleteFoodLog(input: { id: $id }) {
+    day
+  }
+}

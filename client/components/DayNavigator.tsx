@@ -77,11 +77,6 @@ export function DayNavigator({
     replace(`${rootUrl}${today}`);
   }, []);
 
-  console.log({
-    dayDate,
-    dayString,
-  });
-
   return (
     <div className="flex items-stretch filter">
       <PrimaryIconButton

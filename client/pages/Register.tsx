@@ -22,8 +22,6 @@ export function Register() {
     },
   });
 
-  console.log(registerForm.getValues());
-
   return (
     <div>
       <PageHeading>Register</PageHeading>

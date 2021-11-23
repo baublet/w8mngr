@@ -1,1 +1,1 @@
-export function boot() {}
+export async function boot() {}

@@ -6,19 +6,19 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { boot } from "./boot";
 import { Application } from "./Application";
 
-boot();
+boot().then(() => {
+  const MOUNT_NODE = document.getElementById("root");
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    uri: "/.netlify/functions/graphql",
+  });
 
-const MOUNT_NODE = document.getElementById("root");
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  uri: "/.netlify/functions/graphql",
+  ReactDOM.render(
+    <BrowserRouter>
+      <ApolloProvider client={client}>
+        <Application />
+      </ApolloProvider>
+    </BrowserRouter>,
+    MOUNT_NODE
+  );
 });
-
-ReactDOM.render(
-  <BrowserRouter>
-    <ApolloProvider client={client}>
-      <Application />
-    </ApolloProvider>
-  </BrowserRouter>,
-  MOUNT_NODE
-);

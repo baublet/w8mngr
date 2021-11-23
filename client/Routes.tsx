@@ -8,23 +8,39 @@ import { NotFound } from "./pages/NotFound";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { Nutrition } from "./pages/Nutrition";
+import { FoodLog } from "./pages/FoodLog";
+
+const routes = [
+  { key: "home", path: "/", name: "Home", Component: Home },
+  { key: "login", path: "/login", Component: Login },
+  { key: "logout", path: "/logout", Component: Logout },
+  { key: "nutrition", path: "/nutrition", Component: Nutrition },
+  { key: "register", path: "/register", Component: Register },
+  { key: "foodlog", path: ["/foodlog", "/foodlog/:day"], Component: FoodLog },
+  { key: "notFound", path: "/not-found", Component: NotFound },
+];
 
 export function Routes() {
-  const location = useLocation();
   return (
     <div className="relative">
-      <TransitionGroup>
-        <CSSTransition key={location.pathname} classNames="fade" timeout={1000}>
-          <Switch location={location}>
-            <Route path="/nutrition" component={Nutrition} exact />
-            <Route path="/register" component={Register} exact />
-            <Route path="/login" component={Login} exact />
-            <Route path="/logout" component={Logout} exact />
-            <Route path="/" component={Home} exact />
-            <Route component={NotFound} />
-          </Switch>
-        </CSSTransition>
-      </TransitionGroup>
+      {routes.map(({ key, path, Component }) => (
+        <Route key={key} path={path} exact={path ? true : false}>
+          {({ match }) => {
+            return (
+              <CSSTransition
+                in={match != null}
+                classNames="fade"
+                timeout={1000}
+                unmountOnExit
+              >
+                <div className="fade">
+                  <Component />
+                </div>
+              </CSSTransition>
+            );
+          }}
+        </Route>
+      ))}
     </div>
   );
 }

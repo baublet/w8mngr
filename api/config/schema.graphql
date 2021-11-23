@@ -115,6 +115,7 @@ type User {
 }
 
 type FoodLogConnection {
+  day: ID!
   pageInfo: PageInfo!
   edges: [FoodLogEdge!]!
 }

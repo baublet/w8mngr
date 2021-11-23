@@ -1,14 +1,13 @@
-import { ulid } from "ulid";
-
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
 import { UserEntity } from "./types";
 import { userDataService } from "./";
 import { userAccountDataService } from "../userAccount/";
-import { createDigest, hashPassword } from "../../authentication";
-import { ReturnTypeWithErrors, assertIsError } from "../../types";
+import { hashPassword } from "../../authentication";
+import { ReturnTypeWithErrors } from "../../types";
 import { tokenDataService } from "../token";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
+import { assertIsError } from "../../../shared";
 
 export async function register(
   context: Context,

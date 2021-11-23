@@ -8,6 +8,12 @@ generates:
       - typescript-resolvers
     config:
       contextType: ./createContext#Context
+      customResolverFn: |
+        (
+          parent: TParent,
+          args: TArgs,
+          context: TContext
+        ) => Resolvable<TResult>;
 
   ./client/generated.ts:
     plugins:

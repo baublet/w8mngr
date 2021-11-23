@@ -5,8 +5,14 @@ import { currentUser } from "./currentUser";
 import { login } from "./mutations/login";
 import { logout } from "./mutations/logout";
 import { register } from "./mutations/register";
+import { saveFoodLog } from "./mutations/saveFoodLog";
+
+import { foodLog } from "./user/foodLog";
 
 export const resolvers: Resolvers = {
+  User: {
+    foodLog,
+  },
   Query: {
     currentUser,
   },
@@ -14,5 +20,6 @@ export const resolvers: Resolvers = {
     login,
     logout,
     register,
+    saveFoodLog,
   },
 };

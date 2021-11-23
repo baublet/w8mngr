@@ -5,8 +5,10 @@
     "esModuleInterop": true,
     "lib": ["es2018", "dom"],
     "strict": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "types": ["types/*"]
   },
+
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "ts-node": {

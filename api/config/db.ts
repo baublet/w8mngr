@@ -7,6 +7,9 @@ import { Context, createContext } from "../createContext";
 import { log } from "./log";
 import knexConfig from "../../knexfile";
 
+export type Connection<TEntity = any> = Knex<TEntity, unknown[]>;
+export type QueryBuilder<T = any> = Knex.QueryBuilder<T, any>;
+
 const database = process.env.DATABASE || "develop";
 assertIsValidDatabase(database);
 const dbSettings: Knex.Config = knexConfig[database];
@@ -68,6 +71,14 @@ export type DBQuery<TEntity = any, TResult = any> = Knex.QueryBuilder<
   TResult
 >;
 
+function getQueryBuilderFactory<TEntity = any>(tableName: string) {
+  return async (context: Context) => {
+    const { getConnection } = await context.services.get(dbService);
+    const connection = await getConnection();
+    return () => connection<TEntity>(tableName);
+  };
+}
+
 function getQueryProvider<TEntity = any>(tableName: string) {
   return async (
     context: Context,
@@ -85,7 +96,7 @@ function getQueryProvider<TEntity = any>(tableName: string) {
   };
 }
 
-export { dbService, dbSettings, getQueryProvider };
+export { dbService, dbSettings, getQueryProvider, getQueryBuilderFactory };
 
 export type QueryBuilderForQuery<
   T extends (

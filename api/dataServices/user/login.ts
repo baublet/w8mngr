@@ -4,11 +4,12 @@ import { userDataService } from "./";
 import { userAccountDataService } from "../userAccount/";
 import { tokenDataService } from "../token";
 import { doesHashMatch } from "../../authentication";
-import { ReturnTypeWithErrors, assertIsError } from "../../types";
+import { ReturnTypeWithErrors } from "../../types";
 import { errors } from "../../helpers";
 import { log } from "../../config";
 import { dbService } from "../../config";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
+import { assertIsError } from "../../../shared";
 
 export async function login(
   context: Context,

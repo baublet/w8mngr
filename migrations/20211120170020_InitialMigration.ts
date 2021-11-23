@@ -27,6 +27,18 @@ export async function up(knex: Knex): Promise<void> {
     table.timestamp("createdAt").defaultTo(knex.fn.now());
     table.date("expires").notNullable();
   });
+  await knex.schema.createTable("food_log", function (table) {
+    table.text("id").notNullable().primary();
+    table.text("userId").notNullable().index();
+    table.text("day").notNullable().index();
+    table.timestamp("createdAt").defaultTo(knex.fn.now());
+    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.text("description").notNullable();
+    table.integer("calories").nullable();
+    table.integer("fat").nullable();
+    table.integer("carbs").nullable();
+    table.integer("protein").nullable();
+  });
 }
 
 export async function down(knex: Knex): Promise<void> {}

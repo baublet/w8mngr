@@ -60,7 +60,7 @@ export function useForm<T extends Record<string, any>>({
     if (!schema) {
       throw new Error(`Cannot cast values. No schema provided to useForm`);
     }
-    return schema.cast(getValues()) as T;
+    return schema.cast(getValues(), { assert: false }) as T;
   }, []);
 
   return {

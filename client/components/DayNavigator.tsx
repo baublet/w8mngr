@@ -1,7 +1,7 @@
 import React from "react";
 import cx from "classnames";
 import { useParams, useHistory } from "react-router-dom";
-import { addDays } from "date-fns";
+import { addDays, isPast } from "date-fns";
 
 import { formatDate } from "shared/dateFormat";
 import { PrimaryIconButton } from "./Button/PrimaryIcon";
@@ -35,6 +35,7 @@ export function DayNavigator({
     const todayString = dayStringFromDate(dayDate);
     return todayString === dayString;
   });
+  const isCurrentDayInPast = isPast(dayDate);
 
   React.useEffect(() => {
     const todayString = dayStringFromDate(new Date());
@@ -86,9 +87,12 @@ export function DayNavigator({
         <LeftIcon />
       </PrimaryIconButton>
       <button
-        className={cx("group bg flex-grow flex justify-center items-center bg-green-500", {
-          "pointer-events-none": isCurrentDayToday,
-        })}
+        className={cx(
+          "group bg flex-grow flex justify-center items-center bg-green-500",
+          {
+            "pointer-events-none": isCurrentDayToday,
+          }
+        )}
         type="button"
         onClick={today}
         title="Go to today"
@@ -99,10 +103,13 @@ export function DayNavigator({
           </div>
           {isCurrentDayToday ? null : (
             <div className="flex absolute text-purple-50 text-xs -top-5 rounded-full bg-purple-600 px-2 py-1 shadow left-0 group-hover:bg-purple-500">
-              today
+              {isCurrentDayInPast ? null : <>&#x2039;</>} go to today{" "}
+              {isCurrentDayInPast ? <>&#x203A;</> : null}
             </div>
           )}
-          <span className="font-bold text-green-50">{formatDate.foodLog(dayDate)}</span>
+          <span className="font-bold text-green-50">
+            {formatDate.foodLog(dayDate)}
+          </span>
         </div>
       </button>
       <PrimaryIconButton

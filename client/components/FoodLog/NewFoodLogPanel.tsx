@@ -14,10 +14,10 @@ import {
 
 const schema = object().shape({
   description: string().required(),
-  calories: number().optional(),
-  fat: number().optional(),
-  carbs: number().optional(),
-  protein: number().optional(),
+  calories: number().optional().default(undefined),
+  fat: number().optional().default(undefined),
+  carbs: number().optional().default(undefined),
+  protein: number().optional().default(undefined),
 });
 
 export function NewFoodLogPanel({ day }: { day: string }) {

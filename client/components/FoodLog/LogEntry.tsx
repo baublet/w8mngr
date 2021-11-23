@@ -68,6 +68,7 @@ export function LogEntry({
 
   const save = React.useCallback(() => {
     createOrUpdateFoodLog({
+      refetchQueries: [GetCurrentUserFoodLogDocument],
       variables: {
         input: {
           day,
@@ -85,7 +86,7 @@ export function LogEntry({
           transform: "translateX(-1em)",
         }}
       >
-        <LogEntryLoadingBullet visible={true} />
+        <LogEntryLoadingBullet visible={loading} />
       </div>
 
       <div

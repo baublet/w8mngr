@@ -1,16 +1,18 @@
 import React from "react";
+import cx from "classnames";
 
-import { BaseButton } from "./Base";
+import { BaseButton, BaseButtonProps } from "./Base";
 
-export function GhostButton(
-  props: React.HTMLProps<HTMLButtonElement>
-): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
+const buttonClasses = `
+bg-transparent
+p-3
+rounded
+text-xs
+uppercase
+`;
+
+export function GhostButton(props: BaseButtonProps) {
   return (
-    <BaseButton
-      {...props}
-      className={`bg-transparent p-3 text-foreground rounded text-xs uppercase hover:bg-foregroundSlight focus:bg-foregroundSlight ${
-        props.className || ""
-      }`}
-    />
+    <BaseButton {...props} className={cx(buttonClasses, props.className)} />
   );
 }

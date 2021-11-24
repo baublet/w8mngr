@@ -19,23 +19,29 @@ export function BaseButton({
   type = "button",
   className,
   leftIcon,
+  children,
   ...props
 }: BaseButtonProps) {
   const classNames = cx(
+    "flex gap-4",
     {
-      "inline-block": !full,
-      "block text-center": full,
+      "block text-center w-full": full,
       "opacity-50 pointer-events-none": disabled,
     },
     className
   );
-  console.log({leftIcon})
+
   return to ? (
     <>
-      {leftIcon && <div className="mr-4">{leftIcon}</div>}
-      <Link {...props} to={to} className={classNames} />
+      <Link {...props} to={to} className={classNames}>
+        {leftIcon}
+        {children}
+      </Link>
     </>
   ) : (
-    <button {...props} className={classNames} />
+    <button {...props} className={classNames}>
+      {leftIcon}
+      {children}
+    </button>
   );
 }

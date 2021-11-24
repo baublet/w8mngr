@@ -11,6 +11,7 @@ import {
   useCreateOrUpdateFoodLogMutation,
   GetCurrentUserFoodLogDocument,
 } from "../../generated";
+import { ButtonSpinner } from "../Loading/ButtonSpinner";
 
 const schema = object().shape({
   description: string().required(),
@@ -85,10 +86,10 @@ export function NewFoodLogPanel({ day }: { day: string }) {
         </div>
         <div className="flex">
           <div className="flex-grow" />
-          <div className="flex flex-col">
+          <div className="flex flex-col text-md">
             <Spacer size="s" />
             <SecondaryButton
-              leftIcon={loading ? <b>loading</b> : undefined}
+              leftIcon={loading ? <ButtonSpinner /> : undefined}
               type="submit"
             >
               New Entry

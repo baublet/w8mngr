@@ -23,7 +23,9 @@ export function Form({
     >
       {children}
       <div className="screen-reader-text">
-        <button type="submit">Submit</button>
+        <button type="submit" tabIndex={-1}>
+          Submit
+        </button>
       </div>
     </form>
   );

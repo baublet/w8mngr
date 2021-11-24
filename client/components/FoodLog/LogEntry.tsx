@@ -60,8 +60,10 @@ export function LogEntry({
   });
   const [createOrUpdateFoodLog, { loading: createOrUpdateLoading }] =
     useCreateOrUpdateFoodLogMutation({});
+  const [deleted, setDeleted] = React.useState(false);
   const [deleteFoodLog, { loading: deleteLoading }] = useDeleteFoodLogMutation({
     refetchQueries: [GetCurrentUserFoodLogDocument],
+    onError: () => setDeleted(false),
   });
 
   const loading = createOrUpdateLoading || deleteLoading;
@@ -78,8 +80,17 @@ export function LogEntry({
     });
   }, []);
 
+  if (deleted) {
+    return <div className="opacity-0 pointer-events-none absolute" />;
+  }
+
   return (
-    <div className="relax flex w-full items-center hover:bg-gray-50  hover:bg-opacity-50 border border-gray-100 border-opacity-0 hover:border-opacity-75">
+    <div
+      className={cx(
+        "relax flex w-full items-center hover:bg-gray-50  hover:bg-opacity-50 border border-gray-100 border-opacity-0 hover:border-opacity-75",
+        { "opacity-50": deleteLoading }
+      )}
+    >
       <div
         className="absolute inset point-events-none flex items-center"
         style={{
@@ -95,8 +106,8 @@ export function LogEntry({
         })}
       >
         <Form loading={loading} onSubmit={save}>
-          <div className="w-full flex gap-1">
-            <div className="w-2/3">
+          <div className="w-full flex gap-2">
+            <div style={{ minWidth: "50%" }}>
               <InputFoodEntry
                 type="text"
                 onChange={logEntryForm.getHandler("description")}
@@ -106,44 +117,49 @@ export function LogEntry({
                 showLabel
               />
             </div>
-            <InputFoodEntry
-              type="text"
-              onChange={logEntryForm.getHandler("calories")}
-              value={logEntryForm.getValue("calories")}
-              label="Calories"
-              id={`calories-${id}`}
-              showLabel
-            />
-            <InputFoodEntry
-              type="text"
-              onChange={logEntryForm.getHandler("fat")}
-              value={logEntryForm.getValue("fat")}
-              label="Carbs"
-              id={`carbs-${id}`}
-              showLabel
-            />
-            <InputFoodEntry
-              type="text"
-              onChange={logEntryForm.getHandler("carbs")}
-              value={logEntryForm.getValue("carbs")}
-              label="Fat"
-              id={`fat-${id}`}
-              showLabel
-            />
-            <InputFoodEntry
-              type="text"
-              onChange={logEntryForm.getHandler("protein")}
-              value={logEntryForm.getValue("protein")}
-              label="Protein"
-              id={`protein-${id}`}
-              showLabel
-            />
+            <div className="flex gap-2">
+              <InputFoodEntry
+                type="text"
+                onChange={logEntryForm.getHandler("calories")}
+                value={logEntryForm.getValue("calories")}
+                label="Calories"
+                id={`calories-${id}`}
+                showLabel
+              />
+              <InputFoodEntry
+                type="text"
+                onChange={logEntryForm.getHandler("fat")}
+                value={logEntryForm.getValue("fat")}
+                label="Carbs"
+                id={`carbs-${id}`}
+                showLabel
+              />
+              <InputFoodEntry
+                type="text"
+                onChange={logEntryForm.getHandler("carbs")}
+                value={logEntryForm.getValue("carbs")}
+                label="Fat"
+                id={`fat-${id}`}
+                showLabel
+              />
+              <InputFoodEntry
+                type="text"
+                onChange={logEntryForm.getHandler("protein")}
+                value={logEntryForm.getValue("protein")}
+                label="Protein"
+                id={`protein-${id}`}
+                showLabel
+              />
+            </div>
           </div>
         </Form>
       </div>
       <div className="px-4">
         <DeleteIconButton
-          onClick={() => deleteFoodLog({ variables: { id } })}
+          onClick={() => {
+            setDeleted(true);
+            deleteFoodLog({ variables: { id } });
+          }}
         />
       </div>
     </div>

@@ -28,11 +28,11 @@ export function Routes() {
             return (
               <CSSTransition
                 in={match != null}
-                classNames="fade"
+                classNames="router"
                 timeout={1000}
                 unmountOnExit
               >
-                <div className="fade">
+                <div className="router">
                   <Component />
                 </div>
               </CSSTransition>

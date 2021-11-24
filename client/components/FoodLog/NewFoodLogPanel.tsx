@@ -41,6 +41,8 @@ export function NewFoodLogPanel({ day }: { day: string }) {
     });
   };
 
+  console.log({ loading });
+
   return (
     <PanelInverted className="p-2 max-w-sm">
       <Form loading={loading} onSubmit={create}>
@@ -85,7 +87,12 @@ export function NewFoodLogPanel({ day }: { day: string }) {
           <div className="flex-grow" />
           <div className="flex flex-col">
             <Spacer size="s" />
-            <SecondaryButton type="submit">New Entry</SecondaryButton>
+            <SecondaryButton
+              leftIcon={loading ? <b>loading</b> : undefined}
+              type="submit"
+            >
+              New Entry
+            </SecondaryButton>
           </div>
         </div>
       </Form>

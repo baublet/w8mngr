@@ -9,6 +9,7 @@ export type BaseButtonProps = React.PropsWithChildren<{
   to?: string;
   onClick?: () => void;
   type?: string;
+  leftIcon?: JSX.Element;
 }>;
 
 export function BaseButton({
@@ -17,6 +18,7 @@ export function BaseButton({
   full,
   type = "button",
   className,
+  leftIcon,
   ...props
 }: BaseButtonProps) {
   const classNames = cx(
@@ -27,8 +29,12 @@ export function BaseButton({
     },
     className
   );
+  console.log({leftIcon})
   return to ? (
-    <Link {...props} to={to} className={classNames} />
+    <>
+      {leftIcon && <div className="mr-4">{leftIcon}</div>}
+      <Link {...props} to={to} className={classNames} />
+    </>
   ) : (
     <button {...props} className={classNames} />
   );

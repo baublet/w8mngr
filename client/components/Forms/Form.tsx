@@ -14,7 +14,7 @@ export function Form({
   return (
     <form
       className={cx("block p-6 -m-6", {
-        ["bg-primary bg-opacity-5 pointer-none"]: loading,
+        ["bg-white bg-opacity-10 pointer-events-none"]: loading,
       })}
       onSubmit={(e) => {
         e.preventDefault();

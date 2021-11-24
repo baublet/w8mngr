@@ -1,9 +1,9 @@
 import React from "react";
-import { ReactComponentElement } from "react";
+import cx from "classnames";
 
-export function PrimaryLoader(): ReactComponentElement<any> {
+export function PrimaryLoader({ text }: { text?: string }) {
   return (
-    <div className="flex items-center justify-center h-full">
+    <div className="flex items-center justify-center h-full flex-col">
       <svg
         width="140"
         height="64"
@@ -12,7 +12,7 @@ export function PrimaryLoader(): ReactComponentElement<any> {
         fill="#fff"
         style={{
           width: "140px",
-          height: "64px"
+          height: "64px",
         }}
       >
         <path
@@ -43,6 +43,7 @@ export function PrimaryLoader(): ReactComponentElement<any> {
         </path>
         <path d="M67.408 57.834l-23.01-24.98c-5.864-6.15-5.864-16.108 0-22.248 5.86-6.14 15.37-6.14 21.234 0L70 16.168l4.368-5.562c5.863-6.14 15.375-6.14 21.235 0 5.863 6.14 5.863 16.098 0 22.247l-23.007 24.98c-1.43 1.556-3.757 1.556-5.188 0z" />
       </svg>
+      <div className={cx({ "mt-4 mb-4 text-purple-900 uppercase font-thin text-3xl text-opacity-25": text })}>{text}</div>
     </div>
   );
 }

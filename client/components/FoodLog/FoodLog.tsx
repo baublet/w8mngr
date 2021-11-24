@@ -8,6 +8,7 @@ import { LogEntry } from "./LogEntry";
 
 import { dayStringFromDate, getWithDefault } from "../../../shared";
 import { useGetCurrentUserFoodLogQuery } from "../../generated";
+import { PrimaryLoader } from "../Loading/Primary";
 
 const columns: ["calories", "fat", "carbs", "protein"] = [
   "calories",
@@ -20,11 +21,14 @@ export function FoodLog() {
   const [dayString, setDayString] = React.useState<string>(() =>
     dayStringFromDate(new Date())
   );
-  const { data, loading } = useGetCurrentUserFoodLogQuery({
+  const { data } = useGetCurrentUserFoodLogQuery({
+    fetchPolicy: "cache-and-network",
+    pollInterval: 15000,
     variables: {
       day: dayString,
     },
   });
+  const loading = !Boolean(data?.currentUser?.foodLog);
 
   const entries = getWithDefault(data?.currentUser?.foodLog.edges, []).map(
     (edge) => edge.node
@@ -38,23 +42,39 @@ export function FoodLog() {
     };
   }, [data]);
 
+  const [shouldTingle, setShouldTingle] = React.useState(false);
+  React.useEffect(() => {
+    setShouldTingle(true);
+    const interval = setTimeout(() => setShouldTingle(false), 300);
+    return () => clearInterval(interval);
+  }, [dayString]);
+
   return (
     <div>
       <DayNavigator onChange={setDayString} rootUrl="/foodlog/" />
       <Spacer />
-      {entries.length === 0 ? (
+      {!loading ? null : (
+        <span className="text-purple-400 animate-pulsate">
+          <PrimaryLoader text="Loading..." />
+        </span>
+      )}
+      {!loading && entries.length === 0 ? (
         <div className="flex flex-col max-w-md pointer-events-none">
           <div className="pt-4 border-t border-gray-50 mt-4 opacity-25 max-w-sm font-thin text-2xl">
             Nothing here, yet! Get started by entering a food in the form below.
           </div>
         </div>
-      ) : (
-        <div className="flex flex-col w-full gap-1">
-          {entries.map((entry) => (
-            <LogEntry key={entry.id} {...entry} day={dayString} />
-          ))}
-        </div>
-      )}
+      ) : null}
+      <div
+        className={cx("flex flex-col w-full gap-1", {
+          "filter blur": shouldTingle,
+          "pointer-events-none": shouldTingle,
+        })}
+      >
+        {entries.map((entry) => (
+          <LogEntry key={entry.id} {...entry} day={dayString} />
+        ))}
+      </div>
       <Spacer />
       <div
         className={cx(

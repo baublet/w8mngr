@@ -7,12 +7,15 @@ import { logout } from "./mutations/logout";
 import { register } from "./mutations/register";
 import { saveFoodLog } from "./mutations/saveFoodLog";
 import { deleteFoodLog } from "./mutations/deleteFoodLog";
+import { saveFood } from "./mutations/saveFood";
 
 import { foodLog } from "./user/foodLog";
+import { foods } from "./user/foods";
 
 export const resolvers: Resolvers = {
   User: {
     foodLog,
+    foods,
   },
   Query: {
     currentUser,
@@ -23,5 +26,6 @@ export const resolvers: Resolvers = {
     register,
     deleteFoodLog,
     saveFoodLog,
+    saveFood,
   },
 };

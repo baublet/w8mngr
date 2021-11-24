@@ -1,0 +1,19 @@
+query GetFoods($input: FoodQueryInput!) {
+  currentUser {
+    foods(input: $input) {
+      pageInfo {
+        totalCount
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        cursor
+        node {
+          id
+          name
+          description
+        }
+      }
+    }
+  }
+}

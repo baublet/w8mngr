@@ -7,7 +7,7 @@ type SecondaryButtonProps = BaseButtonProps;
 
 export function SecondaryButton(
   props: SecondaryButtonProps
-): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
+) {
   return (
     <BaseButton
       {...props}

@@ -1,12 +1,15 @@
 import { MutationResolvers } from "../../graphql-types";
 import { foodLogDataService } from "../../dataServices";
 import { assertIsTruthy } from "shared";
+import { foodLogPermissionService } from "../../permissionsServices";
 
 export const deleteFoodLog: MutationResolvers["deleteFoodLog"] = async (
   parent,
   { input },
   context
 ) => {
+  await foodLogPermissionService.assert("delete", context, input.id);
+
   const userId = context.currentUser?.id;
   assertIsTruthy(userId);
 

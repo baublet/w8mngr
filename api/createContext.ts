@@ -26,6 +26,8 @@ export interface Context {
   setResponse: (response: Response) => void;
   getRequest: () => Request | undefined;
   setRequest: (request: Request) => void;
+  toString: () => string;
+  toJSON: () => any;
 }
 
 export function createContext(
@@ -55,6 +57,8 @@ export function createContext(
     getResponse: () => contextResponse,
     setRequest: (request) => (contextRequest = request),
     getRequest: () => contextRequest,
+    toString: () => clientId,
+    toJSON: () => ({ clientId }),
   };
 
   return context;

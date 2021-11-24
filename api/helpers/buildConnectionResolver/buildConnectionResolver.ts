@@ -184,9 +184,7 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
         const lastResult = lastResults[0];
 
         if (!lastResult) {
-          throw new Error(
-            "Invariance violation. Last result query returned no results!"
-          );
+          return resolve(false)
         }
 
         const hasNextPage = lastResult[idProp] !== lastSubsetResult[idProp];
@@ -202,6 +200,7 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
     if (!hasPreviousPage) {
       hasPreviousPage = new Promise<boolean>(async (resolve) => {
         const resolvedEdges = await edgesFn();
+
         const firstSubsetResultEdge: undefined | { node: Record<string, any> } =
           resolvedEdges[0];
         const firstSubsetResult: undefined | Record<string, any> =
@@ -217,10 +216,10 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
         const firstResult = firstResults[0];
 
         if (!firstResult) {
-          throw new Error(
-            "Invariance violation. First result query returned no results!"
-          );
+          return resolve(false);
         }
+
+        
 
         const hasPreviousPage =
           firstResult[idProp] !== firstSubsetResult[idProp];

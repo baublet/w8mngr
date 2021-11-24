@@ -42,8 +42,6 @@ export function NewFoodLogPanel({ day }: { day: string }) {
     });
   };
 
-  console.log({ loading });
-
   return (
     <PanelInverted className="p-2 max-w-sm">
       <Form loading={loading} onSubmit={create}>

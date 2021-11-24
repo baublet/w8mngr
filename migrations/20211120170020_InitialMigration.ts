@@ -39,6 +39,14 @@ export async function up(knex: Knex): Promise<void> {
     table.integer("carbs").nullable();
     table.integer("protein").nullable();
   });
+  await knex.schema.createTable("food", function (table) {
+    table.text("id").notNullable().primary();
+    table.text("userId").notNullable().index();
+    table.timestamp("createdAt").defaultTo(knex.fn.now());
+    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.text("name").notNullable();
+    table.text("description").nullable();
+  });
 }
 
 export async function down(knex: Knex): Promise<void> {}

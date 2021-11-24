@@ -1,4 +1,6 @@
-import { getTestConnection, destroyTestConnection } from "../db";
+import { ulid } from "ulid";
+import { getConnection } from "../../config/db";
+
 import { buildConnectionResolver } from "./buildConnectionResolver";
 
 type User = {
@@ -7,16 +9,18 @@ type User = {
   name: string;
 };
 
-beforeAll(async () => {
-  const db = await getTestConnection();
-  await db.schema.createTable("users", function (table) {
+async function setup() {
+  const db = await getConnection();
+  const userTableName = ulid();
+
+  await db.schema.createTable(userTableName, function (table) {
     table.increments("id");
     table.integer("age").notNullable();
     table.string("name", 255).notNullable();
   });
 
   function createUser(data: { age: number; name: string }) {
-    return db.table("users").insert(data);
+    return db.table(userTableName).insert(data);
   }
 
   const fixtures: [string, number][] = [
@@ -51,47 +55,39 @@ beforeAll(async () => {
   for (const [name, age] of fixtures) {
     await createUser({ name, age });
   }
-});
 
-afterAll(destroyTestConnection);
+  return {
+    userTableName,
+    fixtures,
+    db,
+  };
+}
 
 it("doesn't blow up", async () => {
-  const db = await getTestConnection();
+  const { db, userTableName } = await setup();
   await expect(
-    buildConnectionResolver(db.table("users"), {
+    buildConnectionResolver(db.table(userTableName), {
       first: 10,
     })
   ).resolves.toEqual(expect.anything());
 });
 
 it("returns the total count", async () => {
-  const db = await getTestConnection();
-  const connection = await buildConnectionResolver(db.table("users"), {
-    first: 10,
-  });
+  const { userTableName, db } = await setup();
+  const connection: any = await buildConnectionResolver(
+    db.table(userTableName),
+    {
+      first: 10,
+    }
+  );
   await expect(connection.pageInfo.totalCount()).resolves.toEqual(26);
   await expect(connection.pageInfo.totalCount()).resolves.not.toEqual(20);
 });
 
-it("type test", async () => {
-  const db = await getTestConnection();
-  const connection = await buildConnectionResolver<User>(db.table("users"), {
-    first: 10,
-  });
-
-  const edges = await connection.edges();
-  const nodes = edges.map((edge) => edge.node);
-
-  // @ts-expect-error
-  nodes[0].id = "fail";
-  // @ts-expect-error
-  nodes[0].name = 1;
-});
-
 describe("Basic sort by ID", () => {
   it("returns proper results: first 3", async () => {
-    const db = await getTestConnection();
-    const connection = await buildConnectionResolver(db.table("users"), {
+    const db = await getConnection();
+    const connection: any = await buildConnectionResolver(db.table("users"), {
       first: 3,
     });
 
@@ -101,30 +97,33 @@ describe("Basic sort by ID", () => {
     await expect(connection.edges()).resolves.toEqual([
       {
         cursor: "eyJpZCI6MSwiY3Vyc29yRGF0YSI6eyJpZCI6WyJhc2MiLDFdfX0=",
+        entity: expect.objectContaining({ id: 1 }),
         node: { age: 26, id: 1, name: "Amy" },
       },
       {
         cursor: "eyJpZCI6MiwiY3Vyc29yRGF0YSI6eyJpZCI6WyJhc2MiLDJdfX0=",
+        entity: expect.objectContaining({ id: 2 }),
         node: { age: 25, id: 2, name: "Ben" },
       },
       {
         cursor: "eyJpZCI6MywiY3Vyc29yRGF0YSI6eyJpZCI6WyJhc2MiLDNdfX0=",
+        entity: expect.objectContaining({ id: 3 }),
         node: { age: 24, id: 3, name: "Claire" },
       },
     ]);
   });
 
   it("resolves hasPreviousPage properly: has no previous page", async () => {
-    const db = await getTestConnection();
-    const connection = await buildConnectionResolver(db.table("users"), {
+    const db = await getConnection();
+    const connection: any = await buildConnectionResolver(db.table("users"), {
       first: 3,
     });
     await expect(connection.pageInfo.hasPreviousPage()).resolves.toEqual(false);
   });
 
   it("resolves hasPreviousPage properly: has a previous page", async () => {
-    const db = await getTestConnection();
-    const connection = await buildConnectionResolver(db.table("users"), {
+    const db = await getConnection();
+    const connection: any = await buildConnectionResolver(db.table("users"), {
       first: 3,
       after: "eyJpZCI6MiwiY3Vyc29yRGF0YSI6eyJpZCI6WyJhc2MiLDJdfX0=",
     });
@@ -132,24 +131,24 @@ describe("Basic sort by ID", () => {
   });
 
   it("resolves hasNextPage properly: has more results", async () => {
-    const db = await getTestConnection();
-    const connection = await buildConnectionResolver(db.table("users"), {
+    const db = await getConnection();
+    const connection: any = await buildConnectionResolver(db.table("users"), {
       first: 3,
     });
     await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(true);
   });
 
   it("resolves hasNextPage properly: has no more results", async () => {
-    const db = await getTestConnection();
-    const connection = await buildConnectionResolver(db.table("users"), {
+    const db = await getConnection();
+    const connection: any = await buildConnectionResolver(db.table("users"), {
       last: 3,
     });
     await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(true);
   });
 
   it("returns proper results: next 3 after the first 3", async () => {
-    const db = await getTestConnection();
-    const connection = await buildConnectionResolver(db.table("users"), {
+    const db = await getConnection();
+    const connection: any = await buildConnectionResolver(db.table("users"), {
       first: 3,
       after: "eyJpZCI6MywiY3Vyc29yRGF0YSI6eyJpZCI6WyJhc2MiLDNdfX0=",
     });
@@ -160,14 +159,17 @@ describe("Basic sort by ID", () => {
     await expect(connection.edges()).resolves.toEqual([
       {
         cursor: "eyJpZCI6NCwiY3Vyc29yRGF0YSI6eyJpZCI6WyJhc2MiLDRdfX0=",
+        entity: expect.objectContaining({ id: 4 }),
         node: { age: 23, id: 4, name: "Danielle" },
       },
       {
         cursor: "eyJpZCI6NSwiY3Vyc29yRGF0YSI6eyJpZCI6WyJhc2MiLDVdfX0=",
+        entity: expect.objectContaining({ id: 5 }),
         node: { age: 22, id: 5, name: "Earl" },
       },
       {
         cursor: "eyJpZCI6NiwiY3Vyc29yRGF0YSI6eyJpZCI6WyJhc2MiLDZdfX0=",
+        entity: expect.objectContaining({ id: 6 }),
         node: { age: 21, id: 6, name: "Francis" },
       },
     ]);
@@ -176,14 +178,17 @@ describe("Basic sort by ID", () => {
 
 describe("Multiple field sort", () => {
   it("returns proper results: first 3", async () => {
-    const db = await getTestConnection();
-    const connection = await buildConnectionResolver<User>(db.table("users"), {
-      first: 3,
-      sort: {
-        age: "desc",
-        name: "asc",
-      },
-    });
+    const db = await getConnection();
+    const connection: any = await buildConnectionResolver<User>(
+      db.table("users"),
+      {
+        first: 3,
+        sort: {
+          age: "desc",
+          name: "asc",
+        },
+      }
+    );
 
     expect(connection._resultsQueryText).toEqual(
       "select * from `users` order by `age` desc, `name` asc limit 3"
@@ -192,24 +197,27 @@ describe("Multiple field sort", () => {
       {
         cursor:
           "eyJpZCI6MSwiY3Vyc29yRGF0YSI6eyJhZ2UiOlsiZGVzYyIsMjZdLCJuYW1lIjpbImFzYyIsIkFteSJdfX0=",
+        entity: expect.objectContaining({ id: 1 }),
         node: { age: 26, id: 1, name: "Amy" },
       },
       {
         cursor:
           "eyJpZCI6MiwiY3Vyc29yRGF0YSI6eyJhZ2UiOlsiZGVzYyIsMjVdLCJuYW1lIjpbImFzYyIsIkJlbiJdfX0=",
+        entity: expect.objectContaining({ id: 2 }),
         node: { age: 25, id: 2, name: "Ben" },
       },
       {
         cursor:
           "eyJpZCI6MywiY3Vyc29yRGF0YSI6eyJhZ2UiOlsiZGVzYyIsMjRdLCJuYW1lIjpbImFzYyIsIkNsYWlyZSJdfX0=",
+        entity: expect.objectContaining({ id: 3 }),
         node: { age: 24, id: 3, name: "Claire" },
       },
     ]);
   });
 
   it("returns proper results: next 3 after the first 3", async () => {
-    const db = await getTestConnection();
-    const connection = await buildConnectionResolver(db.table("users"), {
+    const db = await getConnection();
+    const connection: any = await buildConnectionResolver(db.table("users"), {
       first: 3,
       after:
         "eyJpZCI6MywiY3Vyc29yRGF0YSI6eyJhZ2UiOlsiZGVzYyIsMjRdLCJuYW1lIjpbImFzYyIsIkNsYWlyZSJdfX0=",
@@ -226,16 +234,19 @@ describe("Multiple field sort", () => {
       {
         cursor:
           "eyJpZCI6NCwiY3Vyc29yRGF0YSI6eyJhZ2UiOlsiZGVzYyIsMjNdLCJuYW1lIjpbImFzYyIsIkRhbmllbGxlIl19fQ==",
+        entity: expect.objectContaining({ id: 4 }),
         node: { age: 23, id: 4, name: "Danielle" },
       },
       {
         cursor:
           "eyJpZCI6NSwiY3Vyc29yRGF0YSI6eyJhZ2UiOlsiZGVzYyIsMjJdLCJuYW1lIjpbImFzYyIsIkVhcmwiXX19",
+        entity: expect.objectContaining({ id: 5 }),
         node: { age: 22, id: 5, name: "Earl" },
       },
       {
         cursor:
           "eyJpZCI6NiwiY3Vyc29yRGF0YSI6eyJhZ2UiOlsiZGVzYyIsMjFdLCJuYW1lIjpbImFzYyIsIkZyYW5jaXMiXX19",
+        entity: expect.objectContaining({ id: 6 }),
         node: { age: 21, id: 6, name: "Francis" },
       },
     ]);
@@ -244,33 +255,36 @@ describe("Multiple field sort", () => {
 
 describe("Before cursors", () => {
   it("returns proper results: last 3", async () => {
-    const db = await getTestConnection();
-    const connection = await buildConnectionResolver<User>(db.table("users"), {
-      last: 3,
-      sort: {
-        age: "desc",
-        name: "asc",
-      },
-    });
+    const db = await getConnection();
+    const connection: any = await buildConnectionResolver<User>(
+      db.table("users"),
+      {
+        last: 3,
+        sort: {
+          age: "desc",
+          name: "asc",
+        },
+      }
+    );
 
     expect(connection._resultsQueryText).toEqual(
       "select * from `users` order by `age` asc, `name` desc limit 3"
     );
     await expect(connection.edges()).resolves.toEqual([
       {
-        cursor:
-          "eyJpZCI6MjYsImN1cnNvckRhdGEiOnsiYWdlIjpbImRlc2MiLDFdLCJuYW1lIjpbImFzYyIsIlplYnVsb24iXX19",
-        node: { age: 1, id: 26, name: "Zebulon" },
+        cursor: expect.any(String),
+        entity: expect.objectContaining({ id: 24 }),
+        node: { age: 3, id: 24, name: "Xander" },
       },
       {
-        cursor:
-          "eyJpZCI6MjUsImN1cnNvckRhdGEiOnsiYWdlIjpbImRlc2MiLDJdLCJuYW1lIjpbImFzYyIsIll2b25uZSJdfX0=",
+        cursor: expect.any(String),
+        entity: expect.objectContaining({ id: 25 }),
         node: { age: 2, id: 25, name: "Yvonne" },
       },
       {
-        cursor:
-          "eyJpZCI6MjQsImN1cnNvckRhdGEiOnsiYWdlIjpbImRlc2MiLDNdLCJuYW1lIjpbImFzYyIsIlhhbmRlciJdfX0=",
-        node: { age: 3, id: 24, name: "Xander" },
+        cursor: expect.any(String),
+        entity: expect.objectContaining({ id: 26 }),
+        node: { age: 1, id: 26, name: "Zebulon" },
       },
     ]);
 
@@ -279,11 +293,15 @@ describe("Before cursors", () => {
   });
 
   it("returns proper results: last 3 after the above last 3", async () => {
-    const db = await getTestConnection();
-    const connection = await buildConnectionResolver(db.table("users"), {
+    const db = await getConnection();
+    const connection: any = await buildConnectionResolver(db.table("users"), {
       last: 3,
-      before:
-        "eyJpZCI6MjQsImN1cnNvckRhdGEiOnsiYWdlIjpbImRlc2MiLDNdLCJuYW1lIjpbImFzYyIsIlhhbmRlciJdfX0=",
+      before: Buffer.from(
+        JSON.stringify({
+          id: 24,
+          cursorData: { age: ["desc", 3], name: ["asc", "Xander"] },
+        })
+      ).toString("base64"),
       sort: {
         age: "desc",
         name: "asc",
@@ -293,25 +311,37 @@ describe("Before cursors", () => {
     expect(connection._resultsQueryText).toEqual(
       "select * from `users` where `age` > 3 and `name` < 'Xander' order by `age` asc, `name` desc limit 3"
     );
-    await expect(connection.edges()).resolves.toEqual([
-      {
-        cursor:
-          "eyJpZCI6MjMsImN1cnNvckRhdGEiOnsiYWdlIjpbImRlc2MiLDRdLCJuYW1lIjpbImFzYyIsIldpbGxpYW0iXX19",
-        node: { age: 4, id: 23, name: "William" },
-      },
-      {
-        cursor:
-          "eyJpZCI6MjIsImN1cnNvckRhdGEiOnsiYWdlIjpbImRlc2MiLDVdLCJuYW1lIjpbImFzYyIsIlZpb2xldCJdfX0=",
-        node: { age: 5, id: 22, name: "Violet" },
-      },
-      {
-        cursor:
-          "eyJpZCI6MjEsImN1cnNvckRhdGEiOnsiYWdlIjpbImRlc2MiLDZdLCJuYW1lIjpbImFzYyIsIlVscmljaCJdfX0=",
-        node: { age: 6, id: 21, name: "Ulrich" },
-      },
-    ]);
+
+    const edges = await connection.edges();
+
+    expect(
+      edges.map(
+        (edge: any) =>
+          edge.node.id + ". " + edge.node.name + " - " + edge.node.age
+      )
+    ).toEqual(["21. Ulrich - 6", "22. Violet - 5", "23. William - 4"]);
 
     await expect(connection.pageInfo.hasPreviousPage()).resolves.toEqual(true);
     await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(true);
+  });
+
+  it("returns proper hasNext and hasPrev pages", async () => {
+    const db = await getConnection();
+    const connection: any = await buildConnectionResolver(db.table("users"), {
+      last: 3,
+      before: Buffer.from(
+        JSON.stringify({
+          id: 2,
+          cursorData: { age: ["desc", 25], name: ["asc", "Ben"] },
+        })
+      ).toString("base64"),
+      sort: {
+        age: "desc",
+        name: "asc",
+      },
+    });
+
+    await expect(connection.pageInfo.hasPreviousPage()).resolves.toEqual(true);
+    await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(false);
   });
 });

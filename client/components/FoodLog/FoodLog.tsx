@@ -23,7 +23,7 @@ export function FoodLog() {
   );
   const { data } = useGetCurrentUserFoodLogQuery({
     fetchPolicy: "cache-and-network",
-    pollInterval: 15000,
+    pollInterval: 10000,
     variables: {
       day: dayString,
     },
@@ -42,13 +42,6 @@ export function FoodLog() {
     };
   }, [data]);
 
-  const [shouldTingle, setShouldTingle] = React.useState(false);
-  React.useEffect(() => {
-    setShouldTingle(true);
-    const interval = setTimeout(() => setShouldTingle(false), 300);
-    return () => clearInterval(interval);
-  }, [dayString]);
-
   return (
     <div>
       <DayNavigator onChange={setDayString} rootUrl="/foodlog/" />
@@ -65,12 +58,7 @@ export function FoodLog() {
           </div>
         </div>
       ) : null}
-      <div
-        className={cx("flex flex-col w-full gap-1", {
-          "filter blur": shouldTingle,
-          "pointer-events-none": shouldTingle,
-        })}
-      >
+      <div className={cx("flex flex-col w-full gap-1")}>
         {entries.map((entry) => (
           <LogEntry key={entry.id} {...entry} day={dayString} />
         ))}
@@ -78,7 +66,7 @@ export function FoodLog() {
       <Spacer />
       <div
         className={cx(
-          "flex flex-wrap justify-around w-full border-t border-gray-100 transition-opacity",
+          "flex flex-wrap justify-around w-full border-t border-gray-200 transition-opacity",
           {
             "opacity-50": !entries.length,
           }

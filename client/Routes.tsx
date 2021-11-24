@@ -4,11 +4,11 @@ import { CSSTransition } from "react-transition-group";
 
 import { Home } from "./pages/Home";
 import { Logout } from "./pages/Logout";
-import { NotFound } from "./pages/NotFound";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { Nutrition } from "./pages/Nutrition";
 import { FoodLog } from "./pages/FoodLog";
+import { Foods } from "./pages/Foods";
 
 const routes = [
   { key: "home", path: "/", name: "Home", Component: Home },
@@ -17,6 +17,7 @@ const routes = [
   { key: "nutrition", path: "/nutrition", Component: Nutrition },
   { key: "register", path: "/register", Component: Register },
   { key: "foodlog", path: ["/foodlog", "/foodlog/:day"], Component: FoodLog },
+  { key: "foods", path: ["/foods"], Component: Foods },
 ];
 
 export function Routes() {

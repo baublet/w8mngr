@@ -36,7 +36,7 @@ if (!dbSettings) {
 }
 
 // Our general-purpose query handler
-async function getConnection(): Promise<Knex> {
+export async function getConnection(): Promise<Knex> {
   return knex(dbSettings);
 }
 

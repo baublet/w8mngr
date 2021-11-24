@@ -143,7 +143,7 @@ describe("Basic sort by ID", () => {
     const connection: any = await buildConnectionResolver(db.table("users"), {
       last: 3,
     });
-    await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(true);
+    await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(false);
   });
 
   it("returns proper results: next 3 after the first 3", async () => {
@@ -288,8 +288,8 @@ describe("Before cursors", () => {
       },
     ]);
 
-    await expect(connection.pageInfo.hasPreviousPage()).resolves.toEqual(false);
-    await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(true);
+    await expect(connection.pageInfo.hasPreviousPage()).resolves.toEqual(true);
+    await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(false);
   });
 
   it("returns proper results: last 3 after the above last 3", async () => {
@@ -341,7 +341,7 @@ describe("Before cursors", () => {
       },
     });
 
-    await expect(connection.pageInfo.hasPreviousPage()).resolves.toEqual(true);
-    await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(false);
+    await expect(connection.pageInfo.hasPreviousPage()).resolves.toEqual(false);
+    await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(true);
   });
 });

@@ -74,7 +74,7 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
     for (const [column, [sortDirection, value]] of Object.entries(
       cursor.cursorData
     )) {
-      if (before) {
+      if (isBeforeQuery) {
         resultSetQuery.where(
           column,
           sortDirection === "desc" ? ">" : "<",
@@ -180,11 +180,13 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
 
         // Get the last ID of the full result set and compare it to the first
         // result of subset. If they don't match, there's more before this!
-        const lastResults = await lastResultQuery;
+        const lastResults = isBeforeQuery
+          ? await firstResultQuery
+          : await lastResultQuery;
         const lastResult = lastResults[0];
 
         if (!lastResult) {
-          return resolve(false)
+          return resolve(false);
         }
 
         const hasNextPage = lastResult[idProp] !== lastSubsetResult[idProp];
@@ -212,14 +214,14 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
 
         // Get the first ID of the full result set and compare it to the first
         // result of subset. If they don't match, there's more before this!
-        const firstResults = await firstResultQuery;
+        const firstResults = isBeforeQuery
+          ? await lastResultQuery
+          : await firstResultQuery;
         const firstResult = firstResults[0];
 
         if (!firstResult) {
           return resolve(false);
         }
-
-        
 
         const hasPreviousPage =
           firstResult[idProp] !== firstSubsetResult[idProp];

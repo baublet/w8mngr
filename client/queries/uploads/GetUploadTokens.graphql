@@ -1,0 +1,13 @@
+mutation GetUploadTokens($input: UploadTokenInput!) {
+  getUploadTokens(input: $input) {
+    errors
+    tokens {
+      postUrl
+      signature
+      publicId
+      apiKey
+      timestamp
+      folder
+    }
+  }
+}

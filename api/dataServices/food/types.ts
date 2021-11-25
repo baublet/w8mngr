@@ -3,4 +3,5 @@ export type FoodEntity = {
   userId: string;
   name: string;
   description?: string;
+  uploadId?: string;
 };

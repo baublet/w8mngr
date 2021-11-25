@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== "test") {
     }
   }, 30000);
 
-  process.on("exit", () => {
+  process.on("SIGINT", () => {
     clearInterval(pruneInterval);
   });
 }

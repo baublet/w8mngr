@@ -2,6 +2,10 @@ import React from "react";
 import cx from "classnames";
 
 import { DeleteIconButton } from "../Button/DeleteIconButton";
+import { uploadFiles } from "../../helpers/uploadFiles";
+import { ButtonSpinner } from "../Loading/ButtonSpinner";
+
+import { filterFalsyKeys } from "../../../shared";
 
 const allWatchEvents = [
   "drag",
@@ -20,16 +24,71 @@ type DroppedFile = {
   name: string;
   size: number;
   type: string;
+  uploadedFileUrl?: string;
+  uploadedPublicId?: string;
+  file: File;
 };
 
 export function Upload({
   limit = 1,
   bodyDrop = true,
-}: { limit?: number; bodyDrop?: boolean } = {}) {
+  image = true,
+  placeholder = (
+    <>
+      <strong>Choose a file</strong>
+      <span> or drag it here</span>
+    </>
+  ),
+}: {
+  limit?: number;
+  bodyDrop?: boolean;
+  image?: boolean;
+  placeholder?: JSX.Element;
+} = {}) {
   const dragAndDropSupported = React.useMemo(supportsDragAndDrop, []);
   const dropWatchElementRef = React.useRef<HTMLFormElement | null>(null);
   const [isDragging, setIsDragging] = React.useState(false);
   const [droppedFiles, setDroppedFiles] = React.useState<DroppedFile[]>([]);
+  const [selectedUploadIds, setSelectedUploadIds] = React.useState<string[]>(
+    []
+  );
+
+  const selectHandlers = React.useMemo(
+    () => new Map<string, (e: React.ChangeEvent<HTMLInputElement>) => void>(),
+    []
+  );
+  const getSelectHandler = React.useCallback((fileId: string) => {
+    const handler = selectHandlers.get(fileId);
+    if (handler) {
+      return handler;
+    }
+
+    const createdHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setDroppedFiles((droppedFiles) => {
+        const file = droppedFiles.find((file) => file.id === fileId);
+        const uploadId = file?.uploadedPublicId;
+        if (!file || !uploadId) {
+          return droppedFiles;
+        }
+        setSelectedUploadIds((ids) => {
+          if (event.target.checked) {
+            if (ids.includes(uploadId)) {
+              return ids;
+            }
+            return [...ids, uploadId];
+          }
+          if (!ids.includes(uploadId)) {
+            return ids;
+          }
+          return ids.filter((id) => id !== uploadId);
+        });
+        return droppedFiles;
+      });
+    };
+    selectHandlers.set(fileId, createdHandler);
+
+    return createdHandler;
+  }, []);
 
   const onAllDragEventsFunction = React.useCallback(
     (event: Pick<Event, "stopPropagation" | "preventDefault">) => {
@@ -50,6 +109,7 @@ export function Upload({
         filesDropped: e.dataTransfer.files,
         limit,
         setDroppedFiles,
+        setSelectedUploadIds,
       });
     } else {
       console.log(e.originalEvent.dataTransfer.files);
@@ -60,19 +120,57 @@ export function Upload({
   const uploading = false;
   const error = false;
 
-  const deleteUpload = React.useCallback(
-    (id: string) =>
-      setDroppedFiles((files) => {
-        const newFiles: DroppedFile[] = [];
-        for (const file of files) {
-          if (file.id !== id) {
-            newFiles.push(file);
-          }
+  const deleteUpload = React.useCallback((id: string) => {
+    setSelectedUploadIds((ids) => ids.filter((id) => id !== id));
+    setDroppedFiles((files) => {
+      const newFiles: DroppedFile[] = [];
+      for (const file of files) {
+        if (file.id !== id) {
+          newFiles.push(file);
         }
-        return newFiles;
-      }),
-    []
-  );
+      }
+      return newFiles;
+    });
+  }, []);
+
+  React.useEffect(() => {
+    if (droppedFiles.length === 0) {
+      return;
+    }
+
+    const unUploadedFile = droppedFiles.filter(
+      (file) => file.uploadedFileUrl === undefined
+    );
+
+    if (unUploadedFile.length === 0) {
+      return;
+    }
+
+    const interval = setTimeout(async () => {
+      const results = await uploadFiles({
+        files: droppedFiles,
+      });
+      setDroppedFiles((files) => {
+        const copiedFiles: typeof files = [];
+        const newIdsToSelect: string[] = [];
+        for (const file of files) {
+          const upload = results.find((result) => file.id === result.id);
+          if (upload) {
+            file.uploadedFileUrl = upload.publicUrl;
+            file.uploadedPublicId = upload.publicId;
+            newIdsToSelect.push(upload?.publicId);
+          }
+          copiedFiles.push(file);
+        }
+        setSelectedUploadIds((ids) => {
+          console.log([...ids, ...newIdsToSelect]);
+          return [...ids, ...newIdsToSelect].slice(0, limit);
+        });
+        return copiedFiles;
+      });
+    }, 500);
+    return () => clearTimeout(interval);
+  }, [droppedFiles]);
 
   React.useEffect(() => {
     const element = bodyDrop ? document.body : dropWatchElementRef.current;
@@ -136,12 +234,15 @@ export function Upload({
                   filesDropped: e.target.files,
                   limit,
                   setDroppedFiles,
+                  setSelectedUploadIds,
                 });
               }}
             />
-            <label htmlFor="file" className="text-sm">
-              <strong>Choose a file</strong>
-              <span className={cx(dragAndDropSupported)}> or drag it here</span>
+            <label htmlFor="file" className="text-sm text-center block">
+              <div>{placeholder}</div>
+              <div className="mt-2 text-xs text-green-700 text-opacity-50">
+                Click or drag to upload
+              </div>
             </label>
           </div>
         </form>
@@ -150,12 +251,46 @@ export function Upload({
         <div className={cx({ hidden: !error })}>Error!</div>
       </div>
       <div className="flex flex-col gap-2">
-        {droppedFiles.map((file) => (
-          <div className="flex gap-2 items-center opacity-75 hover:opacity-100" key={file.id}>
-            <DeleteIconButton onClick={() => deleteUpload(file.id)} />
-            <div className="text-xs">{file.name}</div>
-          </div>
-        ))}
+        {droppedFiles.map((file) => {
+          const isSelected = selectedUploadIds.includes(
+            file.uploadedPublicId as string
+          );
+          return (
+            <div
+              className={cx(
+                "flex gap-2 items-center hover:opacity-100 mt-2 border border-transparent rounded pl-2",
+                {
+                  "opacity-25 pointer-events-none": !file.uploadedFileUrl,
+                  "opacity-75": file.uploadedFileUrl,
+                  "border-purple-500 border-opacity-50 bg-purple-50 bg-opacity-50":
+                    isSelected,
+                }
+              )}
+              key={file.id}
+            >
+              <input
+                type="checkbox"
+                name={file.id}
+                id={file.id}
+                className="hidden"
+                checked={isSelected}
+                onChange={getSelectHandler(file.id)}
+              />
+              <label
+                htmlFor={file.id}
+                className="w-full flex gap-2 items-center pointer-cursor"
+              >
+                {file.uploadedFileUrl ? (
+                  <UploadPreview url={file.uploadedFileUrl} />
+                ) : (
+                  <ButtonSpinner />
+                )}
+                <div className="text-xs truncate flex-grow">{file.name}</div>
+              </label>
+              <DeleteIconButton onClick={() => deleteUpload(file.id)} className="hover:bg-purple-600 focus:bg-purple-600 rounded-r-none" />
+            </div>
+          );
+        })}
       </div>
     </>
   );
@@ -174,18 +309,25 @@ function setFiles({
   filesDropped,
   limit,
   setDroppedFiles,
+  setSelectedUploadIds,
 }: {
   limit: number;
   filesDropped: FileList | null;
   setDroppedFiles: React.Dispatch<React.SetStateAction<DroppedFile[]>>;
+  setSelectedUploadIds: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
   if (!filesDropped) {
     setDroppedFiles([]);
     return;
   }
 
+  if (limit === 1) {
+    setSelectedUploadIds([]);
+  }
+
   const filesToSet: DroppedFile[] = [];
   const filesArray = Array.from(filesDropped);
+
   for (const file of filesArray) {
     const id = idFromFile(file);
     filesToSet.push({
@@ -193,6 +335,7 @@ function setFiles({
       name: file.name,
       size: file.size,
       type: file.type,
+      file,
     });
   }
   setDroppedFiles((files) => {
@@ -200,7 +343,7 @@ function setFiles({
     const allFileIds = filesCopy.map((file) => file.id).join(" - ");
     for (const file of filesToSet) {
       if (limit === filesCopy.length) {
-        return filesCopy;
+        break;
       }
       if (allFileIds.includes(file.id)) {
         continue;
@@ -209,8 +352,24 @@ function setFiles({
     }
     return filesCopy;
   });
+  setSelectedUploadIds((ids) => {
+    return filterFalsyKeys(
+      [...ids, ...filesToSet.map((file) => file.uploadedPublicId)].slice(
+        0,
+        limit
+      )
+    );
+  });
 }
 
 function idFromFile(file: File): string {
   return `${file.name}-${file.size}-${file.lastModified}`;
+}
+
+function UploadPreview({ url }: { url: string }) {
+  return (
+    <div className="inline-block w-6 h-full">
+      <img src={url} title="Upload preview" className="w-full h-full" />
+    </div>
+  );
 }

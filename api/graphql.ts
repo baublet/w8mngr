@@ -2,6 +2,8 @@ import path from "path";
 import fs from "fs";
 import http from "http";
 
+require('dotenv').config()
+
 import cookieParser from "cookie-parser";
 import express from "express";
 import cors from "cors";

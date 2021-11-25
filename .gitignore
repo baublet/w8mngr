@@ -14,3 +14,4 @@ client/tailwind.css
 client/generated.ts
 functions/*
 root.crt
+.env

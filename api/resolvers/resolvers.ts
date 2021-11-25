@@ -8,6 +8,7 @@ import { register } from "./mutations/register";
 import { saveFoodLog } from "./mutations/saveFoodLog";
 import { deleteFoodLog } from "./mutations/deleteFoodLog";
 import { saveFood } from "./mutations/saveFood";
+import { getUploadTokens } from "./mutations/getUploadTokens";
 
 import { foodLog } from "./user/foodLog";
 import { foods } from "./user/foods";
@@ -21,6 +22,7 @@ export const resolvers: Resolvers = {
     currentUser,
   },
   Mutation: {
+    getUploadTokens,
     login,
     logout,
     register,

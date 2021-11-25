@@ -2,6 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import {
+  ServiceContainer,
+  createServiceContainer,
+} from "@baublet/service-container";
+import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
@@ -10,26 +14,17 @@ import {
 
 import { boot } from "./boot";
 import { Application } from "./Application";
+import { apolloClientService } from "./helpers/apolloClientService";
 
-boot().then(() => {
+boot().then(async () => {
   const MOUNT_NODE = document.getElementById("root");
-  const client = new ApolloClient({
-    cache: new InMemoryCache(),
-    link: new HttpLink({
-      uri: "/.netlify/functions/graphql",
-      fetch: async (req, res) => {
-        // Each query takes at least 200ms to finish.
-        await new Promise<void>((resolve) => {
-          setTimeout(() => resolve(), 200);
-        });
-        return fetch(req, res);
-      },
-    }),
-  });
+  const getClient = await window.w8mngrServiceContainer.get(
+    apolloClientService
+  );
 
   ReactDOM.render(
     <BrowserRouter>
-      <ApolloProvider client={client}>
+      <ApolloProvider client={getClient()}>
         <Application />
       </ApolloProvider>
     </BrowserRouter>,

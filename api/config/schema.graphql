@@ -6,6 +6,8 @@ type Query {
 }
 
 type Mutation {
+  getUploadTokens(input: UploadTokenInput!): UploadTokenMutationPayload!
+  saveUploadData(input: UploadInput!): UploadMutationPayload!
   login(input: LoginInput!): LoginMutationPayload!
   logout: LogoutMutationPayload!
   register(input: RegisterInput!): LoginMutationPayload!
@@ -15,8 +17,26 @@ type Mutation {
 }
 
 #################
+# Enums         #
+#################
+
+enum UploadEntityType {
+  FOOD_IMAGE
+}
+
+#################
 # Inputs        #
 #################
+
+input UploadInput {
+  publicId: String!
+  entityId: String!
+  entityType: UploadEntityType!
+}
+
+input UploadTokenInput {
+  count: Int!
+}
 
 input LoginInput {
   username: String!
@@ -82,6 +102,31 @@ input FoodQueryInput {
 #################
 # Types         #
 #################
+
+type Upload {
+  id: ID!
+  publicId: String!
+  entity: String!
+  entityType: UploadEntityType!
+}
+
+type UploadMutationPayload {
+  upload: Upload!
+}
+
+type UploadTokenMutationPayload {
+  tokens: [UploadTokenPayload!]!
+  errors: [String!]!
+}
+
+type UploadTokenPayload {
+  postUrl: String!
+  signature: String!
+  publicId: String!
+  apiKey: String!
+  timestamp: String!
+  folder: String!
+}
 
 type FoodConnection {
   pageInfo: PageInfo!

@@ -99,7 +99,7 @@ function getUpdate<T extends QueryFactoryFunction>(queryFactory: T) {
   ): Promise<void> => {
     const getQuery = await queryFactory(context);
     const query = getQuery();
-    query.update(newValues);
+    query.update({ updatedAt: new Date(), ...newValues });
     await where(query as QueryBuilderFromFactory<typeof queryFactory>);
     return query;
   };

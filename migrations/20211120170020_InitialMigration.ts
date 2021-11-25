@@ -46,6 +46,16 @@ export async function up(knex: Knex): Promise<void> {
     table.timestamp("updatedAt").defaultTo(knex.fn.now());
     table.text("name").notNullable();
     table.text("description").nullable();
+    table.text("uploadId").nullable();
+  });
+  await knex.schema.createTable("upload", function (table) {
+    table.text("id").notNullable().primary();
+    table.text("userId").notNullable().index();
+    table.timestamp("createdAt").defaultTo(knex.fn.now());
+    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.text("publicId").index().unique().notNullable();
+    table.text("entityType").nullable();
+    table.text("entityId").nullable();
   });
 }
 

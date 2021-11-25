@@ -41,8 +41,13 @@ export function FoodForm({ id }: { id?: string }) {
         }
         sideContent={
           <>
-            <SideBarHeading>Image</SideBarHeading>
-            <Upload />
+            <Upload
+              placeholder={
+                <span>
+                  <b>Food image</b> (optional)
+                </span>
+              }
+            />
           </>
         }
       />

@@ -9,6 +9,7 @@ import { Login } from "./pages/Login";
 import { Nutrition } from "./pages/Nutrition";
 import { FoodLog } from "./pages/FoodLog";
 import { Foods } from "./pages/Foods";
+import { NewFood } from "./pages/NewFood";
 
 const routes = [
   { key: "home", path: "/", name: "Home", Component: Home },
@@ -17,7 +18,8 @@ const routes = [
   { key: "nutrition", path: "/nutrition", Component: Nutrition },
   { key: "register", path: "/register", Component: Register },
   { key: "foodlog", path: ["/foodlog", "/foodlog/:day"], Component: FoodLog },
-  { key: "foods", path: ["/foods"], Component: Foods },
+  { key: "foods", path: "/foods", Component: Foods },
+  { key: "new-food", path: "/foods/new", Component: NewFood },
 ];
 
 export function Routes() {

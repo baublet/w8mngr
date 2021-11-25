@@ -25,7 +25,7 @@ export function BaseButton({
   const classNames = cx(
     "flex gap-4",
     {
-      "block text-center w-full": full,
+      "block text-center w-full justify-center": full,
       "opacity-50 pointer-events-none": disabled,
     },
     className

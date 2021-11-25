@@ -16,6 +16,8 @@ export type InputProps = {
   type: "text" | "password";
   onChange: (value: string) => void;
   focusOnFirstRender?: boolean;
+  value?: string;
+  defaultValue?: string;
 };
 
 export function Input(

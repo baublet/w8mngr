@@ -6,9 +6,7 @@ export function ContentLayout(props: {
   mainContent?: React.ReactElement;
   sideContent?: React.ReactElement;
 }) {
-  const classNames = cx("w-full flex", {
-    [props.className || ""]: props.className,
-  });
+  const classNames = cx("w-full flex gap-4", props.className);
   return (
     <div className={classNames}>
       <div className="w-9/12">{props.mainContent || null}</div>

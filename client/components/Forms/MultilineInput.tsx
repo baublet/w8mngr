@@ -1,33 +1,45 @@
 import React from "react";
+import cx from "classnames";
+
+import { InputProps } from "./Input";
 
 let count = 0;
 
-interface MultilineInputWithLabel {
-  label: string;
-}
-interface MultilineInputWithPlaceholder {
-  placeholder: string;
-}
-type InputBasicProps = React.HTMLProps<HTMLTextAreaElement>;
-export type MultilineInputProps = InputBasicProps &
-  (MultilineInputWithLabel | MultilineInputWithPlaceholder);
+export type MultilineInputProps = InputProps;
 
 export function MultilineInput(
   props: MultilineInputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
-  const id = props.id || `input-inverted-${count++}`,
-    label = props.placeholder || props.label,
-    newProps = Object.assign({}, props, { id });
+  const id = props.id || `multi-line-${count++}`;
+  const label = props.placeholder || props.label;
+
   return (
     <>
-      <label htmlFor={newProps.id} className="screen-reader-text">
+      <label htmlFor={id} className="screen-reader-text">
         {label}
       </label>
       <textarea
-        {...newProps}
-        className={`bg-foregroundSlight w-full py-2 border rounded p-3 border-foregroundLighter hover:border-foreground focus:border-foreground h-64 shadow-inner ${
-          props.className || ""
-        }`}
+        className={cx(
+          `
+          w-full
+          p-2
+          h-64
+          focus:shadow-inner
+          border
+          border-gray-500
+          border-opacity-25
+          hover:border-opacity-50
+          focus:border-opacity-100
+          rounded
+          bg-white
+          bg-opacity-50
+          hover:bg-opacity-100
+          `,
+          props.className
+        )}
+        value={props.defaultValue}
+        defaultValue={props.value}
+        placeholder={props.placeholder}
       />
     </>
   );

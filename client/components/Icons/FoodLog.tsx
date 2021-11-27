@@ -1,6 +1,6 @@
 import React from "react";
 
-export function FoodLogIcon(): React.ReactComponentElement<any> {
+export function FoodLogIcon() {
   return (
     <svg
       width="24"

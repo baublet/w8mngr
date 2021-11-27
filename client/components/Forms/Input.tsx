@@ -16,7 +16,7 @@ export type InputProps = {
   type: "text" | "password";
   onChange: (value: string) => void;
   focusOnFirstRender?: boolean;
-  value?: string;
+  value?: string | number;
   defaultValue?: string;
 };
 
@@ -25,7 +25,13 @@ export function Input(
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `input-${count++}`;
   const label = props.label;
-  const { showLabel = true, className = "", onChange, ...newProps } = props;
+  const {
+    showLabel = true,
+    className = "",
+    onChange,
+    value = "",
+    ...newProps
+  } = props;
   newProps.id = id;
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -46,6 +52,7 @@ export function Input(
         className={cx("leading-normal w-full px-2 py-2", border, background, {
           [className]: className,
         })}
+        value={value}
       />
       {props.showLabel === false ? (
         <label htmlFor={newProps.id} className="screen-reader-text">

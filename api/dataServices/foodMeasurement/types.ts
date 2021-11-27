@@ -1,8 +1,10 @@
-export type UploadToken = {
-  postUrl: string;
-  publicId: string;
-  apiKey: string;
-  signature: string;
-  timestamp: string;
-  folder: string;
+export type FoodMeasurement = {
+  id: string;
+  foodId: string;
+  measure: string;
+  amount: number;
+  calories: number;
+  fat: number;
+  carbs: number;
+  protein: number;
 };

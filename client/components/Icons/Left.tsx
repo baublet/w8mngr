@@ -1,8 +1,6 @@
 import React from "react";
 
-export function LeftIcon(
-  props: React.HTMLProps<HTMLInputElement>
-): React.ReactComponentElement<any> {
+export function LeftIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

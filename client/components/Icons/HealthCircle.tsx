@@ -1,6 +1,6 @@
 import React from "react";
 
-export function HealthCircleIcon(): React.ReactComponentElement<any> {
+export function HealthCircleIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

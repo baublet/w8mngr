@@ -7,6 +7,7 @@ import { SecondaryButton } from "../Button/Secondary";
 import { ContentContainer } from "../Containers/ContentContainer";
 import { ContentLayout } from "../Containers/ContentLayout";
 import { Upload } from "../Forms/Upload";
+import {FoodMeasurementsForm} from "./FoodMeasurementsForm"
 
 import { useForm } from "../../helpers";
 
@@ -71,6 +72,8 @@ export function FoodForm({
               onChange={foodFormData.getHandler("description")}
               value={foodFormData.getValue("description")}
             />
+            <Spacer />
+            <FoodMeasurementsForm initialData={[]} />
             <Spacer />
             <div className="flex w-full gap-4 justify-end">
               <SecondaryButton onClick={handleSave}>Save Food</SecondaryButton>

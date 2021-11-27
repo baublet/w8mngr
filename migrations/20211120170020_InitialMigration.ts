@@ -64,8 +64,8 @@ export async function up(knex: Knex): Promise<void> {
     table.text("userId").notNullable().index();
     table.timestamp("createdAt").defaultTo(knex.fn.now());
     table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.integer("amount").notNullable().defaultTo(1);
     table.text("measure").notNullable();
-    table.text("amount").notNullable();
     table.integer("calories").notNullable().defaultTo(0);
     table.integer("fat").notNullable().defaultTo(0);
     table.integer("carbs").notNullable().defaultTo(0);

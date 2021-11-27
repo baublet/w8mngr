@@ -1,9 +1,8 @@
 import React from "react";
-import CheckMarkIcon from "./Check";
 
-export function SavedIcon(
-  props: React.HTMLProps<HTMLInputElement>
-): React.ReactComponentElement<any> {
+import { CheckMarkIcon } from "./Check";
+
+export function SavedIcon() {
   return (
     <div className="flex content-center text-xs opacity-75">
       <CheckMarkIcon />

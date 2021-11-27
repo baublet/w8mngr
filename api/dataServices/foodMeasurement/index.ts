@@ -1,7 +1,7 @@
 import { createDataService } from "../createDataService";
 import { getQuery } from "./query";
 
-export const foodDataService = {
+export const foodMeasurementDataService = {
   ...createDataService(getQuery, "FoodMeasurement"),
 };
 

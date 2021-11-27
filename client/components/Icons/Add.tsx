@@ -1,6 +1,6 @@
 import React from "react";
 
-export function RightIcon() {
+export function Add() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -8,7 +8,7 @@ export function RightIcon() {
       height="24"
       viewBox="0 0 24 24"
     >
-      <path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
+      <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z" />
     </svg>
   );
 }

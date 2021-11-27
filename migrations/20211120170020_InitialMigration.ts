@@ -46,7 +46,7 @@ export async function up(knex: Knex): Promise<void> {
     table.timestamp("updatedAt").defaultTo(knex.fn.now());
     table.text("name").notNullable();
     table.text("description").nullable();
-    table.text("uploadId").nullable();
+    table.text("imageUploadId").nullable();
   });
   await knex.schema.createTable("upload", function (table) {
     table.text("id").notNullable().primary();
@@ -56,6 +56,20 @@ export async function up(knex: Knex): Promise<void> {
     table.text("publicId").index().unique().notNullable();
     table.text("entityType").nullable();
     table.text("entityId").nullable();
+    table.text("extension").nullable();
+  });
+  await knex.schema.createTable("food_measurement", function (table) {
+    table.text("id").notNullable().primary();
+    table.text("foodId").notNullable().index();
+    table.text("userId").notNullable().index();
+    table.timestamp("createdAt").defaultTo(knex.fn.now());
+    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.text("measure").notNullable();
+    table.text("amount").notNullable();
+    table.integer("calories").notNullable().defaultTo(0);
+    table.integer("fat").notNullable().defaultTo(0);
+    table.integer("carbs").notNullable().defaultTo(0);
+    table.integer("protein").notNullable().defaultTo(0);
   });
 }
 

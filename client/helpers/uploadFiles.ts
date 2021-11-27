@@ -6,6 +6,9 @@ import {
   GetUploadTokensDocument,
   GetUploadTokensMutationVariables,
   GetUploadTokensMutationResult,
+  UpdateUploadDataDocument,
+  UpdateUploadDataMutationVariables,
+  UpdateUploadDataMutationResult,
 } from "../generated";
 
 type FileInput = {
@@ -19,7 +22,10 @@ type FileInput = {
 type UploadedFile = {
   id: string;
   publicId: string;
-  publicUrl: string;
+  previewUrl: string;
+  smallUrl: string;
+  extension: string;
+  uploadId: string;
 };
 
 export async function uploadFiles({
@@ -80,13 +86,36 @@ export async function uploadFiles({
             console.log({ resultData: result.data });
             uploadedFiles.push({
               id: file.id,
-              publicUrl: result.data["secure_url"],
+              previewUrl: "",
+              smallUrl: "",
               publicId: result.data["public_id"],
+              extension: result.data["format"],
+              uploadId: token.uploadId,
             });
           })
           .catch((err) => {
             console.error("Upload error", err);
           });
+      })
+    );
+
+    await Promise.all(
+      uploadedFiles.map(async (file) => {
+        const result = await client.mutate<
+          UpdateUploadDataMutationResult["data"],
+          UpdateUploadDataMutationVariables
+        >({
+          mutation: UpdateUploadDataDocument,
+          variables: {
+            input: {
+              id: file.uploadId,
+              extension: file.extension,
+            },
+          },
+        });
+
+        file.previewUrl = result.data?.saveUploadData.upload.preview || "";
+        file.smallUrl = result.data?.saveUploadData.upload.small || "";
       })
     );
 

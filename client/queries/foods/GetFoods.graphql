@@ -12,6 +12,11 @@ query GetFoods($input: FoodQueryInput!) {
           id
           name
           description
+          image {
+            id
+            publicId
+            previewImageUrl: publicUrl(input: { type: MEDIUM_SQUARE })
+          }
         }
       }
     }

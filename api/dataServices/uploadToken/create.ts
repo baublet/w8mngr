@@ -17,7 +17,7 @@ export async function create({
 }: {
   context: Context;
   count: number;
-}): Promise<Error | UploadToken[]> {
+}): Promise<Error | (UploadToken & { uploadId: string })[]> {
   const userId = context.currentUser?.id;
   assertIsTruthy(userId);
   const db = await context.services.get(dbService);
@@ -30,7 +30,7 @@ export async function create({
     }
 
     const maximizedCount = Math.min(count, 25);
-    const tokens: UploadToken[] = [];
+    const tokens: (UploadToken & { uploadId: string })[] = [];
 
     const promises: Promise<void>[] = [];
     for (let i = 0; i < maximizedCount; i++) {
@@ -46,7 +46,13 @@ export async function create({
           shasum.update(signature);
           const signedSignature = shasum.digest("hex");
 
+          const upload = await uploadDataService.create(context, {
+            publicId: `${folder}/${publicId}`,
+            userId,
+          });
+
           tokens.push({
+            uploadId: upload.id,
             postUrl: CLOUDINARY_URL,
             publicId,
             signature: signedSignature,
@@ -55,10 +61,6 @@ export async function create({
             folder,
           });
 
-          await uploadDataService.create(context, {
-            publicId: `${folder}/${publicId}`,
-            userId,
-          });
           resolve();
         })
       );

@@ -1,6 +1,6 @@
 import { MutationResolvers } from "../../graphql-types";
 import { foodDataService } from "../../dataServices";
-import { assertIsTruthy } from "shared";
+import { assertIsTruthy } from "../../../shared";
 import { foodPermissionService } from "../../permissionsServices";
 
 export const saveFood: MutationResolvers["saveFood"] = async (
@@ -13,13 +13,8 @@ export const saveFood: MutationResolvers["saveFood"] = async (
   const userId = context.currentUser?.id;
   assertIsTruthy(userId);
 
-  const newFood = await foodDataService.create(context, {
+  return foodDataService.saveMutation(context, {
+    input,
     userId,
-    description: input.description,
-    name: input.name,
   });
-
-  return {
-    food: newFood,
-  };
 };

@@ -1,0 +1,8 @@
+mutation UpdateUploadData($input: UploadInput!) {
+  saveUploadData(input: $input) {
+    upload {
+      preview: publicUrl(input: { type: PREVIEW })
+      small: publicUrl(input: { type: MEDIUM_SQUARE })
+    }
+  }
+}

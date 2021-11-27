@@ -2,6 +2,7 @@ mutation GetUploadTokens($input: UploadTokenInput!) {
   getUploadTokens(input: $input) {
     errors
     tokens {
+      uploadId
       postUrl
       signature
       publicId

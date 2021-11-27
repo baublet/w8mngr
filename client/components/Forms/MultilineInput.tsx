@@ -19,6 +19,7 @@ export function MultilineInput(
         {label}
       </label>
       <textarea
+        onChange={(event) => props.onChange(event.target.value)}
         className={cx(
           `
           w-full

@@ -3,6 +3,7 @@ scalar ID
 
 type Query {
   currentUser: User
+  upload(input: UploadInput): Upload!
 }
 
 type Mutation {
@@ -24,14 +25,25 @@ enum UploadEntityType {
   FOOD_IMAGE
 }
 
+enum UploadUrlType {
+  "384x384"
+  MEDIUM_SQUARE
+  "width: 64x64"
+  SMALL
+  "width: 24x24"
+  PREVIEW
+}
+
 #################
 # Inputs        #
 #################
 
 input UploadInput {
-  publicId: String!
-  entityId: String!
-  entityType: UploadEntityType!
+  id: String
+  publicId: String
+  entityId: String
+  entityType: UploadEntityType
+  extension: String
 }
 
 input UploadTokenInput {
@@ -79,17 +91,18 @@ input FoodInput {
   id: ID
   name: String
   description: String
+  imageUploadId: String
   measurements: [MeasurementInput!]
 }
 
 input MeasurementInput {
   id: ID
-  measure: String!
-  amount: Int!
-  calories: Int!
-  fat: Int!
-  carbs: Int!
-  protein: Int!
+  measure: String
+  amount: Int
+  calories: Int
+  fat: Int
+  carbs: Int
+  protein: Int
 }
 
 input FoodQueryInput {
@@ -97,7 +110,18 @@ input FoodQueryInput {
   after: String
   first: Int
   last: Int
+  filter: FoodQueryFilters
 }
+
+input FoodQueryFilters {
+  id: ID
+}
+
+input UploadUrlInput {
+  type: UploadUrlType!
+}
+
+
 
 #################
 # Types         #
@@ -108,6 +132,7 @@ type Upload {
   publicId: String!
   entity: String!
   entityType: UploadEntityType!
+  publicUrl(input: UploadUrlInput): String!
 }
 
 type UploadMutationPayload {
@@ -120,6 +145,7 @@ type UploadTokenMutationPayload {
 }
 
 type UploadTokenPayload {
+  uploadId: String!
   postUrl: String!
   signature: String!
   publicId: String!
@@ -195,6 +221,7 @@ type Food {
   name: String!
   description: String
   measurements: [Measurement!]!
+  image: Upload
 }
 
 type Measurement {

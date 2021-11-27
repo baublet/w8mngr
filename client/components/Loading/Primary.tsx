@@ -3,7 +3,7 @@ import cx from "classnames";
 
 export function PrimaryLoader({ text }: { text?: string }) {
   return (
-    <div className="flex items-center justify-center h-full flex-col">
+    <div className="flex items-center justify-center h-full flex-col text-purple-800">
       <svg
         width="140"
         height="64"

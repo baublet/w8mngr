@@ -9,4 +9,5 @@ export type Upload = {
   publicId: string;
   entityType?: UploadEntityType;
   entityId?: string;
+  extension?: string;
 };

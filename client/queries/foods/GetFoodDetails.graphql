@@ -1,0 +1,19 @@
+query GetFoodDetails($id: ID!) {
+  currentUser {
+    foods(input: { filter: { id: $id }, last: 1 }) {
+      edges {
+        node {
+          id
+          name
+          description
+          image {
+            id
+            publicId
+            preview: publicUrl(input: { type: PREVIEW })
+            small: publicUrl(input: { type: MEDIUM_SQUARE })
+          }
+        }
+      }
+    }
+  }
+}

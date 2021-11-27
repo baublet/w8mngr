@@ -1,7 +1,8 @@
-import { Knex } from "knex";
+import { Knex, knex } from "knex";
 import { ulid } from "ulid";
+import omit from "lodash.omit";
 
-import { assertIsTruthy } from "../../shared";
+import { assertIsError, assertIsTruthy } from "../../shared";
 import { dbService } from "../config";
 import { Context } from "../createContext";
 import { errors, buildConnectionResolver } from "../helpers";
@@ -132,10 +133,13 @@ function getUpsert<T extends QueryFactoryFunction>(
 
           if (insertOrUpdate === "UPDATE") {
             query.update({
-              ...item,
+              ...omit(item, "id"),
             });
-            await applyAdditionalWhereConstraints?.(query as any);
-            await query.where(idProp, "=", id);
+            query.where(idProp, "=", id);
+            await query.andWhere((q) => {
+              q.whereRaw("1 = 1");
+              applyAdditionalWhereConstraints?.(q as any);
+            });
           } else {
             await query.insert({
               ...item,
@@ -166,22 +170,31 @@ function getConnection<T extends QueryFactoryFunction>(queryFactory: T) {
       nodeTransformer?: Parameters<typeof buildConnectionResolver>[2];
     }
   ) => {
-    const getQuery = await queryFactory(context);
-    const query = getQuery();
+    try {
+      const getQuery = await queryFactory(context);
+      const query = getQuery();
 
-    const constraint = input.constraint;
-    if (constraint) {
-      for (const [key, value] of Object.entries(constraint)) {
-        query.andWhere(key, "=", value as any);
+      const constraint = input.constraint;
+      if (constraint) {
+        query.where((q) => {
+          q.whereRaw("1=1");
+          for (const [key, value] of Object.entries(constraint)) {
+            if (value === undefined) continue;
+            q.andWhere(key, value);
+          }
+        });
       }
-    }
 
-    return buildConnectionResolver(
-      query,
-      {
-        ...input.connectionResolverParameters,
-      },
-      input.nodeTransformer
-    );
+      return buildConnectionResolver(
+        query,
+        {
+          ...input.connectionResolverParameters,
+        },
+        input.nodeTransformer
+      );
+    } catch (error) {
+      assertIsError(error);
+      return error;
+    }
   };
 }

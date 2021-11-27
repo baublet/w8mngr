@@ -1,0 +1,8 @@
+query GetUploadData($input: UploadInput!) {
+  upload(input: $input) {
+    id
+    publicId
+    preview: publicUrl(input: { type: PREVIEW })
+    small: publicUrl(input: { type: MEDIUM_SQUARE })
+  }
+}

@@ -26,7 +26,13 @@ export function FoodsList() {
   return (
     <div className="flex flex-col gap-4">
       {foods.map((food) => {
-        return <FoodsListItem key={food.id} {...food} />;
+        return (
+          <FoodsListItem
+            key={food.id}
+            {...food}
+            previewImageUrl={food.image?.previewImageUrl}
+          />
+        );
       })}
       <div className="flex justify-between">
         <div className="flex-grow">

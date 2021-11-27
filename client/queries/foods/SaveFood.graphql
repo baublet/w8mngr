@@ -1,0 +1,10 @@
+mutation SaveFood($input: FoodInput!) {
+  saveFood(input: $input) {
+    errors
+    food {
+      id
+      name
+      description
+    }
+  }
+}

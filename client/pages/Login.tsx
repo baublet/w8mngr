@@ -37,6 +37,7 @@ export function Login() {
                 placeholder="your@email.address"
                 label="Username"
                 onChange={loginForm.getHandler("username")}
+                value={loginForm.getValue("username")}
                 focusOnFirstRender
               />
               <Spacer size="s" />
@@ -45,6 +46,7 @@ export function Login() {
                 placeholder="Password"
                 label="Password"
                 onChange={loginForm.getHandler("password")}
+                value={loginForm.getValue("password")}
               />
               <Spacer />
               <PrimaryButton

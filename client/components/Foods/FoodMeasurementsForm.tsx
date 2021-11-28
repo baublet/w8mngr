@@ -7,22 +7,28 @@ import { SystemOutlineIconButton } from "../Button/SystemOutlineIcon";
 import { DeleteIconButton } from "../Button/DeleteIconButton";
 import { FormSubHeading } from "../Type/FormSubHeading";
 
-import { Measurement } from "../../generated";
+import { FoodMeasurement, useDeleteMeasurementMutation } from "../../generated";
 import { useForm } from "../../helpers";
 
-type FormMeasurementInput = Partial<
+export type FormMeasurementInput = Partial<
   Pick<
-    Measurement,
-    "id" | "amount" | "calories" | "carbs" | "fat" | "measure" | "protein"
+    FoodMeasurement,
+    "id" | "amount" | "calories" | "carbs" | "fat" | "measurement" | "protein"
   >
 > & { internalId: string };
 
 export function FoodMeasurementsForm({
   initialData = [],
+  onChange,
 }: {
-  initialData?: FormMeasurementInput[];
+  initialData?: Maybe<FormMeasurementInput[]>;
+  onChange: (measurements: FormMeasurementInput[]) => void;
 }) {
-  const [measurements, setMeasurements] = React.useState(initialData);
+  const [measurements, setMeasurements] = React.useState(initialData || []);
+  const [deleteMeasurementMutation] = useDeleteMeasurementMutation();
+
+  React.useEffect(() => onChange(measurements), [measurements]);
+  React.useEffect(() => setMeasurements(initialData || []), [initialData]);
 
   const addMeasurement = React.useCallback(() => {
     setMeasurements((measurements) => [
@@ -33,22 +39,50 @@ export function FoodMeasurementsForm({
     ]);
   }, []);
 
-  const deleteMeasurement = React.useCallback((internalId: string) => {
-    setMeasurements((measurements) =>
-      measurements.filter(
-        (measurement) => measurement.internalId !== internalId
-      )
-    );
+  const deleteMeasurement = React.useCallback(
+    (internalId: string, id?: string) => {
+      if (id) {
+        deleteMeasurementMutation({
+          variables: {
+            input: {
+              id,
+            },
+          },
+        });
+      }
+      setMeasurements((measurements) =>
+        measurements.filter(
+          (measurement) => measurement.internalId !== internalId
+        )
+      );
+    },
+    []
+  );
+
+  const updateMeasurement = React.useCallback((internalId: string) => {
+    return (measurementInput: FormMeasurementInput) => {
+      setMeasurements((measurements) => {
+        const measurementsCopy = measurements.map((measurement) => {
+          if (
+            measurement.id !== internalId &&
+            measurement.internalId !== internalId
+          ) {
+            return measurement;
+          }
+          return measurementInput;
+        });
+        return measurementsCopy;
+      });
+    };
   }, []);
 
   return (
     <div>
       <FormSubHeading
         leftIcon={
-          <SystemOutlineIconButton
-            leftIcon={<Add />}
-            onClick={addMeasurement}
-          />
+          <SystemOutlineIconButton onClick={addMeasurement}>
+            <Add />
+          </SystemOutlineIconButton>
         }
       >
         Measurements
@@ -59,6 +93,7 @@ export function FoodMeasurementsForm({
             key={measurement.internalId}
             onDelete={deleteMeasurement}
             measurement={measurement}
+            onChange={updateMeasurement(measurement.internalId)}
           />
         ))}
       </div>
@@ -69,19 +104,23 @@ export function FoodMeasurementsForm({
 function MeasurementForm({
   measurement,
   onDelete,
+  onChange,
 }: {
-  measurement: FormMeasurementInput;
-  onDelete: (internalId: string) => void;
+  measurement: FormMeasurementInput & { internalId: string };
+  onDelete: (internalId: string, id?: string) => void;
+  onChange: (input: FormMeasurementInput) => void;
 }) {
   const formData = useForm<{
     id: string | undefined;
+    internalId: string;
     amount: number;
     measurement: string;
     calories: number;
     fat: number;
     carbs: number;
     protein: number;
-  }>({ initialValues: measurement });
+  }>({ initialValues: measurement, onChange });
+
   return (
     <div className="mt-2 flex gap-2 items-center">
       <div>
@@ -105,7 +144,7 @@ function MeasurementForm({
       <div>
         <Input
           type="text"
-          placeholder=""
+          placeholder="100"
           label="calories"
           value={formData.getValue("calories")}
           onChange={formData.getHandler("calories")}
@@ -114,7 +153,7 @@ function MeasurementForm({
       <div>
         <Input
           type="text"
-          placeholder=""
+          placeholder="5"
           label="fat"
           value={formData.getValue("fat")}
           onChange={formData.getHandler("fat")}
@@ -123,7 +162,7 @@ function MeasurementForm({
       <div>
         <Input
           type="text"
-          placeholder=""
+          placeholder="11.5"
           label="carbs"
           value={formData.getValue("carbs")}
           onChange={formData.getHandler("carbs")}
@@ -132,14 +171,16 @@ function MeasurementForm({
       <div>
         <Input
           type="text"
-          placeholder=""
+          placeholder="2"
           label="protein"
           value={formData.getValue("protein")}
           onChange={formData.getHandler("protein")}
         />
       </div>
       <div className="mb-4">
-        <DeleteIconButton onClick={() => onDelete(measurement.internalId)} />
+        <DeleteIconButton
+          onClick={() => onDelete(measurement.internalId, measurement.id)}
+        />
       </div>
     </div>
   );

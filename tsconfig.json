@@ -6,7 +6,7 @@
     "lib": ["es2018", "dom"],
     "strict": true,
     "noImplicitAny": true,
-    "types": ["types/*"]
+    "types": ["types/*", "jest"]
   },
 
   "include": ["**/*.ts", "**/*.tsx"],

@@ -103,14 +103,6 @@ export function usePaginatedQuery<
     totalCount: connection.pageInfo.totalCount,
     hasNextPage: connection.pageInfo.hasNextPage,
     hasPreviousPage: connection.pageInfo.hasPreviousPage,
-    // hasNextPage:
-    //   beforeOrAfter === "before"
-    //     ? connection.pageInfo.hasPreviousPage
-    //     : connection.pageInfo.hasNextPage,
-    // hasPreviousPage:
-    //   beforeOrAfter === "after"
-    //     ? connection.pageInfo.hasNextPage
-    //     : connection.pageInfo.hasPreviousPage,
     nextPage: () => {
       setCursor(lastCursor);
       setBeforeOrAfter("after");
@@ -125,7 +117,6 @@ export function usePaginatedQuery<
 }
 
 function isLoading(status: NetworkStatus): boolean {
-  console.log({ status });
   switch (status) {
     case NetworkStatus.loading:
       return true;

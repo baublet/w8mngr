@@ -15,6 +15,7 @@ type Mutation {
   saveFoodLog(input: SaveFoodLogInput!): FoodLogConnection!
   deleteFoodLog(input: DeleteFoodLogInput!): FoodLogConnection!
   saveFood(input: FoodInput!): FoodMutationPayload!
+  deleteFoodMeasurement(input: FoodMeasurementInput!): FoodMutationPayload!
 }
 
 #################
@@ -37,6 +38,10 @@ enum UploadUrlType {
 #################
 # Inputs        #
 #################
+
+input FoodMeasurementInput {
+  id: String!
+}
 
 input UploadInput {
   id: String
@@ -97,7 +102,7 @@ input FoodInput {
 
 input MeasurementInput {
   id: ID
-  measure: String
+  measurement: String
   amount: Int
   calories: Int
   fat: Int
@@ -120,8 +125,6 @@ input FoodQueryFilters {
 input UploadUrlInput {
   type: UploadUrlType!
 }
-
-
 
 #################
 # Types         #
@@ -152,6 +155,16 @@ type UploadTokenPayload {
   apiKey: String!
   timestamp: String!
   folder: String!
+}
+
+type FoodMeasurementConnection {
+  pageInfo: PageInfo!
+  edges: [FoodMeasurementEdge!]!
+}
+
+type FoodMeasurementEdge {
+  cursor: String!
+  node: FoodMeasurement!
 }
 
 type FoodConnection {
@@ -220,16 +233,15 @@ type Food {
   updatedAt: Date!
   name: String!
   description: String
-  measurements: [Measurement!]!
+  measurements: FoodMeasurementConnection!
   image: Upload
 }
 
-type Measurement {
+type FoodMeasurement {
   id: ID!
-  food: Food!
   createdAt: Date!
   updatedAt: Date!
-  measure: String!
+  measurement: String!
   amount: Int!
   calories: Int!
   fat: Int!

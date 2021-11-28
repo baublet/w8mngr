@@ -35,6 +35,7 @@ export function Register() {
                 placeholder="your@email.address"
                 id="username"
                 onChange={registerForm.getHandler("username")}
+                value={registerForm.getValue("username")}
                 focusOnFirstRender
               />
               <Spacer />
@@ -43,6 +44,7 @@ export function Register() {
                 placeholder="Enter your password"
                 id="password"
                 onChange={registerForm.getHandler("password")}
+                value={registerForm.getValue("password")}
               />
               <Spacer size="s" />
               <Input
@@ -51,6 +53,7 @@ export function Register() {
                 placeholder="Confirmation"
                 id="passwordConfirmation"
                 onChange={registerForm.getHandler("passwordConfirmation")}
+                value={registerForm.getValue("passwordConfirmation")}
               />
               <Spacer />
               <PrimaryButton

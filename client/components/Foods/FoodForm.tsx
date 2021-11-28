@@ -7,15 +7,21 @@ import { SecondaryButton } from "../Button/Secondary";
 import { ContentContainer } from "../Containers/ContentContainer";
 import { ContentLayout } from "../Containers/ContentLayout";
 import { Upload } from "../Forms/Upload";
-import {FoodMeasurementsForm} from "./FoodMeasurementsForm"
+import {
+  FormMeasurementInput,
+  FoodMeasurementsForm,
+} from "./FoodMeasurementsForm";
 
 import { useForm } from "../../helpers";
+
+type MeasurementInput = Omit<FormMeasurementInput, "internalId">;
 
 type FormData = {
   name: string;
   description: string;
   imageUploadId: string;
   selectedUploadIds: string[];
+  measurements: MeasurementInput[];
 };
 type PartialFormData = { [K in keyof FormData]?: FormData[K] | null };
 
@@ -31,6 +37,12 @@ export function FoodForm({
   const foodFormData = useForm<FormData>({
     initialValues,
   });
+
+  React.useEffect(() => {
+    if (initialValues) {
+      foodFormData.setValues(initialValues);
+    }
+  }, [initialValues]);
 
   const handleSave = React.useCallback(() => {
     onSave(foodFormData.getValues());
@@ -48,6 +60,17 @@ export function FoodForm({
   const defaultSelectedUploadIds = defaultSelectedUploadId
     ? [defaultSelectedUploadId]
     : [];
+
+  const initialMeasurements = React.useMemo(() => {
+    const measurements = initialValues?.measurements;
+    if (measurements) {
+      return measurements.map((measurement) => ({
+        ...measurement,
+        internalId: measurement.id || "",
+      }));
+    }
+    return [];
+  }, [initialValues]);
 
   return (
     <ContentContainer
@@ -73,7 +96,10 @@ export function FoodForm({
               value={foodFormData.getValue("description")}
             />
             <Spacer />
-            <FoodMeasurementsForm initialData={[]} />
+            <FoodMeasurementsForm
+              initialData={initialMeasurements}
+              onChange={foodFormData.getHandler("measurements")}
+            />
             <Spacer />
             <div className="flex w-full gap-4 justify-end">
               <SecondaryButton onClick={handleSave}>Save Food</SecondaryButton>

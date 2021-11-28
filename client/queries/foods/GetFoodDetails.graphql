@@ -6,6 +6,19 @@ query GetFoodDetails($id: ID!) {
           id
           name
           description
+          measurements {
+            edges {
+              node {
+                id
+                amount
+                measurement
+                calories
+                fat
+                carbs
+                protein
+              }
+            }
+          }
           image {
             id
             publicId

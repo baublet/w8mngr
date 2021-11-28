@@ -1,9 +1,15 @@
 import React from "react";
+import omit from "lodash.omit";
 
 import { PrimaryLoader } from "../Loading/Primary";
 import { FoodForm } from "./FoodForm";
 
-import { useGetFoodDetailsQuery, useSaveFoodMutation } from "../../generated";
+import { withNumericKeys } from "../../../shared";
+import {
+  useGetFoodDetailsQuery,
+  useSaveFoodMutation,
+  MeasurementInput,
+} from "../../generated";
 
 export function EditFoodForm({ id }: { id: string }) {
   const { loading, data } = useGetFoodDetailsQuery({
@@ -18,11 +24,25 @@ export function EditFoodForm({ id }: { id: string }) {
       name,
       description,
       imageUploadId,
+      measurements,
     }: {
       name?: Maybe<string>;
       description?: Maybe<string>;
       imageUploadId?: Maybe<string>;
+      measurements?: Maybe<MeasurementInput[]>;
     }) => {
+      const measurementsToSave = measurements?.map((measurement) =>
+        omit(
+          withNumericKeys(
+            measurement,
+            ["amount", "calories", "carbs", "fat", "protein"],
+            0
+          ),
+          "internalId",
+          "__typename"
+        )
+      );
+
       saveFood({
         variables: {
           input: {
@@ -30,6 +50,7 @@ export function EditFoodForm({ id }: { id: string }) {
             name,
             description,
             imageUploadId,
+            measurements: measurementsToSave,
           },
         },
       });
@@ -38,11 +59,7 @@ export function EditFoodForm({ id }: { id: string }) {
   );
 
   if (loading || !loadedData) {
-    return (
-      <div className="text-purple-700">
-        <PrimaryLoader />
-      </div>
-    );
+    return <PrimaryLoader />;
   }
 
   return (
@@ -53,6 +70,7 @@ export function EditFoodForm({ id }: { id: string }) {
         imageUploadId: loadedData.image?.id,
         name: loadedData.name,
         selectedUploadIds: loadedData.image?.id ? [loadedData.image.id] : [],
+        measurements: loadedData.measurements.edges.map((edge) => edge.node),
       }}
       onSave={onSave}
     />

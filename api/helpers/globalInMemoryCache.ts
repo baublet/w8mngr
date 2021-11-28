@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== "test") {
         cache.delete(key);
       }
     }
-  }, 30000);
+  }, 60000);
 
   process.on("SIGINT", () => {
     clearInterval(pruneInterval);

@@ -118,14 +118,13 @@ function getUpsert<T extends QueryFactoryFunction>(
     const databaseService = await context.services.get(dbService);
     await databaseService.transact();
 
+    const getQuery = await queryFactory(context);
     try {
-      const getQuery = await queryFactory(context);
-      const query = getQuery();
-
       const payloads = await Promise.all(
         upsertItems.map(async (item) => {
+          const query = getQuery();
+
           const id = item[idProp] || ulid();
-          assertIsTruthy(id);
 
           const insertOrUpdate = item[idProp]
             ? ("UPDATE" as const)
@@ -133,7 +132,7 @@ function getUpsert<T extends QueryFactoryFunction>(
 
           if (insertOrUpdate === "UPDATE") {
             query.update({
-              ...omit(item, "id"),
+              ...omit(item, idProp),
             });
             query.where(idProp, "=", id);
             await query.andWhere((q) => {
@@ -141,7 +140,12 @@ function getUpsert<T extends QueryFactoryFunction>(
               applyAdditionalWhereConstraints?.(q as any);
             });
           } else {
+            console.log({
+              item,
+              [idProp]: id,
+            });
             await query.insert({
+              [idProp]: id,
               ...item,
             });
           }

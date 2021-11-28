@@ -6,3 +6,4 @@ export { assertIsTruthy } from "./assertIsTruthy";
 export { getWithDefault } from "./getWithDefault";
 export { valueNullOrUndefinedToValueUndefined } from "./valueNullOrUndefinedToValueUndefined";
 export { assertIsError } from "./assertIsError";
+export { withNumericKeys } from "./withNumericKeys";

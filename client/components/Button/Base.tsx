@@ -10,6 +10,7 @@ export type BaseButtonProps = React.PropsWithChildren<{
   onClick?: () => void;
   type?: string;
   leftIcon?: JSX.Element;
+  rightIcon?: JSX.Element;
 }>;
 
 export function BaseButton({
@@ -20,13 +21,16 @@ export function BaseButton({
   className,
   leftIcon,
   children,
+  rightIcon,
   ...props
 }: BaseButtonProps) {
   const classNames = cx(
-    "flex gap-4",
+    "flex gap-2 items-center",
     {
       "block text-center w-full justify-center": full,
       "opacity-50 pointer-events-none": disabled,
+      "pl-2": leftIcon,
+      "pr-2": rightIcon,
     },
     className
   );
@@ -35,13 +39,15 @@ export function BaseButton({
     <>
       <Link {...props} to={to} className={classNames}>
         {leftIcon}
-        {children}
+        <div style={{ transform: "translateY(1px)" }}>{children}</div>
+        {rightIcon}
       </Link>
     </>
   ) : (
     <button {...props} className={classNames}>
       {leftIcon}
-      {children}
+      <div style={{ transform: "translateY(1px)" }}>{children}</div>
+      {rightIcon}
     </button>
   );
 }

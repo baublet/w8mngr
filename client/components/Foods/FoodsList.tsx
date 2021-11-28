@@ -5,7 +5,9 @@ import { useGetFoodsQuery } from "../../generated";
 
 import { PrimaryLoader } from "../Loading/Primary";
 import { FoodsListItem } from "./FoodListItem";
-import { SecondaryButton } from "../Button/Secondary";
+import { SystemOutlineButton } from "../Button/SystemOutline";
+import { LeftIcon } from "../Icons/Left";
+import { RightIcon } from "../Icons/Right";
 
 export function FoodsList() {
   const {
@@ -36,14 +38,22 @@ export function FoodsList() {
       })}
       <div className="flex justify-between">
         <div className="flex-grow">
-          <SecondaryButton onClick={previousPage} disabled={!hasPreviousPage}>
-            Previous
-          </SecondaryButton>
+          <SystemOutlineButton
+            onClick={previousPage}
+            disabled={!hasPreviousPage}
+            leftIcon={<LeftIcon />}
+          >
+            Back
+          </SystemOutlineButton>
         </div>
         <div className="justify-right">
-          <SecondaryButton onClick={nextPage} disabled={!hasNextPage}>
+          <SystemOutlineButton
+            onClick={nextPage}
+            disabled={!hasNextPage}
+            rightIcon={<RightIcon />}
+          >
             Next
-          </SecondaryButton>
+          </SystemOutlineButton>
         </div>
       </div>
     </div>

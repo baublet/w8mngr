@@ -4,9 +4,11 @@ import { ObjectSchema } from "yup";
 export function useForm<T extends Record<string, any>>({
   initialValues = {},
   schema,
+  onChange,
 }: {
   initialValues?: Partial<{ [K in keyof T]: any }>;
   schema?: ObjectSchema<any>;
+  onChange?: (newValues: T) => void;
 } = {}) {
   const formState = React.useMemo(() => {
     const map = new Map<keyof T, Maybe<T[keyof T]>>();
@@ -22,10 +24,10 @@ export function useForm<T extends Record<string, any>>({
   }, []);
   const [, uptickCounter] = React.useState(0);
 
-  const render = React.useCallback(
-    () => uptickCounter((value) => value + 1),
-    []
-  );
+  const render = React.useCallback(() => {
+    uptickCounter((value) => value + 1);
+    onChange?.(getValues());
+  }, []);
 
   const clear = React.useCallback(() => {
     const keys = Array.from(formState.keys());

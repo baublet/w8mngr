@@ -11,10 +11,12 @@ import { deleteFoodLog } from "./mutations/deleteFoodLog";
 import { saveFood } from "./mutations/saveFood";
 import { getUploadTokens } from "./mutations/getUploadTokens";
 import { saveUploadData } from "./mutations/saveUploadData";
+import { deleteFoodMeasurement } from "./mutations/deleteFoodMeasurement";
 
 import { foodLog } from "./user/foodLog";
 import { foods } from "./user/foods";
 import { foodImage } from "./food/image";
+import { foodMeasurements } from "./food/measurements";
 
 import { publicUrl } from "./upload/publicUrl";
 
@@ -25,6 +27,7 @@ export const resolvers: Resolvers = {
   },
   Food: {
     image: foodImage as any,
+    measurements: foodMeasurements,
   },
   Upload: {
     publicUrl,
@@ -42,5 +45,6 @@ export const resolvers: Resolvers = {
     saveFoodLog,
     saveFood,
     saveUploadData,
+    deleteFoodMeasurement,
   },
 };

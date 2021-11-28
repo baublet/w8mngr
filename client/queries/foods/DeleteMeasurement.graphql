@@ -1,0 +1,8 @@
+mutation DeleteMeasurement($input: FoodMeasurementInput!) {
+  deleteFoodMeasurement(input: $input) {
+    errors
+    food {
+      id
+    }
+  }
+}

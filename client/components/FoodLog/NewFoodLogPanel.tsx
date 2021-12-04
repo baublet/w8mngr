@@ -107,6 +107,7 @@ export function NewFoodLogPanel({
           onChange={newFoodLogForm.getHandler("description")}
           value={newFoodLogForm.getValue("description", "")}
           inputElementRef={descriptionInputRef}
+          focusOnFirstRender
         />
         <div className="flex gap-1 mt-2">
           <InputInverted

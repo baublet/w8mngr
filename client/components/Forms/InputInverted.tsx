@@ -34,13 +34,14 @@ export function InputInverted(
     className = "",
     onChange,
     inputElementRef,
+    focusOnFirstRender,
     ...newProps
   } = props;
   newProps.id = id;
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
   React.useEffect(() => {
-    if (props.focusOnFirstRender) {
+    if (focusOnFirstRender) {
       inputRef.current?.focus();
     }
   }, []);

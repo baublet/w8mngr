@@ -36,19 +36,31 @@ export function NewFoodLogPanel({
   day,
   onSearch,
   formStateRef,
+  descriptionInputRef: parentDescriptionInputRef,
 }: {
   day: string;
   onSearch?: React.Dispatch<React.SetStateAction<string>>;
   formStateRef?: React.MutableRefObject<NewFoodLogFormObject | undefined>;
+  descriptionInputRef?: React.MutableRefObject<HTMLInputElement | null>;
 }) {
   const newFoodLogForm = useForm<NewFoodLogFormState>({ schema });
+  const descriptionInputRef = React.useRef<HTMLInputElement | null>(null);
+
+  if (parentDescriptionInputRef) {
+    parentDescriptionInputRef.current = descriptionInputRef.current;
+  }
 
   if (formStateRef && !formStateRef.current) {
     formStateRef.current = newFoodLogForm;
   }
 
   const [createFood, { loading }] = useCreateOrUpdateFoodLogMutation({
-    onCompleted: newFoodLogForm.clear,
+    onCompleted: () => {
+      newFoodLogForm.clear();
+      setInterval(() => {
+        descriptionInputRef.current?.focus();
+      }, 50);
+    },
     refetchQueries: [
       {
         query: GetCurrentUserFoodLogDocument,
@@ -94,6 +106,7 @@ export function NewFoodLogPanel({
           type="text"
           onChange={newFoodLogForm.getHandler("description")}
           value={newFoodLogForm.getValue("description", "")}
+          inputElementRef={descriptionInputRef}
         />
         <div className="flex gap-1 mt-2">
           <InputInverted

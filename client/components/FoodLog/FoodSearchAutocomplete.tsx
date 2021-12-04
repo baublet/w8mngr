@@ -27,19 +27,20 @@ type FoodLogInput = {
 export function FoodSearchAutocomplete({
   searchTerm = "",
   day,
-  formStateObject,
+  onItemAdded
 }: {
   searchTerm?: string;
   day: string;
   onItemAdded?: () => void;
-  formStateObject?: NewFoodLogFormObject;
 }) {
   const { data: searchData, loading: searchLoading } = useSearchFoodsQuery({
     variables: { searchTerm },
   });
   const [selectedFoodId, setSelectedFoodId] = React.useState<string>();
   const [saveFoodLog, { loading }] = useCreateOrUpdateFoodLogMutation({
-    onCompleted: () => formStateObject?.clear(),
+    onCompleted: () => {
+      onItemAdded?.();
+    },
   });
 
   const saveSelectedFood: (input: FoodLogInput) => void = React.useCallback(

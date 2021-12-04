@@ -19,6 +19,7 @@ export type InputProps = {
   focusOnFirstRender?: boolean;
   defaultValue?: string | null;
   value?: string | null | number;
+  inputElementRef?: React.MutableRefObject<HTMLInputElement | null>;
 };
 
 export function InputInverted(
@@ -32,16 +33,21 @@ export function InputInverted(
     defaultValue,
     className = "",
     onChange,
+    inputElementRef,
     ...newProps
   } = props;
   newProps.id = id;
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
 
   React.useEffect(() => {
     if (props.focusOnFirstRender) {
       inputRef.current?.focus();
     }
   }, []);
+
+  if(inputElementRef) {
+    inputElementRef.current = inputRef.current;
+  }
 
   return (
     <div className="group">

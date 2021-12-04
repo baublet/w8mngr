@@ -33,6 +33,9 @@ export function FoodLog() {
   const newFoodLogFormObjectRef = React.useRef<
     NewFoodLogFormObject | undefined
   >(undefined);
+  const newFoodLogDescriptionInputRef = React.useRef<HTMLInputElement | null>(
+    null
+  );
 
   const loading = !Boolean(data?.currentUser?.foodLog);
 
@@ -109,12 +112,16 @@ export function FoodLog() {
             day={dayString}
             onSearch={setSearchTerm}
             formStateRef={newFoodLogFormObjectRef}
+            descriptionInputRef={newFoodLogDescriptionInputRef}
           />
         </div>
         <FoodSearchAutocomplete
           searchTerm={searchTerm}
           day={dayString}
-          formStateObject={newFoodLogFormObjectRef.current}
+          onItemAdded={() => {
+            newFoodLogFormObjectRef.current?.clear();
+            newFoodLogDescriptionInputRef.current?.focus();
+          }}
         />
       </div>
     </div>

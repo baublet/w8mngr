@@ -8,9 +8,10 @@ export type BaseButtonProps = React.PropsWithChildren<{
   full?: boolean;
   to?: string;
   onClick?: () => void;
-  type?: string;
+  type?: "button" | "submit" | "reset";
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
+  title?: string;
 }>;
 
 export function BaseButton({
@@ -44,7 +45,7 @@ export function BaseButton({
       </Link>
     </>
   ) : (
-    <button {...props} className={classNames}>
+    <button {...props} className={classNames} type={type}>
       {leftIcon}
       <div style={{ transform: "translateY(1px)" }}>{children}</div>
       {rightIcon}

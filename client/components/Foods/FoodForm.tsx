@@ -44,9 +44,15 @@ export function FoodForm({
     }
   }, [initialValues]);
 
-  const handleSave = React.useCallback(() => {
-    onSave(foodFormData.getValues());
-  }, []);
+  const handleSave = React.useCallback(
+    (event?: React.FormEvent<HTMLFormElement>) => {
+      if (event) {
+        event.preventDefault();
+      }
+      onSave(foodFormData.getValues());
+    },
+    []
+  );
 
   React.useEffect(() => {
     const ids = foodFormData.getValue("selectedUploadIds");
@@ -78,33 +84,41 @@ export function FoodForm({
     >
       <ContentLayout
         mainContent={
-          <div className="flex w-full flex-col">
-            <Input
-              placeholder="Food name"
-              type="text"
-              label="Name"
-              showLabel={false}
-              onChange={foodFormData.getHandler("name")}
-              value={foodFormData.getValue("name")}
-            />
-            <Spacer size="s" />
-            <MultilineInput
-              placeholder="Description"
-              type="text"
-              label="Description"
-              onChange={foodFormData.getHandler("description")}
-              value={foodFormData.getValue("description")}
-            />
-            <Spacer />
-            <FoodMeasurementsForm
-              initialData={initialMeasurements}
-              onChange={foodFormData.getHandler("measurements")}
-            />
-            <Spacer />
-            <div className="flex w-full gap-4 justify-end">
-              <SecondaryButton onClick={handleSave}>Save Food</SecondaryButton>
+          <form onSubmit={handleSave}>
+            <div className="flex w-full flex-col">
+              <Input
+                placeholder="Food name"
+                type="text"
+                label="Name"
+                showLabel={false}
+                onChange={foodFormData.getHandler("name")}
+                value={foodFormData.getValue("name")}
+              />
+              <Spacer size="s" />
+              <MultilineInput
+                placeholder="Description"
+                type="text"
+                label="Description"
+                onChange={foodFormData.getHandler("description")}
+                value={foodFormData.getValue("description")}
+              />
+              <Spacer />
+              <FoodMeasurementsForm
+                initialData={initialMeasurements}
+                onChange={foodFormData.getHandler("measurements")}
+              />
+              <Spacer />
+              <div className="flex w-full gap-4 justify-end">
+                <SecondaryButton
+                  onClick={handleSave}
+                  type="submit"
+                  disabled={loading}
+                >
+                  Save Food
+                </SecondaryButton>
+              </div>
             </div>
-          </div>
+          </form>
         }
         sideContent={
           <>

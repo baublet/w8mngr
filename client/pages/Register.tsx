@@ -17,9 +17,6 @@ export function Register() {
   }>();
   const [register, { loading }] = useRegisterMutation({
     refetchQueries: [GetCurrentUserDocument],
-    onCompleted: () => {
-      console.log("Registered");
-    },
   });
 
   return (

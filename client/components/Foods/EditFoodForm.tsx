@@ -20,17 +20,20 @@ export function EditFoodForm({ id }: { id: string }) {
   const [saveFood, { loading: saving }] = useSaveFoodMutation();
   const loadedData = data?.currentUser?.foods.edges[0]?.node;
   const onSave = React.useCallback(
-    ({
-      name,
-      description,
-      imageUploadId,
-      measurements,
-    }: {
-      name?: Maybe<string>;
-      description?: Maybe<string>;
-      imageUploadId?: Maybe<string>;
-      measurements?: Maybe<MeasurementInput[]>;
-    }) => {
+    async (
+      {
+        name,
+        description,
+        imageUploadId,
+        measurements,
+      }: {
+        name?: Maybe<string>;
+        description?: Maybe<string>;
+        imageUploadId?: Maybe<string>;
+        measurements?: Maybe<MeasurementInput[]>;
+      },
+      onComplete?: Function
+    ) => {
       const measurementsToSave = measurements?.map((measurement) =>
         omit(
           withNumericKeys(
@@ -43,7 +46,7 @@ export function EditFoodForm({ id }: { id: string }) {
         )
       );
 
-      saveFood({
+      await saveFood({
         variables: {
           input: {
             id,

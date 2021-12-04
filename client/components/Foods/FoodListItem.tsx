@@ -1,9 +1,13 @@
 import React from "react";
 import cx from "classnames";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { ItemHeading } from "../Type/ItemHeading";
 import { Input } from "../Forms";
+import { SystemGhostIconButton } from "../Button/SystemGhostIcon";
+import { Add } from "../Icons/Add";
+
+import { foodLogLocalStorage } from "../../helpers";
 
 export function FoodsListItem({
   id,
@@ -79,17 +83,22 @@ w-full
           </div>
         </Link>
         {measurements.edges.length === 0 ? null : (
-          <div className="group">
+          <div className="group mt-2">
             {measurements.edges.map((measurement) => (
-              <Measurement key={measurement.node.id} {...measurement.node} />
+              <Measurement
+                key={measurement.node.id}
+                {...measurement.node}
+                foodName={name}
+              />
             ))}
-            <div className="mt-4 border-t border-gray-100 flex w-full text-xs text-gray-400 group-hover:text-gray-600">
+            <div className="mt-2 border-t border-gray-100 flex w-full text-xs text-gray-400 group-hover:text-gray-600">
               <div className="w-1/12">amount</div>
-              <div className="w-3/12">measurement</div>
-              <div className="w-2/12">calories</div>
-              <div className="w-2/12">fat</div>
-              <div className="w-2/12">carbs</div>
-              <div className="w-2/12">protein</div>
+              <div className="w-4/12">measurement</div>
+              <div className="w-3/12">calories</div>
+              <div className="w-1/12">fat</div>
+              <div className="w-1/12">carbs</div>
+              <div className="w-1/12">protein</div>
+              <div className="w-1/12"></div>
             </div>
           </div>
         )}
@@ -99,7 +108,7 @@ w-full
 }
 
 function Measurement({
-  id,
+  foodName,
   amount,
   measurement,
   calories,
@@ -107,6 +116,7 @@ function Measurement({
   fat,
   protein,
 }: {
+  foodName: string;
   id: string;
   amount: number;
   measurement: string;
@@ -117,15 +127,52 @@ function Measurement({
 }) {
   const [uiMutableAmount, setAmount] = React.useState(amount);
   const amountString = uiMutableAmount.toString();
+  const { push } = useHistory();
+
+  const logThisEntry = () => {
+    const foodLogStorage = foodLogLocalStorage();
+    foodLogStorage.addItem({
+      description: `${amountString} ${measurement} ${foodName}`,
+      calories: measurementStringToNumberOrUndefined(
+        getMeasurementWithMultiplier({
+          currentAmount: uiMutableAmount,
+          originalAmount: amount,
+          measurementValue: calories,
+        })
+      ),
+      fat: measurementStringToNumberOrUndefined(
+        getMeasurementWithMultiplier({
+          currentAmount: uiMutableAmount,
+          originalAmount: amount,
+          measurementValue: fat,
+        })
+      ),
+      carbs: measurementStringToNumberOrUndefined(
+        getMeasurementWithMultiplier({
+          currentAmount: uiMutableAmount,
+          originalAmount: amount,
+          measurementValue: carbs,
+        })
+      ),
+      protein: measurementStringToNumberOrUndefined(
+        getMeasurementWithMultiplier({
+          currentAmount: uiMutableAmount,
+          originalAmount: amount,
+          measurementValue: protein,
+        })
+      ),
+    });
+    push("/foodlog");
+  };
 
   return (
-    <div className="w-full flex items-center gap-4 mt-2 border-t pt-2 border-gray-100 inline-block text-xs uppercase text-gray-500">
+    <div className="w-full flex items-center gap-4 border-t p-2 border-gray-100 inline-block text-xs uppercase text-gray-500 hover:bg-gray-50">
       <div className="w-1/12">
         <Input
           onChange={(value) => {
             const amount = parseInt(value, 10);
             if (isNaN(amount)) {
-              setAmount(0)
+              setAmount(0);
               return;
             }
             setAmount(amount);
@@ -137,37 +184,58 @@ function Measurement({
           showLabel={false}
         />
       </div>
-      <div className="w-3/12">{measurement}</div>
-      <div className="w-2/12">
+      <div className="w-4/12">{measurement}</div>
+      <div className="w-3/12">
         {getMeasurementWithMultiplier({
           currentAmount: uiMutableAmount,
           originalAmount: amount,
           measurementValue: calories,
         })}
       </div>
-      <div className="w-2/12">
+      <div className="w-1/12">
         {getMeasurementWithMultiplier({
           currentAmount: uiMutableAmount,
           originalAmount: amount,
           measurementValue: fat,
         })}
       </div>
-      <div className="w-2/12">
+      <div className="w-1/12">
         {getMeasurementWithMultiplier({
           currentAmount: uiMutableAmount,
           originalAmount: amount,
           measurementValue: carbs,
         })}
       </div>
-      <div className="w-2/12">
+      <div className="w-1/12">
         {getMeasurementWithMultiplier({
           currentAmount: uiMutableAmount,
           originalAmount: amount,
           measurementValue: protein,
         })}
       </div>
+      <div className="w-1/12">
+        <SystemGhostIconButton
+          onClick={logThisEntry}
+          title={`Log ${amountString} ${measurement} ${foodName}`}
+        >
+          <Add />
+        </SystemGhostIconButton>
+      </div>
     </div>
   );
+}
+
+function measurementStringToNumberOrUndefined(
+  subject?: string
+): number | undefined {
+  if (subject === undefined) {
+    return undefined;
+  }
+  const numeric = parseInt(subject, 10);
+  if (isNaN(numeric)) {
+    return undefined;
+  }
+  return numeric;
 }
 
 function getMeasurementWithMultiplier({
@@ -182,5 +250,5 @@ function getMeasurementWithMultiplier({
   const originalAmountOr1 = originalAmount === 0 ? 1 : originalAmount;
   const currentAmountOr1 = currentAmount === 0 ? 1 : currentAmount;
   const multiplier = currentAmountOr1 / originalAmountOr1;
-  return `${measurementValue * multiplier}`;
+  return `${Math.ceil(measurementValue * multiplier)}`;
 }

@@ -18,7 +18,7 @@ export type InputProps = {
   onChange: (value: string) => void;
   focusOnFirstRender?: boolean;
   defaultValue?: string | null;
-  value?: string | null;
+  value?: string | null | number;
 };
 
 export function InputInverted(

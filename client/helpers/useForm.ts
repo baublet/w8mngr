@@ -1,5 +1,6 @@
 import React from "react";
 import { ObjectSchema } from "yup";
+import objectHash from "object-hash";
 
 export function useForm<T extends Record<string, any>>({
   initialValues = {},
@@ -22,7 +23,7 @@ export function useForm<T extends Record<string, any>>({
   const formHandlers = React.useMemo(() => {
     return new Map<keyof T, (data: T[keyof T]) => void>();
   }, []);
-  const [, uptickCounter] = React.useState(0);
+  const [renderSeed, uptickCounter] = React.useState(0);
 
   const render = React.useCallback(() => {
     uptickCounter((value) => value + 1);
@@ -59,9 +60,11 @@ export function useForm<T extends Record<string, any>>({
 
   const getValue = React.useCallback(
     <TElement extends keyof T>(
-      element: TElement
+      element: TElement,
+      defaultValue?: any
     ): T[TElement] extends Array<infer AType> ? AType[] : T[TElement] => {
-      return formState.get(element) as any;
+      const value = formState.get(element);
+      return value || defaultValue;
     },
     []
   );

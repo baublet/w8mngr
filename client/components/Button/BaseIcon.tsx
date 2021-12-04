@@ -32,7 +32,7 @@ export function BaseIconButton({
       </Link>
     </>
   ) : (
-    <button {...props} className={classNames}>
+    <button {...props} className={classNames} type={type}>
       {children}
     </button>
   );

@@ -13,8 +13,10 @@ import { dayStringToDate } from "shared/dayStringToDate";
 export function DayNavigator({
   onChange,
   rootUrl,
+  onRefresh,
 }: {
   onChange: React.Dispatch<React.SetStateAction<string>>;
+  onRefresh: () => void;
   rootUrl: string;
 }) {
   const todayDayString = React.useMemo(() => dayStringFromDate(new Date()), []);
@@ -88,13 +90,10 @@ export function DayNavigator({
       </PrimaryIconButton>
       <button
         className={cx(
-          "group bg flex-grow flex justify-center items-center bg-green-500",
-          {
-            "pointer-events-none": isCurrentDayToday,
-          }
+          "group bg flex-grow flex justify-center items-center bg-green-500"
         )}
         type="button"
-        onClick={today}
+        onClick={isCurrentDayToday ? onRefresh : today}
         title="Go to today"
       >
         <div className="relative text-gray-800 px-4 py-2 text-center flex items-center justify-center">
@@ -107,7 +106,7 @@ export function DayNavigator({
               {isCurrentDayInPast ? <>&#x203A;</> : null}
             </div>
           )}
-          <span className="font-bold text-green-50">
+          <span className="font-bold text-green-50" onClick={onRefresh}>
             {formatDate.foodLog(dayDate)}
           </span>
         </div>

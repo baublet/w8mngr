@@ -58,7 +58,6 @@ export async function uploadFiles({
       result.errors ||
       (result.data?.getUploadTokens.errors.length || 0) > 0
     ) {
-      console.log({ errors: result.errors });
       return [];
     }
 
@@ -83,7 +82,6 @@ export async function uploadFiles({
             },
           })
           .then((result) => {
-            console.log({ resultData: result.data });
             uploadedFiles.push({
               id: file.id,
               previewUrl: "",

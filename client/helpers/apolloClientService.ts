@@ -7,9 +7,9 @@ export function apolloClientService() {
       uri: "/.netlify/functions/graphql",
       fetch: async (req, res) => {
         const result = fetch(req, res);
-        // Each query takes at least 300ms to finish.
+        // Each query takes at least 150ms to finish.
         await new Promise<void>((resolve) => {
-          setTimeout(() => resolve(), 300);
+          setTimeout(() => resolve(), 150);
         });
         return result;
       },

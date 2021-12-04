@@ -5,10 +5,10 @@ import { DayNavigator } from "../DayNavigator";
 import { NewFoodLogPanel } from "./NewFoodLogPanel";
 import { Spacer } from "../Spacer";
 import { LogEntry } from "./LogEntry";
+import { PrimaryLoader } from "../Loading/Primary";
 
 import { dayStringFromDate, getWithDefault } from "../../../shared";
 import { useGetCurrentUserFoodLogQuery } from "../../generated";
-import { PrimaryLoader } from "../Loading/Primary";
 
 const columns: ["calories", "fat", "carbs", "protein"] = [
   "calories",
@@ -21,13 +21,13 @@ export function FoodLog() {
   const [dayString, setDayString] = React.useState<string>(() =>
     dayStringFromDate(new Date())
   );
-  const { data } = useGetCurrentUserFoodLogQuery({
+  const { data, refetch } = useGetCurrentUserFoodLogQuery({
     fetchPolicy: "cache-and-network",
-    pollInterval: 10000,
     variables: {
       day: dayString,
     },
   });
+
   const loading = !Boolean(data?.currentUser?.foodLog);
 
   const entries = getWithDefault(data?.currentUser?.foodLog.edges, []).map(
@@ -44,7 +44,15 @@ export function FoodLog() {
 
   return (
     <div>
-      <DayNavigator onChange={setDayString} rootUrl="/foodlog/" />
+      <DayNavigator
+        onChange={setDayString}
+        onRefresh={() =>
+          refetch({
+            day: dayString
+          })
+        }
+        rootUrl="/foodlog/"
+      />
       <Spacer />
       {!loading ? null : (
         <span className="text-purple-400 animate-pulsate">

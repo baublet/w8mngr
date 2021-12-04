@@ -80,7 +80,7 @@ export function FoodMeasurementsForm({
     <div>
       <FormSubHeading
         leftIcon={
-          <SystemOutlineIconButton onClick={addMeasurement}>
+          <SystemOutlineIconButton onClick={addMeasurement} type="button">
             <Add />
           </SystemOutlineIconButton>
         }
@@ -179,7 +179,9 @@ function MeasurementForm({
       </div>
       <div className="mb-4">
         <DeleteIconButton
-          onClick={() => onDelete(measurement.internalId, measurement.id)}
+          onClick={() => {
+            onDelete(measurement.internalId, measurement.id);
+          }}
         />
       </div>
     </div>

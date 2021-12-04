@@ -22,14 +22,23 @@ const schema = object().shape({
   protein: number().optional().default(undefined),
 });
 
-export function NewFoodLogPanel({ day }: { day: string }) {
-  const newFoodLogForm = useForm<{
-    description: string;
-    calories: number;
-    fat: number;
-    carbs: number;
-    protein: number;
-  }>({ schema });
+export type NewFoodLogFormState = {
+  description: string;
+  calories: number;
+  fat: number;
+  carbs: number;
+  protein: number;
+}
+
+export function NewFoodLogPanel({
+  day,
+  onSearch,
+}: {
+  day: string;
+  onSearch?: React.Dispatch<React.SetStateAction<string>>;
+  formStateRef?: React.Ref<NewFoodLogFormState>
+}) {
+  const newFoodLogForm = useForm<NewFoodLogFormState>({ schema });
   const [createFood, { loading }] = useCreateOrUpdateFoodLogMutation({
     onCompleted: newFoodLogForm.clear,
     refetchQueries: [
@@ -49,6 +58,10 @@ export function NewFoodLogPanel({ day }: { day: string }) {
       },
     });
   };
+
+  React.useEffect(() => {
+    onSearch?.(newFoodLogForm.getValue("description", ""));
+  }, [newFoodLogForm.getValue("description")]);
 
   // On the first render, see if there's a food log in local storage so we can add it
   React.useEffect(() => {

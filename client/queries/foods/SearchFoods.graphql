@@ -1,0 +1,26 @@
+query SearchFoods($searchTerm: String!) {
+  currentUser {
+    foods(input: { filter: { searchString: $searchTerm }, last: 5 }) {
+      edges {
+        cursor
+        node {
+          id
+          name
+          measurements {
+            edges {
+              node {
+                id
+                amount
+                measurement
+                calories
+                fat
+                carbs
+                protein
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

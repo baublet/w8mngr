@@ -120,6 +120,7 @@ input FoodQueryInput {
 
 input FoodQueryFilters {
   id: ID
+  searchString: String
 }
 
 input UploadUrlInput {

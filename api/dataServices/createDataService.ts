@@ -167,6 +167,9 @@ function getConnection<T extends QueryFactoryFunction>(queryFactory: T) {
   return async <TEntity, TNode>(
     context: Context,
     input: {
+      applyCustomConstraint?: (
+        query: Knex.QueryBuilder<EntityFromQueryFactoryFunction<T>, any>
+      ) => void;
       constraint?: PartiallyMaybe<EntityFromQueryFactoryFunction<T>>;
       connectionResolverParameters?: Parameters<
         typeof buildConnectionResolver
@@ -188,6 +191,8 @@ function getConnection<T extends QueryFactoryFunction>(queryFactory: T) {
           }
         });
       }
+
+      input.applyCustomConstraint?.(query);
 
       return buildConnectionResolver(
         query,

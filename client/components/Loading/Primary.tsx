@@ -1,7 +1,29 @@
 import React from "react";
 import cx from "classnames";
 
-export function PrimaryLoader({ text }: { text?: string }) {
+export function PrimaryLoader({
+  text,
+  timeBeforeRender = 50,
+}: {
+  text?: string;
+  timeBeforeRender?: number;
+}) {
+  const [render, setRender] = React.useState(
+    timeBeforeRender > 0 ? false : true
+  );
+
+  React.useEffect(() => {
+    if (timeBeforeRender === 0) {
+      return;
+    }
+    const interval = setInterval(() => setRender(true), timeBeforeRender);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!render) {
+    return null;
+  }
+
   return (
     <div className="flex items-center justify-center h-full flex-col text-purple-800">
       <svg
@@ -43,7 +65,14 @@ export function PrimaryLoader({ text }: { text?: string }) {
         </path>
         <path d="M67.408 57.834l-23.01-24.98c-5.864-6.15-5.864-16.108 0-22.248 5.86-6.14 15.37-6.14 21.234 0L70 16.168l4.368-5.562c5.863-6.14 15.375-6.14 21.235 0 5.863 6.14 5.863 16.098 0 22.247l-23.007 24.98c-1.43 1.556-3.757 1.556-5.188 0z" />
       </svg>
-      <div className={cx({ "mt-4 mb-4 text-purple-900 uppercase font-thin text-3xl text-opacity-25": text })}>{text}</div>
+      <div
+        className={cx({
+          "mt-4 mb-4 text-purple-900 uppercase font-thin text-3xl text-opacity-25":
+            text,
+        })}
+      >
+        {text}
+      </div>
     </div>
   );
 }

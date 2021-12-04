@@ -7,6 +7,7 @@ export type BaseButtonProps = React.PropsWithChildren<{
   disabled?: boolean;
   full?: boolean;
   to?: string;
+  size?: "default" | "extra-small";
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   leftIcon?: JSX.Element;
@@ -23,18 +24,17 @@ export function BaseButton({
   leftIcon,
   children,
   rightIcon,
+  size = "default",
   ...props
 }: BaseButtonProps) {
-  const classNames = cx(
-    "flex gap-2 items-center",
-    {
-      "block text-center w-full justify-center": full,
-      "opacity-50 pointer-events-none": disabled,
-      "pl-2": leftIcon,
-      "pr-2": rightIcon,
-    },
-    className
-  );
+  const classNames = cx(className, "flex gap-2 items-center rounded", {
+    "block text-center w-full justify-center": full,
+    "opacity-50 pointer-events-none": disabled,
+    "p-3": size === "default",
+    "pl-2": leftIcon && size === "default",
+    "pr-2": rightIcon && size === "default",
+    "p-2 lowercase text-sm": size === "extra-small",
+  });
 
   return to ? (
     <>

@@ -8,6 +8,8 @@ import { SystemGhostIconButton } from "../Button/SystemGhostIcon";
 import { Add } from "../Icons/Add";
 
 import { foodLogLocalStorage } from "../../helpers";
+import { SystemOutlineButton } from "../Button/SystemOutline";
+import { GhostInvertedButton } from "../Button/GhostInverted";
 
 export function FoodsListItem({
   id,
@@ -34,6 +36,20 @@ export function FoodsListItem({
     }[];
   };
 }) {
+  const [showAll, setShowAll] = React.useState(false);
+
+  const trimmedMeasurements = React.useMemo(() => {
+    if (measurements.edges.length < 3 || showAll) {
+      return measurements;
+    }
+    return {
+      edges: measurements.edges.slice(0, 3),
+    };
+  }, [showAll]);
+
+  const hasMore =
+    trimmedMeasurements.edges.length !== measurements.edges.length;
+
   return (
     <div
       className={`
@@ -82,16 +98,30 @@ w-full
             )}
           </div>
         </Link>
-        {measurements.edges.length === 0 ? null : (
+        {trimmedMeasurements.edges.length === 0 ? null : (
           <div className="group mt-2">
-            {measurements.edges.map((measurement) => (
+            {trimmedMeasurements.edges.map((measurement) => (
               <Measurement
                 key={measurement.node.id}
                 {...measurement.node}
                 foodName={name}
               />
             ))}
-            <div className="mt-2 border-t border-gray-100 flex w-full text-xs text-gray-400 group-hover:text-gray-600">
+            <div className="w-full flex justify-end">
+              {hasMore ? (
+                <GhostInvertedButton
+                  onClick={() => setShowAll(true)}
+                  size="extra-small"
+                  full
+                >
+                  {Math.abs(
+                    trimmedMeasurements.edges.length - measurements.edges.length
+                  )}{" "}
+                  more
+                </GhostInvertedButton>
+              ) : null}
+            </div>
+            <div className="mt-2 p-2 gap-4 border-t border-gray-100 flex w-full text-xs text-gray-400 group-hover:text-gray-600">
               <div className="w-1/12">amount</div>
               <div className="w-4/12">measurement</div>
               <div className="w-3/12">calories</div>
@@ -213,7 +243,7 @@ function Measurement({
           measurementValue: protein,
         })}
       </div>
-      <div className="w-1/12">
+      <div className="w-1/12 flex justify-end">
         <SystemGhostIconButton
           onClick={logThisEntry}
           title={`Log ${amountString} ${measurement} ${foodName}`}

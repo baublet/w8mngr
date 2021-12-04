@@ -9,6 +9,14 @@ export const foods: UserResolvers["foods"] = async (
 ) => {
   const filters = getWithDefault(input?.filter, {});
   const connectionResolver = await foodDataService.getConnection(context, {
+    applyCustomConstraint: (query) => {
+      const searchString = input?.filter?.searchString;
+      if (searchString) {
+        query.andWhereRaw("UPPER(name) LIKE ?", [
+          "%" + searchString.toUpperCase() + "%",
+        ]);
+      }
+    },
     constraint: {
       userId: context.currentUser?.id,
       id: filters.id,

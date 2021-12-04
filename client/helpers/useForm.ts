@@ -10,7 +10,7 @@ export function useForm<T extends Record<string, any>>({
   initialValues?: Partial<{ [K in keyof T]: any }>;
   schema?: ObjectSchema<any>;
   onChange?: (newValues: T) => void;
-} = {}) {
+} = {}): FormStateObject<T> {
   const formState = React.useMemo(() => {
     const map = new Map<keyof T, Maybe<T[keyof T]>>();
     for (const [key, value] of Object.entries(initialValues)) {
@@ -64,7 +64,7 @@ export function useForm<T extends Record<string, any>>({
       defaultValue?: any
     ): T[TElement] extends Array<infer AType> ? AType[] : T[TElement] => {
       const value = formState.get(element);
-      return value || defaultValue;
+      return (value || defaultValue) as any;
     },
     []
   );
@@ -107,3 +107,15 @@ export function useForm<T extends Record<string, any>>({
     setValue,
   };
 }
+
+export type FormStateObject<T extends Record<string, any>> = {
+  clear: () => void;
+  getValues: () => T;
+  getHandler: <K extends keyof T>(key: K) => (data: T[K]) => void;
+  getCastValues: () => T;
+  getValue: <K extends keyof T>(key: K) => T[K];
+  setValues: (
+    values: Partial<{ [K in keyof T]?: T[K] | undefined | null }>
+  ) => void;
+  setValue: <K extends keyof T>(key: K, value: T[K]) => void;
+};

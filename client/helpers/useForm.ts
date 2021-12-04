@@ -62,7 +62,7 @@ export function useForm<T extends Record<string, any>>({
     <TElement extends keyof T>(
       element: TElement,
       defaultValue?: any
-    ): T[TElement] extends Array<infer AType> ? AType[] : T[TElement] => {
+    ): T[TElement] => {
       const value = formState.get(element);
       return (value || defaultValue) as any;
     },
@@ -111,9 +111,12 @@ export function useForm<T extends Record<string, any>>({
 export type FormStateObject<T extends Record<string, any>> = {
   clear: () => void;
   getValues: () => T;
-  getHandler: <K extends keyof T>(key: K) => (data: T[K]) => void;
+  getHandler: <K extends keyof T>(key: K) => (data: any) => void;
   getCastValues: () => T;
-  getValue: <K extends keyof T>(key: K) => T[K];
+  getValue: <K extends keyof T, TDefault extends any>(
+    key: K,
+    defaultValue?: TDefault
+  ) => TDefault extends undefined ? T[K] : TDefault;
   setValues: (
     values: Partial<{ [K in keyof T]?: T[K] | undefined | null }>
   ) => void;

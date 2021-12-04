@@ -2,7 +2,7 @@ import React from "react";
 import { object, string, number } from "yup";
 
 import { PanelInverted } from "../Containers/PanelInverted";
-import { useForm } from "../../helpers/useForm";
+import { useForm, FormStateObject } from "../../helpers/useForm";
 import { InputInverted, Form } from "../Forms";
 import { SecondaryButton } from "../Button/Secondary";
 import { Spacer } from "../Spacer";
@@ -28,17 +28,25 @@ export type NewFoodLogFormState = {
   fat: number;
   carbs: number;
   protein: number;
-}
+};
+
+export type NewFoodLogFormObject = FormStateObject<NewFoodLogFormState>;
 
 export function NewFoodLogPanel({
   day,
   onSearch,
+  formStateRef,
 }: {
   day: string;
   onSearch?: React.Dispatch<React.SetStateAction<string>>;
-  formStateRef?: React.Ref<NewFoodLogFormState>
+  formStateRef?: React.MutableRefObject<NewFoodLogFormObject | undefined>;
 }) {
   const newFoodLogForm = useForm<NewFoodLogFormState>({ schema });
+
+  if (formStateRef && !formStateRef.current) {
+    formStateRef.current = newFoodLogForm;
+  }
+
   const [createFood, { loading }] = useCreateOrUpdateFoodLogMutation({
     onCompleted: newFoodLogForm.clear,
     refetchQueries: [

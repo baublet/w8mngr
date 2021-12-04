@@ -6,14 +6,15 @@ import { ButtonSpinner } from "../Loading/ButtonSpinner";
 import { PrimaryIconButton } from "../Button/PrimaryIcon";
 import { LeftIcon } from "../Icons/Left";
 import { RightIcon } from "../Icons/Right";
+import { PrimaryButton } from "../Button/Primary";
+import { Add } from "../Icons/Add";
+import type { NewFoodLogFormObject } from "./NewFoodLogPanel";
 
 import {
   useSearchFoodsQuery,
   useCreateOrUpdateFoodLogMutation,
   GetCurrentUserFoodLogDocument,
 } from "../../generated";
-import { PrimaryButton } from "../Button/Primary";
-import { Add } from "../Icons/Add";
 
 type FoodLogInput = {
   description: string;
@@ -26,17 +27,20 @@ type FoodLogInput = {
 export function FoodSearchAutocomplete({
   searchTerm = "",
   day,
-  clear,
+  formStateObject,
 }: {
   searchTerm?: string;
   day: string;
-  clear?: () => void;
+  onItemAdded?: () => void;
+  formStateObject?: NewFoodLogFormObject;
 }) {
   const { data: searchData, loading: searchLoading } = useSearchFoodsQuery({
     variables: { searchTerm },
   });
   const [selectedFoodId, setSelectedFoodId] = React.useState<string>();
-  const [saveFoodLog, { loading }] = useCreateOrUpdateFoodLogMutation();
+  const [saveFoodLog, { loading }] = useCreateOrUpdateFoodLogMutation({
+    onCompleted: () => formStateObject?.clear(),
+  });
 
   const saveSelectedFood: (input: FoodLogInput) => void = React.useCallback(
     (input) => {
@@ -46,7 +50,6 @@ export function FoodSearchAutocomplete({
           return selectedFoodId;
         }
         saveFoodLog({
-          onCompleted: () => clear?.(),
           refetchQueries: [
             {
               query: GetCurrentUserFoodLogDocument,
@@ -144,8 +147,9 @@ function MeasurementList({
     if (!selectedMeasurementId) {
       return undefined;
     }
-    return food.measurements.edges.find((measurement) => measurement.node)
-      ?.node;
+    return food.measurements.edges.find(
+      (measurement) => measurement.node.id === selectedMeasurementId
+    )?.node;
   }, [selectedMeasurementId]);
 
   const hasPrevious = React.useMemo(() => {

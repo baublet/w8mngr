@@ -7,11 +7,10 @@ import { Spacer } from "../Spacer";
 import { LogEntry } from "./LogEntry";
 import { PrimaryLoader } from "../Loading/Primary";
 import { FoodSearchAutocomplete } from "./FoodSearchAutocomplete";
+import type { NewFoodLogFormObject } from "./NewFoodLogPanel";
 
 import { dayStringFromDate, getWithDefault } from "../../../shared";
-import {
-  useGetCurrentUserFoodLogQuery,
-} from "../../generated";
+import { useGetCurrentUserFoodLogQuery } from "../../generated";
 
 const columns: ["calories", "fat", "carbs", "protein"] = [
   "calories",
@@ -31,6 +30,9 @@ export function FoodLog() {
     },
   });
   const [searchTerm, setSearchTerm] = React.useState("");
+  const newFoodLogFormObjectRef = React.useRef<
+    NewFoodLogFormObject | undefined
+  >(undefined);
 
   const loading = !Boolean(data?.currentUser?.foodLog);
 
@@ -103,9 +105,17 @@ export function FoodLog() {
       <Spacer />
       <div className="flex gap-4">
         <div>
-          <NewFoodLogPanel day={dayString} onSearch={setSearchTerm} />
+          <NewFoodLogPanel
+            day={dayString}
+            onSearch={setSearchTerm}
+            formStateRef={newFoodLogFormObjectRef}
+          />
         </div>
-        <FoodSearchAutocomplete searchTerm={searchTerm} day={dayString} />
+        <FoodSearchAutocomplete
+          searchTerm={searchTerm}
+          day={dayString}
+          formStateObject={newFoodLogFormObjectRef.current}
+        />
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export function PrimaryButton(
     <BaseButton
       {...props}
       className={cx(
-        "bg-purple-900 text-gray-50 font-bold bg-opacity-90 hover:bg-opacity-100 p-4 text-white rounded text-sm uppercase shadow hover:shadow-md focus:shadow:md text-l",
+        "bg-purple-900 text-gray-50 font-bold bg-opacity-90 hover:bg-opacity-100 text-sm uppercase shadow hover:shadow-md focus:shadow:md",
         props.className
       )}
     />

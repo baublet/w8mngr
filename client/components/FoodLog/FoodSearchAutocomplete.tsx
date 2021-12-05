@@ -6,15 +6,22 @@ import { ButtonSpinner } from "../Loading/ButtonSpinner";
 import { PrimaryIconButton } from "../Button/PrimaryIcon";
 import { LeftIcon } from "../Icons/Left";
 import { RightIcon } from "../Icons/Right";
-import { PrimaryButton } from "../Button/Primary";
 import { Add } from "../Icons/Add";
-import type { NewFoodLogFormObject } from "./NewFoodLogPanel";
+import { SystemOutlineButton } from "../Button/SystemOutline";
+import { Input } from "../Forms";
+import { Link } from "../Link";
+
+import {
+  getMeasurementWithMultiplier,
+  measurementStringToNumberOrUndefined,
+} from "../Foods/FoodListItem";
 
 import {
   useSearchFoodsQuery,
   useCreateOrUpdateFoodLogMutation,
   GetCurrentUserFoodLogDocument,
 } from "../../generated";
+import { useForm } from "../../helpers";
 
 type FoodLogInput = {
   description: string;
@@ -27,7 +34,7 @@ type FoodLogInput = {
 export function FoodSearchAutocomplete({
   searchTerm = "",
   day,
-  onItemAdded
+  onItemAdded,
 }: {
   searchTerm?: string;
   day: string;
@@ -75,7 +82,7 @@ export function FoodSearchAutocomplete({
   return (
     <div
       className={cx("flex-grow text-sm", {
-        "pointer-events-none opacity-75": loading,
+        "pointer-events-none opacity-50": loading,
       })}
     >
       {searchTerm.length < 3 ? null : (
@@ -95,9 +102,12 @@ export function FoodSearchAutocomplete({
                 <div key={food.cursor}>
                   <button
                     type="button"
-                    className={cx("block w-full text-left p-2", {
-                      "bg-gray-50": selected,
-                    })}
+                    className={cx(
+                      "block w-full text-left p-2 text-xs uppercase font-bold text-gray-500 hover:text-gray-600 hover:bg-gray-50",
+                      {
+                        "bg-gray-100": selected,
+                      }
+                    )}
                     onClick={() => setSelectedFoodId(food.node.id)}
                   >
                     {food.node.name}
@@ -124,6 +134,7 @@ function MeasurementList({
 }: {
   saveSelectedFood: (input: FoodLogInput) => void;
   food: {
+    id: string;
     name: string;
     measurements: {
       edges: {
@@ -218,8 +229,16 @@ function MeasurementList({
     setSelectedMeasurementId(newMeasurement.node.id);
   }, [selectedMeasurementId]);
 
+  const amountFormData = useForm<{
+    amount: string;
+  }>({
+    initialValues: {
+      amount: selectedMeasurement?.amount,
+    },
+  });
+
   return (
-    <div className="p-2">
+    <div className="p-2 bg-gray-50 border border-gray-100">
       {food.measurements.edges.length === 0 ? null : (
         <div className="mt-2 relative">
           {food.measurements.edges.map((measurement) => {
@@ -242,22 +261,43 @@ function MeasurementList({
                   </PrimaryIconButton>
                 </div>
                 <div className="w-2/12" title="amount">
-                  {measurement.node.amount}
+                  <Input
+                    value={amountFormData.getValue("amount")}
+                    placeholder="amount"
+                    type="text"
+                    onChange={amountFormData.getHandler("amount")}
+                  />
                 </div>
                 <div className="w-3/12 truncate" title="measurement">
                   {measurement.node.measurement}
                 </div>
                 <div className="w-2/12 truncate" title="calories">
-                  {measurement.node.calories}
+                  {getMeasurementWithMultiplier({
+                    currentAmount: amountFormData.getValue("amount"),
+                    measurementValue: measurement.node.calories || 0,
+                    originalAmount: measurement.node.amount,
+                  })}
                 </div>
                 <div className="w-1/12 truncate" title="fat">
-                  {measurement.node.fat}
+                  {getMeasurementWithMultiplier({
+                    currentAmount: amountFormData.getValue("amount"),
+                    measurementValue: measurement.node.fat || 0,
+                    originalAmount: measurement.node.amount,
+                  })}
                 </div>
                 <div className="w-1/12 truncate" title="carbohydrates">
-                  {measurement.node.carbs}
+                  {getMeasurementWithMultiplier({
+                    currentAmount: amountFormData.getValue("amount"),
+                    measurementValue: measurement.node.carbs || 0,
+                    originalAmount: measurement.node.amount,
+                  })}
                 </div>
                 <div className="w-1/12 truncate" title="protein">
-                  {measurement.node.protein}
+                  {getMeasurementWithMultiplier({
+                    currentAmount: amountFormData.getValue("amount"),
+                    measurementValue: measurement.node.protein || 0,
+                    originalAmount: measurement.node.amount,
+                  })}
                 </div>
                 <div className="w-1/12">
                   <PrimaryIconButton
@@ -272,7 +312,10 @@ function MeasurementList({
               </div>
             );
           })}
-          <div className="w-full flex items-center gap-2 text-gray-400 text-xs">
+          <div
+            className="w-full flex items-center gap-2 text-gray-400 text-xs"
+            style={{ fontSize: ".75em" }}
+          >
             <div className="w-1/12"></div>
             <div className="w-2/12 truncate" title="amount">
               amount
@@ -281,7 +324,7 @@ function MeasurementList({
               measurement
             </div>
             <div className="w-2/12 truncate" title="calories">
-              cals
+              calories
             </div>
             <div className="w-1/12 truncate" title="fat">
               fat
@@ -294,27 +337,54 @@ function MeasurementList({
             </div>
             <div className="w-1/12"></div>
           </div>
-          {!selectedMeasurement ? null : (
-            <div className="w-full flex justify-right">
-              <PrimaryButton
-                onClick={() => {
-                  if (!selectedMeasurement) {
-                    return undefined;
-                  }
-                  saveSelectedFood({
-                    description: `${selectedMeasurement.amount} ${selectedMeasurement.measurement}, ${food.name}`,
-                    calories: selectedMeasurement.calories,
-                    fat: selectedMeasurement.fat,
-                    carbs: selectedMeasurement.carbs,
-                    protein: selectedMeasurement.protein,
-                  });
-                }}
-                leftIcon={<Add />}
-              >
-                Add
-              </PrimaryButton>
+          <div className="w-full flex gap-1 mt-4 items-center">
+            <div className="w-1/12"></div>
+            <div className="w-10/12 flex items-center gap-4 justify-between border-t border-gray-200 pt-3">
+              <Link to={`/food/edit/${food.id}`}>View food details</Link>
+              {!selectedMeasurement ? null : (
+                <SystemOutlineButton
+                  size="extra-small"
+                  onClick={() => {
+                    saveSelectedFood({
+                      description: `${amountFormData.getValue("amount")} ${selectedMeasurement.measurement}, ${food.name}`,
+                      calories: measurementStringToNumberOrUndefined(
+                        getMeasurementWithMultiplier({
+                          currentAmount: amountFormData.getValue("amount"),
+                          measurementValue: selectedMeasurement.calories || 0,
+                          originalAmount: selectedMeasurement.amount,
+                        })
+                      ),
+                      fat: measurementStringToNumberOrUndefined(
+                        getMeasurementWithMultiplier({
+                          currentAmount: amountFormData.getValue("amount"),
+                          measurementValue: selectedMeasurement.fat || 0,
+                          originalAmount: selectedMeasurement.amount,
+                        })
+                      ),
+                      carbs: measurementStringToNumberOrUndefined(
+                        getMeasurementWithMultiplier({
+                          currentAmount: amountFormData.getValue("amount"),
+                          measurementValue: selectedMeasurement.carbs || 0,
+                          originalAmount: selectedMeasurement.amount,
+                        })
+                      ),
+                      protein: measurementStringToNumberOrUndefined(
+                        getMeasurementWithMultiplier({
+                          currentAmount: amountFormData.getValue("amount"),
+                          measurementValue: selectedMeasurement.protein || 0,
+                          originalAmount: selectedMeasurement.amount,
+                        })
+                      ),
+                    });
+                  }}
+                  leftIcon={<Add />}
+                >
+                  Add
+                </SystemOutlineButton>
+              )}
             </div>
-          )}
+            <div className="w-1/12"></div>
+          </div>
         </div>
       )}
     </div>

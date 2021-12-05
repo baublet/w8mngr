@@ -107,7 +107,7 @@ export function FoodLog() {
 
       <Spacer />
       <div className="flex gap-4">
-        <div>
+        <div className="w-1/2">
           <NewFoodLogPanel
             day={dayString}
             onSearch={setSearchTerm}
@@ -115,14 +115,16 @@ export function FoodLog() {
             descriptionInputRef={newFoodLogDescriptionInputRef}
           />
         </div>
-        <FoodSearchAutocomplete
-          searchTerm={searchTerm}
-          day={dayString}
-          onItemAdded={() => {
-            newFoodLogFormObjectRef.current?.clear();
-            newFoodLogDescriptionInputRef.current?.focus();
-          }}
-        />
+        <div className="w-1/2">
+          <FoodSearchAutocomplete
+            searchTerm={searchTerm}
+            day={dayString}
+            onItemAdded={() => {
+              newFoodLogFormObjectRef.current?.clear();
+              newFoodLogDescriptionInputRef.current?.focus();
+            }}
+          />
+        </div>
       </div>
     </div>
   );

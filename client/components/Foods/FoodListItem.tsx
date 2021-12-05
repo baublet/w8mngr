@@ -72,7 +72,7 @@ w-full
       >
         <Link
           to={`/foods/edit/${id}`}
-          className="block flex w-full justify-start items-center text-left"
+          className="flex w-full justify-start items-center text-left"
           title={`Edit Food: ${name}`}
         >
           {previewImageUrl && (
@@ -196,7 +196,7 @@ function Measurement({
   };
 
   return (
-    <div className="w-full flex items-center gap-4 border-t p-2 border-gray-100 inline-block text-xs uppercase text-gray-500 hover:bg-gray-50">
+    <div className="w-full flex items-center gap-4 border-t p-2 border-gray-100 text-xs uppercase text-gray-500 hover:bg-gray-50">
       <div className="w-1/12">
         <Input
           onChange={(value) => {
@@ -255,7 +255,7 @@ function Measurement({
   );
 }
 
-function measurementStringToNumberOrUndefined(
+export function measurementStringToNumberOrUndefined(
   subject?: string
 ): number | undefined {
   if (subject === undefined) {
@@ -268,7 +268,7 @@ function measurementStringToNumberOrUndefined(
   return numeric;
 }
 
-function getMeasurementWithMultiplier({
+export function getMeasurementWithMultiplier({
   currentAmount,
   measurementValue,
   originalAmount,
@@ -280,5 +280,9 @@ function getMeasurementWithMultiplier({
   const originalAmountOr1 = originalAmount === 0 ? 1 : originalAmount;
   const currentAmountOr1 = currentAmount === 0 ? 1 : currentAmount;
   const multiplier = currentAmountOr1 / originalAmountOr1;
-  return `${Math.ceil(measurementValue * multiplier)}`;
+  const finalNumber = Math.ceil(measurementValue * multiplier);
+  if(isNaN(finalNumber)) {
+    return "0";
+  }
+  return `${finalNumber}`;
 }

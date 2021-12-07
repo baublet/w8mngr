@@ -4,8 +4,9 @@ import cx from "classnames";
 let count = 0;
 
 const border =
-  "border border-gray-500 border-opacity-25 hover:border-opacity-50 focus:border-opacity-100 rounded";
-const background = "bg-white bg-opacity-50 hover:bg-opacity-100";
+  "border border-gray-500 border-opacity-25 hover:border-opacity-50 focus:border-opacity-100 active:border-opacity-100 rounded";
+const background =
+  "bg-white bg-opacity-50 hover:bg-opacity-100 focus:bg-opacity-100 active:bg-opacity-100";
 
 export type InputProps = {
   id?: string;
@@ -30,14 +31,17 @@ export function Input(
     className = "",
     onChange,
     value = "",
+    focusOnFirstRender,
     ...newProps
   } = props;
   newProps.id = id;
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
-    if (props.focusOnFirstRender) {
-      inputRef.current?.focus();
+    const element = inputRef.current;
+    if (element && focusOnFirstRender) {
+      element.focus();
+      element.setSelectionRange(0, element.value.length);
     }
   }, []);
 

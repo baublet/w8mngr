@@ -4,7 +4,7 @@ module.exports = {
       name: "graphql",
       script: "develop.js",
       watch: ["api/graphql.js", "develop.js"],
-      node_args: ["-r", "dotenv/config"],
+      node_args: ["-r", "dotenv/config", "--enable-source-maps"],
       autorestart: false,
       restart_delay: 250
     },

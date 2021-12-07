@@ -24,7 +24,7 @@ export function FoodLog() {
     dayStringFromDate(new Date())
   );
   const { data, refetch } = useGetCurrentUserFoodLogQuery({
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "network-only",
     variables: {
       day: dayString,
     },
@@ -65,7 +65,7 @@ export function FoodLog() {
       <Spacer />
       {!loading ? null : (
         <span className="text-purple-400 animate-pulsate">
-          <PrimaryLoader text="Loading..." />
+          <PrimaryLoader text="Loading..." timeBeforeRender={0} />
         </span>
       )}
       {!loading && entries.length === 0 ? (

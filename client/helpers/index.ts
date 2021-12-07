@@ -4,3 +4,4 @@ export { scrollTo } from "./scrollTo";
 export { usePaginatedQuery } from "./usePaginatedQuery";
 export { isApolloLoadingStatus } from "./isApolloLoadingStatus";
 export { foodLogLocalStorage } from "./foodLogLocalStorage";
+export { useKeyPressHandler } from "./useKeyPressHandler";

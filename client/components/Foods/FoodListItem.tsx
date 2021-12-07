@@ -281,7 +281,7 @@ export function getMeasurementWithMultiplier({
   const currentAmountOr1 = currentAmount === 0 ? 1 : currentAmount;
   const multiplier = currentAmountOr1 / originalAmountOr1;
   const finalNumber = Math.ceil(measurementValue * multiplier);
-  if(isNaN(finalNumber)) {
+  if (isNaN(finalNumber)) {
     return "0";
   }
   return `${finalNumber}`;

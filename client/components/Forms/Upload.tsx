@@ -4,18 +4,16 @@ import cx from "classnames";
 import { DeleteIconButton } from "../Button/DeleteIconButton";
 import { uploadFiles } from "../../helpers/uploadFiles";
 import { ButtonSpinner } from "../Loading/ButtonSpinner";
+import { PrimaryLoader } from "../Loading/Primary";
 
 import { filterFalsyKeys } from "../../../shared";
+import { apolloClientService } from "../../helpers/apolloClientService";
 
 import {
-  useGetUploadDataLazyQuery,
   GetUploadDataDocument,
   GetUploadDataQueryResult,
   GetUploadDataQueryVariables,
 } from "../../generated";
-import { apolloClientService } from "client/helpers/apolloClientService";
-import { upload } from "api/resolvers/upload";
-import { PrimaryLoader } from "../Loading/Primary";
 
 const allWatchEvents = [
   "drag",

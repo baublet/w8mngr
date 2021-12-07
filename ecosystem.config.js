@@ -18,28 +18,6 @@ module.exports = {
       restart_delay: 250
     },
     {
-      name: "build-frontend",
-      script: "npm",
-      args: "run build:client",
-      watch: ["client"],
-      ignore_watch: [
-        "client/index.js",
-        "client/index.js.map",
-        "client/tailwind.css",
-        "client/index.html",
-      ],
-      autorestart: false,
-      restart_delay: 250
-    },
-    {
-      name: "build-css",
-      script: "npm",
-      args: "run build:css",
-      watch: ["tailwind.config.js"],
-      autorestart: false,
-      restart_delay: 250
-    },
-    {
       name: "build-gql",
       script: "npm",
       args: "run gql:generate",

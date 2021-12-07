@@ -1,21 +1,19 @@
 const express = require("express");
-const path = require("path")
+const path = require("path");
+const { createServer: createViteServer } = require("vite");
 
 const { server, httpServer, app } = require("./api/graphql.js");
 
 server.start().then(async () => {
   server.applyMiddleware({ app, path: "/.netlify/functions/graphql" });
-  app.use("/", express.static("client"));
 
-  app.use(function (req, res) {
-    res.sendFile(path.resolve(process.cwd(), "client", "index.html"));
+  console.log("Initiating Vite")
+  const vite = await createViteServer({
+    server: { middlewareMode: "html" },
+    configFile: path.resolve(process.cwd(), "vite.config.js")
   });
-
-  // Handle 500
-  app.use(function (error, req, res, next) {
-    res.send("500: Internal Server Error", 500);
-    console.log(error)
-  });
+  console.log("Attaching Vite middlewares")
+  app.use(vite.middlewares);
 
   httpServer.listen({ port: 8080 });
 });

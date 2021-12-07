@@ -3,12 +3,12 @@ import cx from "classnames";
 import { useParams, useHistory } from "react-router-dom";
 import { addDays, isPast } from "date-fns";
 
-import { formatDate } from "shared/dateFormat";
+import { formatDate } from "../../shared/dateFormat";
 import { PrimaryIconButton } from "./Button/PrimaryIcon";
 import { LeftIcon } from "./Icons/Left";
 import { RightIcon } from "./Icons/Right";
-import { dayStringFromDate } from "shared/dayStringFromDate";
-import { dayStringToDate } from "shared/dayStringToDate";
+import { dayStringFromDate } from "../../shared/dayStringFromDate";
+import { dayStringToDate } from "../../shared/dayStringToDate";
 
 export function DayNavigator({
   onChange,

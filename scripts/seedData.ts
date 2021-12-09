@@ -11,6 +11,7 @@ import config from "../knexfile";
 const database = process.env.DATABASE || "develop";
 const db = knex((config as any)[database]);
 const getDb = () => db;
+const legacyFoodIdToFoodId: Record<number, string> = {};
 
 const adminUserId = "01FPDV213V6K6M04D4YMR8T3QH";
 
@@ -18,9 +19,12 @@ const adminUserId = "01FPDV213V6K6M04D4YMR8T3QH";
   await seedAdmin();
   await seedFoods();
   await seedMeasurements();
+  console.log("Done");
+  process.exit(0);
 })();
 
 async function seedAdmin() {
+  console.log("Seeding admin");
   const db = getDb();
 
   await db.table("user").insert({
@@ -39,7 +43,7 @@ async function seedAdmin() {
 }
 
 async function seedFoods(): Promise<void> {
-  console.log("Seeding legacy foods into the new foods table...");
+  console.log("Seeding legacy foods into the new foods table");
   type LegacyFood = {
     id: number;
     name: string;
@@ -55,18 +59,16 @@ async function seedFoods(): Promise<void> {
   };
   let hasMoreFoods = true;
   let offset = 0;
-  const batchSize = 100;
+  const batchSize = 500;
   let totalFoods = 0;
 
   while (hasMoreFoods) {
     try {
-      const batchNumber = Math.ceil(offset / 100);
-      console.log("Batch " + batchNumber + " processing...");
+      process.stdout.write(".");
       const db = getDb();
       const legacyFoods = await db
         .select<LegacyFood[]>("*")
         .from("legacy_foods")
-        .where("deleted", "=", false)
         .limit(batchSize + 1)
         .offset(offset);
 
@@ -81,12 +83,14 @@ async function seedFoods(): Promise<void> {
         "food",
         legacyFoods.slice(0, -1).map((legacyFood) => {
           const newId = ulid();
+          legacyFoodIdToFoodId[legacyFood.id] = newId;
 
           return {
             id: newId,
             description: legacyFood.description,
             name: legacyFood.name,
             userId: adminUserId,
+            legacyId: legacyFood.id,
           };
         })
       );
@@ -95,7 +99,7 @@ async function seedFoods(): Promise<void> {
     }
   }
 
-  console.log("Total foods: ", totalFoods);
+  console.log("\nTotal foods: ", totalFoods);
 }
 
 async function wait(ms: number = 1000) {
@@ -105,11 +109,11 @@ async function wait(ms: number = 1000) {
 }
 
 async function seedMeasurements(): Promise<void> {
-  console.log("Seeding legacy measurements into the new measurements table...");
+  console.log("Seeding legacy measurements into the new measurements table");
   type Legacy = {
     id: number;
     name: string;
-    food_id: string;
+    food_id: number;
     amount: string;
     unit: string;
     calories: number;
@@ -119,48 +123,53 @@ async function seedMeasurements(): Promise<void> {
   };
   let hasMore = true;
   let offset = 0;
-  const batchSize = 100;
+  const batchSize = 1000;
   let total = 0;
   while (hasMore) {
     const batchNumber = Math.ceil(offset / 100);
-    console.log("Batch " + batchNumber + " processing...");
     const db = getDb();
     const newFoods = await db
       .select<FoodEntity[]>("*")
       .from("food")
-      .where("legacyId", "<>", null)
+      .whereNotNull("legacyId")
       .limit(batchSize + 1)
       .offset(offset);
 
     offset += batchSize;
-    total += newFoods.length - 1;
 
     if (newFoods.length <= batchSize) {
       hasMore = false;
     }
 
-    for (const food of newFoods) {
-      console.log(food.name);
-      const db = getDb();
-      const measurements = await db
-        .from<Legacy>("legacy_measurements")
-        .select("*")
-        .where("food_id", "=", food.legacyId || -1);
-      await db.batchInsert<FoodMeasurement>(
-        "measurement",
-        measurements.map((measurement) => ({
-          id: ulid(),
-          amount: parseFloat(measurement.amount),
-          measure: measurement.unit,
-          calories: measurement.calories,
-          fat: measurement.fat,
-          carbs: measurement.carbs,
-          protein: measurement.protein,
-          foodId: food.id,
-        }))
+    const measurementsToAdd: any[] = [];
+    process.stdout.write(".");
+    const measurements = await db
+      .from<Legacy>("legacy_measurements")
+      .select("*")
+      .whereIn(
+        "food_id",
+        newFoods.map((f) => f.legacyId || -1)
       );
-    }
+    total += measurements.length;
+    measurementsToAdd.push(
+      ...measurements.map((measurement) => ({
+        id: ulid(),
+        amount: parseFloat(measurement.amount),
+        measurement: measurement.unit,
+        calories: measurement.calories,
+        fat: measurement.fat,
+        carbs: measurement.carbs,
+        protein: measurement.protein,
+        userId: adminUserId,
+        foodId: legacyFoodIdToFoodId[measurement.food_id as number],
+      }))
+    );
+    await db.batchInsert<FoodMeasurement>(
+      "food_measurement",
+      measurementsToAdd,
+      100
+    );
   }
 
-  console.log("Total measurements: ", total);
+  console.log("\nTotal measurements: ", total);
 }

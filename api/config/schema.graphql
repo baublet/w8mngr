@@ -86,6 +86,8 @@ input FoodLogInput {
   fat: Int
   carbs: Int
   protein: Int
+  foodId: ID
+  measurementId: ID
 }
 
 input DeleteFoodLogInput {
@@ -243,7 +245,7 @@ type FoodMeasurement {
   createdAt: Date!
   updatedAt: Date!
   measurement: String!
-  amount: Int!
+  amount: Float!
   calories: Int!
   fat: Int!
   carbs: Int!

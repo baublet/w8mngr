@@ -119,7 +119,7 @@ export function FoodSearchAutocomplete({
           variables: {
             input: {
               day,
-              foodLogs: [input],
+              foodLogs: [{ ...input, foodId: selectedFoodId }],
             },
           },
         });

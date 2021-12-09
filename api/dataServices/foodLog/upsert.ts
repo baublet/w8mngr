@@ -5,6 +5,8 @@ import { SaveFoodLogInput } from "../../graphql-types";
 import { query } from "./query";
 import { assertIsTruthy } from "../../../shared";
 import { dbService } from "../../../api/config";
+import { foodLogFoodDataService } from "../foodLogFood";
+import { foodLogFoodMeasurementDataService } from "../foodLogFoodMeasurement";
 
 export async function upsert(
   context: Context,
@@ -19,8 +21,17 @@ export async function upsert(
   try {
     await Promise.all(
       foodLogs.map(async (foodLog) => {
-        await query(context, (q) => {
-          const { id, description, calories, fat, carbs, protein } = foodLog;
+        await query(context, async (q) => {
+          const {
+            id,
+            description,
+            calories,
+            fat,
+            carbs,
+            protein,
+            foodId,
+            measurementId,
+          } = foodLog;
           if (id) {
             q.update({
               description,
@@ -43,6 +54,20 @@ export async function upsert(
               protein,
               userId,
             });
+            if (foodId) {
+              await foodLogFoodDataService.create(context, {
+                day,
+                foodId,
+                userId,
+              });
+            }
+            if (measurementId) {
+              await foodLogFoodMeasurementDataService.create(context, {
+                day,
+                measurementId,
+                userId,
+              });
+            }
           }
           return q;
         });

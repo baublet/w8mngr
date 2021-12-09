@@ -47,6 +47,8 @@ export async function up(knex: Knex): Promise<void> {
     table.text("name").notNullable();
     table.text("description").nullable();
     table.text("imageUploadId").nullable();
+    table.integer("legacyId").nullable().index();
+    table.text("ndbno").nullable().index();
   });
   await knex.schema.createTable("upload", function (table) {
     table.text("id").notNullable().primary();

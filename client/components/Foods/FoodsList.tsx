@@ -18,6 +18,7 @@ export function FoodsList() {
     hasNextPage,
     hasPreviousPage,
   } = usePaginatedQuery(useGetFoodsQuery, {
+    perPage: 10,
     getConnection: (data) => data?.currentUser?.foods,
   });
 

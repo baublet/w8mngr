@@ -8,6 +8,7 @@ api/graphql-types.ts
 api/graphql.js
 api/graphql.js.map
 dev.sqlite3
+dev.legacyData.sqlite3
 client/index.js
 client/index.js.map
 client/tailwind.css

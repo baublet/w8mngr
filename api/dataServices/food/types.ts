@@ -4,4 +4,6 @@ export type FoodEntity = {
   name: string;
   description?: string;
   imageUploadId?: string;
+  legacyId?: number;
+  ndbno?: string;
 };

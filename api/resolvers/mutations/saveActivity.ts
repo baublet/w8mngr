@@ -9,22 +9,9 @@ export const saveActivity: Required<MutationResolvers>["saveActivity"] = async (
 ) => {
   const userId = context.currentUser?.id;
   assertIsTruthy(userId);
-  const [activityResult] = await activityDataService.upsert(
-    context,
-    [
-      {
-        ...input,
-        userId,
-      },
-    ],
-    (q) => q.where("id", "=", userId)
-  );
-  const activity = await activityDataService.findOneOrFail(context, (q) =>
-    q.where("id", "=", activityResult.id)
-  );
 
-  return {
-    errors: [],
-    activity,
-  };
+  return activityDataService.saveMutation(context, {
+    input,
+    userId,
+  });
 };

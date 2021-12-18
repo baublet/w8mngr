@@ -23,7 +23,7 @@ export function MultilineInput(
         className={cx(
           `
           w-full
-          p-2
+          p-4
           h-64
           focus:shadow-inner
           border

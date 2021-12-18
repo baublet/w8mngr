@@ -1,14 +1,15 @@
 import React from "react";
 import cx from "classnames";
 
-import { Input, MultilineInput } from "../Forms";
+import { Input, MultilineInput, SingleSelect, Slider } from "../Forms";
 import { Spacer } from "../Spacer";
 import { SecondaryButton } from "../Button/Secondary";
 import { ContentContainer } from "../Containers/ContentContainer";
 import { ContentLayout } from "../Containers/ContentLayout";
 
-import { useForm } from "../../helpers";
+import { activityTypeToHumanReadable, useForm } from "../../helpers";
 import { ActivityType, Muscle } from "../../generated";
+import { MuscleMap } from "../MuscleMap";
 
 type FormData = {
   name: string;
@@ -19,6 +20,8 @@ type FormData = {
   muscleGroups: Muscle[];
 };
 export type PartialFormData = { [K in keyof FormData]?: FormData[K] | null };
+
+const types: ActivityType[] = ["DISTANCE", "REPETITIVE", "TIMED", "WEIGHT"];
 
 export function ActivityForm({
   initialValues,
@@ -54,6 +57,13 @@ export function ActivityForm({
       className={cx({ "opacity-50 pointer-events-none blur": loading })}
     >
       <ContentLayout
+        sideContent={
+          <MuscleMap
+            active={true}
+            showSummary={true}
+            onChange={formData.getHandler("muscleGroups")}
+          />
+        }
         mainContent={
           <form onSubmit={handleSave}>
             <div className="flex w-full flex-col">
@@ -65,6 +75,33 @@ export function ActivityForm({
                 onChange={formData.getHandler("name")}
                 value={formData.getValue("name")}
               />
+              <Spacer size="s" />
+              <div className="flex gap-4">
+                <div className="">
+                  <SingleSelect
+                    id="activity-type"
+                    label="Type"
+                    defaultSelectedKey={formData.getValue("type")}
+                    options={types.map((type) => ({
+                      key: type,
+                      text: activityTypeToHumanReadable(type),
+                    }))}
+                    onChange={formData.getHandler("type")}
+                  />
+                </div>
+                <div className="w-full">
+                  <Slider
+                    min={0}
+                    max={10}
+                    label="intensity"
+                    id="intensity-slider"
+                    lowerLabel="Less intense"
+                    higherLabel="More intense"
+                    defaultValue={formData.getValue("intensity")}
+                    onChange={formData.getHandler("intensity")}
+                  />
+                </div>
+              </div>
               <Spacer size="s" />
               <MultilineInput
                 placeholder="Description"

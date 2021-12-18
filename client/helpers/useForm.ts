@@ -11,19 +11,14 @@ export function useForm<T extends Record<string, any>>({
   schema?: ObjectSchema<any>;
   onChange?: (newValues: T) => void;
 } = {}): FormStateObject<T> {
-  const formState = React.useMemo(() => {
-    const map = new Map<keyof T, Maybe<T[keyof T]>>();
-    for (const [key, value] of Object.entries(initialValues)) {
-      if (value) {
-        map.set(key, value);
-      }
-    }
-    return map;
-  }, []);
+  const formState = React.useMemo(
+    () => new Map<keyof T, Maybe<T[keyof T]>>(Object.entries(initialValues)),
+    []
+  );
   const formHandlers = React.useMemo(() => {
     return new Map<keyof T, (data: T[keyof T]) => void>();
   }, []);
-  const [renderSeed, uptickCounter] = React.useState(0);
+  const [, uptickCounter] = React.useState(0);
 
   const render = React.useCallback(() => {
     uptickCounter((value) => value + 1);
@@ -64,7 +59,7 @@ export function useForm<T extends Record<string, any>>({
       defaultValue?: any
     ): T[TElement] => {
       const value = formState.get(element);
-      return (value || defaultValue) as any;
+      return (value === undefined ? defaultValue : value) as any;
     },
     []
   );

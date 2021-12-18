@@ -1,0 +1,1 @@
+export { MuscleMap } from "./MuscleMap";

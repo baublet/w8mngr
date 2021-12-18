@@ -11,7 +11,7 @@ import { PrimaryLoader } from "../components/Loading/Primary";
 import { useGetActivityDetailsQuery } from "../generated";
 
 export function Activity() {
-  const { id } = useParams<{ id: string }>();
+  const { id = "id" } = useParams<{ id?: string }>();
 
   const { data } = useGetActivityDetailsQuery({
     variables: {
@@ -19,7 +19,7 @@ export function Activity() {
     },
   });
 
-  const activity = data?.currentUser?.activities.edges[0].node;
+  const activity = data?.currentUser?.activities.edges[0]?.node;
 
   if (!activity) {
     return <PrimaryLoader />;

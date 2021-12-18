@@ -5,6 +5,9 @@ mutation SaveActivity($input: ActivityInput!) {
       id
       name
       description
+      intensity
+      type
+      exrx
     }
   }
 }

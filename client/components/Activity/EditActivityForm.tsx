@@ -4,18 +4,15 @@ import { PrimaryLoader } from "../Loading/Primary";
 import { ActivityForm } from "./ActivityForm";
 
 import {
-  useGetActivitiesQuery,
+  useGetActivityDetailsQuery,
   useSaveActivityMutation,
 } from "../../generated";
+import { ActivityType } from "../../../api/graphql-types";
 
-export function EditActivityForm({ id }: { id: string }) {
-  const { loading, data } = useGetActivitiesQuery({
+export function EditActivityForm({ id = "id" }: { id?: string }) {
+  const { loading, data } = useGetActivityDetailsQuery({
     variables: {
-      input: {
-        filter: {
-          id,
-        },
-      },
+      id,
     },
   });
   const [saveActivity, { loading: saving }] = useSaveActivityMutation();
@@ -25,9 +22,13 @@ export function EditActivityForm({ id }: { id: string }) {
       {
         name,
         description,
+        type,
+        intensity,
       }: {
         name?: Maybe<string>;
         description?: Maybe<string>;
+        type?: Maybe<ActivityType>;
+        intensity?: Maybe<number>;
       },
       onComplete?: Function
     ) => {
@@ -37,6 +38,8 @@ export function EditActivityForm({ id }: { id: string }) {
             id,
             name,
             description,
+            type,
+            intensity,
           },
         },
       });
@@ -54,6 +57,9 @@ export function EditActivityForm({ id }: { id: string }) {
       initialValues={{
         description: loadedData.description,
         name: loadedData.name,
+        exrx: loadedData.exrx,
+        intensity: loadedData.intensity,
+        type: loadedData.type,
       }}
       onSave={onSave}
     />

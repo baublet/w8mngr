@@ -53,7 +53,7 @@ export function Input(
         onChange={(event) => {
           onChange(event.target.value);
         }}
-        className={cx("leading-normal w-full px-2 py-2", border, background, {
+        className={cx("leading-normal w-full p-4", border, background, {
           [className]: className,
         })}
         value={value}

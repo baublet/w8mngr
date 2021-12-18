@@ -37,11 +37,11 @@ export function createDataService<T extends QueryFactoryFunction>(
   entityName: string
 ) {
   return {
-    findOneOrFail: getFindOneOrFail(queryFactory, entityName),
-    deleteByIds: getDeleteByIds(queryFactory),
     create: getCreate(queryFactory, entityName),
-    update: getUpdate(queryFactory),
+    deleteByIds: getDeleteByIds(queryFactory),
+    findOneOrFail: getFindOneOrFail(queryFactory, entityName),
     getConnection: getConnection(queryFactory),
+    update: getUpdate(queryFactory),
     upsert: getUpsert(queryFactory),
   };
 }

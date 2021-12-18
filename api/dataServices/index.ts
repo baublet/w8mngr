@@ -6,3 +6,4 @@ export { FoodEntity, foodDataService } from "./food";
 export { UploadToken, uploadTokenDataService } from "./uploadToken";
 export { Upload, uploadDataService } from "./upload";
 export { FoodMeasurement, foodMeasurementDataService } from "./foodMeasurement";
+export { Activity, activityDataService } from "./activity";

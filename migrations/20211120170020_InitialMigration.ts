@@ -89,6 +89,27 @@ export async function up(knex: Knex): Promise<void> {
     table.integer("protein").notNullable().defaultTo(0);
     table.integer("popularity").notNullable().defaultTo(0);
   });
+
+  await knex.schema.createTable("activity", function (table) {
+    table.boolean("archived").notNullable().defaultTo(false).index();
+    table.text("id").notNullable().primary();
+    table.text("userId").notNullable().index();
+    table.text("name").notNullable();
+    table.text("description").nullable();
+    table.text("exrx").nullable().comment("ExRx.net link");
+    table.text("type").notNullable().index();
+    table.integer("intensity").notNullable().defaultTo(0);
+    table.integer("popularity").notNullable().defaultTo(0).index();
+    table.timestamp("createdAt").defaultTo(knex.fn.now());
+    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+  });
+
+  await knex.schema.createTable("activity_muscles", function (table) {
+    table.boolean("archived").notNullable().defaultTo(false).index();
+    table.text("id").notNullable().primary();
+    table.text("activityId").notNullable().index();
+    table.text("muscle").notNullable().index();
+  });
 }
 
 export async function down(knex: Knex): Promise<void> {}

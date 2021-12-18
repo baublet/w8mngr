@@ -1,0 +1,19 @@
+query GetActivities($input: ActivityQueryInput!) {
+  currentUser {
+    activities(input: $input) {
+      pageInfo {
+        totalCount
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        cursor
+        node {
+          id
+          name
+          description
+        }
+      }
+    }
+  }
+}

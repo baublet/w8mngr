@@ -1,0 +1,22 @@
+query GetActivityDetails($id: ID!) {
+  currentUser {
+    activities(input: { filter: { id: $id } }) {
+      pageInfo {
+        totalCount
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        cursor
+        node {
+          id
+          name
+          description
+          intensity
+          type
+          exrx
+        }
+      }
+    }
+  }
+}

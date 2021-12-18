@@ -11,6 +11,9 @@ import { FoodLog } from "./pages/FoodLog";
 import { Foods } from "./pages/Foods";
 import { NewFood } from "./pages/NewFood";
 import { EditFood } from "./pages/EditFood";
+import { Activities } from "./pages/Activities";
+import { NewActivity } from "./pages/NewActivity";
+import { Activity } from "./pages/Activity";
 
 const routes = [
   { key: "home", path: "/", name: "Home", Component: Home },
@@ -22,6 +25,9 @@ const routes = [
   { key: "foods", path: "/foods", Component: Foods },
   { key: "new-food", path: "/foods/new", Component: NewFood },
   { key: "edit-food", path: "/foods/edit/:id", Component: EditFood },
+  { key: "activities", path: "/activities", Component: Activities },
+  { key: "new-activity", path: "/activities/new", Component: NewActivity },
+  { key: "activity-details", path: "/activities/:id", Component: Activity },
 ];
 
 export function Routes() {

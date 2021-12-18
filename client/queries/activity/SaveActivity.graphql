@@ -1,0 +1,10 @@
+mutation SaveActivity($input: ActivityInput!) {
+  saveActivity(input: $input) {
+    errors
+    activity {
+      id
+      name
+      description
+    }
+  }
+}

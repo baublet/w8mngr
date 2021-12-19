@@ -1,13 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { ContentContainer } from "./components/Containers/ContentContainer";
 import { HeartIcon } from "./components/Icons/Heart";
 import { Routes } from "./Routes";
 import { HeaderNavigation } from "./components/Navigation/HeaderNavigation";
-import {ToastProvider} from "./helpers";
+import { ToastProvider } from "./helpers";
 
 export function Application(): React.ReactComponentElement<any> {
+  // When the URL changes, scroll to the top
+  const { pathname, search } = useLocation();
+  React.useEffect(() => {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+  }, [pathname, search]);
+
   return (
     <div className="max-w-screen-xl w-full flex flex-col min-h-full px-8 bg-white">
       <header>

@@ -1,6 +1,6 @@
 import React from "react";
 import { NetworkStatus } from "@apollo/client";
-import { getWithDefault } from "shared";
+import { useHistory, useLocation } from "react-router";
 
 type HookFunction = (args: {
   fetchPolicy?: any;
@@ -66,13 +66,18 @@ export function usePaginatedQuery<
     NotNullOrUndefined<ReturnType<TGetConnection>>["edges"]
   >[number]["node"][];
 } {
-  const [cursor, setCursor] = React.useState<string | undefined>(undefined);
-  const [beforeOrAfter, setBeforeOrAfter] = React.useState<"after" | "before">(
-    "after"
+  const { push } = useHistory();
+
+  const { search, pathname: baseUrl } = useLocation();
+  const queryParams = React.useMemo(
+    () => new URLSearchParams(search),
+    [search, baseUrl]
   );
-  const [firstOrLast, setFirstOrLast] = React.useState<"first" | "last">(
-    "first"
-  );
+
+  const cursor = queryParams.get("cursor");
+  const beforeOrAfter = queryParams.get("beforeOrAfter") || "after";
+  const firstOrLast = queryParams.get("firstOrLast") || "first";
+
   const { data, networkStatus } = useQuery({
     fetchPolicy: "cache-and-network",
     variables: {
@@ -104,14 +109,16 @@ export function usePaginatedQuery<
     hasNextPage: connection.pageInfo.hasNextPage,
     hasPreviousPage: connection.pageInfo.hasPreviousPage,
     nextPage: () => {
-      setCursor(lastCursor);
-      setBeforeOrAfter("after");
-      setFirstOrLast("first");
+      queryParams.set("cursor", lastCursor);
+      queryParams.set("beforeOrAfter", "after");
+      queryParams.set("firstOrLast", "first");
+      push(`${baseUrl}?${queryParams.toString()}`);
     },
     previousPage: () => {
-      setCursor(firstCursor);
-      setBeforeOrAfter("before");
-      setFirstOrLast("last");
+      queryParams.set("cursor", firstCursor);
+      queryParams.set("beforeOrAfter", "before");
+      queryParams.set("firstOrLast", "last");
+      push(`${baseUrl}?${queryParams.toString()}`);
     },
   } as any;
 }

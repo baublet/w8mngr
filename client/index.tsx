@@ -1,16 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import {
-  ServiceContainer,
-  createServiceContainer,
-} from "@baublet/service-container";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  HttpLink,
-} from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 
 import { boot } from "./boot";
 import { Application } from "./Application";

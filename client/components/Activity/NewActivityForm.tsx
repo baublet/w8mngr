@@ -1,17 +1,19 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import omit from "lodash.omit";
 
 import { ActivityForm, PartialFormData } from "./ActivityForm";
 import { useSaveActivityMutation } from "../../generated";
-import { withNumericKeys } from "../../../shared";
+import { useToast } from "../../helpers";
 
 export function NewActivityForm() {
   const { replace } = useHistory();
+  const { error, success } = useToast();
   const [saveActivity, { loading }] = useSaveActivityMutation({
     onCompleted: (data) => {
+      success("New activity created");
       replace(`/activities/edit/${data.saveActivity.activity?.id}`);
     },
+    onError: error,
   });
   const handleSave = React.useCallback(
     async ({

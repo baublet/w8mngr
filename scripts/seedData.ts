@@ -1,10 +1,13 @@
 import knex from "knex";
-import fs from "fs";
-import path from "path";
 import { ulid } from "ulid";
-import { exec } from "child_process";
 
-import type { FoodEntity, FoodMeasurement } from "../api/dataServices";
+import type {
+  FoodEntity,
+  FoodMeasurement,
+  Activity,
+  ActivityMuscle,
+} from "../api/dataServices";
+import { ActivityType, Muscle } from "../api/graphql-types";
 
 import config from "../knexfile";
 
@@ -17,13 +20,158 @@ const adminUserId = "01FPDV213V6K6M04D4YMR8T3QH";
 
 (async () => {
   await seedAdmin();
+  await seedActivities();
   await seedFoods();
   await seedMeasurements();
   console.log("Done");
   process.exit(0);
 })();
 
-async function seedAdmin() {
+async function seedActivities(): Promise<void> {
+  console.log("Seeding legacy activities into the new activities table");
+  type LegacyActivity = {
+    id: number;
+    name: string;
+    user_id: number;
+    description: string;
+    exrx: string;
+    activity_type: number;
+    muscle_groups: string;
+    intensity: number;
+  };
+  let hasMore = true;
+  let offset = 0;
+  const batchSize = 50;
+  let total = 0;
+
+  function legacyTypeToNewType(legacyType: number): ActivityType {
+    switch (legacyType) {
+      case 0:
+        return "WEIGHT";
+      case 1:
+        return "TIMED";
+      case 2:
+        return "DISTANCE";
+      case 3:
+        return "REPETITIVE";
+    }
+    return "WEIGHT";
+  }
+
+  function slotToMuscleOrUndefined(
+    groups: string,
+    slot: number
+  ): Muscle | undefined {
+    if (groups[slot] === "0") {
+      return undefined;
+    }
+    switch (slot) {
+      case 0:
+        return "BICEPS";
+      case 1:
+        return "DELTOIDS";
+      case 2:
+        return "FOREARMS";
+      case 3:
+        return "TRICEPS";
+      case 4:
+        return "TRAPEZIUS";
+      case 5:
+        return "LATS";
+      case 6:
+        return "ABS";
+      case 7:
+        return "OBLIQUES";
+      case 8:
+        return "PECTORALS";
+      case 9:
+        return "ADDUCTORS";
+      case 10:
+        return "CALVES";
+      case 11:
+        return "HAMSTRINGS";
+      case 12:
+        return "GLUTES";
+      case 13:
+        return "QUADS";
+    }
+
+    return undefined;
+  }
+
+  function getMuscleGroupEntities(
+    activityId: string,
+    muscleGroups: string
+  ): ActivityMuscle[] {
+    const muscles: ActivityMuscle[] = [];
+    for (let i = 0; i < muscleGroups.length; i++) {
+      const muscle = slotToMuscleOrUndefined(muscleGroups, i);
+      if (muscle) {
+        muscles.push({
+          id: ulid(),
+          activityId,
+          muscle,
+        });
+      }
+    }
+    return muscles;
+  }
+
+  while (hasMore) {
+    try {
+      process.stdout.write(".");
+      const db = getDb();
+      const legacyEntries = await db
+        .select<LegacyActivity[]>("*")
+        .from("legacy_activities")
+        .where("user_id", "=", 1)
+        .limit(batchSize + 1)
+        .offset(offset);
+
+      offset += batchSize;
+      total += legacyEntries.length - 1;
+
+      if (legacyEntries.length <= batchSize) {
+        hasMore = false;
+      }
+
+      const muscleGroupsToInsert: ActivityMuscle[] = [];
+      await db.batchInsert<Activity>(
+        "activity",
+        legacyEntries.slice(0, -1).map((legacyEntry) => {
+          const newId = ulid();
+          legacyFoodIdToFoodId[legacyEntry.id] = newId;
+
+          muscleGroupsToInsert.push(
+            ...getMuscleGroupEntities(newId, legacyEntry.muscle_groups)
+          );
+
+          return {
+            id: newId,
+            description: legacyEntry.description,
+            name: legacyEntry.name,
+            userId: adminUserId,
+            legacyId: legacyEntry.id,
+            intensity: legacyEntry.intensity,
+            exrx: legacyEntry.exrx,
+            type: legacyTypeToNewType(legacyEntry.activity_type),
+          };
+        })
+      );
+      await db.batchInsert<ActivityMuscle>(
+        "activity_muscle",
+        muscleGroupsToInsert,
+        100
+      );
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  console.log("\nTotal activities: ", total);
+}
+
+async function seedAdmin(): Promise<void> {
   console.log("Seeding admin");
   const db = getDb();
 
@@ -100,12 +248,6 @@ async function seedFoods(): Promise<void> {
   }
 
   console.log("\nTotal foods: ", totalFoods);
-}
-
-async function wait(ms: number = 1000) {
-  return new Promise<void>((resolve) => {
-    setTimeout(() => resolve(), ms);
-  });
 }
 
 async function seedMeasurements(): Promise<void> {

@@ -102,6 +102,7 @@ export async function up(knex: Knex): Promise<void> {
     table.integer("popularity").notNullable().defaultTo(0).index();
     table.timestamp("createdAt").defaultTo(knex.fn.now());
     table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.integer("legacyId").nullable().index().unique();
   });
 
   await knex.schema.createTable("activity_muscle", function (table) {

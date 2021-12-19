@@ -9,14 +9,19 @@ import {
   useSaveActivityMutation,
 } from "../../generated";
 import { ActivityType } from "../../../api/graphql-types";
+import { useToast } from "../../helpers";
 
 export function EditActivityForm({ id = "id" }: { id?: string }) {
+  const { error, success } = useToast();
   const { loading, data } = useGetActivityDetailsQuery({
     variables: {
       id,
     },
   });
-  const [saveActivity, { loading: saving }] = useSaveActivityMutation();
+  const [saveActivity, { loading: saving }] = useSaveActivityMutation({
+    onCompleted: () => success("Activity saved!"),
+    onError: error,
+  });
   const loadedData = data?.currentUser?.activities.edges[0]?.node;
   const onSave = React.useCallback(
     async (
@@ -25,13 +30,13 @@ export function EditActivityForm({ id = "id" }: { id?: string }) {
         description,
         type,
         intensity,
-        muscleGroups
+        muscleGroups,
       }: {
         name?: Maybe<string>;
         description?: Maybe<string>;
         type?: Maybe<ActivityType>;
         intensity?: Maybe<number>;
-        muscleGroups?: Maybe<Muscle[]>
+        muscleGroups?: Maybe<Muscle[]>;
       },
       onComplete?: Function
     ) => {
@@ -43,7 +48,7 @@ export function EditActivityForm({ id = "id" }: { id?: string }) {
             description,
             type,
             intensity,
-            muscleGroups
+            muscleGroups,
           },
         },
       });

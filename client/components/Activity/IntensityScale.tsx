@@ -19,6 +19,7 @@ const intensityClasses: Record<number, string> = {
 };
 
 const sizes = {
+  tiny: "text-md",
   small: "text-4xl",
   medium: "text-8xl",
 } as const;
@@ -31,12 +32,11 @@ export function IntensityScale({
   size?: keyof typeof sizes;
 }) {
   return (
-    <div className={cx(sizes[size], intensityClasses[intensity])}>
-      {intensity <= 5 ? (
-        <LeafIcon />
-      ) : (
-        <FireIcon />
-      )}
+    <div
+      className={cx(sizes[size], intensityClasses[intensity])}
+      title={`Intensity: ${intensity}`}
+    >
+      {intensity <= 5 ? <LeafIcon /> : <FireIcon />}
     </div>
   );
 }

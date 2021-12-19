@@ -6,3 +6,4 @@ export { isApolloLoadingStatus } from "./isApolloLoadingStatus";
 export { foodLogLocalStorage } from "./foodLogLocalStorage";
 export { useKeyPressHandler } from "./useKeyPressHandler";
 export { activityTypeToHumanReadable } from "./activityTypeToHumanReadable";
+export { ToastProvider, useToast } from "./useToast";

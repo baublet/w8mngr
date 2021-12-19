@@ -5,13 +5,17 @@ import { FoodForm } from "./FoodForm";
 import { MeasurementInput, useSaveFoodMutation } from "../../generated";
 import omit from "lodash.omit";
 import { withNumericKeys } from "../../../shared";
+import { useToast } from "../../helpers";
 
 export function NewFoodForm() {
+  const { error, success } = useToast();
   const { replace } = useHistory();
   const [saveFood, { loading }] = useSaveFoodMutation({
     onCompleted: (data) => {
+      success("New Food created");
       replace(`/foods/edit/${data.saveFood.food?.id}`);
     },
+    onError: error,
   });
   const handleSave = React.useCallback(
     ({

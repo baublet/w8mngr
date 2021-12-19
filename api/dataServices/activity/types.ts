@@ -6,10 +6,11 @@ export type Activity = {
   name: string;
   description?: string;
   exrx?: string;
-  activityType: ActivityType;
+  type: ActivityType;
   popularity: number;
   createdAt: Date;
   updatedAt: Date;
   intensity: number;
   archived: Boolean;
+  legacyId?: number;
 };

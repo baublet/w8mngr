@@ -10,14 +10,19 @@ import {
   useSaveFoodMutation,
   MeasurementInput,
 } from "../../generated";
+import { useToast } from "../../helpers";
 
 export function EditFoodForm({ id }: { id: string }) {
+  const { error, success } = useToast();
   const { loading, data } = useGetFoodDetailsQuery({
     variables: {
       id,
     },
   });
-  const [saveFood, { loading: saving }] = useSaveFoodMutation();
+  const [saveFood, { loading: saving }] = useSaveFoodMutation({
+    onCompleted: () => success("Food saved"),
+    onError: error,
+  });
   const loadedData = data?.currentUser?.foods.edges[0]?.node;
   const onSave = React.useCallback(
     async (

@@ -5,6 +5,7 @@ import { ContentContainer } from "./components/Containers/ContentContainer";
 import { HeartIcon } from "./components/Icons/Heart";
 import { Routes } from "./Routes";
 import { HeaderNavigation } from "./components/Navigation/HeaderNavigation";
+import {ToastProvider} from "./helpers";
 
 export function Application(): React.ReactComponentElement<any> {
   return (
@@ -27,7 +28,9 @@ export function Application(): React.ReactComponentElement<any> {
         </ContentContainer>
       </header>
       <main className="flex-grow flex-1 flex-col">
-        <Routes />
+        <ToastProvider>
+          <Routes />
+        </ToastProvider>
       </main>
       <footer className="mt-12 text-gray-50 bg-green-600 mt-13 py-8 -mx-8 flex items-center">
         <ContentContainer>Footer</ContentContainer>

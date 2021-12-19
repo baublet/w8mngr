@@ -12,7 +12,7 @@ const db = knex({
 const getDb = () => db;
 
 const dumpsPath = path.resolve(process.cwd(), "dumps");
-const dumps = ["food", "measurement"] as const;
+const dumps = ["activity", "food", "measurement"] as const;
 
 (async () => {
   for (const dump of dumps) {
@@ -20,6 +20,7 @@ const dumps = ["food", "measurement"] as const;
     await runDump(dump);
   }
   console.log("Done")
+  process.exit(0);
 })();
 
 async function runDump(dump: typeof dumps[number]) {

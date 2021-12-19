@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
 
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { PageHeading } from "../components/Type/PageHeading";
@@ -13,7 +13,7 @@ import { BackToButton } from "../components/Button/BackTo";
 
 export function Activity() {
   const { id = "id" } = useParams<{ id?: string }>();
-
+  const { goBack } = useHistory();
   const { data } = useGetActivityDetailsQuery({
     variables: {
       id,
@@ -32,7 +32,9 @@ export function Activity() {
         icon={<HealthCircleIcon />}
         quickLinks={
           <>
-            <BackToButton to={`/activities`}>Back to Activities</BackToButton>
+            <BackToButton {...backButtonProps(goBack)}>
+              Back to Activities
+            </BackToButton>
           </>
         }
       >
@@ -50,4 +52,14 @@ export function Activity() {
       </ContentContainer>
     </div>
   );
+}
+
+function backButtonProps(goBack: () => void) {
+  if (document.referrer?.includes("/activities")) {
+    return {
+      to: "#",
+      onClick: goBack,
+    };
+  }
+  return { to: "/activities" };
 }

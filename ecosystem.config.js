@@ -25,5 +25,13 @@ module.exports = {
       autorestart: false,
       restart_delay: 250
     },
+    {
+      name: "build-css",
+      script: "npm",
+      args: "run build:css",
+      watch: ["client/**/*.{html,ts,tsx}"],
+      autorestart: false,
+      restart_delay: 250
+    },
   ],
 };

@@ -22,7 +22,7 @@ type FormData = {
 };
 export type PartialFormData = { [K in keyof FormData]?: FormData[K] | null };
 
-const types: ActivityType[] = ["DISTANCE", "REPETITIVE", "TIMED", "WEIGHT"];
+const types: ActivityType[] = ["WEIGHT", "DISTANCE", "REPETITIVE", "TIMED"];
 
 export function ActivityForm({
   initialValues,

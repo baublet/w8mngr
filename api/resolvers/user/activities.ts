@@ -28,7 +28,6 @@ export const activities: UserResolvers["activities"] = async (
       first: input?.first,
       sort: {
         name: "asc",
-        id: "asc",
       },
     },
   });

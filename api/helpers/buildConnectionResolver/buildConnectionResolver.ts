@@ -2,6 +2,7 @@ import { QueryBuilder } from "../../config";
 import { validateArguments } from "./validateArguments";
 import { isBefore } from "./isBefore";
 import { assertIsError } from "../../../shared";
+import { log } from "../../config";
 
 export type Connection<TEntity, TNode = TEntity> = Resolvable<{
   pageInfo: {
@@ -163,6 +164,10 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
             }
           }
 
+          log("info", "Result set query information", {
+            query: resultSetQuery.toString(),
+          });
+
           resolve(edges);
         });
       }
@@ -177,9 +182,8 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
 
           const lastSubsetResultEdge:
             | undefined
-            | { node: Record<string, any> } = isBeforeQuery
-            ? resolvedEdges[resolvedEdges.length - 1]
-            : resolvedEdges[0];
+            | { node: Record<string, any> } =
+            resolvedEdges[resolvedEdges.length - 1];
           const lastSubsetResult: undefined | Record<string, any> =
             lastSubsetResultEdge?.node;
 
@@ -214,9 +218,7 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
 
           const firstSubsetResultEdge:
             | undefined
-            | { node: Record<string, any> } = isBeforeQuery
-            ? resolvedEdges[resolvedEdges.length - 1]
-            : resolvedEdges[0];
+            | { node: Record<string, any> } = resolvedEdges[0];
           const firstSubsetResult: undefined | Record<string, any> =
             firstSubsetResultEdge?.node;
 

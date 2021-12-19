@@ -2,7 +2,6 @@ import React from "react";
 import cx from "classnames";
 
 import { FireIcon } from "../Icons/Fire";
-import { LeafIcon } from "../Icons/Leaf";
 
 const intensityClasses: Record<number, string> = {
   0: "text-green-500 opacity-25",
@@ -36,7 +35,7 @@ export function IntensityScale({
       className={cx(sizes[size], intensityClasses[intensity])}
       title={`Intensity: ${intensity}`}
     >
-      {intensity <= 5 ? <LeafIcon /> : <FireIcon />}
+      <FireIcon />
     </div>
   );
 }

@@ -15,7 +15,7 @@ export function ActivityListItem({
   description,
   muscleGroups,
   type,
-  intensity
+  intensity,
 }: {
   id: string;
   name: string;
@@ -45,20 +45,22 @@ w-full
       >
         <Link
           to={`/activities/${id}`}
-          className="flex w-full justify-start items-center text-left"
+          className="flex w-full justify-start items-center text-left group"
           title={`Edit Activity: ${name}`}
         >
           <div className="flex w-full items-center gap-4">
             <div className="flex w-full flex-col flex-grow">
               <ItemHeading>{name}</ItemHeading>
               <div className="flex items-center gap-2">
-              <div><IntensityScale intensity={intensity} size="tiny" /></div>
-              <div className="text-sm uppercase opacity-30">
-                {activityTypeToHumanReadable(type)}
-              </div>
+                <div className="opacity-75 group-hover:opacity-100">
+                  <IntensityScale intensity={intensity} size="tiny" />
+                </div>
+                <div className="text-sm uppercase opacity-30">
+                  {activityTypeToHumanReadable(type)}
+                </div>
               </div>
               {description && (
-                <div className="block mt-2 text-gray-700 text-opacity-80 leading-tight">
+                <div className="block mt-4 text-gray-700 text-opacity-80 leading-tight">
                   <MarkdownRenderer
                     content={description}
                     maxLength={240}

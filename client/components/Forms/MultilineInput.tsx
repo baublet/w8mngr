@@ -5,7 +5,7 @@ import { InputProps } from "./Input";
 
 let count = 0;
 
-export type MultilineInputProps = InputProps;
+export type MultilineInputProps = InputProps
 
 export function MultilineInput(
   props: MultilineInputProps

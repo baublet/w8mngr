@@ -10,6 +10,7 @@ import { ContentLayout } from "../Containers/ContentLayout";
 import { activityTypeToHumanReadable, useForm } from "../../helpers";
 import { ActivityType, Muscle } from "../../generated";
 import { MuscleMap } from "../MuscleMap";
+import { IntensityScale } from "./IntensityScale";
 
 type FormData = {
   name: string;
@@ -100,6 +101,9 @@ export function ActivityForm({
                     higherLabel="More intense"
                     defaultValue={formData.getValue("intensity")}
                     onChange={formData.getHandler("intensity")}
+                    scaleEndAdornment={
+                      <IntensityScale intensity={formData.getValue("intensity")} size="small" />
+                    }
                   />
                 </div>
               </div>

@@ -10,6 +10,7 @@ export function Slider({
   higherLabel,
   lowerLabel,
   onChange,
+  scaleEndAdornment,
 }: {
   min: number;
   max: number;
@@ -19,6 +20,7 @@ export function Slider({
   lowerLabel?: string;
   higherLabel?: string;
   onChange?: (value: number) => void;
+  scaleEndAdornment?: React.ReactNode;
 }) {
   const midPoint = min + (max - min) / 2;
   const [value, setValue] = React.useState(
@@ -39,21 +41,24 @@ export function Slider({
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <div className="w-full p-2 border border-gray-300 rounded hover:border-gray-500">
-        <input
-          type="range"
-          min={min}
-          max={max}
-          defaultValue={defaultValue}
-          onChange={handleChange}
-          className="w-full"
-          id={id}
-        />
-        <div className="text-xs uppercase opacity-50 flex justify-between gap-8">
-          <label htmlFor={id}>{lowerLabel}</label>
-          <div className="font-bold">{value}</div>
-          <label htmlFor={id}>{higherLabel}</label>
+      <div className="w-full p-2 border border-gray-300 rounded hover:border-gray-500 flex gap-4">
+        <div className="w-full">
+          <input
+            type="range"
+            min={min}
+            max={max}
+            defaultValue={defaultValue}
+            onChange={handleChange}
+            className="w-full"
+            id={id}
+          />
+          <div className="text-xs uppercase opacity-50 flex justify-between gap-8">
+            <label htmlFor={id}>{lowerLabel}</label>
+            <div className="font-bold">{value}</div>
+            <label htmlFor={id}>{higherLabel}</label>
+          </div>
         </div>
+          {scaleEndAdornment && scaleEndAdornment}
       </div>
       <label htmlFor={id} className="uppercase opacity-50 text-lg w-full">
         {label}

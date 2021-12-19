@@ -30,10 +30,12 @@ export function ActivityListItem({
 hover:bg-gray-50
 hover:bg-opacity-50
 border
-border-transparent
-border-gray-200
-rounded
+border-gray-100
+hover:border-gray-300
+rounded-lg
 p-4
+hover:shadow-slate-500/10
+hover:shadow-lg
     `}
     >
       <div

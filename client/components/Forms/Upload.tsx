@@ -263,9 +263,9 @@ export function Upload({
     <>
       <div
         className={cx(
-          "p-2 bg-green-50 bg-opacity-25 hover:bg-opacity-50 rounded",
+          "p-2 bg-emerald-50 bg-opacity-25 hover:bg-opacity-50 rounded",
           {
-            "bg-green-100": isDragging,
+            "bg-emerald-100": isDragging,
           }
         )}
         style={{
@@ -315,7 +315,7 @@ export function Upload({
               })}
             >
               <div>{placeholder}</div>
-              <div className="text-xs text-opacity-50 text-green-700 mt-2">
+              <div className="text-xs text-opacity-50 text-emerald-700 mt-2">
                 Click or drag to upload
               </div>
             </label>

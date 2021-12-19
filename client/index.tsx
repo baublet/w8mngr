@@ -8,10 +8,14 @@ import { Application } from "./Application";
 import { apolloClientService } from "./helpers/apolloClientService";
 
 boot().then(async () => {
-  const MOUNT_NODE = document.getElementById("root");
+  const mountNode = document.getElementById("root");
   const getClient = await window.w8mngrServiceContainer.get(
     apolloClientService
   );
+
+  if (!mountNode) {
+    throw new Error("No mount node found");
+  }
 
   ReactDOM.render(
     <BrowserRouter>
@@ -19,6 +23,6 @@ boot().then(async () => {
         <Application />
       </ApolloProvider>
     </BrowserRouter>,
-    MOUNT_NODE
+    mountNode
   );
 });

@@ -31,9 +31,9 @@ export function ActivityDetails({
         </div>
 
         <div className="flex flex-col justify-around">
-          <div className="opacity-75">
+          <div>
             <div className="flex items-center mt-2 gap-4">
-              <div className="">
+              <div className="opacity-75">
                 <IntensityScale intensity={intensity} />
               </div>
               <div className="text-5xl font-thin">{intensity}</div>
@@ -44,7 +44,7 @@ export function ActivityDetails({
             </div>
           </div>
 
-          <div className="mt-4 opacity-75">
+          <div className="mt-4">
             <div className="flex items-center mt-2">
               <div className="text-xl font-thin">
                 {activityTypeToHumanReadable(type)}

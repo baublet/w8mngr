@@ -19,7 +19,7 @@ export function PageHeading(
       {props.icon && (
         <div className="relative">
           <div
-            className="absolute text-5xl text-gray-50 flex justify-center items-center rounded-bl-full rounded-tl-full w-16 h-16 bg-green-400 text-center"
+            className="absolute text-5xl text-gray-50 flex justify-center items-center rounded-bl-full rounded-tl-full w-16 h-16 bg-emerald-400 text-center"
             style={{
               transform: "translate(-2em, 0)",
             }}

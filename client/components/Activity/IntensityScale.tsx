@@ -4,9 +4,9 @@ import cx from "classnames";
 import { FireIcon } from "../Icons/Fire";
 
 const intensityClasses: Record<number, string> = {
-  0: "text-green-500 opacity-25",
-  1: "text-green-500 opacity-75",
-  2: "text-green-500",
+  0: "text-emerald-500 opacity-25",
+  1: "text-emerald-500 opacity-75",
+  2: "text-emerald-500",
   3: "text-yellow-400 opacity-50",
   4: "text-yellow-400 opacity-75",
   5: "text-yellow-400",

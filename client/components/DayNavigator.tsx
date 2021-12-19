@@ -83,14 +83,14 @@ export function DayNavigator({
   return (
     <div className="flex items-stretch filter">
       <PrimaryIconButton
-        className="rounded-l-large bg-green-600 text-green-50 px-4 py-4 rounded-r-none"
+        className="rounded-l-large bg-emerald-600 text-emerald-50 px-4 py-4 rounded-r-none"
         onClick={prevDay}
       >
         <LeftIcon />
       </PrimaryIconButton>
       <button
         className={cx(
-          "group bg flex-grow flex justify-center items-center bg-green-500"
+          "group bg flex-grow flex justify-center items-center bg-emerald-500"
         )}
         type="button"
         onClick={isCurrentDayToday ? onRefresh : today}
@@ -106,13 +106,13 @@ export function DayNavigator({
               {isCurrentDayInPast ? <>&#x203A;</> : null}
             </div>
           )}
-          <span className="font-bold text-green-50" onClick={onRefresh}>
+          <span className="font-bold text-emerald-50" onClick={onRefresh}>
             {formatDate.foodLog(dayDate)}
           </span>
         </div>
       </button>
       <PrimaryIconButton
-        className="rounded-r-large bg-green-600 text-green-50 px-4 py-4 rounded-l-none"
+        className="rounded-r-large bg-emerald-600 text-emerald-50 px-4 py-4 rounded-l-none"
         onClick={nextDay}
       >
         <RightIcon />

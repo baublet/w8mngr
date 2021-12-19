@@ -16,7 +16,7 @@ export function NavigationIcon(props: NavigationIconProps) {
     <Link
       to={to}
       className={cx(
-        "flex items-center justify-center border-b-4 border-r-4 border-transparent hover:border-green-200 opacity-50 hover:opacity-75 h-24 w-24 p-4 hover:bg-green-400 hover:text-white",
+        "flex items-center justify-center border-b-4 border-r-4 border-transparent hover:border-emerald-200 opacity-50 hover:opacity-75 h-24 w-24 p-4 hover:bg-emerald-400 hover:text-white",
         { "rounded-lg": !active, "opacity-100 pointer-events-none": active }
       )}
     >

@@ -8,7 +8,7 @@ export function PrimaryIconButton(props: BaseButtonProps) {
     <BaseButton
       {...props}
       className={cx(
-        "rounded-full p-1 bg-green-400 text-green-50",
+        "rounded-full p-1 bg-emerald-400 text-emerald-50",
         props.className
       )}
     />

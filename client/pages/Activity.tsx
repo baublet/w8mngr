@@ -55,7 +55,8 @@ export function Activity() {
 }
 
 function backButtonProps(goBack: () => void) {
-  if (document.referrer?.includes("/activities")) {
+  console.log({ ref: document.referrer });
+  if (!document.referrer?.includes("/activities?")) {
     return {
       to: "#",
       onClick: goBack,

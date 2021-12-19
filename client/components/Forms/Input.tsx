@@ -20,6 +20,7 @@ export type InputProps = {
   value?: string | number;
   defaultValue?: string;
   labelPlacement?: "top" | "bottom";
+  size?: "sm" | "md" | "lg";
 };
 
 export function Input(
@@ -34,6 +35,7 @@ export function Input(
     value = "",
     focusOnFirstRender,
     labelPlacement = "top",
+    size = "md",
     ...newProps
   } = props;
   newProps.id = id;
@@ -73,9 +75,17 @@ export function Input(
         onChange={(event) => {
           onChange(event.target.value);
         }}
-        className={cx("leading-normal w-full p-4", border, background, {
-          [className]: className,
-        })}
+        className={cx(
+          "leading-normal w-full p-4",
+          border,
+          background,
+          {
+            ["p-1"]: size === "sm",
+            ["p-2"]: size === "md",
+            ["p-4"]: size === "lg",
+          },
+          className
+        )}
         value={value}
       />
       {labelPlacement === "bottom" && labelMarkup}

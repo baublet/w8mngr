@@ -76,6 +76,7 @@ export function ActivityForm({
                 labelPlacement="bottom"
                 onChange={formData.getHandler("name")}
                 value={formData.getValue("name")}
+                size="lg"
               />
               <Spacer size="s" />
               <div className="flex gap-4">

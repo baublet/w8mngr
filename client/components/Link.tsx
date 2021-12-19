@@ -12,7 +12,7 @@ export function Link({
       to={to}
       href={to}
       onClick={onClick}
-      className="text-green-500 underline hover:text-green-900"
+      className="text-emerald-500 underline hover:text-emerald-900"
     >
       {children}
     </LinkElement>

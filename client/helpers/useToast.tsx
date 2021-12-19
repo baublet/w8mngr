@@ -125,7 +125,7 @@ function Message({
         {
           "toast-fadeout": fadesOut,
           "border-red-500": type === "error",
-          "border-green-500": type === "success",
+          "border-emerald-500": type === "success",
         }
       )}
     >

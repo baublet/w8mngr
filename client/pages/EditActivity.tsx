@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 import { PageHeading } from "../components/Type/PageHeading";
 import { BackToButton } from "../components/Button/BackTo";
@@ -8,13 +8,16 @@ import { EditActivityForm } from "../components/Activity";
 
 export function EditActivity() {
   const { id } = useParams<{ id: string }>();
+  const { goBack } = useHistory();
   return (
     <div>
       <PageHeading
         icon={<HealthCircleIcon />}
         quickLinks={
           <>
-            <BackToButton to={`/activities/${id}`}>View Activity</BackToButton>
+            <BackToButton {...backButtonProps(id, goBack)}>
+              View Activity
+            </BackToButton>
           </>
         }
       >
@@ -23,4 +26,15 @@ export function EditActivity() {
       <EditActivityForm id={id} />
     </div>
   );
+}
+
+function backButtonProps(id: string, goBack: () => void) {
+  console.log({ ref: document.referrer });
+  if (!document.referrer?.includes("/activities/")) {
+    return {
+      to: "#",
+      onClick: goBack,
+    };
+  }
+  return { to: `/activities/${id}` };
 }

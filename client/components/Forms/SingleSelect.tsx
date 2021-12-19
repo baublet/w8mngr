@@ -12,11 +12,13 @@ export function SingleSelect<
   label,
   onChange,
   defaultSelectedKey,
+  labelPlacement = "top",
 }: {
   id: string;
   label: string;
   options: T[];
   onChange: (selectedOption: T["key"] | undefined) => void;
+  labelPlacement?: "top" | "bottom";
   defaultSelectedKey?: T["key"];
 }) {
   const [selectedKey, setSelectedKey] = React.useState<T["key"] | undefined>(
@@ -29,6 +31,14 @@ export function SingleSelect<
 
   return (
     <div className="flex flex-col gap-2">
+      {labelPlacement === "top" && (
+        <label
+          htmlFor={id}
+          className="uppercase opacity-50 text-xs"
+        >
+          {label}
+        </label>
+      )}
       <div className="border rounded border-gray-300 hover:border-gray-500 hover:shadow">
         <div className="flex items-center relative group">
           <label
@@ -39,7 +49,7 @@ export function SingleSelect<
           </label>
           <select
             id={id}
-            className="appearance-none caret-green-500 text-lg p-4 pr-12 rounded"
+            className="appearance-none text-lg p-4 pr-12 rounded"
             defaultValue={selectedKey}
             onChange={(event) => {
               setSelectedKey(event.target.value);
@@ -48,7 +58,7 @@ export function SingleSelect<
             {options.map((option) => (
               <option
                 key={option.key}
-                className="font-sans caret-green-500"
+                className="font-sans"
                 value={option.key}
               >
                 {option.text}
@@ -57,12 +67,14 @@ export function SingleSelect<
           </select>
         </div>
       </div>
-      <label
-        htmlFor={id}
-        className="uppercase opacity-50 text-lg caret-green-500"
-      >
-        {label}
-      </label>
+      {labelPlacement === "bottom" && (
+        <label
+          htmlFor={id}
+          className="uppercase opacity-50 text-xs"
+        >
+          {label}
+        </label>
+      )}
     </div>
   );
 }

@@ -39,16 +39,17 @@ export function Login() {
                 onChange={loginForm.getHandler("username")}
                 value={loginForm.getValue("username")}
                 focusOnFirstRender
+                labelPlacement="bottom"
               />
-              <Spacer size="s" />
               <Input
                 type="password"
                 placeholder="Password"
                 label="Password"
                 onChange={loginForm.getHandler("password")}
                 value={loginForm.getValue("password")}
+                labelPlacement="bottom"
               />
-              <Spacer />
+              <Spacer size="s" />
               <PrimaryButton
                 onClick={() => {
                   login({

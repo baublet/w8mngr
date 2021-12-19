@@ -11,12 +11,14 @@ export function Slider({
   lowerLabel,
   onChange,
   scaleEndAdornment,
+  labelPlacement = "top",
 }: {
   min: number;
   max: number;
   defaultValue?: number;
   id: string;
   label: string;
+  labelPlacement?: "top" | "bottom";
   lowerLabel?: string;
   higherLabel?: string;
   onChange?: (value: number) => void;
@@ -41,7 +43,12 @@ export function Slider({
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <div className="w-full p-2 border border-gray-300 rounded hover:border-gray-500 flex gap-4">
+      {labelPlacement === "top" && (
+        <label htmlFor={id} className="uppercase opacity-50 text-xs w-full">
+          {label}
+        </label>
+      )}
+      <div className="w-full p-2 border border-gray-300 rounded hover:border-gray-500 flex gap-4 items-center">
         <div className="w-full">
           <input
             type="range"
@@ -58,11 +65,13 @@ export function Slider({
             <label htmlFor={id}>{higherLabel}</label>
           </div>
         </div>
-          {scaleEndAdornment && scaleEndAdornment}
+        {scaleEndAdornment && scaleEndAdornment}
       </div>
-      <label htmlFor={id} className="uppercase opacity-50 text-lg w-full">
-        {label}
-      </label>
+      {labelPlacement === "bottom" && (
+        <label htmlFor={id} className="uppercase opacity-50 text-xs w-full">
+          {label}
+        </label>
+      )}
     </div>
   );
 }

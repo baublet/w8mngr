@@ -7,13 +7,13 @@ import { LeafIcon } from "../Icons/Leaf";
 const intensityClasses: Record<number, string> = {
   0: "text-green-500 opacity-25",
   1: "text-green-500 opacity-75",
-  2: "text-green-500 opacity-100",
+  2: "text-green-500",
   3: "text-yellow-500 opacity-50",
   4: "text-yellow-500 opacity-75",
-  5: "text-yellow-500 opacity-100",
+  5: "text-yellow-500",
   6: "text-purple-500 opacity-50",
   7: "text-purple-500 opacity-75",
-  8: "text-purple-500 opacity-100",
+  8: "text-purple-500",
   9: "text-red-500 opacity-50",
   10: "text-red-500",
 };

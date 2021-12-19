@@ -5,19 +5,32 @@ import { InputProps } from "./Input";
 
 let count = 0;
 
-export type MultilineInputProps = InputProps
+export type MultilineInputProps = InputProps;
 
 export function MultilineInput(
   props: MultilineInputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = props.id || `multi-line-${count++}`;
   const label = props.placeholder || props.label;
+  const labelPlacement = props.labelPlacement || "top";
+  const labelMarkup = React.useMemo(() => {
+    if (props.showLabel === false) {
+      return (
+        <label htmlFor={id} className="screen-reader-text">
+          {label}
+        </label>
+      );
+    }
+    return (
+      <label htmlFor={id} className="uppercase opacity-50 text-xs py-2">
+        {label}
+      </label>
+    );
+  }, [label]);
 
   return (
     <>
-      <label htmlFor={id} className="screen-reader-text">
-        {label}
-      </label>
+      {labelPlacement === "top" && labelMarkup}
       <textarea
         onChange={(event) => props.onChange(event.target.value)}
         className={cx(
@@ -42,6 +55,7 @@ export function MultilineInput(
         defaultValue={props.value}
         placeholder={props.placeholder}
       />
+      {labelPlacement === "bottom" && labelMarkup}
     </>
   );
 }

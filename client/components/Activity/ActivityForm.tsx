@@ -73,17 +73,18 @@ export function ActivityForm({
                 placeholder="Activity name"
                 type="text"
                 label="Name"
-                showLabel={false}
+                labelPlacement="bottom"
                 onChange={formData.getHandler("name")}
                 value={formData.getValue("name")}
               />
               <Spacer size="s" />
               <div className="flex gap-4">
-                <div className="">
+                <div>
                   <SingleSelect
                     id="activity-type"
                     label="Type"
                     defaultSelectedKey={formData.getValue("type")}
+                    labelPlacement="bottom"
                     options={types.map((type) => ({
                       key: type,
                       text: activityTypeToHumanReadable(type),
@@ -101,14 +102,19 @@ export function ActivityForm({
                     higherLabel="More intense"
                     defaultValue={formData.getValue("intensity")}
                     onChange={formData.getHandler("intensity")}
+                    labelPlacement="bottom"
                     scaleEndAdornment={
-                      <IntensityScale intensity={formData.getValue("intensity")} size="small" />
+                      <IntensityScale
+                        intensity={formData.getValue("intensity")}
+                        size="small"
+                      />
                     }
                   />
                 </div>
               </div>
               <Spacer size="s" />
               <MultilineInput
+                labelPlacement="bottom"
                 placeholder="Description"
                 type="text"
                 label="Description"

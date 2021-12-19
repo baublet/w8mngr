@@ -34,8 +34,9 @@ export function Register() {
                 onChange={registerForm.getHandler("username")}
                 value={registerForm.getValue("username")}
                 focusOnFirstRender
+                labelPlacement="bottom"
               />
-              <Spacer />
+              <Spacer size="s" />
               <Input
                 type="password"
                 placeholder="Enter your password"
@@ -51,6 +52,7 @@ export function Register() {
                 id="passwordConfirmation"
                 onChange={registerForm.getHandler("passwordConfirmation")}
                 value={registerForm.getValue("passwordConfirmation")}
+                labelPlacement="bottom"
               />
               <Spacer />
               <PrimaryButton

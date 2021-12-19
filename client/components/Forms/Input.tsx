@@ -19,6 +19,7 @@ export type InputProps = {
   focusOnFirstRender?: boolean;
   value?: string | number;
   defaultValue?: string;
+  labelPlacement?: "top" | "bottom";
 };
 
 export function Input(
@@ -32,6 +33,7 @@ export function Input(
     onChange,
     value = "",
     focusOnFirstRender,
+    labelPlacement = "top",
     ...newProps
   } = props;
   newProps.id = id;
@@ -45,8 +47,26 @@ export function Input(
     }
   }, []);
 
+  const labelMarkup = React.useMemo(() => {
+    return props.showLabel === false ? (
+      <label htmlFor={newProps.id} className="screen-reader-text">
+        {label}
+      </label>
+    ) : (
+      <label
+        htmlFor={newProps.id}
+        className={cx(
+          "block text-xs uppercase whitespace-no-wrap overflow-hidden py-2 text-gray-400 hover:text-gray-600 group-hover:text-gray-600"
+        )}
+      >
+        {label}
+      </label>
+    );
+  }, []);
+
   return (
     <div className="group">
+      {labelPlacement === "top" && labelMarkup}
       <input
         {...newProps}
         ref={inputRef}
@@ -58,20 +78,7 @@ export function Input(
         })}
         value={value}
       />
-      {props.showLabel === false ? (
-        <label htmlFor={newProps.id} className="screen-reader-text">
-          {label}
-        </label>
-      ) : (
-        <label
-          htmlFor={newProps.id}
-          className={cx(
-            "block text-xs uppercase whitespace-no-wrap overflow-hidden pt-1 text-gray-400 hover:text-gray-600 group-hover:text-gray-600"
-          )}
-        >
-          {label}
-        </label>
-      )}
+      {labelPlacement === "bottom" && labelMarkup}
     </div>
   );
 }

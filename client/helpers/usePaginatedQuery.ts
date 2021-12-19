@@ -60,13 +60,15 @@ export function usePaginatedQuery<
   hasNextPage: boolean;
   hasPreviousPage: boolean;
   totalCount: number;
+  nextPageLink: string;
+  previousPageLink: string;
   nextPage: () => void;
   previousPage: () => void;
   nodes: NotNullOrUndefined<
     NotNullOrUndefined<ReturnType<TGetConnection>>["edges"]
   >[number]["node"][];
 } {
-  const { push } = useHistory();
+  const { replace } = useHistory();
 
   const { search, pathname: baseUrl } = useLocation();
   const queryParams = React.useMemo(
@@ -84,6 +86,7 @@ export function usePaginatedQuery<
       input: {
         [beforeOrAfter]: cursor,
         [firstOrLast]: perPage,
+        filter,
       },
     },
   });
@@ -102,23 +105,43 @@ export function usePaginatedQuery<
   const lastCursor = edges[edges.length - 1]?.cursor;
   const loading = isLoading(networkStatus);
 
+  const previousPageLink = React.useMemo(() => {
+    if(!firstCursor) return "";
+    const params = new URLSearchParams(queryParams.toString());
+    params.set("cursor", firstCursor);
+    params.set("beforeOrAfter", "before");
+    params.set("firstOrLast", "last");
+    return `${baseUrl}?${params.toString()}`;
+  }, [queryParams, search, data]);
+
+  const nextPageLink = React.useMemo(() => {
+    if(!lastCursor) return "";
+    const params = new URLSearchParams(queryParams.toString());
+    params.set("cursor", lastCursor);
+    params.set("beforeOrAfter", "after");
+    params.set("firstOrLast", "first");
+    return `${baseUrl}?${params.toString()}`;
+  }, [queryParams, search, data]);
+
   return {
     loading,
     nodes,
     totalCount: connection.pageInfo.totalCount,
     hasNextPage: connection.pageInfo.hasNextPage,
     hasPreviousPage: connection.pageInfo.hasPreviousPage,
+    nextPageLink,
+    previousPageLink,
     nextPage: () => {
       queryParams.set("cursor", lastCursor);
       queryParams.set("beforeOrAfter", "after");
       queryParams.set("firstOrLast", "first");
-      push(`${baseUrl}?${queryParams.toString()}`);
+      replace(`${baseUrl}?${queryParams.toString()}`);
     },
     previousPage: () => {
       queryParams.set("cursor", firstCursor);
       queryParams.set("beforeOrAfter", "before");
       queryParams.set("firstOrLast", "last");
-      push(`${baseUrl}?${queryParams.toString()}`);
+      replace(`${baseUrl}?${queryParams.toString()}`);
     },
   } as any;
 }

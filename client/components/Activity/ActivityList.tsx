@@ -13,8 +13,8 @@ export function ActivityList() {
   const {
     loading,
     nodes: activities,
-    nextPage,
-    previousPage,
+    nextPageLink,
+    previousPageLink,
     hasNextPage,
     hasPreviousPage,
   } = usePaginatedQuery(useGetActivitiesQuery, {
@@ -29,17 +29,12 @@ export function ActivityList() {
   return (
     <div className="flex flex-col gap-4">
       {activities.map((activity) => {
-        return (
-          <ActivityListItem
-            key={activity.id}
-            {...activity}
-          />
-        );
+        return <ActivityListItem key={activity.id} {...activity} />;
       })}
       <div className="flex justify-between">
-        <div className="flex-grow">
+        <div className="flex-grow flex">
           <SystemOutlineButton
-            onClick={previousPage}
+            to={previousPageLink}
             disabled={!hasPreviousPage}
             leftIcon={<LeftIcon />}
           >
@@ -48,7 +43,7 @@ export function ActivityList() {
         </div>
         <div className="justify-right">
           <SystemOutlineButton
-            onClick={nextPage}
+            to={nextPageLink}
             disabled={!hasNextPage}
             rightIcon={<RightIcon />}
           >

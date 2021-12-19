@@ -1,3 +1,4 @@
+import { Knex } from "knex";
 import { ulid } from "ulid";
 import { getConnection } from "../../config/db";
 
@@ -63,8 +64,16 @@ async function setup() {
   };
 }
 
+let db: Knex<any, any>;
+let userTableName: string;
+
+beforeAll(async () => {
+  const { db: dbSetup, userTableName: userTableNameSetup } = await setup();
+  db = dbSetup;
+  userTableName = userTableNameSetup;
+});
+
 it("doesn't blow up", async () => {
-  const { db, userTableName } = await setup();
   await expect(
     buildConnectionResolver(db.table(userTableName), {
       first: 10,
@@ -73,7 +82,6 @@ it("doesn't blow up", async () => {
 });
 
 it("returns the total count", async () => {
-  const { userTableName, db } = await setup();
   const connection: any = await buildConnectionResolver(
     db.table(userTableName),
     {
@@ -86,13 +94,15 @@ it("returns the total count", async () => {
 
 describe("Basic sort by ID", () => {
   it("returns proper results: first 3", async () => {
-    const db = await getConnection();
-    const connection: any = await buildConnectionResolver(db.table("users"), {
-      first: 3,
-    });
+    const connection: any = await buildConnectionResolver(
+      db.table(userTableName),
+      {
+        first: 3,
+      }
+    );
 
     expect(connection._resultsQueryText).toEqual(
-      "select * from `users` order by `id` asc limit 3"
+      `select * from \`${userTableName}\` order by \`id\` asc limit 3`
     );
     await expect(connection.edges()).resolves.toEqual([
       {
@@ -114,47 +124,57 @@ describe("Basic sort by ID", () => {
   });
 
   it("resolves hasPreviousPage properly: has no previous page", async () => {
-    const db = await getConnection();
-    const connection: any = await buildConnectionResolver(db.table("users"), {
-      first: 3,
-    });
+    const connection: any = await buildConnectionResolver(
+      db.table(userTableName),
+      {
+        first: 3,
+      }
+    );
     await expect(connection.pageInfo.hasPreviousPage()).resolves.toEqual(false);
   });
 
   it("resolves hasPreviousPage properly: has a previous page", async () => {
-    const db = await getConnection();
-    const connection: any = await buildConnectionResolver(db.table("users"), {
-      first: 3,
-      after: "eyJpZCI6MiwiY3Vyc29yRGF0YSI6eyJpZCI6WyJhc2MiLDJdfX0=",
-    });
+    const connection: any = await buildConnectionResolver(
+      db.table(userTableName),
+      {
+        first: 3,
+        after: "eyJpZCI6MiwiY3Vyc29yRGF0YSI6eyJpZCI6WyJhc2MiLDJdfX0=",
+      }
+    );
     await expect(connection.pageInfo.hasPreviousPage()).resolves.toEqual(true);
   });
 
   it("resolves hasNextPage properly: has more results", async () => {
-    const db = await getConnection();
-    const connection: any = await buildConnectionResolver(db.table("users"), {
-      first: 3,
-    });
+    const connection: any = await buildConnectionResolver(
+      db.table(userTableName),
+      {
+        first: 3,
+      }
+    );
     await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(true);
   });
 
   it("resolves hasNextPage properly: has no more results", async () => {
-    const db = await getConnection();
-    const connection: any = await buildConnectionResolver(db.table("users"), {
-      last: 3,
-    });
+    const connection: any = await buildConnectionResolver(
+      db.table(userTableName),
+      {
+        last: 3,
+      }
+    );
     await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(false);
   });
 
   it("returns proper results: next 3 after the first 3", async () => {
-    const db = await getConnection();
-    const connection: any = await buildConnectionResolver(db.table("users"), {
-      first: 3,
-      after: "eyJpZCI6MywiY3Vyc29yRGF0YSI6eyJpZCI6WyJhc2MiLDNdfX0=",
-    });
+    const connection: any = await buildConnectionResolver(
+      db.table(userTableName),
+      {
+        first: 3,
+        after: "eyJpZCI6MywiY3Vyc29yRGF0YSI6eyJpZCI6WyJhc2MiLDNdfX0=",
+      }
+    );
 
     expect(connection._resultsQueryText).toEqual(
-      "select * from `users` where `id` > 3 order by `id` asc limit 3"
+      `select * from \`${userTableName}\` where \`id\` > 3 order by \`id\` asc limit 3`
     );
     await expect(connection.edges()).resolves.toEqual([
       {
@@ -178,9 +198,8 @@ describe("Basic sort by ID", () => {
 
 describe("Multiple field sort", () => {
   it("returns proper results: first 3", async () => {
-    const db = await getConnection();
     const connection: any = await buildConnectionResolver<User>(
-      db.table("users"),
+      db.table(userTableName),
       {
         first: 3,
         sort: {
@@ -191,7 +210,7 @@ describe("Multiple field sort", () => {
     );
 
     expect(connection._resultsQueryText).toEqual(
-      "select * from `users` order by `age` desc, `name` asc limit 3"
+      `select * from \`${userTableName}\` order by \`age\` desc, \`name\` asc limit 3`
     );
     await expect(connection.edges()).resolves.toEqual([
       {
@@ -216,19 +235,21 @@ describe("Multiple field sort", () => {
   });
 
   it("returns proper results: next 3 after the first 3", async () => {
-    const db = await getConnection();
-    const connection: any = await buildConnectionResolver(db.table("users"), {
-      first: 3,
-      after:
-        "eyJpZCI6MywiY3Vyc29yRGF0YSI6eyJhZ2UiOlsiZGVzYyIsMjRdLCJuYW1lIjpbImFzYyIsIkNsYWlyZSJdfX0=",
-      sort: {
-        age: "desc",
-        name: "asc",
-      },
-    });
+    const connection: any = await buildConnectionResolver(
+      db.table(userTableName),
+      {
+        first: 3,
+        after:
+          "eyJpZCI6MywiY3Vyc29yRGF0YSI6eyJhZ2UiOlsiZGVzYyIsMjRdLCJuYW1lIjpbImFzYyIsIkNsYWlyZSJdfX0=",
+        sort: {
+          age: "desc",
+          name: "asc",
+        },
+      }
+    );
 
     expect(connection._resultsQueryText).toEqual(
-      "select * from `users` where `age` < 24 and `name` > 'Claire' order by `age` desc, `name` asc limit 3"
+      `select * from \`${userTableName}\` where \`age\` < 24 and \`name\` > 'Claire' order by \`age\` desc, \`name\` asc limit 3`
     );
     await expect(connection.edges()).resolves.toEqual([
       {
@@ -255,9 +276,8 @@ describe("Multiple field sort", () => {
 
 describe("Before cursors", () => {
   it("returns proper results: last 3", async () => {
-    const db = await getConnection();
     const connection: any = await buildConnectionResolver<User>(
-      db.table("users"),
+      db.table(userTableName),
       {
         last: 3,
         sort: {
@@ -268,7 +288,7 @@ describe("Before cursors", () => {
     );
 
     expect(connection._resultsQueryText).toEqual(
-      "select * from `users` order by `age` asc, `name` desc limit 3"
+      `select * from \`${userTableName}\` order by \`age\` asc, \`name\` desc limit 3`
     );
     await expect(connection.edges()).resolves.toEqual([
       {
@@ -293,23 +313,25 @@ describe("Before cursors", () => {
   });
 
   it("returns proper results: last 3 after the above last 3", async () => {
-    const db = await getConnection();
-    const connection: any = await buildConnectionResolver(db.table("users"), {
-      last: 3,
-      before: Buffer.from(
-        JSON.stringify({
-          id: 24,
-          cursorData: { age: ["desc", 3], name: ["asc", "Xander"] },
-        })
-      ).toString("base64"),
-      sort: {
-        age: "desc",
-        name: "asc",
-      },
-    });
+    const connection: any = await buildConnectionResolver(
+      db.table(userTableName),
+      {
+        last: 3,
+        before: Buffer.from(
+          JSON.stringify({
+            id: 24,
+            cursorData: { age: ["desc", 3], name: ["asc", "Xander"] },
+          })
+        ).toString("base64"),
+        sort: {
+          age: "desc",
+          name: "asc",
+        },
+      }
+    );
 
     expect(connection._resultsQueryText).toEqual(
-      "select * from `users` where `age` > 3 and `name` < 'Xander' order by `age` asc, `name` desc limit 3"
+      `select * from \`${userTableName}\` where \`age\` > 3 and \`name\` < 'Xander' order by \`age\` asc, \`name\` desc limit 3`
     );
 
     const edges = await connection.edges();
@@ -326,20 +348,22 @@ describe("Before cursors", () => {
   });
 
   it("returns proper hasNext and hasPrev pages", async () => {
-    const db = await getConnection();
-    const connection: any = await buildConnectionResolver(db.table("users"), {
-      last: 3,
-      before: Buffer.from(
-        JSON.stringify({
-          id: 2,
-          cursorData: { age: ["desc", 25], name: ["asc", "Ben"] },
-        })
-      ).toString("base64"),
-      sort: {
-        age: "desc",
-        name: "asc",
-      },
-    });
+    const connection: any = await buildConnectionResolver(
+      db.table(userTableName),
+      {
+        last: 3,
+        before: Buffer.from(
+          JSON.stringify({
+            id: 2,
+            cursorData: { age: ["desc", 25], name: ["asc", "Ben"] },
+          })
+        ).toString("base64"),
+        sort: {
+          age: "desc",
+          name: "asc",
+        },
+      }
+    );
 
     await expect(connection.pageInfo.hasPreviousPage()).resolves.toEqual(false);
     await expect(connection.pageInfo.hasNextPage()).resolves.toEqual(true);

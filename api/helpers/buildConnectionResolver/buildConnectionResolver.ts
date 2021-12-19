@@ -177,8 +177,9 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
 
           const lastSubsetResultEdge:
             | undefined
-            | { node: Record<string, any> } =
-            resolvedEdges[resolvedEdges.length - 1];
+            | { node: Record<string, any> } = isBeforeQuery
+            ? resolvedEdges[resolvedEdges.length - 1]
+            : resolvedEdges[0];
           const lastSubsetResult: undefined | Record<string, any> =
             lastSubsetResultEdge?.node;
 
@@ -213,7 +214,9 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
 
           const firstSubsetResultEdge:
             | undefined
-            | { node: Record<string, any> } = resolvedEdges[0];
+            | { node: Record<string, any> } = isBeforeQuery
+            ? resolvedEdges[resolvedEdges.length - 1]
+            : resolvedEdges[0];
           const firstSubsetResult: undefined | Record<string, any> =
             firstSubsetResultEdge?.node;
 

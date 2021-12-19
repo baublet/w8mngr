@@ -1,71 +1,73 @@
 import React from "react";
-import ReactMarkdown from "react-markdown";
 import cx from "classnames";
 
-import { ActivityType } from "../../generated";
+import { ActivityType, Muscle } from "../../generated";
 import { activityTypeToHumanReadable } from "../../helpers";
 import { MuscleMap } from "../MuscleMap";
+import { MarkdownRenderer } from "../Markdown";
 
 type ActivityProps = {
   description?: string | null;
   intensity: number;
   type: ActivityType;
   exrx?: string | null;
+  muscleGroups: Muscle[];
 };
 
 export function ActivityDetails({
-  activity: { description, intensity, type, exrx },
+  activity: { description, intensity, type, exrx, muscleGroups },
 }: {
   activity: ActivityProps;
 }) {
   return (
     <div className="flex flex-col">
-      {description && (
-        <div className="mt-4">
-          <ReactMarkdown>{description}</ReactMarkdown>
-        </div>
-      )}
+      <div className="flex border-t border-b border-gray-200 items-start gap-8 py-8 mb-8">
 
-      <div className="flex border-t border-gray-100 mt-8 pt-4 items-start justify-between">
+      <div className="flex flex-col px-12">
+          <div className="w-32">
+            <MuscleMap active={false} selected={muscleGroups} />
+          </div>
+          <SubHeader className="text-center">muscles targeted</SubHeader>
+        </div>
+
         <div className="flex flex-col justify-around">
           <div className="opacity-75">
-            <SubHeader>intensity</SubHeader>
             <div className="flex items-center mt-2">
               <div className="text-5xl font-thin">{intensity}</div>
               <div className="text-xs ml-2 font-bold text-gray-400">
                 /&nbsp;10
               </div>
             </div>
+            <SubHeader>intensity</SubHeader>
           </div>
 
           <div className="mt-4 opacity-75">
-            <SubHeader>type</SubHeader>
             <div className="flex items-center mt-2">
               <div className="text-xl font-thin">
                 {activityTypeToHumanReadable(type)}
               </div>
             </div>
+            <SubHeader>type</SubHeader>
           </div>
 
           {exrx && (
             <div className="mt-4 opacity-75">
-              <SubHeader>exrx</SubHeader>
               <div className="flex items-center mt-2">
                 <div className="text-xl font-thin">
                   <a href={exrx}>exrx.net link</a>
                 </div>
               </div>
+              <SubHeader>exrx</SubHeader>
             </div>
           )}
         </div>
-
-        <div className="flex flex-col px-12">
-          <SubHeader className="text-center">muscles targeted</SubHeader>
-          <div className="h-80 mt-4">
-            <MuscleMap />
-          </div>
-        </div>
       </div>
+
+      {description && (
+        <div className="mt-4">
+          <MarkdownRenderer content={description} />
+        </div>
+      )}
     </div>
   );
 }
@@ -75,7 +77,7 @@ function SubHeader({
   className,
 }: React.PropsWithChildren<{ className?: string }>) {
   return (
-    <div className={cx("font-bold text-sm opacity-50", className)}>
+    <div className={cx("font-bold text-sm opacity-20", className)}>
       {children}
     </div>
   );

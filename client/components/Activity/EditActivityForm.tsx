@@ -4,6 +4,7 @@ import { PrimaryLoader } from "../Loading/Primary";
 import { ActivityForm } from "./ActivityForm";
 
 import {
+  Muscle,
   useGetActivityDetailsQuery,
   useSaveActivityMutation,
 } from "../../generated";
@@ -24,11 +25,13 @@ export function EditActivityForm({ id = "id" }: { id?: string }) {
         description,
         type,
         intensity,
+        muscleGroups
       }: {
         name?: Maybe<string>;
         description?: Maybe<string>;
         type?: Maybe<ActivityType>;
         intensity?: Maybe<number>;
+        muscleGroups?: Maybe<Muscle[]>
       },
       onComplete?: Function
     ) => {
@@ -40,6 +43,7 @@ export function EditActivityForm({ id = "id" }: { id?: string }) {
             description,
             type,
             intensity,
+            muscleGroups
           },
         },
       });
@@ -60,6 +64,7 @@ export function EditActivityForm({ id = "id" }: { id?: string }) {
         exrx: loadedData.exrx,
         intensity: loadedData.intensity,
         type: loadedData.type,
+        muscleGroups: loadedData.muscleGroups,
       }}
       onSave={onSave}
     />

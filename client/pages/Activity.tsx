@@ -9,6 +9,7 @@ import { HealthCircleIcon } from "../components/Icons/HealthCircle";
 import { ActivityDetails } from "../components/Activity";
 import { PrimaryLoader } from "../components/Loading/Primary";
 import { useGetActivityDetailsQuery } from "../generated";
+import { BackToButton } from "../components/Button/BackTo";
 
 export function Activity() {
   const { id = "id" } = useParams<{ id?: string }>();
@@ -27,7 +28,16 @@ export function Activity() {
 
   return (
     <div>
-      <PageHeading icon={<HealthCircleIcon />}>{activity.name}</PageHeading>
+      <PageHeading
+        icon={<HealthCircleIcon />}
+        quickLinks={
+          <>
+            <BackToButton to={`/activities`}>Back to Activities</BackToButton>
+          </>
+        }
+      >
+        {activity.name}
+      </PageHeading>
       <ContentContainer>
         <ContentLayout
           mainContent={<ActivityDetails activity={activity} />}

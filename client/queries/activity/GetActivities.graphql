@@ -11,7 +11,10 @@ query GetActivities($input: ActivityQueryInput!) {
         node {
           id
           name
+          type
           description
+          muscleGroups
+          intensity
         }
       }
     }

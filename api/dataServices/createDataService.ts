@@ -39,6 +39,8 @@ export function createDataService<T extends QueryFactoryFunction>(
   return {
     create: getCreate(queryFactory, entityName),
     deleteByIds: getDeleteByIds(queryFactory),
+    deleteBy: getDeleteBy(queryFactory),
+    findBy: getFindBy(queryFactory),
     findOneOrFail: getFindOneOrFail(queryFactory, entityName),
     getConnection: getConnection(queryFactory),
     update: getUpdate(queryFactory),
@@ -72,6 +74,26 @@ function getDeleteByIds<T extends QueryFactoryFunction>(queryFactory: T) {
     const getQuery = await queryFactory(context);
     const query = getQuery();
     await query.delete().whereIn("id", ids);
+  };
+}
+
+function getDeleteBy<T extends QueryFactoryFunction>(queryFactory: T) {
+  return async (context: Context, where: WhereFunctionFromQueryFactory<T>,): Promise<void> => {
+    const getQuery = await queryFactory(context);
+    const query = getQuery();
+    query.delete();
+    await where(query as QueryBuilderFromFactory<typeof queryFactory>);
+    return query
+  };
+}
+
+function getFindBy<T extends QueryFactoryFunction>(queryFactory: T) {
+  return async (context: Context, where: WhereFunctionFromQueryFactory<T>,): Promise<EntityFromQueryFactoryFunction<T>[]> => {
+    const getQuery = await queryFactory(context);
+    const query = getQuery();
+    query.select();
+    await where(query as QueryBuilderFromFactory<typeof queryFactory>);
+    return query
   };
 }
 

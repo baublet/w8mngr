@@ -11,10 +11,12 @@ query GetActivityDetails($id: ID!) {
         node {
           id
           name
+          type
           description
           intensity
           type
           exrx
+          muscleGroups
         }
       }
     }

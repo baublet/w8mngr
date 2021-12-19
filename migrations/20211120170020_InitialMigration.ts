@@ -104,8 +104,7 @@ export async function up(knex: Knex): Promise<void> {
     table.timestamp("updatedAt").defaultTo(knex.fn.now());
   });
 
-  await knex.schema.createTable("activity_muscles", function (table) {
-    table.boolean("archived").notNullable().defaultTo(false).index();
+  await knex.schema.createTable("activity_muscle", function (table) {
     table.text("id").notNullable().primary();
     table.text("activityId").notNullable().index();
     table.text("muscle").notNullable().index();

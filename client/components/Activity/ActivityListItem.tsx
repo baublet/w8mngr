@@ -1,23 +1,25 @@
 import React from "react";
 import cx from "classnames";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { ItemHeading } from "../Type/ItemHeading";
-import { Input } from "../Forms";
-import { SystemGhostIconButton } from "../Button/SystemGhostIcon";
-import { Add } from "../Icons/Add";
-
-import { SystemOutlineButton } from "../Button/SystemOutline";
-import { GhostInvertedButton } from "../Button/GhostInverted";
+import { MarkdownRenderer } from "../Markdown";
+import { MuscleMap } from "../MuscleMap";
+import { ActivityType, Muscle } from "../../generated";
+import { activityTypeToHumanReadable } from "../../helpers";
 
 export function ActivityListItem({
   id,
   name,
   description,
+  muscleGroups,
+  type,
 }: {
   id: string;
   name: string;
   description?: string | null;
+  muscleGroups: Muscle[];
+  type: ActivityType;
 }) {
   const [showAll, setShowAll] = React.useState(false);
 
@@ -46,16 +48,25 @@ w-full
           className="flex w-full justify-start items-center text-left"
           title={`Edit Activity: ${name}`}
         >
-          <div
-            className={cx("flex w-full flex-col")}
-          >
-            <ItemHeading>{name}</ItemHeading>
-            {description && (
-              <div className="block mt-2 text-gray-700 text-opacity-80 leading-tight">
-                {description.substr(0, 240)}
-                {description.length > 240 ? "..." : ""}
+          <div className="flex w-full items-center">
+            <div className="flex w-full flex-col flex-grow">
+              <ItemHeading>{name}</ItemHeading>
+              <div className="text-sm uppercase opacity-50 mt-2">
+                {activityTypeToHumanReadable(type)}
               </div>
-            )}
+              {description && (
+                <div className="block mt-2 text-gray-700 text-opacity-80 leading-tight">
+                  <MarkdownRenderer
+                    content={description}
+                    maxLength={240}
+                    textOnly
+                  />
+                </div>
+              )}
+            </div>
+            <div className="flex-shrink w-32">
+              <MuscleMap selected={muscleGroups} />
+            </div>
           </div>
         </Link>
       </div>

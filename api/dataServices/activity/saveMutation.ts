@@ -2,6 +2,7 @@ import { Context } from "../../createContext";
 import { activityDataService } from "./index";
 import { ActivityInput } from "../../graphql-types";
 import { dbService } from "../../config";
+import { activityMuscleDataService } from "../activityMuscle";
 
 export async function saveMutation(
   context: Context,
@@ -24,6 +25,16 @@ export async function saveMutation(
         `Unknown error upserting activity. Expected an upsert result. Instead received ${JSON.stringify(
           upsertResults
         )}`
+      );
+    }
+
+    if (muscleGroups) {
+      await activityMuscleDataService.deleteBy(context, (query) =>
+        query.where("activityId", "=", activityId)
+      );
+      await activityMuscleDataService.upsert(
+        context,
+        muscleGroups.map((muscle) => ({ activityId, muscle }))
       );
     }
 

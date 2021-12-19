@@ -61,10 +61,9 @@ select::-ms-expand {
   display: none;
 }
 
-html {
-  font-size: 18px;
-  font-family: "Roboto", sans-serif;
-}
+/*****************************************************************************
+ * ANIMATIONS
+ *****************************************************************************/
 
 .router-enter {
   opacity: 0;
@@ -111,4 +110,82 @@ html {
 }
 .log-entry-exit-active {
   opacity: 0;
+}
+
+/*****************************************************************************
+ * MARKDOWN
+ *****************************************************************************/
+.md h1 {
+  font-size: 2.25em;
+  line-height: 1.2em;
+}
+.md h2 {
+  font-size: 2em;
+  line-height: 1.2em;
+}
+
+.md h3 {
+  font-size: 1.5em;
+  line-height: 1.2em;
+}
+
+.md h4 {
+  font-size: 1.3em;
+  line-height: 1.2em;
+}
+
+.md h5 {
+  font-size: 1.2em;
+  line-height: 1.2em;
+}
+
+.md h6 {
+  font-size: 1.1em;
+  line-height: 1.2em;
+}
+
+.md pre {
+  max-height: 20vh;
+  overflow: scroll;
+  background: #fafafa;
+  border: 1px solid #eee;
+  padding: 1em;
+  border-radius: 5px;
+}
+
+.md pre code {
+  white-space: pre;
+}
+
+.md ul,
+.md ol {
+  display: block;
+  padding-left: 1.5em;
+  list-style: circle;
+}
+
+.md ol {
+  list-style: decimal;
+}
+
+.md li + li {
+  margin-top: 0.5em;
+}
+
+.md * + * {
+  margin-top: 1em;
+}
+
+.md blockquote {
+  opacity: 0.7;
+  border-left: 4px solid #eee;
+  padding-left: 1em;
+  font-size: 0.9em;
+  line-height: 1.2em;
+  max-width: 42em;
+}
+
+.md p,
+.md li {
+  max-width: 42rem;
 }

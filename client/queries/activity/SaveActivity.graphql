@@ -4,8 +4,10 @@ mutation SaveActivity($input: ActivityInput!) {
     activity {
       id
       name
+      type
       description
       intensity
+      muscleGroups
       type
       exrx
     }

@@ -62,6 +62,7 @@ export function ActivityForm({
             active={true}
             showSummary={true}
             onChange={formData.getHandler("muscleGroups")}
+            selected={formData.getValue("muscleGroups")}
           />
         }
         mainContent={

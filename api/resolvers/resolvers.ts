@@ -18,12 +18,17 @@ import { foodLog } from "./user/foodLog";
 import { foods } from "./user/foods";
 import { activities } from "./user/activities";
 
+import { activityMuscleGroups } from "./activity/musclesGroups";
+
 import { foodImage } from "./food/image";
 import { foodMeasurements } from "./food/measurements";
 
 import { publicUrl } from "./upload/publicUrl";
 
 export const resolvers: Resolvers = {
+  Activity: {
+    muscleGroups: activityMuscleGroups,
+  },
   User: {
     activities,
     foodLog,

@@ -1,8 +1,10 @@
 import React from "react";
+import cx from "classnames";
 
 import {
   useSaveActivityLogMutation,
   ActivityType,
+  GetActivityLogDocument,
 } from "../../generated";
 import { useForm, useToast } from "../../helpers";
 
@@ -26,16 +28,21 @@ const SHOW_REPS: Record<ActivityType, boolean> = {
 };
 
 export function NewActivityLogForm({
+  activityId,
   activityType,
+  day,
 }: {
+  activityId: string;
   activityType: ActivityType;
+  day: string;
 }) {
   const newActivityLogFormData = useForm<{
     reps: string;
     work: string;
   }>();
   const { success, error } = useToast();
-  const [createActivityLog] = useSaveActivityLogMutation({
+  const [createActivityLog, { loading }] = useSaveActivityLogMutation({
+    refetchQueries: [GetActivityLogDocument],
     onCompleted: () => {
       success("Log added");
     },
@@ -46,14 +53,36 @@ export function NewActivityLogForm({
   const showReps = SHOW_REPS[activityType];
 
   const create = React.useCallback(() => {
-    
-    createActivityLog()
-  },[])
+    const work = newActivityLogFormData.getValue("work", "0");
+    const reps = newActivityLogFormData.getValue("reps", "0");
+
+    createActivityLog({
+      variables: {
+        input: {
+          activityId,
+          day,
+          activityLogs: [
+            {
+              reps,
+              work,
+            },
+          ],
+        },
+      },
+    });
+  }, [activityType, activityId]);
 
   return (
     <div className="w-96">
-      <PanelInverted>
-        <div className="flex gap-4">
+      <PanelInverted className={cx({ "opacity-50": loading })}>
+        <form
+          className="flex gap-4"
+          aria-disabled={loading}
+          onSubmit={(e) => {
+            e.preventDefault();
+            create();
+          }}
+        >
           {!showReps ? null : (
             <InputInverted
               focusOnFirstRender
@@ -74,10 +103,10 @@ export function NewActivityLogForm({
               placeholder=""
             />
           )}
-          <SecondaryIconButton>
+          <SecondaryIconButton type="submit" disabled={loading}>
             <Add />
           </SecondaryIconButton>
-        </div>
+        </form>
       </PanelInverted>
     </div>
   );

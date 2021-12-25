@@ -97,12 +97,10 @@ function Message({
   message,
   type,
   dismiss,
-  fadesOut = true,
 }: {
   type: "error" | "success";
   message: React.ReactNode | Error;
   dismiss: () => void;
-  fadesOut?: boolean;
 }) {
   const messageText = React.useMemo(() => {
     if (message instanceof Error) {
@@ -118,12 +116,15 @@ function Message({
     }
     return message;
   }, [message]);
+
+  const fadeout = type === "success";
+
   return (
     <div
       className={cx(
         "toast w-96 text-md shadow-lg p-4 rounded-lg border-t-4 bg-white relative",
         {
-          "toast-fadeout": fadesOut,
+          "toast-fadeout": fadeout,
           "border-red-500": type === "error",
           "border-emerald-500": type === "success",
         }

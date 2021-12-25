@@ -1,9 +1,5 @@
 import { MutationResolvers } from "../../graphql-types";
-import {
-  activityDataService,
-  activityLogDataService,
-} from "../../dataServices";
-import { activityLogs } from "../activity/logs";
+import { activityLogDataService } from "../../dataServices";
 import { log } from "../../config";
 
 export const saveActivityLog: MutationResolvers["saveActivityLog"] = async (
@@ -16,10 +12,6 @@ export const saveActivityLog: MutationResolvers["saveActivityLog"] = async (
   if (!userId) {
     throw new Error("Unauthorized");
   }
-
-  const activity = await activityDataService.findOneOrFail(context, (q) =>
-    q.where("id", "=", args.input.activityId)
-  );
 
   const mutationResult = await activityLogDataService.saveMutation(context, {
     activityId: args.input.activityId,

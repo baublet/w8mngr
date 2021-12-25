@@ -50,7 +50,11 @@ export function ActivityLog({
         logs.map((log) => <ActivityLogEntry key={log.node.id} log={log.node} />)
       )}
       <div>
-        <NewActivityLogForm activityType={activityType} />
+        <NewActivityLogForm
+          activityType={activityType}
+          activityId={activityId}
+          day={stateDay}
+        />
       </div>
     </div>
   );

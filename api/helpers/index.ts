@@ -4,3 +4,5 @@ export { parseBody } from "./parseBody";
 export { getClientId } from "./getClientId";
 export { globalInMemoryCache } from "./globalInMemoryCache";
 export { buildConnectionResolver } from "./buildConnectionResolver";
+export { rawInputToUnit } from "./rawInputToUnit";
+export { doTimes } from "./doTimes";

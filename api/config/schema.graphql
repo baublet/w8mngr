@@ -194,8 +194,8 @@ input FoodLogInput {
 
 input ActivityLogInput {
   id: ID
-  reps: Int
-  work: Float
+  reps: String
+  work: String
 }
 
 input DeleteActivityLogInput {

@@ -4,6 +4,7 @@ import { ActivityLogInput } from "../../graphql-types";
 import { dbService } from "../../config";
 import { activityDataService } from "..";
 import { assertIsError } from "../../../shared";
+import { doTimes, rawInputToUnit } from "../../helpers";
 
 export async function saveMutation(
   context: Context,
@@ -23,12 +24,36 @@ export async function saveMutation(
     q.where("id", "=", activityId)
   );
 
+  const entries: { work?: number; reps?: number }[] = [];
+  for (const { reps: inputReps, work } of input) {
+    const { reps, sets } = getRepsAndSets(inputReps);
+
+    if (activity.type === "DISTANCE") {
+      entries.push({
+        work: rawInputToUnit({ work, unit: "millimeters", defaultUnit: "s" }),
+      });
+    } else if (activity.type === "REPETITIVE") {
+      doTimes(sets, () => entries.push({ reps }));
+    } else if (activity.type === "TIMED") {
+      entries.push({
+        work: rawInputToUnit({ work, unit: "grams", defaultUnit: "lbs" }),
+      });
+    } else if (activity.type === "WEIGHT") {
+      doTimes(sets, () =>
+        entries.push({
+          reps: reps,
+          work: rawInputToUnit({ work, unit: "grams", defaultUnit: "lbs" }),
+        })
+      );
+    }
+  }
+
   const db = await context.services.get(dbService);
   await db.transact();
   try {
     const upsertResults = await activityLogDataService.upsert(
       context,
-      input.map((activityLog) => ({
+      entries.map((activityLog) => ({
         activityId: activity.id,
         userId,
         day,
@@ -54,4 +79,19 @@ export async function saveMutation(
     await db.rollback(error);
     return error;
   }
+}
+
+function getRepsAndSets(repsAndSets: Maybe<string> | undefined): {
+  reps: number;
+  sets: number;
+} {
+  const parts = (repsAndSets || "").split("x");
+
+  const repsString = parts[0] || "0";
+  const setsString = parts[1] || "1";
+
+  return {
+    reps: parseInt(repsString.trim(), 10),
+    sets: parseInt(setsString.trim(), 10),
+  };
 }

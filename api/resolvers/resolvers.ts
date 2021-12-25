@@ -14,6 +14,7 @@ import { saveUploadData } from "./mutations/saveUploadData";
 import { deleteFoodMeasurement } from "./mutations/deleteFoodMeasurement";
 import { saveActivity } from "./mutations/saveActivity";
 import { saveActivityLog } from "./mutations/saveActivityLog";
+import { deleteActivityLog } from "./mutations/deleteActivityLog";
 
 import { foodLog } from "./user/foodLog";
 import { foods } from "./user/foods";
@@ -55,6 +56,7 @@ export const resolvers: Resolvers = {
     upload,
   },
   Mutation: {
+    deleteActivityLog,
     deleteFoodLog,
     deleteFoodMeasurement,
     getUploadTokens,

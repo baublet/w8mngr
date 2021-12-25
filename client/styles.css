@@ -151,16 +151,16 @@ select::-ms-expand {
  * MARKDOWN
  *****************************************************************************/
 .md h1 {
-  font-size: 2.25em;
+  font-size: 1.5em;
   line-height: 1.2em;
 }
 .md h2 {
-  font-size: 2em;
+  font-size: 1.45em;
   line-height: 1.2em;
 }
 
 .md h3 {
-  font-size: 1.5em;
+  font-size: 1.35em;
   line-height: 1.2em;
 }
 

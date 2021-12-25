@@ -35,6 +35,10 @@ type Mutation {
   # Activities
   saveActivity(input: ActivityInput!): ActivityMutationPayload!
   deleteActivity(input: DeleteActivityInput!): ActivityMutationPayload!
+
+  # Activity Log
+  saveActivityLog(input: SaveActivityLogInput!): ActivityLogMutationPayload!
+  deleteActivityLog(input: DeleteActivityLogInput!): ActivityLogMutationPayload!
 }
 
 #################
@@ -80,6 +84,35 @@ enum Muscle {
   QUADS
   TRAPEZIUS
   TRICEPS
+}
+
+enum Unit {
+  # Weight
+  GRAMS # Default
+  G
+  KG
+  KILOGRAMS
+  LB
+  POUNDS
+  OUNCES
+  OZ
+  # Time
+  MILLISECONDS
+  MS
+  SECONDS # Default
+  MINUTES
+  HOURS
+  DAYS
+  # Distance
+  CENTIMETERS
+  CM
+  KILOMETERS
+  KM
+  K
+  MILES
+  MI
+  MILLIMETERS # Default
+  MM
 }
 
 #################
@@ -142,6 +175,12 @@ input SaveFoodLogInput {
   foodLogs: [FoodLogInput!]!
 }
 
+input SaveActivityLogInput {
+  day: String!
+  activityId: ID!
+  activityLogs: [ActivityLogInput!]!
+}
+
 input FoodLogInput {
   id: ID
   description: String!
@@ -151,6 +190,16 @@ input FoodLogInput {
   protein: Int
   foodId: ID
   measurementId: ID
+}
+
+input ActivityLogInput {
+  id: ID
+  reps: Int
+  work: Float
+}
+
+input DeleteActivityLogInput {
+  id: ID!
 }
 
 input DeleteFoodLogInput {
@@ -210,6 +259,28 @@ input UploadUrlInput {
 # Types         #
 #################
 
+type ActivityLogConnection {
+  pageInfo: PageInfo!
+  edges: [ActivityLogEdge!]!
+}
+
+type ActivityLogEdge {
+  cursor: String!
+  node: ActivityLog!
+}
+
+type ActivityLog {
+  id: ID!
+  reps: Int
+  work(unit: Unit): Float
+  activity: Activity!
+  activityId: String!
+}
+
+type ActivityLogMutationPayload {
+  error: [String!]!
+}
+
 type ActivityMutationPayload {
   errors: [String!]!
   activity: Activity
@@ -237,6 +308,7 @@ type Activity {
   "Muscle groups targeted with this exercise"
   muscleGroups: [Muscle!]!
   intensity: Int!
+  logs(day: String): ActivityLogConnection!
 }
 
 type Upload {

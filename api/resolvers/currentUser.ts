@@ -1,9 +1,10 @@
-import { QueryResolvers } from "../graphql-types";
+import { QueryResolvers, User } from "../graphql-types";
 
 export const currentUser: Required<QueryResolvers>["currentUser"] = (
   parent,
   args,
   context
 ) => {
-  return context.currentUser || null;
+  const user: User | undefined = context.currentUser as any;
+  return user || null;
 };

@@ -110,6 +110,27 @@ export async function up(knex: Knex): Promise<void> {
     table.text("activityId").notNullable().index();
     table.text("muscle").notNullable().index();
   });
+
+  await knex.schema.createTable("activity_log", function (table) {
+    table.text("id").notNullable().primary();
+    table.text("activityId").notNullable().index();
+    table.timestamp("createdAt").defaultTo(knex.fn.now());
+    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.text("userId").notNullable().index();
+    table.text("day").notNullable().index();
+    table
+      .integer("reps")
+      .notNullable()
+      .defaultTo(0)
+      .comment("Only applicable for repetition-based exercises");
+    table
+      .integer("work")
+      .notNullable()
+      .defaultTo(0)
+      .comment(
+        "Depending on the activity type, this is either weight in grams (weighted exercise), distance in millimeters (distance exercise), or seconds (timed exercise)."
+      );
+  });
 }
 
 export async function down(knex: Knex): Promise<void> {}

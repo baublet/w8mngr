@@ -13,12 +13,16 @@ import { getUploadTokens } from "./mutations/getUploadTokens";
 import { saveUploadData } from "./mutations/saveUploadData";
 import { deleteFoodMeasurement } from "./mutations/deleteFoodMeasurement";
 import { saveActivity } from "./mutations/saveActivity";
+import { saveActivityLog } from "./mutations/saveActivityLog";
 
 import { foodLog } from "./user/foodLog";
 import { foods } from "./user/foods";
 import { activities } from "./user/activities";
 
 import { activityMuscleGroups } from "./activity/musclesGroups";
+import { activityLogs } from "./activity/logs";
+import { activityLogActivity } from "./activityLog/activity";
+import { activityLogWork } from "./activityLog/work";
 
 import { foodImage } from "./food/image";
 import { foodMeasurements } from "./food/measurements";
@@ -26,7 +30,12 @@ import { foodMeasurements } from "./food/measurements";
 import { publicUrl } from "./upload/publicUrl";
 
 export const resolvers: Resolvers = {
+  ActivityLog: {
+    activity: activityLogActivity,
+    work: activityLogWork,
+  },
   Activity: {
+    logs: activityLogs,
     muscleGroups: activityMuscleGroups,
   },
   User: {
@@ -46,15 +55,16 @@ export const resolvers: Resolvers = {
     upload,
   },
   Mutation: {
+    deleteFoodLog,
+    deleteFoodMeasurement,
     getUploadTokens,
     login,
     logout,
     register,
-    deleteFoodLog,
-    saveFoodLog,
-    saveFood,
-    saveUploadData,
-    deleteFoodMeasurement,
     saveActivity,
+    saveActivityLog,
+    saveFood,
+    saveFoodLog,
+    saveUploadData,
   },
 };

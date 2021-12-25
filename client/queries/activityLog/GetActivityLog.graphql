@@ -1,4 +1,4 @@
-query GetActivityLog($activityId: ID!, $unit: Unit, $day: String!) {
+query GetActivityLog($activityId: ID!, $day: String!) {
   currentUser {
     activities(input: { filter: { id: $activityId } }) {
       edges {
@@ -10,7 +10,7 @@ query GetActivityLog($activityId: ID!, $unit: Unit, $day: String!) {
               node {
                 id
                 reps
-                work(unit: $unit)
+                work
               }
             }
           }

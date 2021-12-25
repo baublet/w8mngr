@@ -45,7 +45,7 @@ function convertWeight({ work, unit }: { work: number; unit: Unit }): number {
     case "OZ":
       return round(work * 0.035274);
     case "LB":
-    case "POUNDS":
+    case "LBS":
       return round(work * 0.00220462);
   }
   return work;

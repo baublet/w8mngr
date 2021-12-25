@@ -12,9 +12,9 @@ export function rawInputToUnit({
   if (!work) {
     return 0;
   }
-  let quantity = new Qty(work);
+  const quantity = new Qty(work.toLowerCase());
   if (quantity.isUnitless()) {
-    quantity = new Qty(`${work} ${defaultUnit}`);
+    return new Qty(`${work} ${defaultUnit.toLowerCase()}`).to(unit).scalar;
   }
-  return quantity.to(unit).baseScalar;
+  return quantity.to(unit).scalar;
 }

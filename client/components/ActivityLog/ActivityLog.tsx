@@ -47,7 +47,13 @@ export function ActivityLog({
       {logs.length === 0 ? (
         <div>No logs, yet!</div>
       ) : (
-        logs.map((log) => <ActivityLogEntry key={log.node.id} log={log.node} />)
+        logs.map((log) => (
+          <ActivityLogEntry
+            key={log.node.id}
+            log={log.node}
+            activityType={activityType}
+          />
+        ))
       )}
       <div>
         <NewActivityLogForm

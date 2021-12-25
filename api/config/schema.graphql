@@ -93,7 +93,7 @@ enum Unit {
   KG
   KILOGRAMS
   LB
-  POUNDS
+  LBS
   OUNCES
   OZ
   # Time
@@ -272,7 +272,7 @@ type ActivityLogEdge {
 type ActivityLog {
   id: ID!
   reps: Int
-  work(unit: Unit): Float
+  work(unit: Unit): String
   activity: Activity!
   activityId: String!
 }

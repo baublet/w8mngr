@@ -13,14 +13,14 @@ import { SecondaryIconButton } from "../Button/SecondaryIcon";
 import { PanelInverted } from "../Containers/PanelInverted";
 import { InputInverted } from "../Forms";
 
-const WORK_LABELS: Record<ActivityType, string | false> = {
+export const WORK_LABELS: Record<ActivityType, string | false> = {
   DISTANCE: "Distance",
   REPETITIVE: false,
   TIMED: "Time",
   WEIGHT: "Weight",
 };
 
-const SHOW_REPS: Record<ActivityType, boolean> = {
+export const SHOW_REPS: Record<ActivityType, boolean> = {
   DISTANCE: false,
   REPETITIVE: true,
   TIMED: false,

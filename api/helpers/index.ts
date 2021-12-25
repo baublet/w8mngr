@@ -6,3 +6,5 @@ export { globalInMemoryCache } from "./globalInMemoryCache";
 export { buildConnectionResolver } from "./buildConnectionResolver";
 export { rawInputToUnit } from "./rawInputToUnit";
 export { doTimes } from "./doTimes";
+export { settingsService } from "./settingsService";
+export { numberToStringUnit } from "./numberToStringUnit";

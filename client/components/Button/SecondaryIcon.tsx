@@ -1,16 +1,10 @@
 import React from "react";
+import cx from "classnames";
 
-import { BaseButton } from "./Base";
+import { BaseButton, BaseButtonProps } from "./Base";
 
-export function SecondaryIconButton(
-  props: React.HTMLProps<HTMLButtonElement>
-): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
+export function SecondaryIconButton(props: BaseButtonProps) {
   return (
-    <BaseButton
-      {...props}
-      className={`rounded-full p-1 bg-secondary color-seondaryText
-  ${props.className || ""}
-`}
-    />
+    <BaseButton {...props} className={cx("rounded-full", props.className)} />
   );
 }

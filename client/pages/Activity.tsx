@@ -10,6 +10,10 @@ import { ActivityDetails } from "../components/Activity";
 import { PrimaryLoader } from "../components/Loading/Primary";
 import { useGetActivityDetailsQuery } from "../generated";
 import { BackToButton } from "../components/Button/BackTo";
+import { SecondaryOutlineButton } from "../components/Button/SecondaryOutline";
+import { Spacer } from "../components/Spacer";
+
+import { dayStringFromDate } from "../../shared";
 
 export function Activity() {
   const { id = "id" } = useParams<{ id?: string }>();
@@ -19,6 +23,10 @@ export function Activity() {
       id,
     },
   });
+  const todayDateString = React.useMemo(
+    () => dayStringFromDate(new Date()),
+    []
+  );
 
   const activity = data?.currentUser?.activities.edges[0]?.node;
 
@@ -44,9 +52,18 @@ export function Activity() {
         <ContentLayout
           mainContent={<ActivityDetails activity={activity} />}
           sideContent={
-            <SecondaryButton full to={`/activities/edit/${id}`}>
-              Edit Activity
-            </SecondaryButton>
+            <>
+              <SecondaryButton full to={`/activities/edit/${id}`}>
+                Edit Activity
+              </SecondaryButton>
+              <Spacer size="s" />
+              <SecondaryOutlineButton
+                full
+                to={`/activities/${id}/log/${todayDateString}`}
+              >
+                Log Activity
+              </SecondaryOutlineButton>
+            </>
           }
         />
       </ContentContainer>

@@ -15,6 +15,7 @@ import { Activities } from "./pages/Activities";
 import { NewActivity } from "./pages/NewActivity";
 import { Activity } from "./pages/Activity";
 import { EditActivity } from "./pages/EditActivity";
+import { ActivityLog } from "./pages/ActivityLog";
 
 const routes = [
   { key: "home", path: "/", name: "Home", Component: Home },
@@ -29,6 +30,8 @@ const routes = [
   { key: "activities", path: "/activities", Component: Activities },
   { key: "new-activity", path: "/activities/new", Component: NewActivity },
   { key: "edit-act", path: "/activities/edit/:id", Component: EditActivity },
+  { key: "activity-log", path: "/activities/:id/log", Component: ActivityLog },
+  { key: "activity-log-day", path: "/activities/:id/log/:day", Component: ActivityLog },
   { key: "activity-details", path: "/activities/:id", Component: Activity },
 ];
 

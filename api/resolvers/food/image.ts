@@ -1,15 +1,8 @@
 import { FoodResolvers } from "../../graphql-types";
 import { uploadDataService } from "../../dataServices";
-import { Context } from "api/createContext";
 
-export const foodImage: Required<
-  FoodResolvers<
-    Context,
-    {
-      imageUploadId?: string;
-    }
-  >
->["image"] = (parent, args, context) => {
+export const foodImage: 
+  FoodResolvers["image"] = (parent: any, args, context) => {
   const imageUploadId = parent.imageUploadId;
   if (!imageUploadId) {
     return Promise.resolve(undefined);

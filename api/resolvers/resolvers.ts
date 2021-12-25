@@ -45,7 +45,7 @@ export const resolvers: Resolvers = {
     foods,
   },
   Food: {
-    image: foodImage as any,
+    image: foodImage,
     measurements: foodMeasurements,
   },
   Upload: {

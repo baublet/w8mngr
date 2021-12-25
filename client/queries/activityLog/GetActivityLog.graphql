@@ -1,0 +1,21 @@
+query GetActivityLog($activityId: ID!, $unit: Unit, $day: String!) {
+  currentUser {
+    activities(input: { filter: { id: $activityId } }) {
+      edges {
+        node {
+          id
+          name
+          logs(day: $day) {
+            edges {
+              node {
+                id
+                reps
+                work(unit: $unit)
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

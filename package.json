@@ -43,6 +43,7 @@
     "esbuild": "^0.14",
     "esbuild-jest": "^0.5.0",
     "graphql": "^16.0.1",
+    "js-quantities": "^1.7.6",
     "json-stringify-deterministic": "^1.0.1",
     "json-stringify-safe": "^5.0.1",
     "jsonwebtoken": "^8.5.1",

@@ -7938,6 +7938,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"js-quantities@npm:^1.7.6":
+  version: 1.7.6
+  resolution: "js-quantities@npm:1.7.6"
+  checksum: ab3ea04650d2581b09540328e4d644576e998de3ec8c67c7fd113ea2e8520a304568120a813d043a8b529243fecb303effacdd3ca0ad9e077394306749bae715
+  languageName: node
+  linkType: hard
+
 "js-tokens@npm:^3.0.0 || ^4.0.0, js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
@@ -13131,6 +13138,7 @@ __metadata:
     express: ^4.17.1
     graphql: ^16.0.1
     jest: ^27.3.1
+    js-quantities: ^1.7.6
     json-stringify-deterministic: ^1.0.1
     json-stringify-safe: ^5.0.1
     jsonwebtoken: ^8.5.1

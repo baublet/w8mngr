@@ -1,6 +1,5 @@
 import { activityDataService } from "../../dataServices";
 import { ActivityLogResolvers, Unit } from "../../graphql-types";
-import { workToUnit } from "../../../shared";
 import { settingsService, numberToStringUnit } from "../../helpers";
 
 export const activityLogWork: ActivityLogResolvers["work"] = async (

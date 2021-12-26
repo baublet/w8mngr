@@ -19,7 +19,7 @@ export function ActivityStatsComponent({
   const personalRecord = stats.personalRecord;
   const lastLog = stats.lastLog;
 
-  if(!personalRecord && !lastLog) {
+  if (!personalRecord && !lastLog) {
     return null;
   }
 
@@ -37,7 +37,7 @@ export function ActivityStatsComponent({
               className="font-bold text-gray-600 no-underline text-sm hover:underline hover:text-gray-700"
             >
               {personalRecord.work || personalRecord.reps} (
-              {personalRecord.reps ? `${personalRecord.reps} reps` : ""},{" "}
+              {personalRecord.reps ? `${personalRecord.reps} reps, ` : ""}
               {personalRecord.ago})
             </Link>
           </div>

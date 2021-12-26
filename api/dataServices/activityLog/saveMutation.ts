@@ -38,7 +38,7 @@ export async function saveMutation(
     } else if (activity.type === "TIMED") {
       entries.push({
         id,
-        work: rawInputToUnit({ work, unit: "grams", defaultUnit: "lbs" }),
+        work: rawInputToUnit({ work, unit: "seconds", defaultUnit: "seconds" }),
       });
     } else if (activity.type === "WEIGHT") {
       doTimes(sets, () =>
@@ -53,6 +53,7 @@ export async function saveMutation(
 
   const db = await context.services.get(dbService);
   await db.transact();
+
   try {
     const upsertResults = await activityLogDataService.upsert(
       context,

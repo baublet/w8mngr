@@ -29,7 +29,6 @@ export function EditActivity() {
 }
 
 function backButtonProps(id: string, goBack: () => void) {
-  console.log({ ref: document.referrer });
   if (!document.referrer?.includes("/activities/")) {
     return {
       to: "#",

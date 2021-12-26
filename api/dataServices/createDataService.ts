@@ -78,22 +78,28 @@ function getDeleteByIds<T extends QueryFactoryFunction>(queryFactory: T) {
 }
 
 function getDeleteBy<T extends QueryFactoryFunction>(queryFactory: T) {
-  return async (context: Context, where: WhereFunctionFromQueryFactory<T>,): Promise<void> => {
+  return async (
+    context: Context,
+    where: WhereFunctionFromQueryFactory<T>
+  ): Promise<void> => {
     const getQuery = await queryFactory(context);
     const query = getQuery();
     query.delete();
     await where(query as QueryBuilderFromFactory<typeof queryFactory>);
-    return query
+    return query;
   };
 }
 
 function getFindBy<T extends QueryFactoryFunction>(queryFactory: T) {
-  return async (context: Context, where: WhereFunctionFromQueryFactory<T>,): Promise<EntityFromQueryFactoryFunction<T>[]> => {
+  return async (
+    context: Context,
+    where: WhereFunctionFromQueryFactory<T>
+  ): Promise<EntityFromQueryFactoryFunction<T>[]> => {
     const getQuery = await queryFactory(context);
     const query = getQuery();
     query.select();
     await where(query as QueryBuilderFromFactory<typeof queryFactory>);
-    return query
+    return query;
   };
 }
 
@@ -146,9 +152,9 @@ function getUpsert<T extends QueryFactoryFunction>(
         upsertItems.map(async (item) => {
           const query = getQuery();
 
-          const id = item[idProp] || ulid();
-
-          const insertOrUpdate = item[idProp]
+          const idPropValue = item[idProp];
+          const id = idPropValue || ulid();
+          const insertOrUpdate = Boolean(idPropValue)
             ? ("UPDATE" as const)
             : ("INSERT" as const);
 
@@ -162,13 +168,9 @@ function getUpsert<T extends QueryFactoryFunction>(
               applyAdditionalWhereConstraints?.(q as any);
             });
           } else {
-            console.log({
-              item,
-              [idProp]: id,
-            });
             await query.insert({
-              [idProp]: id,
               ...item,
+              [idProp]: id,
             });
           }
 

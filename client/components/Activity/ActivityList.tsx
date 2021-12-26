@@ -9,7 +9,7 @@ import { SystemOutlineButton } from "../Button/SystemOutline";
 import { LeftIcon } from "../Icons/Left";
 import { RightIcon } from "../Icons/Right";
 
-export function ActivityList() {
+export function ActivityList({ searchString }: { searchString?: string }) {
   const {
     loading,
     nodes: activities,
@@ -20,14 +20,14 @@ export function ActivityList() {
   } = usePaginatedQuery(useGetActivitiesQuery, {
     perPage: 10,
     getConnection: (data) => data?.currentUser?.activities,
+    filter: {
+      searchString,
+    },
   });
-
-  if (loading) {
-    return <PrimaryLoader />;
-  }
 
   return (
     <div className="flex flex-col gap-4">
+      {loading && <PrimaryLoader />}
       {activities.map((activity) => {
         return <ActivityListItem key={activity.id} {...activity} />;
       })}

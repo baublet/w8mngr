@@ -40,14 +40,14 @@ export function BaseButton({
     <>
       <Link {...props} to={to} className={classNames}>
         {leftIcon}
-        <div style={{ transform: "translateY(1px)" }}>{children}</div>
+        <div>{children}</div>
         {rightIcon}
       </Link>
     </>
   ) : (
     <button {...props} className={classNames} type={type}>
       {leftIcon}
-      <div style={{ transform: "translateY(1px)" }}>{children}</div>
+      <div>{children}</div>
       {rightIcon}
     </button>
   );

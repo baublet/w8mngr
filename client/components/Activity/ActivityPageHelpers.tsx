@@ -19,7 +19,7 @@ export function ActivityPageHelpers() {
   }
 
   return (
-    <div className="pb-4 pt-2 pl-4 border-l-8 border-emerald-100 rounded">
+    <div className="rounded">
       <div className="font-thin">Popular Activities</div>
       <div className="flex gap-2 flex-wrap items-center">
         {data.currentUser?.popularActivities.map((activity) => (

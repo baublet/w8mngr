@@ -24,7 +24,7 @@ export function ActivityStatsComponent({
   }
 
   return (
-    <div className="p-4 rounded bg-gray-50 border border-gray-500 opacity-75 hover:opacity-100">
+    <div className="p-4 rounded bg-gray-50 border border-gray-500 opacity-50 hover:opacity-100">
       {personalRecord && (
         <div className="flex flex-col gap-4">
           <div className="text-lg font-thin">Personal Record</div>

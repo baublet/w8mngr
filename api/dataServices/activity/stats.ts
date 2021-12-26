@@ -32,7 +32,6 @@ export async function stats(
           .where("activityId", "=", activityId)
           .andWhere("userId", "=", userId)
           .andWhere("day", "<", todayDateString)
-          .orderBy("createdAt")
           .limit(1)
     );
     const lastLog = lastLoggedActivity[0];
@@ -67,7 +66,8 @@ export async function stats(
       q
         .where("activityId", "=", activityId)
         .andWhere("userId", "=", userId)
-        .orderBy(recordColumn)
+        .orderBy(recordColumn, "desc")
+        .orderBy("createdAt", "desc")
         .limit(1)
     );
     const personalRecordLog = personalRecord[0];

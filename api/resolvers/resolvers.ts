@@ -19,6 +19,7 @@ import { deleteActivityLog } from "./mutations/deleteActivityLog";
 import { foodLog } from "./user/foodLog";
 import { foods } from "./user/foods";
 import { activities } from "./user/activities";
+import { popularUserActivities } from "./user/popularActivities";
 
 import { activityMuscleGroups } from "./activity/musclesGroups";
 import { activityLogs } from "./activity/logs";
@@ -45,6 +46,7 @@ export const resolvers: Resolvers = {
     activities,
     foodLog,
     foods,
+    popularActivities: popularUserActivities,
   },
   Food: {
     image: foodImage,

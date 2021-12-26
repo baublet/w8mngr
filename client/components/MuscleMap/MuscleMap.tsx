@@ -298,6 +298,7 @@ export function MuscleMap({
         <div className="flex gap-2 flex-wrap">
           {selectedMuscles.map((muscle) => (
             <button
+              key={muscle}
               type="button"
               className="inline-block rounded border text-purple-400 border-purple-400 text-xs p-2 font-bold opacity-50 hover:opacity-100"
               onClick={getDeselectMuscleHandler(muscle)}

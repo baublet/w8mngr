@@ -10,6 +10,8 @@ generates:
       allowParentTypeOverride: true
       enumsAsTypes: true
       contextType: ./createContext#Context
+      mappers:
+        Activity: Omit<Activity, "muscleGroups" | "logs" | "stats">
       customResolverFn: |
         (
           parent: TParent,

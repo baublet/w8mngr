@@ -7,6 +7,7 @@ type User {
   foodLog(day: String!): FoodLogConnection!
   foods(input: FoodQueryInput): FoodConnection!
   activities(input: ActivityQueryInput): ActivityConnection!
+  popularActivities: [Activity!]!
 }
 
 type Query {

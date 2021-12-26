@@ -7,6 +7,7 @@ import { SecondaryButton } from "../components/Button/Secondary";
 import { HealthCircleIcon } from "../components/Icons/HealthCircle";
 import { ActivityList } from "../components/Activity";
 import { Input } from "../components/Forms";
+import { ActivityPageHelpers } from "../components/Activity";
 
 export function Activities() {
   const [searchString, setSearchString] = React.useState<string>();
@@ -21,6 +22,9 @@ export function Activities() {
               <SecondaryButton full to="/activities/new">
                 New Activity
               </SecondaryButton>
+              <div>
+                <ActivityPageHelpers />
+              </div>
               <div>
                 <Input
                   type="text"

@@ -19,6 +19,10 @@ export function ActivityStatsComponent({
   const personalRecord = stats.personalRecord;
   const lastLog = stats.lastLog;
 
+  if(!personalRecord && !lastLog) {
+    return null;
+  }
+
   return (
     <div className="p-4 rounded bg-gray-50 border border-gray-500 opacity-75 hover:opacity-100">
       {personalRecord && (

@@ -5,6 +5,7 @@ import {
   ActivityType,
   GetActivityLogDocument,
   useDeleteActivityLogMutation,
+  useSaveActivityLogMutation,
 } from "../../generated";
 import { SHOW_REPS, WORK_LABELS } from "./NewActivityLogForm";
 
@@ -15,20 +16,27 @@ import { useForm, useToast } from "../../helpers";
 export function ActivityLogEntry({
   log,
   activityType,
+  activityId,
+  day,
 }: {
+  activityId: string;
   activityType: ActivityType;
+  day: string;
   log: {
     id: string;
     work?: Maybe<string>;
     reps?: Maybe<number>;
   };
 }) {
-  console.log({ log })
   const { error, success } = useToast();
   const [deleted, setDeleted] = React.useState(false);
-  const [deleteLog, { loading }] = useDeleteActivityLogMutation({
+  const [deleteLog, { loading: deleteLoading }] = useDeleteActivityLogMutation({
     refetchQueries: [GetActivityLogDocument],
     onError: error,
+  });
+  const [saveLog, { loading: saveLoading }] = useSaveActivityLogMutation({
+    onError: error,
+    onCompleted: () => success("Log saved!"),
   });
   const formData = useForm<{ id: string; work: string; reps: string }>({
     initialValues: log,
@@ -44,10 +52,29 @@ export function ActivityLogEntry({
       },
     });
   }, [log.id]);
+  const handleSave = React.useCallback(() => {
+    saveLog({
+      variables: {
+        input: {
+          activityId,
+          day,
+          activityLogs: [
+            {
+              id: log.id,
+              work: formData.getValue("work", "0"),
+              reps: formData.getValue("reps", "0"),
+            },
+          ],
+        },
+      },
+    });
+  }, [log.id]);
 
   if (deleted) {
     return null;
   }
+
+  const loading = deleteLoading || saveLoading;
 
   return (
     <form
@@ -59,6 +86,7 @@ export function ActivityLogEntry({
       )}
       onSubmit={(e) => {
         e.preventDefault();
+        handleSave();
       }}
     >
       {!showReps ? null : (
@@ -84,6 +112,9 @@ export function ActivityLogEntry({
       <div>
         <DeleteIconButton onClick={handleDelete} />
       </div>
+      <button className="screen-reader-text" type="submit">
+        Save
+      </button>
     </form>
   );
 }

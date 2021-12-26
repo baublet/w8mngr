@@ -1,0 +1,8 @@
+query GetPopularActivities {
+  currentUser {
+    popularActivities {
+      id
+      name
+    }
+  }
+}

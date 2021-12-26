@@ -24,23 +24,26 @@ export async function saveMutation(
     q.where("id", "=", activityId)
   );
 
-  const entries: { work?: number; reps?: number }[] = [];
-  for (const { reps: inputReps, work } of input) {
+  const entries: { work?: number; reps?: number; id?: Maybe<string> }[] = [];
+  for (const { reps: inputReps, work, id } of input) {
     const { reps, sets } = getRepsAndSets(inputReps);
 
     if (activity.type === "DISTANCE") {
       entries.push({
+        id,
         work: rawInputToUnit({ work, unit: "millimeters", defaultUnit: "s" }),
       });
     } else if (activity.type === "REPETITIVE") {
-      doTimes(sets, () => entries.push({ reps }));
+      doTimes(sets, () => entries.push({ id, reps }));
     } else if (activity.type === "TIMED") {
       entries.push({
+        id,
         work: rawInputToUnit({ work, unit: "grams", defaultUnit: "lbs" }),
       });
     } else if (activity.type === "WEIGHT") {
       doTimes(sets, () =>
         entries.push({
+          id,
           reps: reps,
           work: rawInputToUnit({ work, unit: "grams", defaultUnit: "lbs" }),
         })

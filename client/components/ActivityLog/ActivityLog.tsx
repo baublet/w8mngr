@@ -3,14 +3,9 @@ import { useHistory } from "react-router";
 
 import { DayNavigator } from "../DayNavigator";
 import { NewActivityLogForm } from "./NewActivityLogForm";
-import {
-  ActivityType,
-  useGetActivityLogQuery,
-  ActivityStats,
-} from "../../generated";
+import { ActivityType, useGetActivityLogQuery } from "../../generated";
 import { PrimaryLoader } from "../Loading/Primary";
 import { ActivityLogEntry } from "./ActivityLogEntry";
-import { ActivityStatsComponent } from "./ActivityStats";
 
 export function ActivityLog({
   activityId,
@@ -64,6 +59,8 @@ export function ActivityLog({
             logs.map((log) => (
               <ActivityLogEntry
                 key={log.node.id}
+                day={day}
+                activityId={activityId}
                 log={log.node}
                 activityType={activityType}
               />

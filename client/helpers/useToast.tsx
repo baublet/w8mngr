@@ -131,12 +131,12 @@ function Message({
           }
         )}
       >
-        {type === "error" && (
-          <div className="absolute right-2 top-2">
-            <DeleteIconButton onClick={dismiss} />
+        <div className="absolute right-2 top-2">
+          <DeleteIconButton onClick={dismiss} />
+        </div>
+        <div className="text-sm">
+          {messageText}
           </div>
-        )}
-        {messageText}
       </div>
     </div>
   );

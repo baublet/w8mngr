@@ -8,3 +8,4 @@ export { rawInputToUnit } from "./rawInputToUnit";
 export { doTimes } from "./doTimes";
 export { settingsService } from "./settingsService";
 export { numberToStringUnit } from "./numberToStringUnit";
+export { numberToContextualUnit } from "./numberToContextualUnit";

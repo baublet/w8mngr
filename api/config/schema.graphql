@@ -259,6 +259,24 @@ input UploadUrlInput {
 # Types         #
 #################
 
+type ActivityStats {
+  personalRecord: ActivityPersonalRecord
+  lastLog: ActivityLastLog
+}
+
+type ActivityLastLog {
+  logs: [ActivityLog!]!
+  day: String!
+  ago: String!
+}
+
+type ActivityPersonalRecord {
+  reps: Int
+  work: String
+  ago: String!
+  link: String!
+}
+
 type ActivityLogConnection {
   pageInfo: PageInfo!
   edges: [ActivityLogEdge!]!
@@ -309,6 +327,7 @@ type Activity {
   muscleGroups: [Muscle!]!
   intensity: Int!
   logs(day: String): ActivityLogConnection!
+  stats: ActivityStats!
 }
 
 type Upload {

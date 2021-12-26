@@ -3,18 +3,25 @@ import { useHistory } from "react-router";
 
 import { DayNavigator } from "../DayNavigator";
 import { NewActivityLogForm } from "./NewActivityLogForm";
-import { ActivityType, useGetActivityLogQuery } from "../../generated";
+import {
+  ActivityType,
+  useGetActivityLogQuery,
+  ActivityStats,
+} from "../../generated";
 import { PrimaryLoader } from "../Loading/Primary";
 import { ActivityLogEntry } from "./ActivityLogEntry";
+import { ActivityStatsComponent } from "./ActivityStats";
 
 export function ActivityLog({
   activityId,
   activityType,
   day,
+  underInput,
 }: {
   activityId: string;
   activityType: ActivityType;
   day: string;
+  underInput?: React.ReactNode;
 }) {
   const { replace } = useHistory();
   const [stateDay, setDay] = React.useState(day);
@@ -28,6 +35,9 @@ export function ActivityLog({
   React.useEffect(() => {
     replace(`/activities/${activityId}/log/${stateDay}`);
   }, [stateDay]);
+  React.useEffect(() => {
+    setDay(day);
+  }, [day]);
 
   const onRefresh = React.useCallback(() => {}, []);
 
@@ -47,7 +57,9 @@ export function ActivityLog({
       <div className="flex justify-between items-start gap-4">
         <div className="w-1/2">
           {!logs || logs.length === 0 ? (
-            <div className="pt-4 border-t border-gray-50 mt-4 opacity-25 max-w-sm font-thin text-2xl">Nothing here, yet! Get started by entering a set in the form.</div>
+            <div className="pt-4 border-t border-gray-50 mt-4 opacity-25 max-w-sm font-thin text-2xl">
+              Nothing here, yet! Get started by entering a set in the form.
+            </div>
           ) : (
             logs.map((log) => (
               <ActivityLogEntry
@@ -58,12 +70,13 @@ export function ActivityLog({
             ))
           )}
         </div>
-        <div>
+        <div className="flex flex-col gap-4">
           <NewActivityLogForm
             activityType={activityType}
             activityId={activityId}
             day={stateDay}
           />
+          {underInput && underInput}
         </div>
       </div>
     </div>

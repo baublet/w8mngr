@@ -5,4 +5,6 @@ export type ActivityLog = {
   userId: string;
   activityId: string;
   day: string;
+  reps: number;
+  work: number;
 };

@@ -17,6 +17,23 @@ query GetActivityDetails($id: ID!) {
           type
           exrx
           muscleGroups
+          stats {
+            personalRecord {
+              reps
+              work
+              ago
+              link
+            }
+            lastLog {
+              day
+              ago
+              logs {
+                id
+                reps
+                work
+              }
+            }
+          }
         }
       }
     }

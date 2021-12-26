@@ -12,6 +12,7 @@ import { PrimaryLoader } from "../components/Loading/Primary";
 import { BackToButton } from "../components/Button/BackTo";
 import { MuscleMap } from "../components/MuscleMap";
 import { IntensityScale } from "../components/Activity/IntensityScale";
+import { ActivityStatsComponent } from "../components/ActivityLog/ActivityStats";
 
 export function ActivityLog() {
   const { id, day = "" } = useParams<{ id: string; day: string }>();
@@ -48,6 +49,7 @@ export function ActivityLog() {
               activityId={activity.id}
               day={day}
               activityType={activity.type}
+              underInput={<ActivityStatsComponent queryData={data} />}
             />
           }
           sideContent={

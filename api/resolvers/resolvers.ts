@@ -22,6 +22,7 @@ import { activities } from "./user/activities";
 
 import { activityMuscleGroups } from "./activity/musclesGroups";
 import { activityLogs } from "./activity/logs";
+import { activityStats } from "./activity/stats";
 import { activityLogActivity } from "./activityLog/activity";
 import { activityLogWork } from "./activityLog/work";
 
@@ -38,6 +39,7 @@ export const resolvers: Resolvers = {
   Activity: {
     logs: activityLogs,
     muscleGroups: activityMuscleGroups,
+    stats: activityStats,
   },
   User: {
     activities,

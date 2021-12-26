@@ -1,4 +1,5 @@
 import Qty from "js-quantities";
+
 import { log } from "../config";
 
 export function numberToStringUnit({
@@ -16,8 +17,9 @@ export function numberToStringUnit({
   const loweredIncomingUnit = incomingUnit.toLowerCase();
   const loweredOutgoingUnit = outgoingUnit.toLowerCase();
   try {
-    const quantity = new Qty(work, loweredIncomingUnit);
-    return quantity.to(loweredOutgoingUnit).toString();
+    const quantity = new Qty(work, loweredIncomingUnit).to(loweredOutgoingUnit);
+    const roundedQuantity = round(quantity.scalar);
+    return new Qty(roundedQuantity, loweredOutgoingUnit).toString();
   } catch (error) {
     log("error", "Unknown error converting units", {
       incomingUnit,
@@ -27,4 +29,9 @@ export function numberToStringUnit({
     });
     return `${work}`;
   }
+}
+
+function round(num: number): number {
+  const m = Number((Math.abs(num) * 100).toPrecision(15));
+  return (Math.round(m) / 100) * Math.sign(num);
 }

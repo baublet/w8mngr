@@ -1,7 +1,11 @@
 import React from "react";
 import cx from "classnames";
 
-import { ActivityType, useDeleteActivityLogMutation } from "../../generated";
+import {
+  ActivityType,
+  GetActivityLogDocument,
+  useDeleteActivityLogMutation,
+} from "../../generated";
 import { SHOW_REPS, WORK_LABELS } from "./NewActivityLogForm";
 
 import { InputFoodEntry } from "../Forms";
@@ -19,10 +23,11 @@ export function ActivityLogEntry({
     reps?: Maybe<number>;
   };
 }) {
+  console.log({ log })
   const { error, success } = useToast();
   const [deleted, setDeleted] = React.useState(false);
   const [deleteLog, { loading }] = useDeleteActivityLogMutation({
-    onCompleted: () => success("Activity log deleted"),
+    refetchQueries: [GetActivityLogDocument],
     onError: error,
   });
   const formData = useForm<{ id: string; work: string; reps: string }>({
@@ -32,6 +37,7 @@ export function ActivityLogEntry({
   const workLabel = WORK_LABELS[activityType];
   const handleDelete = React.useCallback(() => {
     setDeleted(true);
+    success("Activity log deleted");
     deleteLog({
       variables: {
         id: log.id,
@@ -45,30 +51,39 @@ export function ActivityLogEntry({
 
   return (
     <form
-      className={cx("flex gap-4 hover:bg-gray-50", {
-        ["opacity-50 pointer-events-none"]: loading,
-      })}
+      className={cx(
+        "group p-4 w-full flex gap-4 hover:bg-gray-50 items-center",
+        {
+          ["opacity-50 pointer-events-none"]: loading,
+        }
+      )}
       onSubmit={(e) => {
         e.preventDefault();
-        handleDelete();
       }}
     >
       {!showReps ? null : (
-        <InputFoodEntry
-          defaultValue={formData.getValue("reps")}
-          onChange={formData.getHandler("reps")}
-          label="Reps"
-          type="text"
-        />
+        <div className="w-full flex-grow-1">
+          <InputFoodEntry
+            defaultValue={formData.getValue("reps")}
+            onChange={formData.getHandler("reps")}
+            label="Reps"
+            type="text"
+          />
+        </div>
       )}
       {!workLabel ? null : (
-        <InputFoodEntry
-          defaultValue={formData.getValue("work")}
-          onChange={formData.getHandler("work")}
-          label={workLabel}
-          type="text"
-        />
+        <div className="w-full">
+          <InputFoodEntry
+            defaultValue={formData.getValue("work")}
+            onChange={formData.getHandler("work")}
+            label={workLabel}
+            type="text"
+          />
+        </div>
       )}
+      <div>
+        <DeleteIconButton onClick={handleDelete} />
+      </div>
     </form>
   );
 }

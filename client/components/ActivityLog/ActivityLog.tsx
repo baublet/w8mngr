@@ -38,29 +38,33 @@ export function ActivityLog({
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 w-full">
       <DayNavigator
         onChange={setDay}
         rootUrl={`/activities/${activityId}/log/`}
         onRefresh={onRefresh}
       />
-      {logs.length === 0 ? (
-        <div>No logs, yet!</div>
-      ) : (
-        logs.map((log) => (
-          <ActivityLogEntry
-            key={log.node.id}
-            log={log.node}
+      <div className="flex justify-between items-start gap-4">
+        <div className="w-1/2">
+          {!logs || logs.length === 0 ? (
+            <div className="pt-4 border-t border-gray-50 mt-4 opacity-25 max-w-sm font-thin text-2xl">Nothing here, yet! Get started by entering a set in the form.</div>
+          ) : (
+            logs.map((log) => (
+              <ActivityLogEntry
+                key={log.node.id}
+                log={log.node}
+                activityType={activityType}
+              />
+            ))
+          )}
+        </div>
+        <div>
+          <NewActivityLogForm
             activityType={activityType}
+            activityId={activityId}
+            day={stateDay}
           />
-        ))
-      )}
-      <div>
-        <NewActivityLogForm
-          activityType={activityType}
-          activityId={activityId}
-          day={stateDay}
-        />
+        </div>
       </div>
     </div>
   );

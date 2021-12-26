@@ -44,6 +44,7 @@ export function NewActivityLogForm({
   const [createActivityLog, { loading }] = useSaveActivityLogMutation({
     refetchQueries: [GetActivityLogDocument],
     onCompleted: () => {
+      newActivityLogFormData.clear();
       success("Log added");
     },
     onError: error,
@@ -70,7 +71,7 @@ export function NewActivityLogForm({
         },
       },
     });
-  }, [activityType, activityId]);
+  }, [activityType, activityId, day]);
 
   return (
     <div className="w-96">
@@ -83,27 +84,33 @@ export function NewActivityLogForm({
             create();
           }}
         >
-          {!showReps ? null : (
-            <InputInverted
-              focusOnFirstRender
-              type="text"
-              label="Reps"
-              defaultValue={newActivityLogFormData.getValue("reps")}
-              onChange={newActivityLogFormData.getHandler("reps")}
-              placeholder=""
-            />
-          )}
-          {!workLabel ? null : (
-            <InputInverted
-              focusOnFirstRender={!showReps}
-              type="text"
-              label={workLabel}
-              defaultValue={newActivityLogFormData.getValue("work")}
-              onChange={newActivityLogFormData.getHandler("work")}
-              placeholder=""
-            />
-          )}
-          <SecondaryIconButton type="submit" disabled={loading}>
+          <div className="flex gap-4 flex-grow w-full">
+            {!showReps ? null : (
+              <InputInverted
+                focusOnFirstRender
+                type="text"
+                label="Reps"
+                value={newActivityLogFormData.getValue("reps", "")}
+                onChange={newActivityLogFormData.getHandler("reps")}
+                placeholder=""
+              />
+            )}
+            {!workLabel ? null : (
+              <InputInverted
+                focusOnFirstRender={!showReps}
+                type="text"
+                label={workLabel}
+                value={newActivityLogFormData.getValue("work", "")}
+                onChange={newActivityLogFormData.getHandler("work")}
+                placeholder=""
+              />
+            )}
+          </div>
+          <SecondaryIconButton
+            type="submit"
+            disabled={loading}
+            className="flex-shrink"
+          >
             <Add />
           </SecondaryIconButton>
         </form>

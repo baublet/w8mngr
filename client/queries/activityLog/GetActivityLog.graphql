@@ -5,6 +5,9 @@ query GetActivityLog($activityId: ID!, $day: String!) {
         node {
           id
           name
+          intensity
+          exrx
+          muscleGroups
           logs(day: $day) {
             edges {
               node {

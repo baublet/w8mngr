@@ -51,7 +51,7 @@ export function InputInverted(
   }
 
   return (
-    <div className="group">
+    <div className="w-full group">
       <input
         {...newProps}
         ref={inputRef}

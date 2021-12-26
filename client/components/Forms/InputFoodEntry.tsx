@@ -53,7 +53,7 @@ export function InputFoodEntry(
   }, []);
 
   return (
-    <div className="group">
+    <>
       <input
         {...newProps}
         value={value === null ? undefined : value}
@@ -80,6 +80,6 @@ export function InputFoodEntry(
           {label}
         </label>
       )}
-    </div>
+    </>
   );
 }

@@ -33,13 +33,10 @@ export function MuscleMap({
     const getPropsForMuscle = (muscle: Muscle): React.SVGProps<SVGGElement> => {
       const isSelected = selectedMuscles.includes(muscle);
       return {
-        className: cx(
-          "hover:opacity-100 border cursor-pointer",
-          {
-            "opacity-90": isSelected,
-            "opacity-40": !isSelected,
-          }
-        ),
+        className: cx("hover:opacity-100 border cursor-pointer", {
+          "opacity-90": isSelected,
+          "opacity-40": !isSelected,
+        }),
         onClick: () => {
           setSelectedMuscles((selectedMuscles) => {
             const isSelected = selectedMuscles.includes(muscle);
@@ -77,7 +74,9 @@ export function MuscleMap({
   }, [selectedMuscles]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div
+      className={cx("flex flex-col gap-4", { "pointer-events-none": !active })}
+    >
       <div className="text-purple-500">
         <svg
           viewBox="-5 -15 180 230"
@@ -88,7 +87,6 @@ export function MuscleMap({
             height: "100%",
             fill: "transparent",
           }}
-          className={cx({ "pointer-events-none": !active })}
         >
           <g
             id="back-muscles"

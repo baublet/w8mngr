@@ -1,6 +1,6 @@
 import React from "react";
 import cx from "classnames";
-import { DeleteButton } from "../components/Button/DeleteButton";
+
 import { DeleteIconButton } from "../components/Button/DeleteIconButton";
 
 function notImplemented() {
@@ -34,7 +34,7 @@ export function ToastProvider({ children }: React.PropsWithChildren<{}>) {
 
   const success = React.useCallback(
     (messageToAdd: React.ReactNode, options: ToastOptions = {}) => {
-      const { timeoutMs = 5000 } = options;
+      const { timeoutMs = 4000 } = options;
       const id = `${Date.now()}-${Math.random()}`;
       setMessages((message) => {
         return [
@@ -77,7 +77,7 @@ export function ToastProvider({ children }: React.PropsWithChildren<{}>) {
   return (
     <ToastContext.Provider value={{ success, error }}>
       <div className="relative">
-        <div className="absolute right-0 top-0 space-y-4 z-50">
+        <div className="absolute right-0 top-0 space-y-4 z-50 pointer-events-none">
           {messages.map((message) => (
             <Message
               key={message.id}
@@ -120,22 +120,24 @@ function Message({
   const fadeout = type === "success";
 
   return (
-    <div
-      className={cx(
-        "toast w-96 text-md shadow-lg p-4 rounded-lg border-t-4 bg-white relative",
-        {
-          "toast-fadeout": fadeout,
-          "border-red-500": type === "error",
-          "border-emerald-500": type === "success",
-        }
-      )}
-    >
-      {type === "error" && (
-        <div className="absolute right-2 top-2">
-          <DeleteIconButton onClick={dismiss} />
-        </div>
-      )}
-      {messageText}
+    <div className="toast">
+      <div
+        className={cx(
+          "w-96 text-md shadow-lg p-4 rounded-lg border-t-4 bg-white relative pointer-events-auto",
+          {
+            "toast-fadeout": fadeout,
+            "border-red-500": type === "error",
+            "border-emerald-500": type === "success",
+          }
+        )}
+      >
+        {type === "error" && (
+          <div className="absolute right-2 top-2">
+            <DeleteIconButton onClick={dismiss} />
+          </div>
+        )}
+        {messageText}
+      </div>
     </div>
   );
 }

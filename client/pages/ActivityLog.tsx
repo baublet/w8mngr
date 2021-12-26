@@ -9,6 +9,9 @@ import { ActivityLog as ActivityLogComponent } from "../components/ActivityLog";
 
 import { useGetActivityDetailsQuery } from "../generated";
 import { PrimaryLoader } from "../components/Loading/Primary";
+import { BackToButton } from "../components/Button/BackTo";
+import { MuscleMap } from "../components/MuscleMap";
+import { IntensityScale } from "../components/Activity/IntensityScale";
 
 export function ActivityLog() {
   const { id, day = "" } = useParams<{ id: string; day: string }>();
@@ -25,7 +28,19 @@ export function ActivityLog() {
 
   return (
     <div>
-      <PageHeading icon={<HealthCircleIcon />}>{activity.name}</PageHeading>
+      <PageHeading
+        icon={<HealthCircleIcon />}
+        quickLinks={
+          <>
+            <BackToButton to="/activities">Back to Activities</BackToButton>
+          </>
+        }
+      >
+        <div className="flex gap-2 items-center">
+          <IntensityScale intensity={activity.intensity} size="small" />
+          {activity.name}
+        </div>
+      </PageHeading>
       <ContentContainer>
         <ContentLayout
           mainContent={
@@ -34,6 +49,13 @@ export function ActivityLog() {
               day={day}
               activityType={activity.type}
             />
+          }
+          sideContent={
+            <div className="flex flex-col gap-4">
+              <div>
+                <MuscleMap selected={activity.muscleGroups} showSummary />
+              </div>
+            </div>
           }
         />
       </ContentContainer>

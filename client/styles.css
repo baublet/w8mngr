@@ -115,17 +115,22 @@ select::-ms-expand {
   opacity: 0;
 }
 
-.toast {
-  animation-duration: 0.5s;
-  animation-name: slideUp;
-}
-
 .toast-fadeout {
-  animation-duration: 6s;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  animation-duration: 1s;
+  animation-delay: 3s;
   animation-name: fadeOut;
 }
 
-@keyframes slideUp {
+.toast {
+  animation-delay: 0;
+  animation-duration: 0.25s;
+  animation-name: toastSlideUp;
+  animation-timing-function: cubic-bezier(.2,1,0,.9);
+}
+
+@keyframes toastSlideUp {
   from {
     transform: translateY(100px);
     opacity: 0;

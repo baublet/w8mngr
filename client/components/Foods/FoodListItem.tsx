@@ -110,6 +110,7 @@ w-full
             <div className="w-full flex justify-end">
               {hasMore ? (
                 <GhostInvertedButton
+                  className="bg-slate-100 bg-opacity-50 text-slate-300 font-bold uppercase"
                   onClick={() => setShowAll(true)}
                   size="extra-small"
                   full
@@ -121,18 +122,34 @@ w-full
                 </GhostInvertedButton>
               ) : null}
             </div>
-            <div className="mt-2 p-2 gap-4 border-t border-slate-100 flex w-full text-xs text-slate-400 group-hover:text-slate-600">
-              <div className="w-1/12">amount</div>
-              <div className="w-4/12">measurement</div>
-              <div className="w-3/12">calories</div>
-              <div className="w-1/12">fat</div>
-              <div className="w-1/12">carbs</div>
-              <div className="w-1/12">protein</div>
-              <div className="w-1/12"></div>
+            <div className="mt-2 p-2 gap-4 border-t border-slate-100 w-full hidden sm:flex">
+              <Label className="w-3/12 sm:w-2/12 lg:w-1/12">amount</Label>
+              <Label className="w-4/12 sm:3/12 lg:w-4/12">measurement</Label>
+              <Label className="w-3/12 lg:w-3/12">calories</Label>
+              <Label className="w-3/12 lg:w-1/12">fat</Label>
+              <Label className="w-4/12 lg:w-1/12">carbs</Label>
+              <Label className="w-3/12 lg:w-1/12">protein</Label>
+              <div className="w-3/12 lg:w-1/12 flex justify-end"></div>
             </div>
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function Label({
+  children,
+  className,
+}: React.PropsWithChildren<{ className?: string }>) {
+  return (
+    <div
+      className={cx(
+        "text-xs text-slate-400 group-hover:text-slate-600",
+        className
+      )}
+    >
+      {children}
     </div>
   );
 }
@@ -197,7 +214,8 @@ function Measurement({
 
   return (
     <div className="w-full flex items-center gap-4 border-t p-2 border-slate-100 text-xs uppercase text-slate-500 hover:bg-slate-100 rounded">
-      <div className="w-1/12">
+      <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 flex-grow w-full">
+      <div className="w-3/12 sm:w-2/12 lg:w-1/12">
         <Input
           onChange={(value) => {
             const amount = parseInt(value, 10);
@@ -214,36 +232,41 @@ function Measurement({
           showLabel={false}
         />
       </div>
-      <div className="w-4/12">{measurement}</div>
-      <div className="w-3/12">
+      <div className="w-4/12 sm:3/12 lg:w-4/12">{measurement}</div>
+      <div className="w-3/12 lg:w-3/12 text-lg font-thin">
         {getMeasurementWithMultiplier({
           currentAmount: uiMutableAmount,
           originalAmount: amount,
           measurementValue: calories,
         })}
+        <Label className="sm:hidden">calories</Label>
       </div>
-      <div className="w-1/12">
+      <div className="w-3/12 lg:w-1/12 text-lg font-thin">
         {getMeasurementWithMultiplier({
           currentAmount: uiMutableAmount,
           originalAmount: amount,
           measurementValue: fat,
-        })}
+        })}<span className="opacity-75 lowercase"> g</span>
+        <Label className="sm:hidden">fat</Label>
       </div>
-      <div className="w-1/12">
+      <div className="w-4/12 lg:w-1/12 text-lg font-thin">
         {getMeasurementWithMultiplier({
           currentAmount: uiMutableAmount,
           originalAmount: amount,
           measurementValue: carbs,
-        })}
+        })}<span className="opacity-75 lowercase"> g</span>
+        <Label className="sm:hidden">carbs</Label>
       </div>
-      <div className="w-1/12">
+      <div className="w-3/12 lg:w-1/12 text-lg font-thin">
         {getMeasurementWithMultiplier({
           currentAmount: uiMutableAmount,
           originalAmount: amount,
           measurementValue: protein,
-        })}
+        })}<span className="opacity-75 lowercase"> g</span>
+        <Label className="sm:hidden">protein</Label>
       </div>
-      <div className="w-1/12 flex justify-end">
+      </div>
+      <div className="w-3/12 lg:w-1/12 flex justify-end">
         <SystemGhostIconButton
           onClick={logThisEntry}
           title={`Log ${amountString} ${measurement} ${foodName}`}
@@ -284,5 +307,5 @@ export function getMeasurementWithMultiplier({
   if (isNaN(finalNumber)) {
     return "0";
   }
-  return `${finalNumber}`;
+  return finalNumber.toLocaleString();
 }

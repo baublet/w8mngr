@@ -8,6 +8,7 @@ import { HealthCircleIcon } from "../components/Icons/HealthCircle";
 import { ActivityList } from "../components/Activity";
 import { Input } from "../components/Forms";
 import { ActivityPageHelpers } from "../components/Activity";
+import { FiltersPanel } from "../components/FiltersPanel";
 
 export function Activities() {
   const [searchString, setSearchString] = React.useState<string>();
@@ -29,15 +30,17 @@ export function Activities() {
               <SecondaryButton full to="/activities/new">
                 New Activity
               </SecondaryButton>
-              <div>
-                <Input
-                  type="text"
-                  onChange={setSearchString}
-                  value={searchString}
-                  placeholder="Search String"
-                  label="Search"
-                />
-              </div>
+              <FiltersPanel>
+                <div>
+                  <Input
+                    type="text"
+                    onChange={setSearchString}
+                    value={searchString}
+                    placeholder="Search String"
+                    label="Search"
+                  />
+                </div>
+              </FiltersPanel>
             </div>
           }
         />

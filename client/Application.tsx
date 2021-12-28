@@ -11,13 +11,13 @@ export function Application(): React.ReactComponentElement<any> {
   // When the URL changes, scroll to the top
   const { pathname, search } = useLocation();
   React.useEffect(() => {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }, [pathname, search]);
 
   return (
-    <div className="max-w-screen-xl w-full flex flex-col min-h-full px-8 bg-white">
-      <header>
+    <div className="max-w-screen-xl w-full flex flex-col min-h-full px-1 sm:px-2 md:px-8 bg-white">
+      <header className="overflow-x-scroll lg:overflow-x-hidden">
         <ContentContainer className="mt-4 pb-4 mb-4 flex items-center">
           <h1 className="text-center text-emerald-400 mr-12">
             <Link to="/" title="w8mngr" className="flex items-center">

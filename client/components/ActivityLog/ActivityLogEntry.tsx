@@ -79,7 +79,7 @@ export function ActivityLogEntry({
   return (
     <form
       className={cx(
-        "group p-4 w-full flex gap-4 hover:bg-gray-50 items-center",
+        "group p-4 w-full flex gap-4 hover:bg-slate-50 items-center",
         {
           ["opacity-50 pointer-events-none"]: loading,
         }

@@ -8,14 +8,14 @@ bg-transparent
 w-full
 py-1
 border-b
-border-gray-900
+border-slate-900
 border-opacity-10
 group-hover:border-opacity-25
 hover:border-opacity-25
 text-base
-text-gray-400
-hover:text-gray-700
-focus:text-gray-800
+text-slate-400
+hover:text-slate-700
+focus:text-slate-800
 `;
 
 export type InputFoodEntriesProps = {
@@ -74,7 +74,7 @@ export function InputFoodEntry(
         <label
           htmlFor={newProps.id}
           className={cx(
-            "block border-b text-gray-900 text-opacity-60 text-sm border-transparent hover:opacity-100 group-hover:opacity-100 focus:opacity-100 uppercase opacity-50"
+            "block border-b text-slate-900 text-opacity-60 text-sm border-transparent hover:opacity-100 group-hover:opacity-100 focus:opacity-100 uppercase opacity-50"
           )}
         >
           {label}

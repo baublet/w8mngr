@@ -12,7 +12,7 @@ export function BackToButton(
 ) {
   return (
     <Link
-      className="inline-flex uppercase py-2 gap-2 text-xs items-center text-gray-500 hover:text-purple-600 group"
+      className="inline-flex uppercase py-2 gap-2 text-xs items-center text-slate-500 hover:text-purple-600 group"
       to={props.to || "#"}
       onClick={(event) => {
         if (props.onClick) {

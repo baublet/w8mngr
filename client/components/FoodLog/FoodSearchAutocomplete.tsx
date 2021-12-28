@@ -191,9 +191,9 @@ export function FoodSearchAutocomplete({
                 <div
                   key={food.cursor}
                   className={cx(
-                    "flex w-full flex-col text-xs hover:text-gray-600 hover:bg-gray-50",
+                    "flex w-full flex-col text-xs hover:text-slate-600 hover:bg-slate-50",
                     {
-                      "bg-gray-100": selected,
+                      "bg-slate-100": selected,
                     }
                   )}
                 >
@@ -201,7 +201,7 @@ export function FoodSearchAutocomplete({
                     <button
                       type="button"
                       className={cx(
-                        "block w-full text-left p-2 uppercase font-bold text-gray-500"
+                        "block w-full text-left p-2 uppercase font-bold text-slate-500"
                       )}
                       onClick={() => setSelectedFoodId(food.node.id)}
                     >

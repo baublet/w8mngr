@@ -96,8 +96,8 @@ export function DayNavigator({
         onClick={isCurrentDayToday ? onRefresh : today}
         title="Go to today"
       >
-        <div className="relative text-gray-800 px-4 py-2 text-center flex items-center justify-center">
-          <div className="rounded absolute -bottom-5 px-2 py-1 text-xs text-gray-400 text-opacity-50 bg-white">
+        <div className="relative text-slate-800 px-4 py-2 text-center flex items-center justify-center">
+          <div className="rounded absolute -bottom-5 px-2 py-1 text-xs text-slate-400 text-opacity-50 bg-white">
             {dayDate.getFullYear()}
           </div>
           {isCurrentDayToday ? null : (

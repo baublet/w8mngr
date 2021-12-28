@@ -87,7 +87,7 @@ export function LogEntry({
   return (
     <div
       className={cx(
-        "relax flex w-full items-center hover:bg-gray-50  hover:bg-opacity-50 border border-gray-100 border-opacity-0 hover:border-opacity-75",
+        "relax flex w-full items-center hover:bg-slate-50  hover:bg-opacity-50 border border-slate-100 border-opacity-0 hover:border-opacity-75",
         { "opacity-50": deleteLoading }
       )}
     >

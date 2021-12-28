@@ -22,7 +22,7 @@ export function ActivityDetails({
 }) {
   return (
     <div className="flex flex-col">
-      <div className="flex border-t border-b border-gray-200 items-start gap-8 py-8 mb-8">
+      <div className="flex border-t border-b border-slate-200 items-start gap-8 py-8 mb-8">
         <div className="flex flex-col px-12">
           <div className="w-32">
             <MuscleMap active={false} selected={muscleGroups} />
@@ -38,7 +38,7 @@ export function ActivityDetails({
               </div>
               <div className="text-5xl font-thin">{intensity}</div>
               <div className="flex flex-col">
-                <div className="text-xs font-bold text-gray-400">/&nbsp;10</div>
+                <div className="text-xs font-bold text-slate-400">/&nbsp;10</div>
                 <SubHeader>intensity</SubHeader>
               </div>
             </div>

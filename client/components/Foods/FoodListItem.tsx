@@ -8,7 +8,6 @@ import { SystemGhostIconButton } from "../Button/SystemGhostIcon";
 import { Add } from "../Icons/Add";
 
 import { foodLogLocalStorage } from "../../helpers";
-import { SystemOutlineButton } from "../Button/SystemOutline";
 import { GhostInvertedButton } from "../Button/GhostInverted";
 
 export function FoodsListItem({
@@ -53,14 +52,15 @@ export function FoodsListItem({
   return (
     <div
       className={`
-hover:bg-gray-50
-hover:bg-opacity-50
-border
-border-transparent
-border-gray-100
-hover:border-gray-100
-rounded
-p-4
+      hover:bg-slate-50
+      hover:bg-opacity-50
+      border
+      border-slate-100
+      hover:border-slate-300
+      rounded-lg
+      p-4
+      hover:shadow-slate-500/10
+      hover:shadow-lg
     `}
     >
       <div
@@ -91,7 +91,7 @@ w-full
           >
             <ItemHeading>{name}</ItemHeading>
             {description && (
-              <div className="block mt-2 text-gray-700 text-opacity-80 leading-tight">
+              <div className="block mt-2 text-slate-700 text-opacity-80 leading-tight">
                 {description.substr(0, 240)}
                 {description.length > 240 ? "..." : ""}
               </div>
@@ -121,7 +121,7 @@ w-full
                 </GhostInvertedButton>
               ) : null}
             </div>
-            <div className="mt-2 p-2 gap-4 border-t border-gray-100 flex w-full text-xs text-gray-400 group-hover:text-gray-600">
+            <div className="mt-2 p-2 gap-4 border-t border-slate-100 flex w-full text-xs text-slate-400 group-hover:text-slate-600">
               <div className="w-1/12">amount</div>
               <div className="w-4/12">measurement</div>
               <div className="w-3/12">calories</div>
@@ -196,7 +196,7 @@ function Measurement({
   };
 
   return (
-    <div className="w-full flex items-center gap-4 border-t p-2 border-gray-100 text-xs uppercase text-gray-500 hover:bg-gray-50">
+    <div className="w-full flex items-center gap-4 border-t p-2 border-slate-100 text-xs uppercase text-slate-500 hover:bg-slate-100 rounded">
       <div className="w-1/12">
         <Input
           onChange={(value) => {

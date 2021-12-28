@@ -122,7 +122,7 @@ function MeasurementForm({
   }>({ initialValues: measurement, onChange });
 
   return (
-    <div className="mt-2 flex gap-2 items-center">
+    <div className="mt-2 flex gap-2 items-center hover:bg-slate-50 p-2 rounded border border-transparent hover:border-slate-200">
       <div>
         <Input
           type="text"
@@ -177,7 +177,7 @@ function MeasurementForm({
           onChange={formData.getHandler("protein")}
         />
       </div>
-      <div className="mb-4">
+      <div>
         <DeleteIconButton
           onClick={() => {
             onDelete(measurement.internalId, measurement.id);

@@ -27,11 +27,11 @@ export function ActivityListItem({
   return (
     <div
       className={`
-hover:bg-gray-50
+hover:bg-slate-50
 hover:bg-opacity-50
 border
-border-gray-100
-hover:border-gray-300
+border-slate-100
+hover:border-slate-300
 rounded-lg
 p-4
 hover:shadow-slate-500/10
@@ -57,12 +57,12 @@ w-full
                 <div className="opacity-75 group-hover:opacity-100">
                   <IntensityScale intensity={intensity} size="tiny" />
                 </div>
-                <div className="text-sm uppercase opacity-30">
+                <div className="text-sm uppercase opacity-40 group-hover:opacity-60">
                   {activityTypeToHumanReadable(type)}
                 </div>
               </div>
               {description && (
-                <div className="block mt-4 text-gray-700 text-opacity-80 leading-tight">
+                <div className="block mt-4 text-slate-700 text-opacity-80 leading-tight">
                   <MarkdownRenderer
                     content={description}
                     maxLength={240}

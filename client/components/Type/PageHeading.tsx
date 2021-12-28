@@ -19,7 +19,7 @@ export function PageHeading(
       {props.icon && (
         <div className="relative">
           <div
-            className="absolute text-5xl text-gray-50 flex justify-center items-center rounded-bl-full rounded-tl-full w-16 h-16 bg-emerald-400 text-center"
+            className="absolute text-5xl text-slate-50 flex justify-center items-center rounded-bl-full rounded-tl-full w-16 h-16 bg-emerald-400 text-center"
             style={{
               transform: "translate(-2em, 0)",
             }}
@@ -32,7 +32,7 @@ export function PageHeading(
         <div className={cx("flex justify-between items-center block w-full")}>
           <h3
             className={cx(
-              "text-2xl font-thin text-gray-600 block w-full",
+              "text-2xl font-thin text-slate-600 block w-full",
               props.className
             )}
           >

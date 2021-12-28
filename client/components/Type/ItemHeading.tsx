@@ -3,5 +3,5 @@ import React from "react";
 export function ItemHeading(
   props: React.PropsWithChildren<{}>
 ) {
-  return <h4 className="text-2xl font-thin normal-case text-gray-900 text-opacity-60 block">{props.children}</h4>;
+  return <h4 className="text-2xl font-thin normal-case text-slate-900 text-opacity-75 block">{props.children}</h4>;
 }

@@ -10,8 +10,8 @@ export function GhostInvertedButton(props: BaseButtonProps) {
       className={cx(
         "bg-transparent",
         "p-3",
-        "border border-transparent hover:border-gray-300",
-        "text-gray-400 hover:text-gray-700 uppercase",
+        "border border-transparent hover:border-slate-300",
+        "text-slate-400 hover:text-slate-700 uppercase",
         "",
         props.className
       )}

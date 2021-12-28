@@ -48,7 +48,7 @@ export function Slider({
           {label}
         </label>
       )}
-      <div className="w-full p-2 border border-gray-300 rounded hover:border-gray-500 flex gap-4 items-center">
+      <div className="w-full p-2 border border-slate-300 rounded hover:border-slate-500 flex gap-4 items-center">
         <div className="w-full">
           <input
             type="range"

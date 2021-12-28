@@ -16,15 +16,19 @@ export function Activities() {
       <PageHeading icon={<HealthCircleIcon />}>Your Activities</PageHeading>
       <ContentContainer>
         <ContentLayout
-          mainContent={<ActivityList searchString={searchString} />}
-          sideContent={
+          mainContent={
             <div className="flex flex-col gap-4">
-              <SecondaryButton full to="/activities/new">
-                New Activity
-              </SecondaryButton>
               <div>
                 <ActivityPageHelpers />
               </div>
+              <ActivityList searchString={searchString} />
+            </div>
+          }
+          sideContent={
+            <div className="flex flex-col gap-8">
+              <SecondaryButton full to="/activities/new">
+                New Activity
+              </SecondaryButton>
               <div>
                 <Input
                   type="text"

@@ -70,7 +70,7 @@ export function FoodLog() {
       )}
       {!loading && entries.length === 0 ? (
         <div className="flex flex-col max-w-md pointer-events-none">
-          <div className="pt-4 border-t border-gray-50 mt-4 opacity-25 max-w-sm font-thin text-2xl">
+          <div className="pt-4 border-t border-slate-50 mt-4 opacity-25 max-w-sm font-thin text-2xl">
             Nothing here, yet! Get started by entering a food in the form below.
           </div>
         </div>
@@ -83,7 +83,7 @@ export function FoodLog() {
       <Spacer />
       <div
         className={cx(
-          "flex flex-wrap justify-around w-full border-t border-gray-200 transition-opacity",
+          "flex flex-wrap justify-around w-full border-t border-slate-200 transition-opacity",
           {
             "opacity-50": !entries.length,
           }
@@ -93,10 +93,10 @@ export function FoodLog() {
           return (
             <div key={column} className="flex flex-col">
               <div className="pt-4 mt-4 flex flex-col">
-                <div className="text-5xl font-thin text-gray-400 text-center truncate">
+                <div className="text-5xl font-thin text-slate-400 text-center truncate">
                   {stats[column].toLocaleString()}
                 </div>
-                <div className="text-xs uppercase text-gray-400 font-bold text-center">
+                <div className="text-xs uppercase text-slate-400 font-bold text-center">
                   {column}
                 </div>
               </div>

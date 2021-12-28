@@ -40,7 +40,7 @@ export function MultilineInput(
           h-64
           focus:shadow-inner
           border
-          border-gray-500
+          border-slate-500
           border-opacity-25
           hover:border-opacity-50
           focus:border-opacity-100

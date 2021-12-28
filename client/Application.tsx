@@ -39,7 +39,7 @@ export function Application(): React.ReactComponentElement<any> {
           <Routes />
         </ToastProvider>
       </main>
-      <footer className="mt-12 text-gray-50 bg-emerald-600 mt-13 py-8 -mx-8 flex items-center">
+      <footer className="mt-12 text-slate-50 bg-emerald-600 mt-13 py-8 -mx-8 flex items-center">
         <ContentContainer>Footer</ContentContainer>
       </footer>
     </div>

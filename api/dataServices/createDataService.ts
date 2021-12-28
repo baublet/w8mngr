@@ -1,8 +1,8 @@
-import { Knex, knex } from "knex";
+import { Knex } from "knex";
 import { ulid } from "ulid";
 import omit from "lodash.omit";
 
-import { assertIsError, assertIsTruthy } from "../../shared";
+import { assertIsError } from "../../shared";
 import { dbService } from "../config";
 import { Context } from "../createContext";
 import { errors, buildConnectionResolver } from "../helpers";

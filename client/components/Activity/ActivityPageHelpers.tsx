@@ -19,8 +19,8 @@ export function ActivityPageHelpers() {
   }
 
   return (
-    <div className="rounded">
-      <div className="font-thin">Popular Activities</div>
+    <div className="rounded flex gap-4 opacity-50 hover:opacity-100">
+      <div className="font-thin">Popular:</div>
       <div className="flex gap-2 flex-wrap items-center">
         {data.currentUser?.popularActivities.map((activity) => (
           <Link

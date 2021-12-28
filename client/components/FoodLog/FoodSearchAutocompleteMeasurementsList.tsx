@@ -184,7 +184,7 @@ export function MeasurementList({
   useKeyPressHandler("enter", saveSelectedMeasurement);
 
   return !hasMeasurements ? null : (
-    <div className="p-2 bg-gray-50 border border-gray-100">
+    <div className="p-2 bg-slate-50 border border-slate-100">
       {food.measurements.edges.length === 0 ? null : (
         <div className="mt-2 relative">
           {!selectedMeasurement ? null : (
@@ -258,7 +258,7 @@ export function MeasurementList({
             </div>
           )}
           <div
-            className="w-full flex items-center gap-2 text-gray-400 text-xs"
+            className="w-full flex items-center gap-2 text-slate-400 text-xs"
             style={{ fontSize: ".75em" }}
           >
             <div className="w-1/12"></div>
@@ -284,7 +284,7 @@ export function MeasurementList({
           </div>
           <div className="w-full flex gap-1 mt-4 items-center">
             <div className="w-1/12"></div>
-            <div className="w-10/12 flex items-center gap-4 justify-between border-t border-gray-200 pt-3">
+            <div className="w-10/12 flex items-center gap-4 justify-between border-t border-slate-200 pt-3">
               <Link to={`/food/edit/${food.id}`}>View food details</Link>
               {!selectedMeasurement ? null : (
                 <SystemOutlineButton

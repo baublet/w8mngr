@@ -8,3 +8,4 @@ export { valueNullOrUndefinedToValueUndefined } from "./valueNullOrUndefinedToVa
 export { assertIsError } from "./assertIsError";
 export { withNumericKeys } from "./withNumericKeys";
 export { workToUnit } from "./workToUnit";
+export { objectEntries } from "./objectEntries";

@@ -39,7 +39,7 @@ export function SingleSelect<
           {label}
         </label>
       )}
-      <div className="border rounded border-gray-300 hover:border-gray-500 hover:shadow">
+      <div className="border rounded border-slate-300 hover:border-slate-500 hover:shadow">
         <div className="flex items-center relative group">
           <label
             htmlFor={id}

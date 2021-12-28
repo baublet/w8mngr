@@ -8,7 +8,7 @@ import { CloseIcon } from "../Icons/Close";
 const buttonClass = `
 bg-transparent
 p-3
-text-gray-900
+text-slate-900
 text-opacity-25
 rounded-full
 text-xs

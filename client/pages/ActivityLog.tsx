@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { PageHeading } from "../components/Type/PageHeading";
@@ -13,6 +13,7 @@ import { BackToButton } from "../components/Button/BackTo";
 import { MuscleMap } from "../components/MuscleMap";
 import { IntensityScale } from "../components/Activity/IntensityScale";
 import { ActivityStatsComponent } from "../components/ActivityLog/ActivityStats";
+import { DayNavigator } from "../components/DayNavigator";
 
 export function ActivityLog() {
   const { id, day = "" } = useParams<{ id: string; day: string }>();
@@ -22,6 +23,23 @@ export function ActivityLog() {
     },
   });
   const activity = data?.currentUser?.activities.edges[0].node;
+
+  const { replace } = useHistory();
+  const [stateDay, setDay] = React.useState(day);
+  React.useEffect(() => {
+    if(!stateDay) {
+      return;
+    }
+    replace(`/activities/${id}/log/${stateDay}`);
+  }, [stateDay]);
+  React.useEffect(() => {
+    if(!day) {
+      return;
+    }
+    setDay(day);
+  }, [day]);
+
+  const onRefresh = React.useCallback(() => {}, []);
 
   if (loading || !activity) {
     return <PrimaryLoader />;
@@ -45,12 +63,19 @@ export function ActivityLog() {
       <ContentContainer>
         <ContentLayout
           mainContent={
-            <ActivityLogComponent
-              activityId={activity.id}
-              day={day}
-              activityType={activity.type}
-              underInput={<ActivityStatsComponent queryData={data} />}
-            />
+            <div className="flex flex-col gap-4">
+              <DayNavigator
+                onChange={setDay}
+                rootUrl={`/activities/${id}/log/`}
+                onRefresh={onRefresh}
+              />
+              <ActivityLogComponent
+                activityId={activity.id}
+                day={day}
+                activityType={activity.type}
+                underInput={<ActivityStatsComponent queryData={data} />}
+              />
+            </div>
           }
           sideContent={
             <div className="flex flex-col gap-4">

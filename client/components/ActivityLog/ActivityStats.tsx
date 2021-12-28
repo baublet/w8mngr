@@ -1,6 +1,10 @@
 import React from "react";
 
-import { ActivityStats, GetActivityDetailsQuery } from "../../generated";
+import {
+  ActivityStats,
+  ActivityType,
+  GetActivityDetailsQuery,
+} from "../../generated";
 
 import { TrophyIcon } from "../Icons/Trophy";
 import { Link } from "../Link";
@@ -11,8 +15,9 @@ export function ActivityStatsComponent({
   queryData: GetActivityDetailsQuery;
 }) {
   const stats = queryData.currentUser?.activities.edges[0].node.stats;
+  const activityType = queryData.currentUser?.activities.edges[0].node.type;
 
-  if (!stats) {
+  if (!stats || !activityType) {
     return null;
   }
 
@@ -36,13 +41,38 @@ export function ActivityStatsComponent({
               to={personalRecord.link}
               className="font-bold text-slate-600 no-underline text-sm hover:underline hover:text-slate-700"
             >
-              {personalRecord.work || personalRecord.reps} (
-              {personalRecord.reps ? `${personalRecord.reps} reps, ` : ""}
-              {personalRecord.ago})
+              {statText({
+                reps: personalRecord.reps,
+                work: personalRecord.work,
+                activityType,
+                ago: personalRecord.ago,
+              })}
             </Link>
           </div>
         </div>
       )}
     </div>
   );
+}
+
+function statText({
+  work,
+  reps,
+  ago,
+  activityType,
+}: {
+  work: string | null | undefined;
+  ago: string;
+  reps: number | null | undefined;
+  activityType: ActivityType;
+}) {
+  switch (activityType) {
+    case "DISTANCE":
+    case "TIMED":
+      return `${work}, ${ago}`;
+    case "REPETITIVE":
+      return `${reps} reps, ${ago}`;
+    case "WEIGHT":
+      return `${work} (${reps} reps), ${ago}`;
+  }
 }

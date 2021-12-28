@@ -1,7 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router";
 
-import { DayNavigator } from "../DayNavigator";
 import { NewActivityLogForm } from "./NewActivityLogForm";
 import { ActivityType, useGetActivityLogQuery } from "../../generated";
 import { PrimaryLoader } from "../Loading/Primary";
@@ -18,23 +16,13 @@ export function ActivityLog({
   day: string;
   underInput?: React.ReactNode;
 }) {
-  const { replace } = useHistory();
-  const [stateDay, setDay] = React.useState(day);
   const { loading, data } = useGetActivityLogQuery({
     variables: {
       activityId,
-      day: stateDay,
+      day,
     },
   });
 
-  React.useEffect(() => {
-    replace(`/activities/${activityId}/log/${stateDay}`);
-  }, [stateDay]);
-  React.useEffect(() => {
-    setDay(day);
-  }, [day]);
-
-  const onRefresh = React.useCallback(() => {}, []);
 
   const logs = data?.currentUser?.activities.edges[0]?.node.logs.edges;
 
@@ -44,11 +32,6 @@ export function ActivityLog({
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <DayNavigator
-        onChange={setDay}
-        rootUrl={`/activities/${activityId}/log/`}
-        onRefresh={onRefresh}
-      />
       <div className="flex justify-between items-start gap-4">
         <div className="w-1/2">
           {!logs || logs.length === 0 ? (
@@ -71,7 +54,7 @@ export function ActivityLog({
           <NewActivityLogForm
             activityType={activityType}
             activityId={activityId}
-            day={stateDay}
+            day={day}
           />
           {underInput && underInput}
         </div>

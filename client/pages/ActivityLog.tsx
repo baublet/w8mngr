@@ -12,7 +12,7 @@ import { PrimaryLoader } from "../components/Loading/Primary";
 import { BackToButton } from "../components/Button/BackTo";
 import { MuscleMap } from "../components/MuscleMap";
 import { IntensityScale } from "../components/Activity/IntensityScale";
-import { ActivityStatsComponent } from "../components/ActivityLog/ActivityStats";
+import { ActivityStatsComponent } from "../components/Activity";
 import { DayNavigator } from "../components/DayNavigator";
 
 export function ActivityLog() {
@@ -78,7 +78,7 @@ export function ActivityLog() {
             </div>
           }
           sideContent={
-            <div className="flex flex-col gap-4">
+            <div className="flex-col gap-4 hidden lg:flex">
               <div>
                 <MuscleMap selected={activity.muscleGroups} showSummary />
               </div>

@@ -79,7 +79,7 @@ export function ActivityForm({
                 size="lg"
               />
               <Spacer size="s" />
-              <div className="flex gap-4">
+              <div className="flex gap-4 flex-col lg:flex-row">
                 <div>
                   <SingleSelect
                     id="activity-type"

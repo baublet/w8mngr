@@ -98,7 +98,7 @@ export function NewFoodLogPanel({
   }, []);
 
   return (
-    <PanelInverted className="p-2 max-w-sm">
+    <PanelInverted className="p-2">
       <Form loading={loading} onSubmit={create}>
         <InputInverted
           placeholder=""

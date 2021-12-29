@@ -74,7 +74,7 @@ export function NewActivityLogForm({
   }, [activityType, activityId, day]);
 
   return (
-    <div className="w-96">
+    <div className="w-full">
       <PanelInverted className={cx({ "opacity-50": loading })}>
         <form
           className="flex gap-4"

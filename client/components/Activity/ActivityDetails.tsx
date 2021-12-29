@@ -22,18 +22,17 @@ export function ActivityDetails({
 }) {
   return (
     <div className="flex flex-col">
-      <div className="flex border-t border-b border-slate-200 items-start gap-8 py-8 mb-8">
-        <div className="flex flex-col px-12">
-          <div className="w-32">
+      <div className="flex flex-col sm:flex-row items-start gap-8 py-8 mb-8">
+        <div className="flex flex-col px-12 mx-auto">
+          <div className="w-48">
             <MuscleMap active={false} selected={muscleGroups} />
           </div>
-          <SubHeader className="text-center">muscles targeted</SubHeader>
         </div>
 
-        <div className="flex flex-col justify-around">
+        <div className="flex flex-col justify-around border-t sm:border-t-0 border-slate-200 w-full pt-8 sm:pt-0">
           <div>
             <div className="flex items-center mt-2 gap-4">
-              <div className="opacity-75">
+              <div className="opacity-75 -ml-4">
                 <IntensityScale intensity={intensity} />
               </div>
               <div className="text-5xl font-thin">{intensity}</div>

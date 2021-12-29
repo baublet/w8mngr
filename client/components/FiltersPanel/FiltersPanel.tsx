@@ -21,7 +21,7 @@ export function FiltersPanel({ children }: React.PropsWithChildren<{}>) {
   }, []);
 
   return (
-    <div className="p-2 text-xs w-full border border-slate-300 flex flex-col gap-4">
+    <div className="p-2 text-xs w-full border border-slate-300 flex flex-col gap-4 rounded-lg">
       <div className="flex justify-between items-center">
         <h3
           className="uppercase font-thin text-slate-600 w-full"

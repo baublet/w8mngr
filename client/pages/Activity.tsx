@@ -6,12 +6,14 @@ import { PageHeading } from "../components/Type/PageHeading";
 import { ContentLayout } from "../components/Containers/ContentLayout";
 import { SecondaryButton } from "../components/Button/Secondary";
 import { HealthCircleIcon } from "../components/Icons/HealthCircle";
-import { ActivityDetails } from "../components/Activity";
+import {
+  ActivityDetails,
+  ActivityStatsComponent,
+} from "../components/Activity";
 import { PrimaryLoader } from "../components/Loading/Primary";
 import { useGetActivityDetailsQuery } from "../generated";
 import { BackToButton } from "../components/Button/BackTo";
 import { SecondaryOutlineButton } from "../components/Button/SecondaryOutline";
-import { Spacer } from "../components/Spacer";
 
 import { dayStringFromDate } from "../../shared";
 
@@ -52,18 +54,18 @@ export function Activity() {
         <ContentLayout
           mainContent={<ActivityDetails activity={activity} />}
           sideContent={
-            <>
+            <div className="flex gap-4 flex-col">
               <SecondaryButton full to={`/activities/edit/${id}`}>
                 Edit Activity
               </SecondaryButton>
-              <Spacer size="s" />
               <SecondaryOutlineButton
                 full
                 to={`/activities/${id}/log/${todayDateString}`}
               >
                 Log Activity
               </SecondaryOutlineButton>
-            </>
+              <ActivityStatsComponent queryData={data} />
+            </div>
           }
         />
       </ContentContainer>

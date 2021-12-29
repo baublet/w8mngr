@@ -26,7 +26,7 @@ export function Activities() {
             </div>
           }
           sideContent={
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-4">
               <SecondaryButton full to="/activities/new">
                 New Activity
               </SecondaryButton>

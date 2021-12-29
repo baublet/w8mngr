@@ -8,6 +8,7 @@ type User {
   foods(input: FoodQueryInput): FoodConnection!
   activities(input: ActivityQueryInput): ActivityConnection!
   popularActivities: [Activity!]!
+  foodLogStats: FoodLogStats!
 }
 
 type Query {
@@ -441,4 +442,25 @@ type FoodMeasurement {
   fat: Int!
   carbs: Int!
   protein: Int!
+}
+
+type FoodLogStats {
+  summary: FoodLogStatSummary!
+  visualizationData: [FoodLogDataPoint!]!
+}
+
+type FoodLogStatSummary {
+  totalFoodsLogged: Int!
+  averageDailyCalories: Float!
+  averageDailyFat: Float!
+  averageDailyCarbs: Float!
+  averageDailyProtein: Float!
+}
+
+type FoodLogDataPoint {
+  day: Date!
+  calories: Float!
+  fat: Float!
+  carbs: Float!
+  protein: Float!
 }

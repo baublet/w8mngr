@@ -8,13 +8,15 @@ import { SecondaryButton } from "../components/Button/Secondary";
 import { Spacer } from "../components/Spacer";
 import { FoodCircleIcon } from "../components/Icons/FoodCircle";
 
+import { FoodLogStats } from "../components/FoodLog";
+
 export function Nutrition() {
   return (
     <div>
-      <PageHeading icon={<FoodCircleIcon />}>Nutrition</PageHeading>
+      <PageHeading icon={<FoodCircleIcon />}>Nutrition Dashboard</PageHeading>
       <ContentContainer>
         <ContentLayout
-          mainContent={<>Placeholder</>}
+          mainContent={<FoodLogStats />}
           sideContent={
             <div>
               <SecondaryButton to="/foodlog" full>

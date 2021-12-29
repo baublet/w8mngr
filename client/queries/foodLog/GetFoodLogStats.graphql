@@ -1,0 +1,20 @@
+query GetFoodLogStats {
+  currentUser {
+    foodLogStats {
+      summary {
+        totalFoodsLogged
+        averageDailyCalories
+        averageDailyFat
+        averageDailyCarbs
+        averageDailyProtein
+      }
+      visualizationData {
+        day
+        calories
+        fat
+        carbs
+        protein
+      }
+    }
+  }
+}

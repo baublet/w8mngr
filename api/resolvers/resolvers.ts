@@ -20,6 +20,7 @@ import { foodLog } from "./user/foodLog";
 import { foods } from "./user/foods";
 import { activities } from "./user/activities";
 import { popularUserActivities } from "./user/popularActivities";
+import { userFoodLogStats } from "./user/foodLogStats";
 
 import { activityMuscleGroups } from "./activity/musclesGroups";
 import { activityLogs } from "./activity/logs";
@@ -47,6 +48,7 @@ export const resolvers: Resolvers = {
     foodLog,
     foods,
     popularActivities: popularUserActivities,
+    foodLogStats: userFoodLogStats,
   },
   Food: {
     image: foodImage,

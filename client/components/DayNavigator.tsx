@@ -11,11 +11,9 @@ import { dayStringFromDate } from "../../shared/dayStringFromDate";
 import { dayStringToDate } from "../../shared/dayStringToDate";
 
 export function DayNavigator({
-  onChange,
   rootUrl,
   onRefresh,
 }: {
-  onChange: React.Dispatch<React.SetStateAction<string>>;
   onRefresh: () => void;
   rootUrl: string;
 }) {
@@ -27,10 +25,6 @@ export function DayNavigator({
   const [dayString, setDayString] = React.useState(
     params.day || todayDayString
   );
-
-  React.useEffect(() => {
-    onChange(dayString);
-  }, [dayString]);
 
   const dayDate = React.useMemo(() => dayStringToDate(dayString), [dayString]);
   const [isCurrentDayToday, setIsToday] = React.useState(() => {

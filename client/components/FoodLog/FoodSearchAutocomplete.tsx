@@ -126,7 +126,7 @@ export function FoodSearchAutocomplete({
         return selectedFoodId;
       });
     },
-    []
+    [day]
   );
 
   const saveSelectedFoodWithoutMeasurements = React.useCallback(

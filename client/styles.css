@@ -16,6 +16,10 @@ svg {
   fill: currentColor;
 }
 
+.recharts-wrapper svg {
+  all: unset;
+}
+
 a svg,
 button svg {
   opacity: 0.75;

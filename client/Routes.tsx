@@ -30,8 +30,11 @@ const routes = [
   { key: "activities", path: "/activities", Component: Activities },
   { key: "new-activity", path: "/activities/new", Component: NewActivity },
   { key: "edit-act", path: "/activities/edit/:id", Component: EditActivity },
-  { key: "activity-log", path: "/activities/:id/log", Component: ActivityLog },
-  { key: "activity-log-day", path: "/activities/:id/log/:day", Component: ActivityLog },
+  {
+    key: "activity-log",
+    path: ["/activities/:id/log", "/activities/:id/log/:day"],
+    Component: ActivityLog,
+  },
   { key: "activity-details", path: "/activities/:id", Component: Activity },
 ];
 

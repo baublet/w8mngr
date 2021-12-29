@@ -57,7 +57,7 @@ export function NewFoodLogPanel({
   const [createFood, { loading }] = useCreateOrUpdateFoodLogMutation({
     onCompleted: () => {
       newFoodLogForm.clear();
-      setInterval(() => {
+      setTimeout(() => {
         descriptionInputRef.current?.focus();
       }, 50);
     },

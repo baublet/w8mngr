@@ -1,5 +1,6 @@
 import React from "react";
 import cx from "classnames";
+import { useParams } from "react-router";
 
 import { DayNavigator } from "../DayNavigator";
 import { NewFoodLogPanel } from "./NewFoodLogPanel";
@@ -20,9 +21,14 @@ const columns: ["calories", "fat", "carbs", "protein"] = [
 ];
 
 export function FoodLog() {
-  const [dayString, setDayString] = React.useState<string>(() =>
-    dayStringFromDate(new Date())
-  );
+  const { day } = useParams<{ day?: string }>();
+  const dayString = React.useMemo(() => {
+    if(!day) {
+      return dayStringFromDate(new Date());
+    }
+    return day;
+  }, [day])
+
   const { data, refetch } = useGetCurrentUserFoodLogQuery({
     fetchPolicy: "network-only",
     variables: {
@@ -54,7 +60,6 @@ export function FoodLog() {
   return (
     <div>
       <DayNavigator
-        onChange={setDayString}
         onRefresh={() =>
           refetch({
             day: dayString,

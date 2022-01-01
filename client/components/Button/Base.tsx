@@ -33,7 +33,7 @@ export function BaseButton({
     "p-3": size === "default",
     "pl-2": leftIcon && size === "default",
     "pr-2": rightIcon && size === "default",
-    "p-2 lowercase text-sm": size === "extra-small",
+    "p-3 lowercase text-xs": size === "extra-small",
   });
 
   return to ? (

@@ -14,6 +14,7 @@ import { MuscleMap } from "../components/MuscleMap";
 import { IntensityScale } from "../components/Activity/IntensityScale";
 import { ActivityStatsComponent } from "../components/Activity";
 import { DayNavigator } from "../components/DayNavigator";
+import { BackWithIconButton } from "../components/Button/BackWithIcon";
 
 export function ActivityLog() {
   const { id, day = "" } = useParams<{ id: string; day: string }>();
@@ -27,13 +28,13 @@ export function ActivityLog() {
   const { replace } = useHistory();
   const [stateDay, setDay] = React.useState(day);
   React.useEffect(() => {
-    if(!stateDay) {
+    if (!stateDay) {
       return;
     }
     replace(`/activities/${id}/log/${stateDay}`);
   }, [stateDay]);
   React.useEffect(() => {
-    if(!day) {
+    if (!day) {
       return;
     }
     setDay(day);
@@ -50,9 +51,15 @@ export function ActivityLog() {
       <PageHeading
         icon={<HealthCircleIcon />}
         quickLinks={
-          <>
+          <div className="flex gap-4">
             <BackToButton to="/activities">Back to Activities</BackToButton>
-          </>
+            <BackWithIconButton
+              icon={<HealthCircleIcon />}
+              to={`/activities/${activity.id}`}
+            >
+              View Activity
+            </BackWithIconButton>
+          </div>
         }
       >
         <div className="flex gap-2 items-center">
@@ -65,7 +72,6 @@ export function ActivityLog() {
           mainContent={
             <div className="flex flex-col gap-4">
               <DayNavigator
-                onChange={setDay}
                 rootUrl={`/activities/${id}/log/`}
                 onRefresh={onRefresh}
               />

@@ -5,7 +5,7 @@ export function PanelInverted(
   props: React.PropsWithChildren<{ className?: string }>
 ) {
   const classNames = cx(
-    "bg-emerald-600 text-emerald-50 p-3 shadow-lg hover:shadow rounded bg-opacity-90",
+    "bg-slate-900 text-slate-50 p-3 shadow-lg hover:shadow rounded bg-opacity-90",
     props.className
   );
   return (

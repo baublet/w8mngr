@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 
 import { Home } from "./pages/Home";
@@ -41,24 +41,15 @@ const routes = [
 export function Routes() {
   return (
     <div className="relative">
-      {routes.map(({ key, path, Component }) => (
-        <Route key={key} path={path} exact>
-          {({ match }) => {
-            return (
-              <CSSTransition
-                in={match != null}
-                classNames="router"
-                timeout={1000}
-                unmountOnExit
-              >
-                <div className="router">
-                  <Component />
-                </div>
-              </CSSTransition>
-            );
-          }}
-        </Route>
-      ))}
+      <Switch>
+        {routes.map(({ key, path, Component }) => (
+          <Route key={key} path={path} exact>
+            <div className="toast">
+              <Component />
+            </div>
+          </Route>
+        ))}
+      </Switch>
     </div>
   );
 }

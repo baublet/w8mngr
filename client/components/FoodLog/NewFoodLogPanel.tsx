@@ -14,6 +14,8 @@ import {
   useCreateOrUpdateFoodLogMutation,
   GetCurrentUserFoodLogDocument,
 } from "../../generated";
+import { PrimaryButton } from "../Button/Primary";
+import { PrimaryLightButton } from "../Button/PrimaryLight";
 
 const schema = object().shape({
   description: string().required(),
@@ -142,12 +144,12 @@ export function NewFoodLogPanel({
         </div>
         <div className="flex text-md gap-2 justify-end">
           <BarcodeScannerButton day={day} />
-          <SecondaryButton
+          <PrimaryLightButton
             leftIcon={loading ? <ButtonSpinner /> : undefined}
             type="submit"
           >
             New Entry
-          </SecondaryButton>
+          </PrimaryLightButton>
         </div>
       </Form>
     </PanelInverted>

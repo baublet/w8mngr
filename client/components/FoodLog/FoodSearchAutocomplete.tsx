@@ -191,7 +191,7 @@ export function FoodSearchAutocomplete({
                 <div
                   key={food.cursor}
                   className={cx(
-                    "flex w-full flex-col text-xs hover:text-slate-600 hover:bg-slate-50",
+                    "flex w-full flex-col text-xs hover:text-slate-600 hover:bg-slate-50 rounded-lg",
                     {
                       "bg-slate-100": selected,
                     }

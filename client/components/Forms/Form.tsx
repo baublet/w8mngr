@@ -4,18 +4,24 @@ import cx from "classnames";
 interface Props {
   loading?: boolean;
   onSubmit?: () => void;
+  className?: string;
 }
 
 export function Form({
   children,
   loading = false,
   onSubmit,
+  className,
 }: React.PropsWithChildren<Props>) {
   return (
     <form
-      className={cx("block p-6 -m-6", {
-        ["bg-white bg-opacity-10 pointer-events-none"]: loading,
-      })}
+      className={cx(
+        "block p-6 -m-6",
+        {
+          ["bg-white bg-opacity-10 pointer-events-none"]: loading,
+        },
+        className
+      )}
       onSubmit={(e) => {
         e.preventDefault();
         onSubmit?.();

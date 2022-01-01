@@ -6,17 +6,31 @@
       name="viewport"
       content="width=device-width,maximum-scale=2.0,initial-scale=1,user-scalable=no"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/tailwind.css" />
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
     <title>w8mngr</title>
   </head>
   <body
-    class="bg-slate-50 text-inherit text-lg h-full border-t-8 border-emerald-400"
+    class="
+      bg-slate-50
+      text-inherit text-lg
+      h-full
+      border-t-8 border-emerald-400
+    "
   >
-    <div id="root" class="min-h-full flex justify-center"></div>
+    <div class="relative h-full">
+      <div id="root" class="min-h-full flex justify-center"></div>
+      <div
+        id="modalRoot"
+        class="fixed left-0 right-0 bottom-0 top-0 overflow-y-scroll hidden"
+      ></div>
+    </div>
     <script type="module" src="/index.tsx"></script>
+    <link rel="stylesheet" href="/tailwind.css" />
+    <link rel="stylesheet" href="/styles.css" />
   </body>
 </html>

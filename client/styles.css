@@ -52,6 +52,18 @@ body {
   overflow-x: hidden;
 }
 
+body.modal-open {
+  overflow-y: hidden;
+}
+
+.modal-open #root {
+  overflow-y: scroll;
+}
+
+#reader .drawingBuffer {
+  display: none;
+}
+
 select {
   appearance: none;
   -webkit-appearance: none;
@@ -132,7 +144,7 @@ select::-ms-expand {
   animation-delay: 0;
   animation-duration: 0.25s;
   animation-name: toastSlideUp;
-  animation-timing-function: cubic-bezier(.2,1,0,.9);
+  animation-timing-function: cubic-bezier(0.2, 1, 0, 0.9);
 }
 
 @keyframes toastSlideUp {

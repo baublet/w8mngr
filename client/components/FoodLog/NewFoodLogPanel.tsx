@@ -7,6 +7,7 @@ import { InputInverted, Form } from "../Forms";
 import { SecondaryButton } from "../Button/Secondary";
 import { Spacer } from "../Spacer";
 import { ButtonSpinner } from "../Loading/ButtonSpinner";
+import { BarcodeScannerButton } from "../BarcodeScanner";
 
 import { foodLogLocalStorage } from "../../helpers";
 import {
@@ -99,7 +100,7 @@ export function NewFoodLogPanel({
 
   return (
     <PanelInverted className="p-2">
-      <Form loading={loading} onSubmit={create}>
+      <Form loading={loading} onSubmit={create} className="flex flex-col gap-4">
         <InputInverted
           placeholder=""
           label="Description"
@@ -139,17 +140,14 @@ export function NewFoodLogPanel({
             value={newFoodLogForm.getValue("protein", "")}
           />
         </div>
-        <div className="flex">
-          <div className="flex-grow" />
-          <div className="flex flex-col text-md">
-            <Spacer size="s" />
-            <SecondaryButton
-              leftIcon={loading ? <ButtonSpinner /> : undefined}
-              type="submit"
-            >
-              New Entry
-            </SecondaryButton>
-          </div>
+        <div className="flex text-md gap-2 justify-end">
+          <BarcodeScannerButton day={day} />
+          <SecondaryButton
+            leftIcon={loading ? <ButtonSpinner /> : undefined}
+            type="submit"
+          >
+            New Entry
+          </SecondaryButton>
         </div>
       </Form>
     </PanelInverted>

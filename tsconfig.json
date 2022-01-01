@@ -11,6 +11,7 @@
       "./types/json-stringify-deterministic",
       "./types/Maybe",
       "./types/Resolvable",
+      "./types/quagga",
       "jest",
       "react/next"
     ]

@@ -18,6 +18,7 @@ import { PrimaryButton } from "../Button/Primary";
 import _ from "lodash";
 import { DeleteIconButton } from "../Button/DeleteIconButton";
 import { CloseIcon } from "../Icons/Close";
+import { SecondaryButton } from "../Button/Secondary";
 
 export function ScannerResults({
   code,
@@ -117,7 +118,7 @@ export function ScannerResults({
       });
   }, [code]);
 
-  const [createFoodLog] = useCreateOrUpdateFoodLogMutation({
+  const [createFoodLog, { loading: saving }] = useCreateOrUpdateFoodLogMutation({
     refetchQueries: [
       {
         query: GetCurrentUserFoodLogDocument,
@@ -164,25 +165,37 @@ export function ScannerResults({
   }
 
   return (
-    <div className={cx("flex flex-col gap-2 bg-slate-900 shadow-lg text-slate-50 rounded-lg overflow:hidden", {
-      "p-4": open
-    })}>
+    <div
+      className={cx(
+        "toast flex flex-col gap-2 bg-opacity-95 bg-slate-900 shadow-lg text-slate-100 rounded overflow:hidden",
+        {
+          "p-4": open,
+          "p-1 hover:bg-slate-800": !open,
+          "opacity-75 pointer-events-none": saving
+        }
+      )}
+    >
       <div className="flex gap-4 justify-between items-center">
-        <button className="w-full flex flex-col gap-2 flex-shrink cursor-pointer" onClick={() => setOpen(!open)}>
-            <h4
-              className={cx("font-thin", {
-                "text-2xl": open,
-                "text-sm p-4": !open,
-              })}
-            >
-              {result.name}
-            </h4>
+        <button
+          className="w-full flex flex-col gap-2 flex-shrink cursor-pointer"
+          onClick={() => setOpen(!open)}
+        >
+          <h4
+            className={cx("", {
+              "text-2xl font-thin": open,
+              "text-sm font-bold p-4 opacity-75 hover:opacity-100": !open,
+            })}
+          >
+            {result.name}
+          </h4>
           {open && <div className="text-xs">{result.description}</div>}
         </button>
-        <button onClick={close} className={cx("bg-rose-600 hover:bg-rose-400 p-4", {
-          "rounded-r-lg": !open,
-          "rounded-lg": open
-        })}><CloseIcon /></button>
+        <button
+          onClick={close}
+          className={"bg-rose-600 hover:bg-rose-400 p-4 rounded"}
+        >
+          <CloseIcon />
+        </button>
       </div>
       {open &&
         result.measurements.map((measurement, i) => (
@@ -229,25 +242,52 @@ function Measurement({
   const amountNumber = isNaN(amountNumberMaybeNaN) ? 1 : amountNumberMaybeNaN;
 
   const save = React.useCallback(() => {
-    return () => {
-      setAmount((currentAmount) => {
-        getHandler({
-          amount: amountNumber,
-          calories: measurementStringToNumberOrUndefined(
-            getMeasurementWithMultiplier({
-              currentAmount,
-              originalAmount: defaultAmount,
-              measurementValue: calories,
-            })
-          ),
-        });
-        return amount;
-      });
-    };
+    setAmount((currentAmountString) => {
+      const currentAmount = stringValueToNumberOrZero(currentAmountString);
+      getHandler({
+        amount: amountNumber,
+        measurement,
+        calories: stringValueToNumberOrZero(
+          getMeasurementWithMultiplier({
+            currentAmount,
+            originalAmount: defaultAmount,
+            measurementValue: calories,
+          })
+        ),
+        fat: stringValueToNumberOrZero(
+          getMeasurementWithMultiplier({
+            currentAmount,
+            originalAmount: defaultAmount,
+            measurementValue: fat,
+          })
+        ),
+        carbs: stringValueToNumberOrZero(
+          getMeasurementWithMultiplier({
+            currentAmount,
+            originalAmount: defaultAmount,
+            measurementValue: carbs,
+          })
+        ),
+        protein: stringValueToNumberOrZero(
+          getMeasurementWithMultiplier({
+            currentAmount,
+            originalAmount: defaultAmount,
+            measurementValue: protein,
+          })
+        ),
+      })();
+      return amount;
+    });
   }, []);
 
   return (
     <div className="flex gap-2 items-end w-full text-sm">
+      <SecondaryOutlineButton
+        onClick={save}
+        className="h-12 w-12 rounded-full flex items-center justify-center hover:bg-teal-500 hover:border-transparent hover:text-slate-50"
+      >
+        <Add />
+      </SecondaryOutlineButton>
       <div className="w-20">
         <Input
           placeholder="Amount"
@@ -257,7 +297,7 @@ function Measurement({
           size="sm"
           className="text-slate-900"
         />
-        <Label>amount</Label>
+        <Label input>amount</Label>
       </div>
       <div className="flex-grow">
         {measurement}
@@ -295,24 +335,29 @@ function Measurement({
         })}
         <Label>protein</Label>
       </div>
-      <div>
-        <PrimaryButton
-          onClick={getHandler({
-            amount: amountNumber,
-            calories: getMeasurementWithMultiplier({
-              currentAmount: amountNumber,
-              originalAmount: defaultAmount,
-              measurementValue: calories,
-            }),
-          })}
-        >
-          <Add />
-        </PrimaryButton>
-      </div>
     </div>
   );
 }
 
-function Label({ children }: React.PropsWithChildren<{}>) {
-  return <div className="text-xs text-slate-400 truncate">{children}</div>;
+function Label({
+  children,
+  input,
+}: React.PropsWithChildren<{ input?: boolean }>) {
+  return (
+    <div
+      className={cx("text-xs text-slate-400 truncate", {
+        "mt-2": input === undefined,
+      })}
+    >
+      {children}
+    </div>
+  );
+}
+
+function stringValueToNumberOrZero(value: string): number {
+  const valueNumber = parseFloat(value);
+  if (isNaN(valueNumber)) {
+    return 0;
+  }
+  return valueNumber;
 }

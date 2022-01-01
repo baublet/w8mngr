@@ -2,6 +2,7 @@ import React from "react";
 
 import { SecondaryIconButton } from "../Button/SecondaryIcon";
 import { BarcodeIcon } from "../Icons/Barcode";
+import { Link } from "../Link";
 import { Modal } from "../Modal";
 import { BarcodeScanner } from "./BarcodeScanner";
 
@@ -29,7 +30,7 @@ export function BarcodeScannerButton({ day }: { day: string }) {
         }
       >
         <div className="flex flex-col gap-4">
-          <span>Scan a barcode to search for it in our database!</span>
+          <span className="text-sm">Scan a barcode to search for it in the <Link to="https://world.openfoodfacts.org/">Open Food Facts</Link> database!</span>
           {!open ? null : <BarcodeScanner day={day} />}
         </div>
       </Modal>

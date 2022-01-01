@@ -1,6 +1,6 @@
 import React from "react";
 import cx from "classnames";
-import Quagga from "quagga";
+import Quagga from "@ericblade/quagga2";
 
 import { ButtonSpinner } from "../Loading/ButtonSpinner";
 import { ScannerResults } from "./ScannerResults";
@@ -19,7 +19,7 @@ export function BarcodeScanner({ day }: { day: string }) {
       if (codes.includes(code)) {
         return codes;
       }
-      console.log("New barcode detected...");
+      console.log("New barcode detected: ", code);
       return [...codes, code];
     });
   }, []);
@@ -50,19 +50,17 @@ export function BarcodeScanner({ day }: { day: string }) {
             <ButtonSpinner />
           </div>
         </div>
-        <div
-          className={cx(
-            "absolute top-2 right-2 bottom-2 left-2 overflow-y-auto p-2 flex flex-col justify-end"
-          )}
-        >
-          {codes.map((code, i) => (
-            <ScannerResults
-              code={code}
-              key={code}
-              day={day}
-              close={getHandleClose(code)}
-            />
-          ))}
+        <div className="absolute top-2 right-2 bottom-2 left-2 overflow-x-hidden overflow-y-auto p-2">
+          <div className="flex flex-col justify-end gap-2">
+            {codes.map((code, i) => (
+              <ScannerResults
+                code={code}
+                key={code}
+                day={day}
+                close={getHandleClose(code)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </>
@@ -96,7 +94,7 @@ function initializeBarcodeScanner({
           frequency: 10,
         },
         decoder: {
-          readers: ["upc_e_reader"],
+          readers: ["upc_reader", "upc_e_reader"],
         },
       },
       (error?: Error) => {

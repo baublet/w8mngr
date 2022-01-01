@@ -1,1 +1,1 @@
-declare module "quagga";
+declare module "@ericblade/quagga2";

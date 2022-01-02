@@ -15,7 +15,7 @@ export function DeleteButton(
   return (
     <GhostButton
       {...newProps}
-      className={`bg-transparent p-3 text-red-500 border border-red-500 rounded text-xs hover:bg-red-500 focus:bg-red-500 hover:text-white focus:rext-white ${
+      className={`bg-transparent p-3 text-rose-500 border border-rose-500 rounded text-xs hover:bg-rose-500 focus:bg-rose-500 hover:text-white focus:rext-white ${
         props.className || ""
       }`}
       onClick={newOnclick}

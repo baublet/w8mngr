@@ -12,7 +12,7 @@ const db = knex({
 const getDb = () => db;
 
 const dumpsPath = path.resolve(process.cwd(), "dumps");
-const dumps = ["activity", "food", "measurement"] as const;
+const dumps = ["activity", "food", "activityEntry", "foodEntry", "measurement"] as const;
 
 (async () => {
   for (const dump of dumps) {

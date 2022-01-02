@@ -13,9 +13,9 @@ text-opacity-25
 rounded-full
 text-xs
 
-hover:bg-red-700
-active:bg-red-700
-focus:bg-red-700
+hover:bg-rose-700
+active:bg-rose-700
+focus:bg-rose-700
 
 active:text-white
 focus:text-white

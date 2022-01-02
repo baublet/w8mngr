@@ -1,0 +1,1 @@
+export { getMovingAverage } from "./getMovingAverage";

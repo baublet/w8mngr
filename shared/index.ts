@@ -9,3 +9,4 @@ export { assertIsError } from "./assertIsError";
 export { withNumericKeys } from "./withNumericKeys";
 export { workToUnit } from "./workToUnit";
 export { objectEntries } from "./objectEntries";
+export { getMovingAverage } from "./math";

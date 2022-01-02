@@ -107,7 +107,7 @@ function Message({
       console.error(message);
       return (
         <div>
-          <div className="uppercase text-red-500 mb-2 font-bold text-xs">
+          <div className="uppercase text-rose-500 mb-2 font-bold text-xs">
             Unexpected error
           </div>
           <div>{message.message}</div>
@@ -126,7 +126,7 @@ function Message({
           "w-96 text-md shadow-lg p-4 rounded-lg border-t-4 bg-white relative pointer-events-auto",
           {
             "toast-fadeout": fadeout,
-            "border-red-500": type === "error",
+            "border-rose-500": type === "error",
             "border-emerald-500": type === "success",
           }
         )}

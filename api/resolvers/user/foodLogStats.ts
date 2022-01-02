@@ -9,6 +9,7 @@ import {
   dayStringFromDate,
   objectEntries,
   dayStringToDate,
+  getMovingAverage,
 } from "../../../shared";
 
 const DATA_POINTS = ["calories", "fat", "carbs", "protein"] as const;
@@ -44,41 +45,25 @@ export const userFoodLogStats: UserResolvers["foodLogStats"] = async (
   const averageDailyFatMap: Record<string, number> = {};
   const averageDailyProteinMap: Record<string, number> = {};
 
-  const dataMap: Record<FoodLogDataPointLabels, Record<string, number>> = {
-    calories: averageDailyCaloriesMap,
-    carbs: averageDailyCarbsMap,
-    fat: averageDailyFatMap,
-    protein: averageDailyProteinMap,
-  };
-
   for (const [day, foodLogs] of days) {
     for (const foodLog of foodLogs) {
-      maybeAddToAverage(averageDailyCaloriesMap, day, foodLog.calories);
-      maybeAddToAverage(averageDailyCarbsMap, day, foodLog.carbs);
-      maybeAddToAverage(averageDailyFatMap, day, foodLog.fat);
-      maybeAddToAverage(averageDailyProteinMap, day, foodLog.protein);
+      maybeAddToTotal(averageDailyCaloriesMap, day, foodLog.calories);
+      maybeAddToTotal(averageDailyCarbsMap, day, foodLog.carbs);
+      maybeAddToTotal(averageDailyFatMap, day, foodLog.fat);
+      maybeAddToTotal(averageDailyProteinMap, day, foodLog.protein);
     }
   }
 
-  let averageDailyCalories = 0;
-  let averageDailyCarbs = 0;
-  let averageDailyFat = 0;
-  let averageDailyProtein = 0;
-
-  for (const [day] of days) {
-    averageDailyCalories +=
-      (averageDailyCalories + averageDailyCaloriesMap[day]) / 2;
-    averageDailyCarbs += (averageDailyCarbs + averageDailyCarbsMap[day]) / 2;
-    averageDailyFat += (averageDailyFat + averageDailyFatMap[day]) / 2;
-    averageDailyProtein +=
-      (averageDailyProtein + averageDailyProteinMap[day]) / 2;
-  }
+  const averageDailyCalories = getFlattenedAverage(averageDailyCaloriesMap);
+  const averageDailyCarbs = getFlattenedAverage(averageDailyCarbsMap);
+  const averageDailyFat = getFlattenedAverage(averageDailyFatMap);
+  const averageDailyProtein = getFlattenedAverage(averageDailyProteinMap);
 
   const visualizationData: FoodLogDataPoint[] = days.map(([day, foodLogs]) => {
     return {
       day: format(dayStringToDate(day), "PP"),
       ...foodLogs.reduce(
-        (data, foodLog) => {
+        (data, foodLog, i) => {
           data.calories += orZero(foodLog.calories);
           data.carbs += orZero(foodLog.carbs);
           data.fat += orZero(foodLog.fat);
@@ -92,11 +77,32 @@ export const userFoodLogStats: UserResolvers["foodLogStats"] = async (
           protein: 0,
         } as Omit<FoodLogDataPoint, "day">
       ),
-      calories: orZero(averageDailyCaloriesMap[day]),
-      carbs: orZero(averageDailyCarbsMap[day]),
-      fat: orZero(averageDailyFatMap[day]),
-      protein: orZero(averageDailyProteinMap[day]),
     };
+  });
+
+  const span = 7;
+  const movingAverageCalories = getMovingAverage(
+    visualizationData.map((d) => d.calories),
+    { span }
+  );
+  const movingAverageFat = getMovingAverage(
+    visualizationData.map((d) => d.fat),
+    { span }
+  );
+  const movingAverageCarbs = getMovingAverage(
+    visualizationData.map((d) => d.carbs),
+    { span }
+  );
+  const movingAverageProtein = getMovingAverage(
+    visualizationData.map((d) => d.protein),
+    { span }
+  );
+  const movingAverageDays = movingAverageProtein.map((d, i) => {
+    const visDataIndex = i * span;
+    if (visDataIndex > visualizationData.length) {
+      return visualizationData[visualizationData.length - 1].day;
+    }
+    return visualizationData[visDataIndex].day;
   });
 
   return {
@@ -107,7 +113,13 @@ export const userFoodLogStats: UserResolvers["foodLogStats"] = async (
       averageDailyProtein,
       totalFoodsLogged: foodLogsInRange.length,
     },
-    visualizationData,
+    visualizationData: movingAverageCalories.map((data, i) => ({
+      day: movingAverageDays[i],
+      calories: movingAverageCalories[i],
+      fat: movingAverageFat[i],
+      carbs: movingAverageCarbs[i],
+      protein: movingAverageProtein[i],
+    })),
   };
 };
 
@@ -115,7 +127,7 @@ function orZero(value: any) {
   return value || 0;
 }
 
-function maybeAddToAverage<T extends Record<any, any>>(
+function maybeAddToTotal<T extends Record<any, any>>(
   subject: T,
   key: keyof T,
   value: any
@@ -124,7 +136,7 @@ function maybeAddToAverage<T extends Record<any, any>>(
   if (anySubject[key] === undefined) {
     anySubject[key] = value;
   } else {
-    anySubject[key] = (anySubject[key] + value) / 2;
+    anySubject[key] += value;
   }
 }
 
@@ -148,4 +160,17 @@ function getDateRangeWithDefault(args?: {
     from: dayStringFromDate(from as Date),
     to: dayStringFromDate(to as Date),
   };
+}
+
+function getFlattenedAverage(set: Record<string, number>): number {
+  const entries = objectEntries(set);
+  let total = 0;
+  let totalValues = 0;
+
+  for (const [, value] of entries) {
+    total += value;
+    totalValues += 1;
+  }
+
+  return total / totalValues;
 }

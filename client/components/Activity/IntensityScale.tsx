@@ -13,8 +13,8 @@ const intensityClasses: Record<number, string> = {
   6: "text-amber-500 opacity-50",
   7: "text-amber-500 opacity-75",
   8: "text-amber-500",
-  9: "text-red-500 opacity-75",
-  10: "text-red-500",
+  9: "text-rose-500 opacity-75",
+  10: "text-rose-500",
 };
 
 const sizes = {

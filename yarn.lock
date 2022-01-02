@@ -957,7 +957,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ericblade/quagga2@npm:^1.4.2":
+"@ericblade/quagga2@npm:1.4.2":
   version: 1.4.2
   resolution: "@ericblade/quagga2@npm:1.4.2"
   dependencies:
@@ -13629,7 +13629,7 @@ __metadata:
   dependencies:
     "@apollo/client": ^3.4.17
     "@baublet/service-container": ^0.5.0
-    "@ericblade/quagga2": ^1.4.2
+    "@ericblade/quagga2": 1.4.2
     "@graphql-codegen/cli": ^2.2.2
     "@graphql-codegen/typescript": ^2.3.1
     "@graphql-codegen/typescript-operations": ^2.2.0

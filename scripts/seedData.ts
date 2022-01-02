@@ -20,6 +20,7 @@ const adminUserId = "01FPDV213V6K6M04D4YMR8T3QH";
 
 (async () => {
   await seedAdmin();
+  await seedFoodEntries();
   await seedActivities();
   await seedFoods();
   await seedMeasurements();
@@ -314,4 +315,34 @@ async function seedMeasurements(): Promise<void> {
   }
 
   console.log("\nTotal measurements: ", total);
+}
+
+async function seedFoodEntries() {
+  console.log("Seeding legacy food entries into the new food entries table");
+  await db.raw(`
+INSERT INTO food_log
+  (id,
+   userid,
+   day,
+   createdat,
+   updatedat,
+   description,
+   calories,
+   fat,
+   carbs,
+   protein)
+SELECT id,
+  "${adminUserId}",
+  day,
+  created_at,
+  updated_at,
+  description,
+  calories,
+  fat,
+  carbs,
+  protein
+  FROM legacy_food_entries
+WHERE
+  user_id = 1;
+  `);
 }

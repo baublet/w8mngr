@@ -41,14 +41,17 @@ export function BarcodeScanner({ day }: { day: string }) {
     <>
       <div className="rounded-lg overflow-hidden border border-slate-200 p-2 relative">
         <div
-          id={scannerVideoId}
           className={cx(
             "aspect-video w-full rounded-lg overflow-hidden relative"
           )}
         >
-          <div className="-z-10 absolute top-0 right-0 bottom-0 left-0 bg-slate-900 flex text-slate-50 justify-center items-center">
+          <div className="absolute top-0 right-0 bottom-0 left-0 bg-slate-900 flex text-slate-50 justify-center items-center">
             <ButtonSpinner />
           </div>
+          <div
+            id={scannerVideoId}
+            className="absolute top-0 right-0 bottom-0 left-0"
+          />
         </div>
         <div className="absolute top-2 right-2 bottom-2 left-2 overflow-x-hidden overflow-y-auto p-2">
           <div className="flex flex-col justify-end gap-2">

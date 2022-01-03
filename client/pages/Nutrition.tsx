@@ -48,12 +48,12 @@ export function Nutrition() {
                     </div>
                   </StatPanel>
                   <StatPanel>
+                    <h4 className="font-thin text-base mb-4">Daily Macros</h4>
                     <MacrosPieChart
                       averageDailyCarbs={summary.averageDailyCarbs}
                       averageDailyFat={summary.averageDailyFat}
                       averageDailyProtein={summary.averageDailyProtein}
                     />
-                    <h4 className="font-thin text-base text-center">Daily Macros</h4>
                   </StatPanel>
                 </div>
               )}

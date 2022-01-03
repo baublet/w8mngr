@@ -20,6 +20,12 @@ svg {
   all: unset;
 }
 
+svg.svgImage {
+  all: unset;
+  width: 100%;
+  height: auto;
+}
+
 a svg,
 button svg {
   opacity: 0.75;

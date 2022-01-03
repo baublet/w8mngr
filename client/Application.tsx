@@ -6,6 +6,7 @@ import { HeartIcon } from "./components/Icons/Heart";
 import { Routes } from "./Routes";
 import { HeaderNavigation } from "./components/Navigation/HeaderNavigation";
 import { ToastProvider } from "./helpers";
+import { Logo } from "./components/Logo";
 
 export function Application(): React.ReactComponentElement<any> {
   // When the URL changes, scroll to the top
@@ -21,15 +22,8 @@ export function Application(): React.ReactComponentElement<any> {
         <header className="overflow-x-auto lg:overflow-x-hidden">
           <ContentContainer className="mt-4 pb-4 mb-4 flex items-center">
             <h1 className="text-center text-emerald-400 mr-12">
-              <Link to="/" title="w8mngr" className="flex items-center">
-                <div className="text-5xl">
-                  <HeartIcon />
-                </div>
-                <div className="text-base ml-4 flex items-center">
-                  <b className="font-light text-emerald-700">w</b>
-                  <b className="text-purple-800 font-bold text-xl">8</b>
-                  <b className="font-light text-emerald-700">mngr</b>
-                </div>
+              <Link to="/" title="w8mngr" className="flex items-center text-6xl">
+                <Logo />
               </Link>
             </h1>
             <HeaderNavigation />

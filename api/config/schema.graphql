@@ -264,12 +264,37 @@ input UploadUrlInput {
 type ActivityStats {
   personalRecord: ActivityPersonalRecord
   lastLog: ActivityLastLog
+  visualizationData: ActivityVisualizationData!
 }
 
 type ActivityLastLog {
   logs: [ActivityLog!]!
   day: String!
   ago: String!
+}
+
+type ActivityVisualizationData {
+  maximumWork: [ActivityVisualizationWorkDataPoint!]!
+  averageWork: [ActivityVisualizationWorkDataPoint!]!
+  maximumReps: [ActivityVisualizationRepsDataPoint!]!
+  averageReps: [ActivityVisualizationRepsDataPoint!]!
+  scatterPlot: [ActivityVisualizationDataPoint!]!
+}
+
+type ActivityVisualizationRepsDataPoint {
+  day: String!
+  reps: Int!
+}
+
+type ActivityVisualizationWorkDataPoint {
+  day: String!
+  work: Int!
+}
+
+type ActivityVisualizationDataPoint {
+  day: String!
+  reps: Int!
+  work: Int!
 }
 
 type ActivityPersonalRecord {

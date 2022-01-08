@@ -6,6 +6,7 @@ import type {
   FoodMeasurement,
   Activity,
   ActivityMuscle,
+  ActivityLog,
 } from "../api/dataServices";
 import { ActivityType, Muscle } from "../api/graphql-types";
 
@@ -15,15 +16,17 @@ const database = process.env.DATABASE || "develop";
 const db = knex((config as any)[database]);
 const getDb = () => db;
 const legacyFoodIdToFoodId: Record<number, string> = {};
+const legacyActivityIdToActivityId: Record<number, string> = {};
 
 const adminUserId = "01FPDV213V6K6M04D4YMR8T3QH";
 
 (async () => {
   await seedAdmin();
-  await seedFoodEntries();
   await seedActivities();
+  await saveActivityEntries();
   await seedFoods();
   await seedMeasurements();
+  await seedFoodEntries();
   console.log("Done");
   process.exit(0);
 })();
@@ -147,6 +150,8 @@ async function seedActivities(): Promise<void> {
             ...getMuscleGroupEntities(newId, legacyEntry.muscle_groups)
           );
 
+          legacyActivityIdToActivityId[legacyEntry.id] = newId;
+
           return {
             id: newId,
             description: legacyEntry.description,
@@ -269,7 +274,6 @@ async function seedMeasurements(): Promise<void> {
   const batchSize = 1000;
   let total = 0;
   while (hasMore) {
-    const batchNumber = Math.ceil(offset / 100);
     const db = getDb();
     const newFoods = await db
       .select<FoodEntity[]>("*")
@@ -293,7 +297,7 @@ async function seedMeasurements(): Promise<void> {
         "food_id",
         newFoods.map((f) => f.legacyId || -1)
       );
-    total += measurements.length;
+    total += measurements.length - 1;
     measurementsToAdd.push(
       ...measurements.map((measurement) => ({
         id: ulid(),
@@ -345,4 +349,70 @@ SELECT id,
 WHERE
   user_id = 1;
   `);
+}
+
+async function saveActivityEntries() {
+  console.log(
+    "Seeding legacy activity entries into the new activity logs table"
+  );
+
+  type LegacyActivityEntry = {
+    id: number;
+    activity_id: number;
+    user_id: number;
+    day: string;
+    reps: number;
+    work: number;
+    created_at: string;
+    updated_at: string;
+  };
+
+  let hasMore = true;
+  let offset = 0;
+  const batchSize = 1000;
+  let total = 0;
+
+  while (hasMore) {
+    process.stdout.write(".");
+    const legacyActivityEntries = await db
+      .select<LegacyActivityEntry[]>("*")
+      .from("legacy_activity_entries")
+      .where("user_id", "=", 1)
+      .limit(batchSize + 1)
+      .offset(offset);
+
+    if (legacyActivityEntries.length <= batchSize) {
+      hasMore = false;
+    }
+
+    offset += batchSize;
+    total += legacyActivityEntries.length - 1;
+
+    const activityEntriesToAdd: any[] = [];
+
+    activityEntriesToAdd.push(
+      ...legacyActivityEntries
+        .slice(0, -1)
+        .map((entry) => {
+          return {
+            id: ulid(),
+            userId: adminUserId,
+            activityId: legacyActivityIdToActivityId[entry.activity_id],
+            day: entry.day,
+            work: entry.work,
+            reps: entry.reps,
+            createdAt: entry.created_at,
+            updatedAt: entry.updated_at,
+          };
+        })
+        .filter((entry) => Boolean(entry.activityId))
+    );
+
+    await db.batchInsert<ActivityLog>(
+      "activity_log",
+      activityEntriesToAdd,
+      100
+    );
+  }
+  console.log("\nTotal activity entries: ", total);
 }

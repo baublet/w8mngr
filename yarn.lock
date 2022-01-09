@@ -1941,6 +1941,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@popperjs/core@npm:^2.11.2":
+  version: 2.11.2
+  resolution: "@popperjs/core@npm:2.11.2"
+  checksum: 5695bf020eda54636e16a62dc9b5fdd92beaf7b2d19f62fcef049d57c5cff92773562d80cbf760b217c3ec928da310eb24994ab6a00fd39dffa0af9b5dfc01a6
+  languageName: node
+  linkType: hard
+
 "@protobufjs/aspromise@npm:^1.1.1, @protobufjs/aspromise@npm:^1.1.2":
   version: 1.1.2
   resolution: "@protobufjs/aspromise@npm:1.1.2"
@@ -11122,6 +11129,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-fast-compare@npm:^3.0.1":
+  version: 3.2.0
+  resolution: "react-fast-compare@npm:3.2.0"
+  checksum: 8ef272c825ae329f61633ce4ce7f15aa5b84e5214d88bc0823880236e03e985a13195befa2c7a4eda7db3b017dc7985729152d88445823f652403cf36c2b86aa
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.10.2, react-is@npm:^16.6.0":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -11172,6 +11186,19 @@ __metadata:
     "@types/react": ">=16"
     react: ">=16"
   checksum: 108759c9e1b083402e1f38a88d32e6eb640c0d38d24ccfdec86a5ac3262ecc59e7494dc45eaecd6d613e7b91914dc54558ffc2b2e6cf3d2f6e5230b27fe348c9
+  languageName: node
+  linkType: hard
+
+"react-popper@npm:^2.2.5":
+  version: 2.2.5
+  resolution: "react-popper@npm:2.2.5"
+  dependencies:
+    react-fast-compare: ^3.0.1
+    warning: ^4.0.2
+  peerDependencies:
+    "@popperjs/core": ^2.0.0
+    react: ^16.8.0 || ^17
+  checksum: 915fcf08e1da4fd48a200074fcdd936f601ee2173f1e730cfed8a54fd47716aa8bf9cce2392463e3bcbe64a096d0baf463809ed2874b94d3a9d430ae6d817b5d
   languageName: node
   linkType: hard
 
@@ -13635,6 +13662,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": ^2.2.0
     "@graphql-codegen/typescript-react-apollo": ^3.2.2
     "@graphql-codegen/typescript-resolvers": ^2.4.1
+    "@popperjs/core": ^2.11.2
     "@types/bcrypt": ^5.0.0
     "@types/cookie-parser": ^1.4.2
     "@types/express": ^4.17.13
@@ -13680,6 +13708,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-markdown: ^7.1.1
+    react-popper: ^2.2.5
     react-router: ^5
     react-router-dom: ^5
     react-transition-group: ^4.4.2
@@ -13702,6 +13731,15 @@ __metadata:
   dependencies:
     makeerror: 1.0.12
   checksum: ad7a257ea1e662e57ef2e018f97b3c02a7240ad5093c392186ce0bcf1f1a60bbadd520d073b9beb921ed99f64f065efb63dfc8eec689a80e569f93c1c5d5e16c
+  languageName: node
+  linkType: hard
+
+"warning@npm:^4.0.2":
+  version: 4.0.3
+  resolution: "warning@npm:4.0.3"
+  dependencies:
+    loose-envify: ^1.0.0
+  checksum: 4f2cb6a9575e4faf71ddad9ad1ae7a00d0a75d24521c193fa464f30e6b04027bd97aa5d9546b0e13d3a150ab402eda216d59c1d0f2d6ca60124d96cd40dfa35c
   languageName: node
   linkType: hard
 

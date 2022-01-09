@@ -1,7 +1,7 @@
 import React from "react";
 import cx from "classnames";
 
-import { GhostInvertedButton } from "../Button/GhostInverted";
+import { GhostButton } from "../Button/Ghost";
 import { Add } from "../Icons/Add";
 import { CloseIcon } from "../Icons/Close";
 
@@ -30,9 +30,9 @@ export function FiltersPanel({ children }: React.PropsWithChildren<{}>) {
           Filters
         </h3>
         <div>
-          <GhostInvertedButton onClick={toggle}>
+          <GhostButton onClick={toggle}>
             {open ? <CloseIcon /> : <Add />}
-          </GhostInvertedButton>
+          </GhostButton>
         </div>
       </div>
       <div className={cx({ block: open, hidden: !open })}>{children}</div>

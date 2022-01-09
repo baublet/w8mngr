@@ -10,3 +10,5 @@ export { withNumericKeys } from "./withNumericKeys";
 export { workToUnit } from "./workToUnit";
 export { objectEntries } from "./objectEntries";
 export { getMovingAverage } from "./math";
+export { flattenArray } from "./flattenArray";
+export { leftPad } from "./leftPad";

@@ -257,6 +257,11 @@ input UploadUrlInput {
   type: UploadUrlType!
 }
 
+input ActivityVisualizationInput {
+  from: Date
+  to: Date
+}
+
 #################
 # Types         #
 #################
@@ -274,11 +279,11 @@ type ActivityLastLog {
 }
 
 type ActivityVisualizationData {
-  maximumWork: [ActivityVisualizationWorkDataPoint!]!
-  averageWork: [ActivityVisualizationWorkDataPoint!]!
-  maximumReps: [ActivityVisualizationRepsDataPoint!]!
-  averageReps: [ActivityVisualizationRepsDataPoint!]!
-  scatterPlot: [ActivityVisualizationDataPoint!]!
+  maximumWork(input: ActivityVisualizationInput): [ActivityVisualizationWorkDataPoint!]!
+  averageWork(input: ActivityVisualizationInput): [ActivityVisualizationWorkDataPoint!]!
+  maximumReps(input: ActivityVisualizationInput): [ActivityVisualizationRepsDataPoint!]!
+  averageReps(input: ActivityVisualizationInput): [ActivityVisualizationRepsDataPoint!]!
+  scatterPlot(input: ActivityVisualizationInput): [ActivityVisualizationDataPoint!]!
 }
 
 type ActivityVisualizationRepsDataPoint {
@@ -289,12 +294,14 @@ type ActivityVisualizationRepsDataPoint {
 type ActivityVisualizationWorkDataPoint {
   day: String!
   work: Int!
+  workLabel: String!
 }
 
 type ActivityVisualizationDataPoint {
   day: String!
   reps: Int!
   work: Int!
+  workLabel: String!
 }
 
 type ActivityPersonalRecord {

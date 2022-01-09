@@ -1,11 +1,13 @@
 import React from "react";
 import cx from "classnames";
 
-import { ActivityType, Muscle } from "../../generated";
+import { ActivityType, Muscle, GetActivityDetailsQuery } from "../../generated";
 import { activityTypeToHumanReadable } from "../../helpers";
 import { MuscleMap } from "../MuscleMap";
 import { MarkdownRenderer } from "../Markdown";
 import { IntensityScale } from "./IntensityScale";
+import { ActivityTileMap } from "./ActivityTileMap";
+import { Panel } from "../Containers";
 
 type ActivityProps = {
   description?: string | null;
@@ -15,14 +17,30 @@ type ActivityProps = {
   muscleGroups: Muscle[];
 };
 
-export function ActivityDetails({
-  activity: { description, intensity, type, exrx, muscleGroups },
-}: {
-  activity: ActivityProps;
-}) {
+export function ActivityDetails({ data }: { data: GetActivityDetailsQuery }) {
+  const activity = data.currentUser?.activities?.edges?.[0]?.node;
+
+  if (!activity) {
+    return null;
+  }
+
+  const { id, muscleGroups, intensity, type, exrx, description, stats } =
+    activity;
+  const scatterPlotData = stats.visualizationData.scatterPlot;
+
   return (
-    <div className="flex flex-col">
-      <div className="flex flex-col sm:flex-row items-start gap-8 py-8 mb-8">
+    <div className="flex flex-col gap-8">
+      {scatterPlotData && (
+        <div className="z-20">
+          <ActivityTileMap
+            activityId={id}
+            activityType={type}
+            data={scatterPlotData}
+          />
+        </div>
+      )}
+
+      <div className="flex flex-col sm:flex-row items-start gap-8 z-10">
         <div className="flex flex-col px-12 mx-auto">
           <div className="w-48">
             <MuscleMap active={false} selected={muscleGroups} />
@@ -37,13 +55,15 @@ export function ActivityDetails({
               </div>
               <div className="text-5xl font-thin">{intensity}</div>
               <div className="flex flex-col">
-                <div className="text-xs font-bold text-slate-400">/&nbsp;10</div>
+                <div className="text-xs font-bold text-slate-400">
+                  /&nbsp;10
+                </div>
                 <SubHeader>intensity</SubHeader>
               </div>
             </div>
           </div>
 
-          <div className="mt-4">
+          <div>
             <div className="flex items-center mt-2">
               <div className="text-xl font-thin">
                 {activityTypeToHumanReadable(type)}
@@ -53,7 +73,7 @@ export function ActivityDetails({
           </div>
 
           {exrx && (
-            <div className="mt-4 opacity-75">
+            <div className="opacity-75">
               <div className="flex items-center mt-2">
                 <div className="text-xl font-thin">
                   <a href={exrx}>exrx.net link</a>
@@ -66,7 +86,7 @@ export function ActivityDetails({
       </div>
 
       {description && (
-        <div className="mt-4">
+        <div>
           <MarkdownRenderer content={description} />
         </div>
       )}

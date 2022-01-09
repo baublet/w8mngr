@@ -6,6 +6,7 @@ import { ActivityStats, ActivityType } from "../../../graphql-types";
 import { activityLogDataService } from "../..";
 import { numberToContextualUnit } from "../../../helpers";
 import { dayStringFromDate, dayStringToDate } from "../../../../shared";
+import { getVisualizationDataResolvers } from "./visualizationData";
 
 export async function stats(
   context: Context,
@@ -69,7 +70,7 @@ export async function stats(
         .where("activityId", "=", activityId)
         .andWhere("userId", "=", userId)
         .orderBy(recordColumn, "desc")
-        .orderBy("createdAt", "desc")
+        .orderBy("createdAt", "asc")
         .limit(1)
     );
     const personalRecordLog = personalRecord[0];
@@ -101,6 +102,12 @@ export async function stats(
   return {
     lastLog: lastLogNode,
     personalRecord: personalRecordNode,
+    visualizationData: getVisualizationDataResolvers({
+      activityId,
+      userId,
+      context,
+      activityType: activity.type,
+    }),
   };
 }
 

@@ -1,9 +1,11 @@
 import React from "react";
 
 import { ActivityType, GetActivityDetailsQuery } from "../../generated";
+import { Panel } from "../Containers";
 
 import { TrophyIcon } from "../Icons/Trophy";
 import { Link } from "../Link";
+import { ActivityMaximumWorkChart } from "./ActivityMaximumWorkChart";
 
 export function ActivityStatsComponent({
   queryData,
@@ -20,60 +22,76 @@ export function ActivityStatsComponent({
 
   const personalRecord = stats.personalRecord;
   const lastLog = stats.lastLog;
+  const maximumWork = stats.visualizationData.maximumWork;
 
   if (!personalRecord && !lastLog) {
     return null;
   }
 
   return (
-    <div className="p-4 rounded bg-slate-50 border border-slate-200 opacity-75 hover:opacity-100 flex flex-col gap-8">
-      {personalRecord && (
-        <div className="flex flex-col gap-4">
-          <div className="text-lg font-thin">Personal Record</div>
-          <div className="flex items-center gap-2">
-            <div className="text-xl text-slate-500">
-              <TrophyIcon />
-            </div>
-            <Link
-              to={personalRecord.link}
-              className="text-slate-600 no-underline text-sm hover:underline hover:text-slate-700"
-            >
-              {statText({
-                reps: personalRecord.reps,
-                work: personalRecord.work,
-                activityType,
-                ago: personalRecord.ago,
-              })}
-            </Link>
-          </div>
-        </div>
-      )}
-      {lastLog && (
-        <div className="flex flex-col gap-2 items-start">
-          <div className="text-lg font-thin flex flex-col gap-0">
-            <span className="flex-grow">Last&nbsp;{activity.name}&nbsp;Log</span>
-            <Link
-              className="text-slate-700 no-underline text-sm hover:underline hover:text-slate-800 flex-shrink"
-              to={`/activities/${activity.id}/log/${lastLog.day}`}
-            >
-              {lastLog.ago}
-            </Link>
-          </div>
-          <div className="flex flex-col gap-2 text-sm text-slate-600">
-            {lastLog.logs.map((log) => (
-              <div key={log.id}>
-                &bull;{" "}
-                {repText({ activityType, reps: log.reps, work: log.work })}
+    <>
+      <Panel className="flex flex-col gap-8">
+        {personalRecord && (
+          <div className="flex flex-col gap-4">
+            <div className="text-lg font-thin">Personal Record</div>
+            <div className="flex items-center gap-2">
+              <div className="text-xl text-slate-500">
+                <TrophyIcon />
               </div>
-            ))}
+              <Link
+                to={personalRecord.link}
+                className="text-slate-600 no-underline text-sm hover:underline hover:text-slate-700"
+              >
+                {statText({
+                  reps: personalRecord.reps,
+                  work: personalRecord.work,
+                  activityType,
+                  ago: personalRecord.ago,
+                })}
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
+        {lastLog && (
+          <div className="flex flex-col gap-2 items-start">
+            <div className="text-lg font-thin flex flex-col gap-0">
+              <span className="flex-grow">
+                Last&nbsp;{activity.name}&nbsp;Log
+              </span>
+              <Link
+                className="text-slate-700 no-underline text-sm hover:underline hover:text-slate-800 flex-shrink"
+                to={`/activities/${activity.id}/log/${lastLog.day}`}
+              >
+                {lastLog.ago}
+              </Link>
+            </div>
+            <div className="flex flex-col gap-2 text-sm text-slate-600 w-full">
+              {lastLog.logs.map((log) => (
+                <RepText
+                  key={log.id}
+                  activityType={activityType}
+                  reps={log.reps}
+                  work={log.work}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </Panel>
+      {maximumWork && (
+        <Panel className="p-2">
+          <div className="text-lg font-thin">Progress</div>
+          <div className="text-sm text-slate-500">Top set per day</div>
+          <div className="aspect-video">
+            <ActivityMaximumWorkChart data={maximumWork} />
+          </div>
+        </Panel>
       )}
-    </div>
+    </>
   );
 }
 
-function repText({
+function RepText({
   work,
   reps,
   activityType,
@@ -85,11 +103,17 @@ function repText({
   switch (activityType) {
     case "DISTANCE":
     case "TIMED":
-      return `${work}`;
+      return <>{work}</>;
     case "REPETITIVE":
-      return `${reps} reps`;
+      return <>{reps}</>;
     case "WEIGHT":
-      return `${reps} x ${work}`;
+      return (
+        <div className="flex gap-2 w-full">
+          <div className="w-1/12 text-right">{reps}</div>
+          <div className="w-1/12 text-center">&times;</div>
+          <div className="w-10/12">{work}</div>
+        </div>
+      );
   }
 }
 

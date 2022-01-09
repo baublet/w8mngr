@@ -52,7 +52,7 @@ export function Activity() {
       </PageHeading>
       <ContentContainer>
         <ContentLayout
-          mainContent={<ActivityDetails activity={activity} />}
+          mainContent={<ActivityDetails data={data} />}
           sideContent={
             <div className="flex gap-4 flex-col">
               <SecondaryButton full to={`/activities/edit/${id}`}>
@@ -74,8 +74,7 @@ export function Activity() {
 }
 
 function backButtonProps(goBack: () => void) {
-  console.log({ ref: document.referrer });
-  if (!document.referrer?.includes("/activities?")) {
+  if (document.referrer?.includes("/activities?")) {
     return {
       to: "#",
       onClick: goBack,

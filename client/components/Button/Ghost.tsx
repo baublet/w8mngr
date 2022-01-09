@@ -9,6 +9,8 @@ p-3
 rounded
 text-xs
 uppercase
+text-slate-800
+hover:text-slate-600
 `;
 
 export function GhostButton(props: BaseButtonProps) {

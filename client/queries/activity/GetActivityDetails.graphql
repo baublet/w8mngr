@@ -33,6 +33,19 @@ query GetActivityDetails($id: ID!) {
                 work
               }
             }
+            visualizationData {
+              maximumWork {
+                day
+                work
+                workLabel
+              }
+              scatterPlot {
+                day
+                reps
+                work
+                workLabel
+              }
+            }
           }
         }
       }

@@ -8,6 +8,10 @@ import { Context } from "../createContext";
 import { errors, buildConnectionResolver } from "../helpers";
 
 type PartiallyMaybe<T extends Record<string, any>> = {
+  [K in keyof T]?: T[K] | undefined;
+};
+
+type PartiallyMaybeWithNull<T extends Record<string, any>> = {
   [K in keyof T]?: T[K] | undefined | null;
 };
 
@@ -140,7 +144,7 @@ function getUpsert<T extends QueryFactoryFunction>(
 ) {
   return async (
     context: Context,
-    upsertItems: PartiallyMaybe<EntityFromQueryFactoryFunction<T>>[],
+    upsertItems: PartiallyMaybeWithNull<EntityFromQueryFactoryFunction<T>>[],
     applyAdditionalWhereConstraints?: WhereFunctionFromQueryFactory<T>
   ): Promise<{ id: string; insertOrUpdate: "INSERT" | "UPDATE" }[]> => {
     const databaseService = await context.services.get(dbService);
@@ -199,6 +203,7 @@ function getConnection<T extends QueryFactoryFunction>(queryFactory: T) {
         typeof buildConnectionResolver
       >[1];
       nodeTransformer?: Parameters<typeof buildConnectionResolver>[2];
+      additionalRootResolvers?: Record<string, any>;
     }
   ) => {
     try {
@@ -223,7 +228,8 @@ function getConnection<T extends QueryFactoryFunction>(queryFactory: T) {
         {
           ...input.connectionResolverParameters,
         },
-        input.nodeTransformer
+        input.nodeTransformer,
+        input.additionalRootResolvers
       );
     } catch (error) {
       assertIsError(error);

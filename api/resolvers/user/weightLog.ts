@@ -1,0 +1,22 @@
+import { weightLogDataService } from "../../dataServices";
+import { UserResolvers } from "../../graphql-types";
+
+export const weightLog: UserResolvers["weightLog"] = async (
+  parent,
+  args,
+  context
+) => {
+  const log = await weightLogDataService.getConnection(context, {
+    constraint: {
+      day: args.day,
+    },
+    additionalRootResolvers: {
+      day: args.day,
+    },
+  });
+
+  return {
+    ...log,
+    day: args.day,
+  };
+};

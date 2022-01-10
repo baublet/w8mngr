@@ -9,6 +9,7 @@ generates:
     config:
       allowParentTypeOverride: true
       enumsAsTypes: true
+      maybeValue: T | undefined
       contextType: ./createContext#Context
       mappers:
         Activity: Omit<Activity, "muscleGroups" | "logs" | "stats">

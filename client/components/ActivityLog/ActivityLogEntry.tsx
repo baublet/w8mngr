@@ -31,7 +31,6 @@ export function ActivityLogEntry({
   const { error, success } = useToast();
   const [deleted, setDeleted] = React.useState(false);
   const [deleteLog, { loading: deleteLoading }] = useDeleteActivityLogMutation({
-    refetchQueries: [GetActivityLogDocument],
     onError: error,
   });
   const [saveLog, { loading: saveLoading }] = useSaveActivityLogMutation({

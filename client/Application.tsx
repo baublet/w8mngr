@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import { ContentContainer } from "./components/Containers/ContentContainer";
-import { HeartIcon } from "./components/Icons/Heart";
 import { Routes } from "./Routes";
 import { HeaderNavigation } from "./components/Navigation/HeaderNavigation";
 import { ToastProvider } from "./helpers";

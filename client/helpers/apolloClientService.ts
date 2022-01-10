@@ -1,10 +1,20 @@
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 
-const GRAPHQL_ENDPOINT = process.env.GRAPHQL_ENDPOINT || "/.netlify/functions/graphql";
+const GRAPHQL_ENDPOINT =
+  process.env.GRAPHQL_ENDPOINT || "/.netlify/functions/graphql";
 
 export function apolloClientService() {
   const client = new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        FoodLogConnection: {
+          keyFields: ["day"],
+        },
+        ActivityLogConnection: {
+          keyFields: ["day"],
+        },
+      },
+    }),
     link: new HttpLink({
       uri: GRAPHQL_ENDPOINT,
       fetch: async (req, res) => {

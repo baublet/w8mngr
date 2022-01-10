@@ -23,13 +23,13 @@ const columns: ["calories", "fat", "carbs", "protein"] = [
 export function FoodLog() {
   const { day } = useParams<{ day?: string }>();
   const dayString = React.useMemo(() => {
-    if(!day) {
+    if (!day) {
       return dayStringFromDate(new Date());
     }
     return day;
-  }, [day])
+  }, [day]);
 
-  const { data, refetch } = useGetCurrentUserFoodLogQuery({
+  const { data } = useGetCurrentUserFoodLogQuery({
     fetchPolicy: "network-only",
     variables: {
       day: dayString,
@@ -59,14 +59,7 @@ export function FoodLog() {
 
   return (
     <div>
-      <DayNavigator
-        onRefresh={() =>
-          refetch({
-            day: dayString,
-          })
-        }
-        rootUrl="/foodlog/"
-      />
+      <DayNavigator onRefresh={() => undefined} rootUrl="/foodlog/" />
       <Spacer />
       {!loading ? null : (
         <span className="text-purple-400 animate-pulsate">

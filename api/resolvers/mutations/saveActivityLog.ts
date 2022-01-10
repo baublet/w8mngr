@@ -27,5 +27,17 @@ export const saveActivityLog: MutationResolvers["saveActivityLog"] = async (
     };
   }
 
-  return { error: [] };
+  return {
+    error: [],
+    logs: activityLogDataService.getConnection(context, {
+      constraint: {
+        day: args.input.day,
+        activityId: args.input.activityId,
+        userId,
+      },
+      additionalRootResolvers: {
+        day: args.input.day,
+      },
+    }),
+  };
 };

@@ -4,6 +4,7 @@ scalar ID
 type User {
   id: ID!
   preferredName: String!
+  weightLog(day: String!): WeightLogConnection!
   foodLog(day: String!): FoodLogConnection!
   foods(input: FoodQueryInput): FoodConnection!
   activities(input: ActivityQueryInput): ActivityConnection!
@@ -27,8 +28,8 @@ type Mutation {
   register(input: RegisterInput!): LoginMutationPayload!
 
   # Food Log
-  saveFoodLog(input: SaveFoodLogInput!): FoodLogConnection!
-  deleteFoodLog(input: DeleteFoodLogInput!): FoodLogConnection!
+  saveFoodLog(input: SaveFoodLogInput!): FoodLogMutationPayload!
+  deleteFoodLog(input: DeleteFoodLogInput!): FoodLogMutationPayload!
 
   # Food
   saveFood(input: FoodInput!): FoodMutationPayload!
@@ -41,6 +42,10 @@ type Mutation {
   # Activity Log
   saveActivityLog(input: SaveActivityLogInput!): ActivityLogMutationPayload!
   deleteActivityLog(input: DeleteActivityLogInput!): ActivityLogMutationPayload!
+
+  # Weight Log
+  saveWeightLog(input: SaveWeightLogInput!): WeightLogMutationPayload!
+  deleteWeightLog(input: DeleteWeightLogInput!): WeightLogMutationPayload!
 }
 
 #################
@@ -200,6 +205,20 @@ input ActivityLogInput {
   work: String
 }
 
+input WeightLogInput {
+  id: ID
+  weight: String!
+}
+
+input SaveWeightLogInput {
+  day: String!
+  weightLogs: [WeightLogInput!]!
+}
+
+input DeleteWeightLogInput {
+  id: ID!
+}
+
 input DeleteActivityLogInput {
   id: ID!
 }
@@ -266,6 +285,11 @@ input ActivityVisualizationInput {
 # Types         #
 #################
 
+type FoodLogMutationPayload {
+  errors: [String!]!
+  logs: FoodLogConnection!
+}
+
 type ActivityStats {
   personalRecord: ActivityPersonalRecord
   lastLog: ActivityLastLog
@@ -279,11 +303,21 @@ type ActivityLastLog {
 }
 
 type ActivityVisualizationData {
-  maximumWork(input: ActivityVisualizationInput): [ActivityVisualizationWorkDataPoint!]!
-  averageWork(input: ActivityVisualizationInput): [ActivityVisualizationWorkDataPoint!]!
-  maximumReps(input: ActivityVisualizationInput): [ActivityVisualizationRepsDataPoint!]!
-  averageReps(input: ActivityVisualizationInput): [ActivityVisualizationRepsDataPoint!]!
-  scatterPlot(input: ActivityVisualizationInput): [ActivityVisualizationDataPoint!]!
+  maximumWork(
+    input: ActivityVisualizationInput
+  ): [ActivityVisualizationWorkDataPoint!]!
+  averageWork(
+    input: ActivityVisualizationInput
+  ): [ActivityVisualizationWorkDataPoint!]!
+  maximumReps(
+    input: ActivityVisualizationInput
+  ): [ActivityVisualizationRepsDataPoint!]!
+  averageReps(
+    input: ActivityVisualizationInput
+  ): [ActivityVisualizationRepsDataPoint!]!
+  scatterPlot(
+    input: ActivityVisualizationInput
+  ): [ActivityVisualizationDataPoint!]!
 }
 
 type ActivityVisualizationRepsDataPoint {
@@ -293,14 +327,14 @@ type ActivityVisualizationRepsDataPoint {
 
 type ActivityVisualizationWorkDataPoint {
   day: String!
-  work: Int!
+  work: Float!
   workLabel: String!
 }
 
 type ActivityVisualizationDataPoint {
   day: String!
   reps: Int!
-  work: Int!
+  work: Float!
   workLabel: String!
 }
 
@@ -313,6 +347,7 @@ type ActivityPersonalRecord {
 
 type ActivityLogConnection {
   pageInfo: PageInfo!
+  day: String!
   edges: [ActivityLogEdge!]!
 }
 
@@ -331,11 +366,17 @@ type ActivityLog {
 
 type ActivityLogMutationPayload {
   error: [String!]!
+  logs: ActivityLogConnection!
 }
 
 type ActivityMutationPayload {
   errors: [String!]!
   activity: Activity
+}
+
+type WeightLogMutationPayload {
+  errors: [String!]!
+  weightLog: WeightLog
 }
 
 type ActivityConnection {
@@ -425,9 +466,27 @@ type LoginMutationPayload {
   rememberToken: String!
 }
 
-type FoodLogConnection {
-  day: ID!
+type WeightLogConnection {
   pageInfo: PageInfo!
+  edges: [WeightLogEdge!]!
+}
+
+type WeightLogEdge {
+  cursor: String!
+  node: WeightLog!
+}
+
+type WeightLog {
+  id: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  weight(unit: Unit): Float!
+  weightString(unit: Unit): String!
+}
+
+type FoodLogConnection {
+  pageInfo: PageInfo!
+  day: String!
   edges: [FoodLogEdge!]!
 }
 

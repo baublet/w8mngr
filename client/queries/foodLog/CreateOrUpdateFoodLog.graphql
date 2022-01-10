@@ -1,5 +1,18 @@
 mutation CreateOrUpdateFoodLog($input: SaveFoodLogInput!) {
   saveFoodLog(input: $input) {
-    day
+    errors
+    logs {
+      day
+      edges {
+        node {
+          id
+          description
+          calories
+          fat
+          carbs
+          protein
+        }
+      }
+    }
   }
 }

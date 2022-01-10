@@ -16,9 +16,24 @@ export const deleteActivityLog: MutationResolvers["deleteActivityLog"] = async (
     return { error: [error.message] };
   }
 
+  const activityLog = await activityLogDataService.findOneOrFail(context, (q) =>
+    q.where("id", "=", args.input.id)
+  );
   await activityLogDataService.deleteBy(context, (q) =>
-    q.where("id", "=", args.input.id).andWhere("userId", "=", userId)
+    q.where("id", "=", activityLog.id).andWhere("userId", "=", userId)
   );
 
-  return { error: [] };
+  return {
+    errors: [],
+    logs: activityLogDataService.getConnection(context, {
+      constraint: {
+        day: activityLog.day,
+        activityId: activityLog.activityId,
+        userId,
+      },
+      additionalRootResolvers: {
+        day: activityLog.day,
+      },
+    }),
+  };
 };

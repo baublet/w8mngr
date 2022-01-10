@@ -1,5 +1,15 @@
 mutation SaveActivityLog($input: SaveActivityLogInput!) {
   saveActivityLog(input: $input) {
     error
+    logs {
+      day
+      edges {
+        node {
+          id
+          reps
+          work
+        }
+      }
+    }
   }
 }

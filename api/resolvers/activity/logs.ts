@@ -21,6 +21,9 @@ export const activityLogs: ActivityResolvers["logs"] = (
         .where("userId", "=", userId)
         .andWhere("day", "=", day)
         .andWhere("activityId", "=", activityId),
+    additionalRootResolvers: {
+      day,
+    },
   });
 
   if (connection instanceof Error) {

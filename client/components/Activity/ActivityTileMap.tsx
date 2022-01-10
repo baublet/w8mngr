@@ -65,6 +65,10 @@ export function ActivityTileMap({
     return dataToRender;
   }, [data]);
 
+  if(transformedData.length === 0) {
+    return null;
+  }
+
   return <TileMap data={transformedData} />;
 }
 

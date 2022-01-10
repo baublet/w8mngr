@@ -10,12 +10,15 @@ export const saveFoodLog: MutationResolvers["saveFoodLog"] = async (
   await foodLogPermissionService.assert("create", context);
 
   await foodLogDataService.upsert(context, input);
-  const log = await foodLogDataService.getConnection(context, {
+  const logs = await foodLogDataService.getConnection(context, {
     day: input.day,
+    additionalRootResolvers: {
+      day: input.day,
+    },
   });
 
   return {
-    day: input.day,
-    ...log,
+    errors: [],
+    logs,
   };
 };

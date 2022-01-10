@@ -31,7 +31,7 @@ export async function saveMutation(
     if (activity.type === "DISTANCE") {
       entries.push({
         id,
-        work: rawInputToUnit({ work, unit: "millimeters", defaultUnit: "s" }),
+        work: rawInputToUnit({ work, unit: "millimeters", defaultUnit: "kilometers" }),
       });
     } else if (activity.type === "REPETITIVE") {
       doTimes(sets, () => entries.push({ id, reps }));
@@ -45,7 +45,7 @@ export async function saveMutation(
         entries.push({
           id,
           reps: reps,
-          work: rawInputToUnit({ work, unit: "grams", defaultUnit: "lbs" }),
+          work: rawInputToUnit({ work, unit: "grams", defaultUnit: "pounds" }),
         })
       );
     }
@@ -91,8 +91,8 @@ function getRepsAndSets(repsAndSets: Maybe<string> | undefined): {
 } {
   const parts = (repsAndSets || "").split("x");
 
-  const repsString = parts[0] || "0";
-  const setsString = parts[1] || "1";
+  const setsString = parts[0] || "0";
+  const repsString = parts[1] || "1";
 
   return {
     reps: parseInt(repsString.trim(), 10),

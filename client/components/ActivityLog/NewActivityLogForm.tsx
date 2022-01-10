@@ -42,7 +42,7 @@ export function NewActivityLogForm({
   }>();
   const { success, error } = useToast();
   const [createActivityLog, { loading }] = useSaveActivityLogMutation({
-    refetchQueries: [GetActivityLogDocument],
+    // refetchQueries: [GetActivityLogDocument],
     onCompleted: () => {
       newActivityLogFormData.clear();
       success("Log added");

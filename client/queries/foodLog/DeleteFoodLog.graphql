@@ -1,5 +1,18 @@
 mutation DeleteFoodLog($id: ID!) {
   deleteFoodLog(input: { id: $id }) {
-    day
+    errors
+    logs {
+      day
+      edges {
+        node {
+          id
+          description
+          calories
+          fat
+          carbs
+          protein
+        }
+      }
+    }
   }
 }

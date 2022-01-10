@@ -1,5 +1,15 @@
 mutation DeleteActivityLog($id: ID!) {
   deleteActivityLog(input: { id: $id }) {
     error
+    logs {
+      day
+      edges {
+        node {
+          id
+          reps
+          work
+        }
+      }
+    }
   }
 }

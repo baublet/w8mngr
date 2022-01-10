@@ -9,6 +9,7 @@ query GetActivityLog($activityId: ID!, $day: String!) {
           exrx
           muscleGroups
           logs(day: $day) {
+            day
             edges {
               node {
                 id

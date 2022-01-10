@@ -108,14 +108,6 @@ export function FoodSearchAutocomplete({
           return selectedFoodId;
         }
         saveFoodLog({
-          refetchQueries: [
-            {
-              query: GetCurrentUserFoodLogDocument,
-              variables: {
-                day,
-              },
-            },
-          ],
           variables: {
             input: {
               day,
@@ -139,14 +131,6 @@ export function FoodSearchAutocomplete({
         event.stopPropagation();
       }
       saveFoodLog({
-        refetchQueries: [
-          {
-            query: GetCurrentUserFoodLogDocument,
-            variables: {
-              day,
-            },
-          },
-        ],
         variables: {
           input: {
             day,

@@ -78,7 +78,7 @@ export function ActivityStatsComponent({
           </div>
         )}
       </Panel>
-      {maximumWork && (
+      {maximumWork && maximumWork.length > 3 && (
         <Panel className="p-2">
           <div className="text-lg font-thin">Progress</div>
           <div className="text-sm text-slate-500">Top set per day</div>

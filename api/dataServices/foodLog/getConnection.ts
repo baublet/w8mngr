@@ -12,6 +12,7 @@ export async function getConnection<TEntity, TNode>(
       typeof buildConnectionResolver
     >[1];
     nodeTransformer?: Parameters<typeof buildConnectionResolver>[2];
+    additionalRootResolvers?: Record<string, any>;
   }
 ) {
   const queryBuilderProvider = await getQuery(context);
@@ -29,6 +30,7 @@ export async function getConnection<TEntity, TNode>(
     {
       ...input.connectionResolverParameters,
     },
-    input.nodeTransformer
+    input.nodeTransformer,
+    input.additionalRootResolvers
   );
 }

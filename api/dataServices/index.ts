@@ -9,3 +9,4 @@ export { FoodMeasurement, foodMeasurementDataService } from "./foodMeasurement";
 export { Activity, activityDataService } from "./activity";
 export { ActivityMuscle, activityMuscleDataService } from "./activityMuscle";
 export { ActivityLog, activityLogDataService } from "./activityLog";
+export { WeightLog, weightLogDataService } from "./weightLog";

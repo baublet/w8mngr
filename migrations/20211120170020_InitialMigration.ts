@@ -131,6 +131,15 @@ export async function up(knex: Knex): Promise<void> {
         "Depending on the activity type, this is either weight in grams (weighted exercise), distance in millimeters (distance exercise), or seconds (timed exercise)."
       );
   });
+
+  await knex.schema.createTable("weight_log", function (table) {
+    table.text("id").notNullable().primary();
+    table.timestamp("createdAt").defaultTo(knex.fn.now());
+    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.text("userId").notNullable().index();
+    table.text("day").notNullable().index();
+    table.integer("work").notNullable().comment("Unit is stored in grams");
+  });
 }
 
 export async function down(knex: Knex): Promise<void> {}

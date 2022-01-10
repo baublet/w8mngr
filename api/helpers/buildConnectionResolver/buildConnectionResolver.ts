@@ -44,7 +44,8 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
   },
   nodeTransformer: (
     entity: TEntity
-  ) => Promise<TNode> = defaultEntityTransformer
+  ) => Promise<TNode> = defaultEntityTransformer,
+  additionalRootResolvers?: Record<string, any>
 ): Promise<Connection<TEntity, TNode> | Error> {
   try {
     validateArguments(args);
@@ -245,7 +246,10 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
       return hasPreviousPage;
     };
 
+    const additionalRootResolversWithDefault = additionalRootResolvers || {};
+
     return {
+      ...additionalRootResolversWithDefault,
       pageInfo: {
         totalCount: totalCountFn,
         hasNextPage: hasNextPageFn,

@@ -62,7 +62,6 @@ export function LogEntry({
     useCreateOrUpdateFoodLogMutation({});
   const [deleted, setDeleted] = React.useState(false);
   const [deleteFoodLog, { loading: deleteLoading }] = useDeleteFoodLogMutation({
-    refetchQueries: [GetCurrentUserFoodLogDocument],
     onError: () => setDeleted(false),
   });
 
@@ -70,7 +69,6 @@ export function LogEntry({
 
   const save = React.useCallback(() => {
     createOrUpdateFoodLog({
-      refetchQueries: [GetCurrentUserFoodLogDocument],
       variables: {
         input: {
           day,

@@ -21,8 +21,10 @@ export function TileMap({
   }[];
 }) {
   const { dayColumns, maxDay, minDay, middleDay } = React.useMemo(() => {
-    let minDay: number | undefined;
-    let maxDay: number | undefined;
+    const todayDayString = dayStringFromDate(new Date());
+    const todayDayNumber = parseInt(todayDayString, 10);
+    let minDay: number = todayDayNumber;
+    let maxDay: number = todayDayNumber;
     for (const dataPoint of data) {
       const dayInt = parseInt(dataPoint.day, 10);
       if (!minDay) {
@@ -57,7 +59,6 @@ export function TileMap({
     allDays.push(maxDayString);
 
     // If there aren't a year's worth of data, pad the beginning until today
-    const todayDayString = dayStringFromDate(new Date());
     while (
       allDays.length < 365 &&
       allDays[allDays.length - 1] !== todayDayString
@@ -97,7 +98,7 @@ export function TileMap({
       dayColumns,
       minDay: allDays[0],
       maxDay: allDays[allDays.length - 1],
-      middleDay: allDays[Math.floor(allDays.length / 2)]
+      middleDay: allDays[Math.floor(allDays.length / 2)],
     };
   }, [data]);
 
@@ -166,10 +167,9 @@ export function TileMap({
             width: referenceElement?.current?.scrollWidth,
           }}
         >
-
-            <div>{format(dayStringToDate(`${minDay}`), "LLLL, yyyy")}</div>
-            <div>{format(dayStringToDate(`${middleDay}`), "LLLL, yyyy")}</div>
-            <div>{format(dayStringToDate(`${maxDay}`), "LLLL, yyyy")}</div>
+          <div>{format(dayStringToDate(`${minDay}`), "LLLL, yyyy")}</div>
+          <div>{format(dayStringToDate(`${middleDay}`), "LLLL, yyyy")}</div>
+          <div>{format(dayStringToDate(`${maxDay}`), "LLLL, yyyy")}</div>
         </div>
       </div>
     </>

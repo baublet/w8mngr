@@ -18,12 +18,15 @@ export const deleteFoodLog: MutationResolvers["deleteFoodLog"] = async (
   );
   await foodLogDataService.deleteByIds(context, [foodLog.id]);
 
-  const log = await foodLogDataService.getConnection(context, {
+  const logs = await foodLogDataService.getConnection(context, {
     day: foodLog.day,
+    additionalRootResolvers: {
+      day: foodLog.day
+    }
   });
 
   return {
-    day: foodLog.day,
-    ...log,
+    errors:[],
+    logs
   };
 };

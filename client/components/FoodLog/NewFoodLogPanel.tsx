@@ -64,14 +64,6 @@ export function NewFoodLogPanel({
         descriptionInputRef.current?.focus();
       }, 50);
     },
-    refetchQueries: [
-      {
-        query: GetCurrentUserFoodLogDocument,
-        variables: {
-          day,
-        },
-      },
-    ],
   });
   const create = () => {
     createFood({

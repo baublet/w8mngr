@@ -13,12 +13,12 @@ export function Panel(
     "hover:shadow-slate-500/10 hover:shadow-lg relative overflow-hidden",
     props.className,
     {
-      "opacity-50 pointer-events-none": props.loading,
+      "opacity-50 pointer-events-none": props.loading === true,
     }
   );
   return (
     <div className={classNames}>
-      <LogEntryLoadingBullet visible={props.loading} />
+      <LogEntryLoadingBullet visible={props.loading === true} />
       {props.children}
     </div>
   );

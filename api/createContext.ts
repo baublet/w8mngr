@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+
 import { Request, Response } from "express";
 import {
   ServiceContainer,
@@ -12,7 +15,12 @@ import { getClientId } from "./helpers";
 
 export interface Context {
   getClientId: () => string;
+  getCurrentUser: <T extends boolean | undefined>(
+    orThrow?: T
+  ) => T extends false | undefined ? UserEntity : UserEntity | undefined;
+  getCurrentUserId: (orThrow?: boolean) => string;
   currentUser?: UserEntity;
+  setCurrentUser: (user?: UserEntity) => void;
   services: ServiceContainer;
   setCookie: (
     key: string,
@@ -46,19 +54,42 @@ export function createContext(
   let contextResponse: Response;
   let contextRequest: Request;
 
+  let currentUserRecord: UserEntity | undefined = Object.assign(
+    {},
+    currentUser
+  );
+
   const context: Context = {
+    currentUser: currentUserRecord,
     getClientId: () => clientId,
-    currentUser,
+    getCookies: () => cookiesToSet,
+    getRequest: () => contextRequest,
+    getResponse: () => contextResponse,
+    getCurrentUser: <T extends boolean | undefined>(orThrow?: T) => {
+      const currentUser = currentUserRecord;
+      if (!currentUser && orThrow) {
+        throw new Error("Not logged in");
+      }
+      return currentUser as T extends false | undefined
+        ? UserEntity
+        : UserEntity | undefined;
+    },
+    getCurrentUserId: (orThrow?: boolean) => {
+      const currentUserId = currentUserRecord?.id;
+      if (!currentUserId && orThrow) {
+        throw new Error("Not logged in");
+      }
+      return currentUserId || "robot";
+    },
+    setCurrentUser: (currentUser?: UserEntity) =>
+      (currentUserRecord = currentUser),
     services,
     setCookie: (key, value, options) =>
       cookiesToSet.set(key, { value, options }),
-    getCookies: () => cookiesToSet,
-    setResponse: (response) => (contextResponse = response),
-    getResponse: () => contextResponse,
     setRequest: (request) => (contextRequest = request),
-    getRequest: () => contextRequest,
-    toString: () => clientId,
+    setResponse: (response) => (contextResponse = response),
     toJSON: () => ({ clientId }),
+    toString: () => clientId,
   };
 
   return context;
@@ -89,7 +120,7 @@ export const createGraphqlContext: ContextFunction<
   });
 
   const user = await authenticateRequest(req, context);
-  context.currentUser = user;
+  context.setCurrentUser(user);
 
   return context;
 };

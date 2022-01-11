@@ -4,7 +4,7 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("user", function (table) {
     table.text("id").notNullable().primary();
     table.string("preferredName");
-    table.timestamp("createdAt").defaultTo(knex.fn.now());
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
   });
 
   await knex.schema.createTable("user_account", function (table) {
@@ -15,8 +15,8 @@ export async function up(knex: Knex): Promise<void> {
     table.text("passwordHash").nullable().index();
     table.text("tokenDigest").nullable().index();
     table.text("rememberTokenDigest").nullable().index();
-    table.timestamp("createdAt").defaultTo(knex.fn.now());
-    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());
     table.unique(["source", "sourceIdentifier"]);
   });
 
@@ -26,7 +26,7 @@ export async function up(knex: Knex): Promise<void> {
     table.text("type").notNullable().index();
     table.text("clientId").notNullable().index();
     table.text("userAccountId").notNullable().index();
-    table.timestamp("createdAt").defaultTo(knex.fn.now());
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
     table.date("expires").notNullable();
   });
 
@@ -34,8 +34,8 @@ export async function up(knex: Knex): Promise<void> {
     table.text("id").notNullable().primary();
     table.text("userId").notNullable().index();
     table.text("day").notNullable().index();
-    table.timestamp("createdAt").defaultTo(knex.fn.now());
-    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());
     table.text("description").notNullable();
     table.integer("calories").nullable();
     table.integer("fat").nullable();
@@ -46,8 +46,8 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("food", function (table) {
     table.text("id").notNullable().primary();
     table.text("userId").notNullable().index();
-    table.timestamp("createdAt").defaultTo(knex.fn.now());
-    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());
     table.text("name").notNullable();
     table.text("description").nullable();
     table.text("imageUploadId").nullable();
@@ -58,7 +58,7 @@ export async function up(knex: Knex): Promise<void> {
 
   await knex.schema.createTable("food_log_food", function (table) {
     table.text("id").notNullable().primary();
-    table.timestamp("createdAt").defaultTo(knex.fn.now());
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
     table.text("userId").notNullable().index();
     table.text("foodId").notNullable().index();
     table.text("day").notNullable().index();
@@ -67,8 +67,8 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("upload", function (table) {
     table.text("id").notNullable().primary();
     table.text("userId").notNullable().index();
-    table.timestamp("createdAt").defaultTo(knex.fn.now());
-    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());
     table.text("publicId").index().unique().notNullable();
     table.text("entityType").nullable();
     table.text("entityId").nullable();
@@ -79,8 +79,8 @@ export async function up(knex: Knex): Promise<void> {
     table.text("id").notNullable().primary();
     table.text("foodId").notNullable().index();
     table.text("userId").notNullable().index();
-    table.timestamp("createdAt").defaultTo(knex.fn.now());
-    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());
     table.integer("amount").notNullable().defaultTo(1);
     table.text("measurement").notNullable();
     table.integer("calories").notNullable().defaultTo(0);
@@ -100,8 +100,8 @@ export async function up(knex: Knex): Promise<void> {
     table.text("type").notNullable().index();
     table.integer("intensity").notNullable().defaultTo(0);
     table.integer("popularity").notNullable().defaultTo(0).index();
-    table.timestamp("createdAt").defaultTo(knex.fn.now());
-    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());
     table.integer("legacyId").nullable().index().unique();
   });
 
@@ -114,8 +114,8 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("activity_log", function (table) {
     table.text("id").notNullable().primary();
     table.text("activityId").notNullable().index();
-    table.timestamp("createdAt").defaultTo(knex.fn.now());
-    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());
     table.text("userId").notNullable().index();
     table.text("day").notNullable().index();
     table
@@ -134,11 +134,11 @@ export async function up(knex: Knex): Promise<void> {
 
   await knex.schema.createTable("weight_log", function (table) {
     table.text("id").notNullable().primary();
-    table.timestamp("createdAt").defaultTo(knex.fn.now());
-    table.timestamp("updatedAt").defaultTo(knex.fn.now());
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());
     table.text("userId").notNullable().index();
     table.text("day").notNullable().index();
-    table.integer("work").notNullable().comment("Unit is stored in grams");
+    table.integer("weight").notNullable().comment("Unit is stored in grams");
   });
 }
 

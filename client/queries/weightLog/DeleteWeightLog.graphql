@@ -1,0 +1,15 @@
+mutation DeleteWeightLog($id: ID!) {
+  deleteWeightLog(input: { id: $id }) {
+    errors
+    logs {
+      day
+      edges {
+        node {
+          id
+          ago
+          weight
+        }
+      }
+    }
+  }
+}

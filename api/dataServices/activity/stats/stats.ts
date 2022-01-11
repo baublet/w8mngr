@@ -39,7 +39,7 @@ export async function stats(
     const lastLog = lastLoggedActivity[0];
 
     if (!lastLog) {
-      return null;
+      return undefined;
     }
 
     const lastLoggedDate = dayStringToDate(lastLog.day);
@@ -76,7 +76,7 @@ export async function stats(
     const personalRecordLog = personalRecord[0];
 
     if (!personalRecordLog) {
-      return null;
+      return undefined;
     }
 
     const personalRecordDate = dayStringToDate(personalRecordLog.day);

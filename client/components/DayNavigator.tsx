@@ -12,9 +12,9 @@ import { dayStringToDate } from "../../shared/dayStringToDate";
 
 export function DayNavigator({
   rootUrl,
-  onRefresh,
+  onRefresh = inert,
 }: {
-  onRefresh: () => void;
+  onRefresh?: () => void;
   rootUrl: string;
 }) {
   const todayDayString = React.useMemo(() => dayStringFromDate(new Date()), []);
@@ -114,3 +114,5 @@ export function DayNavigator({
     </div>
   );
 }
+
+function inert() {}

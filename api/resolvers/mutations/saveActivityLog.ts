@@ -7,11 +7,7 @@ export const saveActivityLog: MutationResolvers["saveActivityLog"] = async (
   args,
   context
 ) => {
-  const userId = context.currentUser?.id;
-
-  if (!userId) {
-    throw new Error("Unauthorized");
-  }
+  const userId = context.getCurrentUserId(true);
 
   const mutationResult = await activityLogDataService.saveMutation(context, {
     activityId: args.input.activityId,

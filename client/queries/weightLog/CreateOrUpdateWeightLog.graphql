@@ -1,0 +1,19 @@
+mutation CreateOrUpdateWeightLog($input: SaveWeightLogInput!) {
+  saveWeightLog(input: $input) {
+    errors
+    logs {
+      day
+      pageInfo {
+        totalCount
+      }
+      edges {
+        cursor
+        node {
+          id
+          ago
+          weight
+        }
+      }
+    }
+  }
+}

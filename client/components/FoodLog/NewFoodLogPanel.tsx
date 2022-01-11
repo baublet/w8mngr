@@ -4,18 +4,12 @@ import { object, string, number } from "yup";
 import { PanelInverted } from "../Containers/PanelInverted";
 import { useForm, FormStateObject } from "../../helpers/useForm";
 import { InputInverted, Form } from "../Forms";
-import { SecondaryButton } from "../Button/Secondary";
-import { Spacer } from "../Spacer";
 import { ButtonSpinner } from "../Loading/ButtonSpinner";
 import { BarcodeScannerButton } from "../BarcodeScanner";
 
-import { foodLogLocalStorage } from "../../helpers";
-import {
-  useCreateOrUpdateFoodLogMutation,
-  GetCurrentUserFoodLogDocument,
-} from "../../generated";
-import { PrimaryButton } from "../Button/Primary";
-import { PrimaryLightButton } from "../Button/PrimaryLight";
+import { foodLogLocalStorage, useToast } from "../../helpers";
+import { useCreateOrUpdateFoodLogMutation } from "../../generated";
+import { PrimaryLightSaveButton } from "../Button/PrimaryLightSave";
 
 const schema = object().shape({
   description: string().required(),
@@ -48,6 +42,7 @@ export function NewFoodLogPanel({
 }) {
   const newFoodLogForm = useForm<NewFoodLogFormState>({ schema });
   const descriptionInputRef = React.useRef<HTMLInputElement | null>(null);
+  const { success, error } = useToast();
 
   if (parentDescriptionInputRef) {
     parentDescriptionInputRef.current = descriptionInputRef.current;
@@ -63,7 +58,9 @@ export function NewFoodLogPanel({
       setTimeout(() => {
         descriptionInputRef.current?.focus();
       }, 50);
+      success("Food log created");
     },
+    onError: error,
   });
   const create = () => {
     createFood({
@@ -136,12 +133,10 @@ export function NewFoodLogPanel({
         </div>
         <div className="flex text-md gap-2 justify-end">
           <BarcodeScannerButton day={day} />
-          <PrimaryLightButton
+          <PrimaryLightSaveButton
             leftIcon={loading ? <ButtonSpinner /> : undefined}
             type="submit"
-          >
-            New Entry
-          </PrimaryLightButton>
+          />
         </div>
       </Form>
     </PanelInverted>

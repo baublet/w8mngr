@@ -9,6 +9,8 @@ import { usePopper } from "react-popper";
 
 import { dayStringFromDate, dayStringToDate } from "../../shared";
 
+const DAYS_IN_TILE_MAP = 378;
+
 export function TileMap({
   data,
 }: {
@@ -60,7 +62,7 @@ export function TileMap({
 
     // If there aren't a year's worth of data, pad the beginning until today
     while (
-      allDays.length < 365 &&
+      allDays.length < DAYS_IN_TILE_MAP &&
       allDays[allDays.length - 1] !== todayDayString
     ) {
       const nextDay = dayStringFromDate(
@@ -70,7 +72,7 @@ export function TileMap({
     }
 
     // If there aren't a year's worth of data, pad the past with days
-    while (allDays.length < 380) {
+    while (allDays.length < DAYS_IN_TILE_MAP) {
       const previousDay = dayStringFromDate(
         subDays(dayStringToDate(allDays[0]), 1)
       );

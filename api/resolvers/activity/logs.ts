@@ -8,12 +8,8 @@ export const activityLogs: ActivityResolvers["logs"] = (
   context
 ) => {
   const day = args.day || dayStringFromDate(new Date());
-  const userId = context.currentUser?.id;
+  const userId = context.getCurrentUserId(true);
   const activityId = parent.id;
-
-  if (!userId) {
-    throw new Error("Unauthorized");
-  }
 
   const connection = activityLogDataService.getConnection(context, {
     applyCustomConstraint: (q) =>

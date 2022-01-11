@@ -10,8 +10,7 @@ export const saveFood: MutationResolvers["saveFood"] = async (
 ) => {
   await foodPermissionService.assert("createFood", context);
 
-  const userId = context.currentUser?.id;
-  assertIsTruthy(userId);
+  const userId = context.getCurrentUserId(true);
 
   return foodDataService.saveMutation(context, {
     input,

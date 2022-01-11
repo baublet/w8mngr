@@ -9,6 +9,7 @@ export const weightLog: UserResolvers["weightLog"] = async (
   const log = await weightLogDataService.getConnection(context, {
     constraint: {
       day: args.day,
+      userId: context.getCurrentUserId(),
     },
     additionalRootResolvers: {
       day: args.day,

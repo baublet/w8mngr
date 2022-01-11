@@ -13,8 +13,7 @@ export async function upsert(
   input: SaveFoodLogInput
 ): Promise<void> {
   const { day, foodLogs } = input;
-  const userId = context.currentUser?.id;
-  assertIsTruthy(userId);
+  const userId = context.getCurrentUserId();
 
   const db = await context.services.get(dbService);
   await db.transact();

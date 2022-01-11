@@ -17,7 +17,7 @@ export async function saveMutation(
     userId: string;
     day: string;
   }
-): Promise<Error | undefined> {
+) {
   const db = await context.services.get(dbService);
   await db.transact();
 
@@ -37,7 +37,16 @@ export async function saveMutation(
       (q) => q.where("userId", "=", userId)
     );
     await db.commit();
-    return undefined;
+    return {
+      errors: [],
+      logs: weightLogDataService.getConnection(context, {
+        additionalRootResolvers: {
+          day,
+        },
+        applyCustomConstraint: (q) =>
+          q.where("userId", "=", userId).andWhere("day", "=", day),
+      }),
+    };
   } catch (error) {
     assertIsError(error);
     await db.rollback(error);

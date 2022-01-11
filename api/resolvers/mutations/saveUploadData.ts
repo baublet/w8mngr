@@ -7,10 +7,7 @@ export const saveUploadData: MutationResolvers["saveUploadData"] = async (
   { input },
   context
 ) => {
-  const currentUserId = context.currentUser?.id;
-  if (!currentUserId) {
-    throw new errors.Unauthorized(context);
-  }
+  const currentUserId = context.getCurrentUserId(true);
 
   await uploadDataService.update(
     context,

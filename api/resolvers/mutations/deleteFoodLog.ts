@@ -10,8 +10,7 @@ export const deleteFoodLog: MutationResolvers["deleteFoodLog"] = async (
 ) => {
   await foodLogPermissionService.assert("delete", context, input.id);
 
-  const userId = context.currentUser?.id;
-  assertIsTruthy(userId);
+  const userId = context.getCurrentUserId(true);
 
   const foodLog = await foodLogDataService.findOneOrFail(context, (q) =>
     q.where("id", "=", input.id).andWhere("userId", "=", userId)

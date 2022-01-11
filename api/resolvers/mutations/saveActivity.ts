@@ -7,8 +7,7 @@ export const saveActivity: Required<MutationResolvers>["saveActivity"] = async (
   { input },
   context
 ) => {
-  const userId = context.currentUser?.id;
-  assertIsTruthy(userId);
+  const userId = context.getCurrentUserId(true);
 
   return activityDataService.saveMutation(context, {
     input,

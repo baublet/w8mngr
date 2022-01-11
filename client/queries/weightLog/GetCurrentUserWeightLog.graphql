@@ -1,0 +1,17 @@
+query GetCurrentUserWeightLog($day: String!) {
+  currentUser {
+    weightLog(day: $day) {
+      day
+      pageInfo {
+        totalCount
+      }
+      edges {
+        node {
+          id
+          ago
+          weightString
+        }
+      }
+    }
+  }
+}

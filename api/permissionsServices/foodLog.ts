@@ -19,7 +19,7 @@ async function contextUserOwnerOfFoodLog(
   const found = await foodLogDataService.findOneOrFail(context, (q) =>
     q.where("id", "=", foodLogId)
   );
-  if (found.userId !== context.currentUser?.id) {
+  if (found.userId !== context.getCurrentUserId()) {
     return new errors.Unauthorized(context);
   }
   return true;

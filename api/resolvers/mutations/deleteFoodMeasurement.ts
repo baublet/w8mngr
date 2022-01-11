@@ -7,8 +7,7 @@ import { assertIsTruthy } from "../../../shared";
 
 export const deleteFoodMeasurement: Required<MutationResolvers>["deleteFoodMeasurement"] =
   async (parent, { input }, context) => {
-    const userId = context.currentUser?.id;
-    assertIsTruthy(userId);
+    const userId = context.getCurrentUserId(true);
 
     const { foodId } = await foodMeasurementDataService.deleteFoodMeasurement(
       context,

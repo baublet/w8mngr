@@ -18,7 +18,7 @@ export async function create({
   context: Context;
   count: number;
 }): Promise<Error | (UploadToken & { uploadId: string })[]> {
-  const userId = context.currentUser?.id;
+  const userId =context.getCurrentUserId();
   assertIsTruthy(userId);
   const db = await context.services.get(dbService);
   try {

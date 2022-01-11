@@ -6,10 +6,7 @@ export const activityStats: ActivityResolvers["stats"] = async (
   args,
   context
 ) => {
-  const userId = context.currentUser?.id;
-  if (!userId) {
-    return null;
-  }
+  const userId = context.getCurrentUserId(true);
 
   return activityDataService.stats(context, {
     userId,

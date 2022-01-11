@@ -17,9 +17,7 @@ hover:bg-rose-700
 active:bg-rose-700
 focus:bg-rose-700
 
-active:text-white
-focus:text-white
-hover:text-white
+group
 `;
 
 export function DeleteIconButton(props: BaseButtonProps) {
@@ -30,11 +28,11 @@ export function DeleteIconButton(props: BaseButtonProps) {
   return (
     <GhostButton
       {...newProps}
-      className={cx(buttonClass, props.className)}
+      className={cx(props.className, buttonClass)}
       onClick={newOnclick}
     >
       <span className="screen-reader-text">Delete</span>
-      <CloseIcon />
+      <span className="group-hover:text-white"><CloseIcon /></span>
     </GhostButton>
   );
 }

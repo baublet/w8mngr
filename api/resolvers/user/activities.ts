@@ -18,7 +18,7 @@ export const activities: UserResolvers["activities"] = async (
       }
     },
     constraint: {
-      userId: context.currentUser?.id,
+      userId: context.getCurrentUserId(true),
       id: filters.id,
     },
     connectionResolverParameters: {

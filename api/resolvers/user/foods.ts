@@ -18,7 +18,7 @@ export const foods: UserResolvers["foods"] = async (
       }
     },
     constraint: {
-      userId: context.currentUser?.id,
+      userId: context.getCurrentUserId(),
       id: filters.id,
     },
     connectionResolverParameters: {

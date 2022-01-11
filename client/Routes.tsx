@@ -16,6 +16,7 @@ import { NewActivity } from "./pages/NewActivity";
 import { Activity } from "./pages/Activity";
 import { EditActivity } from "./pages/EditActivity";
 import { ActivityLog } from "./pages/ActivityLog";
+import { WeightLog } from "./pages/WeightLog";
 
 const routes = [
   { key: "home", path: "/", name: "Home", Component: Home },
@@ -36,6 +37,11 @@ const routes = [
     Component: ActivityLog,
   },
   { key: "activity-details", path: "/activities/:id", Component: Activity },
+  {
+    key: "weight-log",
+    path: ["/weightlog", "/weightlog/:day"],
+    Component: WeightLog,
+  },
 ];
 
 export function Routes() {

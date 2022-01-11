@@ -376,7 +376,7 @@ type ActivityMutationPayload {
 
 type WeightLogMutationPayload {
   errors: [String!]!
-  weightLog: WeightLog
+  logs: WeightLogConnection
 }
 
 type ActivityConnection {
@@ -467,6 +467,7 @@ type LoginMutationPayload {
 }
 
 type WeightLogConnection {
+  day: String!
   pageInfo: PageInfo!
   edges: [WeightLogEdge!]!
 }
@@ -478,6 +479,7 @@ type WeightLogEdge {
 
 type WeightLog {
   id: ID!
+  ago: String!
   createdAt: Date!
   updatedAt: Date!
   weight(unit: Unit): Float!

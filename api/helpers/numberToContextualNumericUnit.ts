@@ -1,0 +1,44 @@
+import Qty from "js-quantities";
+
+import { log } from "../config";
+import { Context } from "../createContext";
+import { settingsService } from "./settingsService";
+
+export function numberToContextualNumericUnit({
+  context,
+  work,
+  incomingUnit,
+  outgoingUnit,
+}: {
+  context: Context,
+  work: number;
+  incomingUnit: string;
+  outgoingUnit: string;
+}): number {
+  if (!work) {
+    return 0;
+  }
+
+  const settings = context.services.get(settingsService)();
+
+  const loweredIncomingUnit = incomingUnit.toLowerCase();
+  const loweredOutgoingUnit = outgoingUnit.toLowerCase();
+  try {
+    const quantity = new Qty(work, loweredIncomingUnit).to(loweredOutgoingUnit);
+    const roundedQuantity = round(quantity.scalar);
+    return new Qty(roundedQuantity, loweredOutgoingUnit).scalar;
+  } catch (error) {
+    log("error", "Unknown error converting units", {
+      incomingUnit,
+      outgoingUnit,
+      work,
+      error,
+    });
+    return work;
+  }
+}
+
+function round(num: number): number {
+  const m = Number((Math.abs(num) * 100).toPrecision(15));
+  return (Math.round(m) / 100) * Math.sign(num);
+}

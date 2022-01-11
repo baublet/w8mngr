@@ -16,7 +16,7 @@ export function Form({
   return (
     <form
       className={cx(
-        "block p-6 -m-6",
+        "block",
         {
           ["bg-white bg-opacity-10 pointer-events-none"]: loading,
         },

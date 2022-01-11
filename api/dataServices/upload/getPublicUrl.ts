@@ -30,7 +30,7 @@ export async function getPublicUrl(
     throw new Error(`No CLOUDINARY_API_SECRET in environment variables...`);
   }
 
-  const currentUserId = context.currentUser?.id;
+  const currentUserId = context.getCurrentUserId();
   const upload = await uploadDataService.findOneOrFail(context, (q) => {
     q.where("id", "=", uploadId);
     if (currentUserId) {

@@ -7,10 +7,13 @@ export function apolloClientService() {
   const client = new ApolloClient({
     cache: new InMemoryCache({
       typePolicies: {
+        ActivityLogConnection: {
+          keyFields: ["day"],
+        },
         FoodLogConnection: {
           keyFields: ["day"],
         },
-        ActivityLogConnection: {
+        WeightLogConnection: {
           keyFields: ["day"],
         },
       },

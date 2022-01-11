@@ -21,17 +21,17 @@ export async function numberToContextualUnit(
 
   const settings = context.services.get(settingsService)();
 
-  let incomingUnit: Unit = "G";
-  let outgoingUnit: Unit = "LB";
+  let incomingUnit: Unit = "GRAMS";
+  let outgoingUnit: Unit = "LBS";
   if (activityType === "DISTANCE") {
     outgoingUnit = settings.defaultDistanceMeasurement;
-    incomingUnit = "MM";
+    incomingUnit = "MILLIMETERS";
   } else if (activityType === "TIMED") {
     outgoingUnit = settings.defaultTemporalMeasurement;
     incomingUnit = "SECONDS";
   } else if (activityType === "WEIGHT") {
     outgoingUnit = settings.defaultMassMeasurement;
-    incomingUnit = "G";
+    incomingUnit = "GRAMS";
   }
 
   if (requestedWorkUnit) {

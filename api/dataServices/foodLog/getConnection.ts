@@ -16,7 +16,7 @@ export async function getConnection<TEntity, TNode>(
   }
 ) {
   const queryBuilderProvider = await getQuery(context);
-  const userId = input.userId || context.currentUser?.id;
+  const userId = input.userId || context.getCurrentUserId();
   assertIsTruthy(userId);
 
   const query = queryBuilderProvider();

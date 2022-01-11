@@ -5,7 +5,6 @@ import { BaseButton, BaseButtonProps } from "./Base";
 
 const buttonClasses = `
 bg-transparent
-p-3
 rounded
 text-xs
 uppercase

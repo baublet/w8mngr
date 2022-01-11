@@ -15,6 +15,8 @@ import { deleteFoodMeasurement } from "./mutations/deleteFoodMeasurement";
 import { saveActivity } from "./mutations/saveActivity";
 import { saveActivityLog } from "./mutations/saveActivityLog";
 import { deleteActivityLog } from "./mutations/deleteActivityLog";
+import { saveWeightLog } from "./mutations/saveWeightLog";
+import { deleteWeightLog } from "./mutations/deleteWeightLog";
 
 import { foodLog } from "./user/foodLog";
 import { foods } from "./user/foods";
@@ -33,6 +35,10 @@ import { foodImage } from "./food/image";
 import { foodMeasurements } from "./food/measurements";
 
 import { publicUrl } from "./upload/publicUrl";
+
+import { weightLogWeightString } from "./weightLog/weightString";
+import { weightLogWeight } from "./weightLog/weight";
+import { weightLogAgo } from "./weightLog/ago";
 
 export const resolvers: Resolvers = {
   ActivityLog: {
@@ -59,6 +65,11 @@ export const resolvers: Resolvers = {
   Upload: {
     publicUrl,
   },
+  WeightLog: {
+    ago: weightLogAgo,
+    weight: weightLogWeight,
+    weightString: weightLogWeightString,
+  },
   Query: {
     currentUser,
     upload,
@@ -67,6 +78,7 @@ export const resolvers: Resolvers = {
     deleteActivityLog,
     deleteFoodLog,
     deleteFoodMeasurement,
+    deleteWeightLog,
     getUploadTokens,
     login,
     logout,
@@ -76,5 +88,6 @@ export const resolvers: Resolvers = {
     saveFood,
     saveFoodLog,
     saveUploadData,
+    saveWeightLog,
   },
 };

@@ -8,14 +8,7 @@ export const deleteActivityLog: MutationResolvers["deleteActivityLog"] = async (
   args,
   context
 ) => {
-  const userId = context.currentUser?.id;
-
-  if (!userId) {
-    const error = new Unauthorized(context);
-    log("error", "Unauthorized attempt to delete activity log", { error });
-    return { error: [error.message] };
-  }
-
+  const userId = context.getCurrentUserId(true);
   const activityLog = await activityLogDataService.findOneOrFail(context, (q) =>
     q.where("id", "=", args.input.id)
   );

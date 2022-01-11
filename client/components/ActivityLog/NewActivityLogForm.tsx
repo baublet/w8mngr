@@ -1,17 +1,13 @@
 import React from "react";
 import cx from "classnames";
 
-import {
-  useSaveActivityLogMutation,
-  ActivityType,
-  GetActivityLogDocument,
-} from "../../generated";
+import { useSaveActivityLogMutation, ActivityType } from "../../generated";
 import { useForm, useToast } from "../../helpers";
 
 import { Add } from "../Icons/Add";
 import { PanelInverted } from "../Containers/PanelInverted";
 import { InputInverted } from "../Forms";
-import { PrimaryLightButton } from "../Button/PrimaryLight";
+import { PrimaryLightSaveButton } from "../Button/PrimaryLightSave";
 
 export const WORK_LABELS: Record<ActivityType, string | false> = {
   DISTANCE: "Distance",
@@ -107,14 +103,11 @@ export function NewActivityLogForm({
             )}
           </div>
           <div className="flex-shrink">
-            <PrimaryLightButton
+            <PrimaryLightSaveButton
               type="submit"
               disabled={loading}
               leftIcon={<Add />}
-              className="py-4"
-            >
-              Add
-            </PrimaryLightButton>
+            />
           </div>
         </form>
       </PanelInverted>

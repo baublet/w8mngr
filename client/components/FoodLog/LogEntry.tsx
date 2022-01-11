@@ -11,7 +11,6 @@ import { useForm } from "../../helpers";
 import {
   useCreateOrUpdateFoodLogMutation,
   useDeleteFoodLogMutation,
-  GetCurrentUserFoodLogDocument,
 } from "../../generated";
 
 const schema = object().shape({

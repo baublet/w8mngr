@@ -28,7 +28,7 @@ export function createPermissionService<
 }
 
 export function requireAuth(context: Context) {
-  if (!context.currentUser) {
+  if (!context.getCurrentUser()) {
     throw new errors.Unauthorized(context);
   }
   return true as const;

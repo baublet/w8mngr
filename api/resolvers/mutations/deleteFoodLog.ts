@@ -15,17 +15,21 @@ export const deleteFoodLog: MutationResolvers["deleteFoodLog"] = async (
   const foodLog = await foodLogDataService.findOneOrFail(context, (q) =>
     q.where("id", "=", input.id).andWhere("userId", "=", userId)
   );
-  await foodLogDataService.deleteByIds(context, [foodLog.id]);
+  await foodLogDataService.deleteBy(context, (q) =>
+    q.where("id", "=", foodLog.id)
+  );
 
   const logs = await foodLogDataService.getConnection(context, {
-    day: foodLog.day,
-    additionalRootResolvers: {
+    constraint: {
       day: foodLog.day
-    }
+    },
+    additionalRootResolvers: {
+      day: foodLog.day,
+    },
   });
 
   return {
-    errors:[],
-    logs
+    errors: [],
+    logs,
   };
 };

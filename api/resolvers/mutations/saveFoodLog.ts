@@ -1,5 +1,5 @@
 import { MutationResolvers } from "../../graphql-types";
-import { foodLogDataService } from "../../dataServices";
+import { foodLogDataService, FoodLogEntity } from "../../dataServices";
 import { foodLogPermissionService } from "../../permissionsServices";
 
 export const saveFoodLog: MutationResolvers["saveFoodLog"] = async (
@@ -9,9 +9,22 @@ export const saveFoodLog: MutationResolvers["saveFoodLog"] = async (
 ) => {
   await foodLogPermissionService.assert("create", context);
 
-  await foodLogDataService.upsert(context, input);
+  const day = input.day;
+  const items: Partial<FoodLogEntity>[] = input.foodLogs.map((log) => ({
+    calories: log.calories,
+    carbs: log.carbs,
+    fat: log.fat,
+    id: log.id,
+    day,
+    userId: context.getCurrentUserId(true),
+    protein: log.protein,
+    description: log.description,
+  }));
+  await foodLogDataService.upsert(context, items);
   const logs = await foodLogDataService.getConnection(context, {
-    day: input.day,
+    constraint: {
+      day: input.day,
+    },
     additionalRootResolvers: {
       day: input.day,
     },

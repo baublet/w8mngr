@@ -1,7 +1,6 @@
 import { Context } from "../../createContext";
 import { FoodLogEntity } from "./types";
 import { query } from "./query";
-import { assertIsTruthy } from "../../../shared";
 
 export async function getByDay(
   context: Context,

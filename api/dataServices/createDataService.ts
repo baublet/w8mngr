@@ -45,6 +45,7 @@ export function createDataService<T extends QueryFactoryFunction>(
     deleteByIds: getDeleteByIds(queryFactory),
     deleteBy: getDeleteBy(queryFactory),
     findBy: getFindBy(queryFactory),
+    findOneBy: getFindOneBy(queryFactory),
     findOneOrFail: getFindOneOrFail(queryFactory, entityName),
     getConnection: getConnection(queryFactory),
     update: getUpdate(queryFactory),
@@ -91,6 +92,20 @@ function getDeleteBy<T extends QueryFactoryFunction>(queryFactory: T) {
     query.delete();
     await where(query as QueryBuilderFromFactory<typeof queryFactory>);
     return query;
+  };
+}
+
+function getFindOneBy<T extends QueryFactoryFunction>(queryFactory: T) {
+  return async (
+    context: Context,
+    where: WhereFunctionFromQueryFactory<T>
+  ): Promise<EntityFromQueryFactoryFunction<T>> => {
+    const getQuery = await queryFactory(context);
+    const query = getQuery();
+    query.select();
+    await where(query as QueryBuilderFromFactory<typeof queryFactory>);
+    const results = await query;
+    return results[0];
   };
 }
 

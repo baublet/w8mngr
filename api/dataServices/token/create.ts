@@ -3,12 +3,15 @@ import { ulid } from "ulid";
 import { Context } from "../../createContext";
 import { TokenEntity, TOKEN_EXPIRY_OFFSET } from "./types";
 import { query } from "./query";
-import { findOneOrFail } from "./findOneOrFail";
 import { createDigest } from "../../authentication";
+import { tokenDataService } from "./";
 
 export async function create(
   context: Context,
-  { token, ...input}: Omit<TokenEntity, "id" | "tokenDigest" | "expires"> & {
+  {
+    token,
+    ...input
+  }: Omit<TokenEntity, "id" | "tokenDigest" | "expires"> & {
     token: string;
   }
 ): Promise<TokenEntity> {
@@ -24,5 +27,5 @@ export async function create(
     });
     return query;
   });
-  return findOneOrFail(context, (q) => q.where("id", "=", id));
+  return tokenDataService.findOneOrFail(context, (q) => q.where("id", "=", id));
 }

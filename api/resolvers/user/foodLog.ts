@@ -7,7 +7,7 @@ export const foodLog: UserResolvers["foodLog"] = async (
   context
 ) => {
   const log = await foodLogDataService.getConnection(context, {
-    day: args.day,
+    constraint: { day: args.day },
   });
 
   return {

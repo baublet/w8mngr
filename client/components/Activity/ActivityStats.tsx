@@ -1,4 +1,5 @@
 import React from "react";
+import cx from "classnames";
 
 import { ActivityType, GetActivityDetailsQuery } from "../../generated";
 import { Panel } from "../Containers";
@@ -65,7 +66,12 @@ export function ActivityStatsComponent({
                 {lastLog.ago}
               </Link>
             </div>
-            <div className="flex flex-col gap-2 text-sm text-slate-600 w-full">
+            <div
+              className={cx("flex text-sm text-slate-600 w-full", {
+                "flex-col gap-2": activityType === "WEIGHT",
+                "flex-wrap flex-row gap-4": activityType !== "WEIGHT",
+              })}
+            >
               {lastLog.logs.map((log) => (
                 <RepText
                   key={log.id}
@@ -103,9 +109,9 @@ function RepText({
   switch (activityType) {
     case "DISTANCE":
     case "TIMED":
-      return <>{work}</>;
+      return <div>{work}</div>;
     case "REPETITIVE":
-      return <>{reps}</>;
+      return <div>{reps} reps</div>;
     case "WEIGHT":
       return (
         <div className="flex gap-2 w-full">

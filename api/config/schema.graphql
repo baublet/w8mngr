@@ -120,6 +120,10 @@ enum Unit {
   MI
   MILLIMETERS # Default
   MM
+  FEET
+  FT
+  YARDS
+  YDS
 }
 
 #################

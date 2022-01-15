@@ -61,7 +61,7 @@ export function ActivityLogEntry({
             {
               id: log.id,
               work: formData.getValue("work", "0"),
-              reps: formData.getValue("reps", "0"),
+              reps: "0",
             },
           ],
         },

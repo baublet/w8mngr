@@ -22,21 +22,21 @@ export async function numberToContextualUnit(
   const settings = context.services.get(settingsService)();
 
   let incomingUnit: Unit = "GRAMS";
-  let outgoingUnit: Unit = "LBS";
+  let outgoingUnits: Unit[] = ["LBS"];
   if (activityType === "DISTANCE") {
-    outgoingUnit = settings.defaultDistanceMeasurement;
+    outgoingUnits = settings.defaultDistanceMeasurement;
     incomingUnit = "MILLIMETERS";
   } else if (activityType === "TIMED") {
-    outgoingUnit = settings.defaultTemporalMeasurement;
+    outgoingUnits = settings.defaultTemporalMeasurement;
     incomingUnit = "SECONDS";
   } else if (activityType === "WEIGHT") {
-    outgoingUnit = settings.defaultMassMeasurement;
+    outgoingUnits = settings.defaultMassMeasurement;
     incomingUnit = "GRAMS";
   }
 
   if (requestedWorkUnit) {
-    outgoingUnit = requestedWorkUnit;
+    outgoingUnits = [requestedWorkUnit];
   }
 
-  return numberToStringUnit({ work, incomingUnit, outgoingUnit });
+  return numberToStringUnit({ work, incomingUnit, outgoingUnits });
 }

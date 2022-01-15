@@ -12,9 +12,44 @@ export function rawInputToUnit({
   if (!work) {
     return 0;
   }
-  const quantity = new Qty(work.toLowerCase());
-  if (quantity.isUnitless()) {
+
+  // Break the units into pairs of units and values (allows for input like "5lbs 3oz")
+  const pairs = breakInputIntoValueUnitPairs(work);
+
+  if (pairs.length === 0) {
     return new Qty(`${work} ${defaultUnit.toLowerCase()}`).to(unit).scalar;
   }
-  return quantity.to(unit).scalar;
+
+  let rootUnitValue: number = 0;
+  for (const [value, inputUnit] of pairs) {
+    rootUnitValue += new Qty(value, inputUnit).to(unit).scalar;
+  }
+
+  return new Qty(rootUnitValue, unit).scalar;
+}
+
+export function breakInputIntoValueUnitPairs(
+  input: string
+): [number, string][] {
+  const valueUnitPairs: [number, string][] = [];
+
+  const pairs = input.match(/(\d+\s*\w+)/g);
+
+  if (!pairs) {
+    return [];
+  }
+
+  for (const pair of pairs) {
+    const digits = pair.match(/(\d+)/);
+    const units = pair.match(/\s*(\D+)/);
+
+    if (!digits || !units) {
+      continue;
+    }
+    const digitNumber = parseInt(digits[0], 10);
+    const unit = units[0].toLowerCase();
+    valueUnitPairs.push([digitNumber, unit]);
+  }
+
+  return valueUnitPairs;
 }

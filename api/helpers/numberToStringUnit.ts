@@ -5,33 +5,55 @@ import { log } from "../config";
 export function numberToStringUnit({
   work,
   incomingUnit,
-  outgoingUnit,
+  outgoingUnits,
 }: {
   work: number;
   incomingUnit: string;
-  outgoingUnit: string;
+  outgoingUnits: string[];
 }): string {
   if (!work) {
     return "0";
   }
   const loweredIncomingUnit = incomingUnit.toLowerCase();
-  const loweredOutgoingUnit = outgoingUnit.toLowerCase();
+  const loweredOutgoingUnits = outgoingUnits.map((unit) => unit.toLowerCase());
   try {
-    const quantity = new Qty(work, loweredIncomingUnit).to(loweredOutgoingUnit);
-    const roundedQuantity = round(quantity.scalar);
-    return new Qty(roundedQuantity, loweredOutgoingUnit).toString();
+    const quantityStrings: string[] = [];
+
+    // The remainder is always stored in the loweredIncomingUnit format
+    let remainder: number = work;
+    for (let i = 0; i < loweredOutgoingUnits.length; i++) {
+      if (remainder < 1) {
+        break;
+      }
+      const unit = loweredOutgoingUnits[i];
+      const nextUnit = loweredOutgoingUnits[i + 1];
+      const isLastUnit = i + 1 > loweredOutgoingUnits.length - 1;
+
+      // If this is the final unit in the set, round up; otherwise round down (so we can accumulate the remainder)
+      const roundingFunction = !isLastUnit ? Math.floor : Math.ceil;
+
+      const rootUnit = new Qty(remainder, loweredIncomingUnit);
+      const fullUnit = new Qty(
+        roundingFunction(rootUnit.to(unit).scalar),
+        unit
+      );
+
+      if (fullUnit.scalar > 0) {
+        quantityStrings.push(fullUnit.toString());
+      }
+      if (nextUnit) {
+        remainder -= fullUnit.to(loweredIncomingUnit).scalar;
+      }
+    }
+
+    return quantityStrings.join(" ");
   } catch (error) {
     log("error", "Unknown error converting units", {
       incomingUnit,
-      outgoingUnit,
+      outgoingUnits,
       work,
       error,
     });
     return `${work}`;
   }
-}
-
-function round(num: number): number {
-  const m = Number((Math.abs(num) * 100).toPrecision(15));
-  return (Math.round(m) / 100) * Math.sign(num);
 }

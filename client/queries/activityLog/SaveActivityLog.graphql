@@ -1,6 +1,6 @@
 mutation SaveActivityLog($input: SaveActivityLogInput!) {
   saveActivityLog(input: $input) {
-    error
+    errors
     logs {
       day
       edges {

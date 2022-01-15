@@ -1,7 +1,5 @@
 import { MutationResolvers } from "../../graphql-types";
 import { activityLogDataService } from "../../dataServices";
-import { Unauthorized } from "../../helpers/errors/Unauthorized";
-import { log } from "../../config";
 
 export const deleteActivityLog: MutationResolvers["deleteActivityLog"] = async (
   parent,
@@ -10,7 +8,7 @@ export const deleteActivityLog: MutationResolvers["deleteActivityLog"] = async (
 ) => {
   const userId = context.getCurrentUserId(true);
   const activityLog = await activityLogDataService.findOneOrFail(context, (q) =>
-    q.where("id", "=", args.input.id)
+    q.where("id", "=", args.input.id).andWhere("userId", "=", userId)
   );
   await activityLogDataService.deleteBy(context, (q) =>
     q.where("id", "=", activityLog.id).andWhere("userId", "=", userId)
@@ -18,7 +16,7 @@ export const deleteActivityLog: MutationResolvers["deleteActivityLog"] = async (
 
   return {
     errors: [],
-    logs: activityLogDataService.getConnection(context, {
+    logs: await activityLogDataService.getConnection(context, {
       constraint: {
         day: activityLog.day,
         activityId: activityLog.activityId,

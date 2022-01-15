@@ -1,7 +1,11 @@
 import React from "react";
 import cx from "classnames";
 
-import { useSaveActivityLogMutation, ActivityType } from "../../generated";
+import {
+  useSaveActivityLogMutation,
+  ActivityType,
+  GetActivityLogDocument,
+} from "../../generated";
 import { useForm, useToast } from "../../helpers";
 
 import { Add } from "../Icons/Add";
@@ -38,7 +42,8 @@ export function NewActivityLogForm({
   }>();
   const { success, error } = useToast();
   const [createActivityLog, { loading }] = useSaveActivityLogMutation({
-    // refetchQueries: [GetActivityLogDocument],
+    refetchQueries: [GetActivityLogDocument],
+    awaitRefetchQueries: true,
     onCompleted: () => {
       newActivityLogFormData.clear();
       success("Log added");

@@ -50,6 +50,8 @@ export async function saveMutation(
   } catch (error) {
     assertIsError(error);
     await db.rollback(error);
-    return error;
+    return {
+      errors: [error.message],
+    };
   }
 }

@@ -31,7 +31,11 @@ export async function saveMutation(
     if (activity.type === "DISTANCE") {
       entries.push({
         id,
-        work: rawInputToUnit({ work, unit: "millimeters", defaultUnit: "kilometers" }),
+        work: rawInputToUnit({
+          work,
+          unit: "millimeters",
+          defaultUnit: "kilometers",
+        }),
       });
     } else if (activity.type === "REPETITIVE") {
       doTimes(sets, () => entries.push({ id, reps }));
@@ -89,6 +93,19 @@ function getRepsAndSets(repsAndSets: Maybe<string> | undefined): {
   reps: number;
   sets: number;
 } {
+  if (!repsAndSets) {
+    return {
+      reps: 1,
+      sets: 1,
+    };
+  }
+
+  if (!repsAndSets.includes("x")) {
+    return {
+      sets: 1,
+      reps: parseInt(repsAndSets.trim(), 10),
+    };
+  }
   const parts = (repsAndSets || "").split("x");
 
   const setsString = parts[0] || "0";

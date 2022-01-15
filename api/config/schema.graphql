@@ -365,7 +365,7 @@ type ActivityLog {
 }
 
 type ActivityLogMutationPayload {
-  error: [String!]!
+  errors: [String!]!
   logs: ActivityLogConnection!
 }
 

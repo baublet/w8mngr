@@ -8,7 +8,10 @@ import { ButtonSpinner } from "../Loading/ButtonSpinner";
 import { BarcodeScannerButton } from "../BarcodeScanner";
 
 import { foodLogLocalStorage, useToast } from "../../helpers";
-import { useCreateOrUpdateFoodLogMutation } from "../../generated";
+import {
+  useCreateOrUpdateFoodLogMutation,
+  GetCurrentUserFoodLogDocument,
+} from "../../generated";
 import { PrimaryLightSaveButton } from "../Button/PrimaryLightSave";
 
 const schema = object().shape({
@@ -53,6 +56,7 @@ export function NewFoodLogPanel({
   }
 
   const [createFood, { loading }] = useCreateOrUpdateFoodLogMutation({
+    refetchQueries: [GetCurrentUserFoodLogDocument],
     onCompleted: () => {
       newFoodLogForm.clear();
       setTimeout(() => {
@@ -64,6 +68,8 @@ export function NewFoodLogPanel({
   });
   const create = () => {
     createFood({
+      awaitRefetchQueries: true,
+      refetchQueries: [GetCurrentUserFoodLogDocument],
       onCompleted: newFoodLogForm.clear,
       variables: {
         input: { day, foodLogs: [newFoodLogForm.getCastValues()] },

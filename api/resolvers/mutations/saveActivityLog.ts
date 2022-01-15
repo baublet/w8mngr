@@ -19,12 +19,12 @@ export const saveActivityLog: MutationResolvers["saveActivityLog"] = async (
   if (mutationResult instanceof Error) {
     log("error", "Unexpected error saving activity log", { mutationResult });
     return {
-      error: [mutationResult.message],
+      errors: [mutationResult.message],
     };
   }
 
   return {
-    error: [],
+    errors: [],
     logs: activityLogDataService.getConnection(context, {
       constraint: {
         day: args.input.day,

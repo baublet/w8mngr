@@ -1,6 +1,6 @@
 mutation DeleteActivityLog($id: ID!) {
   deleteActivityLog(input: { id: $id }) {
-    error
+    errors
     logs {
       day
       edges {

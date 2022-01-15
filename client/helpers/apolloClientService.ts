@@ -5,19 +5,7 @@ const GRAPHQL_ENDPOINT =
 
 export function apolloClientService() {
   const client = new ApolloClient({
-    cache: new InMemoryCache({
-      typePolicies: {
-        ActivityLogConnection: {
-          keyFields: ["day"],
-        },
-        FoodLogConnection: {
-          keyFields: ["day"],
-        },
-        WeightLogConnection: {
-          keyFields: ["day"],
-        },
-      },
-    }),
+    cache: new InMemoryCache(),
     link: new HttpLink({
       uri: GRAPHQL_ENDPOINT,
       fetch: async (req, res) => {

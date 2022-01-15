@@ -7,7 +7,10 @@ import { NewWeightLogFormObject } from "./WeightLog";
 import { Form, InputInverted } from "../Forms";
 import { PrimaryLightSaveButton } from "../Button/PrimaryLightSave";
 
-import { useCreateOrUpdateWeightLogMutation } from "../../generated";
+import {
+  GetCurrentUserWeightLogDocument,
+  useCreateOrUpdateWeightLogMutation,
+} from "../../generated";
 
 export function NewWeightLog({ day }: { day: string }) {
   const formData = useForm<NewWeightLogFormObject>();
@@ -15,6 +18,8 @@ export function NewWeightLog({ day }: { day: string }) {
 
   const [createOrUpdateWeightLogMutation, { loading: saving }] =
     useCreateOrUpdateWeightLogMutation({
+      refetchQueries: [GetCurrentUserWeightLogDocument],
+      awaitRefetchQueries: true,
       onError: error,
       onCompleted: () => {
         success("Weight log entry saved!");

@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
 export default {
   develop: {
     client: "sqlite3",
@@ -19,7 +23,6 @@ export default {
     client: "pg",
     version: "7.2",
     connection: process.env.DB_CONNECTION_STRING,
-    searchPath: ["knex", "public"],
     pool: {
       min: 2,
       max: 10,

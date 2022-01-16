@@ -10,6 +10,6 @@ export default defineConfig({
   },
   define: {
     "process.env.GRAPHQL_ENDPOINT":
-      "'//localhost:8080/.netlify/functions/graphql'",
+      "'/.netlify/functions/graphql'",
   },
 });

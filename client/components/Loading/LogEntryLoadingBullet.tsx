@@ -4,7 +4,7 @@ import cx from "classnames";
 export function LogEntryLoadingBullet({
   visible = true,
   minimumMsToVisible = 1,
-  maximumMsToVisible = 800,
+  maximumMsToVisible = 500,
 }: {
   minimumMsToVisible?: number;
   visible?: boolean;

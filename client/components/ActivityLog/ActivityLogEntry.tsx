@@ -12,6 +12,7 @@ import { SHOW_REPS, WORK_LABELS } from "./NewActivityLogForm";
 import { InputFoodEntry } from "../Forms";
 import { DeleteIconButton } from "../Button/DeleteIconButton";
 import { useForm, useToast } from "../../helpers";
+import { Panel } from "../Containers";
 
 export function ActivityLogEntry({
   log,
@@ -76,44 +77,41 @@ export function ActivityLogEntry({
   const loading = deleteLoading || saveLoading;
 
   return (
-    <form
-      className={cx(
-        "group p-4 w-full flex gap-4 hover:bg-slate-50 items-center",
-        {
-          ["opacity-50 pointer-events-none"]: loading,
-        }
-      )}
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSave();
-      }}
-    >
-      {!showReps ? null : (
-        <div className="w-full flex-grow-1">
-          <InputFoodEntry
-            defaultValue={formData.getValue("reps")}
-            onChange={formData.getHandler("reps")}
-            label="Reps"
-            type="text"
-          />
+    <Panel loading={loading}>
+      <form
+        className="w-full flex gap-4 items-center"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSave();
+        }}
+      >
+        {!showReps ? null : (
+          <div className="w-full flex-grow-1">
+            <InputFoodEntry
+              defaultValue={formData.getValue("reps")}
+              onChange={formData.getHandler("reps")}
+              label="Reps"
+              type="text"
+            />
+          </div>
+        )}
+        {!workLabel ? null : (
+          <div className="w-full">
+            <InputFoodEntry
+              defaultValue={formData.getValue("work")}
+              onChange={formData.getHandler("work")}
+              label={workLabel}
+              type="text"
+            />
+          </div>
+        )}
+        <div>
+          <DeleteIconButton onClick={handleDelete} />
         </div>
-      )}
-      {!workLabel ? null : (
-        <div className="w-full">
-          <InputFoodEntry
-            defaultValue={formData.getValue("work")}
-            onChange={formData.getHandler("work")}
-            label={workLabel}
-            type="text"
-          />
-        </div>
-      )}
-      <div>
-        <DeleteIconButton onClick={handleDelete} />
-      </div>
-      <button className="screen-reader-text" type="submit">
-        Save
-      </button>
-    </form>
+        <button className="screen-reader-text" type="submit">
+          Save
+        </button>
+      </form>
+    </Panel>
   );
 }

@@ -6,12 +6,14 @@ import { DeleteIconButton } from "../Button/DeleteIconButton";
 import { Form, InputFoodEntry } from "../Forms";
 import { LogEntryLoadingBullet } from "../Loading/LogEntryLoadingBullet";
 
-import { useForm } from "../../helpers";
+import { useForm, useToast } from "../../helpers";
 
 import {
+  GetCurrentUserFoodLogDocument,
   useCreateOrUpdateFoodLogMutation,
   useDeleteFoodLogMutation,
 } from "../../generated";
+import { Panel } from "../Containers";
 
 const schema = object().shape({
   id: string().required(),
@@ -39,6 +41,7 @@ export function LogEntry({
   carbs?: number | null;
   protein?: number | null;
 }) {
+  const { error, success } = useToast();
   const logEntryForm = useForm<{
     id: string;
     description: string;
@@ -58,10 +61,26 @@ export function LogEntry({
     },
   });
   const [createOrUpdateFoodLog, { loading: createOrUpdateLoading }] =
-    useCreateOrUpdateFoodLogMutation({});
-  const [deleted, setDeleted] = React.useState(false);
+    useCreateOrUpdateFoodLogMutation({
+      refetchQueries: [
+        {
+          query: GetCurrentUserFoodLogDocument,
+          variables: { day },
+        },
+      ],
+      awaitRefetchQueries: true,
+      onError: error,
+      onCompleted: () => success("Food log saved!"),
+    });
   const [deleteFoodLog, { loading: deleteLoading }] = useDeleteFoodLogMutation({
-    onError: () => setDeleted(false),
+    refetchQueries: [
+      {
+        query: GetCurrentUserFoodLogDocument,
+        variables: { day },
+      },
+    ],
+    awaitRefetchQueries: true,
+    onError: error,
   });
 
   const loading = createOrUpdateLoading || deleteLoading;
@@ -77,28 +96,13 @@ export function LogEntry({
     });
   }, []);
 
-  if (deleted) {
-    return <div className="opacity-0 pointer-events-none absolute" />;
-  }
-
   return (
-    <div
-      className={cx(
-        "relax flex w-full items-center hover:bg-slate-50 rounded hover:bg-opacity-50 border border-slate-100 border-opacity-0 hover:border-opacity-75",
-        { "opacity-50": deleteLoading }
-      )}
+    <Panel
+      loading={deleteLoading || createOrUpdateLoading}
+      className="relax flex w-full items-center"
     >
       <div
-        className="absolute inset point-events-none flex items-center"
-        style={{
-          transform: "translateX(-1em)",
-        }}
-      >
-        <LogEntryLoadingBullet visible={loading} />
-      </div>
-
-      <div
-        className={cx("rounded bg-purple-50 bg-opacity-5 p-4 flex w-full", {
+        className={cx("rounded bg-purple-50 bg-opacity-5 flex w-full gap-4 items-center", {
           "pointer-events-none": loading,
         })}
       >
@@ -158,15 +162,14 @@ export function LogEntry({
             </div>
           </div>
         </Form>
-      </div>
-      <div className="px-4">
+      <div>
         <DeleteIconButton
           onClick={() => {
-            setDeleted(true);
             deleteFoodLog({ variables: { id } });
           }}
         />
       </div>
-    </div>
+      </div>
+    </Panel>
   );
 }

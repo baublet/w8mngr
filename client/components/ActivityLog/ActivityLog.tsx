@@ -33,7 +33,7 @@ export function ActivityLog({
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="flex justify-between items-start gap-8 flex-col md:flex-row">
-        <div className="w-full md:w-1/2">
+        <div className="w-full md:w-1/2 flex flex-col w-full gap-2">
           {!logs || logs.length === 0 ? (
             <div className="border-t border-slate-50 mt-4 opacity-25 max-w-sm font-thin text-2xl">
               Nothing here, yet! Get started by entering a set in the form.

@@ -36,6 +36,13 @@ export function FoodSearchAutocomplete({
   });
   const [selectedFoodId, setSelectedFoodId] = React.useState<string>();
   const [saveFoodLog, { loading }] = useCreateOrUpdateFoodLogMutation({
+    refetchQueries: [
+      {
+        query: GetCurrentUserFoodLogDocument,
+        variables: { day },
+      },
+    ],
+    awaitRefetchQueries: true,
     onCompleted: () => {
       onItemAdded?.();
     },

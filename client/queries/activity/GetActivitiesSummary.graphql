@@ -1,0 +1,9 @@
+query GetActivitiesSummary {
+  currentUser {
+    activitySummary {
+      day
+      labelData
+      intensity
+    }
+  }
+}

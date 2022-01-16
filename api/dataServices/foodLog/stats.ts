@@ -160,5 +160,9 @@ function getFlattenedAverage(set: Record<string, number>): number {
     totalValues += 1;
   }
 
+  if (totalValues === 0) {
+    return 0;
+  }
+
   return total / totalValues;
 }

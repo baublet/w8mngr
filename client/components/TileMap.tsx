@@ -19,7 +19,7 @@ export function TileMap({
     label: React.ReactNode;
     // 1-10
     intensity: number;
-    link: string;
+    link?: string;
   }[];
 }) {
   const { dayColumns, maxDay, minDay, middleDay } = React.useMemo(() => {
@@ -113,6 +113,32 @@ export function TileMap({
   );
   const [showPopperElement, setShowPopperElement] = React.useState(false);
   const [label, setLabel] = React.useState<React.ReactNode>(null);
+  const [, setLocked] = React.useState(false);
+
+  const onHover = React.useCallback((label: React.ReactNode) => {
+    setLocked((locked) => {
+      if (locked) {
+        return locked;
+      }
+      setLabel(label);
+      return locked;
+    });
+  }, []);
+  const onClick = React.useCallback(() => {
+    setLocked((locked) => !locked);
+  }, []);
+  const onMouseEnter = React.useCallback(() => {
+    setShowPopperElement(true);
+  }, []);
+  const onMouseLeave = React.useCallback(() => {
+    setLocked((locked) => {
+      if (locked) {
+        return locked;
+      }
+      setShowPopperElement(false);
+      return locked;
+    });
+  }, []);
 
   React.useEffect(() => {
     forceUpdate?.();
@@ -137,8 +163,8 @@ export function TileMap({
         <div
           className="flex items-end justify-around min-w-fit"
           ref={referenceElement}
-          onMouseEnter={() => setShowPopperElement(true)}
-          onMouseLeave={() => setShowPopperElement(false)}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
         >
           {dayColumns.map((days, i) => (
             <div
@@ -155,7 +181,8 @@ export function TileMap({
                     key={day}
                     intensity={dayData.intensity}
                     link={dayData.link}
-                    onHover={setLabel}
+                    onHover={onHover}
+                    onClick={onClick}
                     label={dayData.label}
                   />
                 );
@@ -184,7 +211,7 @@ function getDayData(
     label: React.ReactNode;
     // 1-10
     intensity: number;
-    link: string;
+    link?: string;
   }[],
   day: string
 ): {
@@ -203,19 +230,34 @@ function getDayData(
       link: "#",
     };
   }
-  return dayData;
+
+  if (!dayData.link) {
+    dayData.link = "#";
+  }
+
+  return dayData as {
+    day: string;
+    label: React.ReactNode;
+    intensity: number;
+    link: string;
+  };
 }
+
+function doNothing() {}
+
 function Tile({
   day,
   intensity,
   link,
   onHover,
   label,
+  onClick = doNothing,
 }: {
   day: string;
   intensity: number;
   link: string;
   onHover: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+  onClick?: () => void;
   label?: React.ReactNode;
 }) {
   const { displayDate, displayLabel, onMouseOver } = React.useMemo(() => {
@@ -231,6 +273,7 @@ function Tile({
     <Link
       to={link}
       onMouseOver={onMouseOver}
+      onClick={onClick}
       className={cx(
         "w-4 h-4 aspect-square cursor-pointer border rounded border-white",
         {

@@ -1,11 +1,13 @@
 import { Knex } from "knex";
 import { ulid } from "ulid";
 import omit from "lodash.omit";
+import DataLoader from "dataloader";
 
 import { assertIsError } from "../../shared";
 import { dbService } from "../config";
-import { Context } from "../createContext";
+import { Context, contextService } from "../createContext";
 import { errors, buildConnectionResolver } from "../helpers";
+import { ServiceContainer } from "@baublet/service-container";
 
 type PartiallyMaybe<T extends Record<string, any>> = {
   [K in keyof T]?: T[K] | undefined;
@@ -42,12 +44,13 @@ export function createDataService<T extends QueryFactoryFunction>(
 ) {
   return {
     create: getCreate(queryFactory, entityName),
-    deleteByIds: getDeleteByIds(queryFactory),
     deleteBy: getDeleteBy(queryFactory),
+    deleteByIds: getDeleteByIds(queryFactory),
     findBy: getFindBy(queryFactory),
     findOneBy: getFindOneBy(queryFactory),
     findOneOrFail: getFindOneOrFail(queryFactory, entityName),
     getConnection: getConnection(queryFactory),
+    getLoader: getLoaderFactory(queryFactory),
     update: getUpdate(queryFactory),
     upsert: getUpsert(queryFactory),
   };
@@ -92,6 +95,21 @@ function getDeleteBy<T extends QueryFactoryFunction>(queryFactory: T) {
     query.delete();
     await where(query as QueryBuilderFromFactory<typeof queryFactory>);
     return query;
+  };
+}
+
+function getLoaderFactory<T extends QueryFactoryFunction>(queryFactory: T) {
+  function getLoaderService(serviceContainer: ServiceContainer) {
+    const context = serviceContainer.get(contextService);
+    return new DataLoader<string, EntityFromQueryFactoryFunction<T>>(
+      async (ids: readonly string[]) => {
+        const getQuery = await queryFactory(context);
+        return getQuery().select().whereIn("id", ids);
+      }
+    );
+  }
+  return async (context: Context) => {
+    return context.services.get(getLoaderService);
   };
 }
 

@@ -1,5 +1,6 @@
 scalar Date
 scalar ID
+scalar JSON
 
 type User {
   id: ID!
@@ -8,6 +9,7 @@ type User {
   foodLog(day: String!): FoodLogConnection!
   foods(input: FoodQueryInput): FoodConnection!
   activities(input: ActivityQueryInput): ActivityConnection!
+  activitySummary(input: ActivityVisualizationInput): [TileMapDataPoint!]!
   popularActivities: [Activity!]!
   foodLogStats: FoodLogStats!
 }
@@ -304,6 +306,12 @@ type ActivityLastLog {
   logs: [ActivityLog!]!
   day: String!
   ago: String!
+}
+
+type TileMapDataPoint {
+  day: String!
+  labelData: JSON!
+  intensity: Int!
 }
 
 type ActivityVisualizationData {

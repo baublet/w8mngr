@@ -10,3 +10,4 @@ export { settingsService } from "./settingsService";
 export { numberToStringUnit } from "./numberToStringUnit";
 export { numberToContextualUnit } from "./numberToContextualUnit";
 export { numberToContextualNumericUnit } from "./numberToContextualNumericUnit";
+export { getDateRangeWithDefault } from "./getDateRangeWithDefault";

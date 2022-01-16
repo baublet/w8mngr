@@ -21,12 +21,11 @@ export function ActivityPageHelpers() {
   return (
     <div className="rounded flex gap-4 opacity-50 hover:opacity-100">
       <div className="font-thin">Popular:</div>
-      <div className="flex gap-2 flex-wrap items-center">
+      <div className="flex gap-2 flex-wrap items-center text-xs">
         {data.currentUser?.popularActivities.map((activity) => (
           <Link
             to={`/activities/${activity.id}`}
             key={activity.id}
-            className="text-xs"
           >
             {activity.name}
           </Link>

@@ -1,6 +1,3 @@
-import fs from "fs";
-import path from "path";
-
 import { Request, Response } from "express";
 import {
   ServiceContainer,
@@ -92,6 +89,8 @@ export function createContext(
     toString: () => clientId,
   };
 
+  services.set(contextService, context);
+
   return context;
 }
 
@@ -124,3 +123,10 @@ export const createGraphqlContext: ContextFunction<
 
   return context;
 };
+
+export function contextService(serviceContainer: ServiceContainer): Context {
+  if (serviceContainer.has(contextService)) {
+    return serviceContainer.get(contextService);
+  }
+  throw new Error("Context service container not properly initialized!");
+}

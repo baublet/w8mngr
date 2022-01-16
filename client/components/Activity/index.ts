@@ -4,3 +4,4 @@ export { EditActivityForm } from "./EditActivityForm";
 export { ActivityDetails } from "./ActivityDetails";
 export { ActivityPageHelpers } from "./ActivityPageHelpers";
 export { ActivityStatsComponent } from "./ActivityStats";
+export { ActivitiesTileMap } from "./ActivitiesTileMap";

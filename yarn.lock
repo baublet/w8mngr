@@ -4784,7 +4784,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dataloader@npm:2.0.0":
+"dataloader@npm:2.0.0, dataloader@npm:^2.0.0":
   version: 2.0.0
   resolution: "dataloader@npm:2.0.0"
   checksum: 9f10b9d2e35225b08a72435facfe40c0c124e329f43bd0fe4d67411ee667d12145f7ce63f9b74f73af8556dc6a98bae59147a5cca2171315dc1de509d4db04c0
@@ -8772,6 +8772,13 @@ __metadata:
   version: 4.0.1
   resolution: "lodash.isstring@npm:4.0.1"
   checksum: eaac87ae9636848af08021083d796e2eea3d02e80082ab8a9955309569cb3a463ce97fd281d7dc119e402b2e7d8c54a23914b15d2fc7fff56461511dc8937ba0
+  languageName: node
+  linkType: hard
+
+"lodash.keyby@npm:^4.6.0":
+  version: 4.6.0
+  resolution: "lodash.keyby@npm:4.6.0"
+  checksum: 9dd96cc8b83e05a71dc328f8e489056105bc84b57b4d7f8155d6bf5744dcdb0a5534acdf6e4e89e5ddf71f2bc6b93969b12c6da09d69fdf3b1cca65a8ed61e2b
   languageName: node
   linkType: hard
 
@@ -13686,6 +13693,7 @@ __metadata:
     classnames: ^2.3.1
     cookie-parser: ^1.4.6
     cors: ^2.8.5
+    dataloader: ^2.0.0
     date-fns: ^2.26.0
     dotenv: ^10.0.0
     esbuild: ^0.14
@@ -13700,6 +13708,7 @@ __metadata:
     knex: ^0.95.14
     lambda-local: ^2.0.0
     lodash.groupby: ^4.6.0
+    lodash.keyby: ^4.6.0
     lodash.omit: ^4.5.0
     object-hash: ^2.2.0
     pg: ^8.7.1

@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { useForm } from "../helpers";
+import { useForm, useToast } from "../helpers";
 import { ContentLayout } from "../components/Containers/ContentLayout";
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { PageHeading } from "../components/Type/PageHeading";
@@ -16,6 +16,7 @@ export function Login() {
     username: string;
     password: string;
   }>();
+  const { error } = useToast();
 
   const [login, { loading }] = useLoginMutation({
     variables: {
@@ -23,7 +24,16 @@ export function Login() {
     },
     refetchQueries: [GetCurrentUserDocument],
     onCompleted: () => push("/"),
+    onError: error,
   });
+
+  const submit = React.useCallback(() => {
+    login({
+      variables: {
+        input: loginForm.getValues(),
+      },
+    });
+  }, []);
 
   return (
     <div>
@@ -31,7 +41,7 @@ export function Login() {
       <ContentContainer>
         <ContentLayout
           mainContent={
-            <Form loading={loading}>
+            <Form loading={loading} onSubmit={submit}>
               <Input
                 type="text"
                 placeholder="your@email.address"
@@ -50,17 +60,7 @@ export function Login() {
                 labelPlacement="bottom"
               />
               <Spacer size="s" />
-              <PrimaryButton
-                onClick={() => {
-                  login({
-                    variables: {
-                      input: loginForm.getValues(),
-                    },
-                  });
-                }}
-              >
-                Login
-              </PrimaryButton>
+              <PrimaryButton onClick={submit}>Login</PrimaryButton>
             </Form>
           }
         />

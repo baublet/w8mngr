@@ -27,13 +27,21 @@ export function Register() {
     onError: error,
   });
 
+  const submit = React.useCallback(() => {
+    register({
+      variables: {
+        input: registerForm.getValues(),
+      },
+    });
+  }, []);
+
   return (
     <div>
       <PageHeading>Register</PageHeading>
       <ContentContainer>
         <ContentLayout
           mainContent={
-            <Form loading={loading}>
+            <Form loading={loading} onSubmit={submit}>
               <Input
                 type="text"
                 label="Username"
@@ -63,18 +71,12 @@ export function Register() {
                 labelPlacement="bottom"
               />
               <Spacer />
-              <PrimaryButton
+              <input
                 type="submit"
-                onClick={() =>
-                  register({
-                    variables: {
-                      input: registerForm.getValues(),
-                    },
-                  })
-                }
-              >
-                Register
-              </PrimaryButton>
+                value="Register"
+                className="screen-reader-text"
+              />
+              <PrimaryButton onClick={submit}>Register</PrimaryButton>
             </Form>
           }
         />

@@ -18,10 +18,9 @@ export function Link({
       to={to}
       href={to}
       onClick={onClick}
-      className={cx(
-        "text-emerald-500 underline hover:text-emerald-900",
-        className
-      )}
+      className={cx(className, {
+        "text-emerald-500 underline hover:text-emerald-900": !className,
+      })}
     >
       {children}
     </LinkElement>

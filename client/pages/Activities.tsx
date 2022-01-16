@@ -5,7 +5,7 @@ import { PageHeading } from "../components/Type/PageHeading";
 import { ContentLayout } from "../components/Containers/ContentLayout";
 import { SecondaryButton } from "../components/Button/Secondary";
 import { HealthCircleIcon } from "../components/Icons/HealthCircle";
-import { ActivityList } from "../components/Activity";
+import { ActivitiesTileMap, ActivityList } from "../components/Activity";
 import { Input } from "../components/Forms";
 import { ActivityPageHelpers } from "../components/Activity";
 import { FiltersPanel } from "../components/FiltersPanel";
@@ -18,7 +18,10 @@ export function Activities() {
       <ContentContainer>
         <ContentLayout
           mainContent={
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-8">
+              <div className="relative z-10">
+                <ActivitiesTileMap />
+              </div>
               <div>
                 <ActivityPageHelpers />
               </div>

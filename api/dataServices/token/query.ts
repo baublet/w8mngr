@@ -4,4 +4,4 @@ import { QueryBuilderForQuery } from "../../config/db";
 
 export const query = getQueryProvider<TokenEntity>("token");
 export type TokenQueryBuilder = QueryBuilderForQuery<typeof query>;
-export const getQuery = getQueryBuilderFactory<TokenEntity>("food");
+export const getQuery = getQueryBuilderFactory<TokenEntity>("token");

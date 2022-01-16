@@ -24,6 +24,7 @@ import { activities } from "./user/activities";
 import { popularUserActivities } from "./user/popularActivities";
 import { userFoodLogStats } from "./user/foodLogStats";
 import { weightLog } from "./user/weightLog";
+import { userActivitySummary } from "./user/activitySummary";
 
 import { activityMuscleGroups } from "./activity/musclesGroups";
 import { activityLogs } from "./activity/logs";
@@ -52,6 +53,7 @@ export const resolvers: Resolvers = {
   },
   User: {
     activities,
+    activitySummary: userActivitySummary,
     foodLog,
     foods,
     popularActivities: popularUserActivities,

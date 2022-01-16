@@ -112,24 +112,19 @@ export function TileMap({
     popupElement?.current
   );
   const [showPopperElement, setShowPopperElement] = React.useState(false);
-  const [label, setLabel] = React.useState<React.ReactNode>(null);
-  const [, setLocked] = React.useState(false);
+  const [hoveredDay, setHoveredDay] = React.useState<string | undefined>(
+    undefined
+  );
+  const [locked, setLocked] = React.useState(false);
 
-  const onHover = React.useCallback((label: React.ReactNode) => {
-    setLocked((locked) => {
-      if (locked) {
-        return locked;
-      }
-      setLabel(label);
-      return locked;
-    });
-  }, []);
   const onClick = React.useCallback(() => {
     setLocked((locked) => !locked);
   }, []);
+
   const onMouseEnter = React.useCallback(() => {
     setShowPopperElement(true);
   }, []);
+
   const onMouseLeave = React.useCallback(() => {
     setLocked((locked) => {
       if (locked) {
@@ -139,6 +134,30 @@ export function TileMap({
       return locked;
     });
   }, []);
+
+  const getOnHover = React.useCallback((day: string) => {
+    return () => {
+      setLocked((locked) => {
+        if (locked) {
+          return locked;
+        }
+        setHoveredDay(day);
+        return locked;
+      });
+    };
+  }, []);
+
+  const selectedDayLabel = React.useMemo(() => {
+    if (!hoveredDay) {
+      return null;
+    }
+    const foundDay = data.find((d) => d.day === hoveredDay);
+    if (!foundDay) {
+      const displayDate = format(dayStringToDate(hoveredDay), "PP");
+      return `No logs on ${displayDate}`;
+    }
+    return foundDay.label;
+  }, [hoveredDay, locked]);
 
   React.useEffect(() => {
     forceUpdate?.();
@@ -157,7 +176,7 @@ export function TileMap({
           }
         )}
       >
-        {label}
+        <div key={hoveredDay}>{selectedDayLabel}</div>
       </div>
       <div className="flex flex-col gap-2 overflow-hidden overflow-x-auto">
         <div
@@ -181,9 +200,8 @@ export function TileMap({
                     key={day}
                     intensity={dayData.intensity}
                     link={dayData.link}
-                    onHover={onHover}
+                    onHover={getOnHover(day)}
                     onClick={onClick}
-                    label={dayData.label}
                   />
                 );
               })}
@@ -250,29 +268,26 @@ function Tile({
   intensity,
   link,
   onHover,
-  label,
   onClick = doNothing,
 }: {
   day: string;
   intensity: number;
   link: string;
-  onHover: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+  onHover: () => void;
   onClick?: () => void;
   label?: React.ReactNode;
 }) {
-  const { displayDate, displayLabel, onMouseOver } = React.useMemo(() => {
+  const { displayDate } = React.useMemo(() => {
     const displayDate = format(dayStringToDate(day), "PP");
     return {
       displayDate,
-      displayLabel: label || `No logs on ${displayDate}`,
-      onMouseOver: () => onHover(displayLabel),
     };
   }, [day]);
 
   return (
     <Link
       to={link}
-      onMouseOver={onMouseOver}
+      onMouseOver={onHover}
       onClick={onClick}
       className={cx(
         "w-4 h-4 aspect-square cursor-pointer border rounded border-white",
@@ -294,21 +309,4 @@ function isSunday(day: string): boolean {
   const date = dayStringToDate(day);
   const dayOfTheWeek = getDay(date);
   return dayOfTheWeek === 0;
-}
-
-function min(...numbers: (number | undefined)[]): number {
-  let minimum: number | undefined = undefined;
-  for (const num of numbers) {
-    if (num === undefined) {
-      continue;
-    }
-    if (minimum === undefined) {
-      minimum = num;
-      continue;
-    }
-    if (minimum > num) {
-      minimum = num;
-    }
-  }
-  return minimum ?? 0;
 }

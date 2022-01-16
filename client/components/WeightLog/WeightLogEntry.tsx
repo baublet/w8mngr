@@ -4,6 +4,7 @@ import cx from "classnames";
 import { useForm, useToast } from "../../helpers";
 import { Form, InputFoodEntry } from "../Forms";
 import {
+  GetCurrentUserWeightLogDocument,
   useCreateOrUpdateWeightLogMutation,
   useDeleteWeightLogMutation,
 } from "../../generated";
@@ -39,6 +40,8 @@ export function WeightLogEntry({
   });
   const [deleteWeightLogMutation, { loading: deleting }] =
     useDeleteWeightLogMutation({
+      refetchQueries: [GetCurrentUserWeightLogDocument],
+      awaitRefetchQueries: true,
       onCompleted: () => success("Weight log entry deleted!"),
       onError: (err) => {
         error(err);

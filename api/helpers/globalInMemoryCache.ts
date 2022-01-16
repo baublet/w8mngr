@@ -29,6 +29,9 @@ export const globalInMemoryCache = {
     fn,
   }: {
     key: string;
+    /**
+     * Key expiry date in milliseconds
+     */
     expiry?: number;
     fn: () => Promise<T>;
   }): Promise<T> => {

@@ -6,7 +6,11 @@ import {
   ActivityType,
   ActivityVisualizationInput,
 } from "../../../graphql-types";
-import { getDateRangeWithDefault, numberToContextualUnit } from "../../../helpers";
+import {
+  getDateRangeWithDefault,
+  numberToContextualUnit,
+  globalInMemoryCache,
+} from "../../../helpers";
 import { getQuery } from "../../activityLog/query";
 import { ActivityLog } from "../../activityLog/types";
 
@@ -23,6 +27,7 @@ export function getVisualizationDataResolvers({
 }): any {
   return {
     maximumWork: getSetHandlerByDay({
+      key: "maximumWork",
       context,
       accumulator: (logs) => {
         const work = logs.reduce(
@@ -42,6 +47,7 @@ export function getVisualizationDataResolvers({
       userId,
     }),
     averageWork: getSetHandlerByDay({
+      key: "averageWork",
       context,
       accumulator: (logs) => {
         const work = logs.reduce((acc, log) => acc + log.work, 0) / logs.length;
@@ -58,6 +64,7 @@ export function getVisualizationDataResolvers({
       userId,
     }),
     maximumReps: getSetHandlerByDay({
+      key: "maximumReps",
       context,
       accumulator: (logs) => ({
         work: logs.reduce((acc, log) => (log.work > acc ? log.reps : acc), 0),
@@ -67,6 +74,7 @@ export function getVisualizationDataResolvers({
       userId,
     }),
     averageReps: getSetHandlerByDay({
+      key: "averageReps",
       context,
       accumulator: (logs) => ({
         work: logs.reduce((acc, log) => acc + log.work, 0) / logs.length,
@@ -76,6 +84,7 @@ export function getVisualizationDataResolvers({
       userId,
     }),
     scatterPlot: getSetHandlerByDay({
+      key: "scatterPlot",
       context,
       activityId,
       userId,
@@ -92,11 +101,13 @@ export function getVisualizationDataResolvers({
 }
 
 function getSetHandlerByDay({
+  key,
   context,
   accumulator,
   activityId,
   userId,
 }: {
+  key: string;
   context: Context;
   accumulator?: (
     log: Pick<ActivityLog, "day" | "reps" | "work">[]
@@ -111,40 +122,49 @@ function getSetHandlerByDay({
     parent: unknown,
     args: { input?: ActivityVisualizationInput } = {}
   ) => {
-    const { from, to } = getDateRangeWithDefault(args?.input);
-    const queryFactory = await getQuery(context);
-    const query = queryFactory();
-    const results = await query
-      .select("day", "work", "reps")
-      .whereIn("day", (query) =>
-        query
-          .distinct("day")
-          .where("activityId", "=", activityId)
+    const cacheKey = `getSetHandlerByDay-${activityId}-${userId}-${JSON.stringify(
+      args
+    )}-${key}`;
+    return globalInMemoryCache.getOrSet({
+      key: cacheKey,
+      expiry: Date.now() + 1000 * 60 * 60 * 12,
+      fn: async () => {
+        const { from, to } = getDateRangeWithDefault(args?.input);
+        const queryFactory = await getQuery(context);
+        const query = queryFactory();
+        const results = await query
+          .select("day", "work", "reps")
+          .whereIn("day", (query) =>
+            query
+              .distinct("day")
+              .where("activityId", "=", activityId)
+              .andWhere("userId", "=", userId)
+              .andWhere("day", ">=", from)
+              .andWhere("day", "<=", to)
+          )
           .andWhere("userId", "=", userId)
-          .andWhere("day", ">=", from)
-          .andWhere("day", "<=", to)
-      )
-      .andWhere("userId", "=", userId)
-      .andWhere("activityId", "=", activityId)
-      .orderBy("day", "asc")
-      .orderBy("createdAt");
+          .andWhere("activityId", "=", activityId)
+          .orderBy("day", "asc")
+          .orderBy("createdAt");
 
-    if (!accumulator) {
-      return results;
-    }
+        if (!accumulator) {
+          return results;
+        }
 
-    // Group them by day
-    const dayLogs = results.reduce((acc, log) => {
-      if (!acc[log.day]) {
-        acc[log.day] = [];
-      }
-      acc[log.day].push(log);
-      return acc;
-    }, {} as Record<string, Pick<ActivityLog, "work" | "reps" | "day">[]>);
+        // Group them by day
+        const dayLogs = results.reduce((acc, log) => {
+          if (!acc[log.day]) {
+            acc[log.day] = [];
+          }
+          acc[log.day].push(log);
+          return acc;
+        }, {} as Record<string, Pick<ActivityLog, "work" | "reps" | "day">[]>);
 
-    // Transform the logs by day
-    return flattenArray(
-      Object.entries(dayLogs).map(([, logs]) => accumulator(logs))
-    );
+        // Transform the logs by day
+        return flattenArray(
+          Object.entries(dayLogs).map(([, logs]) => accumulator(logs))
+        );
+      },
+    });
   };
 }

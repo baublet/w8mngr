@@ -12,103 +12,112 @@ import {
 } from "../../../shared";
 import { Context } from "../../createContext";
 import { FoodLogDataPoint } from "../../graphql-types";
+import { globalInMemoryCache } from "../../helpers";
 
 export async function stats(
   context: Context,
   { userId, ...args }: { from?: Maybe<Date>; to?: Maybe<Date>; userId: string }
 ) {
   const { from, to } = getDateRangeWithDefault(args);
+  const cacheKey = `food-log-stats-${userId}-${from}-${to}`;
+  return globalInMemoryCache.getOrSet({
+    key: cacheKey,
+    expiry: Date.now() + 1000 * 60 * 60 * 12,
+    fn: async () => {
+      const foodLogsInRange = await foodLogDataService.findBy(context, (q) =>
+        q
+          .where("userId", "=", userId)
+          .andWhere("day", ">=", from)
+          .andWhere("day", "<=", to)
+      );
+      const foodLogsGroupedByDay = groupBy(foodLogsInRange, (log) => log.day);
+      const days = objectEntries(foodLogsGroupedByDay);
 
-  const foodLogsInRange = await foodLogDataService.findBy(context, (q) =>
-    q
-      .where("userId", "=", userId)
-      .andWhere("day", ">=", from)
-      .andWhere("day", "<=", to)
-  );
-  const foodLogsGroupedByDay = groupBy(foodLogsInRange, (log) => log.day);
-  const days = objectEntries(foodLogsGroupedByDay);
+      const averageDailyCaloriesMap: Record<string, number> = {};
+      const averageDailyCarbsMap: Record<string, number> = {};
+      const averageDailyFatMap: Record<string, number> = {};
+      const averageDailyProteinMap: Record<string, number> = {};
 
-  const averageDailyCaloriesMap: Record<string, number> = {};
-  const averageDailyCarbsMap: Record<string, number> = {};
-  const averageDailyFatMap: Record<string, number> = {};
-  const averageDailyProteinMap: Record<string, number> = {};
+      for (const [day, foodLogs] of days) {
+        for (const foodLog of foodLogs) {
+          maybeAddToTotal(averageDailyCaloriesMap, day, foodLog.calories);
+          maybeAddToTotal(averageDailyCarbsMap, day, foodLog.carbs);
+          maybeAddToTotal(averageDailyFatMap, day, foodLog.fat);
+          maybeAddToTotal(averageDailyProteinMap, day, foodLog.protein);
+        }
+      }
 
-  for (const [day, foodLogs] of days) {
-    for (const foodLog of foodLogs) {
-      maybeAddToTotal(averageDailyCaloriesMap, day, foodLog.calories);
-      maybeAddToTotal(averageDailyCarbsMap, day, foodLog.carbs);
-      maybeAddToTotal(averageDailyFatMap, day, foodLog.fat);
-      maybeAddToTotal(averageDailyProteinMap, day, foodLog.protein);
-    }
-  }
+      const averageDailyCalories = getFlattenedAverage(averageDailyCaloriesMap);
+      const averageDailyCarbs = getFlattenedAverage(averageDailyCarbsMap);
+      const averageDailyFat = getFlattenedAverage(averageDailyFatMap);
+      const averageDailyProtein = getFlattenedAverage(averageDailyProteinMap);
 
-  const averageDailyCalories = getFlattenedAverage(averageDailyCaloriesMap);
-  const averageDailyCarbs = getFlattenedAverage(averageDailyCarbsMap);
-  const averageDailyFat = getFlattenedAverage(averageDailyFatMap);
-  const averageDailyProtein = getFlattenedAverage(averageDailyProteinMap);
+      const visualizationData: FoodLogDataPoint[] = days.map(
+        ([day, foodLogs]) => {
+          return {
+            day: format(dayStringToDate(day), "PP"),
+            ...foodLogs.reduce(
+              (data, foodLog, i) => {
+                data.calories += orZero(foodLog.calories);
+                data.carbs += orZero(foodLog.carbs);
+                data.fat += orZero(foodLog.fat);
+                data.protein += orZero(foodLog.protein);
+                return data;
+              },
+              {
+                calories: 0,
+                carbs: 0,
+                fat: 0,
+                protein: 0,
+              } as Omit<FoodLogDataPoint, "day">
+            ),
+          };
+        }
+      );
 
-  const visualizationData: FoodLogDataPoint[] = days.map(([day, foodLogs]) => {
-    return {
-      day: format(dayStringToDate(day), "PP"),
-      ...foodLogs.reduce(
-        (data, foodLog, i) => {
-          data.calories += orZero(foodLog.calories);
-          data.carbs += orZero(foodLog.carbs);
-          data.fat += orZero(foodLog.fat);
-          data.protein += orZero(foodLog.protein);
-          return data;
+      const span = 7;
+      const movingAverageCalories = getMovingAverage(
+        visualizationData.map((d) => d.calories),
+        { span }
+      );
+      const movingAverageFat = getMovingAverage(
+        visualizationData.map((d) => d.fat),
+        { span }
+      );
+      const movingAverageCarbs = getMovingAverage(
+        visualizationData.map((d) => d.carbs),
+        { span }
+      );
+      const movingAverageProtein = getMovingAverage(
+        visualizationData.map((d) => d.protein),
+        { span }
+      );
+      const movingAverageDays = movingAverageProtein.map((d, i) => {
+        const visDataIndex = i * span;
+        if (visDataIndex > visualizationData.length) {
+          return visualizationData[visualizationData.length - 1].day;
+        }
+        return visualizationData[visDataIndex].day;
+      });
+
+      return {
+        summary: {
+          averageDailyCalories,
+          averageDailyCarbs,
+          averageDailyFat,
+          averageDailyProtein,
+          totalFoodsLogged: foodLogsInRange.length,
         },
-        {
-          calories: 0,
-          carbs: 0,
-          fat: 0,
-          protein: 0,
-        } as Omit<FoodLogDataPoint, "day">
-      ),
-    };
-  });
-
-  const span = 7;
-  const movingAverageCalories = getMovingAverage(
-    visualizationData.map((d) => d.calories),
-    { span }
-  );
-  const movingAverageFat = getMovingAverage(
-    visualizationData.map((d) => d.fat),
-    { span }
-  );
-  const movingAverageCarbs = getMovingAverage(
-    visualizationData.map((d) => d.carbs),
-    { span }
-  );
-  const movingAverageProtein = getMovingAverage(
-    visualizationData.map((d) => d.protein),
-    { span }
-  );
-  const movingAverageDays = movingAverageProtein.map((d, i) => {
-    const visDataIndex = i * span;
-    if (visDataIndex > visualizationData.length) {
-      return visualizationData[visualizationData.length - 1].day;
-    }
-    return visualizationData[visDataIndex].day;
-  });
-
-  return {
-    summary: {
-      averageDailyCalories,
-      averageDailyCarbs,
-      averageDailyFat,
-      averageDailyProtein,
-      totalFoodsLogged: foodLogsInRange.length,
+        visualizationData: movingAverageCalories.map((data, i) => ({
+          day: movingAverageDays[i],
+          calories: movingAverageCalories[i],
+          fat: movingAverageFat[i],
+          carbs: movingAverageCarbs[i],
+          protein: movingAverageProtein[i],
+        })),
+      };
     },
-    visualizationData: movingAverageCalories.map((data, i) => ({
-      day: movingAverageDays[i],
-      calories: movingAverageCalories[i],
-      fat: movingAverageFat[i],
-      carbs: movingAverageCarbs[i],
-      protein: movingAverageProtein[i],
-    })),
-  };
+  });
 }
 
 function orZero(value: any) {

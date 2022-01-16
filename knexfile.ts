@@ -28,4 +28,9 @@ export default {
       max: 10,
     },
   },
+
+  legacy: {
+    client: "pg",
+    connection: process.env.LEGACY_DB_CONNECTION_STRING,
+  },
 };

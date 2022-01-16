@@ -7,20 +7,57 @@ import type {
   Activity,
   ActivityMuscle,
   ActivityLog,
+  FoodLogEntity,
 } from "../api/dataServices";
 import { ActivityType, Muscle } from "../api/graphql-types";
 
 import config from "../knexfile";
 
 const database = process.env.DATABASE || "develop";
-const db = knex((config as any)[database]);
-const getDb = () => db;
+const newDb = knex((config as any)[database]);
+const getNewDb = () => newDb;
+
+const legacyDatabase: "develop" | "legacy" =
+  database === "develop" ? "develop" : "legacy";
+const legacyDb = knex((config as any)[legacyDatabase]);
+const getLegacyDb = () => legacyDb;
+
 const legacyFoodIdToFoodId: Record<number, string> = {};
 const legacyActivityIdToActivityId: Record<number, string> = {};
 
 const adminUserId = "01FPDV213V6K6M04D4YMR8T3QH";
 
+const LEGACY_TABLES_MAP = {
+  legacy: {
+    activities: "activities",
+    activityLog: "activity_entries",
+    foodLog: "food_entries",
+    foods: "foods",
+    foodMeasurements: "measurements",
+  },
+  develop: {
+    activities: "legacy_activities",
+    activityLog: "legacy_activity_entries",
+    foods: "legacy_foods",
+    foodLog: "legacy_food_entries",
+    foodMeasurements: "legacy_measurements",
+  },
+} as const;
+
 (async () => {
+  console.log("Initializing and testing database connections");
+
+  await getNewDb().raw("select 1");
+  await getLegacyDb().raw("select 1");
+
+  console.log(
+    "Databases working! Connections: ",
+    JSON.stringify({
+      newDatabase: database,
+      legacyDatabase,
+    })
+  );
+})().then(async () => {
   await seedAdmin();
   await seedActivities();
   await saveActivityEntries();
@@ -29,7 +66,7 @@ const adminUserId = "01FPDV213V6K6M04D4YMR8T3QH";
   await seedFoodEntries();
   console.log("Done");
   process.exit(0);
-})();
+});
 
 async function seedActivities(): Promise<void> {
   console.log("Seeding legacy activities into the new activities table");
@@ -124,10 +161,9 @@ async function seedActivities(): Promise<void> {
   while (hasMore) {
     try {
       process.stdout.write(".");
-      const db = getDb();
-      const legacyEntries = await db
+      const legacyEntries = await getLegacyDb()
         .select<LegacyActivity[]>("*")
-        .from("legacy_activities")
+        .from(LEGACY_TABLES_MAP[legacyDatabase].activities)
         .where("user_id", "=", 1)
         .limit(batchSize + 1)
         .offset(offset);
@@ -140,7 +176,7 @@ async function seedActivities(): Promise<void> {
       }
 
       const muscleGroupsToInsert: ActivityMuscle[] = [];
-      await db.batchInsert<Activity>(
+      await getNewDb().batchInsert<Activity>(
         "activity",
         legacyEntries.slice(0, -1).map((legacyEntry) => {
           const newId = ulid();
@@ -164,7 +200,7 @@ async function seedActivities(): Promise<void> {
           };
         })
       );
-      await db.batchInsert<ActivityMuscle>(
+      await getNewDb().batchInsert<ActivityMuscle>(
         "activity_muscle",
         muscleGroupsToInsert,
         100
@@ -179,14 +215,13 @@ async function seedActivities(): Promise<void> {
 
 async function seedAdmin(): Promise<void> {
   console.log("Seeding admin");
-  const db = getDb();
 
-  await db.table("user").insert({
+  await getNewDb().table("user").insert({
     id: adminUserId,
     preferredName: "Ryan",
   });
 
-  await db.table("user_account").insert({
+  await getNewDb().table("user_account").insert({
     id: ulid(),
     passwordHash:
       "$2b$10$z7qgrav/kYXlSdVKdgIe3.HXz9gkfD6WmqpMMp8UnQQtJ0SM1yc1q",
@@ -219,10 +254,9 @@ async function seedFoods(): Promise<void> {
   while (hasMoreFoods) {
     try {
       process.stdout.write(".");
-      const db = getDb();
-      const legacyFoods = await db
+      const legacyFoods = await getLegacyDb()
         .select<LegacyFood[]>("*")
-        .from("legacy_foods")
+        .from(LEGACY_TABLES_MAP[legacyDatabase].foods)
         .limit(batchSize + 1)
         .offset(offset);
 
@@ -233,7 +267,7 @@ async function seedFoods(): Promise<void> {
         hasMoreFoods = false;
       }
 
-      await db.batchInsert<FoodEntity>(
+      await getNewDb().batchInsert<FoodEntity>(
         "food",
         legacyFoods.slice(0, -1).map((legacyFood) => {
           const newId = ulid();
@@ -274,8 +308,7 @@ async function seedMeasurements(): Promise<void> {
   const batchSize = 1000;
   let total = 0;
   while (hasMore) {
-    const db = getDb();
-    const newFoods = await db
+    const newFoods = await getNewDb()
       .select<FoodEntity[]>("*")
       .from("food")
       .whereNotNull("legacyId")
@@ -290,8 +323,8 @@ async function seedMeasurements(): Promise<void> {
 
     const measurementsToAdd: any[] = [];
     process.stdout.write(".");
-    const measurements = await db
-      .from<Legacy>("legacy_measurements")
+    const measurements = await getLegacyDb()
+      .from<Legacy>(LEGACY_TABLES_MAP[legacyDatabase].foodMeasurements)
       .select("*")
       .whereIn(
         "food_id",
@@ -303,18 +336,18 @@ async function seedMeasurements(): Promise<void> {
         id: ulid(),
         amount: parseFloat(measurement.amount),
         measurement: measurement.unit,
-        calories: measurement.calories,
-        fat: measurement.fat,
-        carbs: measurement.carbs,
-        protein: measurement.protein,
+        calories: Math.ceil(measurement.calories),
+        fat: Math.ceil(measurement.fat),
+        carbs: Math.ceil(measurement.carbs),
+        protein: Math.ceil(measurement.protein),
         userId: adminUserId,
         foodId: legacyFoodIdToFoodId[measurement.food_id as number],
       }))
     );
-    await db.batchInsert<FoodMeasurement>(
+    await getNewDb().batchInsert<FoodMeasurement>(
       "food_measurement",
       measurementsToAdd,
-      100
+      500
     );
   }
 
@@ -323,32 +356,48 @@ async function seedMeasurements(): Promise<void> {
 
 async function seedFoodEntries() {
   console.log("Seeding legacy food entries into the new food entries table");
-  await db.raw(`
-INSERT INTO food_log
-  (id,
-   userid,
-   day,
-   createdat,
-   updatedat,
-   description,
-   calories,
-   fat,
-   carbs,
-   protein)
-SELECT id,
-  "${adminUserId}",
-  day,
-  created_at,
-  updated_at,
-  description,
-  calories,
-  fat,
-  carbs,
-  protein
-  FROM legacy_food_entries
-WHERE
-  user_id = 1;
-  `);
+
+  let hasMore = true;
+  let offset = 0;
+  const batchSize = 1000;
+  let total = 0;
+
+  while (hasMore) {
+    const legacyEntries = await getLegacyDb()
+      .select()
+      .from(LEGACY_TABLES_MAP[legacyDatabase].foodLog)
+      .where("user_id", "=", 1)
+      .offset(offset)
+      .limit(batchSize + 1);
+
+    process.stdout.write(".");
+
+    if (legacyEntries.length <= batchSize) {
+      hasMore = false;
+    }
+
+    offset += batchSize;
+    total += legacyEntries.length - 1;
+
+    await getNewDb().batchInsert<FoodLogEntity>(
+      "food_log",
+      legacyEntries.slice(0, -1).map((legacyEntry) => ({
+        id: ulid(),
+        userId: adminUserId,
+        day: legacyEntry.day,
+        createdAt: legacyEntry.created_at,
+        updatedAt: legacyEntry.updated_at,
+        description: legacyEntry.description,
+        calories: legacyEntry.calories,
+        fat: legacyEntry.fat,
+        carbs: legacyEntry.carbs,
+        protein: legacyEntry.protein,
+      })),
+      500
+    );
+  }
+
+  console.log("\nTotal food log entries: ", total);
 }
 
 async function saveActivityEntries() {
@@ -374,9 +423,9 @@ async function saveActivityEntries() {
 
   while (hasMore) {
     process.stdout.write(".");
-    const legacyActivityEntries = await db
+    const legacyActivityEntries = await getLegacyDb()
       .select<LegacyActivityEntry[]>("*")
-      .from("legacy_activity_entries")
+      .from(LEGACY_TABLES_MAP[legacyDatabase].activityLog)
       .where("user_id", "=", 1)
       .limit(batchSize + 1)
       .offset(offset);
@@ -385,7 +434,7 @@ async function saveActivityEntries() {
       hasMore = false;
     }
 
-    offset += batchSize;
+    offset += legacyActivityEntries.length - 1;
     total += legacyActivityEntries.length - 1;
 
     const activityEntriesToAdd: any[] = [];
@@ -408,10 +457,10 @@ async function saveActivityEntries() {
         .filter((entry) => Boolean(entry.activityId))
     );
 
-    await db.batchInsert<ActivityLog>(
+    await getNewDb().batchInsert<ActivityLog>(
       "activity_log",
       activityEntriesToAdd,
-      100
+      500
     );
   }
   console.log("\nTotal activity entries: ", total);

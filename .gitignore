@@ -18,3 +18,4 @@ root.crt
 .env
 dumps/*
 !dumps/.gitkeep
+client-build

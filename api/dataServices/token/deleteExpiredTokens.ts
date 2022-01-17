@@ -1,14 +1,7 @@
 import { Context } from "../../createContext";
-import { errors } from "../../helpers";
-import { TokenEntity } from "./types";
-import { query } from "./query";
-import { dbService } from "../../config";
+import { getQuery } from "./query";
 
 export async function deleteExpiredTokens(context: Context): Promise<void> {
-  const database = await context.services.get(dbService);
-  const connection = await database.getConnection();
-  await query(context, async (query) => {
-    query.delete().where("expires", "<", connection.fn.now());
-    return query;
-  });
+  const queryFactory = await getQuery(context);
+  await queryFactory().delete().where("expires", "<", new Date().toISOString());
 }

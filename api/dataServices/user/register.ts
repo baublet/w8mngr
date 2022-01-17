@@ -8,11 +8,12 @@ import { ReturnTypeWithErrors } from "../../types";
 import { tokenDataService } from "../token";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
 import { assertIsError } from "../../../shared";
+import { emailDataService } from "../";
 
 export async function register(
   context: Context,
   credentials: {
-    username: string;
+    email: string;
     password: string;
     passwordConfirmation: string;
   }
@@ -31,22 +32,23 @@ export async function register(
   try {
     const passwordHash = await hashPassword(credentials.password);
     const user = await userDataService.create(context, {
-      preferredName: credentials.username,
+      preferredName: credentials.email,
     });
 
     const accountExists = await userAccountDataService.accountExists(context, {
       source: "local",
-      sourceIdentifier: credentials.username,
+      sourceIdentifier: credentials.email,
     });
     if (accountExists) {
-      throw new Error("Username taken");
+      throw new Error("Email taken");
     }
 
     const account = await userAccountDataService.create(context, {
       userId: user.id,
       source: "local",
-      sourceIdentifier: credentials.username,
+      sourceIdentifier: credentials.email,
       passwordHash,
+      verified: false,
     });
 
     const authTokenResult = await tokenDataService.getOrCreate(context, {
@@ -66,6 +68,20 @@ export async function register(
     });
     context.setCookie("w8mngrRemember", authTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.remember),
+    });
+
+    // Create email verification token and send email
+    const emailVerificationToken = await tokenDataService.getOrCreate(context, {
+      type: "emailVerification",
+      userAccountId: account.id,
+    });
+    await emailDataService.create(context, {
+      templateId: "verifyEmail",
+      templateVariables: {
+        user,
+        emailVerificationToken: emailVerificationToken.token,
+      },
+      toUserId: user.id,
     });
 
     return {

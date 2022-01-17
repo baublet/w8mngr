@@ -1,0 +1,29 @@
+import { Templates, templates } from "./templates";
+import { log } from "../../../config";
+import { assertIsError } from "../../../../shared";
+
+export type EmailTemplateKey = keyof Templates;
+export type EmailTemplates = Templates;
+
+export function renderEmailTemplate<T extends keyof Templates>(
+  template: T,
+  args: Parameters<Templates[T]>[0] extends undefined
+    ? never
+    : Parameters<Templates[T]>[0]
+) {
+  try {
+    return templates[template](args);
+  } catch (error) {
+    assertIsError(error);
+    log("error", "Unexpected error parsing email template", {
+      template,
+      templatesAvailable: Object.keys(templates),
+      args,
+    });
+    throw Error;
+  }
+}
+
+export function isValidTemplate(template: string): template is keyof Templates {
+  return templates.hasOwnProperty(template);
+}

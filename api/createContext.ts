@@ -9,14 +9,23 @@ import { log } from "./config/log";
 import { UserEntity } from "./dataServices/user";
 import { authenticateRequest } from "./authentication";
 import { getClientId } from "./helpers";
+import { UserAccountEntity } from "./dataServices";
 
 export interface Context {
   getClientId: () => string;
   getCurrentUser: <T extends boolean | undefined>(
     orThrow?: T
-  ) => T extends false | undefined ? UserEntity : UserEntity | undefined;
+  ) => T extends false | undefined ? UserEntity | undefined : UserEntity;
   getCurrentUserId: (orThrow?: boolean) => string;
-  currentUser?: UserEntity;
+  getCurrentUserAccountId: <T extends boolean | undefined>(
+    orThrow?: T
+  ) => T extends false | undefined ? string | undefined : string;
+  setCurrentUserAccount: (userAccountId: UserAccountEntity) => void;
+  getCurrentUserAccount: <T extends boolean | undefined>(
+    orThrow?: T
+  ) => T extends false | undefined
+    ? UserAccountEntity | undefined
+    : UserAccountEntity;
   setCurrentUser: (user?: UserEntity) => void;
   services: ServiceContainer;
   setCookie: (
@@ -40,7 +49,12 @@ export function createContext(
     clientId,
     currentUser,
     services = createServiceContainer(),
-  }: Partial<Context> & { clientId: string } = {
+    currentUserAccount,
+  }: Partial<Context> & {
+    clientId: string;
+    currentUser?: UserEntity;
+    currentUserAccount?: UserAccountEntity;
+  } = {
     clientId: "no-client-hash-set",
   }
 ): Context {
@@ -55,9 +69,26 @@ export function createContext(
     {},
     currentUser
   );
+  let userAccount = currentUserAccount;
 
   const context: Context = {
-    currentUser: currentUserRecord,
+    getCurrentUserAccountId: (orThrow?: boolean) => {
+      if (orThrow && !userAccount) {
+        throw new Error("No current user account set");
+      }
+      return userAccount?.id || "robot";
+    },
+    getCurrentUserAccount: <T extends boolean | undefined>(orThrow?: T) => {
+      const currentUserAccount = userAccount;
+      if (!currentUserAccount && orThrow) {
+        throw new Error("Not logged in");
+      }
+      return currentUserAccount as T extends false | undefined
+        ? UserAccountEntity | undefined
+        : UserAccountEntity;
+    },
+    setCurrentUserAccount: (newUserAccount?: UserAccountEntity) =>
+      (userAccount = newUserAccount),
     getClientId: () => clientId,
     getCookies: () => cookiesToSet,
     getRequest: () => contextRequest,
@@ -68,8 +99,8 @@ export function createContext(
         throw new Error("Not logged in");
       }
       return currentUser as T extends false | undefined
-        ? UserEntity
-        : UserEntity | undefined;
+        ? UserEntity | undefined
+        : UserEntity;
     },
     getCurrentUserId: (orThrow?: boolean) => {
       const currentUserId = currentUserRecord?.id;
@@ -118,8 +149,12 @@ export const createGraphqlContext: ContextFunction<
     headers: req.headers,
   });
 
-  const user = await authenticateRequest(req, context);
-  context.setCurrentUser(user);
+  const authenticationResult = await authenticateRequest(req, context);
+
+  if (authenticationResult) {
+    context.setCurrentUser(authenticationResult.user);
+    context.setCurrentUserAccount(authenticationResult.userAccount);
+  }
 
   return context;
 };

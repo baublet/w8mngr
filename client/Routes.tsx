@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { CSSTransition } from "react-transition-group";
+
+import { useVerifyEmail } from "./helpers";
 
 import { Home } from "./pages/Home";
 import { Logout } from "./pages/Logout";
@@ -17,6 +18,7 @@ import { Activity } from "./pages/Activity";
 import { EditActivity } from "./pages/EditActivity";
 import { ActivityLog } from "./pages/ActivityLog";
 import { WeightLog } from "./pages/WeightLog";
+import { ForgotPassword } from "./pages/ForgotPassword";
 
 const routes = [
   { key: "home", path: "/", name: "Home", Component: Home },
@@ -42,9 +44,15 @@ const routes = [
     path: ["/weightlog", "/weightlog/:day"],
     Component: WeightLog,
   },
+  {
+    key: "forgot-password",
+    path: ["/forgot-password"],
+    Component: ForgotPassword,
+  },
 ];
 
 export function Routes() {
+  useVerifyEmail();
   return (
     <div className="relative">
       <Switch>

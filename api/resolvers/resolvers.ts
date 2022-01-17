@@ -17,6 +17,8 @@ import { saveActivityLog } from "./mutations/saveActivityLog";
 import { deleteActivityLog } from "./mutations/deleteActivityLog";
 import { saveWeightLog } from "./mutations/saveWeightLog";
 import { deleteWeightLog } from "./mutations/deleteWeightLog";
+import { requestPasswordResetToken } from "./mutations/requestPasswordResetToken";
+import { verifyEmail } from "./mutations/verifyEmail";
 
 import { foodLog } from "./user/foodLog";
 import { foods } from "./user/foods";
@@ -85,11 +87,13 @@ export const resolvers: Resolvers = {
     login,
     logout,
     register,
+    requestPasswordResetToken,
     saveActivity,
     saveActivityLog,
     saveFood,
     saveFoodLog,
     saveUploadData,
     saveWeightLog,
+    verifyEmail,
   },
 };

@@ -8,3 +8,5 @@ export { useKeyPressHandler } from "./useKeyPressHandler";
 export { activityTypeToHumanReadable } from "./activityTypeToHumanReadable";
 export { ToastProvider, useToast } from "./useToast";
 export { useWindowSize } from "./useWindowSize";
+export { useUrlQueryParameters } from "./useUrlQueryParameters";
+export { useVerifyEmail } from "./useVerifyEmail";

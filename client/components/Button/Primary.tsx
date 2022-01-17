@@ -7,7 +7,7 @@ type PrimaryButtonProps = BaseButtonProps;
 
 export function PrimaryButton(
   props: PrimaryButtonProps
-): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
+) {
   return (
     <BaseButton
       {...props}

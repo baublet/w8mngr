@@ -1,14 +1,16 @@
 import { authenticate } from "./authenticate";
 import { create } from "./create";
-import { findOneOrFail } from "./findOneOrFail";
 import { login } from "./login";
 import { logout } from "./logout";
 import { register } from "./register";
 
+import { createDataService } from "../createDataService";
+import { getQuery } from "./query";
+
 export const userDataService = {
+  ...createDataService(getQuery, "User"),
   authenticate,
   create,
-  findOneOrFail,
   login,
   logout,
   register,

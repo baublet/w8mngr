@@ -5,4 +5,5 @@ export interface UserAccountEntity {
   sourceIdentifier: string;
   sourceData: Record<string, any>;
   passwordHash?: string;
+  verified: boolean;
 }

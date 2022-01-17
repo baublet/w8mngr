@@ -3,15 +3,20 @@ import { Request } from "express";
 import { Context } from "../../createContext";
 import { UserEntity } from "./types";
 import { tokenDataService } from "../token";
-import { findOneOrFail } from "./findOneOrFail";
-import { userAccountDataService } from "../userAccount";
+import { userDataService } from "./";
+import { userAccountDataService, UserAccountEntity } from "../userAccount";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
 import { globalInMemoryCache } from "../../helpers";
+
+export type AuthenticationResult = {
+  user: UserEntity;
+  userAccount: UserAccountEntity;
+};
 
 export async function authenticate(
   request: Request,
   context: Context
-): Promise<UserEntity | undefined> {
+): Promise<AuthenticationResult | undefined> {
   const authToken: string | undefined = request.cookies?.w8mngrAuth;
   const rememberToken: string | undefined = request.cookies?.w8mngrRemember;
   return globalInMemoryCache.getOrSet({
@@ -24,13 +29,17 @@ export async function authenticate(
           authToken
         );
         if (tokenEntity) {
-          const account = await userAccountDataService.findOneOrFail(
+          const userAccount = await userAccountDataService.findOneOrFail(
             context,
             (q) => q.where("id", "=", tokenEntity.userAccountId)
           );
-          return findOneOrFail(context, (q) =>
-            q.where("id", "=", account.userId)
+          const user = await userDataService.findOneOrFail(context, (q) =>
+            q.where("id", "=", userAccount.userId)
           );
+          return {
+            user,
+            userAccount,
+          };
         }
       }
 
@@ -53,13 +62,18 @@ export async function authenticate(
             expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
           });
 
-          const account = await userAccountDataService.findOneOrFail(
+          const userAccount = await userAccountDataService.findOneOrFail(
             context,
             (q) => q.where("id", "=", tokenEntity.userAccountId)
           );
-          return findOneOrFail(context, (q) =>
-            q.where("id", "=", account.userId)
+          const user = await userDataService.findOneOrFail(context, (q) =>
+            q.where("id", "=", userAccount.userId)
           );
+
+          return {
+            user,
+            userAccount,
+          };
         }
       }
     },

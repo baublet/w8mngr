@@ -1,5 +1,5 @@
 import { Context } from "../../createContext";
-import { query } from "./query";
+import { getQuery } from "./query";
 
 export async function deleteByTokenDigests(
   context: Context,
@@ -8,11 +8,9 @@ export async function deleteByTokenDigests(
   if (tokenDigests.length === 0) {
     return;
   }
-  await query(context, async (query) => {
-    query
-      .delete()
-      .whereIn("tokenDigest", tokenDigests)
-      .andWhere("clientId", "=", context.getClientId());
-    return query;
-  });
+  const queryFactory = await getQuery(context);
+  await queryFactory()
+    .delete()
+    .whereIn("tokenDigest", tokenDigests)
+    .andWhere("clientId", "=", context.getClientId());
 }

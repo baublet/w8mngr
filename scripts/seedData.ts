@@ -25,7 +25,7 @@ const getLegacyDb = () => legacyDb;
 const legacyFoodIdToFoodId: Record<number, string> = {};
 const legacyActivityIdToActivityId: Record<number, string> = {};
 
-const adminUserId = "01FPDV213V6K6M04D4YMR8T3QH";
+const adminUserId = ulid();
 
 const LEGACY_TABLES_MAP = {
   legacy: {
@@ -47,8 +47,8 @@ const LEGACY_TABLES_MAP = {
 (async () => {
   console.log("Initializing and testing database connections");
 
-  await getNewDb().raw("select 1");
-  await getLegacyDb().raw("select 1");
+  await getNewDb().raw("SELECT 1");
+  await getLegacyDb().raw("SELECT 1");
 
   console.log(
     "Databases working! Connections: ",
@@ -226,7 +226,7 @@ async function seedAdmin(): Promise<void> {
     passwordHash:
       "$2b$10$z7qgrav/kYXlSdVKdgIe3.HXz9gkfD6WmqpMMp8UnQQtJ0SM1yc1q",
     source: "local",
-    sourceIdentifier: "test",
+    sourceIdentifier: "baublet@gmail.com",
     userId: adminUserId,
   });
 }

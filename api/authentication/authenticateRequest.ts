@@ -3,11 +3,12 @@ import { Request } from "express";
 import { log } from "../config/log";
 import { Context } from "../createContext";
 import { UserEntity, userDataService } from "../dataServices";
+import { AuthenticationResult } from "../dataServices/user/authenticate";
 
 export async function authenticateRequest(
   request: Request,
   context: Context
-): Promise<UserEntity | undefined> {
+): Promise<AuthenticationResult | undefined> {
   const authenticationResult = await userDataService.authenticate(
     request,
     context

@@ -9,8 +9,9 @@ export async function up(knex: Knex): Promise<void> {
 
   await knex.schema.createTable("user_account", function (table) {
     table.text("id").notNullable().primary();
+    table.boolean("verified").defaultTo(false).index();
     table.text("userId").notNullable();
-    table.text("source").notNullable();
+    table.text("source").notNullable().index();
     table.text("sourceIdentifier").index();
     table.text("passwordHash").nullable().index();
     table.text("tokenDigest").nullable().index();
@@ -27,6 +28,7 @@ export async function up(knex: Knex): Promise<void> {
     table.text("clientId").notNullable().index();
     table.text("userAccountId").notNullable().index();
     table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());
     table.date("expires").notNullable();
   });
 
@@ -139,6 +141,18 @@ export async function up(knex: Knex): Promise<void> {
     table.text("userId").notNullable().index();
     table.text("day").notNullable().index();
     table.integer("weight").notNullable().comment("Unit is stored in grams");
+  });
+
+  await knex.schema.createTable("email", function (table) {
+    table.text("id").notNullable().primary();
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.boolean("sent").defaultTo(false).notNullable().index();
+    table.text("toEmail").notNullable();
+    table.text("toUserId").nullable();
+    table.text("templateId").notNullable();
+    table.text("payload").notNullable().defaultTo("{}");
+    table.text("history").notNullable().defaultTo("[]");
   });
 }
 

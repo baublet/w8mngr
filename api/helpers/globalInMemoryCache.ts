@@ -1,9 +1,11 @@
 import { log } from "../config";
+import { registerRecurringTask } from "./registerRecurringTask";
 
 const cache = new Map<string, { value: any; expiry: number }>();
 
-if (process.env.NODE_ENV !== "test") {
-  const pruneInterval = setInterval(() => {
+registerRecurringTask({
+  taskKey: "pruneGlobalInMemoryCache",
+  task: async () => {
     // Prune expired tokens
     log("debug", "Pruning expired in-memory cache keys");
     const now = Date.now();
@@ -14,12 +16,9 @@ if (process.env.NODE_ENV !== "test") {
         cache.delete(key);
       }
     }
-  }, 60000);
-
-  process.on("SIGINT", () => {
-    clearInterval(pruneInterval);
-  });
-}
+  },
+  intervalMs: 30000,
+});
 
 export const globalInMemoryCache = {
   clear: (key: string) => cache.delete(key),

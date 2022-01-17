@@ -1,6 +1,6 @@
 import { Context } from "../../createContext";
 import { TokenEntity } from "./types";
-import { query } from "./query";
+import { getQuery } from "./query";
 import { createDigest } from "../../authentication";
 
 export async function findByToken(
@@ -8,13 +8,11 @@ export async function findByToken(
   token: string
 ): Promise<TokenEntity | undefined> {
   const tokenDigest = createDigest(token);
-  const results = await query(context, async (query) => {
-    query
-      .select("*")
-      .where("tokenDigest", "=", tokenDigest)
-      .andWhere("clientId", "=", context.getClientId())
-      .limit(1);
-    return query;
-  });
+  const queryFactory = await getQuery(context);
+  const results = await queryFactory()
+    .select("*")
+    .where("tokenDigest", "=", tokenDigest)
+    .andWhere("clientId", "=", context.getClientId())
+    .limit(1);
   return results[0];
 }

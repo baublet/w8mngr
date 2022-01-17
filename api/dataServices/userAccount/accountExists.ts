@@ -1,5 +1,5 @@
 import { Context } from "../../createContext";
-import { query } from "./query";
+import { getQuery } from "./query";
 
 export async function accountExists(
   context: Context,
@@ -11,14 +11,12 @@ export async function accountExists(
     source: string;
   }
 ): Promise<boolean> {
-  const found = await query(context, async (query) => {
-    query
-      .select("*")
-      .where("source", "=", source)
-      .andWhere("sourceIdentifier", "=", sourceIdentifier)
-      .limit(1);
-    return query;
-  });
+  const queryFactory = await getQuery(context);
+  const found = await queryFactory()
+    .select("*")
+    .where("source", "=", source)
+    .andWhere("sourceIdentifier", "=", sourceIdentifier)
+    .limit(1);
 
   const foundItem = found[0];
 

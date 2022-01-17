@@ -14,7 +14,7 @@ import { assertIsError } from "../../../shared";
 export async function login(
   context: Context,
   credentials: {
-    username: string;
+    email: string;
     password: string;
   }
 ): Promise<
@@ -28,7 +28,7 @@ export async function login(
   await databaseService.transact();
   try {
     const account = await userAccountDataService.findOneOrFail(context, (q) =>
-      q.where("sourceIdentifier", "=", credentials.username)
+      q.where("sourceIdentifier", "=", credentials.email)
     );
 
     const passwordsMatch = await doesHashMatch(

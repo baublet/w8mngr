@@ -13,7 +13,7 @@ import { useRegisterMutation, GetCurrentUserDocument } from "../generated";
 export function Register() {
   const { replace } = useHistory();
   const registerForm = useForm<{
-    username: string;
+    email: string;
     password: string;
     passwordConfirmation: string;
   }>();
@@ -28,12 +28,17 @@ export function Register() {
   });
 
   const submit = React.useCallback(() => {
+    if (loading) {
+      return;
+    }
     register({
       variables: {
         input: registerForm.getValues(),
       },
     });
-  }, []);
+  }, [loading]);
+
+  console.log({ loading });
 
   return (
     <div>
@@ -44,11 +49,11 @@ export function Register() {
             <Form loading={loading} onSubmit={submit}>
               <Input
                 type="text"
-                label="Username"
+                label="Email"
                 placeholder="your@email.address"
-                id="username"
-                onChange={registerForm.getHandler("username")}
-                value={registerForm.getValue("username")}
+                id="email"
+                onChange={registerForm.getHandler("email")}
+                value={registerForm.getValue("email")}
                 focusOnFirstRender
                 labelPlacement="bottom"
               />
@@ -76,7 +81,9 @@ export function Register() {
                 value="Register"
                 className="screen-reader-text"
               />
-              <PrimaryButton onClick={submit}>Register</PrimaryButton>
+              <PrimaryButton onClick={submit} disabled={loading}>
+                Register
+              </PrimaryButton>
             </Form>
           }
         />

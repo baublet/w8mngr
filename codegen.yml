@@ -13,6 +13,7 @@ generates:
       contextType: ./createContext#Context
       mappers:
         Activity: Omit<Activity, "muscleGroups" | "logs" | "stats">
+        User: Omit<User, "activitySummary" | "foodLog" | "foodLogStats" | "foods" | "activities" | "popularActivities" | "weightLog">
       customResolverFn: |
         (
           parent: TParent,

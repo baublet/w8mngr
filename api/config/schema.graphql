@@ -4,6 +4,7 @@ scalar JSON
 
 type User {
   id: ID!
+  verified: Boolean!
   preferredName: String!
   weightLog(day: String!): WeightLogConnection!
   foodLog(day: String!): FoodLogConnection!
@@ -28,6 +29,11 @@ type Mutation {
   login(input: LoginInput!): LoginMutationPayload!
   logout: LogoutMutationPayload!
   register(input: RegisterInput!): LoginMutationPayload!
+  resetPassword(input: ResetPasswordInput!): ResetPasswordMutationPayload!
+  requestPasswordResetToken(
+    input: RequestPasswordResetTokenInput!
+  ): RequestResetTokenMutationPayload!
+  verifyEmail(input: VerifyEmailInput!): VerifyEmailMutationPayload!
 
   # Food Log
   saveFoodLog(input: SaveFoodLogInput!): FoodLogMutationPayload!
@@ -132,6 +138,20 @@ enum Unit {
 # Inputs        #
 #################
 
+input VerifyEmailInput {
+  token: String!
+}
+
+input RequestPasswordResetTokenInput {
+  email: String!
+}
+
+input ResetPasswordInput {
+  password: String!
+  passwordConfirmation: String!
+  resetToken: String!
+}
+
 input ActivityInput {
   id: ID
   name: String
@@ -165,12 +185,12 @@ input UploadTokenInput {
 }
 
 input LoginInput {
-  username: String!
+  email: String!
   password: String!
 }
 
 input RegisterInput {
-  username: String!
+  email: String!
   password: String!
   passwordConfirmation: String!
 }
@@ -291,6 +311,14 @@ input ActivityVisualizationInput {
 # Types         #
 #################
 
+type ResetPasswordMutationPayload {
+  errors: [String!]!
+}
+
+type RequestResetTokenMutationPayload {
+  errors: [String!]!
+}
+
 type FoodLogMutationPayload {
   errors: [String!]!
   logs: FoodLogConnection!
@@ -312,6 +340,10 @@ type TileMapDataPoint {
   day: String!
   labelData: JSON!
   intensity: Int!
+}
+
+type VerifyEmailMutationPayload {
+  errors: [String!]!
 }
 
 type ActivityVisualizationData {

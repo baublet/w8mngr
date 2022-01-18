@@ -5,7 +5,7 @@ import { ContentLayout } from "../components/Containers/ContentLayout";
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { PageHeading } from "../components/Type/PageHeading";
 import { Form, Input } from "../components/Forms";
-import { PrimaryButton } from "../components/Button/Primary";
+import { SecondaryButton } from "../components/Button/Secondary";
 import { Spacer } from "../components/Spacer";
 import { useForm, useToast } from "../helpers";
 import { useRegisterMutation, GetCurrentUserDocument } from "../generated";
@@ -81,9 +81,9 @@ export function Register() {
                 value="Register"
                 className="screen-reader-text"
               />
-              <PrimaryButton onClick={submit} disabled={loading}>
+              <SecondaryButton onClick={submit} disabled={loading} size="lg">
                 Register
-              </PrimaryButton>
+              </SecondaryButton>
             </Form>
           }
         />

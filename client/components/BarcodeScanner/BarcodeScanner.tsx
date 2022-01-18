@@ -83,17 +83,20 @@ function initializeBarcodeScanner({
         inputStream: {
           name: "Live",
           type: "LiveStream",
+          singleChannel: true,
           target: document.querySelector(`#${scannerVideoId}`),
+          locate: false,
           constraints: {
             facingMode: "environment",
             aspectRatio: { min: 1, max: 2 },
+            width: { min: 640, ideal: 1920, max: 4096 },
+            height: { min: 480, ideal: 1080, max: 2400 },
           },
           locator: {
             patchSize: "medium",
             halfSample: true,
           },
           multiple: true,
-          numOfWorkers: 2,
           frequency: 10,
         },
         decoder: {

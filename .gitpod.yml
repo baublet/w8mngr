@@ -1,9 +1,7 @@
 tasks:
-  - init: install dependencies
-    command: yarn
-  - init: migrate database
+  - init: yarn
     command: yarn db:reset:develop
-  - init: start services
+  - init: yarn
     command: yarn develop
 ports:
   - port: 8080

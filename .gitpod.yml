@@ -1,4 +1,5 @@
 tasks:
+  - command: npm i -g yarn
   - init: yarn
     command: yarn db:reset:develop
   - init: yarn

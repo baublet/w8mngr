@@ -1,6 +1,6 @@
 tasks:
-  - init: yarn
-    before: yarn db:download-cert; yarn db:reset
+  - init: yarn db:download-cert; yarn db:reset
+    before: yarn
     command: yarn develop
 ports:
   - port: 8080

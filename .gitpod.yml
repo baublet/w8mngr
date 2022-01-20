@@ -6,5 +6,5 @@ tasks:
   - init: start services
     command: yarn develop
 ports:
-  - port: 8000
+  - port: 8080
     onOpen: open-browser

@@ -1,5 +1,5 @@
 tasks:
-  - init: yarn; yarn db:reset:develop
+  - init: yarn; yarn db:migrate:develop
     command: yarn develop
 ports:
   - port: 8080

@@ -1,0 +1,10 @@
+tasks:
+  - init: install dependencies
+    command: yarn
+  - init: migrate database
+    command: yarn db:reset:develop
+  - init: start services
+    command: yarn develop
+ports:
+  - port: 8000
+    onOpen: open-browser

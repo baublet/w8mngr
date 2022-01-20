@@ -1,6 +1,8 @@
 tasks:
-  - init: yarn
+  - before: yarn
     command: yarn develop
+  - before: yarn
+    command: db:download-cert; yarn db:reset
 ports:
   - port: 8080
     onOpen: open-browser

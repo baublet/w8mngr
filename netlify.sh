@@ -10,7 +10,7 @@ if [ "$BRANCH" == "master" ]; then
   # yarn migrate:production
 
   # In development, reset the database every deploy
-  yarn db:reset:production
+  yarn db:reset
 else
   yarn db:reset:develop
 fi

@@ -1,8 +1,5 @@
 tasks:
-  - command: echo "Is this thing on?"
-  - init: yarn
-    command: yarn db:reset:develop
-  - init: yarn
+  - init: yarn; yarn db:reset:develop
     command: yarn develop
 ports:
   - port: 8080

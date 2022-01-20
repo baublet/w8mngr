@@ -1,5 +1,5 @@
 tasks:
-  - command: npm i -g yarn
+  - command: echo "Is this thing on?"
   - init: yarn
     command: yarn db:reset:develop
   - init: yarn

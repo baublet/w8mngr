@@ -5,3 +5,10 @@ tasks:
 ports:
   - port: 8080
     onOpen: open-browser
+
+github:
+  prebuilds:
+    master: true
+    branches: false
+    pullRequests: false
+    pullRequestsFromForks: false

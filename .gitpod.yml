@@ -1,5 +1,5 @@
 tasks:
-  - init: yarn
+  - init: yarn install
     command: yarn develop
   - init: yarn
     command: db:download-cert; yarn db:reset

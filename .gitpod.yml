@@ -1,5 +1,5 @@
 tasks:
-  - before: docker-compose up
+  - before: docker-compose up -d
     init: yarn set version 3.1.1 && yarn && yarn db:reset
     command: yarn develop
 ports:

@@ -12,7 +12,7 @@
     "db:migrate:create:develop": "NODE_ENV=develop knex migrate:make -x ts --",
     "db:migrate:develop": "knex migrate:latest --env develop",
     "db:download-cert": "bash scripts/downloadDBCert.sh",
-    "db:seed:production": "DATABASE=production ts-node scripts/seedData.ts",
+    "db:seed": "DATABASE=production ts-node scripts/seedData.ts",
     "db:reset": "DATABASE=production ts-node scripts/resetDatabase.ts && yarn migrate:production && yarn db:seed:production",
     "db:migrate": "knex migrate:latest --env production",
     "db:importDumps": "yarn ts-node --transpile-only scripts/importDumps.ts",

@@ -1,6 +1,6 @@
 tasks:
-  - before: docker-compose up -d
-    init: yarn set version 3.1.1 && yarn && yarn db:migrate
+  - before: docker-compose up -d; bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; yarn db:migrate
+    init: yarn set version 3.1.1 && yarn
     command: yarn develop
 ports:
   - port: 8080

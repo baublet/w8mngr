@@ -20,4 +20,4 @@ dumps/*
 !dumps/.gitkeep
 client-build
 postgres-data
-.yarn
+.yarn/cache

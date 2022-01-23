@@ -1,7 +1,7 @@
 tasks:
   - before: docker-compose up -d
-    init: yarn set version 3.1.1 && yarn && yarn db:migrate && yarn db:seed
-    command: yarn develop
+    init: yarn set version 3.1.1 && yarn
+    command: yarn db:migrate; yarn develop
 ports:
   - port: 8080
     onOpen: open-browser

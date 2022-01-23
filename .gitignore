@@ -19,3 +19,4 @@ root.crt
 dumps/*
 !dumps/.gitkeep
 client-build
+postgres-data

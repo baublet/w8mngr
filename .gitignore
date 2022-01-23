@@ -21,3 +21,4 @@ dumps/*
 client-build
 postgres-data
 .yarn/cache
+.yarn/install-state.gz

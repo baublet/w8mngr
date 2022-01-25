@@ -4,10 +4,9 @@ import cx from "classnames";
 import { ActivityType, Muscle, GetActivityDetailsQuery } from "../../generated";
 import { activityTypeToHumanReadable } from "../../helpers";
 import { MuscleMap } from "../MuscleMap";
-import { MarkdownRenderer } from "../Markdown";
+import { AsyncMarkdown } from "../Markdown";
 import { IntensityScale } from "./IntensityScale";
 import { ActivityTileMap } from "./ActivityTileMap";
-import { Panel } from "../Containers";
 
 type ActivityProps = {
   description?: string | null;
@@ -87,7 +86,7 @@ export function ActivityDetails({ data }: { data: GetActivityDetailsQuery }) {
 
       {description && (
         <div>
-          <MarkdownRenderer content={description} />
+          <AsyncMarkdown content={description} />
         </div>
       )}
     </div>

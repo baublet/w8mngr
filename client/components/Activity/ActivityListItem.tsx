@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { ItemHeading } from "../Type/ItemHeading";
-import { MarkdownRenderer } from "../Markdown";
+import { AsyncMarkdown } from "../Markdown";
 import { MuscleMap } from "../MuscleMap";
 import { ActivityType, Muscle } from "../../generated";
 import { activityTypeToHumanReadable } from "../../helpers";
@@ -62,7 +62,7 @@ w-full
               </div>
               {description && (
                 <div className="block mt-4 text-slate-700 text-opacity-80 leading-tight">
-                  <MarkdownRenderer
+                  <AsyncMarkdown
                     content={description}
                     maxLength={240}
                     textOnly

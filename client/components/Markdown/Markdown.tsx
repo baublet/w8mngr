@@ -2,7 +2,7 @@ import React from "react";
 import cx from "classnames";
 import ReactMarkdown from "react-markdown";
 
-interface MarkdownProps {
+export interface MarkdownProps {
   content: string;
   maxLength?: number;
   textOnly?: boolean;
@@ -11,7 +11,7 @@ interface MarkdownProps {
 
 export function MarkdownRenderer(
   props: MarkdownProps
-): React.ReactComponentElement<any> {
+) {
   const text = React.useMemo(() => {
     if (!props.maxLength) {
       return props.content;

@@ -8,14 +8,22 @@ type LoadableComponentProps = {
   loadingComponent?: React.ComponentType<any>;
 };
 
-export function LoadableComponent<T extends LoadableComponentProps>({
-  load,
-  component,
-  loadingComponent = PrimaryLoader,
-}: T & {
-  component?: ReturnType<T["load"]> extends Promise<infer TModule>
+export function LoadableComponent<
+  T extends LoadableComponentProps,
+  TKey extends ReturnType<T["load"]> extends Promise<infer TModule>
     ? keyof TModule
-    : never;
+    : never,
+  TComponent = ReturnType<T["load"]> extends Promise<infer TModule>
+    ? TModule[TKey]
+    : never
+>({
+  load,
+  loadingComponent = PrimaryLoader,
+  component,
+  props = {} as any,
+}: T & {
+  component?: TKey;
+  props?: TComponent extends (props: infer TProps) => any ? TProps : never;
 }) {
   const [Component, setComponent] = React.useState<
     (() => JSX.Element) | undefined
@@ -24,7 +32,6 @@ export function LoadableComponent<T extends LoadableComponentProps>({
 
   React.useEffect(() => {
     load().then((module) => {
-      console.log({ module });
       const moduleComponent = module[component];
       if (!moduleComponent) {
         throw new Error(
@@ -45,31 +52,35 @@ export function LoadableComponent<T extends LoadableComponentProps>({
     return null;
   }
 
-  return <Component />;
+  return <Component {...(props as any)} />;
 }
 
 type LoadableRouteProps = LoadableComponentProps & {
-  path: string | string[];
   exact?: boolean;
 };
 
-export function LoadableRoute<T extends LoadableRouteProps>({
-  path,
-  load,
-  exact = true,
-  component,
-}: T & {
-  component?: ReturnType<T["load"]> extends Promise<infer TModule>
+export function getLoadableComponentFor<
+  T extends LoadableRouteProps,
+  TKey extends ReturnType<T["load"]> extends Promise<infer TModule>
     ? keyof TModule
-    : never;
+    : never
+>({
+  load,
+  component,
+  props,
+}: T & {
+  component?: TKey;
+  props?: T[TKey] extends (props: infer TProps) => any ? TProps : never;
 }) {
-  return (
-    <Route
-      path={path}
-      exact={exact}
-      render={() => (
-        <LoadableComponent load={load} component={component as any} />
-      )}
-    />
+  const Component = React.useCallback(
+    () => (
+      <LoadableComponent
+        load={load}
+        component={component as any}
+        props={props as any}
+      />
+    ),
+    []
   );
+  return Component;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 import { ContentLayout } from "../components/Containers/ContentLayout";
 import { ContentContainer } from "../components/Containers/ContentContainer";
@@ -8,20 +8,20 @@ import { Form, Input } from "../components/Forms";
 import { SecondaryButton } from "../components/Button/Secondary";
 import { Spacer } from "../components/Spacer";
 import { useForm, useToast } from "../helpers";
-import { useRegisterMutation, GetCurrentUserDocument } from "../generated";
+import { useResetPasswordMutation, GetCurrentUserDocument } from "../generated";
 
-export function Register() {
+export function ResetPassword() {
+  const { token } = useParams<{ token: string }>();
   const { replace } = useHistory();
-  const registerForm = useForm<{
-    email: string;
+  const formData = useForm<{
     password: string;
     passwordConfirmation: string;
   }>();
   const { error, success } = useToast();
-  const [register, { loading }] = useRegisterMutation({
+  const [resetPassword, { loading }] = useResetPasswordMutation({
     refetchQueries: [GetCurrentUserDocument],
     onCompleted: () => {
-      success("Successfully registered!");
+      success("Password reset successful");
       replace("/");
     },
     onError: error,
@@ -31,39 +31,29 @@ export function Register() {
     if (loading) {
       return;
     }
-    register({
+    resetPassword({
       variables: {
-        input: registerForm.getValues(),
+        input: {
+          ...formData.getValues(),
+          resetToken: token,
+        },
       },
     });
   }, [loading]);
 
-  console.log({ loading });
-
   return (
     <div>
-      <PageHeading>Register</PageHeading>
+      <PageHeading>Reset Password</PageHeading>
       <ContentContainer>
         <ContentLayout
           mainContent={
             <Form loading={loading} onSubmit={submit} className="max-w-md">
               <Input
-                type="text"
-                label="Email"
-                placeholder="your@email.address"
-                id="email"
-                onChange={registerForm.getHandler("email")}
-                value={registerForm.getValue("email")}
-                focusOnFirstRender
-                labelPlacement="bottom"
-              />
-              <Spacer size="s" />
-              <Input
                 type="password"
                 placeholder="Enter your password"
                 id="password"
-                onChange={registerForm.getHandler("password")}
-                value={registerForm.getValue("password")}
+                onChange={formData.getHandler("password")}
+                value={formData.getValue("password")}
               />
               <Spacer size="s" />
               <Input
@@ -71,18 +61,18 @@ export function Register() {
                 label="Password"
                 placeholder="Confirmation"
                 id="passwordConfirmation"
-                onChange={registerForm.getHandler("passwordConfirmation")}
-                value={registerForm.getValue("passwordConfirmation")}
+                onChange={formData.getHandler("passwordConfirmation")}
+                value={formData.getValue("passwordConfirmation")}
                 labelPlacement="bottom"
               />
               <Spacer />
               <input
                 type="submit"
-                value="Register"
+                value="Reset Password"
                 className="screen-reader-text"
               />
               <SecondaryButton onClick={submit} disabled={loading} size="lg">
-                Register
+                Reset Password
               </SecondaryButton>
             </Form>
           }

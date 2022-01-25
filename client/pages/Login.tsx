@@ -44,7 +44,7 @@ export function Login() {
             <Form
               loading={loading}
               onSubmit={submit}
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-4 max-w-md"
             >
               <Input
                 type="text"
@@ -64,7 +64,7 @@ export function Login() {
                 labelPlacement="bottom"
               />
               <div className="flex gap-4 items-center">
-                <SecondaryButton onClick={submit} size="lg">
+                <SecondaryButton onClick={submit} size="lg" disabled={loading}>
                   Login
                 </SecondaryButton>
                 <div className="text-sm">

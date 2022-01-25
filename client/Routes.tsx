@@ -19,6 +19,7 @@ import { EditActivity } from "./pages/EditActivity";
 import { ActivityLog } from "./pages/ActivityLog";
 import { WeightLog } from "./pages/WeightLog";
 import { ForgotPassword } from "./pages/ForgotPassword";
+import { ResetPassword } from "./pages/ResetPassword";
 
 const routes = [
   { key: "home", path: "/", name: "Home", Component: Home },
@@ -48,6 +49,11 @@ const routes = [
     key: "forgot-password",
     path: ["/forgot-password"],
     Component: ForgotPassword,
+  },
+  {
+    key: "reset-password",
+    path: ["/reset-password/:token"],
+    Component: ResetPassword,
   },
 ];
 

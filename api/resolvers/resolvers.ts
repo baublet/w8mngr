@@ -18,6 +18,7 @@ import { deleteActivityLog } from "./mutations/deleteActivityLog";
 import { saveWeightLog } from "./mutations/saveWeightLog";
 import { deleteWeightLog } from "./mutations/deleteWeightLog";
 import { requestPasswordResetToken } from "./mutations/requestPasswordResetToken";
+import { resetPassword } from "./mutations/resetPassword";
 import { verifyEmail } from "./mutations/verifyEmail";
 
 import { foodLog } from "./user/foodLog";
@@ -27,6 +28,7 @@ import { popularUserActivities } from "./user/popularActivities";
 import { userFoodLogStats } from "./user/foodLogStats";
 import { weightLog } from "./user/weightLog";
 import { userActivitySummary } from "./user/activitySummary";
+import { userVerified } from "./user/verified";
 
 import { activityMuscleGroups } from "./activity/musclesGroups";
 import { activityLogs } from "./activity/logs";
@@ -61,6 +63,7 @@ export const resolvers: Resolvers = {
     popularActivities: popularUserActivities,
     foodLogStats: userFoodLogStats,
     weightLog,
+    verified: userVerified,
   },
   Food: {
     image: foodImage,
@@ -88,6 +91,7 @@ export const resolvers: Resolvers = {
     logout,
     register,
     requestPasswordResetToken,
+    resetPassword,
     saveActivity,
     saveActivityLog,
     saveFood,

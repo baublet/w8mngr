@@ -12,7 +12,7 @@ export function renderEmailTemplate<T extends keyof Templates>(
     : Parameters<Templates[T]>[0]
 ) {
   try {
-    return templates[template](args);
+    return templates[template](args as any);
   } catch (error) {
     assertIsError(error);
     log("error", "Unexpected error parsing email template", {

@@ -50,9 +50,11 @@ export function ForgotPassword() {
                   value={formData.getValue("email")}
                   onChange={formData.getHandler("email")}
                 />
-                <SecondaryButton size="lg" type="submit" full>
-                  Reset Password
-                </SecondaryButton>
+                <div>
+                  <SecondaryButton size="lg" type="submit">
+                    Reset Password
+                  </SecondaryButton>
+                </div>
               </Form>
             ) : (
               <div className="text-xl max-w-md bg-emerald-50 border border-emerald-200 p-4 rounded">

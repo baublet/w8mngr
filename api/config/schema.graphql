@@ -312,6 +312,7 @@ input ActivityVisualizationInput {
 #################
 
 type ResetPasswordMutationPayload {
+  currentUser: User
   errors: [String!]!
 }
 

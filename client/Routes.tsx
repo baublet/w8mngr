@@ -1,75 +1,99 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
 
 import { useVerifyEmail } from "./helpers";
-
-import { Home } from "./pages/Home";
-import { Logout } from "./pages/Logout";
-import { Register } from "./pages/Register";
-import { Login } from "./pages/Login";
-import { Nutrition } from "./pages/Nutrition";
-import { FoodLog } from "./pages/FoodLog";
-import { Foods } from "./pages/Foods";
-import { NewFood } from "./pages/NewFood";
-import { EditFood } from "./pages/EditFood";
-import { Activities } from "./pages/Activities";
-import { NewActivity } from "./pages/NewActivity";
-import { Activity } from "./pages/Activity";
-import { EditActivity } from "./pages/EditActivity";
-import { ActivityLog } from "./pages/ActivityLog";
-import { WeightLog } from "./pages/WeightLog";
-import { ForgotPassword } from "./pages/ForgotPassword";
-import { ResetPassword } from "./pages/ResetPassword";
-
-const routes = [
-  { key: "home", path: "/", name: "Home", Component: Home },
-  { key: "login", path: "/login", Component: Login },
-  { key: "logout", path: "/logout", Component: Logout },
-  { key: "nutrition", path: "/nutrition", Component: Nutrition },
-  { key: "register", path: "/register", Component: Register },
-  { key: "foodlog", path: ["/foodlog", "/foodlog/:day"], Component: FoodLog },
-  { key: "foods", path: "/foods", Component: Foods },
-  { key: "new-food", path: "/foods/new", Component: NewFood },
-  { key: "edit-food", path: "/foods/edit/:id", Component: EditFood },
-  { key: "activities", path: "/activities", Component: Activities },
-  { key: "new-activity", path: "/activities/new", Component: NewActivity },
-  { key: "edit-act", path: "/activities/edit/:id", Component: EditActivity },
-  {
-    key: "activity-log",
-    path: ["/activities/:id/log", "/activities/:id/log/:day"],
-    Component: ActivityLog,
-  },
-  { key: "activity-details", path: "/activities/:id", Component: Activity },
-  {
-    key: "weight-log",
-    path: ["/weightlog", "/weightlog/:day"],
-    Component: WeightLog,
-  },
-  {
-    key: "forgot-password",
-    path: ["/forgot-password"],
-    Component: ForgotPassword,
-  },
-  {
-    key: "reset-password",
-    path: ["/reset-password/:token"],
-    Component: ResetPassword,
-  },
-];
+import { LoadableRoute } from "./components/LoadableComponent";
 
 export function Routes() {
   useVerifyEmail();
   return (
     <div className="relative">
-      <Switch>
-        {routes.map(({ key, path, Component }) => (
-          <Route key={key} path={path} exact>
-            <div className="toast">
-              <Component />
-            </div>
-          </Route>
-        ))}
-      </Switch>
+      <div className="toast">
+        <LoadableRoute
+          path="/"
+          load={() => import("./pages/Home")}
+          component="Home"
+        />
+        <LoadableRoute
+          path="/login"
+          load={() => import("./pages/Login")}
+          component="Login"
+        />
+        <LoadableRoute
+          path="/reset-password/:token"
+          load={() => import("./pages/ResetPassword")}
+          component="ResetPassword"
+        />
+        <LoadableRoute
+          path="/forgot-password"
+          load={() => import("./pages/ForgotPassword")}
+          component="ForgotPassword"
+        />
+        <LoadableRoute
+          path="/register"
+          load={() => import("./pages/Register")}
+          component="Register"
+        />
+        <LoadableRoute
+          path="/nutrition"
+          load={() => import("./pages/Nutrition")}
+          component="Nutrition"
+        />
+        <LoadableRoute
+          path="/foodlog"
+          load={() => import("./pages/FoodLog")}
+          component="FoodLog"
+        />
+        <LoadableRoute
+          path="/foods"
+          load={() => import("./pages/Foods")}
+          component="Foods"
+        />
+        <LoadableRoute
+          path="/foods/new"
+          load={() => import("./pages/NewFood")}
+          component="NewFood"
+        />
+        <LoadableRoute
+          path="/foods/edit/:id"
+          load={() => import("./pages/EditFood")}
+          component="EditFood"
+        />
+        <LoadableRoute
+          path="/activities"
+          load={() => import("./pages/Activities")}
+          component="Activities"
+        />
+        <LoadableRoute
+          path="/activities/new"
+          load={() => import("./pages/NewActivity")}
+          component="NewActivity"
+        />
+        <LoadableRoute
+          path="/activities/edit/:id"
+          load={() => import("./pages/EditActivity")}
+          component="EditActivity"
+        />
+        <LoadableRoute
+          path="/activities/:id/log"
+          load={() => import("./pages/ActivityLog")}
+          component="ActivityLog"
+        />
+        <LoadableRoute
+          path="/activities/:id"
+          load={() => import("./pages/Activity")}
+          component="Activity"
+        />
+        <LoadableRoute
+          path="/weightlog"
+          load={() => import("./pages/WeightLog")}
+          component="WeightLog"
+        />
+        <LoadableRoute  
+          path="/logout"
+          load={() => import("./pages/Logout")}
+          component="Logout"
+        />
+      </div>
     </div>
   );
 }

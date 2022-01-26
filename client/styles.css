@@ -222,3 +222,14 @@ select::-ms-expand {
 .md li {
   max-width: 42rem;
 }
+
+.md a {
+  color: blue;
+  text-decoration: underline;
+}
+
+.md a:hover,
+.md a:focus,
+.md a:active {
+  color: darkblue;
+}

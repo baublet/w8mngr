@@ -8,6 +8,8 @@ import type {
   ActivityMuscle,
   ActivityLog,
   FoodLogEntity,
+  UserEntity,
+  UserAccountEntity,
 } from "../api/dataServices";
 import { ActivityType, Muscle } from "../api/graphql-types";
 
@@ -22,6 +24,8 @@ const legacyDatabase: "develop" | "legacy" =
 const legacyDb = knex((config as any)[legacyDatabase]);
 const getLegacyDb = () => legacyDb;
 
+const legacyUserIdsToNewUserIds: Record<number, string> = {};
+
 const legacyFoodIdToFoodId: Record<number, string> = {};
 const legacyActivityIdToActivityId: Record<number, string> = {};
 
@@ -34,6 +38,8 @@ const LEGACY_TABLES_MAP = {
     foodLog: "food_entries",
     foods: "foods",
     foodMeasurements: "measurements",
+    users: "users",
+    userAccounts: "user_accounts",
   },
   develop: {
     activities: "legacy_activities",
@@ -41,6 +47,8 @@ const LEGACY_TABLES_MAP = {
     foods: "legacy_foods",
     foodLog: "legacy_food_entries",
     foodMeasurements: "legacy_measurements",
+    users: "legacy_users",
+    userAccounts: "legacy_user_accounts",
   },
 } as const;
 
@@ -58,7 +66,8 @@ const LEGACY_TABLES_MAP = {
     })
   );
 })().then(async () => {
-  await seedAdmin();
+  // await seedAdmin();
+  await seedUsers();
   await seedActivities();
   await saveActivityEntries();
   await seedFoods();
@@ -67,6 +76,71 @@ const LEGACY_TABLES_MAP = {
   console.log("Done");
   process.exit(0);
 });
+
+async function seedUsers(): Promise<void> {
+  console.log("Seeding legacy users into the new users table");
+
+  type LegacyUser = {
+    id: number;
+    email: string;
+    created_at: Date;
+    updated_at: Date;
+    role: string;
+    preferences: string;
+  };
+
+  const batchSize = 500;
+  let offset = 0;
+  let total = 0;
+
+  let hasMoreUsers = true;
+  do {
+    process.stdout.write(".");
+    const legacyEntries = await getLegacyDb()
+      .select<LegacyUser[]>("*")
+      .from("users")
+      .limit(batchSize + 1)
+      .offset(offset);
+
+    offset += batchSize;
+    total += legacyEntries.length - 1;
+    if (legacyEntries.length <= batchSize) {
+      hasMoreUsers = false;
+    }
+
+    await getNewDb().batchInsert(
+      "user",
+      legacyEntries.map((entry) => {
+        const userId = ulid();
+        legacyUserIdsToNewUserIds[entry.id] = userId;
+        return {
+          id: userId,
+          createdAt: entry.created_at,
+          preferredName: entry.email,
+        } as UserEntity;
+      })
+    );
+
+    await getNewDb().batchInsert(
+      "user_account",
+      legacyEntries.map((entry) => {
+        const accountId = ulid();
+        const userId = legacyUserIdsToNewUserIds[entry.id];
+        return {
+          id: accountId,
+          createdAt: entry.created_at,
+          source: "local",
+          sourceIdentifier: entry.email,
+          updatedAt: entry.updated_at,
+          userId,
+          verified: false,
+        } as UserAccountEntity;
+      })
+    );
+  } while (hasMoreUsers);
+
+  console.log("\nTotal users: ", total);
+}
 
 async function seedActivities(): Promise<void> {
   console.log("Seeding legacy activities into the new activities table");
@@ -164,7 +238,6 @@ async function seedActivities(): Promise<void> {
       const legacyEntries = await getLegacyDb()
         .select<LegacyActivity[]>("*")
         .from(LEGACY_TABLES_MAP[legacyDatabase].activities)
-        .where("user_id", "=", 1)
         .limit(batchSize + 1)
         .offset(offset);
 
@@ -192,7 +265,7 @@ async function seedActivities(): Promise<void> {
             id: newId,
             description: legacyEntry.description,
             name: legacyEntry.name,
-            userId: adminUserId,
+            userId: legacyUserIdsToNewUserIds[legacyEntry.user_id],
             legacyId: legacyEntry.id,
             intensity: legacyEntry.intensity,
             exrx: legacyEntry.exrx,
@@ -213,24 +286,6 @@ async function seedActivities(): Promise<void> {
   console.log("\nTotal activities: ", total);
 }
 
-async function seedAdmin(): Promise<void> {
-  console.log("Seeding admin");
-
-  await getNewDb().table("user").insert({
-    id: adminUserId,
-    preferredName: "Ryan",
-  });
-
-  await getNewDb().table("user_account").insert({
-    id: ulid(),
-    passwordHash:
-      "$2b$10$z7qgrav/kYXlSdVKdgIe3.HXz9gkfD6WmqpMMp8UnQQtJ0SM1yc1q",
-    source: "local",
-    sourceIdentifier: "baublet@gmail.com",
-    userId: adminUserId,
-  });
-}
-
 async function seedFoods(): Promise<void> {
   console.log("Seeding legacy foods into the new foods table");
   type LegacyFood = {
@@ -241,7 +296,7 @@ async function seedFoods(): Promise<void> {
     upc: string;
     popularity: number;
     likes: number;
-    user_id: string;
+    user_id: number;
     created_at: string;
     updated_at: string;
     deleted: boolean;
@@ -277,7 +332,7 @@ async function seedFoods(): Promise<void> {
             id: newId,
             description: legacyFood.description,
             name: legacyFood.name,
-            userId: adminUserId,
+            userId: legacyUserIdsToNewUserIds[legacyFood.user_id],
             legacyId: legacyFood.id,
           };
         })
@@ -331,6 +386,16 @@ async function seedMeasurements(): Promise<void> {
         newFoods.map((f) => f.legacyId || -1)
       );
     total += measurements.length - 1;
+
+    const legacyFoodIdUserId = newFoods.reduce((acc, newFood) => {
+      const legacyId = newFood.legacyId;
+      if(legacyId) {
+        acc[legacyId] = newFood.userId;
+      }
+
+      return acc;
+    }, <Record<number, string>>{})
+
     measurementsToAdd.push(
       ...measurements.map((measurement) => ({
         id: ulid(),
@@ -340,7 +405,7 @@ async function seedMeasurements(): Promise<void> {
         fat: Math.ceil(measurement.fat),
         carbs: Math.ceil(measurement.carbs),
         protein: Math.ceil(measurement.protein),
-        userId: adminUserId,
+        userId: legacyFoodIdUserId[measurement.food_id],
         foodId: legacyFoodIdToFoodId[measurement.food_id as number],
       }))
     );
@@ -366,7 +431,6 @@ async function seedFoodEntries() {
     const legacyEntries = await getLegacyDb()
       .select()
       .from(LEGACY_TABLES_MAP[legacyDatabase].foodLog)
-      .where("user_id", "=", 1)
       .offset(offset)
       .limit(batchSize + 1);
 
@@ -383,7 +447,7 @@ async function seedFoodEntries() {
       "food_log",
       legacyEntries.slice(0, -1).map((legacyEntry) => ({
         id: ulid(),
-        userId: adminUserId,
+        userId: legacyUserIdsToNewUserIds[legacyEntry.user_id],
         day: legacyEntry.day,
         createdAt: legacyEntry.created_at,
         updatedAt: legacyEntry.updated_at,
@@ -426,7 +490,6 @@ async function saveActivityEntries() {
     const legacyActivityEntries = await getLegacyDb()
       .select<LegacyActivityEntry[]>("*")
       .from(LEGACY_TABLES_MAP[legacyDatabase].activityLog)
-      .where("user_id", "=", 1)
       .limit(batchSize + 1)
       .offset(offset);
 
@@ -445,7 +508,7 @@ async function saveActivityEntries() {
         .map((entry) => {
           return {
             id: ulid(),
-            userId: adminUserId,
+            userId: legacyUserIdsToNewUserIds[entry.user_id],
             activityId: legacyActivityIdToActivityId[entry.activity_id],
             day: entry.day,
             work: entry.work,

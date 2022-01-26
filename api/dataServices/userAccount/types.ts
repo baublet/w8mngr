@@ -3,7 +3,8 @@ export interface UserAccountEntity {
   userId: string;
   source: "github" | "local";
   sourceIdentifier: string;
-  sourceData: Record<string, any>;
   passwordHash?: string;
   verified: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }

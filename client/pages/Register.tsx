@@ -38,8 +38,6 @@ export function Register() {
     });
   }, [loading]);
 
-  console.log({ loading });
-
   return (
     <div>
       <PageHeading>Register</PageHeading>

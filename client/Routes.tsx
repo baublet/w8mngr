@@ -146,6 +146,22 @@ export function Routes() {
               component: "Logout",
             })}
           />
+          <Route
+            exact
+            path="/tos"
+            component={getLoadableComponentFor({
+              load: () => import("./pages/TermsOfService"),
+              component: "TermsOfService",
+            })}
+          />
+          <Route
+            exact
+            path="/privacy"
+            component={getLoadableComponentFor({
+              load: () => import("./pages/Privacy"),
+              component: "Privacy",
+            })}
+          />
         </Switch>
       </div>
     </div>

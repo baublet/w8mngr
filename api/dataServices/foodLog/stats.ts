@@ -110,10 +110,10 @@ export async function stats(
         },
         visualizationData: movingAverageCalories.map((data, i) => ({
           day: movingAverageDays[i],
-          calories: movingAverageCalories[i],
-          fat: movingAverageFat[i],
-          carbs: movingAverageCarbs[i],
-          protein: movingAverageProtein[i],
+          calories: orZero(movingAverageCalories[i]),
+          fat: orZero(movingAverageFat[i]),
+          carbs: orZero(movingAverageCarbs[i]),
+          protein: orZero(movingAverageProtein[i]),
         })),
       };
     },
@@ -121,7 +121,19 @@ export async function stats(
 }
 
 function orZero(value: any) {
-  return value || 0;
+  if (value === Infinity) {
+    return 0;
+  }
+  if (isNaN(value)) {
+    return 0;
+  }
+  if (typeof value === "string") {
+    return parseInt(value, 10);
+  }
+  if (typeof value === "number") {
+    return value;
+  }
+  return 0;
 }
 
 function maybeAddToTotal<T extends Record<any, any>>(
@@ -129,11 +141,12 @@ function maybeAddToTotal<T extends Record<any, any>>(
   key: keyof T,
   value: any
 ) {
+  const valueToAdd = orZero(parseInt(value, 10));
   const anySubject: any = subject;
   if (anySubject[key] === undefined) {
-    anySubject[key] = value;
+    anySubject[key] = valueToAdd;
   } else {
-    anySubject[key] += value;
+    anySubject[key] += valueToAdd;
   }
 }
 
@@ -173,5 +186,15 @@ function getFlattenedAverage(set: Record<string, number>): number {
     return 0;
   }
 
-  return total / totalValues;
+  const flattenedAverage = total / totalValues;
+
+  if (isNaN(flattenedAverage)) {
+    return 0;
+  }
+
+  if (flattenedAverage === Infinity) {
+    return 0;
+  }
+
+  return flattenedAverage;
 }

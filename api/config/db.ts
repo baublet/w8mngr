@@ -10,7 +10,7 @@ import knexConfig from "../../knexfile";
 export type Connection<TEntity = any> = Knex<TEntity, unknown[]>;
 export type QueryBuilder<T = any> = Knex.QueryBuilder<T, any>;
 
-const database = process.env.DATABASE || "develop";
+const database = process.env.DATABASE || "production";
 assertIsValidDatabase(database);
 const dbSettings: Knex.Config = knexConfig[database];
 

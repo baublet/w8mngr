@@ -1,9 +1,6 @@
 import cx from "classnames";
 import React from "react";
 
-import { ContentContainer } from "../../components/Containers/ContentContainer";
-import { Spacer } from "../Spacer";
-
 interface PageHeadingProps {
   quickLinks?: React.ReactElement;
   children: React.ReactElement | string;
@@ -13,7 +10,7 @@ interface PageHeadingProps {
 
 export function PageHeading(props: PageHeadingProps) {
   return (
-    <>
+    <div>
       {props.icon && (
         <div className="relative">
           <div
@@ -39,8 +36,8 @@ export function PageHeading(props: PageHeadingProps) {
       {!props.quickLinks ? (
         false
       ) : (
-        <div className="mt-3">{props.quickLinks}</div>
+        <div className="mt-2">{props.quickLinks}</div>
       )}
-    </>
+    </div>
   );
 }

@@ -1,20 +1,19 @@
 import React from "react";
 import { useHistory, useParams } from "react-router";
 
-import { ContentContainer } from "../components/Containers/ContentContainer";
-import { PageHeading } from "../components/Type/PageHeading";
-import { ContentLayout } from "../components/Containers/ContentLayout";
-import { HealthCircleIcon } from "../components/Icons/HealthCircle";
-import { ActivityLog as ActivityLogComponent } from "../components/ActivityLog";
-
-import { useGetActivityDetailsQuery } from "../generated";
-import { PrimaryLoader } from "../components/Loading/Primary";
-import { BackToButton } from "../components/Button/BackTo";
-import { MuscleMap } from "../components/MuscleMap";
-import { IntensityScale } from "../components/Activity/IntensityScale";
 import { ActivityStatsComponent } from "../components/Activity";
-import { DayNavigator } from "../components/DayNavigator";
+import { IntensityScale } from "../components/Activity/IntensityScale";
+import { ActivityLog as ActivityLogComponent } from "../components/ActivityLog";
+import { BackToButton } from "../components/Button/BackTo";
 import { BackWithIconButton } from "../components/Button/BackWithIcon";
+import { ContentContainer } from "../components/Containers/ContentContainer";
+import { ContentLayout } from "../components/Containers/ContentLayout";
+import { DayNavigator } from "../components/DayNavigator";
+import { HealthCircleIcon } from "../components/Icons/HealthCircle";
+import { PrimaryLoader } from "../components/Loading/Primary";
+import { MuscleMap } from "../components/MuscleMap";
+import { PageHeading } from "../components/Type/PageHeading";
+import { useGetActivityDetailsQuery } from "../generated";
 
 export function ActivityLog() {
   const { id, day = "" } = useParams<{ id: string; day: string }>();
@@ -47,7 +46,7 @@ export function ActivityLog() {
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
       <PageHeading
         icon={<HealthCircleIcon />}
         quickLinks={

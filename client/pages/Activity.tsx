@@ -1,21 +1,20 @@
 import React from "react";
-import { useParams, useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 
-import { ContentContainer } from "../components/Containers/ContentContainer";
-import { PageHeading } from "../components/Type/PageHeading";
-import { ContentLayout } from "../components/Containers/ContentLayout";
-import { SecondaryButton } from "../components/Button/Secondary";
-import { HealthCircleIcon } from "../components/Icons/HealthCircle";
+import { dayStringFromDate } from "../../shared";
 import {
   ActivityDetails,
   ActivityStatsComponent,
 } from "../components/Activity";
-import { PrimaryLoader } from "../components/Loading/Primary";
-import { useGetActivityDetailsQuery } from "../generated";
 import { BackToButton } from "../components/Button/BackTo";
+import { SecondaryButton } from "../components/Button/Secondary";
 import { SecondaryOutlineButton } from "../components/Button/SecondaryOutline";
-
-import { dayStringFromDate } from "../../shared";
+import { ContentContainer } from "../components/Containers/ContentContainer";
+import { ContentLayout } from "../components/Containers/ContentLayout";
+import { HealthCircleIcon } from "../components/Icons/HealthCircle";
+import { PrimaryLoader } from "../components/Loading/Primary";
+import { PageHeading } from "../components/Type/PageHeading";
+import { useGetActivityDetailsQuery } from "../generated";
 
 export function Activity() {
   const { id = "id" } = useParams<{ id?: string }>();
@@ -37,7 +36,7 @@ export function Activity() {
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
       <PageHeading
         icon={<HealthCircleIcon />}
         quickLinks={
@@ -55,14 +54,14 @@ export function Activity() {
           mainContent={<ActivityDetails data={data} />}
           sideContent={
             <div className="flex gap-4 flex-col">
-              <SecondaryButton full to={`/activities/edit/${id}`}>
-                Edit Activity
-              </SecondaryButton>
-              <SecondaryOutlineButton
+              <SecondaryButton
                 full
                 to={`/activities/${id}/log/${todayDateString}`}
               >
                 Log Activity
+              </SecondaryButton>
+              <SecondaryOutlineButton full to={`/activities/edit/${id}`}>
+                Edit Activity
               </SecondaryOutlineButton>
               <ActivityStatsComponent queryData={data} />
             </div>

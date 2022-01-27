@@ -1,19 +1,19 @@
 import React from "react";
 
-import { ContentContainer } from "../components/Containers/ContentContainer";
-import { PageHeading } from "../components/Type/PageHeading";
-import { ContentLayout } from "../components/Containers/ContentLayout";
-import { SecondaryButton } from "../components/Button/Secondary";
-import { HealthCircleIcon } from "../components/Icons/HealthCircle";
 import { ActivitiesTileMap, ActivityList } from "../components/Activity";
-import { Input } from "../components/Forms";
 import { ActivityPageHelpers } from "../components/Activity";
+import { SecondaryButton } from "../components/Button/Secondary";
+import { ContentContainer } from "../components/Containers/ContentContainer";
+import { ContentLayout } from "../components/Containers/ContentLayout";
 import { FiltersPanel } from "../components/FiltersPanel";
+import { Input } from "../components/Forms";
+import { HealthCircleIcon } from "../components/Icons/HealthCircle";
+import { PageHeading } from "../components/Type/PageHeading";
 
 export function Activities() {
   const [searchString, setSearchString] = React.useState<string>();
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
       <PageHeading icon={<HealthCircleIcon />}>Your Activities</PageHeading>
       <ContentContainer>
         <ContentLayout

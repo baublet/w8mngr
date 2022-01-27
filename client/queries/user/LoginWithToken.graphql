@@ -1,0 +1,9 @@
+mutation LoginWithToken($input: LoginWithTokenInput!) {
+  loginWithToken(input: $input) {
+    currentUser {
+      id
+      preferredName
+    }
+    errors
+  }
+}

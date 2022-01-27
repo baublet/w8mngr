@@ -1,0 +1,5 @@
+mutation RequestEmailLoginLink($input: RequestEmailLoginLinkInput!) {
+  requestEmailLoginLink(input: $input) {
+    errors
+  }
+}

@@ -1,6 +1,5 @@
 import React from "react";
 import { ObjectSchema } from "yup";
-import objectHash from "object-hash";
 
 export function useForm<T extends Record<string, any>>({
   initialValues = {},

@@ -98,5 +98,10 @@
     "jest": "^27.3.1",
     "pm2": "^5.1.2",
     "vite": "^2.7.1"
+  },
+  "importSort": {
+    ".ts, .tsx": {
+      "style": "import-sort-style-module"
+    }
   }
 }

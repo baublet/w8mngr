@@ -1,11 +1,11 @@
 import { ulid } from "ulid";
 
-import { Context } from "../../createContext";
-import { TokenEntity } from "./types";
-import { getQuery } from "./query";
 import { createDigest } from "../../authentication";
-import { create } from "./create";
+import { Context } from "../../createContext";
 import { tokenDataService } from "./";
+import { create } from "./create";
+import { getQuery } from "./query";
+import { TokenEntity } from "./types";
 import { TOKEN_EXPIRY_OFFSET } from "./types";
 
 export async function getOrCreate(

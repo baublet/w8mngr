@@ -34,6 +34,12 @@ type Mutation {
     input: RequestPasswordResetTokenInput!
   ): RequestResetTokenMutationPayload!
   verifyEmail(input: VerifyEmailInput!): VerifyEmailMutationPayload!
+  requestEmailLoginLink(
+    input: RequestEmailLoginLinkInput!
+  ): RequestEmailLoginLinkMutationPayload!
+  loginWithToken(
+    input: LoginWithTokenInput!
+  ): LoginWithTokenMutationPayload!
 
   # Food Log
   saveFoodLog(input: SaveFoodLogInput!): FoodLogMutationPayload!
@@ -137,6 +143,14 @@ enum Unit {
 #################
 # Inputs        #
 #################
+
+input RequestEmailLoginLinkInput {
+  email: String!
+}
+
+input LoginWithTokenInput {
+  loginToken: String!
+}
 
 input VerifyEmailInput {
   token: String!
@@ -310,6 +324,15 @@ input ActivityVisualizationInput {
 #################
 # Types         #
 #################
+
+type RequestEmailLoginLinkMutationPayload {
+  errors: [String!]!
+}
+
+type LoginWithTokenMutationPayload {
+  currentUser: User
+  errors: [String!]!
+}
 
 type ResetPasswordMutationPayload {
   currentUser: User

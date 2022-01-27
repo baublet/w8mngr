@@ -1,15 +1,15 @@
 import axios from "axios";
 
 import { getWithDefault } from "../../shared";
-import { apolloClientService } from "./apolloClientService";
 import {
   GetUploadTokensDocument,
-  GetUploadTokensMutationVariables,
   GetUploadTokensMutationResult,
+  GetUploadTokensMutationVariables,
   UpdateUploadDataDocument,
-  UpdateUploadDataMutationVariables,
   UpdateUploadDataMutationResult,
+  UpdateUploadDataMutationVariables,
 } from "../generated";
+import { apolloClientService } from "./apolloClientService";
 
 type FileInput = {
   id: string;

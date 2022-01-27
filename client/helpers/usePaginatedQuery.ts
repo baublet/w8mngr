@@ -1,5 +1,5 @@
-import React from "react";
 import { NetworkStatus } from "@apollo/client";
+import React from "react";
 import { useHistory, useLocation } from "react-router";
 
 type HookFunction = (args: {

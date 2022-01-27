@@ -1,49 +1,44 @@
 import { Resolvers } from "../graphql-types";
-
-import { currentUser } from "./currentUser";
-import { upload } from "./upload";
-
-import { login } from "./mutations/login";
-import { logout } from "./mutations/logout";
-import { register } from "./mutations/register";
-import { saveFoodLog } from "./mutations/saveFoodLog";
-import { deleteFoodLog } from "./mutations/deleteFoodLog";
-import { saveFood } from "./mutations/saveFood";
-import { getUploadTokens } from "./mutations/getUploadTokens";
-import { saveUploadData } from "./mutations/saveUploadData";
-import { deleteFoodMeasurement } from "./mutations/deleteFoodMeasurement";
-import { saveActivity } from "./mutations/saveActivity";
-import { saveActivityLog } from "./mutations/saveActivityLog";
-import { deleteActivityLog } from "./mutations/deleteActivityLog";
-import { saveWeightLog } from "./mutations/saveWeightLog";
-import { deleteWeightLog } from "./mutations/deleteWeightLog";
-import { requestPasswordResetToken } from "./mutations/requestPasswordResetToken";
-import { resetPassword } from "./mutations/resetPassword";
-import { verifyEmail } from "./mutations/verifyEmail";
-
-import { foodLog } from "./user/foodLog";
-import { foods } from "./user/foods";
-import { activities } from "./user/activities";
-import { popularUserActivities } from "./user/popularActivities";
-import { userFoodLogStats } from "./user/foodLogStats";
-import { weightLog } from "./user/weightLog";
-import { userActivitySummary } from "./user/activitySummary";
-import { userVerified } from "./user/verified";
-
-import { activityMuscleGroups } from "./activity/musclesGroups";
 import { activityLogs } from "./activity/logs";
+import { activityMuscleGroups } from "./activity/musclesGroups";
 import { activityStats } from "./activity/stats";
 import { activityLogActivity } from "./activityLog/activity";
 import { activityLogWork } from "./activityLog/work";
-
+import { currentUser } from "./currentUser";
 import { foodImage } from "./food/image";
 import { foodMeasurements } from "./food/measurements";
-
+import { deleteActivityLog } from "./mutations/deleteActivityLog";
+import { deleteFoodLog } from "./mutations/deleteFoodLog";
+import { deleteFoodMeasurement } from "./mutations/deleteFoodMeasurement";
+import { deleteWeightLog } from "./mutations/deleteWeightLog";
+import { getUploadTokens } from "./mutations/getUploadTokens";
+import { login } from "./mutations/login";
+import { loginWithToken } from "./mutations/loginWithToken";
+import { logout } from "./mutations/logout";
+import { register } from "./mutations/register";
+import { requestEmailLoginLink } from "./mutations/requestEmailLoginLink";
+import { requestPasswordResetToken } from "./mutations/requestPasswordResetToken";
+import { resetPassword } from "./mutations/resetPassword";
+import { saveActivity } from "./mutations/saveActivity";
+import { saveActivityLog } from "./mutations/saveActivityLog";
+import { saveFood } from "./mutations/saveFood";
+import { saveFoodLog } from "./mutations/saveFoodLog";
+import { saveUploadData } from "./mutations/saveUploadData";
+import { saveWeightLog } from "./mutations/saveWeightLog";
+import { verifyEmail } from "./mutations/verifyEmail";
+import { upload } from "./upload";
 import { publicUrl } from "./upload/publicUrl";
-
-import { weightLogWeightString } from "./weightLog/weightString";
-import { weightLogWeight } from "./weightLog/weight";
+import { activities } from "./user/activities";
+import { userActivitySummary } from "./user/activitySummary";
+import { foodLog } from "./user/foodLog";
+import { userFoodLogStats } from "./user/foodLogStats";
+import { foods } from "./user/foods";
+import { popularUserActivities } from "./user/popularActivities";
+import { userVerified } from "./user/verified";
+import { weightLog } from "./user/weightLog";
 import { weightLogAgo } from "./weightLog/ago";
+import { weightLogWeight } from "./weightLog/weight";
+import { weightLogWeightString } from "./weightLog/weightString";
 
 export const resolvers: Resolvers = {
   ActivityLog: {
@@ -88,8 +83,10 @@ export const resolvers: Resolvers = {
     deleteWeightLog,
     getUploadTokens,
     login,
+    loginWithToken,
     logout,
     register,
+    requestEmailLoginLink,
     requestPasswordResetToken,
     resetPassword,
     saveActivity,

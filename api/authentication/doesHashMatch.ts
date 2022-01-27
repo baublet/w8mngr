@@ -2,7 +2,8 @@ import bcrypt from "bcrypt";
 
 export function doesHashMatch(
   plainTextPassword: string,
-  hashedPassword: string = ""
+  hashedPassword: undefined | string | null
 ): Promise<boolean> {
-  return bcrypt.compare(plainTextPassword, hashedPassword);
+  const hashedPasswordWithDefault = hashedPassword || "";
+  return bcrypt.compare(plainTextPassword, hashedPasswordWithDefault);
 }

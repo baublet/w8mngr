@@ -1,14 +1,14 @@
 import React from "react";
 import { Link as ReactRouterLink, useLocation } from "react-router-dom";
 
-import { ContentContainer } from "./components/Containers/ContentContainer";
-import { Routes } from "./Routes";
-import { HeaderNavigation } from "./components/Navigation/HeaderNavigation";
-import { ToastProvider } from "./helpers";
-import { Logo } from "./components/Logo";
 import { IsLoggedIn } from "./components/Auth/IsLoggedIn";
 import { IsLoggedOut } from "./components/Auth/IsLoggedOut";
+import { ContentContainer } from "./components/Containers/ContentContainer";
 import { Link } from "./components/Link";
+import { Logo } from "./components/Logo";
+import { HeaderNavigation } from "./components/Navigation/HeaderNavigation";
+import { ToastProvider } from "./helpers";
+import { Routes } from "./Routes";
 
 export function Application(): React.ReactComponentElement<any> {
   // When the URL changes, scroll to the top

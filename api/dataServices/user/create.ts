@@ -1,9 +1,9 @@
 import { ulid } from "ulid";
 
 import { Context } from "../../createContext";
-import { UserEntity } from "./types";
-import { getQuery } from "./query";
 import { userDataService } from "./";
+import { getQuery } from "./query";
+import { UserEntity } from "./types";
 
 export async function create(
   context: Context,

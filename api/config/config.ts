@@ -45,7 +45,25 @@ export const config = createConfig({
   MAILGUN_DOMAIN: "",
   NETLIFY: "false",
   NODE_ENV: "production",
-  PUBLIC_URL: "http://localhost:8080",
+  PUBLIC_URL: otherEnvValuesOrDefault(["URL"], "http://localhost:8080"),
   SALT: "Don't use the default, please!",
   SUPPRESS_CONSOLE_LOGGING: "false",
 });
+
+function otherEnvValuesOrDefault(
+  vars: string[],
+  defaultValue: string
+): (value: string | undefined) => string {
+  return (value) => {
+    if (value) {
+      return value;
+    }
+    for (const envVar of vars) {
+      const value = process.env[envVar];
+      if (value) {
+        return value;
+      }
+    }
+    return defaultValue;
+  };
+}

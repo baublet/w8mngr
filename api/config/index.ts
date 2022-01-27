@@ -1,13 +1,20 @@
+import { config } from "./config";
+import {
+  dbService,
+  dbSettings,
+  getQueryBuilderFactory,
+  getQueryProvider,
+} from "./db";
+import { log } from "./log";
+import { messages } from "./messages";
+
+export { DBConnection, DBQuery, Connection, QueryBuilder } from "./db";
 export {
   dbService,
-  DBConnection,
-  DBQuery,
   dbSettings,
   getQueryProvider,
-  Connection,
-  QueryBuilder,
   getQueryBuilderFactory,
-} from "./db";
-export { log } from "./log";
-export { messages } from "./messages";
-export { config } from "./config";
+  log,
+  messages,
+  config,
+};

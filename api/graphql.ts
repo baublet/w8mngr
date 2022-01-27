@@ -1,24 +1,26 @@
-import path from "path";
 import fs from "fs";
 import http from "http";
+import path from "path";
+
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import {
+  ApolloServerPluginDrainHttpServer,
+  ApolloServerPluginLandingPageGraphQLPlayground,
+  GraphQLRequestContext,
+} from "apollo-server-core";
+import { ApolloServer } from "apollo-server-express";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import express from "express";
+import createHandler from "serverless-http";
+
+import { config, log } from "./config";
+import { Context, createGraphqlContext } from "./createContext";
+import { resolvers } from "./resolvers";
 
 require('dotenv').config()
 
-import cookieParser from "cookie-parser";
-import express from "express";
-import cors from "cors";
-import createHandler from "serverless-http";
-import { ApolloServer } from "apollo-server-express";
-import { makeExecutableSchema } from "@graphql-tools/schema";
-import {
-  GraphQLRequestContext,
-  ApolloServerPluginLandingPageGraphQLPlayground,
-  ApolloServerPluginDrainHttpServer,
-} from "apollo-server-core";
 
-import { resolvers } from "./resolvers";
-import { Context, createGraphqlContext } from "./createContext";
-import { log } from "./config";
 
 const typeDefs = fs
   .readFileSync(path.resolve(__dirname, "config", "schema.graphql"))
@@ -81,7 +83,7 @@ export const server = new ApolloServer({
 
 export const handler = createHandler(app);
 
-if (process.env.NETLIFY == "true") {
+if (config.get("NETLIFY")== "true") {
   log(
     "info",
     "Netlify build detected. Booting server and applying GQL middleware"

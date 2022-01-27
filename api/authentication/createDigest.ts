@@ -1,9 +1,9 @@
 import crypto from "crypto";
 
-const SALT = process.env.PASSWORD_SALT || "Don't use the default, please!";
+import { config } from "../config";
 
 export function createDigest(subject: string = ""): string {
-  const hash = crypto.createHmac("sha512", SALT);
+  const hash = crypto.createHmac("sha512", config.get("SALT"));
   hash.update(subject);
   return hash.digest("hex");
 }

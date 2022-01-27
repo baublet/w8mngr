@@ -1,11 +1,9 @@
 import crypto from "crypto";
 
+import { config } from "../../config";
 import { Context } from "../../createContext";
-import { Upload } from "./types";
 import { UploadUrlType } from "../../graphql-types";
 import { uploadDataService } from "./index";
-
-const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
 
 const TRANSFORMATIONS_MAP: Record<
   UploadUrlType,
@@ -26,7 +24,7 @@ export async function getPublicUrl(
   context: Context,
   { type = "PREVIEW", uploadId }: { uploadId: string; type?: UploadUrlType }
 ): Promise<string> {
-  if (!CLOUDINARY_API_SECRET) {
+  if (!config.get("CLOUDINARY_API_SECRET")) {
     throw new Error(`No CLOUDINARY_API_SECRET in environment variables...`);
   }
 
@@ -44,7 +42,7 @@ export async function getPublicUrl(
   const fileName = `${publicId}.${extension}`;
   const toSign = [transformationsUrlPart, fileName].join("/");
   const shasum = crypto.createHash("sha1");
-  shasum.update(toSign + CLOUDINARY_API_SECRET);
+  shasum.update(toSign + config.get("CLOUDINARY_API_SECRET"));
   const signedSignature = shasum.digest("hex");
 
   const signature =

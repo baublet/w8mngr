@@ -13,23 +13,22 @@ import type {
 } from "../api/dataServices";
 import { ActivityType, Muscle } from "../api/graphql-types";
 
-import config from "../knexfile";
+import knexConfig from "../knexfile";
+import { config } from "../api/config"
 
-const database = process.env.DATABASE || "develop";
-const newDb = knex((config as any)[database]);
+const database = config.get("DATABASE");
+const newDb = knex((knexConfig as any)[database]);
 const getNewDb = () => newDb;
 
 const legacyDatabase: "develop" | "legacy" =
   database === "develop" ? "develop" : "legacy";
-const legacyDb = knex((config as any)[legacyDatabase]);
+const legacyDb = knex((knexConfig as any)[legacyDatabase]);
 const getLegacyDb = () => legacyDb;
 
 const legacyUserIdsToNewUserIds: Record<number, string> = {};
 
 const legacyFoodIdToFoodId: Record<number, string> = {};
 const legacyActivityIdToActivityId: Record<number, string> = {};
-
-const adminUserId = ulid();
 
 const LEGACY_TABLES_MAP = {
   legacy: {

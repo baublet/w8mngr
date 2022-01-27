@@ -10,3 +10,4 @@ export {
 } from "./db";
 export { log } from "./log";
 export { messages } from "./messages";
+export { config } from "./config";

@@ -3,14 +3,15 @@ import path from "path";
 import { ServiceContainer } from "@baublet/service-container";
 import { Knex, knex } from "knex";
 
-import { Context, createContext } from "../createContext";
-import { log } from "./log";
 import knexConfig from "../../knexfile";
+import { Context, createContext } from "../createContext";
+import { config } from "./config";
+import { log } from "./log";
 
 export type Connection<TEntity = any> = Knex<TEntity, unknown[]>;
 export type QueryBuilder<T = any> = Knex.QueryBuilder<T, any>;
 
-const database = process.env.DATABASE || "production";
+const database = config.get("DATABASE");
 assertIsValidDatabase(database);
 const dbSettings: Knex.Config = knexConfig[database];
 
@@ -30,7 +31,7 @@ if (!dbSettings) {
     )}`
   );
 } else {
-  if (process.env.NODE_ENV !== "test") {
+  if (config.get("NODE_ENV") !== "test") {
     log("info", "Database driver initializing", { dbSettings });
   }
 }
@@ -113,9 +114,9 @@ export function getTestGlobalContext(): Context {
 }
 
 export function getTestGlobalServiceContainer(): ServiceContainer {
-  if (process.env.NODE_ENV !== "test") {
+  if (config.get("NODE_ENV") !== "test") {
     throw new Error(
-      `Invalid environment to use the global testing service container. Environment: ${process.env.NODE_ENV}`
+      `Invalid environment to use the global testing service container. Environment: ${config.get("NODE_ENV")}`
     );
   }
   return testGlobalServiceContainer;

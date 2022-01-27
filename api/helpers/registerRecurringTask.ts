@@ -1,8 +1,8 @@
-import { log } from "../config";
+import { config, log } from "../config";
 
 const taskIntervals: Map<string, number> = new Map();
 
-if (process.env.NODE_ENV !== "test") {
+if (config.get("NODE_ENV") !== "test") {
   const killTasks = () => {
     log("debug", "Stopping recurring tasks");
     for (const task of Array.from(taskIntervals.keys())) {
@@ -24,7 +24,7 @@ export function registerRecurringTask({
   task: () => Promise<void>;
   intervalMs: number;
 }) {
-  if (process.env.NODE_ENV === "test") {
+  if (config.get("NODE_ENV") === "test") {
     log("debug", "Skipping recurring task registration in test environment");
     return;
   }

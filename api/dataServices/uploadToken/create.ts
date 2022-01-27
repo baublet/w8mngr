@@ -1,15 +1,12 @@
 import crypto from "crypto";
+
 import { ulid } from "ulid";
 
-import { Context } from "../../createContext";
-import { UploadToken } from "./type";
-import { uploadDataService } from "../upload";
-import { dbService } from "../../config";
 import { assertIsError, assertIsTruthy } from "../../../shared";
-
-const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
-const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
-const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/baublet/auto/upload";
+import { config, dbService } from "../../config";
+import { Context } from "../../createContext";
+import { uploadDataService } from "../upload";
+import { UploadToken } from "./type";
 
 export async function create({
   context,
@@ -18,7 +15,10 @@ export async function create({
   context: Context;
   count: number;
 }): Promise<Error | (UploadToken & { uploadId: string })[]> {
-  const userId =context.getCurrentUserId();
+  const CLOUDINARY_API_KEY = config.get("CLOUDINARY_API_KEY");
+  const CLOUDINARY_API_SECRET = config.get("CLOUDINARY_API_SECRET");
+  const CLOUDINARY_URL = config.get("CLOUDINARY_URL");
+  const userId = context.getCurrentUserId();
   assertIsTruthy(userId);
   const db = await context.services.get(dbService);
   try {
@@ -39,7 +39,7 @@ export async function create({
           const unixTime = `${Date.now()}`.substr(0, 10);
           const publicId = ulid();
           const folder =
-            process.env.NODE_ENV === "production" ? "prod" : "non-prod";
+            config.get("NODE_ENV") === "production" ? "prod" : "non-prod";
 
           const signature = `folder=${folder}&public_id=${publicId}&timestamp=${unixTime}${CLOUDINARY_API_SECRET}`;
           const shasum = crypto.createHash("sha1");

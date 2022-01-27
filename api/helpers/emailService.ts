@@ -1,9 +1,9 @@
-import { ulid } from "ulid";
 import FormData from "form-data";
 import MailGun from "mailgun.js";
+import { ulid } from "ulid";
 
 import { assertIsError } from "../../shared";
-import { log } from "../config";
+import { config, log } from "../config";
 
 const mailGunClient = new MailGun(FormData);
 
@@ -18,9 +18,9 @@ export function emailService() {
     html: string;
   }) => {
     try {
-      const baseUrl = process.env.MAILGUN_BASE_URL || "";
-      const domain = process.env.MAILGUN_DOMAIN || "";
-      const apiKey = process.env.MAILGUN_API_KEY || "";
+      const baseUrl = config.get("MAILGUN_BASE_URL");
+      const domain = config.get("MAILGUN_DOMAIN");
+      const apiKey = config.get("MAILGUN_API_KEY");
 
       const formData = new FormData();
 

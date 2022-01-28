@@ -3,14 +3,16 @@ import Qty from "js-quantities";
 import { log } from "../config";
 
 export function numberToStringUnit({
-  work,
+  work: startingWork,
   incomingUnit,
   outgoingUnits,
 }: {
-  work: number;
+  work?: number | string;
   incomingUnit: string;
   outgoingUnits: string[];
 }): string {
+  const work = startingWorkToNumber(startingWork);
+
   if (!work) {
     return "0";
   }
@@ -56,4 +58,17 @@ export function numberToStringUnit({
     });
     return `${work}`;
   }
+}
+
+function startingWorkToNumber(work: undefined | string | number): number {
+  if (work === undefined) {
+    return 0;
+  }
+  if (typeof work === "number") {
+    return work;
+  }
+  if (typeof work === "string") {
+    return parseInt(work, 10);
+  }
+  return 0;
 }

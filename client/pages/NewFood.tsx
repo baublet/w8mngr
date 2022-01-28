@@ -1,13 +1,13 @@
 import React from "react";
 
-import { PageHeading } from "../components/Type/PageHeading";
-import { FoodCircleIcon } from "../components/Icons/FoodCircle";
-import { NewFoodForm } from "../components/Foods";
 import { BackToButton } from "../components/Button/BackTo";
+import { NewFoodForm } from "../components/Foods";
+import { FoodCircleIcon } from "../components/Icons/FoodCircle";
+import { PageHeading } from "../components/Type/PageHeading";
 
 export function NewFood() {
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
       <PageHeading
         icon={<FoodCircleIcon />}
         quickLinks={

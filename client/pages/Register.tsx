@@ -1,14 +1,14 @@
 import React from "react";
 import { useHistory } from "react-router";
 
-import { ContentLayout } from "../components/Containers/ContentLayout";
-import { ContentContainer } from "../components/Containers/ContentContainer";
-import { PageHeading } from "../components/Type/PageHeading";
-import { Form, Input } from "../components/Forms";
 import { SecondaryButton } from "../components/Button/Secondary";
+import { ContentContainer } from "../components/Containers/ContentContainer";
+import { ContentLayout } from "../components/Containers/ContentLayout";
+import { Form, Input } from "../components/Forms";
 import { Spacer } from "../components/Spacer";
+import { PageHeading } from "../components/Type/PageHeading";
+import { GetCurrentUserDocument, useRegisterMutation } from "../generated";
 import { useForm, useToast } from "../helpers";
-import { useRegisterMutation, GetCurrentUserDocument } from "../generated";
 
 export function Register() {
   const { replace } = useHistory();
@@ -39,7 +39,7 @@ export function Register() {
   }, [loading]);
 
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
       <PageHeading>Register</PageHeading>
       <ContentContainer>
         <ContentLayout

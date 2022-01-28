@@ -1,15 +1,14 @@
 import React from "react";
 
-import { ContentLayout } from "../components/Containers/ContentLayout";
-import { ContentContainer } from "../components/Containers/ContentContainer";
-import { PageHeading } from "../components/Type/PageHeading";
-import { SecondaryOutlineButton } from "../components/Button/SecondaryOutline";
 import { SecondaryButton } from "../components/Button/Secondary";
+import { SecondaryOutlineButton } from "../components/Button/SecondaryOutline";
+import { ContentContainer } from "../components/Containers/ContentContainer";
+import { ContentLayout } from "../components/Containers/ContentLayout";
 import { FoodCircleIcon } from "../components/Icons/FoodCircle";
-import { MacrosPieChart, NutritionChart } from "../components/Nutrition";
-
-import { useGetFoodLogStatsQuery } from "../generated";
 import { PrimaryLoader } from "../components/Loading/Primary";
+import { MacrosPieChart, NutritionChart } from "../components/Nutrition";
+import { PageHeading } from "../components/Type/PageHeading";
+import { useGetFoodLogStatsQuery } from "../generated";
 
 export function Nutrition() {
   const { data } = useGetFoodLogStatsQuery();
@@ -18,7 +17,7 @@ export function Nutrition() {
   const summary = data?.currentUser?.foodLogStats.summary;
 
   return (
-    <div>
+    <div className="flex flex-col w-full gap-4">
       <PageHeading icon={<FoodCircleIcon />}>Nutrition Dashboard</PageHeading>
       <ContentContainer>
         <ContentLayout

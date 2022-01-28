@@ -1,13 +1,13 @@
 import React from "react";
 
-import { PageHeading } from "../components/Type/PageHeading";
+import { NewActivityForm } from "../components/Activity";
 import { BackToButton } from "../components/Button/BackTo";
 import { HealthCircleIcon } from "../components/Icons/HealthCircle";
-import { NewActivityForm } from "../components/Activity";
+import { PageHeading } from "../components/Type/PageHeading";
 
 export function NewActivity() {
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
       <PageHeading
         icon={<HealthCircleIcon />}
         quickLinks={

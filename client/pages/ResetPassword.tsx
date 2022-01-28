@@ -1,14 +1,14 @@
 import React from "react";
 import { useHistory, useParams } from "react-router";
 
-import { ContentLayout } from "../components/Containers/ContentLayout";
-import { ContentContainer } from "../components/Containers/ContentContainer";
-import { PageHeading } from "../components/Type/PageHeading";
-import { Form, Input } from "../components/Forms";
 import { SecondaryButton } from "../components/Button/Secondary";
+import { ContentContainer } from "../components/Containers/ContentContainer";
+import { ContentLayout } from "../components/Containers/ContentLayout";
+import { Form, Input } from "../components/Forms";
 import { Spacer } from "../components/Spacer";
+import { PageHeading } from "../components/Type/PageHeading";
+import { GetCurrentUserDocument, useResetPasswordMutation } from "../generated";
 import { useForm, useToast } from "../helpers";
-import { useResetPasswordMutation, GetCurrentUserDocument } from "../generated";
 
 export function ResetPassword() {
   const { token } = useParams<{ token: string }>();
@@ -42,7 +42,7 @@ export function ResetPassword() {
   }, [loading]);
 
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
       <PageHeading>Reset Password</PageHeading>
       <ContentContainer>
         <ContentLayout

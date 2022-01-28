@@ -4,7 +4,7 @@ import { GhostInvertedButton } from "./GhostInverted";
 
 export function AddButton(
   props: React.HTMLProps<HTMLButtonElement>
-): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
+) {
   return (
     <GhostInvertedButton
       {...props}

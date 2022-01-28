@@ -1,10 +1,10 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import { PageHeading } from "../components/Type/PageHeading";
-import { FoodCircleIcon } from "../components/Icons/FoodCircle";
-import { EditFoodForm } from "../components/Foods";
 import { BackToButton } from "../components/Button/BackTo";
+import { EditFoodForm } from "../components/Foods";
+import { FoodCircleIcon } from "../components/Icons/FoodCircle";
+import { PageHeading } from "../components/Type/PageHeading";
 
 export function EditFood() {
   const { id } = useParams<{ id: string }>();
@@ -12,7 +12,7 @@ export function EditFood() {
     return null;
   }
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
       <PageHeading
         icon={<FoodCircleIcon />}
         quickLinks={

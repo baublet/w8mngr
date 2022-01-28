@@ -1,13 +1,13 @@
 import React from "react";
 
-import { ContentLayout } from "../components/Containers/ContentLayout";
 import { ContentContainer } from "../components/Containers/ContentContainer";
-import { PageHeading } from "../components/Type/PageHeading";
+import { ContentLayout } from "../components/Containers/ContentLayout";
 import { AsyncMarkdown } from "../components/Markdown";
+import { PageHeading } from "../components/Type/PageHeading";
 
 export function TermsOfService() {
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
       <PageHeading>Terms of Service</PageHeading>
       <ContentContainer>
         <ContentLayout

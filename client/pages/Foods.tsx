@@ -1,16 +1,16 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
+import { SecondaryButton } from "../components/Button/Secondary";
 import { ContentContainer } from "../components/Containers/ContentContainer";
-import { PageHeading } from "../components/Type/PageHeading";
-import { FoodCircleIcon } from "../components/Icons/FoodCircle";
 import { ContentLayout } from "../components/Containers/ContentLayout";
 import { FoodsList } from "../components/Foods";
-import { SecondaryButton } from "../components/Button/Secondary";
+import { FoodCircleIcon } from "../components/Icons/FoodCircle";
+import { PageHeading } from "../components/Type/PageHeading";
 
 export function Foods() {
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
       <PageHeading icon={<FoodCircleIcon />}>Your Foods</PageHeading>
       <ContentContainer>
         <ContentLayout

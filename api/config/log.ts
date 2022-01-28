@@ -9,7 +9,7 @@ export function log(
   message: string,
   details?: Record<string, any>
 ): void {
-  if (suppressConsoleLogging) {
+  if (suppressConsoleLogging === "true") {
     return;
   }
   let text: string = level + " [" + new Date().toISOString() + "] " + message;

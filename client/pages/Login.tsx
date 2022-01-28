@@ -1,14 +1,14 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { useForm, useToast } from "../helpers";
-import { ContentLayout } from "../components/Containers/ContentLayout";
-import { ContentContainer } from "../components/Containers/ContentContainer";
-import { PageHeading } from "../components/Type/PageHeading";
-import { useLoginMutation, GetCurrentUserDocument } from "../generated";
-import { Form, Input } from "../components/Forms";
 import { SecondaryButton } from "../components/Button/Secondary";
+import { ContentContainer } from "../components/Containers/ContentContainer";
+import { ContentLayout } from "../components/Containers/ContentLayout";
+import { Form, Input } from "../components/Forms";
 import { Link } from "../components/Link";
+import { PageHeading } from "../components/Type/PageHeading";
+import { GetCurrentUserDocument, useLoginMutation } from "../generated";
+import { useForm, useToast } from "../helpers";
 
 export function Login() {
   const { push } = useHistory();
@@ -36,7 +36,7 @@ export function Login() {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
       <PageHeading>Login</PageHeading>
       <ContentContainer>
         <ContentLayout

@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { PrimaryLoader } from "../components/Loading/Primary";
 import { PageHeading } from "../components/Type/PageHeading";
-import { useLogoutMutation, GetCurrentUserDocument } from "../generated";
+import { GetCurrentUserDocument, useLogoutMutation } from "../generated";
 
 export function Logout() {
   const { push } = useHistory();
@@ -23,7 +23,7 @@ export function Logout() {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col gap-2 w-full">
       <PageHeading className="text-center">Logging out...</PageHeading>
       <ContentContainer>
         <div className="mx-auto">

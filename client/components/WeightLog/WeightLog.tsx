@@ -1,19 +1,13 @@
 import React from "react";
-import cx from "classnames";
 import { useParams } from "react-router";
-
-import { DayNavigator } from "../DayNavigator";
-import { Spacer } from "../Spacer";
-import { PrimaryLoader } from "../Loading/Primary";
 
 import { dayStringFromDate, getWithDefault } from "../../../shared";
 import { useGetCurrentUserWeightLogQuery } from "../../generated";
-import { WeightLogEntry } from "./WeightLogEntry";
+import { DayNavigator } from "../DayNavigator";
+import { PrimaryLoader } from "../Loading/Primary";
+import { Spacer } from "../Spacer";
 import { NewWeightLog } from "./NewWeightLog";
-
-export type NewWeightLogFormObject = {
-  weight: string;
-};
+import { WeightLogEntry } from "./WeightLogEntry";
 
 export function WeightLog() {
   const { day } = useParams<{ day?: string }>();

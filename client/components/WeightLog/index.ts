@@ -1,1 +1,1 @@
-export {WeightLog} from "./WeightLog"
+export { WeightLog } from "./WeightLog";

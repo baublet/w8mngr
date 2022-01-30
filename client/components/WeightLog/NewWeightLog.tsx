@@ -1,16 +1,15 @@
-import React from "react";
 import cx from "classnames";
-
-import { useForm, useToast } from "../../helpers";
-import { PanelInverted } from "../Containers/PanelInverted";
-import { NewWeightLogFormObject } from "./WeightLog";
-import { Form, InputInverted } from "../Forms";
-import { PrimaryLightSaveButton } from "../Button/PrimaryLightSave";
+import React from "react";
 
 import {
   GetCurrentUserWeightLogDocument,
   useCreateOrUpdateWeightLogMutation,
 } from "../../generated";
+import { useForm, useToast } from "../../helpers";
+import { PrimaryLightSaveButton } from "../Button/PrimaryLightSave";
+import { PanelInverted } from "../Containers/PanelInverted";
+import { Form, InputInverted } from "../Forms";
+import { NewWeightLogFormObject } from "./types";
 
 export function NewWeightLog({ day }: { day: string }) {
   const formData = useForm<NewWeightLogFormObject>();

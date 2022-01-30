@@ -1,21 +1,19 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 
+import { useForm, useKeyPressHandler } from "../../helpers";
 import { PrimaryIconButton } from "../Button/PrimaryIcon";
-import { LeftIcon } from "../Icons/Left";
-import { RightIcon } from "../Icons/Right";
-import { Add } from "../Icons/Add";
 import { SystemOutlineButton } from "../Button/SystemOutline";
-import { Input } from "../Forms";
-import { Link } from "../Link";
-
 import {
   getMeasurementWithMultiplier,
   measurementStringToNumberOrUndefined,
 } from "../Foods/FoodListItem";
-
-import { useForm, useKeyPressHandler } from "../../helpers";
-import { FoodLogInput } from "./FoodSearchAutocomplete";
+import { Input } from "../Forms";
+import { Add } from "../Icons/Add";
+import { LeftIcon } from "../Icons/Left";
+import { RightIcon } from "../Icons/Right";
+import { Link } from "../Link";
+import { FoodLogInput } from "./types";
 
 export function MeasurementList({
   food,

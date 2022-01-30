@@ -1,15 +1,15 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 
-import { useForm, useToast } from "../../helpers";
-import { Form, InputFoodEntry } from "../Forms";
 import {
   GetCurrentUserWeightLogDocument,
   useCreateOrUpdateWeightLogMutation,
   useDeleteWeightLogMutation,
 } from "../../generated";
-import { Panel } from "../Containers";
+import { useForm, useToast } from "../../helpers";
 import { DeleteIconButton } from "../Button/DeleteIconButton";
+import { Panel } from "../Containers";
+import { Form, InputFoodEntry } from "../Forms";
 
 export function WeightLogEntry({
   entry,

@@ -1,26 +1,18 @@
-import React from "react";
 import cx from "classnames";
-
-import { SideBarHeading } from "../Type/SideBarHeading";
-import { ButtonSpinner } from "../Loading/ButtonSpinner";
-import { Add } from "../Icons/Add";
-import { SystemOutlineIconButton } from "../Button/SystemOutlineIcon";
+import React from "react";
 
 import {
-  useSearchFoodsQuery,
-  useCreateOrUpdateFoodLogMutation,
   GetCurrentUserFoodLogDocument,
+  useCreateOrUpdateFoodLogMutation,
+  useSearchFoodsQuery,
 } from "../../generated";
 import { useKeyPressHandler } from "../../helpers";
+import { SystemOutlineIconButton } from "../Button/SystemOutlineIcon";
+import { Add } from "../Icons/Add";
+import { ButtonSpinner } from "../Loading/ButtonSpinner";
+import { SideBarHeading } from "../Type/SideBarHeading";
 import { MeasurementList } from "./FoodSearchAutocompleteMeasurementsList";
-
-export type FoodLogInput = {
-  description: string;
-  calories?: number;
-  fat?: number;
-  carbs?: number;
-  protein?: number;
-};
+import { FoodLogInput } from "./types";
 
 export function FoodSearchAutocomplete({
   searchTerm = "",

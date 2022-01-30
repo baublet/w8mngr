@@ -14,7 +14,7 @@ import type {
 import { ActivityType, Muscle } from "../api/graphql-types";
 
 import knexConfig from "../knexfile";
-import { config } from "../api/config/config"
+import { config } from "../api/config/config";
 
 const database = config.get("DATABASE");
 const newDb = knex((knexConfig as any)[database]);
@@ -116,6 +116,7 @@ async function seedUsers(): Promise<void> {
           id: userId,
           createdAt: entry.created_at,
           preferredName: entry.email,
+          role: entry.email === "baublet@gmail.com" ? "admin" : undefined,
         } as UserEntity;
       })
     );
@@ -388,12 +389,12 @@ async function seedMeasurements(): Promise<void> {
 
     const legacyFoodIdUserId = newFoods.reduce((acc, newFood) => {
       const legacyId = newFood.legacyId;
-      if(legacyId) {
+      if (legacyId) {
         acc[legacyId] = newFood.userId;
       }
 
       return acc;
-    }, <Record<number, string>>{})
+    }, <Record<number, string>>{});
 
     measurementsToAdd.push(
       ...measurements.map((measurement) => ({

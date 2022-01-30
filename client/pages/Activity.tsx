@@ -60,9 +60,11 @@ export function Activity() {
               >
                 Log Activity
               </SecondaryButton>
-              <SecondaryOutlineButton full to={`/activities/edit/${id}`}>
-                Edit Activity
-              </SecondaryOutlineButton>
+              {activity.permissions.edit && (
+                <SecondaryOutlineButton full to={`/activities/edit/${id}`}>
+                  Edit Activity
+                </SecondaryOutlineButton>
+              )}
               <ActivityStatsComponent queryData={data} />
             </div>
           }

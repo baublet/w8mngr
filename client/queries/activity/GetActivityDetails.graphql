@@ -17,6 +17,10 @@ query GetActivityDetails($id: ID!) {
           type
           exrx
           muscleGroups
+          permissions {
+            delete
+            edit
+          }
           stats {
             personalRecord {
               reps

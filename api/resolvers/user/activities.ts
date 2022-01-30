@@ -1,5 +1,6 @@
 import { getWithDefault } from "../../../shared";
 import { activityDataService } from "../../dataServices";
+import { userDataService } from "../../dataServices";
 import { UserResolvers } from "../../graphql-types";
 
 export const activities: UserResolvers["activities"] = async (
@@ -8,8 +9,11 @@ export const activities: UserResolvers["activities"] = async (
   context
 ) => {
   const filters = getWithDefault(input?.filter, {});
+  const currentUserId = parent.id;
+  const adminUsers = await userDataService.getAdminUsers(context);
   const connectionResolver = await activityDataService.getConnection(context, {
     applyCustomConstraint: (query) => {
+      query.whereIn("userId", [currentUserId, ...adminUsers.map((u) => u.id)]);
       const searchString = input?.filter?.searchString;
       if (searchString) {
         query.andWhereRaw("UPPER(name) LIKE ?", [
@@ -18,7 +22,6 @@ export const activities: UserResolvers["activities"] = async (
       }
     },
     constraint: {
-      userId: context.getCurrentUserId(true),
       id: filters.id,
     },
     connectionResolverParameters: {

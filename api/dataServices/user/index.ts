@@ -1,5 +1,6 @@
 import { authenticate } from "./authenticate";
 import { create } from "./create";
+import { getAdminUsers } from "./getAdminUsers";
 import { login } from "./login";
 import { loginWithToken } from "./loginWithToken";
 import { logout } from "./logout";
@@ -11,6 +12,7 @@ export const userDataService = {
   ...rootService,
   authenticate,
   create,
+  getAdminUsers,
   login,
   loginWithToken,
   logout,

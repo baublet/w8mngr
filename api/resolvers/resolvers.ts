@@ -1,6 +1,7 @@
 import { Resolvers } from "../graphql-types";
 import { activityLogs } from "./activity/logs";
 import { activityMuscleGroups } from "./activity/musclesGroups";
+import { activityPermissions } from "./activity/permissions";
 import { activityStats } from "./activity/stats";
 import { activityLogActivity } from "./activityLog/activity";
 import { activityLogWork } from "./activityLog/work";
@@ -48,6 +49,7 @@ export const resolvers: Resolvers = {
   Activity: {
     logs: activityLogs,
     muscleGroups: activityMuscleGroups,
+    permissions: activityPermissions,
     stats: activityStats,
   },
   User: {

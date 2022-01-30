@@ -471,6 +471,12 @@ type Activity {
   intensity: Int!
   logs(day: String): ActivityLogConnection!
   stats: ActivityStats!
+  permissions: GenericObjectPermissions!
+}
+
+type GenericObjectPermissions {
+  edit: Boolean!
+  delete: Boolean!
 }
 
 type Upload {

@@ -1,10 +1,9 @@
-import { createDataService } from "../createDataService";
-import { getQuery } from "./query";
-import {deleteFoodMeasurement} from "./delete"
+import { deleteFoodMeasurement } from "./delete";
+import { rootService } from "./rootService";
 
 export const foodMeasurementDataService = {
-  ...createDataService(getQuery, "FoodMeasurement"),
-  deleteFoodMeasurement
+  ...rootService,
+  deleteFoodMeasurement,
 };
 
 export { FoodMeasurement } from "./types";

@@ -1,10 +1,9 @@
-import { Context } from "../../createContext";
-import { weightLogDataService } from "./index";
-import { WeightLogInput } from "../../graphql-types";
-import { dbService } from "../../config";
-import { WeightLog } from "./types";
 import { assertIsError } from "../../../shared";
-import { doTimes, rawInputToUnit } from "../../helpers";
+import { dbService } from "../../config";
+import { Context } from "../../createContext";
+import { WeightLogInput } from "../../graphql-types";
+import { rawInputToUnit } from "../../helpers";
+import { rootService } from "./rootService";
 
 export async function saveMutation(
   context: Context,
@@ -22,7 +21,7 @@ export async function saveMutation(
   await db.transact();
 
   try {
-    await weightLogDataService.upsert(
+    await rootService.upsert(
       context,
       input.map((input) => ({
         id: input.id,
@@ -39,7 +38,7 @@ export async function saveMutation(
     await db.commit();
     return {
       errors: [],
-      logs: weightLogDataService.getConnection(context, {
+      logs: rootService.getConnection(context, {
         additionalRootResolvers: {
           day,
         },

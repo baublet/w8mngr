@@ -3,7 +3,7 @@ import crypto from "crypto";
 import { config } from "../../config";
 import { Context } from "../../createContext";
 import { UploadUrlType } from "../../graphql-types";
-import { uploadDataService } from "./index";
+import { rootService } from "./rootService";
 
 const TRANSFORMATIONS_MAP: Record<
   UploadUrlType,
@@ -29,7 +29,7 @@ export async function getPublicUrl(
   }
 
   const currentUserId = context.getCurrentUserId();
-  const upload = await uploadDataService.findOneOrFail(context, (q) => {
+  const upload = await rootService.findOneOrFail(context, (q) => {
     q.where("id", "=", uploadId);
     if (currentUserId) {
       q.andWhere("userId", "=", currentUserId);

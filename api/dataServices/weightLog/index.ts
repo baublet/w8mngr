@@ -1,9 +1,8 @@
-import { createDataService } from "../createDataService";
-import { getQuery } from "./query";
+import { rootService } from "./rootService";
 import { saveMutation } from "./saveMutation";
 
 export const weightLogDataService = {
-  ...createDataService(getQuery, "WeightLog"),
+  ...rootService,
   saveMutation,
 };
 

@@ -1,8 +1,8 @@
-import { Context } from "../../createContext";
-import { foodDataService } from "./index";
-import { foodMeasurementDataService } from "../foodMeasurement";
-import { FoodInput } from "../../graphql-types";
 import { dbService } from "../../config";
+import { Context } from "../../createContext";
+import { FoodInput } from "../../graphql-types";
+import { foodMeasurementDataService } from "../foodMeasurement";
+import { rootService } from "./rootService";
 
 export async function saveMutation(
   context: Context,
@@ -13,7 +13,7 @@ export async function saveMutation(
   try {
     const { measurements, ...foodProperties } = input;
 
-    const upsertResults = await foodDataService.upsert(
+    const upsertResults = await rootService.upsert(
       context,
       [{ ...foodProperties, userId }],
       (q) => q.where("userId", "=", userId)
@@ -41,7 +41,7 @@ export async function saveMutation(
 
     await db.commit();
     return {
-      food: foodDataService.findOneOrFail(context, (q) =>
+      food: rootService.findOneOrFail(context, (q) =>
         q.where("id", "=", foodId).andWhere("userId", "=", userId)
       ),
     };

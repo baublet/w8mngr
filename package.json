@@ -14,7 +14,7 @@
     "db:migrate:develop": "knex migrate:latest --env develop",
     "db:download-cert": "bash scripts/downloadDBCert.sh",
     "db:seed": "DATABASE=production ts-node scripts/seedData.ts",
-    "db:reset": "yarn build:scripts && RECURRING_TASKS=false DATABASE=production node scripts/resetDatabase.js && yarn db:migrate && yarn db:seed",
+    "db:reset": "RECURRING_TASKS=false DATABASE=production ts-node scripts/resetDatabase.ts && yarn db:migrate && yarn db:seed",
     "db:migrate": "knex migrate:latest --env production",
     "db:importDumps": "yarn ts-node --transpile-only scripts/importDumps.ts",
     "develop": "pm2 stop all; pm2 delete all; pm2 delete ecosystem.config.js; pm2 start ecosystem.config.js; pm2 logs",

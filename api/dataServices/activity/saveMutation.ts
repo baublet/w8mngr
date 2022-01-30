@@ -1,8 +1,8 @@
-import { Context } from "../../createContext";
-import { activityDataService } from "./index";
-import { ActivityInput } from "../../graphql-types";
 import { dbService } from "../../config";
+import { Context } from "../../createContext";
+import { ActivityInput } from "../../graphql-types";
 import { activityMuscleDataService } from "../activityMuscle";
+import { rootService } from "./rootService";
 
 export async function saveMutation(
   context: Context,
@@ -13,7 +13,7 @@ export async function saveMutation(
   try {
     const { muscleGroups, ...activityProperties } = input;
 
-    const upsertResults = await activityDataService.upsert(
+    const upsertResults = await rootService.upsert(
       context,
       [{ ...activityProperties, userId }],
       (q) => q.where("userId", "=", userId)
@@ -40,7 +40,7 @@ export async function saveMutation(
 
     await db.commit();
     return {
-      activity: activityDataService.findOneOrFail(context, (q) =>
+      activity: rootService.findOneOrFail(context, (q) =>
         q.where("id", "=", activityId).andWhere("userId", "=", userId)
       ),
       errors: [],

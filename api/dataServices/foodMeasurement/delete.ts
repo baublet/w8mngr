@@ -1,7 +1,7 @@
 import { Context } from "../../createContext";
 import { getQuery } from "./query";
+import { rootService } from "./rootService";
 import { FoodMeasurement } from "./types";
-import { foodMeasurementDataService } from "./index";
 
 export async function deleteFoodMeasurement(
   context: Context,
@@ -10,9 +10,8 @@ export async function deleteFoodMeasurement(
   const queryService = await getQuery(context);
   const query = queryService();
 
-  const measurement = await foodMeasurementDataService.findOneOrFail(
-    context,
-    (q) => q.where("id", "=", id).andWhere("userId", "=", userId)
+  const measurement = await rootService.findOneOrFail(context, (q) =>
+    q.where("id", "=", id).andWhere("userId", "=", userId)
   );
   await query
     .delete()

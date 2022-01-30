@@ -1,9 +1,8 @@
-import { createDataService } from "../createDataService";
-import { getQuery } from "./query";
+import { rootService } from "./rootService";
 import { saveMutation } from "./saveMutation";
 
 export const foodDataService = {
-  ...createDataService(getQuery, "Food"),
+  ...rootService,
   saveMutation,
 };
 

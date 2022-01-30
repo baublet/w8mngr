@@ -1,10 +1,9 @@
-import { createDataService } from "../createDataService";
-import { getQuery } from "./query";
-import { sendPendingEmails } from "./sendPendingEmails";
 import { create } from "./create";
+import { rootService } from "./rootService";
+import { sendPendingEmails } from "./sendPendingEmails";
 
 export const emailDataService = {
-  ...createDataService(getQuery, "Email"),
+  ...rootService,
   create,
   sendPendingEmails,
 };

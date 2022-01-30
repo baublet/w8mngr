@@ -1,11 +1,10 @@
-import { createDataService } from "../createDataService";
-import { getQuery } from "./query";
+import { popular } from "./popular";
+import { rootService } from "./rootService";
 import { saveMutation } from "./saveMutation";
 import { stats } from "./stats";
-import { popular } from "./popular";
 
 export const activityDataService = {
-  ...createDataService(getQuery, "Activity"),
+  ...rootService,
   popular,
   saveMutation,
   stats,

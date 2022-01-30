@@ -1,10 +1,9 @@
-import { createDataService } from "../createDataService";
-import { getQuery } from "./query";
-import {saveMutation} from "./saveMutation"
+import { rootService } from "./rootService";
+import { saveMutation } from "./saveMutation";
 
 export const activityLogDataService = {
-  ...createDataService(getQuery, "ActivityLog"),
-  saveMutation
+  ...rootService,
+  saveMutation,
 };
 
 export { ActivityLog } from "./types";

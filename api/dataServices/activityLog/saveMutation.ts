@@ -1,10 +1,10 @@
-import { Context } from "../../createContext";
-import { activityLogDataService } from "./index";
-import { ActivityLogInput } from "../../graphql-types";
-import { dbService } from "../../config";
-import { activityDataService } from "..";
 import { assertIsError } from "../../../shared";
+import { dbService } from "../../config";
+import { Context } from "../../createContext";
+import { ActivityLogInput } from "../../graphql-types";
 import { doTimes, rawInputToUnit } from "../../helpers";
+import { rootService } from "./rootService";
+import { activityDataService } from "..";
 
 export async function saveMutation(
   context: Context,
@@ -59,7 +59,7 @@ export async function saveMutation(
   await db.transact();
 
   try {
-    const upsertResults = await activityLogDataService.upsert(
+    const upsertResults = await rootService.upsert(
       context,
       entries.map((activityLog) => ({
         activityId: activity.id,

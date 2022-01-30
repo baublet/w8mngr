@@ -1,10 +1,11 @@
-import { Context, createContext } from "../../createContext";
-import { log } from "../../config";
-import { emailDataService, EmailEntity } from "./index";
-import { getQuery } from "./query";
-import { isValidTemplate, renderEmailTemplate } from "./templates";
 import { assertIsError } from "../../../shared";
+import { log } from "../../config";
+import { Context, createContext } from "../../createContext";
 import { emailService, registerRecurringTask } from "../../helpers";
+import { getQuery } from "./query";
+import { rootService } from "./rootService";
+import { isValidTemplate, renderEmailTemplate } from "./templates";
+import { EmailEntity } from "./types";
 
 registerRecurringTask({
   taskKey: "sendPendingEmails",
@@ -35,11 +36,9 @@ export async function sendPendingEmails(context: Context) {
 
 async function sendEmail(context: Context, email: EmailEntity): Promise<void> {
   if (!isValidTemplate(email.templateId)) {
-    await emailDataService.update(
-      context,
-      (q) => q.where("id", "=", email.id),
-      { sent: false }
-    );
+    await rootService.update(context, (q) => q.where("id", "=", email.id), {
+      sent: false,
+    });
     log("warn", "Invalid email template ID", { email });
     await logHistory({
       context,
@@ -49,7 +48,7 @@ async function sendEmail(context: Context, email: EmailEntity): Promise<void> {
     return;
   }
 
-  await emailDataService.update(context, (q) => q.where("id", "=", email.id), {
+  await rootService.update(context, (q) => q.where("id", "=", email.id), {
     sent: true,
   });
 
@@ -87,13 +86,9 @@ async function logHistory({
       date: new Date().toISOString(),
       text,
     });
-    await emailDataService.update(
-      context,
-      (q) => q.where("id", "=", email.id),
-      {
-        history: JSON.stringify(parsedHistory),
-      }
-    );
+    await rootService.update(context, (q) => q.where("id", "=", email.id), {
+      history: JSON.stringify(parsedHistory),
+    });
   } catch (error) {
     assertIsError(error);
     log("error", "Unexpected error updating email history!", {

@@ -1,4 +1,4 @@
-import { getQueryBuilderFactory } from "../../config";
+import { getQueryBuilderFactory } from "../../config/db";
 import { FoodLogFoodMeasurement } from "./types";
 
 export const getQuery = getQueryBuilderFactory<FoodLogFoodMeasurement>(

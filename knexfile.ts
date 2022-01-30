@@ -1,4 +1,5 @@
-import { config } from "./api/config";
+// Don't export this from `api/config`, or we'll hit an annoying little circular dependency issue.
+import { config } from "./api/config/config";
 
 export default {
   test: {

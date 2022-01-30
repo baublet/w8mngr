@@ -3,7 +3,8 @@ import crypto from "crypto";
 import { ulid } from "ulid";
 
 import { assertIsError, assertIsTruthy } from "../../../shared";
-import { config, dbService } from "../../config";
+import { config } from "../../config/config";
+import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
 import { uploadDataService } from "../upload";
 import { UploadToken } from "./type";

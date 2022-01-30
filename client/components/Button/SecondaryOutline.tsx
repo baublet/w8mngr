@@ -1,5 +1,5 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 
 import { BaseButton, BaseButtonProps } from "./Base";
 
@@ -7,7 +7,7 @@ type SecondaryOutlineButtonProps = BaseButtonProps;
 
 export function SecondaryOutlineButton(
   props: SecondaryOutlineButtonProps
-): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
+) {
   return (
     <BaseButton
       {...props}

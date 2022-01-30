@@ -1,14 +1,6 @@
 import { config } from "./api/config";
 
 export default {
-  develop: {
-    client: "sqlite3",
-    useNullAsDefault: true,
-    connection: {
-      filename: "./dev.sqlite3",
-    },
-  },
-
   test: {
     client: "sqlite3",
     useNullAsDefault: true,

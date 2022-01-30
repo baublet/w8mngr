@@ -2,13 +2,12 @@ import stringify from "json-stringify-safe";
 
 import { config } from "./config";
 
-const suppressConsoleLogging = config.get("SUPPRESS_CONSOLE_LOGGING");
-
 export function log(
   level: "debug" | "error" | "info" | "warn",
   message: string,
   details?: Record<string, any>
 ): void {
+  const suppressConsoleLogging = config.get("SUPPRESS_CONSOLE_LOGGING");
   if (suppressConsoleLogging === "true") {
     return;
   }

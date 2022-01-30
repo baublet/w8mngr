@@ -1,15 +1,15 @@
-import { Request, Response } from "express";
 import {
   ServiceContainer,
   createServiceContainer,
 } from "@baublet/service-container";
 import { ContextFunction } from "apollo-server-core";
+import { Request, Response } from "express";
 
-import { log } from "./config/log";
-import { UserEntity } from "./dataServices/user";
 import { authenticateRequest } from "./authentication";
-import { getClientId } from "./helpers";
+import { log } from "./config/log";
 import { UserAccountEntity } from "./dataServices";
+import { UserEntity } from "./dataServices/user";
+import { getClientId } from "./helpers";
 
 export interface Context {
   getClientId: () => string;

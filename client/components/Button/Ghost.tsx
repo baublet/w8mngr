@@ -1,5 +1,5 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 
 import { BaseButton, BaseButtonProps } from "./Base";
 
@@ -12,7 +12,9 @@ text-slate-800
 hover:text-slate-600
 `;
 
-export function GhostButton(props: BaseButtonProps) {
+export type GhostButtonProps = BaseButtonProps;
+
+export function GhostButton(props: GhostButtonProps) {
   return (
     <BaseButton {...props} className={cx(buttonClasses, props.className)} />
   );

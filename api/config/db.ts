@@ -1,4 +1,4 @@
-import path from "path";
+import { resolve } from "path";
 
 import { ServiceContainer } from "@baublet/service-container";
 import { Knex, knex } from "knex";
@@ -80,24 +80,7 @@ function getQueryBuilderFactory<TEntity = any>(tableName: string) {
   };
 }
 
-function getQueryProvider<TEntity = any>(tableName: string) {
-  return async (
-    context: Context,
-    performQuery: <T extends Knex.QueryBuilder<TEntity>>(
-      query: T
-    ) => T | Promise<T>
-  ) => {
-    const { getConnection } = await context.services.get(dbService);
-    const connection = await getConnection();
-
-    const query = connection<TEntity>(tableName);
-    const results = await performQuery(query);
-    log("debug", query.toQuery(), { bindings: query.toSQL().bindings });
-    return results;
-  };
-}
-
-export { dbService, dbSettings, getQueryProvider, getQueryBuilderFactory };
+export { dbService, dbSettings, getQueryBuilderFactory };
 
 export type QueryBuilderForQuery<
   T extends (
@@ -126,7 +109,7 @@ export async function testSetup() {
   const databaseService = await getTestGlobalContext().services.get(dbService);
   const connection = await databaseService.getConnection();
   await connection.migrate.latest({
-    directory: path.resolve(process.cwd(), "migrations"),
+    directory: resolve(process.cwd(), "migrations"),
   });
 }
 

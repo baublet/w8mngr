@@ -1,17 +1,14 @@
 import React from "react";
-import { LinkProps } from "react-router-dom";
 
-import { BaseButton } from "./Base";
+import { BaseButton, BaseButtonProps } from "./Base";
 
-export function TransparentIconButton(
-  props: React.HTMLProps<HTMLButtonElement> | LinkProps
-): React.ReactElement<React.HTMLProps<HTMLButtonElement | LinkProps>, any> {
+export type TransparentIconButtonProps = BaseButtonProps;
+
+export function TransparentIconButton(props: TransparentIconButtonProps) {
   return (
     <BaseButton
       {...props}
-      className={`p-1 color-inherit text-xs
-  ${props.className || ""}
-`}
+      className={`p-1 color-inherit text-xs ${props.className || ""}`}
     />
   );
 }

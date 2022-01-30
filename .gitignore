@@ -22,3 +22,5 @@ client-build
 postgres-data
 .yarn/cache
 .yarn/install-state.gz
+scripts/*.js
+scripts/*.js.map

@@ -1,11 +1,10 @@
 import React from "react";
-import { LinkProps } from "react-router-dom";
 
-import { BaseButton } from "./Base";
+import { BaseButton, BaseButtonProps } from "./Base";
 
-export function PrimarySmallButton(
-  props: React.HTMLProps<HTMLButtonElement> | LinkProps
-): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
+export type PrimarySmallButtonProps = BaseButtonProps;
+
+export function PrimarySmallButton(props: PrimarySmallButtonProps) {
   return (
     <BaseButton
       {...props}

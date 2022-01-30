@@ -4,6 +4,7 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("user", function (table) {
     table.text("id").notNullable().primary();
     table.string("preferredName");
+    table.string("legacyPreferences").nullable();
     table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
   });
 

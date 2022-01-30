@@ -1,7 +1,7 @@
-import { Context } from "../../createContext";
-import { TokenEntity } from "./types";
-import { getQuery } from "./query";
 import { createDigest } from "../../authentication";
+import { Context } from "../../createContext";
+import { getQuery } from "./query";
+import { TokenEntity } from "./types";
 
 export async function findByToken(
   context: Context,

@@ -48,6 +48,7 @@ export const config = createConfig({
   PUBLIC_URL: otherEnvValuesOrDefault(["URL"], "http://localhost:8080"),
   SALT: "Don't use the default, please!",
   SUPPRESS_CONSOLE_LOGGING: "false",
+  RECURRING_TASKS: "true",
 });
 
 function otherEnvValuesOrDefault(

@@ -1,9 +1,9 @@
 import React from "react";
 
-import { GhostInvertedButton } from "./GhostInverted";
+import { GhostInvertedButton, GhostInvertedButtonProps } from "./GhostInverted";
 
 export function AddButton(
-  props: React.HTMLProps<HTMLButtonElement>
+  props: GhostInvertedButtonProps
 ) {
   return (
     <GhostInvertedButton

@@ -1,11 +1,12 @@
 import React from "react";
-import { LinkProps } from "react-router-dom";
 
-import { BaseButton } from "./Base";
+import { BaseButton, BaseButtonProps } from "./Base";
+
+export type PullButtonProps = BaseButtonProps;
 
 export function PillButton(
-  props: React.HTMLProps<HTMLButtonElement> | LinkProps
-): React.ReactElement<React.HTMLProps<HTMLButtonElement>, any> {
+  props: PullButtonProps
+) {
   return (
     <BaseButton
       {...props}

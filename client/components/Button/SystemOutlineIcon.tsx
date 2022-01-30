@@ -1,10 +1,9 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 
-import { BaseButton, BaseButtonProps } from "./Base";
-import { BaseIconButtonProps, BaseIconButton } from "./BaseIcon";
+import { BaseIconButton, BaseIconButtonProps } from "./BaseIcon";
 
-type SystemOutlineProps = BaseButtonProps;
+type SystemOutlineProps = BaseIconButtonProps;
 
 export function SystemOutlineIconButton(props: SystemOutlineProps) {
   return (

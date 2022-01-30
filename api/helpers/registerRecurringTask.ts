@@ -2,9 +2,9 @@ import { config, log } from "../config";
 
 const taskIntervals: Map<string, number> = new Map();
 
-if (config.get("NODE_ENV") !== "test") {
+if (config.get("RECURRING_TASKS") === "true") {
   const killTasks = () => {
-    log("debug", "Stopping recurring tasks");
+    process.stdout.write("Stopping recurring tasks");
     for (const task of Array.from(taskIntervals.keys())) {
       clearInterval(taskIntervals.get(task));
     }

@@ -1,9 +1,11 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 
 import { BaseButton, BaseButtonProps } from "./Base";
 
-export function GhostInvertedButton(props: BaseButtonProps) {
+export type GhostInvertedButtonProps = BaseButtonProps;
+
+export function GhostInvertedButton(props: GhostInvertedButtonProps) {
   return (
     <BaseButton
       {...props}

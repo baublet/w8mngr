@@ -1,10 +1,10 @@
 import { ulid } from "ulid";
 
-import { Context } from "../../createContext";
-import { TokenEntity, TOKEN_EXPIRY_OFFSET } from "./types";
-import { getQuery } from "./query";
 import { createDigest } from "../../authentication";
-import { tokenDataService } from "./";
+import { Context } from "../../createContext";
+import { getQuery } from "./query";
+import { rootService as tokenDataService } from "./rootService";
+import { TOKEN_EXPIRY_OFFSET, TokenEntity } from "./types";
 
 export async function create(
   context: Context,

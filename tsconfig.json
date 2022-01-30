@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "module": "CommonJS",
     "baseUrl": ".",
     "jsx": "react",
     "esModuleInterop": true,
@@ -16,10 +17,10 @@
       "react/next"
     ]
   },
-
-  "include": ["**/*.ts", "**/*.tsx", "*.ts", "*.tsx"],
   "exclude": ["node_modules"],
   "ts-node": {
-    "transpileOnly": true
+    "transpileOnly": true,
+    "transpiler": "ts-node/transpilers/swc-experimental",
+    "require": ["tsconfig-paths/register"]
   }
 }

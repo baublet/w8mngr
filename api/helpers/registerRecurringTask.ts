@@ -1,4 +1,5 @@
-import { config, log } from "../config";
+import { config } from "../config/config";
+import { log } from "../config/log";
 
 const taskIntervals: Map<string, number> = new Map();
 

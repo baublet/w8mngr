@@ -1,6 +1,6 @@
-import { MutationResolvers } from "../../graphql-types";
+import { log } from "../../config/log";
 import { activityLogDataService } from "../../dataServices";
-import { log } from "../../config";
+import { MutationResolvers } from "../../graphql-types";
 
 export const saveActivityLog: MutationResolvers["saveActivityLog"] = async (
   parent,

@@ -1,8 +1,8 @@
-import { Context } from "../../createContext";
-import { tokenDataService } from "../token";
-import { ReturnTypeWithErrors } from "../../types";
-import { dbService } from "../../config";
 import { assertIsError, filterFalsyKeys } from "../../../shared";
+import { dbService } from "../../config/db";
+import { Context } from "../../createContext";
+import { ReturnTypeWithErrors } from "../../types";
+import { tokenDataService } from "../token";
 
 export async function logout(
   context: Context

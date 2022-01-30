@@ -1,13 +1,13 @@
-import { Knex } from "knex";
-import { ulid } from "ulid";
-import omit from "lodash.omit";
+import { ServiceContainer } from "@baublet/service-container";
 import DataLoader from "dataloader";
+import { Knex } from "knex";
+import omit from "lodash.omit";
+import { ulid } from "ulid";
 
 import { assertIsError } from "../../shared";
-import { dbService } from "../config";
+import { dbService } from "../config/db";
 import { Context, contextService } from "../createContext";
-import { errors, buildConnectionResolver } from "../helpers";
-import { ServiceContainer } from "@baublet/service-container";
+import { buildConnectionResolver, errors } from "../helpers";
 
 type PartiallyMaybe<T extends Record<string, any>> = {
   [K in keyof T]?: T[K] | undefined;

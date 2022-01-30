@@ -14,13 +14,12 @@ import cors from "cors";
 import express from "express";
 import createHandler from "serverless-http";
 
-import { config, log } from "./config";
+import { config } from "./config/config";
+import { log } from "./config/log";
 import { Context, createGraphqlContext } from "./createContext";
 import { resolvers } from "./resolvers";
 
-require('dotenv').config()
-
-
+require("dotenv").config();
 
 const typeDefs = fs
   .readFileSync(path.resolve(__dirname, "config", "schema.graphql"))
@@ -83,7 +82,7 @@ export const server = new ApolloServer({
 
 export const handler = createHandler(app);
 
-if (config.get("NETLIFY")== "true") {
+if (config.get("NETLIFY") == "true") {
   log(
     "info",
     "Netlify build detected. Booting server and applying GQL middleware"

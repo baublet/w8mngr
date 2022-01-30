@@ -1,4 +1,4 @@
-import { dbService } from "../../config";
+import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
 import { ActivityInput } from "../../graphql-types";
 import { activityMuscleDataService } from "../activityMuscle";

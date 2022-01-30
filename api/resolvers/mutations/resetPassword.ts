@@ -1,11 +1,8 @@
-import { MutationResolvers } from "../../graphql-types";
+import { log } from "../../config/log";
 import {
-  tokenDataService,
-  emailDataService,
-  userAccountDataService,
   userDataService,
 } from "../../dataServices";
-import { log } from "../../config";
+import { MutationResolvers } from "../../graphql-types";
 
 export const resetPassword: MutationResolvers["resetPassword"] = async (
   parent,

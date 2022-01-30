@@ -14,7 +14,7 @@ import type {
 import { ActivityType, Muscle } from "../api/graphql-types";
 
 import knexConfig from "../knexfile";
-import { config } from "../api/config"
+import { config } from "../api/config/config"
 
 const database = config.get("DATABASE");
 const newDb = knex((knexConfig as any)[database]);

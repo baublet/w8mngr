@@ -1,15 +1,15 @@
-import { Context } from "../../createContext";
-import { UserEntity } from "./types";
-import { userDataService } from "./";
-import { userAccountDataService } from "../userAccount/";
-import { tokenDataService } from "../token";
-import { doesHashMatch } from "../../authentication";
-import { ReturnTypeWithErrors } from "../../types";
-import { errors } from "../../helpers";
-import { log } from "../../config";
-import { dbService } from "../../config";
-import { TOKEN_EXPIRY_OFFSET } from "../token/types";
 import { assertIsError } from "../../../shared";
+import { doesHashMatch } from "../../authentication";
+import { dbService } from "../../config/db";
+import { log } from "../../config/log";
+import { Context } from "../../createContext";
+import { errors } from "../../helpers";
+import { ReturnTypeWithErrors } from "../../types";
+import { tokenDataService } from "../token";
+import { TOKEN_EXPIRY_OFFSET } from "../token/types";
+import { userAccountDataService } from "../userAccount";
+import { rootService } from "./rootService";
+import { UserEntity } from "./types";
 
 export async function login(
   context: Context,
@@ -42,7 +42,7 @@ export async function login(
       throw new errors.LoginFailedError("Invalid credentials");
     }
 
-    const user = await userDataService.findOneOrFail(context, (q) =>
+    const user = await rootService.findOneOrFail(context, (q) =>
       q.where("id", "=", account.userId)
     );
 

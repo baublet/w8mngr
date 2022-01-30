@@ -3,7 +3,8 @@ import MailGun from "mailgun.js";
 import { ulid } from "ulid";
 
 import { assertIsError } from "../../shared";
-import { config, log } from "../config";
+import { config } from "../config/config";
+import { log } from "../config/log";
 
 const mailGunClient = new MailGun(FormData);
 

@@ -1,6 +1,6 @@
-import { Templates, templates } from "./templates";
-import { log } from "../../../config";
 import { assertIsError } from "../../../../shared";
+import { log } from "../../../config/log";
+import { Templates, templates } from "./templates";
 
 export type EmailTemplateKey = keyof Templates;
 export type EmailTemplates = Templates;

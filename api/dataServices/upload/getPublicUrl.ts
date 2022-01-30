@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-import { config } from "../../config";
+import { config } from "../../config/config";
 import { Context } from "../../createContext";
 import { UploadUrlType } from "../../graphql-types";
 import { rootService } from "./rootService";

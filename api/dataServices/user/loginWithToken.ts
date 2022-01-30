@@ -1,14 +1,14 @@
-import { Context } from "../../createContext";
-import { ReturnTypeWithErrors } from "../../types";
-import { TOKEN_EXPIRY_OFFSET } from "../token/types";
-import { UserEntity } from "./types";
 import { assertIsError } from "../../../shared";
 import { createDigest } from "../../authentication";
-import { dbService } from "../../config";
+import { dbService } from "../../config/db";
+import { Context } from "../../createContext";
 import { errors } from "../../helpers";
+import { ReturnTypeWithErrors } from "../../types";
 import { tokenDataService } from "../token";
+import { TOKEN_EXPIRY_OFFSET } from "../token/types";
 import { userAccountDataService } from "../userAccount/";
 import { userDataService } from "./";
+import { UserEntity } from "./types";
 
 export async function loginWithToken(
   context: Context,

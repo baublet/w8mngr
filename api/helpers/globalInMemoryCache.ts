@@ -1,4 +1,4 @@
-import { log } from "../config";
+import { log } from "../config/log";
 import { registerRecurringTask } from "./registerRecurringTask";
 
 const cache = new Map<string, { value: any; expiry: number }>();

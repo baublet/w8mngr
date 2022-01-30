@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-import { config } from "../config";
+import { config } from "../config/config";
 
 export function createDigest(subject: string = ""): string {
   const hash = crypto.createHmac("sha512", config.get("SALT"));

@@ -1,4 +1,4 @@
-import { log } from "../../config";
+import { log } from "../../config/log";
 import {
   emailDataService,
   tokenDataService,

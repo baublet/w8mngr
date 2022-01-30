@@ -1,5 +1,5 @@
 import { assertIsError } from "../../../shared";
-import { log } from "../../config";
+import { log } from "../../config/log";
 import { Context, createContext } from "../../createContext";
 import { emailService, registerRecurringTask } from "../../helpers";
 import { getQuery } from "./query";

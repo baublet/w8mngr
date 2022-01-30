@@ -1,5 +1,5 @@
 import { assertIsError } from "../../../shared";
-import { dbService } from "../../config";
+import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
 import { ActivityLogInput } from "../../graphql-types";
 import { doTimes, rawInputToUnit } from "../../helpers";

@@ -1,6 +1,6 @@
-import { MutationResolvers } from "../../graphql-types";
+import { log } from "../../config/log";
 import { uploadTokenDataService } from "../../dataServices";
-import { log } from "api/config";
+import { MutationResolvers } from "../../graphql-types";
 
 export const getUploadTokens: MutationResolvers["getUploadTokens"] = async (
   parent,

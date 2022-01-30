@@ -1,6 +1,6 @@
 import Qty from "js-quantities";
 
-import { log } from "../config";
+import { log } from "../config/log";
 import { Context } from "../createContext";
 import { settingsService } from "./settingsService";
 

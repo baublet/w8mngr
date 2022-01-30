@@ -1,8 +1,8 @@
-import { QueryBuilder } from "../../config";
-import { validateArguments } from "./validateArguments";
-import { isBefore } from "./isBefore";
 import { assertIsError } from "../../../shared";
-import { log } from "../../config";
+import { QueryBuilder } from "../../config/db";
+import { log } from "../../config/log";
+import { isBefore } from "./isBefore";
+import { validateArguments } from "./validateArguments";
 
 export type Connection<TEntity, TNode = TEntity> = Resolvable<{
   pageInfo: {

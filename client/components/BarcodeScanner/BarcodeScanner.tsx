@@ -1,8 +1,8 @@
-import React from "react";
-import cx from "classnames";
 import Quagga from "@ericblade/quagga2";
+import cx from "classnames";
+import React from "react";
 
-import { ButtonSpinner } from "../Loading/ButtonSpinner";
+import { ButtonSpinnerIcon } from "../Loading/ButtonSpinner";
 import { ScannerResults } from "./ScannerResults";
 
 const scannerVideoId = "reader";
@@ -46,7 +46,7 @@ export function BarcodeScanner({ day }: { day: string }) {
           )}
         >
           <div className="absolute top-0 right-0 bottom-0 left-0 bg-slate-900 flex text-slate-50 justify-center items-center">
-            <ButtonSpinner />
+            <ButtonSpinnerIcon />
           </div>
           <div
             id={scannerVideoId}

@@ -1,18 +1,17 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 
-import { Input, MultilineInput } from "../Forms";
-import { Spacer } from "../Spacer";
+import { useForm } from "../../helpers";
 import { SecondaryButton } from "../Button/Secondary";
 import { ContentContainer } from "../Containers/ContentContainer";
 import { ContentLayout } from "../Containers/ContentLayout";
+import { Input, MultilineInput } from "../Forms";
 import { Upload } from "../Forms/Upload";
+import { Spacer } from "../Spacer";
 import {
-  FormMeasurementInput,
   FoodMeasurementsForm,
+  FormMeasurementInput,
 } from "./FoodMeasurementsForm";
-
-import { useForm } from "../../helpers";
 
 type MeasurementInput = Omit<FormMeasurementInput, "internalId">;
 

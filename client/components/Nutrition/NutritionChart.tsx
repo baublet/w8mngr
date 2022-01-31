@@ -1,14 +1,14 @@
 import React from "react";
 import {
-  ComposedChart,
-  Line,
   Bar,
-  XAxis,
-  Tooltip,
-  ResponsiveContainer,
+  ComposedChart,
   Legend,
-  YAxis,
+  Line,
   ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
 
 import { FoodLogDataPoint } from "../../generated";

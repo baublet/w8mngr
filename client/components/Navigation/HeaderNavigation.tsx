@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import { IsLoggedIn } from "../Auth/IsLoggedIn";
 import { IsLoggedOut } from "../Auth/IsLoggedOut";

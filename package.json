@@ -18,7 +18,10 @@
     "db:migrate": "knex migrate:latest --env production",
     "db:importDumps": "yarn ts-node --transpile-only scripts/importDumps.ts",
     "develop": "pm2 stop all; pm2 delete all; pm2 delete ecosystem.config.js; pm2 start ecosystem.config.js; pm2 logs",
-    "test": "node -r ts-node/register ./node_modules/.bin/jest"
+    "test": "node -r ts-node/register ./node_modules/.bin/jest",
+    "postinstall": "husky install",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable"
   },
   "author": "Ryan M. Poe",
   "engines": {
@@ -100,13 +103,20 @@
     "@types/react-transition-group": "^4.4.4",
     "@vitejs/plugin-react": "^1.1.1",
     "express": "^4.17.1",
+    "husky": ">=6",
     "jest": "^27.3.1",
+    "lint-staged": ">=10",
+    "pinst": ">=2",
     "pm2": "^5.1.2",
+    "prettier": "^2.5.1",
     "vite": "^2.7.1"
   },
   "importSort": {
     ".ts, .tsx": {
       "style": "import-sort-style-module"
     }
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write"
   }
 }

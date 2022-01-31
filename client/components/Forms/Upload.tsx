@@ -1,19 +1,17 @@
-import React from "react";
 import cx from "classnames";
-
-import { DeleteIconButton } from "../Button/DeleteIconButton";
-import { uploadFiles } from "../../helpers/uploadFiles";
-import { ButtonSpinner } from "../Loading/ButtonSpinner";
-import { PrimaryLoader } from "../Loading/Primary";
+import React from "react";
 
 import { filterFalsyKeys } from "../../../shared";
-import { apolloClientService } from "../../helpers/apolloClientService";
-
 import {
   GetUploadDataDocument,
   GetUploadDataQueryResult,
   GetUploadDataQueryVariables,
 } from "../../generated";
+import { apolloClientService } from "../../helpers/apolloClientService";
+import { uploadFiles } from "../../helpers/uploadFiles";
+import { DeleteIconButton } from "../Button/DeleteIconButton";
+import { ButtonSpinnerIcon } from "../Loading/ButtonSpinner";
+import { PrimaryLoader } from "../Loading/Primary";
 
 const allWatchEvents = [
   "drag",
@@ -356,7 +354,7 @@ export function Upload({
                   {file.previewUrl ? (
                     <UploadPreview url={file.previewUrl} />
                   ) : (
-                    <ButtonSpinner />
+                    <ButtonSpinnerIcon />
                   )}
                   <div className="text-xs flex-grow truncate break-words max-w-full">
                     {file.name}

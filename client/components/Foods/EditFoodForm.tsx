@@ -1,16 +1,15 @@
-import React from "react";
 import omit from "lodash.omit";
-
-import { PrimaryLoader } from "../Loading/Primary";
-import { FoodForm } from "./FoodForm";
+import React from "react";
 
 import { withNumericKeys } from "../../../shared";
 import {
+  MeasurementInput,
   useGetFoodDetailsQuery,
   useSaveFoodMutation,
-  MeasurementInput,
 } from "../../generated";
 import { useToast } from "../../helpers";
+import { PrimaryLoader } from "../Loading/Primary";
+import { FoodForm } from "./FoodForm";
 
 export function EditFoodForm({ id }: { id: string }) {
   const { error, success } = useToast();

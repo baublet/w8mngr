@@ -1,14 +1,13 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 import { Link, useHistory } from "react-router-dom";
-
-import { ItemHeading } from "../Type/ItemHeading";
-import { Input } from "../Forms";
-import { SystemGhostIconButton } from "../Button/SystemGhostIcon";
-import { Add } from "../Icons/Add";
 
 import { foodLogLocalStorage } from "../../helpers";
 import { GhostInvertedButton } from "../Button/GhostInverted";
+import { SystemGhostIconButton } from "../Button/SystemGhostIcon";
+import { Input } from "../Forms";
+import { Add } from "../Icons/Add";
+import { ItemHeading } from "../Type/ItemHeading";
 
 export function FoodsListItem({
   id,

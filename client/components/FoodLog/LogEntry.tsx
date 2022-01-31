@@ -1,19 +1,16 @@
-import React from "react";
 import cx from "classnames";
-import { object, string, number } from "yup";
-
-import { DeleteIconButton } from "../Button/DeleteIconButton";
-import { Form, InputFoodEntry } from "../Forms";
-import { LogEntryLoadingBullet } from "../Loading/LogEntryLoadingBullet";
-
-import { useForm, useToast } from "../../helpers";
+import React from "react";
+import { number, object, string } from "yup";
 
 import {
   GetCurrentUserFoodLogDocument,
   useCreateOrUpdateFoodLogMutation,
   useDeleteFoodLogMutation,
 } from "../../generated";
+import { useForm, useToast } from "../../helpers";
+import { DeleteIconButton } from "../Button/DeleteIconButton";
 import { Panel } from "../Containers";
+import { Form, InputFoodEntry } from "../Forms";
 
 const schema = object().shape({
   id: string().required(),

@@ -1,13 +1,12 @@
 import React from "react";
 
-import { usePaginatedQuery } from "../../helpers";
 import { useGetFoodsQuery } from "../../generated";
-
-import { PrimaryLoader } from "../Loading/Primary";
-import { FoodsListItem } from "./FoodListItem";
+import { usePaginatedQuery } from "../../helpers";
 import { SystemOutlineButton } from "../Button/SystemOutline";
 import { LeftIcon } from "../Icons/Left";
 import { RightIcon } from "../Icons/Right";
+import { PrimaryLoader } from "../Loading/Primary";
+import { FoodsListItem } from "./FoodListItem";
 
 export function FoodsList() {
   const {

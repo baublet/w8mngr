@@ -6,7 +6,7 @@ interface PageHeadingProps extends React.HTMLProps<HTMLInputElement> {
 
 export function PanelHeading(
   props: PageHeadingProps
-): React.ReactComponentElement<any> {
+) {
   return (
     <div className="flex justify-between items-center">
       <h3>{props.children}</h3>

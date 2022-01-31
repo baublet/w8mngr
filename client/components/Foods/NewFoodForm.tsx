@@ -1,11 +1,11 @@
+import omit from "lodash.omit";
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { FoodForm } from "./FoodForm";
-import { MeasurementInput, useSaveFoodMutation } from "../../generated";
-import omit from "lodash.omit";
 import { withNumericKeys } from "../../../shared";
+import { MeasurementInput, useSaveFoodMutation } from "../../generated";
 import { useToast } from "../../helpers";
+import { FoodForm } from "./FoodForm";
 
 export function NewFoodForm() {
   const { error, success } = useToast();

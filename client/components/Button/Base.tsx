@@ -2,6 +2,8 @@ import cx from "classnames";
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { ButtonSpinnerIcon } from "../Loading/ButtonSpinner";
+
 export type BaseButtonProps = React.PropsWithChildren<{
   className?: string;
   disabled?: boolean;
@@ -13,6 +15,7 @@ export type BaseButtonProps = React.PropsWithChildren<{
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
   title?: string;
+  loading?: boolean;
 }>;
 
 export function BaseButton({
@@ -21,12 +24,20 @@ export function BaseButton({
   full,
   type = "button",
   className,
-  leftIcon,
+  leftIcon: originalLeftIcon,
   children,
   rightIcon,
   size = "default",
+  loading,
   ...props
 }: BaseButtonProps) {
+  const leftIcon = React.useMemo(() => {
+    if (loading) {
+      return <ButtonSpinnerIcon />;
+    }
+    return originalLeftIcon;
+  }, [originalLeftIcon, loading]);
+
   const classNames = cx(className, "flex group items-center", {
     "block text-center w-full justify-center": full,
     "opacity-50 pointer-events-none": disabled,
@@ -37,7 +48,8 @@ export function BaseButton({
     "p-3 lowercase text-xs rounded gap-2": size === "extra-small",
     "p-8 normal-case text-4xl font-thin shadow hover:shadow-lg rounded-lg gap-6":
       size === "extra-large",
-      "py-4 px-6 text-2xl font-thin rounded-lg shadow hover:shadow-lg": size === "lg"
+    "py-4 px-6 text-2xl font-thin rounded-lg shadow hover:shadow-lg":
+      size === "lg",
   });
 
   const textClassNames = cx({

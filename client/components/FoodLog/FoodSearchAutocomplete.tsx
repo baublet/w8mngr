@@ -9,7 +9,7 @@ import {
 import { useKeyPressHandler } from "../../helpers";
 import { SystemOutlineIconButton } from "../Button/SystemOutlineIcon";
 import { Add } from "../Icons/Add";
-import { ButtonSpinner } from "../Loading/ButtonSpinner";
+import { ButtonSpinnerIcon } from "../Loading/ButtonSpinner";
 import { SideBarHeading } from "../Type/SideBarHeading";
 import { MeasurementList } from "./FoodSearchAutocompleteMeasurementsList";
 import { FoodLogInput } from "./types";
@@ -163,7 +163,7 @@ export function FoodSearchAutocomplete({
             <div className="flex gap-4">
               <div>Search term: {searchTerm?.toUpperCase()}</div>
               <div className={cx("ml-2", { "opacity-0": !searchLoading })}>
-                <ButtonSpinner />
+                <ButtonSpinnerIcon />
               </div>
             </div>
           </SideBarHeading>

@@ -1,18 +1,16 @@
 import React from "react";
-import { object, string, number } from "yup";
+import { number, object, string } from "yup";
 
-import { PanelInverted } from "../Containers/PanelInverted";
-import { useForm, FormStateObject } from "../../helpers/useForm";
-import { InputInverted, Form } from "../Forms";
-import { ButtonSpinner } from "../Loading/ButtonSpinner";
-import { BarcodeScannerButton } from "../BarcodeScanner";
-
-import { foodLogLocalStorage, useToast } from "../../helpers";
 import {
-  useCreateOrUpdateFoodLogMutation,
   GetCurrentUserFoodLogDocument,
+  useCreateOrUpdateFoodLogMutation,
 } from "../../generated";
+import { foodLogLocalStorage, useToast } from "../../helpers";
+import { FormStateObject, useForm } from "../../helpers/useForm";
+import { BarcodeScannerButton } from "../BarcodeScanner";
 import { PrimaryLightSaveButton } from "../Button/PrimaryLightSave";
+import { PanelInverted } from "../Containers/PanelInverted";
+import { Form, InputInverted } from "../Forms";
 
 const schema = object().shape({
   description: string().required(),
@@ -140,7 +138,7 @@ export function NewFoodLogPanel({
         <div className="flex text-md gap-2 justify-end">
           <BarcodeScannerButton day={day} />
           <PrimaryLightSaveButton
-            leftIcon={loading ? <ButtonSpinner /> : undefined}
+            loading={loading}
             type="submit"
           />
         </div>

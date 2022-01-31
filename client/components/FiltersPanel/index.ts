@@ -1,1 +1,1 @@
-export {FiltersPanel} from "./FiltersPanel"
+export { FiltersPanel } from "./FiltersPanel";

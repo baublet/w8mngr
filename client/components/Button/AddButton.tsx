@@ -2,9 +2,7 @@ import React from "react";
 
 import { GhostInvertedButton, GhostInvertedButtonProps } from "./GhostInverted";
 
-export function AddButton(
-  props: GhostInvertedButtonProps
-) {
+export function AddButton(props: GhostInvertedButtonProps) {
   return (
     <GhostInvertedButton
       {...props}

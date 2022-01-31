@@ -28,7 +28,7 @@ export async function resetPassword(
     throw new Error("Passwords don't match");
   }
 
-  const tokenDigest = createDigest(credentials.passwordResetToken)
+  const tokenDigest = createDigest(credentials.passwordResetToken);
   const token = await tokenDataService.findOneOrFail(context, (q) =>
     q
       .where("tokenDigest", "=", tokenDigest)

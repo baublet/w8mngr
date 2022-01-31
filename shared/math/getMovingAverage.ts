@@ -16,7 +16,7 @@ export function getMovingAverage(
         collectedNumbers.push(averages[i + j]);
         continue;
       }
-      if(averages[i - j]) {
+      if (averages[i - j]) {
         collectedNumbers.push(averages[i - j]);
         continue;
       }

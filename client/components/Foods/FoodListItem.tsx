@@ -214,56 +214,59 @@ function Measurement({
   return (
     <div className="w-full flex items-center gap-4 border-t p-2 border-slate-100 text-xs uppercase text-slate-500 hover:bg-slate-100 rounded">
       <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 flex-grow w-full">
-      <div className="w-3/12 sm:w-2/12 lg:w-1/12">
-        <Input
-          onChange={(value) => {
-            const amount = parseInt(value, 10);
-            if (isNaN(amount)) {
-              setAmount(0);
-              return;
-            }
-            setAmount(amount);
-          }}
-          type="text"
-          value={amountString}
-          placeholder={amountString}
-          label="amount"
-          showLabel={false}
-        />
-      </div>
-      <div className="w-4/12 sm:3/12 lg:w-4/12">{measurement}</div>
-      <div className="w-3/12 lg:w-3/12 text-lg font-thin">
-        {getMeasurementWithMultiplier({
-          currentAmount: uiMutableAmount,
-          originalAmount: amount,
-          measurementValue: calories,
-        })}
-        <Label className="sm:hidden">calories</Label>
-      </div>
-      <div className="w-3/12 lg:w-1/12 text-lg font-thin">
-        {getMeasurementWithMultiplier({
-          currentAmount: uiMutableAmount,
-          originalAmount: amount,
-          measurementValue: fat,
-        })}<span className="opacity-75 lowercase"> g</span>
-        <Label className="sm:hidden">fat</Label>
-      </div>
-      <div className="w-4/12 lg:w-1/12 text-lg font-thin">
-        {getMeasurementWithMultiplier({
-          currentAmount: uiMutableAmount,
-          originalAmount: amount,
-          measurementValue: carbs,
-        })}<span className="opacity-75 lowercase"> g</span>
-        <Label className="sm:hidden">carbs</Label>
-      </div>
-      <div className="w-3/12 lg:w-1/12 text-lg font-thin">
-        {getMeasurementWithMultiplier({
-          currentAmount: uiMutableAmount,
-          originalAmount: amount,
-          measurementValue: protein,
-        })}<span className="opacity-75 lowercase"> g</span>
-        <Label className="sm:hidden">protein</Label>
-      </div>
+        <div className="w-3/12 sm:w-2/12 lg:w-1/12">
+          <Input
+            onChange={(value) => {
+              const amount = parseInt(value, 10);
+              if (isNaN(amount)) {
+                setAmount(0);
+                return;
+              }
+              setAmount(amount);
+            }}
+            type="text"
+            value={amountString}
+            placeholder={amountString}
+            label="amount"
+            showLabel={false}
+          />
+        </div>
+        <div className="w-4/12 sm:3/12 lg:w-4/12">{measurement}</div>
+        <div className="w-3/12 lg:w-3/12 text-lg font-thin">
+          {getMeasurementWithMultiplier({
+            currentAmount: uiMutableAmount,
+            originalAmount: amount,
+            measurementValue: calories,
+          })}
+          <Label className="sm:hidden">calories</Label>
+        </div>
+        <div className="w-3/12 lg:w-1/12 text-lg font-thin">
+          {getMeasurementWithMultiplier({
+            currentAmount: uiMutableAmount,
+            originalAmount: amount,
+            measurementValue: fat,
+          })}
+          <span className="opacity-75 lowercase"> g</span>
+          <Label className="sm:hidden">fat</Label>
+        </div>
+        <div className="w-4/12 lg:w-1/12 text-lg font-thin">
+          {getMeasurementWithMultiplier({
+            currentAmount: uiMutableAmount,
+            originalAmount: amount,
+            measurementValue: carbs,
+          })}
+          <span className="opacity-75 lowercase"> g</span>
+          <Label className="sm:hidden">carbs</Label>
+        </div>
+        <div className="w-3/12 lg:w-1/12 text-lg font-thin">
+          {getMeasurementWithMultiplier({
+            currentAmount: uiMutableAmount,
+            originalAmount: amount,
+            measurementValue: protein,
+          })}
+          <span className="opacity-75 lowercase"> g</span>
+          <Label className="sm:hidden">protein</Label>
+        </div>
       </div>
       <div className="w-3/12 lg:w-1/12 flex justify-end">
         <SystemGhostIconButton

@@ -5,9 +5,7 @@ import { BaseButton, BaseButtonProps } from "./Base";
 
 type SecondaryOutlineButtonProps = BaseButtonProps;
 
-export function SecondaryOutlineButton(
-  props: SecondaryOutlineButtonProps
-) {
+export function SecondaryOutlineButton(props: SecondaryOutlineButtonProps) {
   return (
     <BaseButton
       {...props}

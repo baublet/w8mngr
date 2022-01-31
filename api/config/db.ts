@@ -99,7 +99,9 @@ export function getTestGlobalContext(): Context {
 export function getTestGlobalServiceContainer(): ServiceContainer {
   if (config.get("NODE_ENV") !== "test") {
     throw new Error(
-      `Invalid environment to use the global testing service container. Environment: ${config.get("NODE_ENV")}`
+      `Invalid environment to use the global testing service container. Environment: ${config.get(
+        "NODE_ENV"
+      )}`
     );
   }
   return testGlobalServiceContainer;

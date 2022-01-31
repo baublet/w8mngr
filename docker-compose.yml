@@ -1,7 +1,6 @@
-version: '3.1'
+version: "3.1"
 
 services:
-
   db:
     image: postgres
     restart: always
@@ -10,6 +9,6 @@ services:
       POSTGRES_DB: w8mngr
       POSTGRES_USER: w8mngr
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - ./postgres-data:/var/lib/postgresql/data

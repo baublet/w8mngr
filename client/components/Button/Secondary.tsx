@@ -5,13 +5,12 @@ import { BaseButton, BaseButtonProps } from "./Base";
 
 type SecondaryButtonProps = BaseButtonProps;
 
-export function SecondaryButton(
-  props: SecondaryButtonProps
-) {
+export function SecondaryButton(props: SecondaryButtonProps) {
   return (
     <BaseButton
       {...props}
-      className={cx(`
+      className={cx(
+        `
         bg-emerald-500
         bg-opacity-80
         hover:bg-opacity-100

@@ -5,5 +5,7 @@ export function assertIsTruthy<T extends any>(
     return;
   }
 
-  throw new Error(`Invariance violation. Expected subject ${subject} to be truthy!`);
+  throw new Error(
+    `Invariance violation. Expected subject ${subject} to be truthy!`
+  );
 }

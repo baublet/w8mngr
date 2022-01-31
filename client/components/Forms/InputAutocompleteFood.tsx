@@ -9,13 +9,12 @@ interface FoodEntryInputProps {
   getRef?: (ref: React.RefObject<HTMLInputElement>) => void;
 }
 
-export function InputAutocompleteFood(
-  props: FoodEntryInputProps & InputProps
-) {
+export function InputAutocompleteFood(props: FoodEntryInputProps & InputProps) {
   const id = props.id || `input-inverted-food-entry-${count++}`,
     label = props.placeholder || props.label,
     newProps = Object.assign({}, props, { id }),
-    { getRef, hideLabel, className, size, onChange, ...inputOnlyProps } = newProps,
+    { getRef, hideLabel, className, size, onChange, ...inputOnlyProps } =
+      newProps,
     ref = React.useRef(null);
 
   React.useEffect(() => {

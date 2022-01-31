@@ -33,10 +33,7 @@ export function SingleSelect<
   return (
     <div className="flex flex-col gap-2">
       {labelPlacement === "top" && (
-        <label
-          htmlFor={id}
-          className="uppercase opacity-50 text-xs"
-        >
+        <label htmlFor={id} className="uppercase opacity-50 text-xs">
           {label}
         </label>
       )}
@@ -57,11 +54,7 @@ export function SingleSelect<
             }}
           >
             {options.map((option) => (
-              <option
-                key={option.key}
-                className="font-sans"
-                value={option.key}
-              >
+              <option key={option.key} className="font-sans" value={option.key}>
                 {option.text}
               </option>
             ))}
@@ -69,10 +62,7 @@ export function SingleSelect<
         </div>
       </div>
       {labelPlacement === "bottom" && (
-        <label
-          htmlFor={id}
-          className="uppercase opacity-50 text-xs"
-        >
+        <label htmlFor={id} className="uppercase opacity-50 text-xs">
           {label}
         </label>
       )}

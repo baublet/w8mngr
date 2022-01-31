@@ -23,10 +23,7 @@ export function ActivityPageHelpers() {
       <div className="font-thin">Popular:</div>
       <div className="flex gap-2 flex-wrap items-center text-xs">
         {data.currentUser?.popularActivities.map((activity) => (
-          <Link
-            to={`/activities/${activity.id}`}
-            key={activity.id}
-          >
+          <Link to={`/activities/${activity.id}`} key={activity.id}>
             {activity.name}
           </Link>
         ))}

@@ -1,8 +1,11 @@
 import { FoodResolvers } from "../../graphql-types";
 import { uploadDataService } from "../../dataServices";
 
-export const foodImage: 
-  FoodResolvers["image"] = (parent: any, args, context) => {
+export const foodImage: FoodResolvers["image"] = (
+  parent: any,
+  args,
+  context
+) => {
   const imageUploadId = parent.imageUploadId;
   if (!imageUploadId) {
     return Promise.resolve(undefined);

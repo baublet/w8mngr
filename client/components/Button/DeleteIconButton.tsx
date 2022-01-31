@@ -32,7 +32,9 @@ export function DeleteIconButton(props: BaseButtonProps) {
       onClick={newOnclick}
     >
       <span className="screen-reader-text">Delete</span>
-      <span className="group-hover:text-white"><CloseIcon /></span>
+      <span className="group-hover:text-white">
+        <CloseIcon />
+      </span>
     </GhostButton>
   );
 }

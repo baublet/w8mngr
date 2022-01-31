@@ -37,9 +37,7 @@ type Mutation {
   requestEmailLoginLink(
     input: RequestEmailLoginLinkInput!
   ): RequestEmailLoginLinkMutationPayload!
-  loginWithToken(
-    input: LoginWithTokenInput!
-  ): LoginWithTokenMutationPayload!
+  loginWithToken(input: LoginWithTokenInput!): LoginWithTokenMutationPayload!
 
   # Food Log
   saveFoodLog(input: SaveFoodLogInput!): FoodLogMutationPayload!

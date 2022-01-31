@@ -10,9 +10,7 @@ export const requestEmailLoginLink: MutationResolvers["requestEmailLoginLink"] =
   async (parent, args, context) => {
     const matchingAccount = await userAccountDataService.findOneBy(
       context,
-      (q) =>
-        q
-          .andWhere("sourceIdentifier", "=", args.input.email)
+      (q) => q.andWhere("sourceIdentifier", "=", args.input.email)
     );
 
     if (!matchingAccount) {

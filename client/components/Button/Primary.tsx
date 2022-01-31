@@ -5,9 +5,7 @@ import { BaseButton, BaseButtonProps } from "./Base";
 
 type PrimaryButtonProps = BaseButtonProps;
 
-export function PrimaryButton(
-  props: PrimaryButtonProps
-) {
+export function PrimaryButton(props: PrimaryButtonProps) {
   return (
     <BaseButton
       {...props}

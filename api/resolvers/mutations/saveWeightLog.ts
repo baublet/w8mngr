@@ -7,6 +7,8 @@ export const saveWeightLog: MutationResolvers["saveWeightLog"] = async (
   context
 ) => {
   return weightLogDataService.saveMutation(context, {
-    input: input.weightLogs, userId: context.getCurrentUserId(), day: input.day
-  })
+    input: input.weightLogs,
+    userId: context.getCurrentUserId(),
+    day: input.day,
+  });
 };

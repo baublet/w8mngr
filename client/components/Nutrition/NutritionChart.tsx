@@ -39,54 +39,61 @@ export function NutritionChart({
   }, [data]);
 
   return (
-      <div className="aspect-video text-xs">
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart width={500} height={300} data={transformedVisualizationData}>
-            <Legend />
-            <Tooltip content={<CustomTooltip />} />
-  
-            <XAxis dataKey="day" interval="preserveStartEnd" strokeWidth={1} />
-            <YAxis />
-  
-            <ReferenceLine stroke="#881337" y={summary.averageDailyCalories || 2000} />
-  
-            <Bar
-              dataKey="fat"
-              barSize={25}
-              fill="#eab308"
-              minPointSize={10}
-              opacity={0.25}
-              stackId="macros"
-            />
-            <Bar
-              dataKey="carbs"
-              barSize={25}
-              fill="#be185d"
-              minPointSize={10}
-              opacity={0.25}
-              stackId="macros"
-            />
-            <Bar
-              dataKey="protein"
-              barSize={25}
-              fill="#84cc16"
-              minPointSize={10}
-              opacity={0.25}
-              stackId="macros"
-            />
-  
-            <Line
-              type="monotone"
-              dataKey="calories"
-              stroke="#0ea5e9"
-              connectNulls
-              dot={false}
-              strokeWidth={2}
-            />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
-    );
+    <div className="aspect-video text-xs">
+      <ResponsiveContainer width="100%" height="100%">
+        <ComposedChart
+          width={500}
+          height={300}
+          data={transformedVisualizationData}
+        >
+          <Legend />
+          <Tooltip content={<CustomTooltip />} />
+
+          <XAxis dataKey="day" interval="preserveStartEnd" strokeWidth={1} />
+          <YAxis />
+
+          <ReferenceLine
+            stroke="#881337"
+            y={summary.averageDailyCalories || 2000}
+          />
+
+          <Bar
+            dataKey="fat"
+            barSize={25}
+            fill="#eab308"
+            minPointSize={10}
+            opacity={0.25}
+            stackId="macros"
+          />
+          <Bar
+            dataKey="carbs"
+            barSize={25}
+            fill="#be185d"
+            minPointSize={10}
+            opacity={0.25}
+            stackId="macros"
+          />
+          <Bar
+            dataKey="protein"
+            barSize={25}
+            fill="#84cc16"
+            minPointSize={10}
+            opacity={0.25}
+            stackId="macros"
+          />
+
+          <Line
+            type="monotone"
+            dataKey="calories"
+            stroke="#0ea5e9"
+            connectNulls
+            dot={false}
+            strokeWidth={2}
+          />
+        </ComposedChart>
+      </ResponsiveContainer>
+    </div>
+  );
 }
 
 function CustomTooltip({

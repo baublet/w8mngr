@@ -35,7 +35,15 @@ export function LogEntryLoadingBullet({
   }, [visible]);
 
   return (
-    <div className="animate-pulse" style={{ transform: "translateY(-50%)", position: "absolute", top: "50%", left: "-7px" }}>
+    <div
+      className="animate-pulse"
+      style={{
+        transform: "translateY(-50%)",
+        position: "absolute",
+        top: "50%",
+        left: "-7px",
+      }}
+    >
       <div
         className={cx(
           "rounded-full bg-purple-700 w-3 h-3 transition-opacity duration-700",

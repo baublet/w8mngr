@@ -109,13 +109,11 @@ export function Home() {
           </PageHeading>
           <ContentContainer>
             <p>
-            <b>w</b>8<b>mngr</b> (pronounced "weight manager") is a food,
-            fitness, and health tracker to help you maintain a healthy lifestyle
-            of your choosing.
+              <b>w</b>8<b>mngr</b> (pronounced "weight manager") is a food,
+              fitness, and health tracker to help you maintain a healthy
+              lifestyle of your choosing.
             </p>
-            <p>
-              
-            </p>
+            <p></p>
           </ContentContainer>
         </div>
       </div>

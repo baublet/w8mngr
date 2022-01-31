@@ -137,10 +137,7 @@ export function NewFoodLogPanel({
         </div>
         <div className="flex text-md gap-2 justify-end">
           <BarcodeScannerButton day={day} />
-          <PrimaryLightSaveButton
-            loading={loading}
-            type="submit"
-          />
+          <PrimaryLightSaveButton loading={loading} type="submit" />
         </div>
       </Form>
     </PanelInverted>

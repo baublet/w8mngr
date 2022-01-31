@@ -118,16 +118,18 @@ export function ScannerResults({
       });
   }, [code]);
 
-  const [createFoodLog, { loading: saving }] = useCreateOrUpdateFoodLogMutation({
-    refetchQueries: [
-      {
-        query: GetCurrentUserFoodLogDocument,
-        variables: {
-          day,
+  const [createFoodLog, { loading: saving }] = useCreateOrUpdateFoodLogMutation(
+    {
+      refetchQueries: [
+        {
+          query: GetCurrentUserFoodLogDocument,
+          variables: {
+            day,
+          },
         },
-      },
-    ],
-  });
+      ],
+    }
+  );
   const getSaveFoodLogHandler = React.useCallback(
     ({
       amount,
@@ -171,7 +173,7 @@ export function ScannerResults({
         {
           "p-4": open,
           "p-1 hover:bg-slate-800": !open,
-          "opacity-75 pointer-events-none": saving
+          "opacity-75 pointer-events-none": saving,
         }
       )}
     >

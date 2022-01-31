@@ -134,9 +134,7 @@ function Message({
         <div className="absolute right-2 top-2">
           <DeleteIconButton onClick={dismiss} />
         </div>
-        <div className="text-sm">
-          {messageText}
-          </div>
+        <div className="text-sm">{messageText}</div>
       </div>
     </div>
   );

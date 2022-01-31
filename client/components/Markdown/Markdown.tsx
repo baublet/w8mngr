@@ -9,9 +9,7 @@ export interface MarkdownProps {
   className?: string;
 }
 
-export function MarkdownRenderer(
-  props: MarkdownProps
-) {
+export function MarkdownRenderer(props: MarkdownProps) {
   const text = React.useMemo(() => {
     if (!props.maxLength) {
       return props.content;

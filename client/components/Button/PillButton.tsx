@@ -4,9 +4,7 @@ import { BaseButton, BaseButtonProps } from "./Base";
 
 export type PullButtonProps = BaseButtonProps;
 
-export function PillButton(
-  props: PullButtonProps
-) {
+export function PillButton(props: PullButtonProps) {
   return (
     <BaseButton
       {...props}

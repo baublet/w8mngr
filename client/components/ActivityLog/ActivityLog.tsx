@@ -23,7 +23,6 @@ export function ActivityLog({
     },
   });
 
-
   const logs = data?.currentUser?.activities.edges[0]?.node.logs.edges;
 
   if (loading || !logs) {

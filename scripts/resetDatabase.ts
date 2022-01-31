@@ -5,7 +5,7 @@ import config from "../knexfile";
 const db = knex(config.production);
 
 (async () => {
-  console.log("Dropping existing database...")
+  console.log("Dropping existing database...");
   await db.raw('DROP DATABASE IF EXISTS "defaultdb"');
 
   console.log("Recreating database...");

@@ -23,7 +23,7 @@ export function HeaderNavigation() {
           icon={<HealthCircleIcon />}
           text="Activity"
         />
-                <NavigationIcon
+        <NavigationIcon
           to="/weightlog"
           icon={<HealthCircleIcon />}
           text="Weight"
@@ -37,7 +37,11 @@ export function HeaderNavigation() {
       </IsLoggedIn>
       <IsLoggedOut>
         <div className="flex-grow" />
-        <NavigationIcon to="/register" icon={<RegisterIcon />} text="Register" />
+        <NavigationIcon
+          to="/register"
+          icon={<RegisterIcon />}
+          text="Register"
+        />
         <NavigationIcon to="/login" icon={<LoginIcon />} text="Login" />
       </IsLoggedOut>
     </div>

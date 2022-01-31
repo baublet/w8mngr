@@ -12,7 +12,9 @@ export function ForgotPassword() {
           <div className="md:w-5/12">
             <ForgotPasswordForm />
           </div>
-          <div className="h-px w-full md:h-72 md:w-px bg-slate-200 self-center">&nbsp;</div>
+          <div className="h-px w-full md:h-72 md:w-px bg-slate-200 self-center">
+            &nbsp;
+          </div>
           <div className="md:w-5/12">
             <MagicEmailLinkForm />
           </div>

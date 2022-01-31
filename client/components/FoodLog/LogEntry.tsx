@@ -99,9 +99,12 @@ export function LogEntry({
       className="relax flex w-full items-center"
     >
       <div
-        className={cx("rounded bg-purple-50 bg-opacity-5 flex w-full gap-4 items-center", {
-          "pointer-events-none": loading,
-        })}
+        className={cx(
+          "rounded bg-purple-50 bg-opacity-5 flex w-full gap-4 items-center",
+          {
+            "pointer-events-none": loading,
+          }
+        )}
       >
         <Form loading={loading} onSubmit={save}>
           <div className="w-full flex gap-2">
@@ -159,13 +162,13 @@ export function LogEntry({
             </div>
           </div>
         </Form>
-      <div>
-        <DeleteIconButton
-          onClick={() => {
-            deleteFoodLog({ variables: { id } });
-          }}
-        />
-      </div>
+        <div>
+          <DeleteIconButton
+            onClick={() => {
+              deleteFoodLog({ variables: { id } });
+            }}
+          />
+        </div>
       </div>
     </Panel>
   );

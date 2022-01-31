@@ -65,7 +65,7 @@ export function ActivityTileMap({
     return dataToRender;
   }, [data]);
 
-  if(transformedData.length === 0) {
+  if (transformedData.length === 0) {
     return null;
   }
 

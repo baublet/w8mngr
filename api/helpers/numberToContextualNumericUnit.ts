@@ -10,7 +10,7 @@ export function numberToContextualNumericUnit({
   incomingUnit,
   outgoingUnit,
 }: {
-  context: Context,
+  context: Context;
   work: number;
   incomingUnit: string;
   outgoingUnit: string;

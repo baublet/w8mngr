@@ -7,7 +7,9 @@ export const deleteWeightLog: MutationResolvers["deleteWeightLog"] = async (
   context
 ) => {
   const log = await weightLogDataService.findOneOrFail(context, (q) =>
-    q.where("id", "=", input.id).andWhere("userId", "=", context.getCurrentUserId())
+    q
+      .where("id", "=", input.id)
+      .andWhere("userId", "=", context.getCurrentUserId())
   );
   await weightLogDataService.deleteByIds(context, [log.id]);
 

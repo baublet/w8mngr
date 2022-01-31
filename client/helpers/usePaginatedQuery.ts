@@ -106,7 +106,7 @@ export function usePaginatedQuery<
   const loading = isLoading(networkStatus);
 
   const previousPageLink = React.useMemo(() => {
-    if(!firstCursor) return "";
+    if (!firstCursor) return "";
     const params = new URLSearchParams(queryParams.toString());
     params.set("cursor", firstCursor);
     params.set("beforeOrAfter", "before");
@@ -115,7 +115,7 @@ export function usePaginatedQuery<
   }, [queryParams, search, data]);
 
   const nextPageLink = React.useMemo(() => {
-    if(!lastCursor) return "";
+    if (!lastCursor) return "";
     const params = new URLSearchParams(queryParams.toString());
     params.set("cursor", lastCursor);
     params.set("beforeOrAfter", "after");

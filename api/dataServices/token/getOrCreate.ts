@@ -13,11 +13,12 @@ export async function getOrCreate(
 ): Promise<{ entity: TokenEntity; token: string }> {
   const queryFactory = await getQuery(context);
 
-  const existing = await queryFactory().select("*")
-      .where("clientId", "=", context.getClientId())
-      .andWhere("userAccountId", "=", token.userAccountId)
-      .andWhere("type", "=", token.type)
-      .limit(1);
+  const existing = await queryFactory()
+    .select("*")
+    .where("clientId", "=", context.getClientId())
+    .andWhere("userAccountId", "=", token.userAccountId)
+    .andWhere("type", "=", token.type)
+    .limit(1);
 
   const newToken = ulid();
   const newTokenDigest = createDigest(newToken);

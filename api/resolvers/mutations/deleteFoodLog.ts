@@ -21,7 +21,7 @@ export const deleteFoodLog: MutationResolvers["deleteFoodLog"] = async (
 
   const logs = await foodLogDataService.getConnection(context, {
     constraint: {
-      day: foodLog.day
+      day: foodLog.day,
     },
     additionalRootResolvers: {
       day: foodLog.day,

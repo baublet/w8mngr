@@ -30,7 +30,11 @@ export function BarcodeScannerButton({ day }: { day: string }) {
         }
       >
         <div className="flex flex-col gap-4">
-          <span className="text-sm">Scan a barcode to search for it in the <Link to="https://world.openfoodfacts.org/">Open Food Facts</Link> database!</span>
+          <span className="text-sm">
+            Scan a barcode to search for it in the{" "}
+            <Link to="https://world.openfoodfacts.org/">Open Food Facts</Link>{" "}
+            database!
+          </span>
           {!open ? null : <BarcodeScanner day={day} />}
         </div>
       </Modal>

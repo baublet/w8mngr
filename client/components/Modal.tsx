@@ -60,7 +60,10 @@ export function Modal({
         style={{ width: "640px" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <DeleteIconButton onClick={closeHandler} className="absolute top-4 right-4" />
+        <DeleteIconButton
+          onClick={closeHandler}
+          className="absolute top-4 right-4"
+        />
         {heading && <h1 className="font-thin text-3xl">{heading}</h1>}
         {children}
       </div>

@@ -49,8 +49,8 @@ export function Application(): React.ReactComponentElement<any> {
               <div className="flex flex-col gap-2">
                 <p>Copyright 2009-2022, Ryan Poe</p>
                 <p>
-                  w8mngr was built from scratch with TypeScript, React, Tailwind,
-                  and Apollo. Hosted by Netlify.
+                  w8mngr was built from scratch with TypeScript, React,
+                  Tailwind, and Apollo. Hosted by Netlify.
                 </p>
                 <p>
                   This software is open source. Want to add a feature or report

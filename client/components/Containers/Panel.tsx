@@ -4,9 +4,14 @@ import React from "react";
 import { LogEntryLoadingBullet } from "../Loading/LogEntryLoadingBullet";
 
 export function Panel(
-  props: React.PropsWithChildren<{ className?: string; loading?: boolean; size?: "s" }>
+  props: React.PropsWithChildren<{
+    className?: string;
+    loading?: boolean;
+    size?: "s";
+  }>
 ) {
-  const classNames = cx(`
+  const classNames = cx(
+    `
     hover:bg-slate-50
     hover:bg-opacity-50
     border

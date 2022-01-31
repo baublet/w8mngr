@@ -2,6 +2,9 @@
   "name": "w8mngr",
   "version": "0.0.1",
   "packageManager": "yarn@3.1.1",
+  "engines": {
+    "node": ">=16"
+  },
   "description": "w8mngr utilizing Netlify's functions and a React SPA",
   "scripts": {
     "gql:generate": "graphql-codegen",
@@ -24,9 +27,6 @@
     "postpublish": "pinst --enable"
   },
   "author": "Ryan M. Poe",
-  "engines": {
-    "node": ">=16"
-  },
   "license": "ISC",
   "dependencies": {
     "@apollo/client": "^3.4.17",

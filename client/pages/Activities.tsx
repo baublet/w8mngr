@@ -14,7 +14,9 @@ export function Activities() {
   const [searchString, setSearchString] = React.useState<string>();
   return (
     <div className="flex flex-col gap-2 w-full">
-      <PageHeading icon={<HealthCircleIcon />}>Your Activities</PageHeading>
+      <ContentContainer>
+        <PageHeading icon={<HealthCircleIcon />}>Your Activities</PageHeading>
+      </ContentContainer>
       <ContentContainer>
         <ContentLayout
           mainContent={

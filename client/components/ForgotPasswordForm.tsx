@@ -4,6 +4,7 @@ import { SecondaryButton } from "../components/Button/Secondary";
 import { Form, Input } from "../components/Forms";
 import { useRequestPasswordResetTokenMutation } from "../generated";
 import { useForm, useToast } from "../helpers";
+import { ResetPasswordIcon } from "./Icons/ResetPassword";
 import { PageHeading } from "./Type/PageHeading";
 
 export function ForgotPasswordForm() {
@@ -27,14 +28,11 @@ export function ForgotPasswordForm() {
   }, []);
 
   return !sent ? (
-    <Form
-      loading={loading}
-      onSubmit={submit}
-      className="flex flex-col gap-4"
-    >
+    <Form loading={loading} onSubmit={submit} className="flex flex-col gap-4">
       <PageHeading>Request Password Reset Link</PageHeading>
       <p className="text-sm opacity-75">
-        Need to reset your password? We can email you a one-click link to reset your password.
+        Need to reset your password? We can email you a one-click link to reset
+        your password.
       </p>
       <Input
         type="text"
@@ -44,7 +42,15 @@ export function ForgotPasswordForm() {
         onChange={formData.getHandler("email")}
       />
       <div>
-        <SecondaryButton size="lg" type="submit">
+        <SecondaryButton
+          size="lg"
+          type="submit"
+          leftIcon={
+            <div className="translate-y-px">
+              <ResetPasswordIcon />
+            </div>
+          }
+        >
           Reset Password
         </SecondaryButton>
       </div>

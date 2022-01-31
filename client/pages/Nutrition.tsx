@@ -18,7 +18,9 @@ export function Nutrition() {
 
   return (
     <div className="flex flex-col w-full gap-4">
-      <PageHeading icon={<FoodCircleIcon />}>Nutrition Dashboard</PageHeading>
+      <ContentContainer>
+        <PageHeading icon={<FoodCircleIcon />}>Nutrition Dashboard</PageHeading>
+      </ContentContainer>
       <ContentContainer>
         <ContentLayout
           mainContent={
@@ -64,10 +66,6 @@ export function Nutrition() {
   );
 }
 
-function StatPanel({ children}: React.PropsWithChildren<{}>) {
-  return (
-    <div className="p-4 bg-slate-50 rounded">
-      {children}
-    </div>
-  );
+function StatPanel({ children }: React.PropsWithChildren<{}>) {
+  return <div className="p-4 bg-slate-50 rounded">{children}</div>;
 }

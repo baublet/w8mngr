@@ -1,17 +1,16 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 import { useParams } from "react-router";
-
-import { DayNavigator } from "../DayNavigator";
-import { NewFoodLogPanel } from "./NewFoodLogPanel";
-import { Spacer } from "../Spacer";
-import { LogEntry } from "./LogEntry";
-import { PrimaryLoader } from "../Loading/Primary";
-import { FoodSearchAutocomplete } from "./FoodSearchAutocomplete";
-import type { NewFoodLogFormObject } from "./NewFoodLogPanel";
 
 import { dayStringFromDate, getWithDefault } from "../../../shared";
 import { useGetCurrentUserFoodLogQuery } from "../../generated";
+import { DayNavigator } from "../DayNavigator";
+import { PrimaryLoader } from "../Loading/Primary";
+import { Spacer } from "../Spacer";
+import { FoodSearchAutocomplete } from "./FoodSearchAutocomplete";
+import { LogEntry } from "./LogEntry";
+import { NewFoodLogPanel } from "./NewFoodLogPanel";
+import type { NewFoodLogFormObject } from "./NewFoodLogPanel";
 
 const columns: ["calories", "fat", "carbs", "protein"] = [
   "calories",
@@ -57,10 +56,37 @@ export function FoodLog() {
     };
   }, [data]);
 
+  const totalsMarkup = React.useMemo(() => {
+    return (
+      <div
+        className={cx(
+          "flex flex-wrap justify-around w-full transition-opacity",
+          {
+            "opacity-50": !entries.length,
+          }
+        )}
+      >
+        {columns.map((column) => {
+          return (
+            <div key={column} className="flex flex-col">
+              <div className="flex flex-col">
+                <div className="text-5xl font-thin text-slate-400 text-center truncate">
+                  {stats[column].toLocaleString()}
+                </div>
+                <div className="text-xs uppercase text-slate-400 text-center">
+                  {column}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }, [data]);
+
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <DayNavigator onRefresh={() => undefined} rootUrl="/foodlog/" />
-      <Spacer />
       {!loading ? null : (
         <span className="text-purple-400 animate-pulsate">
           <PrimaryLoader text="Loading..." timeBeforeRender={0} />
@@ -73,37 +99,12 @@ export function FoodLog() {
           </div>
         </div>
       ) : null}
-      <div className={cx("flex flex-col w-full gap-1")}>
+      <div className={cx("flex flex-col w-full gap-4")}>
         {entries.map((entry) => (
           <LogEntry key={entry.id} {...entry} day={dayString} />
         ))}
       </div>
-      <Spacer />
-      <div
-        className={cx(
-          "flex flex-wrap justify-around w-full border-t border-slate-200 transition-opacity",
-          {
-            "opacity-50": !entries.length,
-          }
-        )}
-      >
-        {columns.map((column) => {
-          return (
-            <div key={column} className="flex flex-col">
-              <div className="pt-4 mt-4 flex flex-col">
-                <div className="text-5xl font-thin text-slate-400 text-center truncate">
-                  {stats[column].toLocaleString()}
-                </div>
-                <div className="text-xs uppercase text-slate-400 font-bold text-center">
-                  {column}
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      <Spacer />
+      <div className="block md:hidden">{totalsMarkup}</div>
       <div className="flex gap-4 flex-col md:flex-row">
         <div className="w-full md:w-1/2">
           <NewFoodLogPanel
@@ -113,15 +114,18 @@ export function FoodLog() {
             descriptionInputRef={newFoodLogDescriptionInputRef}
           />
         </div>
-        <div className="w-full md:w-1/2">
-          <FoodSearchAutocomplete
-            searchTerm={searchTerm}
-            day={dayString}
-            onItemAdded={() => {
-              newFoodLogFormObjectRef.current?.clear();
-              newFoodLogDescriptionInputRef.current?.focus();
-            }}
-          />
+        <div className="w-full md:w-1/2 flex flex-col gap-4">
+          <div className="hidden md:block">{totalsMarkup}</div>
+          <div>
+            <FoodSearchAutocomplete
+              searchTerm={searchTerm}
+              day={dayString}
+              onItemAdded={() => {
+                newFoodLogFormObjectRef.current?.clear();
+                newFoodLogDescriptionInputRef.current?.focus();
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

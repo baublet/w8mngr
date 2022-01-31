@@ -1,6 +1,4 @@
-import { addYears, subYears } from "date-fns";
-
-import { dayStringFromDate, flattenArray } from "../../../../shared";
+import { flattenArray } from "../../../../shared";
 import { Context } from "../../../createContext";
 import {
   ActivityType,
@@ -8,8 +6,8 @@ import {
 } from "../../../graphql-types";
 import {
   getDateRangeWithDefault,
-  numberToContextualUnit,
   globalInMemoryCache,
+  numberToContextualUnit,
 } from "../../../helpers";
 import { getQuery } from "../../activityLog/query";
 import { ActivityLog } from "../../activityLog/types";
@@ -127,7 +125,7 @@ function getSetHandlerByDay({
     )}-${key}`;
     return globalInMemoryCache.getOrSet({
       key: cacheKey,
-      expiry: Date.now() + 1000 * 60 * 60 * 12,
+      expiry: Date.now() + 1000 * 60,
       fn: async () => {
         const { from, to } = getDateRangeWithDefault(args?.input);
         const queryFactory = await getQuery(context);

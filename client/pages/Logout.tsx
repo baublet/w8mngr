@@ -24,11 +24,13 @@ export function Logout() {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <PageHeading className="text-center">Logging out...</PageHeading>
+      <ContentContainer>
+        <PageHeading className="text-center">Logging out...</PageHeading>
+      </ContentContainer>
       <ContentContainer>
         <div className="mx-auto">
           <PrimaryLoader />
-          </div>
+        </div>
       </ContentContainer>
     </div>
   );

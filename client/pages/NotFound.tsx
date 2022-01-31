@@ -1,11 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { Link } from "../components/Link";
 import { ContentContainer } from "../components/Containers/ContentContainer";
-import { PageHeading } from "../components/Type/PageHeading";
 import { NotFound as NotFoundIcon } from "../components/Icons/NotFound";
+import { Link } from "../components/Link";
 import { Spacer } from "../components/Spacer";
+import { PageHeading } from "../components/Type/PageHeading";
 
 export function NotFound() {
   const { goBack } = useHistory();
@@ -17,7 +17,9 @@ export function NotFound() {
         </div>
       </ContentContainer>
       <Spacer />
-      <PageHeading className="text-center">404 Not Found</PageHeading>
+      <ContentContainer>
+        <PageHeading className="text-center">404 Not Found</PageHeading>
+      </ContentContainer>
       <div className="w-6/12 mx-auto mt-12 pt-12 max-w-half text-slate-600 border-t border-slate-100">
         We apologize for the inconvenience. Check the URL and make sure it's
         correct. Try to <Link onClick={goBack}>go back</Link> and see if the

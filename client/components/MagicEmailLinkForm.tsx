@@ -4,6 +4,7 @@ import { SecondaryButton } from "../components/Button/Secondary";
 import { Form, Input } from "../components/Forms";
 import { useRequestEmailLoginLinkMutation } from "../generated";
 import { useForm, useToast } from "../helpers";
+import { EmailIcon } from "./Icons/Email";
 import { PageHeading } from "./Type/PageHeading";
 
 export function MagicEmailLinkForm() {
@@ -29,11 +30,7 @@ export function MagicEmailLinkForm() {
   }, []);
 
   return !sent ? (
-    <Form
-      loading={loading}
-      onSubmit={submit}
-      className="flex flex-col gap-4"
-    >
+    <Form loading={loading} onSubmit={submit} className="flex flex-col gap-4">
       <PageHeading>Request Login Link</PageHeading>
       <p className="text-sm opacity-75">
         Tired of waiting? We can email you a one-click login link that takes you
@@ -47,7 +44,15 @@ export function MagicEmailLinkForm() {
         onChange={formData.getHandler("email")}
       />
       <div>
-        <SecondaryButton size="lg" type="submit">
+        <SecondaryButton
+          size="lg"
+          type="submit"
+          leftIcon={
+            <div className="translate-y-px">
+              <EmailIcon />
+            </div>
+          }
+        >
           Get Login Link
         </SecondaryButton>
       </div>

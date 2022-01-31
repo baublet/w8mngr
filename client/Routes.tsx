@@ -133,7 +133,7 @@ export function Routes() {
           />
           <Route
             exact
-            path="/weightlog"
+            path={["/weightlog", "/weightlog/:day"]}
             component={getLoadableComponentFor({
               load: () => import("./pages/WeightLog"),
               component: "WeightLog",

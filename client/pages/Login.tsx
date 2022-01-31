@@ -5,6 +5,7 @@ import { SecondaryButton } from "../components/Button/Secondary";
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { ContentLayout } from "../components/Containers/ContentLayout";
 import { Form, Input } from "../components/Forms";
+import { LoginIcon } from "../components/Icons/Login";
 import { Link } from "../components/Link";
 import { PageHeading } from "../components/Type/PageHeading";
 import { GetCurrentUserDocument, useLoginMutation } from "../generated";
@@ -37,7 +38,9 @@ export function Login() {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <PageHeading>Login</PageHeading>
+      <ContentContainer>
+        <PageHeading icon={<LoginIcon />}>Login</PageHeading>
+      </ContentContainer>
       <ContentContainer>
         <ContentLayout
           mainContent={
@@ -53,7 +56,6 @@ export function Login() {
                 onChange={loginForm.getHandler("email")}
                 value={loginForm.getValue("email")}
                 focusOnFirstRender
-                labelPlacement="bottom"
               />
               <Input
                 type="password"
@@ -61,7 +63,6 @@ export function Login() {
                 label="Password"
                 onChange={loginForm.getHandler("password")}
                 value={loginForm.getValue("password")}
-                labelPlacement="bottom"
               />
               <div className="flex gap-4 items-center">
                 <SecondaryButton onClick={submit} size="lg" disabled={loading}>

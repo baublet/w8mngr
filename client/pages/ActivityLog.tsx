@@ -47,25 +47,27 @@ export function ActivityLog() {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <PageHeading
-        icon={<HealthCircleIcon />}
-        quickLinks={
-          <div className="flex gap-4">
-            <BackToButton to="/activities">Back to Activities</BackToButton>
-            <BackWithIconButton
-              icon={<HealthCircleIcon />}
-              to={`/activities/${activity.id}`}
-            >
-              View Activity
-            </BackWithIconButton>
+      <ContentContainer>
+        <PageHeading
+          icon={<HealthCircleIcon />}
+          quickLinks={
+            <div className="flex gap-4">
+              <BackToButton to="/activities">Back to Activities</BackToButton>
+              <BackWithIconButton
+                icon={<HealthCircleIcon />}
+                to={`/activities/${activity.id}`}
+              >
+                View Activity
+              </BackWithIconButton>
+            </div>
+          }
+        >
+          <div className="flex gap-2 items-center">
+            <IntensityScale intensity={activity.intensity} size="small" />
+            {activity.name}
           </div>
-        }
-      >
-        <div className="flex gap-2 items-center">
-          <IntensityScale intensity={activity.intensity} size="small" />
-          {activity.name}
-        </div>
-      </PageHeading>
+        </PageHeading>{" "}
+      </ContentContainer>
       <ContentContainer>
         <ContentLayout
           mainContent={

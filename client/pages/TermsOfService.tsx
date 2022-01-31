@@ -8,7 +8,9 @@ import { PageHeading } from "../components/Type/PageHeading";
 export function TermsOfService() {
   return (
     <div className="flex flex-col gap-2 w-full">
-      <PageHeading>Terms of Service</PageHeading>
+      <ContentContainer>
+        <PageHeading>Terms of Service</PageHeading>
+      </ContentContainer>
       <ContentContainer>
         <ContentLayout
           mainContent={

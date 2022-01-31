@@ -1,9 +1,8 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 
 import { ActivityType, GetActivityDetailsQuery } from "../../generated";
 import { Panel } from "../Containers";
-
 import { TrophyIcon } from "../Icons/Trophy";
 import { Link } from "../Link";
 import { ActivityMaximumWorkChart } from "./ActivityMaximumWorkChart";
@@ -31,9 +30,9 @@ export function ActivityStatsComponent({
 
   return (
     <>
-      <Panel className="flex flex-col gap-8">
+      <Panel className="flex flex-col gap-4">
         {personalRecord && (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
             <div className="text-lg font-thin">Personal Record</div>
             <div className="flex items-center gap-2">
               <div className="text-xl text-slate-500">

@@ -11,11 +11,17 @@ import { PageHeading } from "../components/Type/PageHeading";
 export function Foods() {
   return (
     <div className="flex flex-col gap-2 w-full">
-      <PageHeading icon={<FoodCircleIcon />}>Your Foods</PageHeading>
+      <ContentContainer>
+        <PageHeading icon={<FoodCircleIcon />}>Your Foods</PageHeading>
+      </ContentContainer>
       <ContentContainer>
         <ContentLayout
           mainContent={<FoodsList />}
-          sideContent={<SecondaryButton full to="/foods/new">New Food</SecondaryButton>}
+          sideContent={
+            <SecondaryButton full to="/foods/new">
+              New Food
+            </SecondaryButton>
+          }
         />
       </ContentContainer>
     </div>

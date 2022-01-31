@@ -31,6 +31,7 @@ export function BaseButton({
     "block text-center w-full justify-center": full,
     "opacity-50 pointer-events-none": disabled,
     "p-3 gap-2 rounded": size === "default",
+    "gap-4": size === "lg",
     "pl-2": leftIcon && size === "default",
     "pr-2": rightIcon && size === "default",
     "p-3 lowercase text-xs rounded gap-2": size === "extra-small",

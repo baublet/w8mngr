@@ -1,12 +1,22 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 
 let count = 0;
 
-const border =
-  "border-b-4 border-white border-opacity-60 hover:border-opacity-75 focus:border-opacity-100 rounded-sm";
-const background =
-  "bg-white bg-opacity-0 hover:bg-opacity-10 focus:bg-opacity-10";
+const border = `
+  border-b-4
+  border-white
+  border-opacity-60
+  hover:border-opacity-75
+  focus:border-opacity-100
+  rounded-sm
+`;
+const background = `
+  bg-white
+  bg-opacity-0
+  hover:bg-opacity-10
+  focus:bg-opacity-10
+`;
 
 export type InputProps = {
   id?: string;
@@ -46,7 +56,7 @@ export function InputInverted(
     }
   }, []);
 
-  if(inputElementRef) {
+  if (inputElementRef) {
     inputElementRef.current = inputRef.current;
   }
 

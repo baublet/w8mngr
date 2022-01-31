@@ -5,10 +5,10 @@ import { IsLoggedIn } from "../Auth/IsLoggedIn";
 import { IsLoggedOut } from "../Auth/IsLoggedOut";
 import { FoodCircleIcon } from "../Icons/FoodCircle";
 import { HealthCircleIcon } from "../Icons/HealthCircle";
+import { LoginIcon } from "../Icons/Login";
 import { LogoutCircleIcon } from "../Icons/LogoutCircleIcon";
+import { RegisterIcon } from "../Icons/Register";
 import { NavigationIcon } from "./NavigationIcon";
-import { Register } from "../Icons/Register";
-import { Login } from "../Icons/Login";
 
 export function HeaderNavigation() {
   return (
@@ -38,8 +38,8 @@ export function HeaderNavigation() {
       </IsLoggedIn>
       <IsLoggedOut>
         <div className="flex-grow" />
-        <NavigationIcon to="/register" icon={<Register />} text="Register" />
-        <NavigationIcon to="/login" icon={<Login />} text="Login" />
+        <NavigationIcon to="/register" icon={<RegisterIcon />} text="Register" />
+        <NavigationIcon to="/login" icon={<LoginIcon />} text="Login" />
       </IsLoggedOut>
     </div>
   );

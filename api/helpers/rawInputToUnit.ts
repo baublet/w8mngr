@@ -17,7 +17,9 @@ export function rawInputToUnit({
   const pairs = breakInputIntoValueUnitPairs(work);
 
   if (pairs.length === 0) {
-    return new Qty(`${work} ${defaultUnit.toLowerCase()}`).to(unit).scalar;
+    return Math.floor(
+      new Qty(`${work} ${defaultUnit.toLowerCase()}`).to(unit).scalar
+    );
   }
 
   let rootUnitValue: number = 0;
@@ -25,7 +27,7 @@ export function rawInputToUnit({
     rootUnitValue += new Qty(value, inputUnit).to(unit).scalar;
   }
 
-  return new Qty(rootUnitValue, unit).scalar;
+  return Math.floor(new Qty(rootUnitValue, unit).scalar);
 }
 
 export function breakInputIntoValueUnitPairs(

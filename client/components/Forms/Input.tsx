@@ -3,10 +3,20 @@ import React from "react";
 
 let count = 0;
 
-const border =
-  "border border-slate-500 border-opacity-25 hover:border-opacity-50 focus:border-opacity-100 active:border-opacity-100 rounded";
-const background =
-  "bg-white bg-opacity-50 hover:bg-opacity-100 focus:bg-opacity-100 active:bg-opacity-100";
+const border = `
+  border
+  border-slate-900
+  border-opacity-25
+  hover:border-opacity-50
+  focus:border-opacity-100
+  active:border-opacity-100
+  rounded`;
+const background = `
+  bg-white
+  bg-opacity-50
+  hover:bg-opacity-100 
+  focus:bg-opacity-100 
+  active:bg-opacity-100`;
 
 export type InputProps = {
   id?: string;
@@ -58,7 +68,7 @@ export function Input(
       <label
         htmlFor={newProps.id}
         className={cx(
-          "block text-xs uppercase whitespace-no-wrap overflow-hidden text-slate-400 hover:text-slate-600 group-hover:text-slate-600"
+          "block text-xs uppercase whitespace-no-wrap overflow-hidden text-slate-500 hover:text-slate-600 group-hover:text-slate-600"
         )}
       >
         {label}

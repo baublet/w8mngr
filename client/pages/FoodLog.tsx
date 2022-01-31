@@ -9,7 +9,9 @@ import { PageHeading } from "../components/Type/PageHeading";
 export function FoodLog() {
   return (
     <div className="flex flex-col gap-2 w-full">
-      <PageHeading icon={<FoodCircleIcon />}>Food Log</PageHeading>
+      <ContentContainer>
+        <PageHeading icon={<FoodCircleIcon />}>Food Log</PageHeading>
+      </ContentContainer>
       <ContentContainer>
         <ContentLayout mainContent={<FoodLogComponent />} />
       </ContentContainer>

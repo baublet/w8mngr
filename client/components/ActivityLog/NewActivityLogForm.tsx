@@ -1,23 +1,29 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 
 import {
-  useSaveActivityLogMutation,
   ActivityType,
   GetActivityLogDocument,
+  useSaveActivityLogMutation,
 } from "../../generated";
 import { useForm, useToast } from "../../helpers";
-
-import { Add } from "../Icons/Add";
+import { PrimaryLightSaveButton } from "../Button/PrimaryLightSave";
 import { PanelInverted } from "../Containers/PanelInverted";
 import { InputInverted } from "../Forms";
-import { PrimaryLightSaveButton } from "../Button/PrimaryLightSave";
+import { Add } from "../Icons/Add";
 
 export const WORK_LABELS: Record<ActivityType, string | false> = {
   DISTANCE: "Distance",
   REPETITIVE: false,
   TIMED: "Time",
   WEIGHT: "Weight",
+};
+
+export const WORK_PLACEHOLDERS: Record<ActivityType, string> = {
+  DISTANCE: "e.g., 3 miles",
+  REPETITIVE: "Reps",
+  TIMED: "e.g., 20 minutes",
+  WEIGHT: "e.g., 35 lbs",
 };
 
 export const SHOW_REPS: Record<ActivityType, boolean> = {
@@ -93,7 +99,7 @@ export function NewActivityLogForm({
                 label="Reps"
                 value={newActivityLogFormData.getValue("reps", "")}
                 onChange={newActivityLogFormData.getHandler("reps")}
-                placeholder=""
+                placeholder="e.g., 10, or 3x10"
               />
             )}
             {!workLabel ? null : (
@@ -103,7 +109,7 @@ export function NewActivityLogForm({
                 label={workLabel}
                 value={newActivityLogFormData.getValue("work", "")}
                 onChange={newActivityLogFormData.getHandler("work")}
-                placeholder=""
+                placeholder={WORK_PLACEHOLDERS[activityType]}
               />
             )}
           </div>

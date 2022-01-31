@@ -5,7 +5,7 @@ import { SecondaryButton } from "../components/Button/Secondary";
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { ContentLayout } from "../components/Containers/ContentLayout";
 import { Form, Input } from "../components/Forms";
-import { Spacer } from "../components/Spacer";
+import { RegisterIcon } from "../components/Icons/Register";
 import { PageHeading } from "../components/Type/PageHeading";
 import { GetCurrentUserDocument, useRegisterMutation } from "../generated";
 import { useForm, useToast } from "../helpers";
@@ -40,11 +40,17 @@ export function Register() {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <PageHeading>Register</PageHeading>
+      <ContentContainer>
+        <PageHeading icon={<RegisterIcon />}>Register</PageHeading>
+      </ContentContainer>
       <ContentContainer>
         <ContentLayout
           mainContent={
-            <Form loading={loading} onSubmit={submit} className="max-w-md">
+            <Form
+              loading={loading}
+              onSubmit={submit}
+              className="max-w-md flex w-full flex-col gap-4"
+            >
               <Input
                 type="text"
                 label="Email"
@@ -53,35 +59,42 @@ export function Register() {
                 onChange={registerForm.getHandler("email")}
                 value={registerForm.getValue("email")}
                 focusOnFirstRender
-                labelPlacement="bottom"
               />
-              <Spacer size="s" />
               <Input
                 type="password"
                 placeholder="Enter your password"
                 id="password"
                 onChange={registerForm.getHandler("password")}
                 value={registerForm.getValue("password")}
+                label="Password"
               />
-              <Spacer size="s" />
               <Input
                 type="password"
-                label="Password"
-                placeholder="Confirmation"
+                placeholder="Confirm password"
                 id="passwordConfirmation"
                 onChange={registerForm.getHandler("passwordConfirmation")}
                 value={registerForm.getValue("passwordConfirmation")}
-                labelPlacement="bottom"
+                showLabel={false}
               />
-              <Spacer />
-              <input
-                type="submit"
-                value="Register"
-                className="screen-reader-text"
-              />
-              <SecondaryButton onClick={submit} disabled={loading} size="lg">
-                Register
-              </SecondaryButton>
+              <div>
+                <input
+                  type="submit"
+                  value="Register"
+                  className="screen-reader-text"
+                />
+                <SecondaryButton
+                  onClick={submit}
+                  disabled={loading}
+                  size="lg"
+                  leftIcon={
+                    <div className="translate-y-1">
+                      <RegisterIcon />
+                    </div>
+                  }
+                >
+                  Register
+                </SecondaryButton>
+              </div>
             </Form>
           }
         />

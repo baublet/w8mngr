@@ -11,8 +11,19 @@ export function SecondaryButton(
   return (
     <BaseButton
       {...props}
-      className={cx(
-        "bg-emerald-500 bg-opacity-90 hover:bg-opacity-100 p-4 text-white rounded text-sm uppercase shadow hover:shadow-md focus:shadow:md text-l",
+      className={cx(`
+        bg-emerald-500
+        bg-opacity-80
+        hover:bg-opacity-100
+        p-4
+        text-white
+        rounded
+        text-sm
+        uppercase
+        shadow
+        hover:shadow-md
+        focus:shadow:md
+        text-l`,
         props.className
       )}
     />

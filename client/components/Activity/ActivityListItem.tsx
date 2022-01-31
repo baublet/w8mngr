@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { ItemHeading } from "../Type/ItemHeading";
-import { AsyncMarkdown } from "../Markdown";
-import { MuscleMap } from "../MuscleMap";
 import { ActivityType, Muscle } from "../../generated";
 import { activityTypeToHumanReadable } from "../../helpers";
+import { Panel } from "../Containers/Panel";
+import { AsyncMarkdown } from "../Markdown";
+import { MuscleMap } from "../MuscleMap";
+import { ItemHeading } from "../Type/ItemHeading";
 import { IntensityScale } from "./IntensityScale";
 
 export function ActivityListItem({
@@ -24,25 +25,12 @@ export function ActivityListItem({
   intensity: number;
 }) {
   return (
-    <div
-      className={`
-hover:bg-slate-50
-hover:bg-opacity-50
-border
-border-slate-100
-hover:border-slate-300
-rounded-lg
-p-4
-hover:shadow-slate-500/10
-hover:shadow-lg
-    `}
-    >
+    <Panel>
       <div
         className={`
-flex
-flex-col
-w-full
-`}
+          flex
+          flex-col
+          w-full`}
       >
         <Link
           to={`/activities/${id}`}
@@ -76,6 +64,6 @@ w-full
           </div>
         </Link>
       </div>
-    </div>
+    </Panel>
   );
 }

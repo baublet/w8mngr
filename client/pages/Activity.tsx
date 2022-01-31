@@ -37,18 +37,20 @@ export function Activity() {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <PageHeading
-        icon={<HealthCircleIcon />}
-        quickLinks={
-          <>
-            <BackToButton {...backButtonProps(goBack)}>
-              Back to Activities
-            </BackToButton>
-          </>
-        }
-      >
-        {activity.name}
-      </PageHeading>
+      <ContentContainer>
+        <PageHeading
+          icon={<HealthCircleIcon />}
+          quickLinks={
+            <>
+              <BackToButton {...backButtonProps(goBack)}>
+                Back to Activities
+              </BackToButton>
+            </>
+          }
+        >
+          {activity.name}
+        </PageHeading>{" "}
+      </ContentContainer>
       <ContentContainer>
         <ContentLayout
           mainContent={<ActivityDetails data={data} />}

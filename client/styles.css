@@ -39,7 +39,6 @@ button:focus svg {
 }
 
 ::placeholder {
-  text-transform: uppercase;
   font-size: 0.85em;
 }
 

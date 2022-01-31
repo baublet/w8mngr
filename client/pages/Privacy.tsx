@@ -8,7 +8,9 @@ import { PageHeading } from "../components/Type/PageHeading";
 export function Privacy() {
   return (
     <div className="flex flex-col gap-2 w-full">
-      <PageHeading>Privacy Policy</PageHeading>
+      <ContentContainer>
+        <PageHeading>Privacy Policy</PageHeading>
+      </ContentContainer>
       <ContentContainer>
         <ContentLayout
           mainContent={

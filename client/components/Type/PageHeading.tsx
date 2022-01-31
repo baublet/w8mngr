@@ -9,35 +9,35 @@ interface PageHeadingProps {
 }
 
 export function PageHeading(props: PageHeadingProps) {
+  const topStyle = props.icon
+    ? ({ transform: "translate(-5.75em, 0)" } as const)
+    : {};
+
   return (
-    <div>
+    <div
+      className={cx(`
+          flex
+          gap-10
+          items-center
+    `)}
+      style={topStyle}
+    >
       {props.icon && (
-        <div className="relative">
-          <div
-            className="absolute text-5xl text-slate-50 flex justify-center items-center rounded-bl-full rounded-tl-full w-16 h-16 bg-emerald-400 text-center"
-            style={{
-              transform: "translate(-2em, 0)",
-            }}
-          >
-            {props.icon}
-          </div>
+        <div className="text-5xl text-slate-50 flex justify-center items-center rounded-bl-full rounded-tl-full w-16 h-16 bg-emerald-400 text-center">
+          {props.icon}
         </div>
       )}
-      <div className={cx("justify-between items-center block w-full")}>
+      <div className="flex flex-col w-full">
         <h3
           className={cx(
-            "text-2xl font-thin text-slate-600 block w-full",
+            "text-3xl font-thin text-slate-400 block w-full",
             props.className
           )}
         >
           {props.children}
         </h3>
+        {props.quickLinks && <div>{props.quickLinks}</div>}
       </div>
-      {!props.quickLinks ? (
-        false
-      ) : (
-        <div className="mt-2">{props.quickLinks}</div>
-      )}
     </div>
   );
 }

@@ -30,7 +30,7 @@ export function PageHeading(props: PageHeadingProps) {
       <div className="flex flex-col w-full">
         <h3
           className={cx(
-            "text-3xl font-thin text-slate-400 block w-full",
+            "text-3xl font-thin text-slate-500 block w-full",
             props.className
           )}
         >

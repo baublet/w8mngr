@@ -65,7 +65,13 @@ export function Login() {
                 value={loginForm.getValue("password")}
               />
               <div className="flex gap-4 items-center">
-                <SecondaryButton onClick={submit} size="lg" disabled={loading}>
+                <SecondaryButton
+                  onClick={submit}
+                  size="lg"
+                  disabled={loading}
+                  loading={loading}
+                  leftIcon={<LoginIcon />}
+                >
                   Login
                 </SecondaryButton>
                 <div className="text-sm">

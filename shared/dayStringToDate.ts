@@ -1,8 +1,7 @@
 export function dayStringToDate(day: string): Date {
-  const date = new Date();
-  date.setHours(0, 0, 0, 0);
-  date.setFullYear(parseInt(day.substr(0, 4), 10));
-  date.setMonth(parseInt(day.substr(4, 2), 10) - 1);
-  date.setDate(parseInt(day.substr(6, 2), 10));
+  const year = parseInt(day.substring(0, 4), 10);
+  const month = parseInt(day.substring(4, 6), 10);
+  const dayOfMonth = parseInt(day.substring(6, 8), 10);
+  const date = new Date(year, month - 1, dayOfMonth);
   return date;
 }

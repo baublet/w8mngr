@@ -1,11 +1,11 @@
-import React from "react";
-import addDays from "date-fns/addDays";
-import subDays from "date-fns/subDays";
-import getDay from "date-fns/getDay";
 import cx from "classnames";
-import { Link } from "react-router-dom";
+import addDays from "date-fns/addDays";
 import format from "date-fns/format";
+import getDay from "date-fns/getDay";
+import subDays from "date-fns/subDays";
+import React from "react";
 import { usePopper } from "react-popper";
+import { Link } from "react-router-dom";
 
 import { dayStringFromDate, dayStringToDate } from "../../shared";
 
@@ -48,42 +48,44 @@ export function TileMap({
     const minDayString = `${minDay}`;
     const maxDayString = `${maxDay}`;
 
-    const allDays: string[] = [];
+    const allDays = new Set<string>();
 
     let currentDayString = minDayString;
     while (currentDayString !== maxDayString) {
-      allDays.push(currentDayString);
+      allDays.add(currentDayString);
       currentDayString = dayStringFromDate(
         addDays(dayStringToDate(currentDayString), 1)
       );
     }
 
-    allDays.push(maxDayString);
+    allDays.add(maxDayString);
 
-    // If there aren't a year's worth of data, pad the beginning until today
-    while (
-      allDays.length < DAYS_IN_TILE_MAP &&
-      allDays[allDays.length - 1] !== todayDayString
-    ) {
-      const nextDay = dayStringFromDate(
-        addDays(dayStringToDate(allDays[allDays.length - 1]), 1)
-      );
-      allDays.push(nextDay);
+    // If there aren't a year's worth of data, pad the end until today
+    let rightPadDate = dayStringToDate(maxDayString);
+    while (allDays.size < DAYS_IN_TILE_MAP && !allDays.has(todayDayString)) {
+      const nextDate = addDays(rightPadDate, 1);
+      const nextDay = dayStringFromDate(nextDate);
+      rightPadDate = nextDate;
+      allDays.add(nextDay);
     }
 
-    // If there aren't a year's worth of data, pad the past with days
-    while (allDays.length < DAYS_IN_TILE_MAP) {
-      const previousDay = dayStringFromDate(
-        subDays(dayStringToDate(allDays[0]), 1)
-      );
-      allDays.unshift(previousDay);
+    // If there aren't a year's worth of data, pad the beginning with days
+    let leftPadDate = dayStringToDate(minDayString);
+    while (allDays.size < DAYS_IN_TILE_MAP) {
+      const previousDate = subDays(leftPadDate, 1);
+      const previousDay = dayStringFromDate(previousDate);
+      leftPadDate = previousDate;
+      allDays.add(previousDay);
     }
 
     const dayColumns: string[][] = [];
     let columnIndex = 0;
 
-    for (let i = 0; i < allDays.length; i++) {
-      const day = allDays[i];
+    const allDaysArray = Array.from(allDays);
+    allDaysArray.sort();
+
+    for (let i = 0; i < allDaysArray.length; i++) {
+      const day = allDaysArray[i];
       if (!dayColumns[columnIndex]) {
         dayColumns[columnIndex] = [];
       }
@@ -98,9 +100,9 @@ export function TileMap({
 
     return {
       dayColumns,
-      minDay: allDays[0],
-      maxDay: allDays[allDays.length - 1],
-      middleDay: allDays[Math.floor(allDays.length / 2)],
+      minDay: allDaysArray[0],
+      maxDay: allDaysArray[allDaysArray.length - 1],
+      middleDay: allDaysArray[Math.floor(allDaysArray.length / 2)],
     };
   }, [data]);
 
@@ -153,8 +155,10 @@ export function TileMap({
     }
     const foundDay = data.find((d) => d.day === hoveredDay);
     if (!foundDay) {
-      const displayDate = format(dayStringToDate(hoveredDay), "PP");
-      return `No logs on ${displayDate}`;
+      const date = dayStringToDate(hoveredDay);
+      const dayOfTheWeek = format(date, "cccc");
+      const displayDate = format(date, "PP");
+      return `No logs on ${dayOfTheWeek}, ${displayDate}`;
     }
     return foundDay.label;
   }, [hoveredDay, locked]);

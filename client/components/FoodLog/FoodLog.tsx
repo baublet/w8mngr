@@ -6,7 +6,6 @@ import { dayStringFromDate, getWithDefault } from "../../../shared";
 import { useGetCurrentUserFoodLogQuery } from "../../generated";
 import { DayNavigator } from "../DayNavigator";
 import { PrimaryLoader } from "../Loading/Primary";
-import { Spacer } from "../Spacer";
 import { FoodSearchAutocomplete } from "./FoodSearchAutocomplete";
 import { LogEntry } from "./LogEntry";
 import { NewFoodLogPanel } from "./NewFoodLogPanel";

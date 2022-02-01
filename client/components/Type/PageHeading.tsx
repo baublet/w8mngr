@@ -9,33 +9,14 @@ interface PageHeadingProps {
 }
 
 export function PageHeading(props: PageHeadingProps) {
-  const topStyle = props.icon
-    ? ({ transform: "translate(-6.5em, 0)" } as const)
-    : {};
-
   return (
-    <div
-      className={cx(`
-          flex
-          gap-10
-          items-center
-    `)}
-      style={topStyle}
-    >
+    <div className={`flex gap-4`}>
       {props.icon && (
         <div
           className={`
             text-5xl
-            text-slate-50
-            flex
-            justify-center
-            items-center
-            rounded-bl-full
-            rounded-tl-full
-            w-20
-            h-16
-            bg-emerald-400
-            text-center`}
+            text-purple-300
+            text-opacity-50`}
         >
           {props.icon}
         </div>

@@ -10,7 +10,7 @@ interface PageHeadingProps {
 
 export function PageHeading(props: PageHeadingProps) {
   const topStyle = props.icon
-    ? ({ transform: "translate(-5.75em, 0)" } as const)
+    ? ({ transform: "translate(-6.5em, 0)" } as const)
     : {};
 
   return (
@@ -23,7 +23,20 @@ export function PageHeading(props: PageHeadingProps) {
       style={topStyle}
     >
       {props.icon && (
-        <div className="text-5xl text-slate-50 flex justify-center items-center rounded-bl-full rounded-tl-full w-16 h-16 bg-emerald-400 text-center">
+        <div
+          className={`
+            text-5xl
+            text-slate-50
+            flex
+            justify-center
+            items-center
+            rounded-bl-full
+            rounded-tl-full
+            w-20
+            h-16
+            bg-emerald-400
+            text-center`}
+        >
           {props.icon}
         </div>
       )}

@@ -2,11 +2,10 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 
 import { getLoadableComponentFor } from "./components/LoadableComponent";
-import { useLoginWithToken, useVerifyEmail } from "./helpers";
+import { useVerifyEmail } from "./helpers";
 
 export function Routes() {
   useVerifyEmail();
-  useLoginWithToken();
   return (
     <div className="relative">
       <div className="toast">
@@ -25,6 +24,14 @@ export function Routes() {
             component={getLoadableComponentFor({
               load: () => import("./pages/Login"),
               component: "Login",
+            })}
+          />
+                    <Route
+            exact
+            path="/logging-in"
+            component={getLoadableComponentFor({
+              load: () => import("./pages/LoggingIn"),
+              component: "LoggingIn",
             })}
           />
           <Route

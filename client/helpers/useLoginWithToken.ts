@@ -14,12 +14,14 @@ export function useLoginWithToken() {
   const [login] = useLoginWithTokenMutation({
     refetchQueries: [GetCurrentUserDocument],
     awaitRefetchQueries: true,
-    onError: error,
+    onError: (err) => {
+      error(err);
+    },
     onCompleted: () => {
       setTimeout(() => {
         success("Logged in");
-        replace(window.location.pathname);
-      }, 10);
+        replace("/nutrition");
+      }, 50);
     },
   });
   const getParam = useUrlQueryParameters();

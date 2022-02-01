@@ -86,7 +86,11 @@ export function Register() {
                   onClick={submit}
                   disabled={loading}
                   size="lg"
-                  leftIcon={<RegisterIcon />}
+                  leftIcon={
+                    <div className="translate-y-px">
+                      <RegisterIcon />
+                    </div>
+                  }
                 >
                   Register
                 </SecondaryButton>

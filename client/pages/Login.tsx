@@ -70,7 +70,7 @@ export function Login() {
                   size="lg"
                   disabled={loading}
                   loading={loading}
-                  leftIcon={<LoginIcon />}
+                  leftIcon={<div className="translate-y-px"><LoginIcon /></div>}
                 >
                   Login
                 </SecondaryButton>

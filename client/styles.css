@@ -20,6 +20,21 @@ svg {
   all: unset;
 }
 
+.siteLoading {
+  opacity: 0.5;
+  pointer-events: none;
+  filter: blur(10px);
+  user-select: none;
+}
+
+.siteLoading body {
+  animation-name: shimmer;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: linear;
+}
+
 svg.svgImage {
   all: unset;
   width: 100%;
@@ -141,6 +156,16 @@ select::-ms-expand {
 
   to {
     opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.75;
   }
 }
 

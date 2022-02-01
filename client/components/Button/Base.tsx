@@ -44,6 +44,7 @@ export function BaseButton({
     "p-3 gap-2 rounded": size === "default",
     "gap-4": size === "lg",
     "pl-2": leftIcon && size === "default",
+    "pl-3": leftIcon && size === "lg",
     "pr-2": rightIcon && size === "default",
     "p-3 lowercase text-xs rounded gap-2": size === "extra-small",
     "p-8 normal-case text-4xl font-thin shadow hover:shadow-lg rounded-lg gap-6":

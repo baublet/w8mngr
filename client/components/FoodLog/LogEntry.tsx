@@ -134,7 +134,7 @@ export function LogEntry({
                   type="text"
                   onChange={logEntryForm.getHandler("fat")}
                   value={logEntryForm.getValue("fat")}
-                  label="Carbs"
+                  label="Fat"
                   id={`carbs-${id}`}
                   showLabel
                 />
@@ -144,7 +144,7 @@ export function LogEntry({
                   type="text"
                   onChange={logEntryForm.getHandler("carbs")}
                   value={logEntryForm.getValue("carbs")}
-                  label="Fat"
+                  label="Carbs"
                   id={`fat-${id}`}
                   showLabel
                 />

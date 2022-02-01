@@ -13,7 +13,7 @@ export async function popular(context: Context): Promise<Activity[]> {
     .select("activityId")
     .count("id", { as: "activityCount" })
     .where("userId", "=", userId)
-    .andWhere("archived", "<>", false)
+    .andWhere("archived", "=", false)
     .groupBy("activityId")
     .orderBy("activityCount", "DESC")
     .limit(10);

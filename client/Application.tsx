@@ -19,7 +19,7 @@ export function Application(): React.ReactComponentElement<any> {
   }, [pathname, search]);
 
   return (
-    <div className="max-w-screen-xl w-full flex flex-col min-h-full px-1 sm:px-2 md:px-8 bg-white">
+    <div className="max-w-screen-xl w-full flex flex-col min-h-full px-1 sm:px-2 md:px-8 bg-white p2-8">
       <div className="min-h-screen">
         <header className="overflow-x-auto lg:overflow-x-hidden">
           <ContentContainer className="flex items-center">
@@ -41,7 +41,7 @@ export function Application(): React.ReactComponentElement<any> {
           </ToastProvider>
         </main>
       </div>
-      <footer className="mt-12 text-slate-200 bg-slate-900 mt-13 py-8 px-2 md:px-8 lg:px-12 -mx-2 md:-mx-8 flex items-center min-h-screen">
+      <footer className="mt-12 text-sm text-slate-200 bg-slate-900 mt-13 py-8 px-2 md:px-8 lg:px-12 -mx-2 md:-mx-8 flex items-center min-h-screen">
         <ContentContainer>
           <div className="flex gap-6 space-around flex-wrap md:flex-nowrap">
             <div className="w-full md:w-1/3">

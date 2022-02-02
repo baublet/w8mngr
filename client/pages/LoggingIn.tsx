@@ -8,7 +8,7 @@ import { useLoginWithToken } from "../helpers";
 export function LoggingIn() {
   useLoginWithToken();
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-4 w-full">
       <ContentContainer>
         <PageHeading className="text-center">Logging in...</PageHeading>
       </ContentContainer>

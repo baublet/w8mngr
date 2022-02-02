@@ -6,7 +6,7 @@ import { MagicEmailLinkForm } from "../components/MagicEmailLinkForm";
 
 export function ForgotPassword() {
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-4 w-full">
       <ContentContainer>
         <div className="flex flex-col md:flex-row gap-8 justify-around items-stretch w-full">
           <div className="md:w-5/12">

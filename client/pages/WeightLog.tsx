@@ -8,11 +8,11 @@ import { WeightLog as WeightLogComponent } from "../components/WeightLog";
 
 export function WeightLog() {
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-4 w-full">
       <ContentContainer>
         <PageHeading
           icon={
-            <div className="transform scale-75 translate-x-1">
+            <div className="transform scale-75">
               <ScaleIcon />
             </div>
           }

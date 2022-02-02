@@ -7,7 +7,7 @@ export function ContentLayout(props: {
   sideContent?: React.ReactElement;
 }) {
   const classNames = cx(
-    "w-full flex flex-col-reverse lg:flex-row gap-4",
+    "w-full flex flex-col lg:flex-row gap-4",
     props.className
   );
   return (

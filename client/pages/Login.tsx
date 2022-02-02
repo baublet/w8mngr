@@ -37,7 +37,7 @@ export function Login() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-4 w-full">
       <ContentContainer>
         <PageHeading icon={<LoginIcon />}>Login</PageHeading>
       </ContentContainer>

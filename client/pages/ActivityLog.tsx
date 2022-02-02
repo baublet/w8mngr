@@ -46,7 +46,7 @@ export function ActivityLog() {
   }
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-4 w-full">
       <ContentContainer>
         <PageHeading
           icon={<HealthCircleIcon />}
@@ -62,11 +62,8 @@ export function ActivityLog() {
             </div>
           }
         >
-          <div className="flex gap-2 items-center">
-            <IntensityScale intensity={activity.intensity} size="small" />
             {activity.name}
-          </div>
-        </PageHeading>{" "}
+        </PageHeading>
       </ContentContainer>
       <ContentContainer>
         <ContentLayout

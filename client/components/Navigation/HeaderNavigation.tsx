@@ -7,6 +7,7 @@ import { HealthCircleIcon } from "../Icons/HealthCircle";
 import { LoginIcon } from "../Icons/Login";
 import { LogoutCircleIcon } from "../Icons/LogoutCircleIcon";
 import { RegisterIcon } from "../Icons/Register";
+import { ScaleIcon } from "../Icons/Scale";
 import { NavigationIcon } from "./NavigationIcon";
 
 export function HeaderNavigation() {
@@ -25,7 +26,7 @@ export function HeaderNavigation() {
         />
         <NavigationIcon
           to="/weightlog"
-          icon={<HealthCircleIcon />}
+          icon={<ScaleIcon />}
           text="Weight"
         />
         <div className="flex-grow" />

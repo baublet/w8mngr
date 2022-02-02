@@ -7,7 +7,7 @@ export function ContentContainer(
   const classNames = cx(
     "w-full",
     {
-      "p-3": !props.fullFill,
+      "px-3": !props.fullFill,
       "p-0": props.fullFill,
     },
     props.className

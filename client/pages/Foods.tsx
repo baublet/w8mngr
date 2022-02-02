@@ -10,7 +10,7 @@ import { PageHeading } from "../components/Type/PageHeading";
 
 export function Foods() {
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-4 w-full">
       <ContentContainer>
         <PageHeading icon={<FoodCircleIcon />}>Your Foods</PageHeading>
       </ContentContainer>

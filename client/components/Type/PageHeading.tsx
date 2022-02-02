@@ -10,13 +10,15 @@ interface PageHeadingProps {
 
 export function PageHeading(props: PageHeadingProps) {
   return (
-    <div className={`flex gap-4`}>
+    <div className="flex gap-4 items-center">
       {props.icon && (
         <div
           className={`
             text-5xl
-            text-purple-300
-            text-opacity-50`}
+            rounded-full
+            p-1
+            text-slate-100
+            bg-emerald-500`}
         >
           {props.icon}
         </div>
@@ -24,7 +26,7 @@ export function PageHeading(props: PageHeadingProps) {
       <div className="flex flex-col w-full">
         <h3
           className={cx(
-            "text-3xl font-thin text-slate-500 block w-full",
+            "text-xl md:text-3xl font-thin text-slate-500 block w-full",
             props.className
           )}
         >

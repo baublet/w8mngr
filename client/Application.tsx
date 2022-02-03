@@ -19,7 +19,7 @@ export function Application(): React.ReactComponentElement<any> {
   }, [pathname, search]);
 
   return (
-    <div className="max-w-screen-xl w-full flex flex-col min-h-full px-1 sm:px-2 md:px-8 bg-white p2-8">
+    <div className="max-w-screen-xl w-full flex flex-col min-h-full px-1 sm:px-2 md:px-8 bg-white pt-8">
       <div className="min-h-screen">
         <header className="overflow-x-auto lg:overflow-x-hidden">
           <ContentContainer className="flex items-center">

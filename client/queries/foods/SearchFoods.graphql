@@ -1,6 +1,6 @@
 query SearchFoods($searchTerm: String!) {
   currentUser {
-    foods(input: { filter: { searchString: $searchTerm }, last: 5 }) {
+    foods(input: { filter: { searchString: $searchTerm }, first: 15 }) {
       edges {
         cursor
         node {

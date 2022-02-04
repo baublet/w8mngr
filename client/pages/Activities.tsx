@@ -13,7 +13,7 @@ import { PageHeading } from "../components/Type/PageHeading";
 export function Activities() {
   const [searchString, setSearchString] = React.useState<string>();
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-8 w-full">
       <ContentContainer>
         <PageHeading icon={<HealthCircleIcon />}>Your Activities</PageHeading>
       </ContentContainer>

@@ -9,13 +9,9 @@ export function weightedClamp({
   min: number;
   setMax: number;
 }): number {
-  //  x     setValue
-  // ---- = --------
-  //  max    setMax          x * setMax = max * setValue
-  //                         x = (max * setValue) / setMax
-  return Math.ceil(clamp((max * setValue) / setMax, min, max));
-}
+  const oldRange = setMax - min;
+  const newRange = max - min;
+  const newValue = ((setValue - min) * newRange) / oldRange + min;
 
-function clamp(value: number, min: number, max: number): number {
-  return Math.max(min, Math.min(max, value));
+  return newValue;
 }

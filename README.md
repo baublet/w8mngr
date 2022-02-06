@@ -1,6 +1,6 @@
 # w8mngr
 
-[![TypeScript](https://github.com/baublet/w8mngr-2020/actions/workflows/typecheck.yml/badge.svg)](https://github.com/baublet/w8mngr-2020/actions/workflows/typecheck.yml) [![Unit Tests](https://github.com/baublet/w8mngr-2020/actions/workflows/test.yml/badge.svg)](https://github.com/baublet/w8mngr-2020/actions/workflows/test.yml)
+[![TypeScript](https://github.com/baublet/w8mngr-2020/actions/workflows/typecheck.yml/badge.svg)](https://github.com/baublet/w8mngr-2020/actions/workflows/typecheck.yml) [![Unit Tests](https://github.com/baublet/w8mngr-2020/actions/workflows/test.yml/badge.svg)](https://github.com/baublet/w8mngr-2020/actions/workflows/test.yml) [![Netlify Status](https://api.netlify.com/api/v1/badges/1430e281-64a2-4f0a-a530-677e2b34cfa8/deploy-status)](https://app.netlify.com/sites/w8mngr/deploys)
 
 w8mngr utilizing Netlify's functions and a React SPA
 

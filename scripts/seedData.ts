@@ -1,5 +1,6 @@
 import "minifaker/locales/en";
 
+import addDays from "date-fns/addDays";
 import subYears from "date-fns/subYears";
 import knex from "knex";
 import { date, email, number, word } from "minifaker";
@@ -10,18 +11,34 @@ import { createContext } from "../api/createContext";
 import {
   Activity,
   ActivityLog,
+  FoodLogEntity,
+  UserAccountEntity,
   UserEntity,
   activityDataService,
   activityLogDataService,
   foodDataService,
+  foodLogDataService,
   foodMeasurementDataService,
+  userAccountDataService,
   userDataService,
 } from "../api/dataServices";
 import knexConfig from "../knexfile";
 import { dayStringFromDate } from "../shared";
 
 const minDate = subYears(new Date(), 1);
+const minDay = dayStringFromDate(minDate);
 const maxDate = new Date();
+const maxDay = dayStringFromDate(maxDate);
+
+const allDaySet: Set<string> = new Set();
+let subjectDate = minDate;
+console.log("Materializing date range");
+while (!allDaySet.has(maxDay)) {
+  allDaySet.add(dayStringFromDate(subjectDate));
+  subjectDate = addDays(subjectDate, 1);
+}
+const allDays: string[] = Array.from(allDaySet);
+console.log("Finished materializing date range: ");
 
 const options = {
   usersToCreate: 3,
@@ -31,6 +48,7 @@ const userActivities: Record<
   string,
   Pick<Activity, "id" | "type" | "userId" | "name" | "description">[]
 > = {};
+const userAccounts: Record<string, UserAccountEntity> = {};
 
 const context = createContext({
   clientId: "upsertRecordsToAlgolia",
@@ -83,9 +101,9 @@ function paragraphs(num: number): string {
   );
 })().then(async () => {
   await seedUsers();
-  await seedActivities();
-  await saveActivityEntries();
-  await seedFoods();
+  // await seedActivities();
+  // await saveActivityEntries();
+  // await seedFoods();
   await seedFoodEntries();
 
   const db = await context.services.get(dbService);
@@ -133,6 +151,12 @@ async function seedUsers() {
       throw new Error("Error creating admin user");
     }
     users.push(user.user);
+
+    const userAccount = await userAccountDataService.findOneOrFail(
+      context,
+      (q) => q.where("userId", "=", user.user.id)
+    );
+    userAccounts[user.user.id] = userAccount;
   }
 
   console.log("\nTotal users: ", total);
@@ -202,6 +226,7 @@ async function saveActivityEntries() {
 
   // Everyone else
   for (const [userId, activities] of Object.entries(userActivities)) {
+    process.stdout.write("\n");
     for (const activity of activities) {
       process.stdout.write(".");
       const activityEntries: Partial<ActivityLog>[] = [];
@@ -232,6 +257,7 @@ async function seedFoods() {
   let total = 0;
 
   for (const user of users) {
+    process.stdout.write("\n");
     const userFoodsCount = number({ min: 0, max: 200 });
     for (let i = 0; i < userFoodsCount; i++) {
       total++;
@@ -260,4 +286,43 @@ async function seedFoods() {
   console.log("\nSeeded foods: ", total);
 }
 
-async function seedFoodEntries() {}
+async function seedFoodEntries() {
+  console.log("Seeding user foodLogs");
+  let total = 0;
+
+  for (const user of users) {
+    const userTargetCalories = number({ min: 1200, max: 2500 });
+    const data: Partial<FoodLogEntity>[] = [];
+    process.stdout.write("\n");
+    for (const day of allDays) {
+      const skip = number({ min: 0, max: 12 });
+      if (skip === 0) {
+        continue;
+      }
+
+      total++;
+      process.stdout.write(".");
+
+      const calories = number({
+        min: userTargetCalories - 500,
+        max: userTargetCalories + 500,
+      });
+      const fat = number({ min: 30, max: 100 });
+      const carbs = number({ min: 30, max: 200 });
+      const protein = number({ min: 30, max: 150 });
+      process.stdout.write(" " + day);
+      data.push({
+        userId: user.id,
+        description: `2 ${word()} ${word()}`,
+        day,
+        calories,
+        fat,
+        carbs,
+        protein,
+      });
+    }
+    await foodLogDataService.upsert(context, data);
+  }
+
+  console.log("\nSeeded foodsLogs: ", total);
+}

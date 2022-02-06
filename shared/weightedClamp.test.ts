@@ -8,5 +8,5 @@ it("returns 3 for 1/4 in a 1-10 scale", () => {
       min: 1,
       setMax: 4,
     })
-  ).toBe(3);
+  ).toBe(1);
 });

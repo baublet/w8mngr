@@ -20,5 +20,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
+    - run: docker-compose up
     - run: yarn install --immutable
-    - run: yarn check
+    - run: yarn test

@@ -1,7 +1,8 @@
 import "minifaker/locales/en";
 
+import subYears from "date-fns/subYears";
 import knex from "knex";
-import { email, number, word } from "minifaker";
+import { date, email, number, word } from "minifaker";
 import { ulid } from "ulid";
 
 import { config } from "../api/config/config";
@@ -17,11 +18,14 @@ import {
   userDataService,
 } from "../api/dataServices";
 import knexConfig from "../knexfile";
+import { dayStringFromDate } from "../shared";
+
+const minDate = subYears(new Date(), 1);
+const maxDate = new Date();
 
 const options = {
-  usersToCreate: 10,
+  usersToCreate: 3,
   adminFoods: 500,
-  adminActivities: 500,
 } as const;
 
 const userActivities: Record<
@@ -144,26 +148,18 @@ async function seedActivities() {
     "WEIGHT",
   ];
 
-  const activities: Pick<
-    Activity,
-    "id" | "type" | "userId" | "name" | "description"
-  >[] = [];
-
-  // Everyone else
   for (const user of users) {
-    const userActivitiesCount = number({ min: 0, max: 10 });
+    const userActivitiesCount = number({ min: 3, max: 5 });
     userActivities[user.id] = [];
     for (let i = 0; i < userActivitiesCount; i++) {
       total++;
       process.stdout.write(".");
-      const activity = {
-        id: ulid(),
+      const activity = await activityDataService.create(context, {
         userId: user.id,
-        name: `${word()} ${word()}}`,
+        name: `${word()} ${word()}`,
         description: paragraphs(number({ min: 1, max: 3 })),
-        type: activityTypes[number({ min: 0, max: activityTypes.length - 1 })],
-      };
-      activities.push(activity);
+        type: activityTypes[number({ min: 0, max: 3 })],
+      });
       userActivities[user.id].push(activity);
     }
   }
@@ -208,12 +204,17 @@ async function saveActivityEntries() {
     for (const activity of activities) {
       process.stdout.write(".");
       const activityEntries: Partial<ActivityLog>[] = [];
-      const userActivityEntriesCount = number({ min: 0, max: 100 });
+      const userActivityEntriesCount = number({ min: 30, max: 200 });
       for (let i = 0; i < userActivityEntriesCount; i++) {
         total++;
         activityEntries.push({
           activityId: activity.id,
-          day: "",
+          day: dayStringFromDate(
+            date({
+              from: minDate,
+              to: maxDate,
+            })
+          ),
           userId,
           ...randomRepsAndWork(activity.type),
         });

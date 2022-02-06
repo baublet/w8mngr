@@ -39,7 +39,7 @@ export const config = createConfig({
   CLOUDINARY_API_SECRET: "",
   CLOUDINARY_URL: "https://api.cloudinary.com/v1_1/baublet/auto/upload",
   DATABASE: "production",
-  DB_CONNECTION_STRING: "",
+  DB_CONNECTION_STRING: "postgresql://w8mngr:w8mngr@localhost:5432",
   JWT_SECRET: "Don't use the default value, please!",
   MAILGUN_API_KEY: "",
   MAILGUN_BASE_URL: "",

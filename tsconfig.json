@@ -7,6 +7,7 @@
     "lib": ["es2018", "dom"],
     "strict": true,
     "noImplicitAny": true,
+    "skipLibCheck": true,
     "types": [
       "./types/DeepRequired",
       "./types/json-stringify-deterministic",
@@ -17,7 +18,6 @@
       "react/next"
     ]
   },
-  "exclude": ["node_modules"],
   "ts-node": {
     "transpileOnly": true,
     "transpiler": "ts-node/transpilers/swc-experimental",

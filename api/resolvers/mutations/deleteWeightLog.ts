@@ -1,5 +1,5 @@
-import { MutationResolvers } from "../../graphql-types";
 import { weightLogDataService } from "../../dataServices";
+import { MutationResolvers } from "../../graphql-types";
 
 export const deleteWeightLog: MutationResolvers["deleteWeightLog"] = async (
   parent,
@@ -9,7 +9,7 @@ export const deleteWeightLog: MutationResolvers["deleteWeightLog"] = async (
   const log = await weightLogDataService.findOneOrFail(context, (q) =>
     q
       .where("id", "=", input.id)
-      .andWhere("userId", "=", context.getCurrentUserId())
+      .andWhere("userId", "=", context.getCurrentUserId(true))
   );
   await weightLogDataService.deleteByIds(context, [log.id]);
 
@@ -21,7 +21,7 @@ export const deleteWeightLog: MutationResolvers["deleteWeightLog"] = async (
       },
       applyCustomConstraint: (q) =>
         q
-          .where("userId", "=", context.getCurrentUserId())
+          .where("userId", "=", context.getCurrentUserId(true))
           .andWhere("day", "=", log.day),
     }),
   };

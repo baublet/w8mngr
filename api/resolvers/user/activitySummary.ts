@@ -1,13 +1,12 @@
-import {
-  ActivityLog,
-  activityLogDataService,
-  activityDataService,
-  Activity,
-} from "../../dataServices";
-import { getDateRangeWithDefault, globalInMemoryCache } from "../../helpers";
-
-import { UserResolvers } from "../../graphql-types";
 import { dedupe, filterOutErrors, weightedClamp } from "../../../shared";
+import {
+  Activity,
+  ActivityLog,
+  activityDataService,
+  activityLogDataService,
+} from "../../dataServices";
+import { UserResolvers } from "../../graphql-types";
+import { getDateRangeWithDefault, globalInMemoryCache } from "../../helpers";
 
 export const userActivitySummary: UserResolvers["activitySummary"] = async (
   parent,
@@ -58,9 +57,8 @@ export const userActivitySummary: UserResolvers["activitySummary"] = async (
         activityIds.push(...activity.map((a) => a.activityId));
       }
       const relatedActivityIds = dedupe(activityIds);
-      const activityLoader = await activityDataService.getLoader(context);
-      const relatedActivities = await activityLoader.loadMany(
-        relatedActivityIds
+      const relatedActivities = await activityDataService.findBy(context, (q) =>
+        q.whereIn("id", relatedActivityIds)
       );
       const activityMap = filterOutErrors(relatedActivities).reduce(
         (map, value) => {

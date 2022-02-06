@@ -6,7 +6,7 @@ import { getQuery } from "./query";
 import { Activity } from "./types";
 
 export async function popular(context: Context): Promise<Activity[]> {
-  const userId = context.getCurrentUserId();
+  const userId = context.getCurrentUserId(true);
   const activityLogQueryFactory = await getActivityLogQuery(context);
   const popularQuery = activityLogQueryFactory();
   const popularActivityIds: { activityId: string }[] = await popularQuery

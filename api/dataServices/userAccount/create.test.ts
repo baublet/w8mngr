@@ -1,5 +1,4 @@
-import { getTestGlobalContext } from "../../config/db";
-
+import { getTestGlobalContext } from "../../config/test";
 import { create } from "./create";
 
 it("creates a user account", async () => {

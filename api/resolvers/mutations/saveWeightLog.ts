@@ -1,5 +1,5 @@
-import { MutationResolvers } from "../../graphql-types";
 import { weightLogDataService } from "../../dataServices";
+import { MutationResolvers } from "../../graphql-types";
 
 export const saveWeightLog: MutationResolvers["saveWeightLog"] = async (
   parent,
@@ -8,7 +8,7 @@ export const saveWeightLog: MutationResolvers["saveWeightLog"] = async (
 ) => {
   return weightLogDataService.saveMutation(context, {
     input: input.weightLogs,
-    userId: context.getCurrentUserId(),
+    userId: context.getCurrentUserId(true),
     day: input.day,
   });
 };

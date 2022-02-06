@@ -1,38 +1,48 @@
 # w8mngr
 
+- [![TypeScript](https://github.com/baublet/w8mngr-2020/actions/workflows/typecheck.yml/badge.svg)](https://github.com/baublet/w8mngr-2020/actions/workflows/typecheck.yml)
+- [![Unit Tests](https://github.com/baublet/w8mngr-2020/actions/workflows/test.yml/badge.svg)](https://github.com/baublet/w8mngr-2020/actions/workflows/test.yml)
+
 w8mngr utilizing Netlify's functions and a React SPA
 
 As of February 6, 2019, I blew out the history so I can make this repo public. I had some old AWS connection info in here when it was private.
 
-We only require Postgres initialized properly to get started. You will need a local PostgreSQL DB up and running on the default port (5432). We expect a user named `postgres` with the password `password`.
+# Setup
+
+To setup your database, you must have `docker-compose` installed. Once it's installed:
+
+```bash
+$ docker-compose up
+```
+
+This will start Postgres!
+
+This repository was made with `yarn` 3. I highly recommend you use it! To install the packages and build things you need:
+
+```bash
+$ yarn
+$ yarn gql:generate
+```
+
+Now, you're ready to test and develop.
 
 # Testing
 
 If you have configured Postgres properly, you should be able to run the following commands:
 
 ```bash
-# Run this first
-npm run test:init   # Setup your DB structure
-
-npm install         # Install the dependencies
-npm run test:all    # Test all the things!
-
-# Or, to just test specific things
-npm run test:shared # Shared code. Add `-- --watch` to watch
-npm run test:api
-# npm run test:client  # Coming soon. We don't yet have a need for client tests
-
-npm run test -- /path/to/file # Test a single file
+$ yarn db:reset
 ```
 
 # Development
 
-See the steps above for initializing the database user. Once that's done and you have installed your dependencies via `npm install`, you should be good to go with:
-
 ```bash
-# Run this first
-npm run develop:init    # Sets up the initial DB structure
+$ yarn develop
+```
 
-npm run start:client    # Starts the React client
-npm run start:lambda    # Starts the GraphQL/Auth server
+Once the server is running, you can login as a seed admin with the following credentials:
+
+```
+username: admin@w8mngr.com
+password: test
 ```

@@ -1,5 +1,4 @@
 export { buildConnectionResolver } from "./buildConnectionResolver";
-export { createContext } from "../createContext";
 export { doTimes } from "./doTimes";
 export { emailService } from "./emailService";
 export { errors } from "./errors";

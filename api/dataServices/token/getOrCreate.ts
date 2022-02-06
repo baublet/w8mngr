@@ -1,6 +1,6 @@
 import { ulid } from "ulid";
 
-import { createDigest } from "../../authentication";
+import { createDigest } from "../../authentication/createDigest";
 import { Context } from "../../createContext";
 import { create } from "./create";
 import { getQuery } from "./query";

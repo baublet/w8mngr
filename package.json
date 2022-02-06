@@ -10,14 +10,16 @@
     "gql:generate": "graphql-codegen",
     "build:netlify": "bash ./netlify.sh",
     "build:api": "esbuild api/graphql.ts --sourcemap --outfile=api/graphql.js --bundle --platform=node --external:knex --external:bcrypt",
+    "build:api:structure": "esbuild api/**/*.ts api/*.ts --outdir=tmp",
     "build:client": "yarn vite build",
     "build:css": "tailwindcss -o client/tailwind.css",
     "build:scripts": "esbuild --sourcemap --bundle --platform=node --external:knex --external:bcrypt scripts/resetDatabase.ts scripts/seedData.ts --outdir=scripts/",
     "db:migrate:create": "knex migrate:make --env production -x ts --",
     "db:download-cert": "bash scripts/downloadDBCert.sh",
+    "find-circular-dependencies": "yarn build:api:structure && npx madge --circular tmp",
     "algolia:seed": "ts-node scripts/seedAlgoliaData.ts",
-    "db:seed": "ts-node scripts/seedData.ts",
-    "db:reset": "RECURRING_TASKS=false ts-node scripts/resetDatabase.ts && yarn db:migrate && yarn db:seed",
+    "db:seed": "RECURRING_TASKS=false ts-node scripts/seedData.ts",
+    "db:reset": "ts-node scripts/resetDatabase.ts && yarn db:migrate && yarn db:seed",
     "db:migrate": "knex migrate:latest --env production",
     "db:importDumps": "yarn ts-node --transpile-only scripts/importDumps.ts",
     "develop": "pm2 stop all; pm2 delete all; pm2 delete ecosystem.config.js; pm2 start ecosystem.config.js; pm2 logs",
@@ -111,7 +113,8 @@
     "pinst": ">=2",
     "pm2": "^5.1.2",
     "prettier": "^2.5.1",
-    "vite": "^2.7.1"
+    "vite": "^2.7.1",
+    "why-is-node-running": "^2.2.1"
   },
   "importSort": {
     ".ts, .tsx": {

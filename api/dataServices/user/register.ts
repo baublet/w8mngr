@@ -3,11 +3,11 @@ import { hashPassword } from "../../authentication";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
 import { ReturnTypeWithErrors } from "../../types";
-import { emailDataService } from "../";
+import { emailDataService } from "../email";
 import { tokenDataService } from "../token";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
 import { userAccountDataService } from "../userAccount/";
-import { userDataService } from "./";
+import { create } from "./create";
 import { UserEntity } from "./types";
 
 export async function register(
@@ -32,7 +32,7 @@ export async function register(
   await databaseService.transact();
   try {
     const passwordHash = await hashPassword(userData.password);
-    const user = await userDataService.create(context, {
+    const user = await create(context, {
       preferredName: userData.email,
       role: userData.role,
     });

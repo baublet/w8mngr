@@ -24,3 +24,4 @@ postgres-data
 .yarn/install-state.gz
 scripts/*.js
 scripts/*.js.map
+tmp

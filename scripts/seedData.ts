@@ -3,9 +3,9 @@ import "minifaker/locales/en";
 import subYears from "date-fns/subYears";
 import knex from "knex";
 import { date, email, number, word } from "minifaker";
-import { ulid } from "ulid";
 
 import { config } from "../api/config/config";
+import { dbService } from "../api/config/db";
 import { createContext } from "../api/createContext";
 import {
   Activity,
@@ -14,7 +14,7 @@ import {
   activityDataService,
   activityLogDataService,
   foodDataService,
-  userAccountDataService,
+  foodMeasurementDataService,
   userDataService,
 } from "../api/dataServices";
 import knexConfig from "../knexfile";
@@ -25,7 +25,6 @@ const maxDate = new Date();
 
 const options = {
   usersToCreate: 3,
-  adminFoods: 500,
 } as const;
 
 const userActivities: Record<
@@ -83,13 +82,15 @@ function paragraphs(num: number): string {
     })
   );
 })().then(async () => {
-  // await seedAdmin();
   await seedUsers();
   await seedActivities();
   await saveActivityEntries();
   await seedFoods();
-  await seedMeasurements();
   await seedFoodEntries();
+
+  const db = await context.services.get(dbService);
+  await db.close();
+  await db.destroy();
   console.log("Done");
   process.exit(0);
 });
@@ -226,8 +227,37 @@ async function saveActivityEntries() {
   console.log("\nSeeded activity entries: ", total);
 }
 
-async function seedFoods() {}
+async function seedFoods() {
+  console.log("Seeding foods");
+  let total = 0;
 
-async function seedMeasurements() {}
+  for (const user of users) {
+    const userFoodsCount = number({ min: 0, max: 200 });
+    for (let i = 0; i < userFoodsCount; i++) {
+      total++;
+      process.stdout.write(".");
+      const food = await foodDataService.create(context, {
+        userId: user.id,
+        name: `${word()} ${word()}`,
+        description: paragraphs(number({ min: 1, max: 3 })),
+      });
+      const foodMeasurements = number({ min: 0, max: 3 });
+      for (let j = 0; j < foodMeasurements; j++) {
+        await foodMeasurementDataService.create(context, {
+          foodId: food.id,
+          userId: user.id,
+          amount: number({ min: 1, max: 10, float: true }),
+          measurement: word(),
+          calories: number({ min: 1, max: 500 }),
+          fat: number({ min: 1, max: 50 }),
+          carbs: number({ min: 1, max: 50 }),
+          protein: number({ min: 1, max: 50 }),
+        });
+      }
+    }
+  }
+
+  console.log("\nSeeded foods: ", total);
+}
 
 async function seedFoodEntries() {}

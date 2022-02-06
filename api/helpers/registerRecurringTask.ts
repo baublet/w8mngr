@@ -25,14 +25,18 @@ export function registerRecurringTask({
   task: () => Promise<void>;
   intervalMs: number;
 }) {
-  if (config.get("NODE_ENV") === "test") {
+  if (config.get("RECURRING_TASKS") !== "true") {
     log("debug", "Skipping recurring task registration in test environment");
     return;
   }
 
   if (taskIntervals.has(taskKey)) {
-    throw new Error(`Attempted to register duplicate cache key: ${taskKey}`);
+    throw new Error(
+      `Attempted to register duplicate recurring task key: ${taskKey}`
+    );
   }
+
+  log("debug", "Registering recurring task " + taskKey);
 
   const interval: any = setInterval(task, intervalMs);
   taskIntervals.set(taskKey, interval);

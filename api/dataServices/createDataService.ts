@@ -1,5 +1,3 @@
-import { ServiceContainer } from "@baublet/service-container";
-import DataLoader from "dataloader";
 import { Knex } from "knex";
 import omit from "lodash.omit";
 import { ulid } from "ulid";
@@ -7,7 +5,7 @@ import { ulid } from "ulid";
 import { assertIsError } from "../../shared";
 import { dbService } from "../config/db";
 import { log } from "../config/log";
-import { Context, contextService } from "../createContext";
+import type { Context } from "../createContext";
 import { algoliaService, buildConnectionResolver, errors } from "../helpers";
 
 type PartiallyMaybe<T extends Record<string, any>> = {
@@ -51,7 +49,6 @@ export function createDataService<T extends QueryFactoryFunction>(
     findOneBy: getFindOneBy(queryFactory),
     findOneOrFail: getFindOneOrFail(queryFactory, entityName),
     getConnection: getConnection(queryFactory),
-    getLoader: getLoaderFactory(queryFactory),
     update: getUpdate(queryFactory),
     upsert: getUpsert(queryFactory, entityName),
     upsertRecordsToAlgolia: getUpsertRecordsToAlgolia(queryFactory, entityName),
@@ -98,21 +95,6 @@ function getDeleteBy<T extends QueryFactoryFunction>(queryFactory: T) {
     query.delete();
     await where(query as QueryBuilderFromFactory<typeof queryFactory>);
     return query;
-  };
-}
-
-function getLoaderFactory<T extends QueryFactoryFunction>(queryFactory: T) {
-  function getLoaderService(serviceContainer: ServiceContainer) {
-    const context = serviceContainer.get(contextService);
-    return new DataLoader<string, EntityFromQueryFactoryFunction<T>>(
-      async (ids: readonly string[]) => {
-        const getQuery = await queryFactory(context);
-        return getQuery().select().whereIn("id", ids);
-      }
-    );
-  }
-  return async (context: Context) => {
-    return context.services.get(getLoaderService);
   };
 }
 

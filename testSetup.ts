@@ -1,4 +1,4 @@
-import { testSetup, testCleanup } from "./api/config/db";
+import { testCleanup, testSetup } from "./api/config/test";
 
 jest.useFakeTimers();
 

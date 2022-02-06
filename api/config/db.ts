@@ -1,10 +1,7 @@
-import { resolve } from "path";
-
-import { ServiceContainer } from "@baublet/service-container";
 import { Knex, knex } from "knex";
 
 import knexConfig from "../../knexfile";
-import { Context, createContext } from "../createContext";
+import type { Context } from "../createContext";
 import { config } from "./config";
 import { log } from "./log";
 
@@ -37,7 +34,12 @@ if (!dbSettings) {
 }
 
 // Our general-purpose query handler
+let openConnections = 0;
 export async function getConnection(): Promise<Knex> {
+  log("info", "Grabbing a database connection from the pool", {
+    openConnections: openConnections + 1,
+  });
+  openConnections++;
   return knex(dbSettings);
 }
 
@@ -58,7 +60,19 @@ async function dbService() {
         transactingConnection = undefined;
       }
     },
-    close: () => transactingConnection?.commit(),
+    close: async () => {
+      await transactingConnection?.commit();
+    },
+    destroy: async () => {
+      log("info", "Destroying database connections", { openConnections });
+      await connection.destroy();
+      openConnections--;
+      if (transactingConnection) {
+        await transactingConnection.destroy();
+        openConnections--;
+      }
+      log("info", "Database connections destroyed", { openConnections });
+    },
     rollback: async (error: unknown) => {
       log("warn", "Transaction failed. Rolling back.", { error });
       await transactingConnection?.rollback();
@@ -88,43 +102,3 @@ export type QueryBuilderForQuery<
     performQuery: (query: Knex.QueryBuilder<any, any>) => any
   ) => Promise<any[]>
 > = Parameters<Parameters<T>[1]>[0];
-
-const testGlobalContext = createContext();
-const testGlobalServiceContainer: ServiceContainer = testGlobalContext.services;
-
-export function getTestGlobalContext(): Context {
-  return testGlobalContext;
-}
-
-export function getTestGlobalServiceContainer(): ServiceContainer {
-  if (config.get("NODE_ENV") !== "test") {
-    throw new Error(
-      `Invalid environment to use the global testing service container. Environment: ${config.get(
-        "NODE_ENV"
-      )}`
-    );
-  }
-  return testGlobalServiceContainer;
-}
-
-export async function testSetup() {
-  const databaseService = await getTestGlobalContext().services.get(dbService);
-  const connection = await databaseService.getConnection();
-  await connection.migrate.latest({
-    directory: resolve(process.cwd(), "migrations"),
-  });
-}
-
-export async function testCleanup() {
-  const databaseService = await getTestGlobalContext().services.get(dbService);
-  const connection = await databaseService.getConnection();
-  await connection.destroy();
-  getTestGlobalContext().services.delete(dbService);
-}
-
-export async function getTestGlobalDatabaseConnection() {
-  const service = await getTestGlobalServiceContainer().get(dbService);
-  const connection = await service.getConnection();
-  await connection.migrate.latest();
-  return connection;
-}

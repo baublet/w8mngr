@@ -2,7 +2,7 @@ export type FoodMeasurement = {
   id: string;
   foodId: string;
   userId: string;
-  measure: string;
+  measurement: string;
   amount: number;
   calories: number;
   fat: number;

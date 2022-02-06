@@ -1,4 +1,4 @@
-# w8mngr [![Build Status](https://travis-ci.org/baublet/w8mngr-2020.svg?branch=master)](https://travis-ci.org/baublet/w8mngr-2020)
+# w8mngr
 
 w8mngr utilizing Netlify's functions and a React SPA
 

@@ -4,6 +4,7 @@ import React from "react";
 import {
   GetCurrentUserFoodLogDocument,
   useCreateOrUpdateFoodLogMutation,
+  useQuickSearchFoodsQuery,
   useSearchFoodsQuery,
 } from "../../generated";
 import { useKeyPressHandler } from "../../helpers";
@@ -23,9 +24,11 @@ export function FoodSearchAutocomplete({
   day: string;
   onItemAdded?: () => void;
 }) {
-  const { data: searchData, loading: searchLoading } = useSearchFoodsQuery({
-    variables: { searchTerm },
-  });
+  const { data: searchData, loading: searchLoading } = useQuickSearchFoodsQuery(
+    {
+      variables: { input: { searchTerm } },
+    }
+  );
   const [selectedFoodId, setSelectedFoodId] = React.useState<string>();
   const [saveFoodLog, { loading }] = useCreateOrUpdateFoodLogMutation({
     refetchQueries: [
@@ -43,33 +46,31 @@ export function FoodSearchAutocomplete({
     if (!selectedFoodId) {
       return undefined;
     }
-    return searchData?.currentUser?.foods.edges.find(
-      (edge) => edge.node.id === selectedFoodId
-    )?.node;
+    return searchData?.searchFoods.find((food) => food.id === selectedFoodId);
   }, [searchData, selectedFoodId]);
 
   const goToNextFood = React.useCallback(
     (event: KeyboardEvent) =>
       setSelectedFoodId((selectedId) => {
-        const foodEdges = searchData?.currentUser?.foods.edges;
-        if (!foodEdges || foodEdges.length === 0) {
+        const foods = searchData?.searchFoods;
+        if (!foods || foods.length === 0) {
           return undefined;
         }
 
         event.preventDefault();
-        const foundFoodIndex = foodEdges.findIndex(
-          (foodEdge) => foodEdge.node.id === selectedId
+        const foundFoodIndex = foods.findIndex(
+          (food) => food.id === selectedId
         );
         if (foundFoodIndex === -1) {
-          return foodEdges[0].node.id;
+          return foods[0].id;
         }
 
         const newIndex = foundFoodIndex + 1;
-        if (newIndex >= foodEdges.length) {
-          return foodEdges[0].node.id;
+        if (newIndex >= foods.length) {
+          return foods[0].id;
         }
 
-        return foodEdges[newIndex].node.id;
+        return foods[newIndex].id;
       }),
     [searchData]
   );
@@ -77,25 +78,25 @@ export function FoodSearchAutocomplete({
   const goToPreviousFood = React.useCallback(
     (event: KeyboardEvent) =>
       setSelectedFoodId((selectedId) => {
-        const foodEdges = searchData?.currentUser?.foods.edges;
-        if (!foodEdges || foodEdges.length === 0) {
+        const foods = searchData?.searchFoods;
+        if (!foods || foods.length === 0) {
           return undefined;
         }
 
         event.preventDefault();
-        const foundFoodIndex = foodEdges.findIndex(
-          (foodEdge) => foodEdge.node.id === selectedId
+        const foundFoodIndex = foods.findIndex(
+          (food) => food.id === selectedId
         );
         if (foundFoodIndex === -1) {
-          return foodEdges[foodEdges.length - 1].node.id;
+          return foods[foods.length - 1].id;
         }
 
         const newIndex = foundFoodIndex - 1;
         if (newIndex < 0) {
-          return foodEdges[foodEdges.length - 1].node.id;
+          return foods[foods.length - 1].id;
         }
 
-        return foodEdges[newIndex].node.id;
+        return foods[newIndex].id;
       }),
     [searchData]
   );
@@ -168,11 +169,11 @@ export function FoodSearchAutocomplete({
             </div>
           </SideBarHeading>
           <div className="mt-2">
-            {searchData?.currentUser?.foods.edges.map((food) => {
-              const selected = food.node.id === selectedFoodId;
+            {searchData?.searchFoods.map((food) => {
+              const selected = food.id === selectedFoodId;
               return (
                 <div
-                  key={food.cursor}
+                  key={food.id}
                   className={cx(
                     "flex w-full flex-col text-xs hover:text-slate-600 hover:bg-slate-50 rounded-lg",
                     {
@@ -186,11 +187,11 @@ export function FoodSearchAutocomplete({
                       className={cx(
                         "block w-full text-left p-2 uppercase font-bold text-slate-500"
                       )}
-                      onClick={() => setSelectedFoodId(food.node.id)}
+                      onClick={() => setSelectedFoodId(food.id)}
                     >
-                      {food.node.name}
+                      {food.name}
                     </button>
-                    {food.node.measurements.edges.length > 0 ? null : (
+                    {food.measurements.edges.length > 0 ? null : (
                       <div>
                         <SystemOutlineIconButton
                           size="extra-small"
@@ -199,7 +200,7 @@ export function FoodSearchAutocomplete({
                               !selected,
                             "translate-x-0 opacity-100": selected,
                           })}
-                          title={`Add ${food.node.name}`}
+                          title={`Add ${food.name}`}
                           onClick={saveSelectedFoodWithoutMeasurements}
                         >
                           <Add />
@@ -209,7 +210,7 @@ export function FoodSearchAutocomplete({
                   </div>
                   {!selected ? null : (
                     <MeasurementList
-                      food={food.node}
+                      food={food}
                       saveSelectedFood={saveSelectedFood}
                     />
                   )}

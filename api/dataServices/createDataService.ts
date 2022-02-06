@@ -6,8 +6,9 @@ import { ulid } from "ulid";
 
 import { assertIsError } from "../../shared";
 import { dbService } from "../config/db";
+import { log } from "../config/log";
 import { Context, contextService } from "../createContext";
-import { buildConnectionResolver, errors } from "../helpers";
+import { algoliaService, buildConnectionResolver, errors } from "../helpers";
 
 type PartiallyMaybe<T extends Record<string, any>> = {
   [K in keyof T]?: T[K] | undefined;
@@ -52,7 +53,9 @@ export function createDataService<T extends QueryFactoryFunction>(
     getConnection: getConnection(queryFactory),
     getLoader: getLoaderFactory(queryFactory),
     update: getUpdate(queryFactory),
-    upsert: getUpsert(queryFactory),
+    upsert: getUpsert(queryFactory, entityName),
+    upsertRecordsToAlgolia: getUpsertRecordsToAlgolia(queryFactory, entityName),
+    searchRecordsInAlgolia: getSearchRecordsInAlgolia(queryFactory, entityName),
   };
 }
 
@@ -173,6 +176,7 @@ function getUpdate<T extends QueryFactoryFunction>(queryFactory: T) {
 
 function getUpsert<T extends QueryFactoryFunction>(
   queryFactory: T,
+  entityName: string,
   idProp: string = "id"
 ) {
   return async (
@@ -216,6 +220,11 @@ function getUpsert<T extends QueryFactoryFunction>(
       );
 
       await databaseService.commit();
+
+      await getUpsertRecordsToAlgolia(queryFactory, entityName)(context, {
+        ids: payloads.map((p) => p.id),
+      });
+
       return payloads;
     } catch (error) {
       await databaseService.rollback(error);
@@ -267,6 +276,61 @@ function getConnection<T extends QueryFactoryFunction>(queryFactory: T) {
     } catch (error) {
       assertIsError(error);
       return error;
+    }
+  };
+}
+
+function getUpsertRecordsToAlgolia<T extends QueryFactoryFunction>(
+  queryFactory: T,
+  entityName: string
+) {
+  return async (
+    context: Context,
+    input: {
+      ids: string[];
+    }
+  ) => {
+    try {
+      const algolia = await context.services
+        .get(algoliaService)()
+        .getIndex(entityName);
+      const getQuery = await queryFactory(context);
+      const query = getQuery();
+      const entities = await query.select().whereIn("id", input.ids);
+      await algolia.upsertObjects(entities);
+    } catch (error) {
+      log("error", "Error upserting records to Algolia", {
+        error,
+      });
+    }
+  };
+}
+
+function getSearchRecordsInAlgolia<T extends QueryFactoryFunction>(
+  queryFactory: T,
+  entityName: string
+) {
+  return async (
+    context: Context,
+    input: {
+      searchTerm: string;
+      filters?: string;
+    }
+  ): Promise<EntityFromQueryFactoryFunction<T>[]> => {
+    try {
+      const algolia = await context.services
+        .get(algoliaService)()
+        .getIndex(entityName);
+      const searchResults: any[] = await algolia.searchObjects(
+        input.searchTerm,
+        input.filters
+      );
+      return searchResults;
+    } catch (error) {
+      log("error", "Error searching records in Algolia", {
+        error,
+      });
+      return [];
     }
   };
 }

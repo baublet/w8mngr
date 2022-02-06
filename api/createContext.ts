@@ -16,7 +16,9 @@ export interface Context {
   getCurrentUser: <T extends boolean | undefined>(
     orThrow?: T
   ) => T extends false | undefined ? UserEntity | undefined : UserEntity;
-  getCurrentUserId: (orThrow?: boolean) => string;
+  getCurrentUserId: <T extends boolean>(
+    orThrow?: T
+  ) => T extends false ? string | undefined : string;
   getCurrentUserAccountId: <T extends boolean | undefined>(
     orThrow?: T
   ) => T extends false | undefined ? string | undefined : string;

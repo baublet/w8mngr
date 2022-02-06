@@ -1,0 +1,19 @@
+query QuickSearchFoods($input: SearchFoodsInput!) {
+  searchFoods(input: $input) {
+    id
+    name
+    measurements {
+      edges {
+        node {
+          id
+          amount
+          measurement
+          calories
+          fat
+          carbs
+          protein
+        }
+      }
+    }
+  }
+}

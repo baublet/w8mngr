@@ -13,3 +13,4 @@ export { parseBody } from "./parseBody";
 export { rawInputToUnit } from "./rawInputToUnit";
 export { settingsService } from "./settingsService";
 export { registerRecurringTask } from "./registerRecurringTask";
+export { algoliaService } from "./algoliaService";

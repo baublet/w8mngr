@@ -27,6 +27,7 @@ import { saveFoodLog } from "./mutations/saveFoodLog";
 import { saveUploadData } from "./mutations/saveUploadData";
 import { saveWeightLog } from "./mutations/saveWeightLog";
 import { verifyEmail } from "./mutations/verifyEmail";
+import { searchFoods } from "./searchFoods";
 import { upload } from "./upload";
 import { publicUrl } from "./upload/publicUrl";
 import { activities } from "./user/activities";
@@ -77,6 +78,7 @@ export const resolvers: Resolvers = {
   Query: {
     currentUser,
     upload,
+    searchFoods,
   },
   Mutation: {
     deleteActivityLog,

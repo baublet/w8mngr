@@ -1,3 +1,5 @@
+import hash from "object-hash";
+
 import { log } from "../config/log";
 import { registerRecurringTask } from "./registerRecurringTask";
 
@@ -12,7 +14,6 @@ registerRecurringTask({
     for (const key of Array.from(cache.keys())) {
       const cacheItem = cache.get(key);
       if (cacheItem && cacheItem.expiry < now) {
-        log("debug", "Pruning key " + key, { cacheItem });
         cache.delete(key);
       }
     }
@@ -27,25 +28,41 @@ export const globalInMemoryCache = {
     expiry = Date.now() + 1000 * 30, // 30 seconds by default
     fn,
   }: {
-    key: string;
+    key: any;
     /**
      * Key expiry date in milliseconds
      */
     expiry?: number;
     fn: () => Promise<T>;
   }): Promise<T> => {
-    const existingRecord = cache.get(key);
-    if (existingRecord && existingRecord.expiry > Date.now()) {
-      log("debug", `Cache hit for key ${key}`);
+    const keyHash = hash({ key });
+
+    const existingRecord = cache.get(keyHash);
+    const now = Date.now();
+    if (existingRecord && existingRecord.expiry + now > now) {
+      log("debug", `Cache hit for key ${JSON.stringify(key)}`);
       return existingRecord.value;
     }
 
-    const newValue = await fn();
-    cache.set(key, {
-      value: newValue,
-      expiry,
-    });
+    try {
+      const newValue = await fn();
+      cache.set(keyHash, {
+        value: newValue,
+        expiry,
+      });
+      log(
+        "debug",
+        `Cache miss for key ${JSON.stringify(
+          key
+        )}. Saving to cache for ${expiry}ms`
+      );
 
-    return newValue;
+      return newValue;
+    } catch (error) {
+      log("error", "getOrSet cache function error", {
+        error,
+      });
+      throw error;
+    }
   },
 };

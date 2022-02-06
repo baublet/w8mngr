@@ -1,40 +1,48 @@
 import { getWithDefault } from "../../../shared";
-import { foodDataService } from "../../dataServices";
+import { foodDataService, userDataService } from "../../dataServices";
 import { UserResolvers } from "../../graphql-types";
+import { globalInMemoryCache } from "../../helpers";
 
 export const foods: UserResolvers["foods"] = async (
   parent,
   { input = {} },
   context
 ) => {
-  const filters = getWithDefault(input?.filter, {});
-  const connectionResolver = await foodDataService.getConnection(context, {
-    applyCustomConstraint: (query) => {
-      const searchString = input?.filter?.searchString;
-      if (searchString) {
-        query.andWhereRaw("UPPER(name) LIKE ?", [
-          "%" + searchString.toUpperCase() + "%",
-        ]);
+  const currentUserId = parent.id;
+  const searchString = input?.filter?.searchString;
+  const cacheKey = `food-search-${currentUserId}-${JSON.stringify(
+    searchString
+  )}`;
+
+  return globalInMemoryCache.getOrSet({
+    key: cacheKey,
+    expiry: 30000,
+    fn: async () => {
+      const adminUsers = await userDataService.getAdminUsers(context);
+
+      const filters = getWithDefault(input?.filter, {});
+      const connectionResolver = await foodDataService.getConnection(context, {
+        applyCustomConstraint: (q) =>
+          q.whereIn("userId", [currentUserId, ...adminUsers.map((u) => u.id)]),
+        constraint: {
+          id: filters.id,
+        },
+        connectionResolverParameters: {
+          after: input?.after,
+          before: input?.before,
+          last: input?.last,
+          first: input?.first,
+          sort: {
+            id: "asc",
+          },
+        },
+      });
+
+      if (connectionResolver instanceof Error) {
+        throw connectionResolver;
       }
-    },
-    constraint: {
-      userId: context.getCurrentUserId(),
-      id: filters.id,
-    },
-    connectionResolverParameters: {
-      after: input?.after,
-      before: input?.before,
-      last: input?.last,
-      first: input?.first,
-      sort: {
-        id: "asc",
-      },
+
+      return connectionResolver;
     },
   });
-
-  if (connectionResolver instanceof Error) {
-    throw connectionResolver;
-  }
-
-  return connectionResolver;
 };

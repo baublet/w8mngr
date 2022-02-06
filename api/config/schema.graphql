@@ -18,6 +18,8 @@ type User {
 type Query {
   currentUser: User
   upload(input: UploadInput): Upload!
+  "Fast, auto-complete ready search for foods"
+  searchFoods(input: SearchFoodsInput!): [Food!]!
 }
 
 type Mutation {
@@ -141,6 +143,11 @@ enum Unit {
 #################
 # Inputs        #
 #################
+
+input SearchFoodsInput {
+  searchTerm: String!
+  page: Int
+}
 
 input RequestEmailLoginLinkInput {
   email: String!

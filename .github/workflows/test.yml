@@ -19,6 +19,17 @@ jobs:
       matrix:
         node-version: [16.x]
 
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: w8mngr
+          POSTGRES_PASSWORD: w8mngr
+          POSTGRES_DB: w8mngr
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -26,6 +37,5 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
-      - run: docker-compose up -d
       - run: yarn install --immutable
       - run: yarn test

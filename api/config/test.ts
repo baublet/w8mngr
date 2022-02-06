@@ -4,11 +4,12 @@ import { ServiceContainer } from "@baublet/service-container";
 
 import { Context, createContext } from "../createContext";
 import { config } from "./config";
+import { dbService } from "./db";
 
-const testGlobalContext = createContext();
-const testGlobalServiceContainer: ServiceContainer = testGlobalContext.services;
+let testGlobalContext: Context | undefined;
 
 export function getTestGlobalContext(): Context {
+  testGlobalContext = testGlobalContext || createContext();
   return testGlobalContext;
 }
 
@@ -20,14 +21,11 @@ export function getTestGlobalServiceContainer(): ServiceContainer {
       )}`
     );
   }
-  return testGlobalServiceContainer;
+  return getTestGlobalContext().services;
 }
 
 export async function testSetup() {
-  const db = await import("./db");
-  const databaseService = await getTestGlobalContext().services.get(
-    db.dbService
-  );
+  const databaseService = await getTestGlobalContext().services.get(dbService);
   const connection = await databaseService.getConnection();
   await connection.migrate.latest({
     directory: resolve(process.cwd(), "migrations"),
@@ -35,17 +33,13 @@ export async function testSetup() {
 }
 
 export async function testCleanup() {
-  const db = await import("./db");
-  const databaseService = await getTestGlobalContext().services.get(
-    db.dbService
-  );
+  const databaseService = await getTestGlobalContext().services.get(dbService);
   await databaseService.destroy();
-  getTestGlobalContext().services.delete(db.dbService);
+  getTestGlobalContext().services.delete(dbService);
 }
 
 export async function getTestGlobalDatabaseConnection() {
-  const db = await import("./db");
-  const service = await getTestGlobalServiceContainer().get(db.dbService);
+  const service = await getTestGlobalServiceContainer().get(dbService);
   const connection = await service.getConnection();
   await connection.migrate.latest();
   return connection;

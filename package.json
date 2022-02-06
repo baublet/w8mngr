@@ -27,7 +27,8 @@
     "postinstall": "husky install && yarn gql:generate",
     "postpublish": "pinst --enable",
     "prepublishOnly": "pinst --disable",
-    "test": "node -r ts-node/register ./node_modules/.bin/jest"
+    "test": "RECURRING_TASKS=false SUPPRESS_ALGOLIA=true SUPPRESS_EMAILS=true node -r ts-node/register ./node_modules/.bin/jest --",
+    "test:watch": "RECURRING_TASKS=false SUPPRESS_ALGOLIA=true SUPPRESS_EMAILS=true node -r ts-node/register ./node_modules/.bin/jest --watch --"
   },
   "author": "Ryan M. Poe",
   "license": "ISC",

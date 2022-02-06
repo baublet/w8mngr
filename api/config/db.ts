@@ -34,13 +34,14 @@ if (!dbSettings) {
 }
 
 // Our general-purpose query handler
-let openConnections = 0;
+const openConnections: any[] = []; // We track them so we can free them up and shut down the app safely
 export async function getConnection(): Promise<Knex> {
   log("info", "Grabbing a database connection from the pool", {
-    openConnections: openConnections + 1,
+    openConnections: openConnections.length,
   });
-  openConnections++;
-  return knex(dbSettings);
+  const connection = knex(dbSettings);
+  openConnections.push(connection);
+  return connection;
 }
 
 async function dbService() {
@@ -64,14 +65,16 @@ async function dbService() {
       await transactingConnection?.commit();
     },
     destroy: async () => {
-      log("info", "Destroying database connections", { openConnections });
-      await connection.destroy();
-      openConnections--;
-      if (transactingConnection) {
-        await transactingConnection.destroy();
-        openConnections--;
+      log("info", "Destroying database connections", {
+        openConnections: openConnections.length,
+      });
+      while (openConnections.length) {
+        const connection = openConnections.pop();
+        await connection?.destroy();
       }
-      log("info", "Database connections destroyed", { openConnections });
+      log("info", "Database connections destroyed", {
+        openConnections: openConnections.length,
+      });
     },
     rollback: async (error: unknown) => {
       log("warn", "Transaction failed. Rolling back.", { error });

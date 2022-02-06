@@ -1,7 +1,7 @@
-import { assertIsError } from "../../../shared";
 import { QueryBuilder } from "../../config/db";
-import { log } from "../../config/log";
+import { assertIsError } from "../../../shared";
 import { isBefore } from "./isBefore";
+import { log } from "../../config/log";
 import { validateArguments } from "./validateArguments";
 
 export type Connection<TEntity, TNode = TEntity> = Resolvable<{
@@ -122,7 +122,7 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
       if (!totalCount) {
         totalCount = new Promise<number>(async (resolve) => {
           const count = await totalCountQuery;
-          resolve(count[0].count);
+          resolve(orZero(count[0].count));
         });
       }
       return totalCount;
@@ -295,4 +295,22 @@ class InvalidCursorError extends Error {
       }`
     );
   }
+}
+
+function orZero(value: any): number {
+  if (typeof value === "number") return value;
+  if (typeof value === "string") {
+    const num = parseInt(value, 10);
+    if (num < 0) {
+      return 0;
+    }
+    if (isNaN(num)) {
+      return 0;
+    }
+    if (num === Infinity) {
+      return 0;
+    }
+    return num;
+  }
+  return 0;
 }

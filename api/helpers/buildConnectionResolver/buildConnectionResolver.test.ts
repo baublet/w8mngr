@@ -1,8 +1,7 @@
 import { Knex } from "knex";
-import { ulid } from "ulid";
-import { getConnection } from "../../config/db";
-
 import { buildConnectionResolver } from "./buildConnectionResolver";
+import { getConnection } from "../../config/db";
+import { ulid } from "ulid";
 
 type User = {
   id: number;
@@ -102,7 +101,7 @@ describe("Basic sort by ID", () => {
     );
 
     expect(connection._resultsQueryText).toEqual(
-      `select * from \`${userTableName}\` order by \`id\` asc limit 3`
+      `select * from \"${userTableName}\" order by \"id\" asc limit 3`
     );
     await expect(connection.edges()).resolves.toEqual([
       {
@@ -174,7 +173,7 @@ describe("Basic sort by ID", () => {
     );
 
     expect(connection._resultsQueryText).toEqual(
-      `select * from \`${userTableName}\` where \`id\` > 3 order by \`id\` asc limit 3`
+      `select * from \"${userTableName}\" where \"id\" > 3 order by \"id\" asc limit 3`
     );
     await expect(connection.edges()).resolves.toEqual([
       {
@@ -210,7 +209,7 @@ describe("Multiple field sort", () => {
     );
 
     expect(connection._resultsQueryText).toEqual(
-      `select * from \`${userTableName}\` order by \`age\` desc, \`name\` asc limit 3`
+      `select * from \"${userTableName}\" order by \"age\" desc, \"name\" asc limit 3`
     );
     await expect(connection.edges()).resolves.toEqual([
       {
@@ -249,7 +248,7 @@ describe("Multiple field sort", () => {
     );
 
     expect(connection._resultsQueryText).toEqual(
-      `select * from \`${userTableName}\` where \`age\` < 24 and \`name\` > 'Claire' order by \`age\` desc, \`name\` asc limit 3`
+      `select * from \"${userTableName}\" where \"age\" < 24 and \"name\" > 'Claire' order by \"age\" desc, \"name\" asc limit 3`
     );
     await expect(connection.edges()).resolves.toEqual([
       {
@@ -288,7 +287,7 @@ describe("Before cursors", () => {
     );
 
     expect(connection._resultsQueryText).toEqual(
-      `select * from \`${userTableName}\` order by \`age\` asc, \`name\` desc limit 3`
+      `select * from \"${userTableName}\" order by \"age\" asc, \"name\" desc limit 3`
     );
     await expect(connection.edges()).resolves.toEqual([
       {
@@ -331,7 +330,7 @@ describe("Before cursors", () => {
     );
 
     expect(connection._resultsQueryText).toEqual(
-      `select * from \`${userTableName}\` where \`age\` > 3 and \`name\` < 'Xander' order by \`age\` asc, \`name\` desc limit 3`
+      `select * from \"${userTableName}\" where \"age\" > 3 and \"name\" < 'Xander' order by \"age\" asc, \"name\" desc limit 3`
     );
 
     const edges = await connection.edges();

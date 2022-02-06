@@ -2930,6 +2930,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/uuid@npm:^8.3.4":
+  version: 8.3.4
+  resolution: "@types/uuid@npm:8.3.4"
+  checksum: 6f11f3ff70f30210edaa8071422d405e9c1d4e53abbe50fdce365150d3c698fe7bbff65c1e71ae080cbfb8fded860dbb5e174da96fdbbdfcaa3fb3daa474d20f
+  languageName: node
+  linkType: hard
+
 "@types/websocket@npm:1.0.4":
   version: 1.0.4
   resolution: "@types/websocket@npm:1.0.4"
@@ -9973,6 +9980,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"minifaker@npm:^1.34.0":
+  version: 1.34.0
+  resolution: "minifaker@npm:1.34.0"
+  dependencies:
+    "@types/uuid": ^8.3.4
+    nanoid: ^3.2.0
+    uuid: ^8.3.2
+  checksum: 6886a652123a3512c6f930958dcef56dd19c0dbcafc6b0b9bd2d7225edfb27d03e7a1f9673210d41abd8706c8a01a770162cde25a507f7f21bcb2687ae174a20
+  languageName: node
+  linkType: hard
+
 "minimatch@npm:3.0.4, minimatch@npm:^3.0.4":
   version: 3.0.4
   resolution: "minimatch@npm:3.0.4"
@@ -10195,6 +10213,15 @@ __metadata:
   bin:
     nanoid: bin/nanoid.cjs
   checksum: 276d0d4b0c41c46aeefec5f09f093e4085a2352d06881c845db22b84f8ef72cc8defae6d76bfb1d8a2a128eb2dec42ab148d16582be4e7754c97905806ef57b6
+  languageName: node
+  linkType: hard
+
+"nanoid@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "nanoid@npm:3.2.0"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: 3d1d5a69fea84e538057cf64106e713931c4ef32af344068ecff153ff91252f39b0f2b472e09b0dfff43ac3cf520c92938d90e6455121fe93976e23660f4fccc
   languageName: node
   linkType: hard
 
@@ -14179,7 +14206,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^8.0.0":
+"uuid@npm:^8.0.0, uuid@npm:^8.3.2":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:
@@ -14403,6 +14430,7 @@ __metadata:
     lodash.keyby: ^4.6.0
     lodash.omit: ^4.5.0
     mailgun.js: ^4.1.4
+    minifaker: ^1.34.0
     object-hash: ^2.2.0
     pg: ^8.7.1
     pinst: ">=2"

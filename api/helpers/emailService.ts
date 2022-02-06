@@ -18,6 +18,10 @@ export function emailService() {
     subject: string;
     html: string;
   }) => {
+    if (config.get("SUPPRESS_EMAILS") === "true") {
+      return;
+    }
+
     try {
       const baseUrl = config.get("MAILGUN_BASE_URL");
       const domain = config.get("MAILGUN_DOMAIN");

@@ -19,9 +19,4 @@ export default {
       max: 10,
     },
   },
-
-  legacy: {
-    client: "pg",
-    connection: config.get("LEGACY_DB_CONNECTION_STRING"),
-  },
 };

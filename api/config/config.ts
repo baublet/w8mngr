@@ -41,16 +41,17 @@ export const config = createConfig({
   DATABASE: "production",
   DB_CONNECTION_STRING: "",
   JWT_SECRET: "Don't use the default value, please!",
-  LEGACY_DB_CONNECTION_STRING: "",
   MAILGUN_API_KEY: "",
   MAILGUN_BASE_URL: "",
   MAILGUN_DOMAIN: "",
   NETLIFY: "false",
   NODE_ENV: "production",
   PUBLIC_URL: otherEnvValuesOrDefault(["URL"], "http://localhost:8080"),
-  SALT: "Don't use the default, please!",
-  SUPPRESS_CONSOLE_LOGGING: "false",
   RECURRING_TASKS: "true",
+  SALT: "Don't use the default, please!",
+  SUPPRESS_ALGOLIA: "true",
+  SUPPRESS_CONSOLE_LOGGING: "true",
+  SUPPRESS_EMAILS: "true",
 });
 
 function otherEnvValuesOrDefault(

@@ -17,6 +17,10 @@ type AlgoliaService = {
 };
 
 export function algoliaService(): () => AlgoliaService {
+  if (config.get("SUPPRESS_ALGOLIA") === "true") {
+    log("warn", "Algolia indexing manually suppressed");
+    return () => stubAlgoliaService;
+  }
   if (config.get("ALGOLIA_APPLICATION_ID") === "") {
     log(
       "warn",

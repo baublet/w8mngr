@@ -1,21 +1,22 @@
+import { assertIsError } from "../../../shared";
+import { hashPassword } from "../../authentication";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { UserEntity } from "./types";
-import { userDataService } from "./";
-import { userAccountDataService } from "../userAccount/";
-import { hashPassword } from "../../authentication";
 import { ReturnTypeWithErrors } from "../../types";
+import { emailDataService } from "../";
 import { tokenDataService } from "../token";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
-import { assertIsError } from "../../../shared";
-import { emailDataService } from "../";
+import { userAccountDataService } from "../userAccount/";
+import { userDataService } from "./";
+import { UserEntity } from "./types";
 
 export async function register(
   context: Context,
-  credentials: {
+  userData: {
     email: string;
     password: string;
     passwordConfirmation: string;
+    role?: UserEntity["role"];
   }
 ): Promise<
   ReturnTypeWithErrors<{
@@ -24,20 +25,21 @@ export async function register(
     rememberToken: string;
   }>
 > {
-  if (credentials.password !== credentials.passwordConfirmation) {
+  if (userData.password !== userData.passwordConfirmation) {
     throw new Error("Passwords don't match");
   }
   const databaseService = await context.services.get(dbService);
   await databaseService.transact();
   try {
-    const passwordHash = await hashPassword(credentials.password);
+    const passwordHash = await hashPassword(userData.password);
     const user = await userDataService.create(context, {
-      preferredName: credentials.email,
+      preferredName: userData.email,
+      role: userData.role,
     });
 
     const accountExists = await userAccountDataService.accountExists(context, {
       source: "local",
-      sourceIdentifier: credentials.email,
+      sourceIdentifier: userData.email,
     });
     if (accountExists) {
       throw new Error("Email taken");
@@ -46,7 +48,7 @@ export async function register(
     const account = await userAccountDataService.create(context, {
       userId: user.id,
       source: "local",
-      sourceIdentifier: credentials.email,
+      sourceIdentifier: userData.email,
       passwordHash,
       verified: false,
     });

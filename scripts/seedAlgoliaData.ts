@@ -3,7 +3,6 @@ import knex from "knex";
 import { config } from "../api/config/config";
 import { createContext } from "../api/createContext";
 import { foodDataService } from "../api/dataServices";
-import { algoliaService } from "../api/helpers/algoliaService";
 import knexConfig from "../knexfile";
 
 const database = config.get("DATABASE");

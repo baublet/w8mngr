@@ -3,7 +3,6 @@ import format from "date-fns/format";
 import subYears from "date-fns/subYears";
 import groupBy from "lodash.groupby";
 
-import { foodLogDataService } from ".";
 import {
   dayStringFromDate,
   dayStringToDate,
@@ -13,6 +12,7 @@ import {
 import { Context } from "../../createContext";
 import { FoodLogDataPoint } from "../../graphql-types";
 import { globalInMemoryCache } from "../../helpers";
+import { foodLogDataService } from ".";
 
 export async function stats(
   context: Context,
@@ -38,6 +38,8 @@ export async function stats(
       const averageDailyFatMap: Record<string, number> = {};
       const averageDailyProteinMap: Record<string, number> = {};
 
+      console.log(JSON.stringify(days));
+
       for (const [day, foodLogs] of days) {
         for (const foodLog of foodLogs) {
           maybeAddToTotal(averageDailyCaloriesMap, day, foodLog.calories);
@@ -57,7 +59,7 @@ export async function stats(
           return {
             day: format(dayStringToDate(day), "PP"),
             ...foodLogs.reduce(
-              (data, foodLog, i) => {
+              (data, foodLog) => {
                 data.calories += orZero(foodLog.calories);
                 data.carbs += orZero(foodLog.carbs);
                 data.fat += orZero(foodLog.fat);
@@ -93,11 +95,11 @@ export async function stats(
         { span }
       );
       const movingAverageDays = movingAverageProtein.map((d, i) => {
-        const visDataIndex = i * span;
-        if (visDataIndex > visualizationData.length) {
-          return visualizationData[visualizationData.length - 1].day;
-        }
-        return visualizationData[visDataIndex].day;
+        return visualizationData[i].day;
+      });
+
+      console.log({
+        movingAverageDays: JSON.stringify(movingAverageDays),
       });
 
       return {

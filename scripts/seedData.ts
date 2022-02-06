@@ -292,7 +292,6 @@ async function seedFoodEntries() {
 
   for (const user of users) {
     const userTargetCalories = number({ min: 1200, max: 2500 });
-    const data: Partial<FoodLogEntity>[] = [];
     process.stdout.write("\n");
     for (const day of allDays) {
       const skip = number({ min: 0, max: 12 });
@@ -310,18 +309,18 @@ async function seedFoodEntries() {
       const fat = number({ min: 30, max: 100 });
       const carbs = number({ min: 30, max: 200 });
       const protein = number({ min: 30, max: 150 });
-      process.stdout.write(" " + day);
-      data.push({
-        userId: user.id,
-        description: `2 ${word()} ${word()}`,
-        day,
-        calories,
-        fat,
-        carbs,
-        protein,
-      });
+      await foodLogDataService.upsert(context, [
+        {
+          userId: user.id,
+          description: `2 ${word()} ${word()}`,
+          day,
+          calories,
+          fat,
+          carbs,
+          protein,
+        },
+      ]);
     }
-    await foodLogDataService.upsert(context, data);
   }
 
   console.log("\nSeeded foodsLogs: ", total);

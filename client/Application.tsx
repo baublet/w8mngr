@@ -55,7 +55,7 @@ export function Application(): React.ReactComponentElement<any> {
                 <p>
                   This software is open source. Want to add a feature or report
                   a bug? Checkout{" "}
-                  <FooterLink to="https://github.com/baublet/w8mngr-2020">
+                  <FooterLink to="https://github.com/baublet/w8mngr">
                     w8mngr on GitHub
                   </FooterLink>
                   .

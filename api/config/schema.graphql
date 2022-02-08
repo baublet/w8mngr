@@ -631,8 +631,8 @@ type FoodLogStatSummary {
 
 type FoodLogDataPoint {
   day: Date!
-  calories: Float!
-  fat: Float!
-  carbs: Float!
-  protein: Float!
+  calories: Float
+  fat: Float
+  carbs: Float
+  protein: Float
 }

@@ -1,18 +1,18 @@
-import addYears from "date-fns/addYears";
+import addDays from "date-fns/addDays";
+import addMonths from "date-fns/addMonths";
 import format from "date-fns/format";
-import subYears from "date-fns/subYears";
+import subMonths from "date-fns/subMonths";
 import groupBy from "lodash.groupby";
 
 import {
   dayStringFromDate,
   dayStringToDate,
-  getMovingAverage,
   objectEntries,
 } from "../../../shared";
 import { Context } from "../../createContext";
 import { FoodLogDataPoint } from "../../graphql-types";
 import { globalInMemoryCache } from "../../helpers";
-import { foodLogDataService } from ".";
+import { FoodLogEntity, foodLogDataService } from ".";
 
 export async function stats(
   context: Context,
@@ -22,7 +22,7 @@ export async function stats(
   const cacheKey = `food-log-stats-${userId}-${from}-${to}`;
   return globalInMemoryCache.getOrSet({
     key: cacheKey,
-    expiry: Date.now() + 1000 * 60 * 60 * 12,
+    expiry: Date.now() + 1000 * 60 * 2,
     fn: async () => {
       const foodLogsInRange = await foodLogDataService.findBy(context, (q) =>
         q
@@ -30,15 +30,17 @@ export async function stats(
           .andWhere("day", ">=", from)
           .andWhere("day", "<=", to)
       );
-      const foodLogsGroupedByDay = groupBy(foodLogsInRange, (log) => log.day);
+      const foodLogsGroupedByDay: Record<string, FoodLogEntity[]> =
+        groupBy<any>(foodLogsInRange, (log) => log.day);
+
+      fillDays(foodLogsGroupedByDay, () => []);
+
       const days = objectEntries(foodLogsGroupedByDay);
 
       const averageDailyCaloriesMap: Record<string, number> = {};
       const averageDailyCarbsMap: Record<string, number> = {};
       const averageDailyFatMap: Record<string, number> = {};
       const averageDailyProteinMap: Record<string, number> = {};
-
-      console.log(JSON.stringify(days));
 
       for (const [day, foodLogs] of days) {
         for (const foodLog of foodLogs) {
@@ -60,47 +62,22 @@ export async function stats(
             day: format(dayStringToDate(day), "PP"),
             ...foodLogs.reduce(
               (data, foodLog) => {
-                data.calories += orZero(foodLog.calories);
-                data.carbs += orZero(foodLog.carbs);
-                data.fat += orZero(foodLog.fat);
-                data.protein += orZero(foodLog.protein);
+                data.calories = maybeAdd(data.calories, foodLog.calories);
+                data.carbs = maybeAdd(data.carbs, foodLog.carbs);
+                data.fat = maybeAdd(data.fat, foodLog.fat);
+                data.protein = maybeAdd(data.protein, foodLog.protein);
                 return data;
               },
               {
-                calories: 0,
-                carbs: 0,
-                fat: 0,
-                protein: 0,
+                calories: undefined,
+                carbs: undefined,
+                fat: undefined,
+                protein: undefined,
               } as Omit<FoodLogDataPoint, "day">
             ),
           };
         }
       );
-
-      const span = 7;
-      const movingAverageCalories = getMovingAverage(
-        visualizationData.map((d) => d.calories),
-        { span }
-      );
-      const movingAverageFat = getMovingAverage(
-        visualizationData.map((d) => d.fat),
-        { span }
-      );
-      const movingAverageCarbs = getMovingAverage(
-        visualizationData.map((d) => d.carbs),
-        { span }
-      );
-      const movingAverageProtein = getMovingAverage(
-        visualizationData.map((d) => d.protein),
-        { span }
-      );
-      const movingAverageDays = movingAverageProtein.map((d, i) => {
-        const index = i * span;
-        if (index > visualizationData.length) {
-          return visualizationData[visualizationData.length - 1].day;
-        }
-        return visualizationData[i * span].day;
-      });
 
       return {
         summary: {
@@ -110,12 +87,12 @@ export async function stats(
           averageDailyProtein,
           totalFoodsLogged: foodLogsInRange.length,
         },
-        visualizationData: movingAverageCalories.map((data, i) => ({
-          day: movingAverageDays[i],
-          calories: orZero(movingAverageCalories[i]),
-          fat: orZero(movingAverageFat[i]),
-          carbs: orZero(movingAverageCarbs[i]),
-          protein: orZero(movingAverageProtein[i]),
+        visualizationData: visualizationData.map((data, i) => ({
+          day: data.day,
+          calories: data.calories,
+          fat: data.fat,
+          carbs: data.carbs,
+          protein: data.protein,
         })),
       };
     },
@@ -136,6 +113,13 @@ function orZero(value: any) {
     return value;
   }
   return 0;
+}
+
+function maybeAdd(originalValue: undefined | number, value: any) {
+  if (!originalValue) {
+    return orZero(value);
+  }
+  return originalValue + orZero(value);
 }
 
 function maybeAddToTotal<T extends Record<any, any>>(
@@ -160,12 +144,12 @@ function getDateRangeWithDefault(args?: {
   let to = args?.to;
 
   if (!from && !to) {
-    from = subYears(new Date(), 1);
+    from = subMonths(new Date(), 3);
     to = new Date();
   } else if (!from && to) {
-    from = subYears(to, 1);
+    from = subMonths(to, 3);
   } else if (from && !to) {
-    to = addYears(from, 1);
+    to = addMonths(from, 3);
   }
 
   return {
@@ -199,4 +183,23 @@ function getFlattenedAverage(set: Record<string, number>): number {
   }
 
   return flattenedAverage;
+}
+
+function fillDays<T>(record: Record<string, T>, fillEmptyDay: () => T) {
+  const days = Object.keys(record).sort();
+  const firstDay = days[0];
+  const lastDay = days[days.length - 1];
+
+  const firstDayDate = dayStringToDate(firstDay);
+
+  let currentDay = firstDayDate;
+  let currentDayString = firstDay;
+
+  while (currentDayString !== lastDay) {
+    currentDay = addDays(currentDay, 1);
+    currentDayString = dayStringFromDate(currentDay);
+    if (!record[currentDayString]) {
+      record[currentDayString] = fillEmptyDay();
+    }
+  }
 }

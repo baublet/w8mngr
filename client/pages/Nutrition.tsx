@@ -41,14 +41,6 @@ export function Nutrition() {
               {!summary ? null : (
                 <div className="flex flex-col gap-4">
                   <StatPanel>
-                    <h4 className="font-thin text-base">
-                      Average Daily Calories
-                    </h4>
-                    <div className="text-xs">
-                      {Math.ceil(summary.averageDailyCalories).toLocaleString()}
-                    </div>
-                  </StatPanel>
-                  <StatPanel>
                     <h4 className="font-thin text-base mb-4">Daily Macros</h4>
                     <MacrosPieChart
                       averageDailyCarbs={summary.averageDailyCarbs}

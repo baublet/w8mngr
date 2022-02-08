@@ -1,3 +1,4 @@
+import cx from "classnames";
 import React from "react";
 import {
   Bar,
@@ -30,15 +31,15 @@ export function NutritionChart({ data, summary }: NutritionChartProps) {
       data.map((dataPoint) => ({
         day: dataPoint.day,
         calories: dataPoint.calories,
-        fat: dataPoint.fat * 10 * 1.52, // Scales for the macros to align with the values of calories
-        carbs: dataPoint.carbs * 10,
-        protein: dataPoint.protein * 10,
+        fat: dataPoint.fat ? dataPoint.fat * 10 * 1.52 : null, // Scales for the macros to align with the values of calories
+        carbs: dataPoint.carbs ? dataPoint.carbs * 10 : null,
+        protein: dataPoint.protein ? dataPoint.protein * 10 : null,
       })) || []
     );
   }, [data]);
 
   return (
-    <div className="aspect-video text-xs">
+    <div className="aspect-video text-xs flex w-full flex-col gap-4">
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart
           width={500}
@@ -84,13 +85,55 @@ export function NutritionChart({ data, summary }: NutritionChartProps) {
           <Line
             type="monotone"
             dataKey="calories"
-            stroke="#0ea5e9"
+            stroke="#e11d48"
             connectNulls
             dot={false}
             strokeWidth={2}
           />
         </ComposedChart>
       </ResponsiveContainer>
+      <div className="text-sm flex flex-wrap gap-2 w-2/3 mx-auto justify-center items-center">
+        <b className="uppercase bold opacity-50">Averages</b>
+        <SummaryLabel label="Calories" value={summary.averageDailyCalories} />
+        <SummaryLabel label="Fat" value={summary.averageDailyFat} unit="g" />
+        <SummaryLabel
+          label="Carbs"
+          value={summary.averageDailyCarbs}
+          unit="g"
+        />
+        <SummaryLabel
+          label="Protein"
+          value={summary.averageDailyProtein}
+          unit="g"
+        />
+      </div>
+    </div>
+  );
+}
+
+function SummaryLabel({
+  label,
+  value,
+  unit,
+}: {
+  label: "Calories" | "Fat" | "Carbs" | "Protein";
+  unit?: string;
+  value: number;
+}) {
+  return (
+    <div
+      className={cx("flex gap-2 p-2 rounded uppercase text-slate-50", {
+        "bg-rose-900 ": label === "Calories",
+        "bg-amber-600": label === "Fat",
+        "bg-pink-600": label === "Carbs",
+        "bg-lime-500": label === "Protein",
+      })}
+    >
+      <div className="opacity-75">{label}</div>
+      <div>
+        <span className="font-bold">{Math.ceil(value).toLocaleString()}</span>
+        {unit && <span className="lowercase opacity-50">&nbsp;{unit}</span>}
+      </div>
     </div>
   );
 }

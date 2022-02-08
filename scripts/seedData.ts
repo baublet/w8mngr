@@ -101,9 +101,9 @@ function paragraphs(num: number): string {
   );
 })().then(async () => {
   await seedUsers();
-  // await seedActivities();
-  // await saveActivityEntries();
-  // await seedFoods();
+  await seedActivities();
+  await saveActivityEntries();
+  await seedFoods();
   await seedFoodEntries();
 
   const db = await context.services.get(dbService);

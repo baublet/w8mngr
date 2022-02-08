@@ -13,10 +13,7 @@ import {
 
 import { FoodLogDataPoint } from "../../generated";
 
-export function NutritionChart({
-  data,
-  summary,
-}: {
+export type NutritionChartProps = {
   data: FoodLogDataPoint[];
   summary: {
     totalFoodsLogged: number;
@@ -25,13 +22,15 @@ export function NutritionChart({
     averageDailyCarbs: number;
     averageDailyProtein: number;
   };
-}) {
+};
+
+export function NutritionChart({ data, summary }: NutritionChartProps) {
   const transformedVisualizationData = React.useMemo(() => {
     return (
       data.map((dataPoint) => ({
         day: dataPoint.day,
         calories: dataPoint.calories,
-        fat: dataPoint.fat * 10 * 1.52,
+        fat: dataPoint.fat * 10 * 1.52, // Scales for the macros to align with the values of calories
         carbs: dataPoint.carbs * 10,
         protein: dataPoint.protein * 10,
       })) || []
@@ -46,7 +45,7 @@ export function NutritionChart({
           height={300}
           data={transformedVisualizationData}
         >
-          <Legend />
+          <Legend align="center" verticalAlign="top" />
           <Tooltip content={<CustomTooltip />} />
 
           <XAxis dataKey="day" interval="preserveStartEnd" strokeWidth={1} />

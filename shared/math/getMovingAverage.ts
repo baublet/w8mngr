@@ -2,29 +2,24 @@ export function getMovingAverage(
   series: number[],
   { span = 7 }: { span?: number } = {}
 ): number[] {
-  const averages: number[] = series.slice(0);
-  const seriesLength = averages.length;
+  const averages: number[] = [];
+  const seriesLength = series.length;
 
-  if (seriesLength < span * 2) {
+  if (seriesLength < span * 5) {
     return averages;
   }
 
   for (let i = 0; i < seriesLength; i++) {
-    const collectedNumbers = [averages[i]];
-    for (let j = 0; j < span; j++) {
-      if (averages[i + j]) {
-        collectedNumbers.push(averages[i + j]);
-        continue;
-      }
-      if (averages[i - j]) {
-        collectedNumbers.push(averages[i - j]);
-        continue;
-      }
+    const subSeries = series.slice(i, i + span).filter(Boolean);
+    if (subSeries.length === 0) {
+      continue;
     }
-
-    const total = collectedNumbers.reduce((num, total) => total + num, 0);
-    averages[i] = Math.ceil(total / collectedNumbers.length);
+    averages.push(
+      subSeries.reduce((total, num) => total + num, 0) / subSeries.length
+    );
+    i += span - 1;
   }
+
 
   return averages;
 }

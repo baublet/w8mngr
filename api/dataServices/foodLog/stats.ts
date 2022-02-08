@@ -95,11 +95,11 @@ export async function stats(
         { span }
       );
       const movingAverageDays = movingAverageProtein.map((d, i) => {
-        return visualizationData[i].day;
-      });
-
-      console.log({
-        movingAverageDays: JSON.stringify(movingAverageDays),
+        const index = i * span;
+        if (index > visualizationData.length) {
+          return visualizationData[visualizationData.length - 1].day;
+        }
+        return visualizationData[i * span].day;
       });
 
       return {

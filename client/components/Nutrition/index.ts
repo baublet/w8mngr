@@ -1,2 +1,2 @@
-export { NutritionChart } from "./NutritionChart";
-export { MacrosPieChart } from "./MacrosPieChart";
+export { AsyncNutritionChart as NutritionChart } from "./AsyncNutritionChart";
+export { AsyncMacrosPieChart as MacrosPieChart } from "./AsyncMacrosPieChart";

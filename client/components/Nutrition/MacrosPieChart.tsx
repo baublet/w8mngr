@@ -3,15 +3,17 @@ import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 const COLORS = ["#f59e0b", "#be185d", "#84cc16"];
 
+export type MacrosPieChartProps = {
+  averageDailyFat: number;
+  averageDailyCarbs: number;
+  averageDailyProtein: number;
+};
+
 export function MacrosPieChart({
   averageDailyCarbs,
   averageDailyFat,
   averageDailyProtein,
-}: {
-  averageDailyFat: number;
-  averageDailyCarbs: number;
-  averageDailyProtein: number;
-}) {
+}: MacrosPieChartProps) {
   const data = React.useMemo(() => {
     return [
       { name: "Fat", value: Math.ceil(averageDailyFat) },

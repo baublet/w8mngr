@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 
 import { dayStringFromDate, getWithDefault } from "../../../shared";
 import { useGetCurrentUserFoodLogQuery } from "../../generated";
+import { useDebouncedValue } from "../../helpers";
 import { DayNavigator } from "../DayNavigator";
 import { PrimaryLoader } from "../Loading/Primary";
 import { FoodSearchAutocomplete } from "./FoodSearchAutocomplete";
@@ -34,6 +35,7 @@ export function FoodLog() {
     },
   });
   const [searchTerm, setSearchTerm] = React.useState("");
+  const debouncedSearchTerm = useDebouncedValue(searchTerm);
   const newFoodLogFormObjectRef = React.useRef<
     NewFoodLogFormObject | undefined
   >(undefined);
@@ -117,7 +119,7 @@ export function FoodLog() {
           <div className="hidden md:block">{totalsMarkup}</div>
           <div>
             <FoodSearchAutocomplete
-              searchTerm={searchTerm}
+              searchTerm={debouncedSearchTerm}
               day={dayString}
               onItemAdded={() => {
                 newFoodLogFormObjectRef.current?.clear();

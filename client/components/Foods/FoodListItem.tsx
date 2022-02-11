@@ -286,7 +286,7 @@ export function measurementStringToNumberOrUndefined(
   if (subject === undefined) {
     return undefined;
   }
-  const numeric = parseInt(subject, 10);
+  const numeric = parseInt(subject.replace(/,/g, ""), 10);
   if (isNaN(numeric)) {
     return undefined;
   }

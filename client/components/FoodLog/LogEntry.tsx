@@ -96,19 +96,19 @@ export function LogEntry({
   return (
     <Panel
       loading={deleteLoading || createOrUpdateLoading}
-      className="relax flex w-full items-center"
+      className="relax flex w-full items-center pr-0"
     >
       <div
         className={cx(
-          "rounded bg-purple-50 bg-opacity-5 flex w-full gap-4 items-center",
+          "rounded bg-purple-50 bg-opacity-5 flex w-full gap-4 items-top md:items-center",
           {
             "pointer-events-none": loading,
           }
         )}
       >
         <Form loading={loading} onSubmit={save}>
-          <div className="w-full flex gap-2">
-            <div style={{ minWidth: "50%" }}>
+          <div className="w-full flex gap-2 flex-wrap md:flex-nowrap">
+            <div className="w-full md:w-1/2">
               <InputFoodEntry
                 type="text"
                 onChange={logEntryForm.getHandler("description")}

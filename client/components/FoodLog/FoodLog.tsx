@@ -61,7 +61,7 @@ export function FoodLog() {
     return (
       <div
         className={cx(
-          "flex flex-wrap justify-around w-full transition-opacity",
+          "flex flex-wrap gap-4 md:flex-nowrap justify-around w-full transition-opacity",
           {
             "opacity-50": !entries.length,
           }
@@ -69,9 +69,16 @@ export function FoodLog() {
       >
         {columns.map((column) => {
           return (
-            <div key={column} className="flex flex-col">
+            <div
+              key={column}
+              className={cx(`flex flex-col`, {
+                "w-full md:w-auto": column === "calories",
+              })}
+            >
               <div className="flex flex-col">
-                <div className="text-5xl font-thin text-slate-400 text-center truncate">
+                <div className={cx("text-4xl font-thin text-slate-400 text-center truncate", {
+                  "text-7xl md:text-4xl": column === "calories",
+                })}>
                   {stats[column].toLocaleString()}
                 </div>
                 <div className="text-xs uppercase text-slate-400 text-center">

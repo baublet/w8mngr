@@ -28,10 +28,21 @@ export const searchFoods: QueryResolvers["searchFoods"] = async (
       searchTerm,
     },
     fn: async () => {
-      return await foodDataService.searchRecordsInAlgolia(context, {
-        searchTerm,
-        filters: userIds.map((userId) => `userId:${userId}`).join(" OR "),
-      });
+      const algoliaResults = await foodDataService.searchRecordsInAlgolia(
+        context,
+        {
+          searchTerm,
+          filters: userIds.map((userId) => `userId:${userId}`).join(" OR "),
+        }
+      );
+
+      if (algoliaResults.length) {
+        return algoliaResults;
+      }
+
+      return foodDataService.findBy(context, (q) =>
+        q.whereIn("userId", userIds).andWhere("name", "like", `%${searchTerm}%`)
+      );
     },
   });
 };

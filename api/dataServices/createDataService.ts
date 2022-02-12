@@ -3,7 +3,7 @@ import omit from "lodash.omit";
 import { ulid } from "ulid";
 
 import { assertIsError } from "../../shared";
-import { SomeRequired } from "../../shared/types";
+import { ReturnTypeWithErrors, SomeRequired } from "../../shared/types";
 import { dbService } from "../config/db";
 import { log } from "../config/log";
 import type { Context } from "../createContext";
@@ -169,7 +169,7 @@ function getUpsert<T extends QueryFactoryFunction>(
     applyAdditionalWhereConstraints?: WhereFunctionFromQueryFactory<T>
   ): Promise<{ id: string; insertOrUpdate: "INSERT" | "UPDATE" }[]> => {
     const databaseService = await context.services.get(dbService);
-    await databaseService().transact();
+    await databaseService.transact();
 
     const getQuery = await queryFactory(context);
     try {
@@ -203,7 +203,7 @@ function getUpsert<T extends QueryFactoryFunction>(
         })
       );
 
-      await databaseService().commit();
+      await databaseService.commit();
 
       await getUpsertRecordsToAlgolia(queryFactory, entityName)(context, {
         ids: payloads.map((p) => p.id),
@@ -211,7 +211,7 @@ function getUpsert<T extends QueryFactoryFunction>(
 
       return payloads;
     } catch (error) {
-      await databaseService().rollback(error);
+      await databaseService.rollback(error);
       throw error;
     }
   };
@@ -233,9 +233,11 @@ function getUpsertBy<T extends QueryFactoryFunction>(
       TColumns[number]
     >[];
     columns: TColumns;
-  }): Promise<{ id: string; insertOrUpdate: "INSERT" | "UPDATE" }[]> => {
+  }): Promise<
+    ReturnTypeWithErrors<{ id: string; insertOrUpdate: "INSERT" | "UPDATE" }[]>
+  > => {
     const databaseService = await context.services.get(dbService);
-    await databaseService().transact();
+    await databaseService.transact();
 
     const getQuery = await queryFactory(context);
     try {
@@ -253,12 +255,16 @@ function getUpsertBy<T extends QueryFactoryFunction>(
           }
           const extant = await query.limit(1);
           const element = extant[0];
+
+          console.log({ element });
+
           if (!element) {
             insertOrUpdate = "INSERT";
             id = ulid();
 
             await getQuery().insert({
               ...element,
+              ...item,
               [idProp]: id,
             });
           } else {
@@ -266,6 +272,7 @@ function getUpsertBy<T extends QueryFactoryFunction>(
             id = element.id;
             const query = getQuery().update({
               ...element,
+              ...item,
               [idProp]: id,
             });
             query.whereRaw("1=1");
@@ -275,11 +282,13 @@ function getUpsertBy<T extends QueryFactoryFunction>(
             await query.limit(1);
           }
 
+          console.log({ id, insertOrUpdate });
+
           return { id, insertOrUpdate };
         })
       );
 
-      await databaseService().commit();
+      await databaseService.commit();
 
       await getUpsertRecordsToAlgolia(queryFactory, entityName)(context, {
         ids: payloads.map((p) => p.id),
@@ -287,8 +296,9 @@ function getUpsertBy<T extends QueryFactoryFunction>(
 
       return payloads;
     } catch (error) {
-      await databaseService().rollback(error);
-      throw error;
+      assertIsError(error);
+      await databaseService.rollback(error);
+      return error;
     }
   };
 }

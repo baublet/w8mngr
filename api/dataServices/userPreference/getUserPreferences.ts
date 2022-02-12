@@ -1,7 +1,6 @@
 import { log } from "../../config/log";
 import { Context } from "../../createContext";
 import { UserPreference } from "../../generated";
-import { getQuery } from "./query";
 import { rootService } from "./rootService";
 import {
   UserPreferenceEntity,
@@ -15,6 +14,30 @@ const defaultValues: UserPreferenceValues = {
   FATURDAY_CALORIES: 3000,
   FATURDAYS: false,
   HEIGHT: null,
+};
+
+const preferenceSerializers: Record<
+  keyof UserPreferenceValues,
+  (inputValue: string) => any
+> = {
+  BIRTHDAY: (inputValue: string) => {
+    try {
+      return new Date(inputValue);
+    } catch {
+      return null;
+    }
+  },
+  HEIGHT: (inputValue: string) => inputValue,
+  DEFAULT_UNIT: (inputValue: string) =>
+    inputValue === "metric" ? "metric" : "imperial",
+  FATURDAY_CALORIES: (inputValue: string) => {
+    try {
+      return parseInt(inputValue, 10);
+    } catch {
+      return defaultValues["FATURDAY_CALORIES"];
+    }
+  },
+  FATURDAYS: (inputValue: string) => inputValue === "true",
 };
 
 export async function getUserPreferences(
@@ -38,6 +61,7 @@ export async function getUserPreferences(
       const value = getPreferenceOrDefault({
         entity,
         defaultValue: defaultValues[type],
+        serializer: preferenceSerializers[type],
       });
 
       return {
@@ -54,13 +78,18 @@ export async function getUserPreferences(
 function getPreferenceOrDefault<T>({
   entity,
   defaultValue,
+  serializer,
 }: {
   entity: UserPreferenceEntity;
   defaultValue: T;
+  serializer: (value: string) => any;
 }): T {
   if (entity) {
     try {
-      return JSON.parse(entity.value);
+      const parsedValue = JSON.parse(entity.value);
+      if (parsedValue) {
+        return serializer(parsedValue);
+      }
     } catch (error) {
       log("error", "Error parsing user preference", {
         error,

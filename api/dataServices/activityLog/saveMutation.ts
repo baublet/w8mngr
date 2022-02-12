@@ -57,7 +57,7 @@ export async function saveMutation(
   }
 
   const db = await context.services.get(dbService);
-  await db().transact();
+  await db.transact();
 
   try {
     const upsertResults = await rootService.upsert(
@@ -77,15 +77,15 @@ export async function saveMutation(
           upsertResults
         )}`
       );
-      await db().rollback(error);
+      await db.rollback(error);
       return error;
     }
 
-    await db().commit();
+    await db.commit();
     return undefined;
   } catch (error) {
     assertIsError(error);
-    await db().rollback(error);
+    await db.rollback(error);
     return error;
   }
 }

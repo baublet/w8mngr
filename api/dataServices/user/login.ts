@@ -25,7 +25,7 @@ export async function login(
   }>
 > {
   const databaseService = await context.services.get(dbService);
-  await databaseService().transact();
+  await databaseService.transact();
   try {
     const account = await userAccountDataService.findOneOrFail(context, (q) =>
       q.where("sourceIdentifier", "=", credentials.email)
@@ -63,7 +63,7 @@ export async function login(
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.remember),
     });
 
-    await databaseService().commit();
+    await databaseService.commit();
 
     return {
       user,
@@ -71,7 +71,7 @@ export async function login(
       rememberToken: rememberTokenResult.token,
     };
   } catch (error) {
-    await databaseService().rollback(error);
+    await databaseService.rollback(error);
     assertIsError(error);
     return error;
   }

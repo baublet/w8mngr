@@ -42,16 +42,6 @@ export async function getConnection(): Promise<Knex> {
   });
   const connection = knex(dbSettings);
   openConnections.push(connection);
-  const stack = new Error().stack;
-  setTimeout(() => {
-    if (openConnections.includes(connection)) {
-      console.log(
-        "\n\n\n\nOH NO. OPEN DB CONNECTION. WHERE IT CAME FROM: ",
-        stack,
-        "\n\n\n"
-      );
-    }
-  }, 30000);
   return connection;
 }
 
@@ -69,7 +59,7 @@ async function dbService() {
   const serviceConnections: any[] = [connection];
   let transactingConnection: Knex.Transaction<any, any[]> | undefined;
 
-  return () => ({
+  return {
     getConnection: () => {
       return transactingConnection || connection;
     },
@@ -85,7 +75,6 @@ async function dbService() {
       }
     },
     destroy: async () => {
-      log("debug", `Freeing ${serviceConnections.length} database connections`);
       await transactingConnection?.commit();
       await Promise.all(serviceConnections.map(closeConnection));
     },
@@ -93,7 +82,7 @@ async function dbService() {
       log("warn", "Transaction failed. Rolling back.", { error });
       await transactingConnection?.rollback();
     },
-  });
+  };
 }
 
 export type DBConnection<TEntity = any> = Knex<TEntity>;
@@ -105,7 +94,7 @@ export type DBQuery<TEntity = any, TResult = any> = Knex.QueryBuilder<
 function getQueryBuilderFactory<TEntity = any>(tableName: string) {
   return async (context: Context) => {
     const dbFactory = await context.services.get(dbService);
-    const { getConnection } = await dbFactory();
+    const { getConnection } = dbFactory;
     const connection = await getConnection();
     return () => connection<TEntity>(tableName);
   };

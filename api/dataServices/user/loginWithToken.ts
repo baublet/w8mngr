@@ -22,7 +22,7 @@ export async function loginWithToken(
   }>
 > {
   const databaseService = await context.services.get(dbService);
-  await databaseService().transact();
+  await databaseService.transact();
   try {
     const tokenDigest = createDigest(input.loginToken);
     const token = await tokenDataService.findOneOrFail(context, (q) =>
@@ -55,14 +55,14 @@ export async function loginWithToken(
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.remember),
     });
 
-    await databaseService().commit();
+    await databaseService.commit();
 
     return {
       currentUser: user,
       errors: [],
     };
   } catch (error) {
-    await databaseService().rollback(error);
+    await databaseService.rollback(error);
     assertIsError(error);
     return new errors.LoginFailedError("Invalid login token", { input });
   }

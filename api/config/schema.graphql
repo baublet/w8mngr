@@ -44,7 +44,7 @@ type Mutation {
   loginWithToken(input: LoginWithTokenInput!): LoginWithTokenMutationPayload!
 
   # User
-  saveUserPreferences(input: UserPreferenceInput!): UserPreferencesMutationPayload!
+  saveUserPreferences(input: SaveUserPreferencesInput!): UserPreferencesMutationPayload!
 
   # Food Log
   saveFoodLog(input: SaveFoodLogInput!): FoodLogMutationPayload!
@@ -666,7 +666,7 @@ type UserPreference {
 
 type UserPreferencesMutationPayload {
   errors: [String!]!
-  user: User
+  user: User!
 }
 
 type UserPreference {

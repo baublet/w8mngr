@@ -25,6 +25,7 @@ import { saveActivityLog } from "./mutations/saveActivityLog";
 import { saveFood } from "./mutations/saveFood";
 import { saveFoodLog } from "./mutations/saveFoodLog";
 import { saveUploadData } from "./mutations/saveUploadData";
+import { saveUserPreferences } from "./mutations/saveUserPreferences";
 import { saveWeightLog } from "./mutations/saveWeightLog";
 import { verifyEmail } from "./mutations/verifyEmail";
 import { searchFoods } from "./searchFoods";
@@ -100,6 +101,7 @@ export const resolvers: Resolvers = {
     saveFood,
     saveFoodLog,
     saveUploadData,
+    saveUserPreferences,
     saveWeightLog,
     verifyEmail,
   },

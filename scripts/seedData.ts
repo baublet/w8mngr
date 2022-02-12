@@ -107,7 +107,7 @@ function paragraphs(num: number): string {
   await seedFoodEntries();
 
   const db = await context.services.get(dbService);
-  await db().destroy();
+  await db.destroy();
   console.log("Done");
   process.exit(0);
 });

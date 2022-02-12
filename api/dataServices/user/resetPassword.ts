@@ -35,7 +35,7 @@ export async function resetPassword(
   );
 
   const databaseService = await context.services.get(dbService);
-  await databaseService().transact();
+  await databaseService.transact();
   try {
     const passwordHash = await hashPassword(credentials.password);
 
@@ -67,7 +67,7 @@ export async function resetPassword(
       userAccountId: account.id,
     });
 
-    await databaseService().commit();
+    await databaseService.commit();
 
     context.setCookie("w8mngrAuth", authTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
@@ -82,7 +82,7 @@ export async function resetPassword(
       rememberToken: rememberTokenResult.token,
     };
   } catch (error) {
-    await databaseService().rollback(error);
+    await databaseService.rollback(error);
     assertIsError(error);
     return error;
   }

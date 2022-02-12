@@ -1,6 +1,6 @@
 import { assertIsError } from "../../shared";
 import { log } from "../config/log";
-import { QueryResolvers } from "../graphql-types";
+import { QueryResolvers } from "../generated";
 
 export const currentUser: Required<QueryResolvers>["currentUser"] = (
   parent,

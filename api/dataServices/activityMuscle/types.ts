@@ -1,4 +1,4 @@
-import { Muscle } from "../../graphql-types";
+import { Muscle } from "../../generated";
 
 export type ActivityMuscle = {
   id: string;

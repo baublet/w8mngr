@@ -1,6 +1,6 @@
 import formatDistance from "date-fns/formatDistance";
 
-import { WeightLogResolvers } from "../../graphql-types";
+import { WeightLogResolvers } from "../../generated";
 
 export const weightLogAgo: WeightLogResolvers["ago"] = async (parent) => {
   const lastLoggedDate = new Date(parent.createdAt);

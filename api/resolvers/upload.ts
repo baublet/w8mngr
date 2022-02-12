@@ -1,5 +1,5 @@
 import { uploadDataService } from "../dataServices";
-import { QueryResolvers } from "../graphql-types";
+import { QueryResolvers } from "../generated";
 
 export const upload: QueryResolvers["upload"] = (
   parent,

@@ -3,11 +3,11 @@ import omit from "lodash.omit";
 import { ulid } from "ulid";
 
 import { assertIsError } from "../../shared";
+import { SomeRequired } from "../../shared/types";
 import { dbService } from "../config/db";
 import { log } from "../config/log";
 import type { Context } from "../createContext";
 import { algoliaService, buildConnectionResolver, errors } from "../helpers";
-import { SomeRequired } from "../types";
 
 type PartiallyMaybe<T extends Record<string, any>> = {
   [K in keyof T]?: T[K] | undefined;
@@ -169,7 +169,7 @@ function getUpsert<T extends QueryFactoryFunction>(
     applyAdditionalWhereConstraints?: WhereFunctionFromQueryFactory<T>
   ): Promise<{ id: string; insertOrUpdate: "INSERT" | "UPDATE" }[]> => {
     const databaseService = await context.services.get(dbService);
-    await databaseService.transact();
+    await databaseService().transact();
 
     const getQuery = await queryFactory(context);
     try {
@@ -203,7 +203,7 @@ function getUpsert<T extends QueryFactoryFunction>(
         })
       );
 
-      await databaseService.commit();
+      await databaseService().commit();
 
       await getUpsertRecordsToAlgolia(queryFactory, entityName)(context, {
         ids: payloads.map((p) => p.id),
@@ -211,7 +211,7 @@ function getUpsert<T extends QueryFactoryFunction>(
 
       return payloads;
     } catch (error) {
-      await databaseService.rollback(error);
+      await databaseService().rollback(error);
       throw error;
     }
   };
@@ -235,7 +235,7 @@ function getUpsertBy<T extends QueryFactoryFunction>(
     columns: TColumns;
   }): Promise<{ id: string; insertOrUpdate: "INSERT" | "UPDATE" }[]> => {
     const databaseService = await context.services.get(dbService);
-    await databaseService.transact();
+    await databaseService().transact();
 
     const getQuery = await queryFactory(context);
     try {
@@ -279,7 +279,7 @@ function getUpsertBy<T extends QueryFactoryFunction>(
         })
       );
 
-      await databaseService.commit();
+      await databaseService().commit();
 
       await getUpsertRecordsToAlgolia(queryFactory, entityName)(context, {
         ids: payloads.map((p) => p.id),
@@ -287,7 +287,7 @@ function getUpsertBy<T extends QueryFactoryFunction>(
 
       return payloads;
     } catch (error) {
-      await databaseService.rollback(error);
+      await databaseService().rollback(error);
       throw error;
     }
   };

@@ -1,6 +1,6 @@
-import { ActivityResolvers } from "../../graphql-types";
-import { activityLogDataService } from "../../dataServices";
 import { dayStringFromDate } from "../../../shared";
+import { activityLogDataService } from "../../dataServices";
+import { ActivityResolvers } from "../../generated";
 
 export const activityLogs: ActivityResolvers["logs"] = (
   parent,

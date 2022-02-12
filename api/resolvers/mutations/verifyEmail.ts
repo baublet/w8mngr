@@ -1,6 +1,6 @@
 import { log } from "../../config/log";
 import { tokenDataService, userAccountDataService } from "../../dataServices";
-import { MutationResolvers } from "../../graphql-types";
+import { MutationResolvers } from "../../generated";
 
 export const verifyEmail: MutationResolvers["verifyEmail"] = async (
   parent,

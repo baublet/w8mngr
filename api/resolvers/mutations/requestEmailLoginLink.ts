@@ -4,7 +4,7 @@ import {
   tokenDataService,
   userAccountDataService,
 } from "../../dataServices";
-import { MutationResolvers } from "../../graphql-types";
+import { MutationResolvers } from "../../generated";
 
 export const requestEmailLoginLink: MutationResolvers["requestEmailLoginLink"] =
   async (parent, args, context) => {

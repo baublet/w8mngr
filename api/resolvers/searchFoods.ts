@@ -1,5 +1,5 @@
 import { foodDataService, userDataService } from "../dataServices";
-import { QueryResolvers } from "../graphql-types";
+import { QueryResolvers } from "../generated";
 import { globalInMemoryCache } from "../helpers";
 
 export const searchFoods: QueryResolvers["searchFoods"] = async (

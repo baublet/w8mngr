@@ -2,6 +2,7 @@ scalar Date
 scalar ID
 scalar JSON
 
+"Our root data resolver. Queries to access data should be RARE. All data is contextual, so start from the context and narrow from there."
 type User {
   id: ID!
   verified: Boolean!
@@ -13,6 +14,7 @@ type User {
   activitySummary(input: ActivityVisualizationInput): [TileMapDataPoint!]!
   popularActivities: [Activity!]!
   foodLogStats: FoodLogStats!
+  preferences: [UserPreference!]!
 }
 
 type Query {
@@ -40,6 +42,9 @@ type Mutation {
     input: RequestEmailLoginLinkInput!
   ): RequestEmailLoginLinkMutationPayload!
   loginWithToken(input: LoginWithTokenInput!): LoginWithTokenMutationPayload!
+
+  # User
+  saveUserPreferences(input: UserPreferenceInput!): UserPreferencesMutationPayload!
 
   # Food Log
   saveFoodLog(input: SaveFoodLogInput!): FoodLogMutationPayload!
@@ -140,9 +145,27 @@ enum Unit {
   YDS
 }
 
+enum UserPreferenceType {
+  BIRTHDAY
+  HEIGHT
+  DEFAULT_UNIT
+  FATURDAYS
+  FATURDAY_CALORIES
+}
+
 #################
 # Inputs        #
 #################
+
+input SaveUserPreferencesInput {
+  preferences: [UserPreferenceInput!]!
+}
+
+input UserPreferenceInput {
+  key: UserPreferenceType!
+  "The JSON.stringified value of the preference"
+  value: String!
+}
 
 input SearchFoodsInput {
   searchTerm: String!
@@ -635,4 +658,19 @@ type FoodLogDataPoint {
   fat: Float
   carbs: Float
   protein: Float
+}
+
+type UserPreference {
+  id: ID!
+}
+
+type UserPreferencesMutationPayload {
+  errors: [String!]!
+  user: User
+}
+
+type UserPreference {
+  key: UserPreferenceType!
+  "The JSON.parsed value of the preference"
+  value: JSON!
 }

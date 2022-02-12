@@ -1,4 +1,4 @@
-import { ActivityType } from "../../graphql-types";
+import { ActivityType } from "../../generated";
 
 export type Activity = {
   id: string;

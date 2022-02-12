@@ -1,5 +1,5 @@
 import { foodLogDataService } from "../../dataServices";
-import { UserResolvers } from "../../graphql-types";
+import { UserResolvers } from "../../generated";
 
 export const foodLog: UserResolvers["foodLog"] = async (
   parent,

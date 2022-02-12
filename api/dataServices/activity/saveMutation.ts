@@ -1,6 +1,6 @@
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { ActivityInput } from "../../graphql-types";
+import { ActivityInput } from "../../generated";
 import { activityMuscleDataService } from "../activityMuscle";
 import { rootService } from "./rootService";
 
@@ -9,7 +9,7 @@ export async function saveMutation(
   { input, userId }: { input: ActivityInput; userId: string }
 ) {
   const db = await context.services.get(dbService);
-  await db.transact();
+  await db().transact();
   try {
     const { muscleGroups, ...activityProperties } = input;
 
@@ -38,7 +38,7 @@ export async function saveMutation(
       );
     }
 
-    await db.commit();
+    await db().commit();
     return {
       activity: rootService.findOneOrFail(context, (q) =>
         q.where("id", "=", activityId).andWhere("userId", "=", userId)
@@ -46,7 +46,7 @@ export async function saveMutation(
       errors: [],
     };
   } catch (error) {
-    await db.rollback(error);
+    await db().rollback(error);
     return {
       activity: undefined,
       errors: [error],

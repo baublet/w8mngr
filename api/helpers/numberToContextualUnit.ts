@@ -1,5 +1,6 @@
+import { Maybe } from "../../shared/types";
 import { Context } from "../createContext";
-import { ActivityType, Unit } from "../graphql-types";
+import { ActivityType, Unit } from "../generated";
 import { numberToStringUnit } from "./numberToStringUnit";
 import { settingsService } from "./settingsService";
 

@@ -1,6 +1,6 @@
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { FoodInput } from "../../graphql-types";
+import { FoodInput } from "../../generated";
 import { foodMeasurementDataService } from "../foodMeasurement";
 import { rootService } from "./rootService";
 
@@ -9,7 +9,7 @@ export async function saveMutation(
   { input, userId }: { input: FoodInput; userId: string }
 ) {
   const db = await context.services.get(dbService);
-  await db.transact();
+  await db().transact();
   try {
     const { measurements, ...foodProperties } = input;
 
@@ -39,14 +39,14 @@ export async function saveMutation(
       );
     }
 
-    await db.commit();
+    await db().commit();
     return {
       food: rootService.findOneOrFail(context, (q) =>
         q.where("id", "=", foodId).andWhere("userId", "=", userId)
       ),
     };
   } catch (error) {
-    await db.rollback(error);
+    await db().rollback(error);
     return {
       food: undefined,
       errors: [error],

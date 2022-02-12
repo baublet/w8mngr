@@ -1,5 +1,5 @@
 import { userAccountDataService } from "../../dataServices";
-import { UserResolvers } from "../../graphql-types";
+import { UserResolvers } from "../../generated";
 import { globalInMemoryCache } from "../../helpers";
 
 export const userVerified: UserResolvers["verified"] = async (

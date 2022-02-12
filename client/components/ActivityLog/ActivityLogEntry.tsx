@@ -1,18 +1,18 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 
+import { Maybe } from "../../../shared/types";
 import {
   ActivityType,
   GetActivityLogDocument,
   useDeleteActivityLogMutation,
   useSaveActivityLogMutation,
 } from "../../generated";
-import { SHOW_REPS, WORK_LABELS } from "./NewActivityLogForm";
-
-import { InputFoodEntry } from "../Forms";
-import { DeleteIconButton } from "../Button/DeleteIconButton";
 import { useForm, useToast } from "../../helpers";
+import { DeleteIconButton } from "../Button/DeleteIconButton";
 import { Panel } from "../Containers";
+import { InputFoodEntry } from "../Forms";
+import { SHOW_REPS, WORK_LABELS } from "./NewActivityLogForm";
 
 export function ActivityLogEntry({
   log,

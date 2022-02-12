@@ -1,6 +1,6 @@
-import { MutationResolvers } from "../../graphql-types";
-import { activityDataService } from "../../dataServices";
 import { assertIsTruthy } from "../../../shared";
+import { activityDataService } from "../../dataServices";
+import { MutationResolvers } from "../../generated";
 
 export const saveActivity: Required<MutationResolvers>["saveActivity"] = async (
   parent,

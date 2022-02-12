@@ -2,7 +2,7 @@ import crypto from "crypto";
 
 import { config } from "../../config/config";
 import { Context } from "../../createContext";
-import { UploadUrlType } from "../../graphql-types";
+import { UploadUrlType } from "../../generated";
 import { rootService } from "./rootService";
 
 const TRANSFORMATIONS_MAP: Record<

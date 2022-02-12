@@ -1,7 +1,7 @@
 import { assertIsError, filterFalsyKeys } from "../../../shared";
+import { ReturnTypeWithErrors } from "../../../shared/types";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { ReturnTypeWithErrors } from "../../types";
 import { tokenDataService } from "../token";
 
 export async function logout(
@@ -9,7 +9,7 @@ export async function logout(
 ): Promise<ReturnTypeWithErrors<string[]>> {
   await tokenDataService.deleteExpiredTokens(context);
   const databaseService = await context.services.get(dbService);
-  await databaseService.transact();
+  await databaseService().transact();
   try {
     const authToken: string | undefined =
       context.getRequest()?.cookies?.w8mngrAuth;
@@ -25,11 +25,11 @@ export async function logout(
     context.setCookie("w8mngrAuth", undefined);
     context.setCookie("w8mngrRemember", undefined);
 
-    await databaseService.commit();
+    await databaseService().commit();
 
     return tokensToExpire;
   } catch (error) {
-    await databaseService.rollback(error);
+    await databaseService().rollback(error);
     assertIsError(error);
     return error;
   }

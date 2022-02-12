@@ -1,14 +1,13 @@
+import { assertIsError } from "../../../shared";
+import { ReturnTypeWithErrors } from "../../../shared/types";
+import { createDigest, hashPassword } from "../../authentication";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { UserEntity } from "./types";
-import { userDataService } from "./";
-import { userAccountDataService } from "../userAccount/";
-import { createDigest, hashPassword } from "../../authentication";
-import { ReturnTypeWithErrors } from "../../types";
 import { tokenDataService } from "../token";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
-import { assertIsError } from "../../../shared";
-import { emailDataService } from "../";
+import { userAccountDataService } from "../userAccount/";
+import { userDataService } from "./";
+import { UserEntity } from "./types";
 
 export async function resetPassword(
   context: Context,
@@ -36,7 +35,7 @@ export async function resetPassword(
   );
 
   const databaseService = await context.services.get(dbService);
-  await databaseService.transact();
+  await databaseService().transact();
   try {
     const passwordHash = await hashPassword(credentials.password);
 
@@ -68,7 +67,7 @@ export async function resetPassword(
       userAccountId: account.id,
     });
 
-    await databaseService.commit();
+    await databaseService().commit();
 
     context.setCookie("w8mngrAuth", authTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
@@ -83,7 +82,7 @@ export async function resetPassword(
       rememberToken: rememberTokenResult.token,
     };
   } catch (error) {
-    await databaseService.rollback(error);
+    await databaseService().rollback(error);
     assertIsError(error);
     return error;
   }

@@ -10,11 +10,11 @@ import { EmailEntity } from "./types";
 registerRecurringTask({
   taskKey: "sendPendingEmails",
   task: async () => {
-    await sendPendingEmails(
-      createContext({
-        clientId: "robot",
-      })
-    );
+    const context = createContext({
+      clientId: "robot",
+    });
+    await sendPendingEmails(context);
+    await context.destroy();
   },
   intervalMs: 10000,
 });

@@ -1,7 +1,7 @@
 import { assertIsError } from "../../../shared";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { WeightLogInput } from "../../graphql-types";
+import { WeightLogInput } from "../../generated";
 import { rawInputToUnit } from "../../helpers";
 import { rootService } from "./rootService";
 
@@ -18,7 +18,7 @@ export async function saveMutation(
   }
 ) {
   const db = await context.services.get(dbService);
-  await db.transact();
+  await db().transact();
 
   try {
     await rootService.upsert(
@@ -35,7 +35,7 @@ export async function saveMutation(
       })),
       (q) => q.where("userId", "=", userId)
     );
-    await db.commit();
+    await db().commit();
     return {
       errors: [],
       logs: rootService.getConnection(context, {
@@ -48,7 +48,7 @@ export async function saveMutation(
     };
   } catch (error) {
     assertIsError(error);
-    await db.rollback(error);
+    await db().rollback(error);
     return {
       errors: [error.message],
     };

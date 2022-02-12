@@ -5,7 +5,7 @@ import {
   activityDataService,
   activityLogDataService,
 } from "../../dataServices";
-import { UserResolvers } from "../../graphql-types";
+import { UserResolvers } from "../../generated";
 import { getDateRangeWithDefault, globalInMemoryCache } from "../../helpers";
 
 export const userActivitySummary: UserResolvers["activitySummary"] = async (

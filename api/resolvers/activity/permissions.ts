@@ -1,4 +1,4 @@
-import { ActivityResolvers } from "../../graphql-types";
+import { ActivityResolvers } from "../../generated";
 import { activityObjectPermissionService } from "../../permissionsServices";
 
 export const activityPermissions: ActivityResolvers["permissions"] = (

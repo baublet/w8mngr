@@ -1,15 +1,15 @@
 import React from "react";
 
-import { PrimaryLoader } from "../Loading/Primary";
-import { ActivityForm } from "./ActivityForm";
-
+import { ActivityType } from "../../../api/generated";
+import { Maybe } from "../../../shared/types";
 import {
   Muscle,
   useGetActivityDetailsQuery,
   useSaveActivityMutation,
 } from "../../generated";
-import { ActivityType } from "../../../api/graphql-types";
 import { useToast } from "../../helpers";
+import { PrimaryLoader } from "../Loading/Primary";
+import { ActivityForm } from "./ActivityForm";
 
 export function EditActivityForm({ id = "id" }: { id?: string }) {
   const { error, success } = useToast();

@@ -1,7 +1,7 @@
 import { getWithDefault } from "../../../shared";
 import { activityDataService } from "../../dataServices";
 import { userDataService } from "../../dataServices";
-import { UserResolvers } from "../../graphql-types";
+import { UserResolvers } from "../../generated";
 
 export const activities: UserResolvers["activities"] = async (
   parent,

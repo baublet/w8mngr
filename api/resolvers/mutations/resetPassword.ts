@@ -1,6 +1,6 @@
 import { log } from "../../config/log";
 import { userDataService } from "../../dataServices";
-import { MutationResolvers } from "../../graphql-types";
+import { MutationResolvers } from "../../generated";
 
 export const resetPassword: MutationResolvers["resetPassword"] = async (
   parent,

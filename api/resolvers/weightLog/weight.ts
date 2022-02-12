@@ -1,6 +1,6 @@
 import Qty from "js-quantities";
 
-import { WeightLogResolvers } from "../../graphql-types";
+import { WeightLogResolvers } from "../../generated";
 import { numberToContextualNumericUnit } from "../../helpers";
 
 export const weightLogWeight: WeightLogResolvers["weight"] = async (

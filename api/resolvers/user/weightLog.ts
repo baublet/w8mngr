@@ -1,5 +1,5 @@
 import { weightLogDataService } from "../../dataServices";
-import { UserResolvers } from "../../graphql-types";
+import { UserResolvers } from "../../generated";
 
 export const weightLog: UserResolvers["weightLog"] = async (
   parent,

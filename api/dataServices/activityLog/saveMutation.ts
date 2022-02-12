@@ -1,7 +1,8 @@
 import { assertIsError } from "../../../shared";
+import { Maybe } from "../../../shared/types";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { ActivityLogInput } from "../../graphql-types";
+import { ActivityLogInput } from "../../generated";
 import { doTimes, rawInputToUnit } from "../../helpers";
 import { rootService } from "./rootService";
 import { activityDataService } from "..";
@@ -56,7 +57,7 @@ export async function saveMutation(
   }
 
   const db = await context.services.get(dbService);
-  await db.transact();
+  await db().transact();
 
   try {
     const upsertResults = await rootService.upsert(
@@ -76,15 +77,15 @@ export async function saveMutation(
           upsertResults
         )}`
       );
-      await db.rollback(error);
+      await db().rollback(error);
       return error;
     }
 
-    await db.commit();
+    await db().commit();
     return undefined;
   } catch (error) {
     assertIsError(error);
-    await db.rollback(error);
+    await db().rollback(error);
     return error;
   }
 }

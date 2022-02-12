@@ -1,5 +1,5 @@
 import { userDataService } from "../../dataServices";
-import { MutationResolvers } from "../../graphql-types";
+import { MutationResolvers } from "../../generated";
 
 export const loginWithToken: Required<MutationResolvers>["loginWithToken"] =
   async (parent, { input }, context) => {

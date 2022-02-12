@@ -1,8 +1,8 @@
 import { assertIsError } from "../../../shared";
+import { ReturnTypeWithErrors } from "../../../shared/types";
 import { hashPassword } from "../../authentication";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { ReturnTypeWithErrors } from "../../types";
 import { emailDataService } from "../email";
 import { tokenDataService } from "../token";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
@@ -29,7 +29,7 @@ export async function register(
     throw new Error("Passwords don't match");
   }
   const databaseService = await context.services.get(dbService);
-  await databaseService.transact();
+  await databaseService().transact();
   try {
     const passwordHash = await hashPassword(userData.password);
     const user = await create(context, {
@@ -63,7 +63,7 @@ export async function register(
       userAccountId: account.id,
     });
 
-    await databaseService.commit();
+    await databaseService().commit();
 
     context.setCookie("w8mngrAuth", authTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
@@ -92,7 +92,7 @@ export async function register(
       rememberToken: rememberTokenResult.token,
     };
   } catch (error) {
-    await databaseService.rollback(error);
+    await databaseService().rollback(error);
     assertIsError(error);
     return error;
   }

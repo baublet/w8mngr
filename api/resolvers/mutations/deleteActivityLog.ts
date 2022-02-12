@@ -1,5 +1,5 @@
-import { MutationResolvers } from "../../graphql-types";
 import { activityLogDataService } from "../../dataServices";
+import { MutationResolvers } from "../../generated";
 
 export const deleteActivityLog: MutationResolvers["deleteActivityLog"] = async (
   parent,

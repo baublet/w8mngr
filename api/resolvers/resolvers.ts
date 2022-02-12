@@ -1,4 +1,4 @@
-import { Resolvers } from "../graphql-types";
+import { Resolvers } from "../generated";
 import { activityLogs } from "./activity/logs";
 import { activityMuscleGroups } from "./activity/musclesGroups";
 import { activityPermissions } from "./activity/permissions";

@@ -1,6 +1,7 @@
-import { MutationResolvers } from "../../graphql-types";
-import { uploadDataService } from "../../dataServices";
 import { errors } from "api/helpers";
+
+import { uploadDataService } from "../../dataServices";
+import { MutationResolvers } from "../../generated";
 
 export const saveUploadData: MutationResolvers["saveUploadData"] = async (
   parent,

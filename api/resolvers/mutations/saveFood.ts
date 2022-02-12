@@ -1,6 +1,6 @@
-import { MutationResolvers } from "../../graphql-types";
-import { foodDataService } from "../../dataServices";
 import { assertIsTruthy } from "../../../shared";
+import { foodDataService } from "../../dataServices";
+import { MutationResolvers } from "../../generated";
 import { foodPermissionService } from "../../permissionsServices";
 
 export const saveFood: MutationResolvers["saveFood"] = async (

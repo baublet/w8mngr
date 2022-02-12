@@ -2,7 +2,7 @@ schema: api/config/schema.graphql
 documents: "./client/queries/**/*.graphql"
 
 generates:
-  ./api/graphql-types.ts:
+  ./api/generated.ts:
     plugins:
       - typescript
       - typescript-resolvers
@@ -21,6 +21,7 @@ generates:
           args: TArgs,
           context: TContext
         ) => Resolvable<TResult>;
+        import type { Resolvable } from "../shared/types";
 
   ./client/generated.ts:
     plugins:

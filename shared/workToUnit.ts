@@ -1,4 +1,4 @@
-import type { Unit, ActivityType } from "../api/graphql-types";
+import type { ActivityType, Unit } from "../api/generated";
 
 export function workToUnit({
   work,

@@ -1,5 +1,5 @@
-import React from "react";
 import cx from "classnames";
+import React from "react";
 import { Link as BaseLink } from "react-router-dom";
 
 export function Link({
@@ -12,7 +12,7 @@ export function Link({
   onClick?: () => void;
   className?: string;
 }>) {
-  const LinkElement: any = onClick ? "a" : BaseLink;
+  const LinkElement: any = onClick || to.includes("https://") ? "a" : BaseLink;
   return (
     <LinkElement
       to={to}

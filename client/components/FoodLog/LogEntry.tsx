@@ -96,7 +96,7 @@ export function LogEntry({
   return (
     <Panel
       loading={deleteLoading || createOrUpdateLoading}
-      className="relax flex w-full items-center pr-0"
+      className="relax flex w-full items-center relative"
     >
       <div
         className={cx(
@@ -108,7 +108,7 @@ export function LogEntry({
       >
         <Form loading={loading} onSubmit={save}>
           <div className="w-full flex gap-2 flex-wrap md:flex-nowrap">
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-1/2 pr-8 md-pr-0">
               <InputFoodEntry
                 type="text"
                 onChange={logEntryForm.getHandler("description")}
@@ -162,7 +162,7 @@ export function LogEntry({
             </div>
           </div>
         </Form>
-        <div>
+        <div className="absolute md:relative top-3 right-2 md:top-0 md:right-0">
           <DeleteIconButton
             onClick={() => {
               deleteFoodLog({ variables: { id } });

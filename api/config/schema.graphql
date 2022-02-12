@@ -672,5 +672,5 @@ type UserPreferencesMutationPayload {
 type UserPreference {
   key: UserPreferenceType!
   "The JSON.parsed value of the preference"
-  value: JSON!
+  value: JSON
 }

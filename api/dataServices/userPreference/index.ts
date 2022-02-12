@@ -1,7 +1,13 @@
+import { getUserPreferences } from "./getUserPreferences";
 import { rootService } from "./rootService";
 
-export const userDataService = {
+export const userPreferenceDataService = {
   ...rootService,
+  getUserPreferences,
 };
 
-export { UserPreferenceEntity } from "./types";
+export {
+  UserPreferenceEntity,
+  UserPreferenceValues,
+  userPreferenceTypes,
+} from "./types";

@@ -36,6 +36,7 @@ import { foodLog } from "./user/foodLog";
 import { userFoodLogStats } from "./user/foodLogStats";
 import { foods } from "./user/foods";
 import { popularUserActivities } from "./user/popularActivities";
+import { usePreferences } from "./user/preferences";
 import { userVerified } from "./user/verified";
 import { weightLog } from "./user/weightLog";
 import { weightLogAgo } from "./weightLog/ago";
@@ -57,11 +58,12 @@ export const resolvers: Resolvers = {
     activities,
     activitySummary: userActivitySummary,
     foodLog,
+    foodLogStats: userFoodLogStats,
     foods,
     popularActivities: popularUserActivities,
-    foodLogStats: userFoodLogStats,
-    weightLog,
+    preferences: usePreferences,
     verified: userVerified,
+    weightLog,
   },
   Food: {
     image: foodImage,

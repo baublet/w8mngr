@@ -14,7 +14,17 @@ generates:
       mappers:
         Food: Omit<Food, "measurements">
         Activity: Omit<Activity, "muscleGroups" | "logs" | "stats" | "permissions">
-        User: Omit<User, "activitySummary" | "foodLog" | "foodLogStats" | "foods" | "activities" | "popularActivities" | "weightLog">
+        User: |
+          Omit<User,
+            | "activities"
+            | "activitySummary"
+            | "foodLog"
+            | "foodLogStats"
+            | "foods"
+            | "popularActivities"
+            | "preferences"
+            | "weightLog"
+          >
       customResolverFn: |
         (
           parent: TParent,

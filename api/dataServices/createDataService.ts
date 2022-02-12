@@ -7,6 +7,7 @@ import { dbService } from "../config/db";
 import { log } from "../config/log";
 import type { Context } from "../createContext";
 import { algoliaService, buildConnectionResolver, errors } from "../helpers";
+import { SomeRequired } from "../types";
 
 type PartiallyMaybe<T extends Record<string, any>> = {
   [K in keyof T]?: T[K] | undefined;
@@ -51,6 +52,7 @@ export function createDataService<T extends QueryFactoryFunction>(
     getConnection: getConnection(queryFactory),
     update: getUpdate(queryFactory),
     upsert: getUpsert(queryFactory, entityName),
+    upsertBy: getUpsertBy(queryFactory, entityName),
     upsertRecordsToAlgolia: getUpsertRecordsToAlgolia(queryFactory, entityName),
     searchRecordsInAlgolia: getSearchRecordsInAlgolia(queryFactory, entityName),
   };
@@ -195,6 +197,82 @@ function getUpsert<T extends QueryFactoryFunction>(
               ...item,
               [idProp]: id,
             });
+          }
+
+          return { id, insertOrUpdate };
+        })
+      );
+
+      await databaseService.commit();
+
+      await getUpsertRecordsToAlgolia(queryFactory, entityName)(context, {
+        ids: payloads.map((p) => p.id),
+      });
+
+      return payloads;
+    } catch (error) {
+      await databaseService.rollback(error);
+      throw error;
+    }
+  };
+}
+
+function getUpsertBy<T extends QueryFactoryFunction>(
+  queryFactory: T,
+  entityName: string,
+  idProp: string = "id"
+) {
+  return async <TColumns extends (keyof EntityFromQueryFactoryFunction<T>)[]>({
+    context,
+    items,
+    columns,
+  }: {
+    context: Context;
+    items: SomeRequired<
+      PartiallyMaybeWithNull<EntityFromQueryFactoryFunction<T>>,
+      TColumns[number]
+    >[];
+    columns: TColumns;
+  }): Promise<{ id: string; insertOrUpdate: "INSERT" | "UPDATE" }[]> => {
+    const databaseService = await context.services.get(dbService);
+    await databaseService.transact();
+
+    const getQuery = await queryFactory(context);
+    try {
+      const payloads = await Promise.all(
+        items.map(async (item) => {
+          let insertOrUpdate: "INSERT" | "UPDATE" = "INSERT";
+          let id = "";
+
+          const query = getQuery();
+
+          const anyItem: any = item;
+          query.whereRaw("1=1");
+          for (const prop of columns as string[]) {
+            query.andWhere(prop, "=", anyItem[prop]);
+          }
+          const extant = await query.limit(1);
+          const element = extant[0];
+          if (!element) {
+            insertOrUpdate = "INSERT";
+            id = ulid();
+
+            await getQuery().insert({
+              ...element,
+              [idProp]: id,
+            });
+          } else {
+            insertOrUpdate = "UPDATE";
+            id = element.id;
+            const query = getQuery().update({
+              ...element,
+              [idProp]: id,
+            });
+            query.whereRaw("1=1");
+            for (const prop of columns as string[]) {
+              query.andWhere(prop, "=", anyItem[prop]);
+            }
+            await query.limit(1);
           }
 
           return { id, insertOrUpdate };

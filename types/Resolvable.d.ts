@@ -1,4 +1,4 @@
-type Resolvable<T> =
+export type Resolvable<T> =
   | T
   | Promise<T>
   | {

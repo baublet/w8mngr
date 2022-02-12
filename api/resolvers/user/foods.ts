@@ -1,6 +1,6 @@
 import { getWithDefault } from "../../../shared";
 import { foodDataService, userDataService } from "../../dataServices";
-import { UserResolvers } from "../../graphql-types";
+import { UserResolvers } from "../../generated";
 import { globalInMemoryCache } from "../../helpers";
 
 export const foods: UserResolvers["foods"] = async (

@@ -1,7 +1,8 @@
-import { QueryBuilder } from "../../config/db";
 import { assertIsError } from "../../../shared";
-import { isBefore } from "./isBefore";
+import { Resolvable } from "../../../shared/types";
+import { QueryBuilder } from "../../config/db";
 import { log } from "../../config/log";
+import { isBefore } from "./isBefore";
 import { validateArguments } from "./validateArguments";
 
 export type Connection<TEntity, TNode = TEntity> = Resolvable<{

@@ -9,8 +9,9 @@ import {
   dayStringToDate,
   objectEntries,
 } from "../../../shared";
+import { Maybe } from "../../../shared/types";
 import { Context } from "../../createContext";
-import { FoodLogDataPoint } from "../../graphql-types";
+import { FoodLogDataPoint } from "../../generated";
 import { globalInMemoryCache } from "../../helpers";
 import { FoodLogEntity, foodLogDataService } from ".";
 

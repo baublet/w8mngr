@@ -2,7 +2,7 @@ schema: api/config/schema.graphql
 documents: "./client/queries/**/*.graphql"
 
 generates:
-  ./api/graphql-types.ts:
+  ./api/generated.ts:
     plugins:
       - typescript
       - typescript-resolvers
@@ -14,13 +14,24 @@ generates:
       mappers:
         Food: Omit<Food, "measurements">
         Activity: Omit<Activity, "muscleGroups" | "logs" | "stats" | "permissions">
-        User: Omit<User, "activitySummary" | "foodLog" | "foodLogStats" | "foods" | "activities" | "popularActivities" | "weightLog">
+        User: |
+          Omit<User,
+            | "activities"
+            | "activitySummary"
+            | "foodLog"
+            | "foodLogStats"
+            | "foods"
+            | "popularActivities"
+            | "preferences"
+            | "weightLog"
+          >
       customResolverFn: |
         (
           parent: TParent,
           args: TArgs,
           context: TContext
         ) => Resolvable<TResult>;
+        import type { Resolvable } from "../shared/types";
 
   ./client/generated.ts:
     plugins:

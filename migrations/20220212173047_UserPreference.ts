@@ -1,0 +1,18 @@
+import { Knex } from "knex";
+
+export async function up(knex: Knex): Promise<void> {
+  await knex.schema.createTable("user_preference", function (table) {
+    table.text("id").notNullable().primary();
+    table.text("userId").notNullable().index();
+    table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());
+    table.text("preference").index().notNullable();
+    table
+      .text("value")
+      .notNullable()
+      .comment("The JSON.stringified value of the preference");
+    table.unique(["userId", "preference"]);
+  });
+}
+
+export async function down(knex: Knex): Promise<void> {}

@@ -1,5 +1,5 @@
-import { FoodResolvers } from "../../graphql-types";
 import { foodMeasurementDataService } from "../../dataServices";
+import { FoodResolvers } from "../../generated";
 
 export const foodMeasurements: Required<FoodResolvers>["measurements"] = (
   parent,

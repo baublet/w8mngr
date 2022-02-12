@@ -1,5 +1,5 @@
 import { activityMuscleDataService } from "../../dataServices";
-import { ActivityResolvers } from "../../graphql-types";
+import { ActivityResolvers } from "../../generated";
 
 export const activityMuscleGroups: ActivityResolvers["muscleGroups"] = async (
   parent,

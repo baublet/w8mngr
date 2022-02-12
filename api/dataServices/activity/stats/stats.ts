@@ -1,11 +1,12 @@
 import dateDistance from "date-fns/formatDistance";
 
-import { activityDataService } from "../";
-import { Context } from "../../../createContext";
-import { ActivityStats, ActivityType } from "../../../graphql-types";
-import { activityLogDataService } from "../..";
-import { numberToContextualUnit } from "../../../helpers";
 import { dayStringFromDate, dayStringToDate } from "../../../../shared";
+import { Resolvable } from "../../../../shared/types";
+import { Context } from "../../../createContext";
+import { ActivityStats, ActivityType } from "../../../generated";
+import { numberToContextualUnit } from "../../../helpers";
+import { activityDataService } from "../";
+import { activityLogDataService } from "../..";
 import { getVisualizationDataResolvers } from "./visualizationData";
 
 export async function stats(

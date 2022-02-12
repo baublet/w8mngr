@@ -22,6 +22,7 @@ export async function create({
   const userId = context.getCurrentUserId();
   assertIsTruthy(userId);
   const db = await context.services.get(dbService);
+  await db.transact();
   try {
     if (!CLOUDINARY_API_KEY) {
       throw new Error(`No CLOUDINARY_API_KEY in environment variables...`);

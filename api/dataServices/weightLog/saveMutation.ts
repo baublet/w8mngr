@@ -1,7 +1,7 @@
 import { assertIsError } from "../../../shared";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { WeightLogInput } from "../../graphql-types";
+import { WeightLogInput } from "../../generated";
 import { rawInputToUnit } from "../../helpers";
 import { rootService } from "./rootService";
 

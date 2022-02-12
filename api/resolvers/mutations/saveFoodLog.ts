@@ -1,5 +1,5 @@
-import { MutationResolvers } from "../../graphql-types";
-import { foodLogDataService, FoodLogEntity } from "../../dataServices";
+import { FoodLogEntity, foodLogDataService } from "../../dataServices";
+import { MutationResolvers } from "../../generated";
 import { foodLogPermissionService } from "../../permissionsServices";
 
 export const saveFoodLog: MutationResolvers["saveFoodLog"] = async (

@@ -1,6 +1,6 @@
 import { log } from "../../config/log";
 import { uploadDataService } from "../../dataServices";
-import { UploadResolvers } from "../../graphql-types";
+import { UploadResolvers } from "../../generated";
 
 export const publicUrl: UploadResolvers["publicUrl"] = (
   parent,

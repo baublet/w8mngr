@@ -1,6 +1,7 @@
 import React from "react";
 import { ulid } from "ulid";
 
+import { Maybe } from "../../../api/generated";
 import { FoodMeasurement, useDeleteMeasurementMutation } from "../../generated";
 import { useForm } from "../../helpers";
 import { DeleteIconButton } from "../Button/DeleteIconButton";

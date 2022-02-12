@@ -1,9 +1,9 @@
-import { MutationResolvers } from "../../graphql-types";
-import {
-  foodMeasurementDataService,
-  foodDataService,
-} from "../../dataServices";
 import { assertIsTruthy } from "../../../shared";
+import {
+  foodDataService,
+  foodMeasurementDataService,
+} from "../../dataServices";
+import { MutationResolvers } from "../../generated";
 
 export const deleteFoodMeasurement: Required<MutationResolvers>["deleteFoodMeasurement"] =
   async (parent, { input }, context) => {

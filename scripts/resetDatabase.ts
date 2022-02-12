@@ -11,5 +11,6 @@ const db = knex(config.production);
   console.log("Recreating database...");
   await db.raw('CREATE SCHEMA IF NOT EXISTS "public"');
 
+  await db.destroy();
   process.exit(0);
 })();

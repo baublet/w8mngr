@@ -11,3 +11,8 @@ export { ActivityMuscle, activityMuscleDataService } from "./activityMuscle";
 export { ActivityLog, activityLogDataService } from "./activityLog";
 export { WeightLog, weightLogDataService } from "./weightLog";
 export { EmailEntity, emailDataService } from "./email";
+export {
+  UserPreferenceEntity,
+  userPreferenceDataService,
+  userPreferenceTypes,
+} from "./userPreference";

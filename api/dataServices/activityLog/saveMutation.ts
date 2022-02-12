@@ -1,7 +1,8 @@
 import { assertIsError } from "../../../shared";
+import { Maybe } from "../../../shared/types";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { ActivityLogInput } from "../../graphql-types";
+import { ActivityLogInput } from "../../generated";
 import { doTimes, rawInputToUnit } from "../../helpers";
 import { rootService } from "./rootService";
 import { activityDataService } from "..";

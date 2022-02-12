@@ -1,9 +1,9 @@
 import { assertIsError } from "../../../shared";
+import { ReturnTypeWithErrors } from "../../../shared/types";
 import { createDigest } from "../../authentication";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
 import { errors } from "../../helpers";
-import { ReturnTypeWithErrors } from "../../types";
 import { tokenDataService } from "../token";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
 import { userAccountDataService } from "../userAccount/";

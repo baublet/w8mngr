@@ -1,6 +1,7 @@
-import { MutationResolvers } from "../../graphql-types";
-import { foodLogDataService } from "../../dataServices";
 import { assertIsTruthy } from "shared";
+
+import { foodLogDataService } from "../../dataServices";
+import { MutationResolvers } from "../../generated";
 import { foodLogPermissionService } from "../../permissionsServices";
 
 export const deleteFoodLog: MutationResolvers["deleteFoodLog"] = async (

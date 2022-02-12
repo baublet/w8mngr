@@ -73,6 +73,8 @@ export const server = new ApolloServer({
                 }
               }
             }
+
+            await context.destroy();
           },
         };
       },

@@ -1,4 +1,4 @@
-import { Unit } from "../graphql-types";
+import { Unit } from "../generated";
 
 type Settings = {
   defaultDistanceMeasurement: Unit[];

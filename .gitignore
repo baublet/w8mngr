@@ -4,7 +4,7 @@ node_modules
 public/*
 !public/.gitkeep
 *.log
-api/graphql-types.ts
+api/generated.ts
 api/graphql.js
 api/graphql.js.map
 dev.sqlite3

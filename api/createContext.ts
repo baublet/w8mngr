@@ -12,6 +12,7 @@ import { UserEntity } from "./dataServices/user";
 import { getClientId } from "./helpers";
 
 export interface Context {
+  destroy: () => Promise<void>;
   getClientId: () => string;
   getCurrentUser: <T extends boolean | undefined>(
     orThrow?: T
@@ -74,6 +75,21 @@ export function createContext(
   let userAccount = currentUserAccount;
 
   const context: Context = {
+    destroy: async () => {
+      const serviceArray = services.getAll();
+      await Promise.all(
+        serviceArray.map(async ({ service, factory }) => {
+          if (factory === contextService) {
+            // Don't let the context factory destroy itself (this creates an infinite loop!)
+            return;
+          }
+          const resolvedService = await service;
+          if (isServiceWithDestroyFunction(resolvedService)) {
+            return resolvedService.destroy();
+          }
+        })
+      );
+    },
     getCurrentUserAccountId: (orThrow?: boolean) => {
       if (orThrow && !userAccount) {
         throw new Error("No current user account set");
@@ -166,4 +182,19 @@ export function contextService(serviceContainer: ServiceContainer): Context {
     return serviceContainer.get(contextService);
   }
   throw new Error("Context service container not properly initialized!");
+}
+
+function isServiceWithDestroyFunction(
+  value: unknown
+): value is { destroy: () => Promise<void> } {
+  if (typeof value !== "object") {
+    return false;
+  }
+
+  const anyValue: any = value;
+  if (typeof anyValue.destroy !== "function") {
+    return false;
+  }
+
+  return true;
 }

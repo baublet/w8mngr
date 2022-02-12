@@ -1,4 +1,4 @@
-import { UploadEntityType } from "../../graphql-types";
+import { UploadEntityType } from "../../generated";
 
 export type Upload = {
   id: string;

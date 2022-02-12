@@ -1,5 +1,5 @@
-import { FoodResolvers } from "../../graphql-types";
 import { uploadDataService } from "../../dataServices";
+import { FoodResolvers } from "../../generated";
 
 export const foodImage: FoodResolvers["image"] = (
   parent: any,

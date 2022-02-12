@@ -1,6 +1,6 @@
 import { assertIsTruthy } from "../../../shared";
-import { activityDataService, ActivityLog } from "../../dataServices";
-import { ActivityLogResolvers } from "../../graphql-types";
+import { ActivityLog, activityDataService } from "../../dataServices";
+import { ActivityLogResolvers } from "../../generated";
 
 export const activityLogActivity: ActivityLogResolvers["activity"] = (
   parent,

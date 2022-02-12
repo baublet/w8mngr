@@ -26,7 +26,7 @@ export function getTestGlobalServiceContainer(): ServiceContainer {
 
 export async function testSetup() {
   const databaseService = await getTestGlobalContext().services.get(dbService);
-  const connection = await databaseService.getConnection();
+  const connection = databaseService.getConnection();
   await connection.migrate.latest({
     directory: resolve(process.cwd(), "migrations"),
   });

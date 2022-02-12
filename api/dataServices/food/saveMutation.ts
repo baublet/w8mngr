@@ -1,6 +1,6 @@
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { FoodInput } from "../../graphql-types";
+import { FoodInput } from "../../generated";
 import { foodMeasurementDataService } from "../foodMeasurement";
 import { rootService } from "./rootService";
 

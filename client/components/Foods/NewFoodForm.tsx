@@ -3,6 +3,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import { withNumericKeys } from "../../../shared";
+import { Maybe } from "../../../shared/types";
 import { MeasurementInput, useSaveFoodMutation } from "../../generated";
 import { useToast } from "../../helpers";
 import { FoodForm } from "./FoodForm";

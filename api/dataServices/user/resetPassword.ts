@@ -1,14 +1,13 @@
+import { assertIsError } from "../../../shared";
+import { ReturnTypeWithErrors } from "../../../shared/types";
+import { createDigest, hashPassword } from "../../authentication";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { UserEntity } from "./types";
-import { userDataService } from "./";
-import { userAccountDataService } from "../userAccount/";
-import { createDigest, hashPassword } from "../../authentication";
-import { ReturnTypeWithErrors } from "../../types";
 import { tokenDataService } from "../token";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
-import { assertIsError } from "../../../shared";
-import { emailDataService } from "../";
+import { userAccountDataService } from "../userAccount/";
+import { userDataService } from "./";
+import { UserEntity } from "./types";
 
 export async function resetPassword(
   context: Context,

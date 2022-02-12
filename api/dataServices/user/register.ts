@@ -1,8 +1,8 @@
 import { assertIsError } from "../../../shared";
+import { ReturnTypeWithErrors } from "../../../shared/types";
 import { hashPassword } from "../../authentication";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
-import { ReturnTypeWithErrors } from "../../types";
 import { emailDataService } from "../email";
 import { tokenDataService } from "../token";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";

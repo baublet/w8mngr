@@ -35,8 +35,9 @@ if (!dbSettings) {
 
 // Our general-purpose query handler
 const openConnections: any[] = []; // We track them so we can free them up and shut down the app safely
+
 export async function getConnection(): Promise<Knex> {
-  log("info", "Grabbing a database connection from the pool", {
+  log("info", "Requesting a database connection from the pool", {
     openConnections: openConnections.length,
   });
   const connection = knex(dbSettings);
@@ -44,12 +45,24 @@ export async function getConnection(): Promise<Knex> {
   return connection;
 }
 
+function closeConnection(connection: any) {
+  if (!openConnections.includes(connection)) {
+    return;
+  }
+
+  openConnections.splice(openConnections.indexOf(connection), 1);
+  return connection?.destroy?.();
+}
+
 async function dbService() {
   const connection = await getConnection();
+  const serviceConnections: any[] = [connection];
   let transactingConnection: Knex.Transaction<any, any[]> | undefined;
 
   return {
-    getConnection: () => transactingConnection || connection,
+    getConnection: () => {
+      return transactingConnection || connection;
+    },
     transact: async () => {
       if (!transactingConnection) {
         transactingConnection = await connection.transaction();
@@ -61,20 +74,9 @@ async function dbService() {
         transactingConnection = undefined;
       }
     },
-    close: async () => {
-      await transactingConnection?.commit();
-    },
     destroy: async () => {
-      log("info", "Destroying database connections", {
-        openConnections: openConnections.length,
-      });
-      while (openConnections.length) {
-        const connection = openConnections.pop();
-        await connection?.destroy();
-      }
-      log("info", "Database connections destroyed", {
-        openConnections: openConnections.length,
-      });
+      await transactingConnection?.commit();
+      await Promise.all(serviceConnections.map(closeConnection));
     },
     rollback: async (error: unknown) => {
       log("warn", "Transaction failed. Rolling back.", { error });
@@ -91,7 +93,8 @@ export type DBQuery<TEntity = any, TResult = any> = Knex.QueryBuilder<
 
 function getQueryBuilderFactory<TEntity = any>(tableName: string) {
   return async (context: Context) => {
-    const { getConnection } = await context.services.get(dbService);
+    const dbFactory = await context.services.get(dbService);
+    const { getConnection } = dbFactory;
     const connection = await getConnection();
     return () => connection<TEntity>(tableName);
   };

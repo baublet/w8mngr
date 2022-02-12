@@ -1,5 +1,5 @@
 import { weightLogDataService } from "../../dataServices";
-import { MutationResolvers } from "../../graphql-types";
+import { MutationResolvers } from "../../generated";
 
 export const saveWeightLog: MutationResolvers["saveWeightLog"] = async (
   parent,

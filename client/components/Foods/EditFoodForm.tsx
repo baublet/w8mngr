@@ -2,6 +2,7 @@ import omit from "lodash.omit";
 import React from "react";
 
 import { withNumericKeys } from "../../../shared";
+import { Maybe } from "../../../shared/types";
 import {
   MeasurementInput,
   useGetFoodDetailsQuery,

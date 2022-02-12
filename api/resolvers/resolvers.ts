@@ -1,4 +1,4 @@
-import { Resolvers } from "../graphql-types";
+import { Resolvers } from "../generated";
 import { activityLogs } from "./activity/logs";
 import { activityMuscleGroups } from "./activity/musclesGroups";
 import { activityPermissions } from "./activity/permissions";
@@ -25,6 +25,7 @@ import { saveActivityLog } from "./mutations/saveActivityLog";
 import { saveFood } from "./mutations/saveFood";
 import { saveFoodLog } from "./mutations/saveFoodLog";
 import { saveUploadData } from "./mutations/saveUploadData";
+import { saveUserPreferences } from "./mutations/saveUserPreferences";
 import { saveWeightLog } from "./mutations/saveWeightLog";
 import { verifyEmail } from "./mutations/verifyEmail";
 import { searchFoods } from "./searchFoods";
@@ -36,6 +37,7 @@ import { foodLog } from "./user/foodLog";
 import { userFoodLogStats } from "./user/foodLogStats";
 import { foods } from "./user/foods";
 import { popularUserActivities } from "./user/popularActivities";
+import { usePreferences } from "./user/preferences";
 import { userVerified } from "./user/verified";
 import { weightLog } from "./user/weightLog";
 import { weightLogAgo } from "./weightLog/ago";
@@ -57,11 +59,12 @@ export const resolvers: Resolvers = {
     activities,
     activitySummary: userActivitySummary,
     foodLog,
+    foodLogStats: userFoodLogStats,
     foods,
     popularActivities: popularUserActivities,
-    foodLogStats: userFoodLogStats,
-    weightLog,
+    preferences: usePreferences,
     verified: userVerified,
+    weightLog,
   },
   Food: {
     image: foodImage,
@@ -98,6 +101,7 @@ export const resolvers: Resolvers = {
     saveFood,
     saveFoodLog,
     saveUploadData,
+    saveUserPreferences,
     saveWeightLog,
     verifyEmail,
   },

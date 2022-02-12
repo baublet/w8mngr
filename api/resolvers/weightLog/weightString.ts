@@ -1,4 +1,4 @@
-import { WeightLogResolvers } from "../../graphql-types";
+import { WeightLogResolvers } from "../../generated";
 import { numberToContextualUnit } from "../../helpers";
 
 export const weightLogWeightString: WeightLogResolvers["weightString"] = async (

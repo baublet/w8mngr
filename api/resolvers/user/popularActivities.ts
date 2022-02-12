@@ -1,5 +1,5 @@
 import { activityDataService } from "../../dataServices";
-import { UserResolvers } from "../../graphql-types";
+import { UserResolvers } from "../../generated";
 
 export const popularUserActivities: UserResolvers["popularActivities"] = (
   parent,

@@ -3,7 +3,7 @@ import { Context } from "../../../createContext";
 import {
   ActivityType,
   ActivityVisualizationInput,
-} from "../../../graphql-types";
+} from "../../../generated";
 import {
   getDateRangeWithDefault,
   globalInMemoryCache,

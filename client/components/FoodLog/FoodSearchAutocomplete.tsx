@@ -7,7 +7,7 @@ import {
   useQuickSearchFoodsQuery,
   useSearchFoodsQuery,
 } from "../../generated";
-import { useKeyPressHandler } from "../../helpers";
+import { useEvents, useKeyPressHandler } from "../../helpers";
 import { SystemOutlineIconButton } from "../Button/SystemOutlineIcon";
 import { Add } from "../Icons/Add";
 import { ButtonSpinnerIcon } from "../Loading/ButtonSpinner";
@@ -18,17 +18,16 @@ import { FoodLogInput } from "./types";
 export function FoodSearchAutocomplete({
   searchTerm = "",
   day,
-  onItemAdded,
 }: {
   searchTerm?: string;
   day: string;
-  onItemAdded?: () => void;
 }) {
   const { data: searchData, loading: searchLoading } = useQuickSearchFoodsQuery(
     {
       variables: { input: { searchTerm } },
     }
   );
+  const { fire } = useEvents();
   const [selectedFoodId, setSelectedFoodId] = React.useState<string>();
   const [saveFoodLog, { loading }] = useCreateOrUpdateFoodLogMutation({
     refetchQueries: [
@@ -39,7 +38,7 @@ export function FoodSearchAutocomplete({
     ],
     awaitRefetchQueries: true,
     onCompleted: () => {
-      onItemAdded?.();
+      fire("foodLogAdded");
     },
   });
   const selectedFood = React.useMemo(() => {

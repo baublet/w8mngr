@@ -128,10 +128,6 @@ export function FoodLog() {
             <FoodSearchAutocomplete
               searchTerm={debouncedSearchTerm}
               day={dayString}
-              onItemAdded={() => {
-                newFoodLogFormObjectRef.current?.clear();
-                newFoodLogDescriptionInputRef.current?.focus();
-              }}
             />
           </div>
         </div>

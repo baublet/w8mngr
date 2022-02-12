@@ -1,10 +1,11 @@
+import { ApolloProvider } from "@apollo/client";
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { ApolloProvider } from "@apollo/client";
 
-import { boot } from "./boot";
 import { Application } from "./Application";
+import { boot } from "./boot";
+import { EventProvider } from "./helpers";
 import { apolloClientService } from "./helpers/apolloClientService";
 
 boot().then(async () => {
@@ -19,9 +20,11 @@ boot().then(async () => {
 
   ReactDOM.render(
     <BrowserRouter>
-      <ApolloProvider client={getClient()}>
-        <Application />
-      </ApolloProvider>
+      <EventProvider>
+        <ApolloProvider client={getClient()}>
+          <Application />
+        </ApolloProvider>
+      </EventProvider>
     </BrowserRouter>,
     mountNode
   );

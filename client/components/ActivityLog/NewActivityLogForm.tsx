@@ -46,6 +46,8 @@ export function NewActivityLogForm({
     reps: string;
     work: string;
   }>();
+  const repsRef = React.useRef<HTMLInputElement | null>(null);
+  const workRef = React.useRef<HTMLInputElement | null>(null);
   const { success, error } = useToast();
   const [createActivityLog, { loading }] = useSaveActivityLogMutation({
     refetchQueries: [GetActivityLogDocument],
@@ -53,6 +55,11 @@ export function NewActivityLogForm({
     onCompleted: () => {
       newActivityLogFormData.clear();
       success("Log added");
+      if (repsRef.current) {
+        repsRef.current?.focus();
+      } else {
+        workRef.current?.focus();
+      }
     },
     onError: error,
   });
@@ -100,6 +107,7 @@ export function NewActivityLogForm({
                 value={newActivityLogFormData.getValue("reps", "")}
                 onChange={newActivityLogFormData.getHandler("reps")}
                 placeholder="e.g., 10, or 3x10"
+                inputElementRef={repsRef}
               />
             )}
             {!workLabel ? null : (
@@ -110,6 +118,7 @@ export function NewActivityLogForm({
                 value={newActivityLogFormData.getValue("work", "")}
                 onChange={newActivityLogFormData.getHandler("work")}
                 placeholder={WORK_PLACEHOLDERS[activityType]}
+                inputElementRef={workRef}
               />
             )}
           </div>

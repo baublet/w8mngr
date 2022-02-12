@@ -5,7 +5,7 @@ import {
   GetCurrentUserFoodLogDocument,
   useCreateOrUpdateFoodLogMutation,
 } from "../../generated";
-import { foodLogLocalStorage, useToast } from "../../helpers";
+import { foodLogLocalStorage, useEvents, useToast } from "../../helpers";
 import { FormStateObject, useForm } from "../../helpers/useForm";
 import { BarcodeScannerButton } from "../BarcodeScanner";
 import { PrimaryLightSaveButton } from "../Button/PrimaryLightSave";
@@ -44,6 +44,14 @@ export function NewFoodLogPanel({
   const newFoodLogForm = useForm<NewFoodLogFormState>({ schema });
   const descriptionInputRef = React.useRef<HTMLInputElement | null>(null);
   const { success, error } = useToast();
+  const { subscribe, unsubscribe, fire } = useEvents();
+
+  React.useEffect(() => {
+    subscribe("foodLogAdded", "focusFoodLogDescription", () => {
+      descriptionInputRef.current?.focus();
+    });
+    return () => unsubscribe("foodLogAdded", "focusFoodLogDescription");
+  }, []);
 
   if (parentDescriptionInputRef) {
     parentDescriptionInputRef.current = descriptionInputRef.current;
@@ -57,9 +65,7 @@ export function NewFoodLogPanel({
     refetchQueries: [GetCurrentUserFoodLogDocument],
     onCompleted: () => {
       newFoodLogForm.clear();
-      setTimeout(() => {
-        descriptionInputRef.current?.focus();
-      }, 50);
+      fire("foodLogAdded");
       success("Food log created");
     },
     onError: error,

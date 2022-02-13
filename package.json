@@ -8,7 +8,7 @@
   "description": "w8mngr utilizing Netlify's functions and a React SPA",
   "scripts": {
     "algolia:seed": "ts-node scripts/seedAlgoliaData.ts",
-    "build:api:command": "esbuild --sourcemap --bundle --platform=node --external:knex --external:bcrypt",
+    "build:api:command": "esbuild --sourcemap --bundle --platform=node --external:knex --external:bcrypt --external:@netlify/functions",
     "build:api:structure": "esbuild api/**/*.ts api/*.ts --outdir=tmp",
     "build:api:gql": "yarn build:api:command api/graphql.ts --outfile=api/graphql.js",
     "build:api:worker": "yarn build:api:command api/worker.ts --outfile=api/worker.js",

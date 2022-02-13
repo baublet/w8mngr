@@ -3,11 +3,12 @@ import { emailDataService } from "./dataServices";
 import { schedule } from "@netlify/functions";
 import { ulid } from "ulid";
 
+// Local cron schedule: every minute (worker jobs are idempotent, so this is fine)
 export const cronSchedule = "* * * * *";
 
 export const handlerFn = async () => {
   const context = await createContext({
-    clientId: `minute-worker-${ulid()}`,
+    clientId: `hourly-worker-${ulid()}`,
   });
 
   await emailDataService.sendPendingEmails(context);
@@ -19,4 +20,4 @@ export const handlerFn = async () => {
   };
 };
 
-export const handler = schedule(cronSchedule, handlerFn);
+export const handler = schedule("@hourly", handlerFn);

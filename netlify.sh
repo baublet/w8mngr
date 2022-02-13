@@ -22,5 +22,5 @@ mkdir -p functions/config
 cp api/graphql.js functions/graphql.js
 cp api/graphql.js.map functions/graphql.js.map
 cp api/config/schema.graphql functions/config/schema.graphql
-cp api/worker-minute.js functions/worker-minute.js
-cp api/worker-minute.js.map functions/worker-minute.js.map
+cp api/worker.js functions/worker.js
+cp api/worker.js.map functions/worker.js.map

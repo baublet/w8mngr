@@ -27,3 +27,6 @@
   node_bundler = "esbuild"
   included_files = ["functions/config/schema.graphql", "root.crt"]
   external_node_modules = ["knex", "bcrypt", "pg"]
+
+[functions."worker"]
+schedule = "@hourly"

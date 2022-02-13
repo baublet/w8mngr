@@ -15,7 +15,7 @@ export function Privacy() {
         <ContentLayout
           mainContent={
             <AsyncMarkdown
-              content={`We can be reached via e-mail from our contact form. Never hesitate to ask questions regarding your privacy. Net neutrality and your privacy are extremely important to us.
+              content={`We can be reached via e-mail at (baublet@gmail.com)[mailto:baublet@gmail.com]. Never hesitate to ask questions regarding your privacy. Net neutrality and your privacy are extremely important to us.
 
 ### Data Collected
 
@@ -41,14 +41,14 @@ w8mngr.com has no plans to implement any form of advertising.
 
 From time to time, we may use customer information for new, unanticipated uses not previously disclosed in our privacy notice. If our information practices change at some time in the future we will contact you before we use your data for any new purposes to notify you of the policy change and to provide you with the ability to opt out of these new uses.
 
-Upon request we provide site visitors with access to a description of information that we maintain about them. Consumers can access this information by our contact form.
+Upon request we provide site visitors with access to a description of information that we maintain about them. Consumers can access this information by emailing us.
 
 We offer visitors the ability to have factual inaccuracies corrected in information that we maintain about them via the tools they used to enter that data in the first place. Most relevant data can be changed in profile options, which are not made available to the public or any third-parties.
 
 ### Grievances
 If you feel that this site is not following its stated information policy, you may contact us or third-party enforcement agencies:
 
-- The DMA's Committee on Ethical Business Practices at mgoldberger@the-dma.org
+- The DMA's Committee on Ethical Business Practices at [mgoldberger@the-dma.org](mailto:mgoldberger@the-dma.org)
 - State or local chapters of the Better Business Bureau
 - State or local consumer protection office
 - The Federal Trade Commission by phone at 202.FTC-HELP (202.382.4357) or electronically at [ftc.gov/ftc/complaint.htm](http://ftc.gov/ftc/complaint.htm)`}

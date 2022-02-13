@@ -1,25 +1,7 @@
 import hash from "object-hash";
-
 import { log } from "../config/log";
-import { registerRecurringTask } from "./registerRecurringTask";
 
 const cache = new Map<string, { value: any; expiry: number }>();
-
-registerRecurringTask({
-  taskKey: "pruneGlobalInMemoryCache",
-  task: async () => {
-    // Prune expired tokens
-    log("debug", "Pruning expired in-memory cache keys");
-    const now = Date.now();
-    for (const key of Array.from(cache.keys())) {
-      const cacheItem = cache.get(key);
-      if (cacheItem && cacheItem.expiry < now) {
-        cache.delete(key);
-      }
-    }
-  },
-  intervalMs: 30000,
-});
 
 export const globalInMemoryCache = {
   clear: (key: string) => cache.delete(key),

@@ -1,5 +1,8 @@
-const express = require("express");
 const path = require("path");
+
+/**
+ * Our GraphQL service
+ */
 const { createServer: createViteServer } = require("vite");
 
 const { server, httpServer, app } = require("./api/graphql.js");
@@ -18,3 +21,26 @@ server.start().then(async () => {
   httpServer.listen({ port: 8080, host: "0.0.0.0" });
   console.log("😺 Local server running! http://localhost:8080");
 });
+
+/**
+ * Recurring tasks and workers
+ */
+const { CronJob } = require("cron");
+const {
+  handlerFn: minuteWorker,
+  cronSchedule: minuteWorkerCronSchedule,
+} = require("./api/worker-minute");
+
+const minuteWorkerJob = new CronJob(minuteWorkerCronSchedule, minuteWorker);
+
+console.log("Starting recurring tasks")
+minuteWorkerJob.start();
+
+const killTasks = () => {
+  process.stdout.write("Stopping recurring tasks");
+  minuteWorkerJob.stop();
+};
+process.on("SIGINT", killTasks);
+process.on("SIGABRT", killTasks);
+process.on("SIGTERM", killTasks);
+process.on("exit", killTasks);

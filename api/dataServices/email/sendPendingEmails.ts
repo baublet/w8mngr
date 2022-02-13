@@ -1,23 +1,12 @@
-import { assertIsError } from "../../../shared";
-import { log } from "../../config/log";
-import { Context, createContext } from "../../createContext";
-import { emailService, registerRecurringTask } from "../../helpers";
-import { getQuery } from "./query";
-import { rootService } from "./rootService";
 import { isValidTemplate, renderEmailTemplate } from "./templates";
-import { EmailEntity } from "./types";
 
-registerRecurringTask({
-  taskKey: "sendPendingEmails",
-  task: async () => {
-    const context = createContext({
-      clientId: "robot",
-    });
-    await sendPendingEmails(context);
-    await context.destroy();
-  },
-  intervalMs: 10000,
-});
+import { Context } from "../../createContext";
+import { EmailEntity } from "./types";
+import { assertIsError } from "../../../shared";
+import { emailService } from "../../helpers";
+import { getQuery } from "./query";
+import { log } from "../../config/log";
+import { rootService } from "./rootService";
 
 export async function sendPendingEmails(context: Context) {
   try {

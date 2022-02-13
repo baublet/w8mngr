@@ -3,27 +3,36 @@ module.exports = {
     {
       name: "web",
       script: "develop.js",
-      watch: ["api/graphql.js", "develop.js"],
+      watch: ["api/graphql.js", "develop.js", "api/worker-minute.js"],
       node_args: ["-r", "dotenv/config", "--enable-source-maps"],
       autorestart: false,
-      restart_delay: 250
+      restart_delay: 250,
     },
     {
       name: "build-backend",
       script: "npm",
       args: "run build:api",
       watch: ["api", "shared"],
-      ignore_watch: ["api/graphql.js", "api/graphql.js.map"],
+      ignore_watch: [
+        "api/graphql.js",
+        "api/graphql.js.map",
+        "api/worker-minute.js",
+        "api/worker-minute.js.map",
+      ],
       autorestart: false,
-      restart_delay: 250
+      restart_delay: 250,
     },
     {
       name: "build-gql",
       script: "npm",
       args: "run gql:generate",
-      watch: ["api/config/schema.graphql", "client/queries/*.graphql", "client/queries/**/*.graphql"],
+      watch: [
+        "api/config/schema.graphql",
+        "client/queries/*.graphql",
+        "client/queries/**/*.graphql",
+      ],
       autorestart: false,
-      restart_delay: 250
+      restart_delay: 250,
     },
     {
       name: "build-css",
@@ -31,7 +40,7 @@ module.exports = {
       args: "run build:css",
       watch: ["client/**/*.{html,ts,tsx}"],
       autorestart: false,
-      restart_delay: 250
+      restart_delay: 250,
     },
   ],
 };

@@ -1991,6 +1991,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@netlify/functions@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "@netlify/functions@npm:0.11.0"
+  dependencies:
+    is-promise: ^4.0.0
+  checksum: 87bb43fb5f5e893e3495842384086b2565f24c5872ae38f5afc4756314b2aa58cc937b442e51264cf2c17735700c53676e3ebc2861cdb9eec78a89ffa6cc3ef5
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -5004,7 +5013,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron@npm:1.8.2":
+"cron@npm:1.8.2, cron@npm:^1.8.2":
   version: 1.8.2
   resolution: "cron@npm:1.8.2"
   dependencies:
@@ -7963,6 +7972,13 @@ __metadata:
   version: 2.2.2
   resolution: "is-promise@npm:2.2.2"
   checksum: 18bf7d1c59953e0ad82a1ed963fb3dc0d135c8f299a14f89a17af312fc918373136e56028e8831700e1933519630cc2fd4179a777030330fde20d34e96f40c78
+  languageName: node
+  linkType: hard
+
+"is-promise@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "is-promise@npm:4.0.0"
+  checksum: 0b46517ad47b00b6358fd6553c83ec1f6ba9acd7ffb3d30a0bf519c5c69e7147c132430452351b8a9fc198f8dd6c4f76f8e6f5a7f100f8c77d57d9e0f4261a8a
   languageName: node
   linkType: hard
 
@@ -14466,6 +14482,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": ^2.2.0
     "@graphql-codegen/typescript-react-apollo": ^3.2.2
     "@graphql-codegen/typescript-resolvers": ^2.4.1
+    "@netlify/functions": ^0.11.0
     "@popperjs/core": ^2.11.2
     "@swc/core": ^1.2.135
     "@swc/helpers": ^0.3.2
@@ -14493,6 +14510,7 @@ __metadata:
     classnames: ^2.3.1
     cookie-parser: ^1.4.6
     cors: ^2.8.5
+    cron: ^1.8.2
     dataloader: ^2.0.0
     date-fns: ^2.26.0
     dotenv: ^10.0.0

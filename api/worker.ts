@@ -3,7 +3,6 @@ import { ulid } from "ulid";
 import { createContext } from "./createContext";
 import { emailDataService } from "./dataServices";
 
-// Local cron schedule: every minute (worker jobs are idempotent, so this is fine)
 export const cronSchedule = "* * * * *";
 
 export const handler = async () => {

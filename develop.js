@@ -29,7 +29,7 @@ const { CronJob } = require("cron");
 const {
   handler: minuteWorker,
   cronSchedule: minuteWorkerCronSchedule,
-} = require("./api/worker-minute");
+} = require("./api/worker");
 
 const minuteWorkerJob = new CronJob(minuteWorkerCronSchedule, minuteWorker);
 

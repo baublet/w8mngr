@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "web",
       script: "develop.js",
-      watch: ["api/graphql.js", "develop.js", "api/worker-minute.js"],
+      watch: ["api/graphql.js", "develop.js", "api/worker.js"],
       node_args: ["-r", "dotenv/config", "--enable-source-maps"],
       autorestart: false,
       restart_delay: 250,
@@ -16,8 +16,8 @@ module.exports = {
       ignore_watch: [
         "api/graphql.js",
         "api/graphql.js.map",
-        "api/worker-minute.js",
-        "api/worker-minute.js.map",
+        "api/worker.js",
+        "api/worker.js.map",
       ],
       autorestart: false,
       restart_delay: 250,

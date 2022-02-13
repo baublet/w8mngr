@@ -14,35 +14,29 @@ export const foods: UserResolvers["foods"] = async (
     searchString
   )}`;
 
-  return globalInMemoryCache.getOrSet({
-    key: cacheKey,
-    expiry: 30000,
-    fn: async () => {
-      const adminUsers = await userDataService.getAdminUsers(context);
+  const adminUsers = await userDataService.getAdminUsers(context);
 
-      const filters = getWithDefault(input?.filter, {});
-      const connectionResolver = await foodDataService.getConnection(context, {
-        applyCustomConstraint: (q) =>
-          q.whereIn("userId", [currentUserId, ...adminUsers.map((u) => u.id)]),
-        constraint: {
-          id: filters.id,
-        },
-        connectionResolverParameters: {
-          after: input?.after,
-          before: input?.before,
-          last: input?.last,
-          first: input?.first,
-          sort: {
-            id: "asc",
-          },
-        },
-      });
-
-      if (connectionResolver instanceof Error) {
-        throw connectionResolver;
-      }
-
-      return connectionResolver;
+  const filters = getWithDefault(input?.filter, {});
+  const connectionResolver = await foodDataService.getConnection(context, {
+    applyCustomConstraint: (q) =>
+      q.whereIn("userId", [currentUserId, ...adminUsers.map((u) => u.id)]),
+    constraint: {
+      id: filters.id,
+    },
+    connectionResolverParameters: {
+      after: input?.after,
+      before: input?.before,
+      last: input?.last,
+      first: input?.first,
+      sort: {
+        id: "asc",
+      },
     },
   });
+
+  if (connectionResolver instanceof Error) {
+    throw connectionResolver;
+  }
+
+  return connectionResolver;
 };

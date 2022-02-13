@@ -15,6 +15,7 @@ import { FoodForm } from "./FoodForm";
 export function EditFoodForm({ id }: { id: string }) {
   const { error, success } = useToast();
   const { loading, data } = useGetFoodDetailsQuery({
+    nextFetchPolicy: "network-only",
     variables: {
       id,
     },

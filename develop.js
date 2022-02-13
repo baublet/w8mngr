@@ -27,7 +27,7 @@ server.start().then(async () => {
  */
 const { CronJob } = require("cron");
 const {
-  handlerFn: minuteWorker,
+  handler: minuteWorker,
   cronSchedule: minuteWorkerCronSchedule,
 } = require("./api/worker-minute");
 

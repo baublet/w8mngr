@@ -49,6 +49,7 @@ export function NewFoodLogPanel({
   React.useEffect(() => {
     subscribe("foodLogAdded", "focusFoodLogDescription", () => {
       descriptionInputRef.current?.focus();
+      newFoodLogForm.clear();
     });
     return () => unsubscribe("foodLogAdded", "focusFoodLogDescription");
   }, []);

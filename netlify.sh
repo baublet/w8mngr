@@ -20,7 +20,7 @@ cp client/*.webmanifest client-build/
 
 mkdir -p functions/config
 cp api/graphql.js functions/graphql.js
-cp api/graphql.j.maps functions/graphql.js.map
+cp api/graphql.j.map functions/graphql.js.map
 cp api/config/schema.graphql functions/config/schema.graphql
 cp api/worker.js functions/worker.js
 cp api/worker.js.map functions/worker.js.map

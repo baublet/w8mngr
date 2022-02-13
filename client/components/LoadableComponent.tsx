@@ -31,16 +31,24 @@ export function LoadableComponent<
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    load().then((module) => {
-      const moduleComponent = module[component];
-      if (!moduleComponent) {
-        throw new Error(
-          `Could not find component ${component} in module ${module}`
-        );
-      }
-      setComponent(() => moduleComponent);
-      setLoading(false);
-    });
+    load()
+      .then((module) => {
+        const moduleComponent = module[component];
+        if (!moduleComponent) {
+          throw new Error(
+            `Could not find component ${component} in module ${module}`
+          );
+        }
+        setComponent(() => moduleComponent);
+        setLoading(false);
+      })
+      .catch((reason) => {
+        console.error(reason);
+        if(reason?.message.includes("Failed to fetch dynamically imported module")) {
+          console.log("New version of w8mngr detected! Reloading...")
+          window.location.reload();
+        }
+      });
   }, []);
 
   if (loading) {

@@ -2,7 +2,6 @@ import Qty from "js-quantities";
 
 import { log } from "../config/log";
 import { Context } from "../createContext";
-import { settingsService } from "./settingsService";
 
 export function numberToContextualNumericUnit({
   context,
@@ -18,8 +17,6 @@ export function numberToContextualNumericUnit({
   if (!work) {
     return 0;
   }
-
-  const settings = context.services.get(settingsService)();
 
   const loweredIncomingUnit = incomingUnit.toLowerCase();
   const loweredOutgoingUnit = outgoingUnit.toLowerCase();

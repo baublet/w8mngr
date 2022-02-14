@@ -25,7 +25,7 @@ $ yarn gql:generate
 
 Now, you're ready to test and develop.
 
-# Testing
+# Dependencies
 
 If you have configured Postgres properly, you should be able to run the following commands:
 
@@ -45,3 +45,7 @@ Once the server is running, you can login as a seed admin with the following cre
 username: admin@w8mngr.com
 password: test
 ```
+
+# Testing
+
+Our test suite needs a live PG database, so make sure `yarn db:reset` works before you try to test. Each test suite (e.g., each file) will create its own database

@@ -20,7 +20,7 @@ export async function numberToContextualUnit(
     return `${work === undefined ? "" : work}`;
   }
 
-  const settings = context.services.get(settingsService)();
+  const settings = await context.services.get(settingsService);
 
   let incomingUnit: Unit = "GRAMS";
   let outgoingUnits: Unit[] = ["LBS"];

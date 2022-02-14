@@ -1,7 +1,9 @@
 import { Knex } from "knex";
 
+import { withSchema } from "../api/config/db";
+
 export async function up(knex: Knex): Promise<void> {
-  await knex.schema.createTable("user", function (table) {
+  await withSchema(knex).createTable("user", function (table) {
     table.text("id").notNullable().primary();
     table.string("preferredName");
     table.string("legacyPreferences").nullable();
@@ -9,7 +11,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string("role").nullable();
   });
 
-  await knex.schema.createTable("user_account", function (table) {
+  await withSchema(knex).createTable("user_account", function (table) {
     table.text("id").notNullable().primary();
     table.boolean("verified").defaultTo(false).index();
     table.text("userId").notNullable();
@@ -23,7 +25,7 @@ export async function up(knex: Knex): Promise<void> {
     table.unique(["source", "sourceIdentifier"]);
   });
 
-  await knex.schema.createTable("token", function (table) {
+  await withSchema(knex).createTable("token", function (table) {
     table.text("id").notNullable().primary();
     table.text("tokenDigest").unique().notNullable();
     table.text("type").notNullable().index();
@@ -34,7 +36,7 @@ export async function up(knex: Knex): Promise<void> {
     table.date("expires").notNullable();
   });
 
-  await knex.schema.createTable("food_log", function (table) {
+  await withSchema(knex).createTable("food_log", function (table) {
     table.text("id").notNullable().primary();
     table.text("userId").notNullable().index();
     table.text("day").notNullable().index();
@@ -47,7 +49,7 @@ export async function up(knex: Knex): Promise<void> {
     table.integer("protein").nullable();
   });
 
-  await knex.schema.createTable("food", function (table) {
+  await withSchema(knex).createTable("food", function (table) {
     table.text("id").notNullable().primary();
     table.text("userId").notNullable().index();
     table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
@@ -60,7 +62,7 @@ export async function up(knex: Knex): Promise<void> {
     table.integer("popularity").notNullable().defaultTo(0);
   });
 
-  await knex.schema.createTable("food_log_food", function (table) {
+  await withSchema(knex).createTable("food_log_food", function (table) {
     table.text("id").notNullable().primary();
     table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
     table.text("userId").notNullable().index();
@@ -68,7 +70,7 @@ export async function up(knex: Knex): Promise<void> {
     table.text("day").notNullable().index();
   });
 
-  await knex.schema.createTable("upload", function (table) {
+  await withSchema(knex).createTable("upload", function (table) {
     table.text("id").notNullable().primary();
     table.text("userId").notNullable().index();
     table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
@@ -79,7 +81,7 @@ export async function up(knex: Knex): Promise<void> {
     table.text("extension").nullable();
   });
 
-  await knex.schema.createTable("food_measurement", function (table) {
+  await withSchema(knex).createTable("food_measurement", function (table) {
     table.text("id").notNullable().primary();
     table.text("foodId").notNullable().index();
     table.text("userId").notNullable().index();
@@ -94,7 +96,7 @@ export async function up(knex: Knex): Promise<void> {
     table.integer("popularity").notNullable().defaultTo(0);
   });
 
-  await knex.schema.createTable("activity", function (table) {
+  await withSchema(knex).createTable("activity", function (table) {
     table.boolean("archived").notNullable().defaultTo(false).index();
     table.text("id").notNullable().primary();
     table.text("userId").notNullable().index();
@@ -109,13 +111,13 @@ export async function up(knex: Knex): Promise<void> {
     table.integer("legacyId").nullable().index().unique();
   });
 
-  await knex.schema.createTable("activity_muscle", function (table) {
+  await withSchema(knex).createTable("activity_muscle", function (table) {
     table.text("id").notNullable().primary();
     table.text("activityId").notNullable().index();
     table.text("muscle").notNullable().index();
   });
 
-  await knex.schema.createTable("activity_log", function (table) {
+  await withSchema(knex).createTable("activity_log", function (table) {
     table.text("id").notNullable().primary();
     table.text("activityId").notNullable().index();
     table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
@@ -136,7 +138,7 @@ export async function up(knex: Knex): Promise<void> {
       );
   });
 
-  await knex.schema.createTable("weight_log", function (table) {
+  await withSchema(knex).createTable("weight_log", function (table) {
     table.text("id").notNullable().primary();
     table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
     table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());
@@ -145,7 +147,7 @@ export async function up(knex: Knex): Promise<void> {
     table.integer("weight").notNullable().comment("Unit is stored in grams");
   });
 
-  await knex.schema.createTable("email", function (table) {
+  await withSchema(knex).createTable("email", function (table) {
     table.text("id").notNullable().primary();
     table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());
     table.timestamp("updatedAt", { useTz: true }).defaultTo(knex.fn.now());

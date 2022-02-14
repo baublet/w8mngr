@@ -1,15 +1,19 @@
 import { resolve } from "path";
 
 import { ServiceContainer } from "@baublet/service-container";
+import { ulid } from "ulid";
 
 import { Context, createContext } from "../createContext";
 import { config } from "./config";
 import { dbService } from "./db";
 
 let testGlobalContext: Context | undefined;
+const testSchemaName = ulid();
+process.env["DATABASE_SCHEMA"] = testSchemaName;
 
 export function getTestGlobalContext(): Context {
-  testGlobalContext = testGlobalContext || createContext();
+  testGlobalContext =
+    testGlobalContext || createContext({ clientId: "test-context" });
   return testGlobalContext;
 }
 
@@ -26,14 +30,23 @@ export function getTestGlobalServiceContainer(): ServiceContainer {
 
 export async function testSetup() {
   const databaseService = await getTestGlobalContext().services.get(dbService);
+  databaseService.setSchema(testSchemaName);
   const connection = databaseService.getConnection();
+
+  await connection.raw(`CREATE SCHEMA IF NOT EXISTS "${testSchemaName}"`);
+
   await connection.migrate.latest({
     directory: resolve(process.cwd(), "migrations"),
+    schemaName: testSchemaName,
   });
 }
 
 export async function testCleanup() {
   const databaseService = await getTestGlobalContext().services.get(dbService);
+  const connection = databaseService.getConnection();
+
+  await connection.raw(`DROP SCHEMA IF EXISTS "${testSchemaName}" CASCADE`);
+
   await databaseService.destroy();
   getTestGlobalContext().services.delete(dbService);
 }

@@ -12,6 +12,10 @@ const database = config.get("DATABASE");
 assertIsValidDatabase(database);
 const dbSettings: Knex.Config = knexConfig[database];
 
+export function withSchema(knex: Knex) {
+  return knex.schema.withSchema(config.get("DATABASE_SCHEMA"));
+}
+
 function assertIsValidDatabase(
   database: string
 ): asserts database is keyof typeof knexConfig {
@@ -55,6 +59,7 @@ function closeConnection(connection: any) {
 }
 
 async function dbService() {
+  let schema = "public";
   const connection = await getConnection();
   const serviceConnections: any[] = [connection];
   let transactingConnection: Knex.Transaction<any, any[]> | undefined;
@@ -82,6 +87,10 @@ async function dbService() {
       log("warn", "Transaction failed. Rolling back.", { error });
       await transactingConnection?.rollback();
     },
+    setSchema: (newSchema: string) => {
+      schema = newSchema;
+    },
+    getSchema: () => schema,
   };
 }
 
@@ -96,7 +105,8 @@ function getQueryBuilderFactory<TEntity = any>(tableName: string) {
     const dbFactory = await context.services.get(dbService);
     const { getConnection } = dbFactory;
     const connection = await getConnection();
-    return () => connection<TEntity>(tableName);
+    return () =>
+      connection<TEntity>(tableName).withSchema(dbFactory.getSchema());
   };
 }
 

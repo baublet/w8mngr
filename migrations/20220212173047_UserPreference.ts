@@ -1,7 +1,9 @@
 import { Knex } from "knex";
 
+import { withSchema } from "../api/config/db";
+
 export async function up(knex: Knex): Promise<void> {
-  await knex.schema.createTable("user_preference", function (table) {
+  await withSchema(knex).createTable("user_preference", function (table) {
     table.text("id").notNullable().primary();
     table.text("userId").notNullable().index();
     table.timestamp("createdAt", { useTz: true }).defaultTo(knex.fn.now());

@@ -32,7 +32,7 @@ export function numberToStringUnit({
       const isLastUnit = i + 1 > loweredOutgoingUnits.length - 1;
 
       // If this is the final unit in the set, round up; otherwise round down (so we can accumulate the remainder)
-      const roundingFunction = !isLastUnit ? Math.floor : Math.ceil;
+      const roundingFunction = !isLastUnit ? getRoundedUnit : Math.ceil;
 
       const rootUnit = new Qty(remainder, loweredIncomingUnit);
       const fullUnit = new Qty(
@@ -71,4 +71,8 @@ function startingWorkToNumber(work: undefined | string | number): number {
     return parseInt(work, 10);
   }
   return 0;
+}
+
+function getRoundedUnit(num: number): number {
+  return Math.round( num * 100 + Number.EPSILON ) / 100
 }

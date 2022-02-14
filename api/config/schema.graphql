@@ -135,6 +135,7 @@ enum Unit {
   KILOMETERS
   KM
   K
+  METERS
   MILES
   MI
   MILLIMETERS # Default

@@ -20,8 +20,6 @@ export async function saveMutation(
     );
     const foodId = upsertResults[0].id;
 
-    console.log({ input })
-
     if (!foodId) {
       throw new Error(
         `Unknown error upserting food. Expected an upsert result. Instead received ${JSON.stringify(

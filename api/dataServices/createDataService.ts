@@ -256,8 +256,6 @@ function getUpsertBy<T extends QueryFactoryFunction>(
           const extant = await query.limit(1);
           const element = extant[0];
 
-          console.log({ element });
-
           if (!element) {
             insertOrUpdate = "INSERT";
             id = ulid();
@@ -281,8 +279,6 @@ function getUpsertBy<T extends QueryFactoryFunction>(
             }
             await query.limit(1);
           }
-
-          console.log({ id, insertOrUpdate });
 
           return { id, insertOrUpdate };
         })

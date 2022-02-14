@@ -2,8 +2,8 @@ import { getTestGlobalContext } from "../../config/test";
 import { create } from "./create";
 
 it("creates a user", async () => {
-  const userAccount = await create(getTestGlobalContext(), {});
-  expect(userAccount).toEqual(
+  const user = await create(getTestGlobalContext(), {});
+  expect(user).toEqual(
     expect.objectContaining({ id: expect.any(String) })
   );
 });

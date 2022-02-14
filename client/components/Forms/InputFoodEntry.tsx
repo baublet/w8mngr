@@ -1,6 +1,8 @@
 import cx from "classnames";
 import React from "react";
 
+import { or } from "../../../shared";
+
 let count = 0;
 
 const inputClassNames = `
@@ -33,7 +35,7 @@ export type InputFoodEntriesProps = {
 export function InputFoodEntry(
   props: InputFoodEntriesProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
-  const id = props.id || `input-${count++}`;
+  const id = or(props.id, `input-${count++}`);
   const label = props.label;
   const {
     showLabel = true,

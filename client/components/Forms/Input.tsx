@@ -1,6 +1,8 @@
 import cx from "classnames";
 import React from "react";
 
+import { or } from "../../../shared";
+
 let count = 0;
 
 const border = `
@@ -36,7 +38,7 @@ export type InputProps = {
 export function Input(
   props: InputProps
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
-  const id = props.id || `input-${count++}`;
+  const id = or(props.id, `input-${count++}`);
   const label = props.label;
   const {
     showLabel = true,

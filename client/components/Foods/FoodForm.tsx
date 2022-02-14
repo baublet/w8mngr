@@ -1,6 +1,7 @@
 import cx from "classnames";
 import React from "react";
 
+import { or } from "../../../shared";
 import { useForm } from "../../helpers";
 import { SecondaryButton } from "../Button/Secondary";
 import { ContentContainer } from "../Containers/ContentContainer";
@@ -71,7 +72,7 @@ export function FoodForm({
     if (measurements) {
       return measurements.map((measurement) => ({
         ...measurement,
-        internalId: measurement.id || "",
+        internalId: or(measurement.id, ""),
       }));
     }
     return [];

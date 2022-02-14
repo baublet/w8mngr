@@ -2,7 +2,7 @@ import cx from "classnames";
 import React from "react";
 import { useParams } from "react-router";
 
-import { dayStringFromDate, getWithDefault } from "../../../shared";
+import { dayStringFromDate, getWithDefault, or } from "../../../shared";
 import { useGetCurrentUserFoodLogQuery } from "../../generated";
 import { useDebouncedValue } from "../../helpers";
 import { DayNavigator } from "../DayNavigator";
@@ -50,10 +50,10 @@ export function FoodLog() {
   );
   const stats = React.useMemo(() => {
     return {
-      calories: entries.reduce((curr, next) => curr + (next.calories || 0), 0),
-      fat: entries.reduce((curr, next) => curr + (next.fat || 0), 0),
-      carbs: entries.reduce((curr, next) => curr + (next.carbs || 0), 0),
-      protein: entries.reduce((curr, next) => curr + (next.protein || 0), 0),
+      calories: entries.reduce((curr, next) => curr + or(next.calories, 0), 0),
+      fat: entries.reduce((curr, next) => curr + or(next.fat, 0), 0),
+      carbs: entries.reduce((curr, next) => curr + or(next.carbs, 0), 0),
+      protein: entries.reduce((curr, next) => curr + or(next.protein, 0), 0),
     };
   }, [data]);
 

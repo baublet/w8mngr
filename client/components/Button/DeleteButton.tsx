@@ -1,3 +1,4 @@
+import cx from "classnames";
 import React from "react";
 
 import { GhostButton, GhostButtonProps } from "./Ghost";
@@ -13,18 +14,21 @@ export function DeleteButton(props: GhostButtonProps) {
   return (
     <GhostButton
       {...newProps}
-      className={`
-      bg-transparent
-      p-3
-      text-rose-500
-      border
-      border-rose-500
-      rounded text-xs
-      hover:bg-rose-500
-      focus:bg-rose-500
-      hover:text-white
-      focus:text-white
-      ${props.className || ""}`}
+      className={cx(
+        `
+        bg-transparent
+        p-3
+        text-rose-500
+        border
+        border-rose-500
+        rounded text-xs
+        hover:bg-rose-500
+        focus:bg-rose-500
+        hover:text-white
+        focus:text-white
+      `,
+        props.className
+      )}
       onClick={newOnclick}
     />
   );

@@ -3,6 +3,7 @@ import { addDays, isPast } from "date-fns";
 import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 
+import { or } from "../../shared";
 import { formatDate } from "../../shared/dateFormat";
 import { dayStringFromDate } from "../../shared/dayStringFromDate";
 import { dayStringToDate } from "../../shared/dayStringToDate";
@@ -23,7 +24,7 @@ export function DayNavigator({
   const { replace } = useHistory();
 
   const [dayString, setDayString] = React.useState(
-    params.day || todayDayString
+    or(params.day, todayDayString)
   );
 
   const dayDate = React.useMemo(() => dayStringToDate(dayString), [dayString]);

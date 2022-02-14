@@ -1,6 +1,7 @@
 import cx from "classnames";
 import React from "react";
 
+import { or } from "../../../shared";
 import { Maybe } from "../../../shared/types";
 import {
   ActivityType,
@@ -74,7 +75,7 @@ export function ActivityLogEntry({
     return null;
   }
 
-  const loading = deleteLoading || saveLoading;
+  const loading = or(deleteLoading, saveLoading);
 
   return (
     <Panel loading={loading}>

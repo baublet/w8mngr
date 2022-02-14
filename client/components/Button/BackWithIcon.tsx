@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { or } from "../../../shared";
 import { BaseButtonProps } from "./Base";
 
 export function BackWithIconButton(
@@ -13,7 +14,7 @@ export function BackWithIconButton(
   return (
     <Link
       className="inline-flex uppercase py-2 gap-2 text-xs items-center text-slate-500 hover:text-purple-600 group"
-      to={props.to || "#"}
+      to={or(props.to, "#")}
       onClick={(event) => {
         if (props.onClick) {
           event.preventDefault();

@@ -2,6 +2,7 @@ import cx from "classnames";
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 
+import { or } from "../../../shared";
 import { foodLogLocalStorage } from "../../helpers";
 import { GhostInvertedButton } from "../Button/GhostInverted";
 import { SystemGhostIconButton } from "../Button/SystemGhostIcon";
@@ -79,7 +80,7 @@ w-full
               <img
                 src={previewImageUrl}
                 className="w-24 h-auth rounded"
-                title={description || "Food preview"}
+                title={or(description, "Food preview")}
               />
             </div>
           )}

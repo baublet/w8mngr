@@ -1,6 +1,7 @@
 import cx from "classnames";
 import React from "react";
 
+import { or } from "../../../shared";
 import {
   GetCurrentUserWeightLogDocument,
   useCreateOrUpdateWeightLogMutation,
@@ -78,12 +79,14 @@ export function WeightLogEntry({
     return null;
   }
 
+  const loading = or(saving, deleting);
+
   return (
     <Panel
       className={cx({
-        "opacity-50 pointer-events-none": saving || deleting,
+        "opacity-50 pointer-events-none": loading,
       })}
-      loading={saving || deleting}
+      loading={loading}
     >
       <Form
         onSubmit={save}

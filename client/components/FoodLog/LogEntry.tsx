@@ -2,6 +2,7 @@ import cx from "classnames";
 import React from "react";
 import { number, object, string } from "yup";
 
+import { or } from "../../../shared";
 import {
   GetCurrentUserFoodLogDocument,
   useCreateOrUpdateFoodLogMutation,
@@ -80,7 +81,7 @@ export function LogEntry({
     onError: error,
   });
 
-  const loading = createOrUpdateLoading || deleteLoading;
+  const loading = or(createOrUpdateLoading, deleteLoading);
 
   const save = React.useCallback(() => {
     createOrUpdateFoodLog({
@@ -95,7 +96,7 @@ export function LogEntry({
 
   return (
     <Panel
-      loading={deleteLoading || createOrUpdateLoading}
+      loading={or(deleteLoading, createOrUpdateLoading)}
       className="relax flex w-full items-center relative"
     >
       <div

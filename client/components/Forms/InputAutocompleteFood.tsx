@@ -1,5 +1,6 @@
 import React from "react";
 
+import { or } from "../../../shared";
 import { InputProps } from "./Input";
 
 let count = 0;
@@ -10,12 +11,12 @@ interface FoodEntryInputProps {
 }
 
 export function InputAutocompleteFood(props: FoodEntryInputProps & InputProps) {
-  const id = props.id || `input-inverted-food-entry-${count++}`,
-    label = props.placeholder || props.label,
-    newProps = Object.assign({}, props, { id }),
-    { getRef, hideLabel, className, size, onChange, ...inputOnlyProps } =
-      newProps,
-    ref = React.useRef(null);
+  const id = or(props.id, `input-inverted-food-entry-${count++}`);
+  const label = or(props.label, props.placeholder);
+  const newProps = Object.assign({}, props, { id });
+  const { getRef, hideLabel, className, size, onChange, ...inputOnlyProps } =
+    newProps;
+  const ref = React.useRef(null);
 
   React.useEffect(() => {
     if (getRef) {

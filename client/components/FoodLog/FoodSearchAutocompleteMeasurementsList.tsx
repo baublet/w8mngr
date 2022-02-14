@@ -1,6 +1,7 @@
 import cx from "classnames";
 import React from "react";
 
+import { or } from "../../../shared";
 import { useForm, useKeyPressHandler } from "../../helpers";
 import { PrimaryIconButton } from "../Button/PrimaryIcon";
 import { SystemOutlineButton } from "../Button/SystemOutline";
@@ -147,28 +148,28 @@ export function MeasurementList({
         calories: measurementStringToNumberOrUndefined(
           getMeasurementWithMultiplier({
             currentAmount: amountFormData.getValue("amount"),
-            measurementValue: selectedMeasurement.calories || 0,
+            measurementValue: or(selectedMeasurement.calories, 0),
             originalAmount: selectedMeasurement.amount,
           })
         ),
         fat: measurementStringToNumberOrUndefined(
           getMeasurementWithMultiplier({
             currentAmount: amountFormData.getValue("amount"),
-            measurementValue: selectedMeasurement.fat || 0,
+            measurementValue: or(selectedMeasurement.fat, 0),
             originalAmount: selectedMeasurement.amount,
           })
         ),
         carbs: measurementStringToNumberOrUndefined(
           getMeasurementWithMultiplier({
             currentAmount: amountFormData.getValue("amount"),
-            measurementValue: selectedMeasurement.carbs || 0,
+            measurementValue: or(selectedMeasurement.carbs, 0),
             originalAmount: selectedMeasurement.amount,
           })
         ),
         protein: measurementStringToNumberOrUndefined(
           getMeasurementWithMultiplier({
             currentAmount: amountFormData.getValue("amount"),
-            measurementValue: selectedMeasurement.protein || 0,
+            measurementValue: or(selectedMeasurement.protein, 0),
             originalAmount: selectedMeasurement.amount,
           })
         ),
@@ -218,28 +219,28 @@ export function MeasurementList({
               <div className="w-2/12 truncate" title="calories">
                 {getMeasurementWithMultiplier({
                   currentAmount: amountFormData.getValue("amount"),
-                  measurementValue: selectedMeasurement.calories || 0,
+                  measurementValue: or(selectedMeasurement.calories, 0),
                   originalAmount: selectedMeasurement.amount,
                 })}
               </div>
               <div className="w-1/12 truncate" title="fat">
                 {getMeasurementWithMultiplier({
                   currentAmount: amountFormData.getValue("amount"),
-                  measurementValue: selectedMeasurement.fat || 0,
+                  measurementValue: or(selectedMeasurement.fat, 0),
                   originalAmount: selectedMeasurement.amount,
                 })}
               </div>
               <div className="w-1/12 truncate" title="carbohydrates">
                 {getMeasurementWithMultiplier({
                   currentAmount: amountFormData.getValue("amount"),
-                  measurementValue: selectedMeasurement.carbs || 0,
+                  measurementValue: or(selectedMeasurement.carbs, 0),
                   originalAmount: selectedMeasurement.amount,
                 })}
               </div>
               <div className="w-1/12 truncate" title="protein">
                 {getMeasurementWithMultiplier({
                   currentAmount: amountFormData.getValue("amount"),
-                  measurementValue: selectedMeasurement.protein || 0,
+                  measurementValue: or(selectedMeasurement.protein, 0),
                   originalAmount: selectedMeasurement.amount,
                 })}
               </div>

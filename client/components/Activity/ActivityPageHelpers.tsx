@@ -1,5 +1,6 @@
 import React from "react";
 
+import { or } from "../../../shared";
 import { useGetPopularActivitiesQuery } from "../../generated";
 import { Link } from "../Link";
 
@@ -10,7 +11,7 @@ export function ActivityPageHelpers() {
     return null;
   }
 
-  const popularActivities = data.currentUser?.popularActivities || [];
+  const popularActivities = or(data.currentUser?.popularActivities, []);
   const shouldRender = popularActivities.length > 0;
 
   if (!shouldRender) {

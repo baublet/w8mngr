@@ -2,6 +2,7 @@ import React from "react";
 import { ulid } from "ulid";
 
 import { Maybe } from "../../../api/generated";
+import { or } from "../../../shared";
 import { FoodMeasurement, useDeleteMeasurementMutation } from "../../generated";
 import { useForm } from "../../helpers";
 import { DeleteIconButton } from "../Button/DeleteIconButton";
@@ -24,11 +25,11 @@ export function FoodMeasurementsForm({
   initialData?: Maybe<FormMeasurementInput[]>;
   onChange: (measurements: FormMeasurementInput[]) => void;
 }) {
-  const [measurements, setMeasurements] = React.useState(initialData || []);
+  const [measurements, setMeasurements] = React.useState(or(initialData, []));
   const [deleteMeasurementMutation] = useDeleteMeasurementMutation();
 
   React.useEffect(() => onChange(measurements), [measurements]);
-  React.useEffect(() => setMeasurements(initialData || []), [initialData]);
+  React.useEffect(() => setMeasurements(or(initialData, [])), [initialData]);
 
   const addMeasurement = React.useCallback(() => {
     setMeasurements((measurements) => [

@@ -48,4 +48,9 @@ password: test
 
 # Testing
 
-Our test suite needs a live PG database, so make sure `yarn db:reset` works before you try to test. Each test suite (e.g., each file) will create its own database
+Our test suite needs a live PG database, so make sure `yarn db:reset` works before you try to test. Each test suite (e.g., each file) will create its own schema, run our migrations, and run a test against that discrete database.
+
+```bash
+$ yarn test                 # Test all of our suites
+$ yarn test <file1> <fileN  # Test one or more files
+```

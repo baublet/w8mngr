@@ -4,8 +4,6 @@
 
 w8mngr utilizing Netlify's functions and a React SPA
 
-As of February 6, 2019, I blew out the history so I can make this repo public. I had some old AWS connection info in here when it was private.
-
 # Setup
 
 To setup your database, you must have `docker-compose` installed. Once it's installed:

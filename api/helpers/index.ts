@@ -8,7 +8,6 @@ export { globalInMemoryCache } from "./globalInMemoryCache";
 export { numberToContextualNumericUnit } from "./numberToContextualNumericUnit";
 export { numberToContextualUnit } from "./numberToContextualUnit";
 export { numberToStringUnit } from "./numberToStringUnit";
-export { parseBody } from "./parseBody";
 export { rawInputToUnit } from "./rawInputToUnit";
 export { settingsService } from "./settingsService";
 export { algoliaService } from "./algoliaService";

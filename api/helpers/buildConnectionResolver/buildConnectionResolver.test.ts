@@ -1,7 +1,8 @@
 import { Knex } from "knex";
-import { buildConnectionResolver } from "./buildConnectionResolver";
-import { getConnection } from "../../config/db";
 import { ulid } from "ulid";
+
+import { getConnection } from "../../config/db";
+import { buildConnectionResolver } from "./buildConnectionResolver";
 
 type User = {
   id: number;
@@ -71,6 +72,8 @@ beforeAll(async () => {
   db = dbSetup;
   userTableName = userTableNameSetup;
 });
+
+afterAll(() => db.destroy());
 
 it("doesn't blow up", async () => {
   await expect(

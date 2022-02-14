@@ -46,6 +46,15 @@ username: admin@w8mngr.com
 password: test
 ```
 
+Our development environment uses [PM2]() to manage its various build processes and watch threads, as well as to aggregate logging.
+
+```bash
+$ yarn pm2 logs all     # See all aggregate logs
+$ yarn pm2 logs web     # See only the `web` API logs
+$ yarn pm2 stop all     # Stop all services
+$ yarn pm2 dash         # Show the PM2 dashboard
+```
+
 # Testing
 
 Our test suite needs a live PG database, so make sure `yarn db:reset` works before you try to test. Each test suite (e.g., each file) will create its own schema, run our migrations, and run a test against that discrete database.

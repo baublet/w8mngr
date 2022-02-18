@@ -71,21 +71,29 @@ async function dbService() {
     transact: async () => {
       if (!transactingConnection) {
         transactingConnection = await connection.transaction();
+      } else {
+        throw new Error(
+          "Transaction already started. Nested transactions are not supported."
+        );
       }
     },
     commit: async () => {
       if (transactingConnection) {
         await transactingConnection.commit();
         transactingConnection = undefined;
+      } else {
+        throw new Error("No transaction started. Nothing to commit!");
       }
     },
     destroy: async () => {
       await transactingConnection?.commit();
       await Promise.all(serviceConnections.map(closeConnection));
+      transactingConnection = undefined;
     },
     rollback: async (error: unknown) => {
       log("warn", "Transaction failed. Rolling back.", { error });
       await transactingConnection?.rollback();
+      transactingConnection = undefined;
     },
     setSchema: (newSchema: string) => {
       schema = newSchema;

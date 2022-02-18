@@ -4,7 +4,6 @@ import { ulid } from "ulid";
 
 import { assertIsError } from "../../shared";
 import { ReturnTypeWithErrors, SomeRequired } from "../../shared/types";
-import { dbService } from "../config/db";
 import { log } from "../config/log";
 import type { Context } from "../createContext";
 import { algoliaService, buildConnectionResolver, errors } from "../helpers";
@@ -163,57 +162,51 @@ function getUpsert<T extends QueryFactoryFunction>(
   entityName: string,
   idProp: string = "id"
 ) {
+  /**
+   * Upserts a record. Please note that you must specify transactional boundaries if you
+   * want to perform these upserts within a transaction.
+   */
   return async (
     context: Context,
     upsertItems: PartiallyMaybeWithNull<EntityFromQueryFactoryFunction<T>>[],
     applyAdditionalWhereConstraints?: WhereFunctionFromQueryFactory<T>
   ): Promise<{ id: string; insertOrUpdate: "INSERT" | "UPDATE" }[]> => {
-    const databaseService = await context.services.get(dbService);
-    await databaseService.transact();
-
     const getQuery = await queryFactory(context);
-    try {
-      const payloads = await Promise.all(
-        upsertItems.map(async (item) => {
-          const query = getQuery();
+    const payloads = await Promise.all(
+      upsertItems.map(async (item) => {
+        const query = getQuery();
 
-          const idPropValue = item[idProp];
-          const id = idPropValue || ulid();
-          const insertOrUpdate = Boolean(idPropValue)
-            ? ("UPDATE" as const)
-            : ("INSERT" as const);
+        const idPropValue = item[idProp];
+        const id = idPropValue || ulid();
+        const insertOrUpdate = Boolean(idPropValue)
+          ? ("UPDATE" as const)
+          : ("INSERT" as const);
 
-          if (insertOrUpdate === "UPDATE") {
-            query.update({
-              ...omit(item, idProp),
-            });
-            query.where(idProp, "=", id);
-            await query.andWhere((q) => {
-              q.whereRaw("1 = 1");
-              applyAdditionalWhereConstraints?.(q as any);
-            });
-          } else {
-            await query.insert({
-              ...item,
-              [idProp]: id,
-            });
-          }
+        if (insertOrUpdate === "UPDATE") {
+          query.update({
+            ...omit(item, idProp),
+          });
+          query.where(idProp, "=", id);
+          await query.andWhere((q) => {
+            q.whereRaw("1 = 1");
+            applyAdditionalWhereConstraints?.(q as any);
+          });
+        } else {
+          await query.insert({
+            ...item,
+            [idProp]: id,
+          });
+        }
 
-          return { id, insertOrUpdate };
-        })
-      );
+        return { id, insertOrUpdate };
+      })
+    );
 
-      await databaseService.commit();
+    await getUpsertRecordsToAlgolia(queryFactory, entityName)(context, {
+      ids: payloads.map((p) => p.id),
+    });
 
-      await getUpsertRecordsToAlgolia(queryFactory, entityName)(context, {
-        ids: payloads.map((p) => p.id),
-      });
-
-      return payloads;
-    } catch (error) {
-      await databaseService.rollback(error);
-      throw error;
-    }
+    return payloads;
   };
 }
 
@@ -222,6 +215,11 @@ function getUpsertBy<T extends QueryFactoryFunction>(
   entityName: string,
   idProp: string = "id"
 ) {
+  /**
+   * Upserts a set of records by one or more unique constraints. Please note that
+   * you must specify transactional boundaries if you want to perform these upserts
+   * within a transaction.
+   */
   return async <TColumns extends (keyof EntityFromQueryFactoryFunction<T>)[]>({
     context,
     items,
@@ -236,66 +234,55 @@ function getUpsertBy<T extends QueryFactoryFunction>(
   }): Promise<
     ReturnTypeWithErrors<{ id: string; insertOrUpdate: "INSERT" | "UPDATE" }[]>
   > => {
-    const databaseService = await context.services.get(dbService);
-    await databaseService.transact();
-
     const getQuery = await queryFactory(context);
-    try {
-      const payloads = await Promise.all(
-        items.map(async (item) => {
-          let insertOrUpdate: "INSERT" | "UPDATE" = "INSERT";
-          let id = "";
+    const payloads = await Promise.all(
+      items.map(async (item) => {
+        let insertOrUpdate: "INSERT" | "UPDATE" = "INSERT";
+        let id = "";
 
-          const query = getQuery();
+        const query = getQuery();
 
-          const anyItem: any = item;
+        const anyItem: any = item;
+        query.whereRaw("1=1");
+        for (const prop of columns as string[]) {
+          query.andWhere(prop, "=", anyItem[prop]);
+        }
+        const extant = await query.limit(1);
+        const element = extant[0];
+
+        if (!element) {
+          insertOrUpdate = "INSERT";
+          id = ulid();
+
+          await getQuery().insert({
+            ...element,
+            ...item,
+            [idProp]: id,
+          });
+        } else {
+          insertOrUpdate = "UPDATE";
+          id = element.id;
+          const query = getQuery().update({
+            ...element,
+            ...item,
+            [idProp]: id,
+          });
           query.whereRaw("1=1");
           for (const prop of columns as string[]) {
             query.andWhere(prop, "=", anyItem[prop]);
           }
-          const extant = await query.limit(1);
-          const element = extant[0];
+          await query.limit(1);
+        }
 
-          if (!element) {
-            insertOrUpdate = "INSERT";
-            id = ulid();
+        return { id, insertOrUpdate };
+      })
+    );
 
-            await getQuery().insert({
-              ...element,
-              ...item,
-              [idProp]: id,
-            });
-          } else {
-            insertOrUpdate = "UPDATE";
-            id = element.id;
-            const query = getQuery().update({
-              ...element,
-              ...item,
-              [idProp]: id,
-            });
-            query.whereRaw("1=1");
-            for (const prop of columns as string[]) {
-              query.andWhere(prop, "=", anyItem[prop]);
-            }
-            await query.limit(1);
-          }
+    await getUpsertRecordsToAlgolia(queryFactory, entityName)(context, {
+      ids: payloads.map((p) => p.id),
+    });
 
-          return { id, insertOrUpdate };
-        })
-      );
-
-      await databaseService.commit();
-
-      await getUpsertRecordsToAlgolia(queryFactory, entityName)(context, {
-        ids: payloads.map((p) => p.id),
-      });
-
-      return payloads;
-    } catch (error) {
-      assertIsError(error);
-      await databaseService.rollback(error);
-      return error;
-    }
+    return payloads;
   };
 }
 

@@ -29,4 +29,4 @@
   external_node_modules = ["knex", "bcrypt", "pg"]
 
 [functions."worker"]
-schedule = "* * * * *"
+schedule = "*/5 * * * *"

@@ -26,14 +26,11 @@ server.start().then(async () => {
  * Recurring tasks and workers
  */
 const { CronJob } = require("cron");
-const {
-  handler: minuteWorker,
-  cronSchedule: minuteWorkerCronSchedule,
-} = require("./api/worker");
+const { handler: minuteWorker } = require("./api/worker");
 
-const minuteWorkerJob = new CronJob(minuteWorkerCronSchedule, minuteWorker);
+const minuteWorkerJob = new CronJob("* * * * *", minuteWorker);
 
-console.log("Starting recurring tasks")
+console.log("Starting recurring tasks");
 minuteWorkerJob.start();
 
 const killTasks = () => {

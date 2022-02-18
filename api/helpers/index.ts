@@ -11,3 +11,4 @@ export { numberToStringUnit } from "./numberToStringUnit";
 export { rawInputToUnit } from "./rawInputToUnit";
 export { settingsService } from "./settingsService";
 export { algoliaService } from "./algoliaService";
+export { runWithContext } from "./runWithContext";

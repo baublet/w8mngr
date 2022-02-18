@@ -9,6 +9,13 @@ module.exports = {
       restart_delay: 250,
     },
     {
+      name: "vite",
+      script: "./node_modules/.bin/vite",
+      args: ["--config", "vite.config.js", "--port", "8080"],
+      autorestart: true,
+      watch: ["vite.config.js"],
+    },
+    {
       name: "build-backend",
       script: "npm",
       args: "run build:api",

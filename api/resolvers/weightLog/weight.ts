@@ -1,14 +1,12 @@
-import Qty from "js-quantities";
-
 import { WeightLogResolvers } from "../../generated";
-import { numberToContextualNumericUnit } from "../../helpers";
+import { numberToNumericUnit } from "../../helpers";
 
 export const weightLogWeight: WeightLogResolvers["weight"] = async (
   parent,
   args,
   context
 ) => {
-  return numberToContextualNumericUnit({
+  return numberToNumericUnit({
     context,
     work: parent.weight,
     incomingUnit: "grams",

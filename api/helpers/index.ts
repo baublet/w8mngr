@@ -5,7 +5,7 @@ export { errors } from "./errors";
 export { getClientId } from "./getClientId";
 export { getDateRangeWithDefault } from "./getDateRangeWithDefault";
 export { globalInMemoryCache } from "./globalInMemoryCache";
-export { numberToContextualNumericUnit } from "./numberToContextualNumericUnit";
+export { numberToNumericUnit } from "./numberToNumericUnit";
 export { numberToContextualUnit } from "./numberToContextualUnit";
 export { numberToStringUnit } from "./numberToStringUnit";
 export { rawInputToUnit } from "./rawInputToUnit";

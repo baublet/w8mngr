@@ -10,7 +10,11 @@ export default defineConfig({
     outDir: path.resolve(process.cwd(), "client-build"),
   },
   define: {
-    "process.env.GRAPHQL_ENDPOINT":
-      "'/.netlify/functions/graphql'",
+    "process.env.GRAPHQL_ENDPOINT": "'/.netlify/functions/graphql'",
+  },
+  server: {
+    proxy: {
+      "/.netlify/functions/graphql": "http://localhost:8081",
+    },
   },
 });

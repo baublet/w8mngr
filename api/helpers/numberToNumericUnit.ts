@@ -3,7 +3,7 @@ import Qty from "js-quantities";
 import { log } from "../config/log";
 import { Context } from "../createContext";
 
-export function numberToContextualNumericUnit({
+export function numberToNumericUnit({
   context,
   work,
   incomingUnit,

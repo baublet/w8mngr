@@ -6,8 +6,9 @@ export const activityPermissions: ActivityResolvers["permissions"] = (
   args,
   context
 ) => {
-  return activityObjectPermissionService.materializeToPermissionsObject({
-    delete: [context, parent.id],
-    edit: [context, parent.id],
+  const permissions = context.services.get(activityObjectPermissionService);
+  return permissions.materializeToPermissionsObject({
+    delete: [parent.id],
+    edit: [parent.id],
   });
 };

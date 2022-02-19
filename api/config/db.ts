@@ -68,6 +68,13 @@ async function dbService() {
     getConnection: () => {
       return transactingConnection || connection;
     },
+    assertIsTransacting: () => {
+      if (!transactingConnection) {
+        throw new Error(
+          "Expected to be in a transaction, but no transaction started!"
+        );
+      }
+    },
     transact: async () => {
       if (!transactingConnection) {
         transactingConnection = await connection.transaction();
@@ -91,10 +98,17 @@ async function dbService() {
       transactingConnection = undefined;
     },
     rollback: async (error: unknown) => {
+      if (!transactingConnection) {
+        throw new Error("No transaction started. Nothing to roll back!");
+      }
       log("warn", "Transaction failed. Rolling back.", { error });
       await transactingConnection?.rollback();
       transactingConnection = undefined;
     },
+    /**
+     * For testing purposes, we need to be able to migrate the database into
+     * another schema for better testing isolation.
+     */
     setSchema: (newSchema: string) => {
       schema = newSchema;
     },

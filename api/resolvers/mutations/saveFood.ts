@@ -8,7 +8,8 @@ export const saveFood: MutationResolvers["saveFood"] = async (
   { input },
   context
 ) => {
-  await foodPermissionService.assert("createFood", context);
+  const permissions = context.services.get(foodPermissionService);
+  await permissions.assert("createFood");
 
   const userId = context.getCurrentUserId(true);
 

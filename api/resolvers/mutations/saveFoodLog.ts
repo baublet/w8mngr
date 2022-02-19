@@ -7,7 +7,8 @@ export const saveFoodLog: MutationResolvers["saveFoodLog"] = async (
   { input },
   context
 ) => {
-  await foodLogPermissionService.assert("create", context);
+  const permissions = context.services.get(foodLogPermissionService);
+  await permissions.assert("create");
 
   const day = input.day;
   const items: Partial<FoodLogEntity>[] = input.foodLogs.map((log) => ({

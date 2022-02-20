@@ -121,7 +121,7 @@ function FooterLink(props: React.ComponentProps<typeof Link>) {
   return (
     <Link
       {...props}
-      className="text-emerald-500 hover:text-emerald-300 hover:underline"
+      className="text-emerald-500 underline-offset-4 hover:text-slate-50 hover:underline hover:decoration-emerald-500"
     />
   );
 }

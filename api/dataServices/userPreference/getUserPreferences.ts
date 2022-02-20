@@ -1,3 +1,5 @@
+import format from "date-fns/format";
+
 import { stringToNumberOr } from "../../../shared";
 import { log } from "../../config/log";
 import { Context } from "../../createContext";
@@ -13,9 +15,9 @@ const defaultValues: UserPreferenceValues = {
   BIRTHDAY: null,
   DEFAULT_UNIT: "imperial",
   FATURDAY_CALORIES: 3000,
-  FATURDAY_FAT: 0,
-  FATURDAY_CARBS: 0,
-  FATURDAY_PROTEIN: 0,
+  FATURDAY_FAT: null,
+  FATURDAY_CARBS: null,
+  FATURDAY_PROTEIN: null,
   FATURDAYS: false,
   HEIGHT: null,
 };
@@ -26,7 +28,7 @@ const preferenceSerializers: Record<
 > = {
   BIRTHDAY: (inputValue: string) => {
     try {
-      return new Date(inputValue);
+      return format(new Date(inputValue), "PP");
     } catch {
       return null;
     }

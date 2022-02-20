@@ -61,3 +61,13 @@ Our test suite needs a live PG database, so make sure `yarn db:reset` works befo
 $ yarn test                  # Test all of our suites
 $ yarn test <file1> <fileN>  # Test one or more files
 ```
+
+To signal to the test runner that you require access to the database, make sure you do this at the top of your database tests:
+
+```ts
+import { getTestGlobalContext, usesDatabase } from "../../config/test";
+
+usesDatabase();
+```
+
+This function will ensure that your database tests are fully isolated from other tests (as well as your development environment data) and are properly cleaned up after the test run.

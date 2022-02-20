@@ -1,15 +1,19 @@
-export function stringToNumberOr(
+export function stringToNumberOr<T>(
   value: string,
-  defaultNumber: number = 0
-): number {
+  defaultValue: T
+): T | number {
   if (value === "") {
-    return defaultNumber;
+    return defaultValue;
+  }
+
+  if (typeof defaultValue !== "number") {
+    return defaultValue;
   }
   const number = Number(value);
 
   if (isNaN(number) || isFinite(number)) {
-    return defaultNumber;
+    return defaultValue;
   }
 
-  return number;
+  return defaultValue;
 }

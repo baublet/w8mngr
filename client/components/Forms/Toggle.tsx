@@ -1,8 +1,6 @@
 import cx from "classnames";
 import React from "react";
 
-import { or } from "../../../shared";
-
 export type ToggleProps = {
   value?: boolean | null | number;
   id: string;
@@ -18,6 +16,10 @@ export function Toggle(props: ToggleProps) {
     props.onChange(value);
   }, [value]);
 
+  React.useEffect(() => {
+    setValue(Boolean(props.value));
+  }, [props.value]);
+
   return (
     <div className="flex items-center justify-center w-full group">
       <label htmlFor={props.id} className="flex items-center cursor-pointer">
@@ -26,13 +28,18 @@ export function Toggle(props: ToggleProps) {
             type="checkbox"
             id={props.id}
             className="sr-only"
-            defaultChecked={value}
+            checked={value}
             onChange={() => setValue(!value)}
           />
           <div
             className={cx("absolute inset-0 flex items-center justify-center")}
           />
-          <div className="bg-slate-200 w-14 h-8 rounded shadow-inner"></div>
+          <div
+            className={cx("toggleInner w-14 h-8 rounded shadow-inner", {
+              "bg-slate-200": !value,
+              "bg-slate-500": value,
+            })}
+          ></div>
           <div
             className={cx(
               `

@@ -3,10 +3,10 @@ import type { UserPreferenceType } from "../../generated";
 export type UserPreferenceValues = {
   BIRTHDAY: Date | undefined | null;
   DEFAULT_UNIT: "metric" | "imperial";
-  FATURDAY_CALORIES: number;
-  FATURDAY_FAT: number;
-  FATURDAY_CARBS: number;
-  FATURDAY_PROTEIN: number;
+  FATURDAY_CALORIES: number | null;
+  FATURDAY_FAT: number | null;
+  FATURDAY_CARBS: number | null;
+  FATURDAY_PROTEIN: number | null;
   FATURDAYS: boolean;
   HEIGHT: string | undefined | null;
 };

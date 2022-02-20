@@ -17,7 +17,7 @@ export function PageHeading(props: PageHeadingProps) {
             text-5xl
             rounded-full
             p-1
-            text-slate-100
+            text-slate-50
             bg-emerald-500`}
         >
           {props.icon}

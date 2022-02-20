@@ -16,6 +16,10 @@ export function withSchema(knex: Knex) {
   return knex.schema.withSchema(config.get("DATABASE_SCHEMA"));
 }
 
+export function attachSchema<T extends Knex>(knex: T) {
+  return knex.withSchema(config.get("DATABASE_SCHEMA"));
+}
+
 function assertIsValidDatabase(
   database: string
 ): asserts database is keyof typeof knexConfig {

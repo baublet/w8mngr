@@ -3,5 +3,10 @@ query GetCurrentUser {
     id
     preferredName
     verified
+    preferences {
+      id
+      key
+      value
+    }
   }
 }

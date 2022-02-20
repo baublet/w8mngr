@@ -4,7 +4,8 @@ import { withSchema } from "../api/config/db";
 
 export async function up(knex: Knex): Promise<void> {
   await withSchema(knex).table("email", function (table) {
-    table.text("idempotenceKey").notNullable().unique().alter();
+    table.text("idempotenceKey").notNullable().alter();
+    table.text("idempotenceKey").unique().alter();
   });
 }
 

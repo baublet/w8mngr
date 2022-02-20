@@ -103,7 +103,7 @@ async function dbService() {
     },
     rollback: async (error: unknown) => {
       if (!transactingConnection) {
-        throw new Error("No transaction started. Nothing to roll back!");
+        return;
       }
       log("warn", "Transaction failed. Rolling back.", { error });
       await transactingConnection?.rollback();

@@ -1,3 +1,5 @@
+import { ulid } from "ulid";
+
 import { assertIsError } from "../../../shared";
 import { ReturnTypeWithErrors } from "../../../shared/types";
 import { hashPassword } from "../../authentication";
@@ -84,6 +86,7 @@ export async function register(
         emailVerificationToken: emailVerificationToken.token,
       },
       toUserId: user.id,
+      idempotenceKey: `email-verification-${emailVerificationToken.token}}`,
     });
 
     return {

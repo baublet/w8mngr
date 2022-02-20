@@ -133,6 +133,7 @@ async function seedUsers() {
   });
 
   if (admin instanceof Error) {
+    console.error("Error: ", admin.message, admin.stack);
     throw new Error("Error creating admin user");
   }
 

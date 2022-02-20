@@ -11,9 +11,10 @@ export function IsLoggedIn({
     fetchPolicy: "cache-first",
   });
   if (loading || !data?.currentUser) {
-    if (showLoader) {
+    if (loading && showLoader) {
       return <ButtonSpinnerIcon />;
     }
+    return null;
   }
   return <>{children}</>;
 }

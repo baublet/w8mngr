@@ -13,9 +13,14 @@ export function ForgotPasswordForm() {
   const [sent, setSent] = React.useState(false);
   const [requestResetLink, { loading }] = useRequestPasswordResetTokenMutation({
     onError: error,
-    onCompleted: () => {
-      success("Check your email for a reset link");
-      setSent(true);
+    onCompleted: (response) => {
+      if (response.requestPasswordResetToken.errors.length > 0) {
+        error(response.requestPasswordResetToken.errors[0]);
+        setSent(true);
+      } else {
+        success("Check your email for a reset link");
+        setSent(true);
+      }
     },
   });
 

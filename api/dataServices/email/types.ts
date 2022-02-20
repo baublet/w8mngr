@@ -10,4 +10,5 @@ export type EmailEntity = {
   templateId: EmailTemplateKey;
   payload: string;
   history: string;
+  idempotenceKey: string;
 };

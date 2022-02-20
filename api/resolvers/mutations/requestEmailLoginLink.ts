@@ -1,3 +1,4 @@
+import { getRoundedDate } from "../../../shared";
 import { log } from "../../config/log";
 import {
   emailDataService,
@@ -27,6 +28,26 @@ export const requestEmailLoginLink: MutationResolvers["requestEmailLoginLink"] =
       userAccountId: matchingAccount.id,
     });
 
+    // Only allows a person to request an email login link once every 10 minutes
+    const idempotenceKey =
+      args.input.email + "-magic-email-link-" +
+      getRoundedDate({
+        interval: "minutes",
+        intervalAmount: 10,
+      }).toISOString();
+
+    const extantEmail = await emailDataService.findOneBy(context, (q) =>
+      q.where("idempotenceKey", "=", idempotenceKey)
+    );
+
+    if (extantEmail) {
+      return {
+        errors: [
+          "You have already requested a login link for this email address. Please check your email for the link.",
+        ],
+      };
+    }
+
     await emailDataService.create(context, {
       templateId: "emailLogin",
       toUserId: matchingAccount.userId,
@@ -34,6 +55,7 @@ export const requestEmailLoginLink: MutationResolvers["requestEmailLoginLink"] =
         loginToken: loginToken.token,
         user: context.getCurrentUser(true) as any,
       },
+      idempotenceKey,
     });
 
     return {

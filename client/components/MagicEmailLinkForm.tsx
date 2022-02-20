@@ -13,9 +13,14 @@ export function MagicEmailLinkForm() {
   const [sent, setSent] = React.useState(false);
   const [requestResetLink, { loading }] = useRequestEmailLoginLinkMutation({
     onError: error,
-    onCompleted: () => {
-      success("Check your email for your login link!");
-      setSent(true);
+    onCompleted: (response) => {
+      if (response.requestEmailLoginLink.errors.length > 0) {
+        error(response.requestEmailLoginLink.errors[0]);
+        setSent(true);
+      } else {
+        success("Check your email for your login link!");
+        setSent(true);
+      }
     },
   });
 

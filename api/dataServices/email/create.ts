@@ -1,10 +1,10 @@
 import { ulid } from "ulid";
 
 import { Context } from "../../createContext";
-import { emailDataService, EmailEntity } from "./";
 import { userAccountDataService } from "../";
-import { EmailTemplateKey, EmailTemplates } from "./templates";
+import { EmailEntity, emailDataService } from "./";
 import { getQuery } from "./query";
+import { EmailTemplateKey, EmailTemplates } from "./templates";
 
 export async function create<TTemplateKey extends EmailTemplateKey>(
   context: Context,
@@ -12,10 +12,12 @@ export async function create<TTemplateKey extends EmailTemplateKey>(
     toUserId,
     templateId,
     templateVariables,
+    idempotenceKey,
   }: {
     toUserId: string;
     templateId: TTemplateKey;
     templateVariables: Parameters<EmailTemplates[TTemplateKey]>[0];
+    idempotenceKey: string;
   }
 ): Promise<EmailEntity> {
   const accounts = await userAccountDataService.findBy(context, (q) =>
@@ -44,6 +46,7 @@ export async function create<TTemplateKey extends EmailTemplateKey>(
     templateId,
     payload: JSON.stringify(templateVariables),
     toEmail,
+    idempotenceKey,
   });
 
   await emailDataService.sendPendingEmails(context);

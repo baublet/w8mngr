@@ -1,3 +1,4 @@
+import { getRoundedDate } from "../../../shared";
 import { log } from "../../config/log";
 import {
   emailDataService,
@@ -25,6 +26,27 @@ export const requestPasswordResetToken: MutationResolvers["requestPasswordResetT
       };
     }
 
+    // Only allows a person to request a password reset token once every 10 minutes
+    const idempotenceKey =
+      args.input.email +
+      "-reset-password-link-" +
+      getRoundedDate({
+        interval: "minutes",
+        intervalAmount: 10,
+      }).toISOString();
+
+    const extantEmail = await emailDataService.findOneBy(context, (q) =>
+      q.where("idempotenceKey", "=", idempotenceKey)
+    );
+
+    if (extantEmail) {
+      return {
+        errors: [
+          "You have already requested a reset token for this email address. Please check your email for the link.",
+        ],
+      };
+    }
+
     const resetToken = await tokenDataService.getOrCreate(context, {
       type: "passwordReset",
       userAccountId: matchingAccount.id,
@@ -33,6 +55,7 @@ export const requestPasswordResetToken: MutationResolvers["requestPasswordResetT
     await emailDataService.create(context, {
       templateId: "forgotPassword",
       toUserId: matchingAccount.userId,
+      idempotenceKey,
       templateVariables: {
         resetToken: resetToken.token,
         user: context.getCurrentUser(true) as any,

@@ -28,7 +28,7 @@ export function getTestGlobalServiceContainer(): ServiceContainer {
   return getTestGlobalContext().services;
 }
 
-export async function testSetup() {
+export async function setupDatabase() {
   const databaseService = await getTestGlobalContext().services.get(dbService);
   databaseService.setSchema(testSchemaName);
   const connection = databaseService.getConnection();
@@ -41,7 +41,7 @@ export async function testSetup() {
   });
 }
 
-export async function testCleanup() {
+export async function cleanupDatabase() {
   const databaseService = await getTestGlobalContext().services.get(dbService);
   const connection = databaseService.getConnection();
 
@@ -49,6 +49,14 @@ export async function testCleanup() {
 
   await databaseService.destroy();
   getTestGlobalContext().services.delete(dbService);
+}
+
+export function usesDatabase() {
+  const anyBeforeAll: any = beforeAll;
+  const anyAfterAll: any = afterAll;
+
+  anyBeforeAll(setupDatabase);
+  anyAfterAll(cleanupDatabase);
 }
 
 export async function getTestGlobalDatabaseConnection() {

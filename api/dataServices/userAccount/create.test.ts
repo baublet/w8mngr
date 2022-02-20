@@ -1,5 +1,7 @@
-import { getTestGlobalContext } from "../../config/test";
+import { getTestGlobalContext, usesDatabase } from "../../config/test";
 import { create } from "./create";
+
+usesDatabase();
 
 it("creates a user account", async () => {
   const userAccount = await create(getTestGlobalContext(), {});

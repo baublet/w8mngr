@@ -1,11 +1,19 @@
 import React from "react";
 
 import { useGetCurrentUserQuery } from "../../generated";
+import { ButtonSpinnerIcon } from "../Loading/ButtonSpinner";
 
-export function IsLoggedIn({ children }: React.ComponentProps<any>) {
-  const { data, loading  } = useGetCurrentUserQuery({ fetchPolicy: "cache-first" });
+export function IsLoggedIn({
+  children,
+  showLoader,
+}: React.PropsWithChildren<{ showLoader?: boolean }>) {
+  const { data, loading } = useGetCurrentUserQuery({
+    fetchPolicy: "cache-first",
+  });
   if (loading || !data?.currentUser) {
-    return null;
+    if (showLoader) {
+      return <ButtonSpinnerIcon />;
+    }
   }
-  return children;
+  return <>{children}</>;
 }

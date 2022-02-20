@@ -13,7 +13,7 @@ import { NavigationIcon } from "./NavigationIcon";
 export function HeaderNavigation() {
   return (
     <div className="flex justify-around text-xs w-full">
-      <IsLoggedIn>
+      <IsLoggedIn showLoader>
         <NavigationIcon
           to="/nutrition"
           icon={<FoodCircleIcon />}
@@ -24,11 +24,7 @@ export function HeaderNavigation() {
           icon={<HealthCircleIcon />}
           text="Activity"
         />
-        <NavigationIcon
-          to="/weightlog"
-          icon={<ScaleIcon />}
-          text="Weight"
-        />
+        <NavigationIcon to="/weightlog" icon={<ScaleIcon />} text="Weight" />
         <div className="flex-grow" />
         <NavigationIcon
           to="/logout"

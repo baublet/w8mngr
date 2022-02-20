@@ -26,12 +26,20 @@ export function Routes() {
               component: "Login",
             })}
           />
-                    <Route
+          <Route
             exact
             path="/logging-in"
             component={getLoadableComponentFor({
               load: () => import("./pages/LoggingIn"),
               component: "LoggingIn",
+            })}
+          />
+          <Route
+            exact
+            path="/preferences"
+            component={getLoadableComponentFor({
+              load: () => import("./pages/UserPreferences"),
+              component: "UserPreferences",
             })}
           />
           <Route

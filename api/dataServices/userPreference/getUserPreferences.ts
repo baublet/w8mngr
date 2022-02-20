@@ -1,3 +1,4 @@
+import { stringToNumberOr } from "../../../shared";
 import { log } from "../../config/log";
 import { Context } from "../../createContext";
 import { UserPreference } from "../../generated";
@@ -12,6 +13,9 @@ const defaultValues: UserPreferenceValues = {
   BIRTHDAY: null,
   DEFAULT_UNIT: "imperial",
   FATURDAY_CALORIES: 3000,
+  FATURDAY_FAT: 0,
+  FATURDAY_CARBS: 0,
+  FATURDAY_PROTEIN: 0,
   FATURDAYS: false,
   HEIGHT: null,
 };
@@ -30,13 +34,14 @@ const preferenceSerializers: Record<
   HEIGHT: (inputValue: string) => inputValue,
   DEFAULT_UNIT: (inputValue: string) =>
     inputValue === "metric" ? "metric" : "imperial",
-  FATURDAY_CALORIES: (inputValue: string) => {
-    try {
-      return parseInt(inputValue, 10);
-    } catch {
-      return defaultValues["FATURDAY_CALORIES"];
-    }
-  },
+  FATURDAY_CALORIES: (inputValue: string) =>
+    stringToNumberOr(inputValue, defaultValues["FATURDAY_CALORIES"]),
+  FATURDAY_FAT: (inputValue: string) =>
+    stringToNumberOr(inputValue, defaultValues["FATURDAY_FAT"]),
+  FATURDAY_CARBS: (inputValue: string) =>
+    stringToNumberOr(inputValue, defaultValues["FATURDAY_CARBS"]),
+  FATURDAY_PROTEIN: (inputValue: string) =>
+    stringToNumberOr(inputValue, defaultValues["FATURDAY_PROTEIN"]),
   FATURDAYS: (inputValue: string) => inputValue === "true",
 };
 

@@ -16,3 +16,4 @@ export { weightedClamp } from "./weightedClamp";
 export { withNumericKeys } from "./withNumericKeys";
 export { workToUnit } from "./workToUnit";
 export { or, coalesce } from "./coalesce";
+export { stringToNumberOr } from "./stringToNumberOr";

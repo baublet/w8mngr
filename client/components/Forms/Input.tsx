@@ -33,11 +33,10 @@ export type InputProps = {
   defaultValue?: string;
   labelPlacement?: "top" | "bottom";
   size?: "sm" | "md" | "lg";
+  disabled?: boolean;
 };
 
-export function Input(
-  props: InputProps
-): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
+export function Input(props: InputProps) {
   const id = or(props.id, `input-${count++}`);
   const label = props.label;
   const {
@@ -79,7 +78,11 @@ export function Input(
   }, []);
 
   return (
-    <div className="group flex flex-col gap-2">
+    <div
+      className={cx("group flex flex-col gap-2", {
+        "opacity-25 pointer-events-none": props.disabled,
+      })}
+    >
       {labelPlacement === "top" && labelMarkup}
       <input
         {...newProps}

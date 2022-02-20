@@ -152,6 +152,9 @@ enum UserPreferenceType {
   DEFAULT_UNIT
   FATURDAYS
   FATURDAY_CALORIES
+  FATURDAY_FAT
+  FATURDAY_CARBS
+  FATURDAY_PROTEIN
 }
 
 #################

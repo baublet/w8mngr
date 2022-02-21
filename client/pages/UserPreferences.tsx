@@ -1,7 +1,7 @@
 import React from "react";
 import { boolean, date, number, object, string } from "yup";
 
-import { getWithDefault } from "../../shared";
+import { getWithDefault, objectEntries } from "../../shared";
 import { GhostButton } from "../components/Button/Ghost";
 import { PrimaryButton } from "../components/Button/Primary";
 import { ContentContainer } from "../components/Containers/ContentContainer";
@@ -9,8 +9,12 @@ import { ContentLayout } from "../components/Containers/ContentLayout";
 import { Form, Input, Toggle } from "../components/Forms";
 import { SettingsIcon } from "../components/Icons/Settings";
 import { PageHeading } from "../components/Type/PageHeading";
-import { UserPreferenceType, useGetCurrentUserQuery } from "../generated";
-import { useForm } from "../helpers";
+import {
+  UserPreferenceType,
+  useGetCurrentUserQuery,
+  useSaveUserPreferencesMutation,
+} from "../generated";
+import { useForm, useToast } from "../helpers";
 
 type PreferencesForm = {
   birthday: string;
@@ -22,12 +26,14 @@ type PreferencesForm = {
   height: string;
 };
 
+const notNaN = (value: any) => (isNaN(value) ? "" : value);
+
 const schema = object().shape({
   birthday: date().optional(),
   faturdayCalories: number().optional(),
-  faturdayProtein: number().optional(),
-  faturdayCarbs: number().optional(),
-  faturdayFat: number().optional(),
+  faturdayProtein: number().optional().transform(notNaN),
+  faturdayCarbs: number().optional().transform(notNaN),
+  faturdayFat: number().optional().transform(notNaN),
   faturdays: boolean().required(),
   height: string().optional(),
 });
@@ -44,6 +50,18 @@ export function UserPreferences() {
     faturdays: false,
     height: "",
   });
+  const { error, success } = useToast();
+  const [saveUserPreferences] = useSaveUserPreferencesMutation({
+    onCompleted: (response) => {
+      setLoading(false);
+      if (response.saveUserPreferences.errors.length > 0) {
+        error(response.saveUserPreferences.errors[0]);
+      } else {
+        success("Preferences saved");
+      }
+    },
+    onError: error,
+  });
 
   const preferencesForm = useForm<PreferencesForm>({ schema });
 
@@ -54,9 +72,51 @@ export function UserPreferences() {
       return defaultPreferences;
     });
   }, []);
-  const submit = React.useCallback(() => {
-    console.log(preferencesForm.getValues());
-    console.log(preferencesForm.getCastValues());
+  const submit = React.useCallback(async () => {
+    setLoading(true);
+
+    const values = preferencesForm.getValues();
+
+    saveUserPreferences({
+      variables: {
+        input: {
+          preferences: [
+            {
+              key: "BIRTHDAY",
+              value: `${values.birthday}`,
+            },
+            {
+              key: "FATURDAYS",
+              value: `${values.faturdays}`,
+            },
+            {
+              key: "FATURDAY_CALORIES",
+              value: `${values.faturdayCalories}`,
+            },
+            {
+              key: "FATURDAY_PROTEIN",
+              value: `${values.faturdayProtein}`,
+            },
+            {
+              key: "FATURDAY_CARBS",
+              value: `${values.faturdayCarbs}`,
+            },
+            {
+              key: "FATURDAY_FAT",
+              value: `${values.faturdayFat}`,
+            },
+            {
+              key: "HEIGHT",
+              value: `${values.height}`,
+            },
+            {
+              key: "DEFAULT_UNIT",
+              value: "IMPERIAL",
+            },
+          ],
+        },
+      },
+    }).then(() => setLoading(false));
   }, []);
 
   React.useEffect(() => {
@@ -221,7 +281,9 @@ export function UserPreferences() {
                 <GhostButton type="button" onClick={reset}>
                   Reset
                 </GhostButton>
-                <PrimaryButton type="submit">Save Preferences</PrimaryButton>
+                <PrimaryButton type="submit" disabled={loading}>
+                  Save Preferences
+                </PrimaryButton>
               </div>
             </Form>
           }

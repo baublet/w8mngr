@@ -1,0 +1,12 @@
+mutation SaveUserPreferences($input: SaveUserPreferencesInput!) {
+  saveUserPreferences(input: $input) {
+    errors
+    user {
+      preferences {
+        id
+        key
+        value
+      }
+    }
+  }
+}

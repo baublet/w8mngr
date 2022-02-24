@@ -9,7 +9,10 @@ export async function up(knex: Knex): Promise<void> {
     .where("sourceIdentifier", "=", "baublet@gmail.com");
 
   if (results.length !== 1) {
-    throw new Error("Nope");
+    console.warn(
+      "Expected exactly one user account with sourceIdentifier, but got zero or more than one."
+    );
+    return;
   }
 
   const result = results[0];

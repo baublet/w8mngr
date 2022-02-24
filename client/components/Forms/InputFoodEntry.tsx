@@ -59,7 +59,7 @@ export function InputFoodEntry(
       <input
         {...newProps}
         value={value === null ? undefined : value}
-        defaultValue={!defaultValue ? undefined : defaultValue}
+        defaultValue={!defaultValue ? undefined : `${defaultValue}`}
         ref={inputRef}
         onChange={(event) => {
           onChange(event.target.value);

@@ -42,6 +42,9 @@ export function ActivityLogEntry({
   const formData = useForm<{ id: string; work: string; reps: string }>({
     initialValues: log,
   });
+
+  console.log({ log });
+
   const showReps = SHOW_REPS[activityType];
   const workLabel = WORK_LABELS[activityType];
   const handleDelete = React.useCallback(() => {
@@ -63,7 +66,7 @@ export function ActivityLogEntry({
             {
               id: log.id,
               work: formData.getValue("work", "0"),
-              reps: "0",
+              reps: formData.getValue("reps", "0"),
             },
           ],
         },
@@ -77,6 +80,10 @@ export function ActivityLogEntry({
 
   const loading = or(deleteLoading, saveLoading);
 
+  console.log({
+    reps: formData.getValue("reps"),
+  });
+
   return (
     <Panel loading={loading}>
       <form
@@ -89,7 +96,7 @@ export function ActivityLogEntry({
         {!showReps ? null : (
           <div className="w-full flex-grow-1">
             <InputFoodEntry
-              defaultValue={formData.getValue("reps")}
+              value={formData.getValue("reps")}
               onChange={formData.getHandler("reps")}
               label="Reps"
               type="text"
@@ -99,7 +106,7 @@ export function ActivityLogEntry({
         {!workLabel ? null : (
           <div className="w-full">
             <InputFoodEntry
-              defaultValue={formData.getValue("work")}
+              value={formData.getValue("work")}
               onChange={formData.getHandler("work")}
               label={workLabel}
               type="text"

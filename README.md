@@ -4,6 +4,13 @@
 
 w8mngr utilizing Netlify's functions and a React SPA
 
+# Todo
+
+- [ ] Faturdays
+- [ ] Reminders
+- [ ] Routines
+- [ ] Personal Trainers
+
 # Setup
 
 To setup your database, you must have `docker-compose` installed. Once it's installed:

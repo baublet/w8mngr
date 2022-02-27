@@ -18,3 +18,4 @@ export { valueNullOrUndefinedToValueUndefined } from "./valueNullOrUndefinedToVa
 export { weightedClamp } from "./weightedClamp";
 export { withNumericKeys } from "./withNumericKeys";
 export { workToUnit } from "./workToUnit";
+export { findOrFail } from "./findOrFail";

@@ -1,16 +1,20 @@
 import React from "react";
 import { number, object, string } from "yup";
 
+import { findOrFail } from "../../../shared";
 import {
   GetCurrentUserFoodLogDocument,
   useCreateOrUpdateFoodLogMutation,
+  useGetCurrentUserQuery,
 } from "../../generated";
 import { foodLogLocalStorage, useEvents, useToast } from "../../helpers";
 import { FormStateObject, useForm } from "../../helpers/useForm";
 import { BarcodeScannerButton } from "../BarcodeScanner";
 import { PrimaryLightSaveButton } from "../Button/PrimaryLightSave";
+import { SecondaryIconButton } from "../Button/SecondaryIcon";
 import { PanelInverted } from "../Containers/PanelInverted";
 import { Form, InputInverted } from "../Forms";
+import { BirthdayIcon } from "../Icons/Birthday";
 
 const schema = object().shape({
   description: string().required(),
@@ -100,6 +104,92 @@ export function NewFoodLogPanel({
     }
   }, []);
 
+  const { loading: currentUserLoading, data: currentUserData } =
+    useGetCurrentUserQuery();
+
+  const addFaturday = React.useCallback(() => {
+    const currentUser = currentUserData?.currentUser;
+    if (!currentUser) {
+      return;
+    }
+
+    console.log({ currentUser });
+
+    const enabled = findOrFail(
+      currentUser.preferences,
+      (pref) => pref.key === "FATURDAYS"
+    );
+
+    console.log({ enabled });
+
+    if (!enabled.value) {
+      return;
+    }
+
+    const calories =
+      findOrFail(
+        currentUser.preferences,
+        (pref) => pref.key === "FATURDAY_CALORIES"
+      ).value || 0;
+    const fat =
+      findOrFail(currentUser.preferences, (pref) => pref.key === "FATURDAY_FAT")
+        .value || 0;
+    const carbs =
+      findOrFail(
+        currentUser.preferences,
+        (pref) => pref.key === "FATURDAY_CARBS"
+      ).value || 0;
+    const protein =
+      findOrFail(
+        currentUser.preferences,
+        (pref) => pref.key === "FATURDAY_PROTEIN"
+      ).value || 0;
+
+    console.log({
+      day,
+      description: "Faturday!",
+      calories,
+      fat,
+      carbs,
+      protein,
+    });
+
+    createFood({
+      awaitRefetchQueries: true,
+      refetchQueries: [GetCurrentUserFoodLogDocument],
+      onCompleted: newFoodLogForm.clear,
+      variables: {
+        input: {
+          day,
+          foodLogs: [
+            {
+              description:
+                newFoodLogForm.getValue("description") || "Faturday!",
+              calories,
+              fat,
+              carbs,
+              protein,
+            },
+          ],
+        },
+      },
+    });
+  }, [currentUserData, day]);
+
+  const showFaturdays = React.useMemo(() => {
+    const currentUser = currentUserData?.currentUser;
+    if (!currentUser) {
+      return false;
+    }
+
+    const enabled = findOrFail(
+      currentUser.preferences,
+      (pref) => pref.key === "FATURDAYS"
+    );
+
+    return Boolean(enabled.value);
+  }, [currentUserData]);
+
   return (
     <PanelInverted className="p-2">
       <Form loading={loading} onSubmit={create} className="flex flex-col gap-4">
@@ -143,6 +233,17 @@ export function NewFoodLogPanel({
           />
         </div>
         <div className="flex text-md gap-2 justify-end">
+          <div>
+            {showFaturdays && (
+              <SecondaryIconButton
+                loading={currentUserLoading}
+                disabled={currentUserLoading}
+                onClick={addFaturday}
+              >
+                <BirthdayIcon />
+              </SecondaryIconButton>
+            )}
+          </div>
           <BarcodeScannerButton day={day} />
           <PrimaryLightSaveButton loading={loading} type="submit" />
         </div>

@@ -52,6 +52,8 @@ export function UserPreferences() {
   });
   const { error, success } = useToast();
   const [saveUserPreferences] = useSaveUserPreferencesMutation({
+    awaitRefetchQueries: true,
+    refetchQueries: ["GetCurrentUser"],
     onCompleted: (response) => {
       setLoading(false);
       if (response.saveUserPreferences.errors.length > 0) {

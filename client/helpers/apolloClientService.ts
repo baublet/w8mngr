@@ -6,7 +6,7 @@ const GRAPHQL_ENDPOINT =
 const MINIMUM_REQUEST_MS = 50;
 
 export function apolloClientService() {
-  const client = new ApolloClient({
+  return new ApolloClient({
     cache: new InMemoryCache(),
     link: new HttpLink({
       uri: GRAPHQL_ENDPOINT,
@@ -20,5 +20,4 @@ export function apolloClientService() {
       },
     }),
   });
-  return () => client;
 }

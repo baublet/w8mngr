@@ -10,7 +10,7 @@ import { apolloClientService } from "./helpers/apolloClientService";
 
 boot().then(async () => {
   const mountNode = document.getElementById("root");
-  const getClient = await window.w8mngrServiceContainer.get(
+  const apolloClient = await window.w8mngrServiceContainer.get(
     apolloClientService
   );
 
@@ -21,7 +21,7 @@ boot().then(async () => {
   ReactDOM.render(
     <BrowserRouter>
       <EventProvider>
-        <ApolloProvider client={getClient()}>
+        <ApolloProvider client={apolloClient}>
           <Application />
         </ApolloProvider>
       </EventProvider>

@@ -1,0 +1,76 @@
+import parse from "date-fns/parse";
+import subYears from "date-fns/subYears";
+
+import { dayStringFromDate } from "../../../shared";
+import { Context } from "../../createContext";
+import { WeightLogSummary, WeightLogSummaryInput } from "../../generated";
+import { numberToStringUnit, settingsService } from "../../helpers";
+import { rootService } from "./rootService";
+
+export async function getVisualizationData(
+  context: Context,
+  {
+    userId,
+    input = {},
+  }: {
+    userId: string;
+    input?: WeightLogSummaryInput;
+  }
+): Promise<WeightLogSummary> {
+  const latestWeight = await rootService.findOneBy(context, (q) =>
+    q.where("userId", "=", userId).orderBy("day", "desc")
+  );
+
+  // If they have no "latest" value here, we can't do anything because the user
+  // hasn't entered any data yet.
+  if (!latestWeight) {
+    return {};
+  }
+
+  const settings = await context.services.get(settingsService);
+  const parseStringToDate = (d: any) => parse(d, "yyyyMMdd", new Date());
+
+  const fromDate = !input.from
+    ? subYears(new Date(), 1)
+    : parseStringToDate(input.from);
+  const toDate = !input.to ? new Date() : parseStringToDate(input.to);
+
+  const from = dayStringFromDate(fromDate);
+  const to = dayStringFromDate(toDate);
+
+  const currentWeightLabel = numberToStringUnit({
+    work: latestWeight.weight,
+    incomingUnit: "GRAMS",
+    outgoingUnits: settings.defaultMassMeasurement,
+  });
+
+  const entries = await rootService.findBy(context, (q) =>
+    q.where((q) =>
+      q
+        .where("userId", "=", userId)
+        .andWhere("day", ">=", from)
+        .andWhere("day", "<=", to)
+    )
+  );
+
+  if (entries.length === 0) {
+    return {
+      currentWeightLabel,
+      currentWeight: latestWeight.weight,
+    };
+  }
+
+  return {
+    currentWeightLabel,
+    currentWeight: latestWeight.weight,
+    dailyAverage: entries.map((entry) => ({
+      day: entry.day,
+      weight: entry.weight,
+      weightLabel: numberToStringUnit({
+        work: entry.weight,
+        incomingUnit: "GRAMS",
+        outgoingUnits: settings.defaultMassMeasurement,
+      }),
+    })),
+  };
+}

@@ -3,7 +3,8 @@ import "minifaker/locales/en";
 import addDays from "date-fns/addDays";
 import subYears from "date-fns/subYears";
 import knex from "knex";
-import { date, email, number, word } from "minifaker";
+import { clamp } from "lodash";
+import { arrayElement, date, email, number, word } from "minifaker";
 
 import { config } from "../api/config/config";
 import { dbService } from "../api/config/db";
@@ -11,7 +12,6 @@ import { createContext } from "../api/createContext";
 import {
   Activity,
   ActivityLog,
-  FoodLogEntity,
   UserAccountEntity,
   UserEntity,
   activityDataService,
@@ -21,6 +21,7 @@ import {
   foodMeasurementDataService,
   userAccountDataService,
   userDataService,
+  weightLogDataService,
 } from "../api/dataServices";
 import knexConfig from "../knexfile";
 import { dayStringFromDate } from "../shared";
@@ -101,6 +102,7 @@ function paragraphs(num: number): string {
   );
 })().then(async () => {
   await seedUsers();
+  await seedWeightEntries();
   await seedActivities();
   await saveActivityEntries();
   await seedFoods();
@@ -324,4 +326,63 @@ async function seedFoodEntries() {
   }
 
   console.log("\nSeeded foodsLogs: ", total);
+}
+
+async function seedWeightEntries() {
+  console.log("Seeding user weight logs");
+  let total = 0;
+
+  for (const user of users) {
+    let userTargetWeightInLbs = number({ min: 100, max: 300 });
+    const minWeight = userTargetWeightInLbs - 20;
+    const maxWeight = userTargetWeightInLbs + 20;
+    process.stdout.write("\n");
+
+    const trend = arrayElement(["up", "down"]);
+
+    for (const day of allDays) {
+      const skip = number({ min: 0, max: 3 });
+      if (skip === 0) {
+        continue;
+      }
+
+      total++;
+      process.stdout.write(".");
+
+      let weight = Math.ceil(
+        number({
+          min: userTargetWeightInLbs - 3,
+          max: userTargetWeightInLbs + 3,
+        }) * 453.592
+      );
+
+      if (trend === "down") {
+        weight = Math.ceil(weight * 0.9);
+        userTargetWeightInLbs = clamp(
+          Math.ceil(userTargetWeightInLbs * 0.9),
+          minWeight,
+          maxWeight
+        );
+      }
+
+      if (trend === "up") {
+        weight = Math.ceil(weight * 1.1);
+        userTargetWeightInLbs = clamp(
+          Math.ceil(userTargetWeightInLbs * 1.1),
+          minWeight,
+          maxWeight
+        );
+      }
+
+      await weightLogDataService.upsert(context, [
+        {
+          userId: user.id,
+          day,
+          weight,
+        },
+      ]);
+    }
+  }
+
+  console.log("\nSeeded weight logs: ", total);
 }

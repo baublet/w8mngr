@@ -27,7 +27,7 @@
     "develop": "/bin/bash scripts/develop.sh",
     "find-circular-dependencies": "yarn build:api:structure && npx madge --circular tmp",
     "gql:generate": "graphql-codegen",
-    "postinstall": "husky install && yarn gql:generate",
+    "postinstall": "husky install",
     "postpublish": "pinst --enable",
     "prepublishOnly": "pinst --disable",
     "test": "SUPPRESS_ALGOLIA=true SUPPRESS_EMAILS=true node -r ts-node/register ./node_modules/.bin/jest --",

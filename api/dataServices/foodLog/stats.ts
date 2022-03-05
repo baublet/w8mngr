@@ -74,9 +74,9 @@ export async function stats(
                 carbs: undefined,
                 fat: undefined,
                 protein: undefined,
-                dayLabel: format(dayStringToDate(day), "PP"),
               } as Omit<FoodLogDataPoint, "day">
             ),
+            dayLabel: format(dayStringToDate(day), "PP"),
           };
         }
       );
@@ -91,6 +91,7 @@ export async function stats(
         },
         visualizationData: visualizationData.map((data, i) => ({
           day: data.day,
+          dayLabel: format(dayStringToDate(data.day), "PP"),
           calories: data.calories,
           fat: data.fat,
           carbs: data.carbs,

@@ -1,4 +1,10 @@
-import { dedupe, filterOutErrors, weightedClamp } from "../../../shared";
+import format from "date-fns/format";
+import {
+  dayStringToDate,
+  dedupe,
+  filterOutErrors,
+  weightedClamp,
+} from "../../../shared";
 import {
   Activity,
   ActivityLog,
@@ -74,6 +80,7 @@ export const userActivitySummary: UserResolvers["activitySummary"] = async (
       return Object.keys(groupedByDays).map((day) => {
         return {
           day,
+          dayLabel: format(dayStringToDate(day), "PP"),
           labelData: JSON.stringify(
             dedupe(groupedByDays[day].map((a) => a.activityId)).map(
               (id) => activityMap[id]

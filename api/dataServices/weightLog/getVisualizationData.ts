@@ -1,7 +1,8 @@
+import format from "date-fns/format";
 import parse from "date-fns/parse";
 import subYears from "date-fns/subYears";
 
-import { dayStringFromDate } from "../../../shared";
+import { dayStringFromDate, dayStringToDate } from "../../../shared";
 import { Context } from "../../createContext";
 import { WeightLogSummary, WeightLogSummaryInput } from "../../generated";
 import { numberToStringUnit, settingsService } from "../../helpers";
@@ -65,6 +66,7 @@ export async function getVisualizationData(
     currentWeight: latestWeight.weight,
     dailyAverage: entries.map((entry) => ({
       day: entry.day,
+      dayLabel: format(dayStringToDate(entry.day), "PP"),
       weight: entry.weight,
       weightLabel: numberToStringUnit({
         work: entry.weight,

@@ -385,6 +385,7 @@ type RequestResetTokenMutationPayload {
 
 type WeightLogVisualizationDataPoint {
   day: String!
+  dayLabel: String!
   weight: Int!
   weightLabel: String!
 }
@@ -447,6 +448,7 @@ type ActivityVisualizationRepsDataPoint {
 
 type ActivityVisualizationWorkDataPoint {
   day: String!
+  dayLabel: String!
   work: Float!
   workLabel: String!
 }

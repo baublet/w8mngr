@@ -1,0 +1,14 @@
+query GetCurrentUserWeightLogSummary($input: WeightLogSummaryInput) {
+  currentUser {
+    weightLogSummary(input: $input) {
+      currentWeight
+      currentWeightLabel
+      dailyAverage {
+        day
+        dayLabel
+        weight
+        weightLabel
+      }
+    }
+  }
+}

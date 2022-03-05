@@ -387,8 +387,7 @@ function useLoadInitialData({
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   React.useEffect(() => {
-    const getClient = window.w8mngrServiceContainer.get(apolloClientService);
-    const client = getClient();
+    const client = window.w8mngrServiceContainer.get(apolloClientService);
 
     if (initialSelectedUploadIds.length === 0) {
       setLoading(false);

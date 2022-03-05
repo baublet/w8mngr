@@ -61,7 +61,6 @@ export async function stats(
         ([day, foodLogs]) => {
           return {
             day,
-            dayLabel: format(dayStringToDate(day), "PP"),
             ...foodLogs.reduce(
               (data, foodLog) => {
                 data.calories = maybeAdd(data.calories, foodLog.calories);
@@ -75,6 +74,7 @@ export async function stats(
                 carbs: undefined,
                 fat: undefined,
                 protein: undefined,
+                dayLabel: format(dayStringToDate(day), "PP"),
               } as Omit<FoodLogDataPoint, "day">
             ),
           };

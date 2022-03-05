@@ -8,12 +8,18 @@ import { FoodCircleIcon } from "../components/Icons/FoodCircle";
 import { PrimaryLoader } from "../components/Loading/Primary";
 import { MacrosPieChart, NutritionChart } from "../components/Nutrition";
 import { PageHeading } from "../components/Type/PageHeading";
-import { useGetFoodLogStatsQuery } from "../generated";
+import {
+  useGetFoodLogStatsQuery,
+  useGetCurrentUserWeightLogSummaryQuery,
+} from "../generated";
 
 export function Nutrition() {
   const { data } = useGetFoodLogStatsQuery();
+  const { data: weightData } = useGetCurrentUserWeightLogSummaryQuery();
 
   const dataPoints = data?.currentUser?.foodLogStats.visualizationData;
+  const weightDataPoints =
+    weightData?.currentUser?.weightLogSummary.dailyAverage;
   const summary = data?.currentUser?.foodLogStats.summary;
 
   return (
@@ -24,8 +30,12 @@ export function Nutrition() {
       <ContentContainer>
         <ContentLayout
           mainContent={
-            dataPoints && summary ? (
-              <NutritionChart data={dataPoints} summary={summary} />
+            dataPoints && summary && weightDataPoints ? (
+              <NutritionChart
+                data={dataPoints}
+                summary={summary}
+                weightData={weightDataPoints}
+              />
             ) : (
               <PrimaryLoader />
             )

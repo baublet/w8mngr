@@ -12,10 +12,14 @@ import {
   YAxis,
 } from "recharts";
 
-import { FoodLogDataPoint } from "../../generated";
+import {
+  FoodLogDataPoint,
+  WeightLogVisualizationDataPoint,
+} from "../../generated";
 
 export type NutritionChartProps = {
   data: FoodLogDataPoint[];
+  weightData: WeightLogVisualizationDataPoint[];
   summary: {
     totalFoodsLogged: number;
     averageDailyCalories: number;
@@ -25,16 +29,37 @@ export type NutritionChartProps = {
   };
 };
 
-export function NutritionChart({ data, summary }: NutritionChartProps) {
+export function NutritionChart({
+  data,
+  summary,
+  weightData,
+}: NutritionChartProps) {
+  const getNearestWeightPoint = React.useCallback(
+    (day: string) => {
+      if (weightData.length === 0) {
+        return undefined;
+      }
+      return weightData.find((point) => point.day >= day);
+    },
+    [weightData, data]
+  );
   const transformedVisualizationData = React.useMemo(() => {
     return (
-      data.map((dataPoint) => ({
-        day: dataPoint.day,
-        calories: dataPoint.calories,
-        fat: dataPoint.fat ? dataPoint.fat * 10 * 1.52 : null, // Scales for the macros to align with the values of calories
-        carbs: dataPoint.carbs ? dataPoint.carbs * 10 : null,
-        protein: dataPoint.protein ? dataPoint.protein * 10 : null,
-      })) || []
+      data.map((dataPoint) => {
+        const weightPoint = getNearestWeightPoint(dataPoint.day);
+        const weightNumeric = weightPoint?.weight
+          ? weightPoint.weight / 30
+          : null;
+        return {
+          weight: weightNumeric,
+          weightLabel: weightPoint?.weightLabel || null,
+          day: dataPoint.day,
+          calories: dataPoint.calories,
+          fat: dataPoint.fat ? dataPoint.fat * 10 * 1.52 : null, // Scales for the macros to align with the values of calories
+          carbs: dataPoint.carbs ? dataPoint.carbs * 10 : null,
+          protein: dataPoint.protein ? dataPoint.protein * 10 : null,
+        };
+      }) || []
     );
   }, [data]);
 
@@ -86,6 +111,15 @@ export function NutritionChart({ data, summary }: NutritionChartProps) {
             type="monotone"
             dataKey="calories"
             stroke="#e11d48"
+            connectNulls
+            dot={false}
+            strokeWidth={2}
+          />
+
+          <Line
+            type="monotone"
+            dataKey="weight"
+            stroke="#000000"
             connectNulls
             dot={false}
             strokeWidth={2}
@@ -144,13 +178,18 @@ function CustomTooltip({
   label,
 }: {
   active?: boolean;
-  payload?: { value: number; name: string }[];
+  payload?: {
+    value: number;
+    name: string;
+    payload?: { weightLabel?: string };
+  }[];
   label?: string;
 }) {
   const caloriesNode = payload?.find(({ name }) => name === "calories");
   const carbsNode = payload?.find(({ name }) => name === "carbs");
   const fatNode = payload?.find(({ name }) => name === "fat");
   const proteinNode = payload?.find(({ name }) => name === "protein");
+  const weightLabel = payload?.find(({ name }) => name === "weight");
 
   if (!active) {
     return null;
@@ -168,6 +207,11 @@ function CustomTooltip({
     <div className="rounded shadow-xl bg-slate-800 text-slate-50">
       <div className="flex flex-col gap-2 pb-2">
         <div className="p-2 font-thin text-sm">{label}</div>
+        <ValueLabel
+          value={weightLabel?.payload?.weightLabel}
+          colorClassName="text-slate-400"
+          text="Weight"
+        />
         <ValueLabel
           value={caloriesNode?.value}
           colorClassName="text-blue-400"
@@ -202,15 +246,20 @@ function ValueLabel({
   colorClassName,
   multiplier = 1,
 }: {
-  value?: number;
+  value?: number | string;
   text: string;
   colorClassName: string;
   multiplier?: number;
 }) {
-  const stringValue =
-    value === undefined
-      ? "n/a"
-      : Math.ceil(value * multiplier).toLocaleString();
+  const stringValue = React.useMemo(() => {
+    if (value === undefined) {
+      return "n/a";
+    }
+    if (typeof value === "number") {
+      return Math.ceil(value * multiplier).toLocaleString();
+    }
+    return value;
+  }, [value]);
   return (
     <div className="text-xs px-2">
       <b className={colorClassName}>{text}:</b>

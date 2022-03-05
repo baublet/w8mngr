@@ -103,7 +103,7 @@ function getFindOneBy<T extends QueryFactoryFunction>(queryFactory: T) {
   return async (
     context: Context,
     where: WhereFunctionFromQueryFactory<T>
-  ): Promise<EntityFromQueryFactoryFunction<T>> => {
+  ): Promise<EntityFromQueryFactoryFunction<T> | undefined> => {
     const getQuery = await queryFactory(context);
     const query = getQuery();
     query.select();

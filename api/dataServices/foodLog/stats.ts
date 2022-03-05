@@ -60,7 +60,8 @@ export async function stats(
       const visualizationData: FoodLogDataPoint[] = days.map(
         ([day, foodLogs]) => {
           return {
-            day: format(dayStringToDate(day), "PP"),
+            day,
+            dayLabel: format(dayStringToDate(day), "PP"),
             ...foodLogs.reduce(
               (data, foodLog) => {
                 data.calories = maybeAdd(data.calories, foodLog.calories);

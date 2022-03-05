@@ -8,6 +8,7 @@ type User {
   verified: Boolean!
   preferredName: String!
   weightLog(day: String!): WeightLogConnection!
+  weightLogSummary(input: WeightLogSummaryInput): WeightLogSummary!
   foodLog(day: String!): FoodLogConnection!
   foods(input: FoodQueryInput): FoodConnection!
   activities(input: ActivityQueryInput): ActivityConnection!
@@ -44,7 +45,9 @@ type Mutation {
   loginWithToken(input: LoginWithTokenInput!): LoginWithTokenMutationPayload!
 
   # User
-  saveUserPreferences(input: SaveUserPreferencesInput!): UserPreferencesMutationPayload!
+  saveUserPreferences(
+    input: SaveUserPreferencesInput!
+  ): UserPreferencesMutationPayload!
 
   # Food Log
   saveFoodLog(input: SaveFoodLogInput!): FoodLogMutationPayload!
@@ -353,6 +356,11 @@ input ActivityVisualizationInput {
   to: Date
 }
 
+input WeightLogSummaryInput {
+  from: Date
+  to: Date
+}
+
 #################
 # Types         #
 #################
@@ -373,6 +381,19 @@ type ResetPasswordMutationPayload {
 
 type RequestResetTokenMutationPayload {
   errors: [String!]!
+}
+
+type WeightLogVisualizationDataPoint {
+  day: String!
+  dayLabel: String!
+  weight: Int!
+  weightLabel: String!
+}
+
+type WeightLogSummary {
+  currentWeight: Int
+  currentWeightLabel: String
+  dailyAverage: [WeightLogVisualizationDataPoint!]
 }
 
 type FoodLogMutationPayload {
@@ -427,6 +448,7 @@ type ActivityVisualizationRepsDataPoint {
 
 type ActivityVisualizationWorkDataPoint {
   day: String!
+  dayLabel: String!
   work: Float!
   workLabel: String!
 }

@@ -40,6 +40,7 @@ import { popularUserActivities } from "./user/popularActivities";
 import { usePreferences } from "./user/preferences";
 import { userVerified } from "./user/verified";
 import { weightLog } from "./user/weightLog";
+import { userWeightLogSummary } from "./user/weightLogSummary";
 import { weightLogAgo } from "./weightLog/ago";
 import { weightLogWeight } from "./weightLog/weight";
 import { weightLogWeightString } from "./weightLog/weightString";
@@ -65,6 +66,7 @@ export const resolvers: Resolvers = {
     preferences: usePreferences,
     verified: userVerified,
     weightLog,
+    weightLogSummary: userWeightLogSummary,
   },
   Food: {
     image: foodImage,

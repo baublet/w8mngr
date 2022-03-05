@@ -10,6 +10,7 @@ query GetFoodLogStats {
       }
       visualizationData {
         day
+        dayLabel
         calories
         fat
         carbs

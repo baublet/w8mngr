@@ -16,6 +16,7 @@ import {
   FoodLogDataPoint,
   WeightLogVisualizationDataPoint,
 } from "../../generated";
+import { useNavigateToUrl } from "../../helpers";
 
 export type NutritionChartProps = {
   data: FoodLogDataPoint[];
@@ -34,6 +35,7 @@ export function NutritionChart({
   summary,
   weightData,
 }: NutritionChartProps) {
+  const navigate = useNavigateToUrl();
   const getNearestWeightPoint = React.useCallback(
     (day: string) => {
       if (weightData.length === 0) {
@@ -54,6 +56,7 @@ export function NutritionChart({
           weight: weightNumeric,
           weightLabel: weightPoint?.weightLabel || null,
           day: dataPoint.day,
+          dayLabel: dataPoint.dayLabel,
           calories: dataPoint.calories,
           fat: dataPoint.fat ? dataPoint.fat * 10 * 1.52 : null, // Scales for the macros to align with the values of calories
           carbs: dataPoint.carbs ? dataPoint.carbs * 10 : null,
@@ -70,11 +73,23 @@ export function NutritionChart({
           width={500}
           height={300}
           data={transformedVisualizationData}
+          onMouseUp={(event?: {
+            activePayload?: { payload?: { day?: string } }[];
+          }) => {
+            const clickedDay = event?.activePayload?.[0]?.payload?.day;
+            if (clickedDay) {
+              navigate(`/foodlog/${clickedDay}`);
+            }
+          }}
         >
           <Legend align="center" verticalAlign="top" />
           <Tooltip content={<CustomTooltip />} />
 
-          <XAxis dataKey="day" interval="preserveStartEnd" strokeWidth={1} />
+          <XAxis
+            dataKey="dayLabel"
+            interval="preserveStartEnd"
+            strokeWidth={1}
+          />
           <YAxis />
 
           <ReferenceLine
@@ -89,6 +104,7 @@ export function NutritionChart({
             minPointSize={10}
             opacity={0.25}
             stackId="macros"
+            cursor="pointer"
           />
           <Bar
             dataKey="carbs"
@@ -97,6 +113,7 @@ export function NutritionChart({
             minPointSize={10}
             opacity={0.25}
             stackId="macros"
+            cursor="pointer"
           />
           <Bar
             dataKey="protein"
@@ -105,6 +122,7 @@ export function NutritionChart({
             minPointSize={10}
             opacity={0.25}
             stackId="macros"
+            cursor="pointer"
           />
 
           <Line
@@ -114,6 +132,7 @@ export function NutritionChart({
             connectNulls
             dot={false}
             strokeWidth={2}
+            cursor="pointer"
           />
 
           <Line
@@ -123,6 +142,7 @@ export function NutritionChart({
             connectNulls
             dot={false}
             strokeWidth={2}
+            cursor="pointer"
           />
         </ComposedChart>
       </ResponsiveContainer>
@@ -181,7 +201,7 @@ function CustomTooltip({
   payload?: {
     value: number;
     name: string;
-    payload?: { weightLabel?: string };
+    payload?: { weightLabel?: string; dayLabel?: string };
   }[];
   label?: string;
 }) {
@@ -190,6 +210,7 @@ function CustomTooltip({
   const fatNode = payload?.find(({ name }) => name === "fat");
   const proteinNode = payload?.find(({ name }) => name === "protein");
   const weightLabel = payload?.find(({ name }) => name === "weight");
+  const dayLabel = payload?.[0]?.payload?.dayLabel;
 
   if (!active) {
     return null;
@@ -206,7 +227,7 @@ function CustomTooltip({
   return (
     <div className="rounded shadow-xl bg-slate-800 text-slate-50">
       <div className="flex flex-col gap-2 pb-2">
-        <div className="p-2 font-thin text-sm">{label}</div>
+        <div className="p-2 font-thin text-sm">{dayLabel || label}</div>
         <ValueLabel
           value={weightLabel?.payload?.weightLabel}
           colorClassName="text-slate-400"

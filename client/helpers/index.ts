@@ -13,3 +13,4 @@ export { useVerifyEmail } from "./useVerifyEmail";
 export { useLoginWithToken } from "./useLoginWithToken";
 export { useDebouncedValue } from "./useDebouncedValue";
 export { eventService, EventProvider, useEvents } from "./useEvents";
+export { useNavigateToUrl } from "./useNavigateToUrl";

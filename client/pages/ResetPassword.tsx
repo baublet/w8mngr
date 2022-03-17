@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 
 import { SecondaryButton } from "../components/Button/Secondary";
 import { ContentContainer } from "../components/Containers/ContentContainer";
@@ -8,11 +8,11 @@ import { Form, Input } from "../components/Forms";
 import { Spacer } from "../components/Spacer";
 import { PageHeading } from "../components/Type/PageHeading";
 import { GetCurrentUserDocument, useResetPasswordMutation } from "../generated";
-import { useForm, useToast } from "../helpers";
+import { useForm, useToast, useNavigateToUrl } from "../helpers";
 
 export function ResetPassword() {
   const { token } = useParams<{ token: string }>();
-  const { replace } = useHistory();
+  const navigate = useNavigateToUrl();
   const formData = useForm<{
     password: string;
     passwordConfirmation: string;
@@ -22,7 +22,7 @@ export function ResetPassword() {
     refetchQueries: [GetCurrentUserDocument],
     onCompleted: () => {
       success("Password reset successful");
-      replace("/");
+      navigate("/", { replace: true });
     },
     onError: error,
   });

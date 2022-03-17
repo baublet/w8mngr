@@ -1,6 +1,8 @@
 import { NetworkStatus } from "@apollo/client";
 import React from "react";
-import { useHistory, useLocation } from "react-router";
+import { useLocation } from "react-router";
+
+import { useNavigateToUrl } from "../helpers";
 
 type HookFunction = (args: {
   fetchPolicy?: any;
@@ -68,7 +70,7 @@ export function usePaginatedQuery<
     NotNullOrUndefined<ReturnType<TGetConnection>>["edges"]
   >[number]["node"][];
 } {
-  const { replace } = useHistory();
+  const navigate = useNavigateToUrl();
 
   const { search, pathname: baseUrl } = useLocation();
   const queryParams = React.useMemo(
@@ -135,13 +137,13 @@ export function usePaginatedQuery<
       queryParams.set("cursor", lastCursor);
       queryParams.set("beforeOrAfter", "after");
       queryParams.set("firstOrLast", "first");
-      replace(`${baseUrl}?${queryParams.toString()}`);
+      navigate(`${baseUrl}?${queryParams.toString()}`, { replace: true });
     },
     previousPage: () => {
       queryParams.set("cursor", firstCursor);
       queryParams.set("beforeOrAfter", "before");
       queryParams.set("firstOrLast", "last");
-      replace(`${baseUrl}?${queryParams.toString()}`);
+      navigate(`${baseUrl}?${queryParams.toString()}`, { replace: true });
     },
   } as any;
 }

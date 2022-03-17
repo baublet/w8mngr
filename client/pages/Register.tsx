@@ -8,10 +8,10 @@ import { Form, Input } from "../components/Forms";
 import { RegisterIcon } from "../components/Icons/Register";
 import { PageHeading } from "../components/Type/PageHeading";
 import { GetCurrentUserDocument, useRegisterMutation } from "../generated";
-import { useForm, useToast } from "../helpers";
+import { useForm, useToast, useNavigateToUrl } from "../helpers";
 
 export function Register() {
-  const { replace } = useHistory();
+  const navigate = useNavigateToUrl();
   const registerForm = useForm<{
     email: string;
     password: string;
@@ -22,7 +22,7 @@ export function Register() {
     refetchQueries: [GetCurrentUserDocument],
     onCompleted: () => {
       success("Successfully registered!");
-      replace("/");
+      navigate("/", { replace: true });
     },
     onError: error,
   });

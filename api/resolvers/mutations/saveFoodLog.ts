@@ -1,4 +1,5 @@
 import { FoodLogEntity, foodLogDataService } from "../../dataServices";
+import { foodLogFoodDataService } from "../../dataServices/foodLogFood";
 import { MutationResolvers } from "../../generated";
 import { foodLogPermissionService } from "../../permissionsServices";
 
@@ -22,6 +23,19 @@ export const saveFoodLog: MutationResolvers["saveFoodLog"] = async (
     description: log.description,
   }));
   await foodLogDataService.upsert(context, items);
+
+  await foodLogFoodDataService.upsert(
+    context,
+    input.foodLogs
+      .filter((log) => Boolean(log.foodId))
+      .map((log) => ({
+        day,
+        foodId: log.foodId,
+        id: log.id,
+        userId: context.getCurrentUserId(true),
+      }))
+  );
+
   const logs = await foodLogDataService.getConnection(context, {
     constraint: {
       day: input.day,

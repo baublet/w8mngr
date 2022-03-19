@@ -1,28 +1,41 @@
-#/bin/bash
+source ~/.bashrc &>/dev/null
+source ~/.bash_profile &>/dev/null
 
-NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+if ! command -v nvm &>/dev/null; then
+  echo "NVM not installed. Please install it."
+  exit 1
+fi
+nvm use $(cat .node-version) &>/dev/null
 
-if test -f "$NVM_DIR"; then
-  load_nvm
-else
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-  load_nvm
+echo -e "- Stopping any running containers and development processes"
+
+(
+  yarn pm2 stop all &
+  docker-compose down
+) &>/dev/null
+(
+  yarn pm2 delete all &
+  yarn pm2 flush &
+  yarn pm2 delete ecosystem.config.js
+) &>/dev/null
+
+echo -e "\n- Installing the proper node version and tooling"
+
+# Yarn
+if ! command -v yarn &>/dev/null; then
+  npm install -g yarn
 fi
 
-load_nvm() {
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-}
+echo -e "\n- Installing node dependencies"
+yarn
 
-docker-compose down
+echo -e "\n- Starting third-party dependent services"
 docker-compose up -d
 
-nvm use || (nvm install $(cat .nvmrc) && nvm use)
+echo -e "\n- Starting development processes"
+yarn pm2 start ecosystem.config.js
 
-which node
+echo -e "\n- Launching log viewer"
+yarn pm2 logs
 
-pm2 stop all
-pm2 delete all
-pm2 delete ecosystem.config.js
-
-pm2 start ecosystem.config.js
-pm2 logs
+exit 0

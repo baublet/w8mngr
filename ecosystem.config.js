@@ -1,3 +1,15 @@
+const fs= require("fs")
+const path = require("path")
+
+const versionFile = path.join(process.cwd(), ".node-version");
+
+if(!fs.existsSync(versionFile)) {
+  throw new Error("Node version file (root .node-version) not found.");
+}
+
+const nodeVersionString = fs.readFileSync(versionFile, "utf8").trim();
+const nodeVersion = `node@${nodeVersionString}`;
+
 module.exports = {
   apps: [
     {
@@ -7,6 +19,7 @@ module.exports = {
       node_args: ["-r", "dotenv/config", "--enable-source-maps"],
       autorestart: false,
       restart_delay: 250,
+      interpreter: nodeVersion
     },
     {
       name: "vite",
@@ -14,6 +27,7 @@ module.exports = {
       args: ["--config", "vite.config.js", "--port", "8080"],
       autorestart: true,
       watch: ["vite.config.js"],
+      interpreter: nodeVersion
     },
     {
       name: "build-backend",
@@ -28,6 +42,7 @@ module.exports = {
       ],
       autorestart: false,
       restart_delay: 250,
+      interpreter: nodeVersion
     },
     {
       name: "build-gql",
@@ -40,6 +55,7 @@ module.exports = {
       ],
       autorestart: false,
       restart_delay: 250,
+      interpreter: nodeVersion
     },
     {
       name: "build-css",
@@ -48,6 +64,7 @@ module.exports = {
       watch: ["client/**/*.{html,ts,tsx}"],
       autorestart: false,
       restart_delay: 250,
+      interpreter: nodeVersion
     },
   ],
 };

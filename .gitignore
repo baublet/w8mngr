@@ -25,3 +25,4 @@ postgres-data
 scripts/*.js
 scripts/*.js.map
 tmp
+.node-path

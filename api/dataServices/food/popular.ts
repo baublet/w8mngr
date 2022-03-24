@@ -11,11 +11,13 @@ export async function popular(context: Context): Promise<FoodEntity[]> {
   const admins = await userDataService.getAdminUsers(context);
   const userId = context.getCurrentUserId(true);
   const queryFactory = await getQuery(context);
-  const foodLogFoods: { foodId: string }[] = await queryFactory()
-    .distinct("food_log_food.foodId as foodId")
+  const foodLogFoods = await queryFactory()
+    .select("food_log_food.foodId")
+    .count<{ foodId: string; foodCount: string }[]>("foodId", {
+      as: "foodCount",
+    })
     .leftJoin("food_log_food", (q) =>
-      q
-        .on("food_log_food.foodId", "=", "food.id")
+      q.on("food_log_food.foodId", "=", "food.id")
     )
     .where("food.archived", "=", false)
     .andWhere((q) =>
@@ -26,8 +28,8 @@ export async function popular(context: Context): Promise<FoodEntity[]> {
       ">",
       new Date(Date.now() - POPULARITY_PERIOD_MS)
     )
-    .groupBy("food_log_food.food_id")
-    .orderBy("count", "DESC")
+    .groupBy("food_log_food.foodId")
+    .orderBy("foodCount", "DESC")
     .limit(25);
 
   const foods = await foodDataService.findBy(context, (q) =>

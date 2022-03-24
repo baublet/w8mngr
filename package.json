@@ -20,7 +20,7 @@
     "check": "yarn tsc --noEmit",
     "db:download-cert": "bash scripts/downloadDBCert.sh",
     "db:importDumps": "yarn ts-node --transpile-only scripts/importDumps.ts",
-    "db:migrate:create": "knex migrate:make --env production -x ts --",
+    "db:createMigration": "knex migrate:make --env production -x ts --",
     "db:migrate": "knex migrate:latest --env production",
     "db:reset": "ts-node scripts/resetDatabase.ts && yarn db:migrate && yarn db:seed",
     "db:seed": "ts-node scripts/seedData.ts",

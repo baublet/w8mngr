@@ -3,6 +3,7 @@ import React from "react";
 type UIEvents = {
   foodLogAdded: undefined;
   activityLogAdded: undefined;
+  addableFoodInert: string;
 };
 
 const notReadyMessage =

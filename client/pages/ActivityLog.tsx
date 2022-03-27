@@ -2,7 +2,6 @@ import React from "react";
 import { useHistory, useParams } from "react-router";
 
 import { ActivityStatsComponent } from "../components/Activity";
-import { IntensityScale } from "../components/Activity/IntensityScale";
 import { ActivityLog as ActivityLogComponent } from "../components/ActivityLog";
 import { BackToButton } from "../components/Button/BackTo";
 import { BackWithIconButton } from "../components/Button/BackWithIcon";
@@ -14,6 +13,7 @@ import { PrimaryLoader } from "../components/Loading/Primary";
 import { MuscleMap } from "../components/MuscleMap";
 import { PageHeading } from "../components/Type/PageHeading";
 import { useGetActivityDetailsQuery } from "../generated";
+import { useNavigateToUrl } from "../helpers";
 
 export function ActivityLog() {
   const { id, day = "" } = useParams<{ id: string; day: string }>();
@@ -24,13 +24,13 @@ export function ActivityLog() {
   });
   const activity = data?.currentUser?.activities.edges[0].node;
 
-  const { replace } = useHistory();
+  const navigate = useNavigateToUrl();
   const [stateDay, setDay] = React.useState(day);
   React.useEffect(() => {
     if (!stateDay) {
       return;
     }
-    replace(`/activities/${id}/log/${stateDay}`);
+    navigate(`/activities/${id}/log/${stateDay}`, { replace: true });
   }, [stateDay]);
   React.useEffect(() => {
     if (!day) {
@@ -62,7 +62,7 @@ export function ActivityLog() {
             </div>
           }
         >
-            {activity.name}
+          {activity.name}
         </PageHeading>
       </ContentContainer>
       <ContentContainer>

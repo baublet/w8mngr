@@ -1,14 +1,14 @@
 import cx from "classnames";
 import React from "react";
 
-import { or } from "../../../shared";
+import { coalesce, or } from "../../../shared";
 import { useForm, useKeyPressHandler } from "../../helpers";
 import { PrimaryIconButton } from "../Button/PrimaryIcon";
 import { SystemOutlineButton } from "../Button/SystemOutline";
 import {
   getMeasurementWithMultiplier,
   measurementStringToNumberOrUndefined,
-} from "../Foods/FoodListItem";
+} from "./FoodListItem";
 import { Input } from "../Forms";
 import { Add } from "../Icons/Add";
 import { LeftIcon } from "../Icons/Left";
@@ -16,7 +16,7 @@ import { RightIcon } from "../Icons/Right";
 import { Link } from "../Link";
 import { FoodLogInput } from "./types";
 
-export function MeasurementList({
+export function AddableFoodMeasurements({
   food,
   saveSelectedFood,
 }: {
@@ -24,7 +24,7 @@ export function MeasurementList({
   food: {
     id: string;
     name: string;
-    measurements: {
+    measurements?: {
       edges: {
         node: {
           id: string;
@@ -39,15 +39,17 @@ export function MeasurementList({
     };
   };
 }) {
+  const measurements = coalesce(food.measurements, { edges: [] });
+
   const [selectedMeasurementId, setSelectedMeasurementId] = React.useState(
-    food.measurements.edges[0]?.node.id
+    measurements.edges[0]?.node.id
   );
 
   const selectedMeasurement = React.useMemo(() => {
     if (!selectedMeasurementId) {
       return undefined;
     }
-    return food.measurements.edges.find(
+    return measurements.edges.find(
       (measurement) => measurement.node.id === selectedMeasurementId
     )?.node;
   }, [selectedMeasurementId]);
@@ -56,7 +58,7 @@ export function MeasurementList({
     if (!selectedMeasurementId) {
       return false;
     }
-    const selectedIndex = food.measurements.edges.findIndex(
+    const selectedIndex = measurements.edges.findIndex(
       (measurement) => measurement.node.id === selectedMeasurementId
     );
     if (selectedIndex < 1) {
@@ -70,14 +72,14 @@ export function MeasurementList({
       if (!selectedMeasurementId) {
         return selectedMeasurementId;
       }
-      const selectedIndex = food.measurements.edges.findIndex(
+      const selectedIndex = measurements.edges.findIndex(
         (measurement) => measurement.node.id === selectedMeasurementId
       );
       if (selectedIndex < 1) {
         return selectedMeasurementId;
       }
       const newIndex = selectedIndex - 1;
-      const newMeasurement = food.measurements.edges[newIndex];
+      const newMeasurement = measurements.edges[newIndex];
       if (!newMeasurement) {
         return selectedMeasurementId;
       }
@@ -90,14 +92,14 @@ export function MeasurementList({
       return false;
     }
 
-    const selectedIndex = food.measurements.edges.findIndex(
+    const selectedIndex = measurements.edges.findIndex(
       (measurement) => measurement.node.id === selectedMeasurementId
     );
     if (selectedIndex === -1) {
       return false;
     }
 
-    if (selectedIndex >= food.measurements.edges.length - 1) {
+    if (selectedIndex >= measurements.edges.length - 1) {
       return false;
     }
     return true;
@@ -108,14 +110,14 @@ export function MeasurementList({
       if (!selectedMeasurementId) {
         return selectedMeasurementId;
       }
-      const selectedIndex = food.measurements.edges.findIndex(
+      const selectedIndex = measurements.edges.findIndex(
         (measurement) => measurement.node.id === selectedMeasurementId
       );
       if (selectedIndex === -1) {
         return selectedMeasurementId;
       }
       const newIndex = selectedIndex + 1;
-      const newMeasurement = food.measurements.edges[newIndex];
+      const newMeasurement = measurements.edges[newIndex];
       if (!newMeasurement) {
         return selectedMeasurementId;
       }
@@ -131,7 +133,7 @@ export function MeasurementList({
     },
   });
 
-  const hasMeasurements = food.measurements.edges.length > 0;
+  const hasMeasurements = measurements.edges.length > 0;
   const saveSelectedMeasurement = React.useCallback(
     (event?: KeyboardEvent) => {
       if (!selectedMeasurement) {
@@ -184,8 +186,8 @@ export function MeasurementList({
 
   return !hasMeasurements ? null : (
     <div className="p-2 bg-slate-50 border border-slate-200 rounded-lg">
-      {food.measurements.edges.length === 0 ? null : (
-        <div className="mt-2 relative">
+      {measurements.edges.length === 0 ? null : (
+        <div className="relative">
           {!selectedMeasurement ? null : (
             <div
               key={selectedMeasurement.id}
@@ -194,7 +196,7 @@ export function MeasurementList({
                   selectedMeasurement.id !== selectedMeasurementId,
               })}
             >
-              <div className="w-1/12">
+              <div>
                 <PrimaryIconButton
                   title="Previous measurement"
                   disabled={!hasPrevious}
@@ -204,47 +206,57 @@ export function MeasurementList({
                   <LeftIcon />
                 </PrimaryIconButton>
               </div>
-              <div className="w-2/12" title="amount">
-                <Input
-                  value={amountFormData.getValue("amount")}
-                  placeholder="amount"
-                  type="text"
-                  onChange={amountFormData.getHandler("amount")}
-                  focusOnFirstRender
-                />
+              <div className="flex flex-col gap-2 items-center grow">
+                <div className="flex gap-2 w-full items-center">
+                  <div className="w-1/2" title="amount">
+                    <Input
+                      value={amountFormData.getValue("amount")}
+                      placeholder="amount"
+                      type="text"
+                      onChange={amountFormData.getHandler("amount")}
+                      focusOnFirstRender
+                    />
+                  </div>
+                  <div className="w-1/2 truncate" title="measurement">
+                    {selectedMeasurement.measurement}
+                  </div>
+                </div>
+                <div className="flex w-full gap-2">
+                  <div className="w-1/4 truncate" title="calories">
+                    {getMeasurementWithMultiplier({
+                      currentAmount: amountFormData.getValue("amount"),
+                      measurementValue: or(selectedMeasurement.calories, 0),
+                      originalAmount: selectedMeasurement.amount,
+                    })}
+                    <TinyLabel>Calories</TinyLabel>
+                  </div>
+                  <div className="w-1/4 truncate" title="fat">
+                    {getMeasurementWithMultiplier({
+                      currentAmount: amountFormData.getValue("amount"),
+                      measurementValue: or(selectedMeasurement.fat, 0),
+                      originalAmount: selectedMeasurement.amount,
+                    })}
+                    <TinyLabel>Fat</TinyLabel>
+                  </div>
+                  <div className="w-1/4 truncate" title="carbohydrates">
+                    {getMeasurementWithMultiplier({
+                      currentAmount: amountFormData.getValue("amount"),
+                      measurementValue: or(selectedMeasurement.carbs, 0),
+                      originalAmount: selectedMeasurement.amount,
+                    })}
+                    <TinyLabel>Carbs</TinyLabel>
+                  </div>
+                  <div className="w-1/4 truncate" title="protein">
+                    {getMeasurementWithMultiplier({
+                      currentAmount: amountFormData.getValue("amount"),
+                      measurementValue: or(selectedMeasurement.protein, 0),
+                      originalAmount: selectedMeasurement.amount,
+                    })}
+                    <TinyLabel>Protein</TinyLabel>
+                  </div>
+                </div>
               </div>
-              <div className="w-3/12 truncate" title="measurement">
-                {selectedMeasurement.measurement}
-              </div>
-              <div className="w-2/12 truncate" title="calories">
-                {getMeasurementWithMultiplier({
-                  currentAmount: amountFormData.getValue("amount"),
-                  measurementValue: or(selectedMeasurement.calories, 0),
-                  originalAmount: selectedMeasurement.amount,
-                })}
-              </div>
-              <div className="w-1/12 truncate" title="fat">
-                {getMeasurementWithMultiplier({
-                  currentAmount: amountFormData.getValue("amount"),
-                  measurementValue: or(selectedMeasurement.fat, 0),
-                  originalAmount: selectedMeasurement.amount,
-                })}
-              </div>
-              <div className="w-1/12 truncate" title="carbohydrates">
-                {getMeasurementWithMultiplier({
-                  currentAmount: amountFormData.getValue("amount"),
-                  measurementValue: or(selectedMeasurement.carbs, 0),
-                  originalAmount: selectedMeasurement.amount,
-                })}
-              </div>
-              <div className="w-1/12 truncate" title="protein">
-                {getMeasurementWithMultiplier({
-                  currentAmount: amountFormData.getValue("amount"),
-                  measurementValue: or(selectedMeasurement.protein, 0),
-                  originalAmount: selectedMeasurement.amount,
-                })}
-              </div>
-              <div className="w-1/12">
+              <div>
                 <PrimaryIconButton
                   title="Next measurement"
                   disabled={!hasNext}
@@ -256,35 +268,10 @@ export function MeasurementList({
               </div>
             </div>
           )}
-          <div
-            className="w-full flex items-center gap-2 text-slate-400 text-xs"
-            style={{ fontSize: ".75em" }}
-          >
-            <div className="w-1/12"></div>
-            <div className="w-2/12 truncate" title="amount">
-              amount
-            </div>
-            <div className="w-3/12 truncate" title="measurement">
-              measurement
-            </div>
-            <div className="w-2/12 truncate" title="calories">
-              calories
-            </div>
-            <div className="w-1/12 truncate" title="fat">
-              fat
-            </div>
-            <div className="w-1/12 truncate" title="carbohydrates">
-              carbs
-            </div>
-            <div className="w-1/12 truncate" title="protein">
-              protein
-            </div>
-            <div className="w-1/12"></div>
-          </div>
           <div className="w-full flex gap-1 mt-4 items-center">
-            <div className="w-1/12"></div>
-            <div className="w-10/12 flex items-center gap-4 justify-between ">
+            <div className="w-full flex items-center gap-4 justify-between ">
               <Link to={`/food/edit/${food.id}`}>View food details</Link>
+              <div className="grow"></div>
               {!selectedMeasurement ? null : (
                 <SystemOutlineButton
                   size="extra-small"
@@ -295,10 +282,13 @@ export function MeasurementList({
                 </SystemOutlineButton>
               )}
             </div>
-            <div className="w-1/12"></div>
           </div>
         </div>
       )}
     </div>
   );
+}
+
+function TinyLabel({ children }: React.PropsWithChildren<{}>) {
+  return <div className="lowercase text-slate-300">{children}</div>;
 }

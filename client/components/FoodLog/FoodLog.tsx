@@ -19,19 +19,11 @@ const columns: ["calories", "fat", "carbs", "protein"] = [
   "protein",
 ];
 
-export function FoodLog() {
-  const { day } = useParams<{ day?: string }>();
-  const dayString = React.useMemo(() => {
-    if (!day) {
-      return dayStringFromDate(new Date());
-    }
-    return day;
-  }, [day]);
-
+export function FoodLog({ day }: { day: string }) {
   const { data } = useGetCurrentUserFoodLogQuery({
     fetchPolicy: "network-only",
     variables: {
-      day: dayString,
+      day,
     },
   });
   const [searchTerm, setSearchTerm] = React.useState("");
@@ -41,6 +33,10 @@ export function FoodLog() {
   >(undefined);
   const newFoodLogDescriptionInputRef = React.useRef<HTMLInputElement | null>(
     null
+  );
+  const clear = React.useCallback(
+    () => newFoodLogFormObjectRef.current?.clear(),
+    []
   );
 
   const loading = !Boolean(data?.currentUser?.foodLog);
@@ -76,9 +72,14 @@ export function FoodLog() {
               })}
             >
               <div className="flex flex-col">
-                <div className={cx("text-4xl font-thin text-slate-400 text-center truncate", {
-                  "text-7xl md:text-4xl": column === "calories",
-                })}>
+                <div
+                  className={cx(
+                    "text-4xl font-thin text-slate-400 text-center truncate",
+                    {
+                      "text-7xl md:text-4xl": column === "calories",
+                    }
+                  )}
+                >
                   {stats[column].toLocaleString()}
                 </div>
                 <div className="text-xs uppercase text-slate-400 text-center">
@@ -109,14 +110,14 @@ export function FoodLog() {
       ) : null}
       <div className={cx("flex flex-col w-full gap-4")}>
         {entries.map((entry) => (
-          <LogEntry key={entry.id} {...entry} day={dayString} />
+          <LogEntry key={entry.id} {...entry} day={day} />
         ))}
       </div>
       <div className="block md:hidden">{totalsMarkup}</div>
       <div className="flex gap-4 flex-col md:flex-row">
         <div className="w-full md:w-1/2">
           <NewFoodLogPanel
-            day={dayString}
+            day={day}
             onSearch={setSearchTerm}
             formStateRef={newFoodLogFormObjectRef}
             descriptionInputRef={newFoodLogDescriptionInputRef}
@@ -127,7 +128,8 @@ export function FoodLog() {
           <div>
             <FoodSearchAutocomplete
               searchTerm={debouncedSearchTerm}
-              day={dayString}
+              day={day}
+              clear={clear}
             />
           </div>
         </div>

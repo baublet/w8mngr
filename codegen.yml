@@ -22,6 +22,7 @@ generates:
             | "foodLogStats"
             | "foods"
             | "popularActivities"
+            | "popularFoods"
             | "preferences"
             | "weightLog"
             | "weightLogSummary"

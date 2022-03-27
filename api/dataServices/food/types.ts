@@ -1,5 +1,6 @@
 export type FoodEntity = {
   id: string;
+  archived: boolean;
   createdAt: Date;
   updatedAt: Date;
   userId: string;

@@ -26,7 +26,6 @@ export function FoodLog() {
       <ContentContainer>
         <ContentLayout
           mainContent={<FoodLogComponent day={dayString} />}
-          sideContent={<PopularFoods day={dayString} />}
         />
       </ContentContainer>
     </div>

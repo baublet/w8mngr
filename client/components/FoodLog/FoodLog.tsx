@@ -34,6 +34,10 @@ export function FoodLog({ day }: { day: string }) {
   const newFoodLogDescriptionInputRef = React.useRef<HTMLInputElement | null>(
     null
   );
+  const clear = React.useCallback(
+    () => newFoodLogFormObjectRef.current?.clear(),
+    []
+  );
 
   const loading = !Boolean(data?.currentUser?.foodLog);
 
@@ -125,6 +129,7 @@ export function FoodLog({ day }: { day: string }) {
             <FoodSearchAutocomplete
               searchTerm={debouncedSearchTerm}
               day={day}
+              clear={clear}
             />
           </div>
         </div>

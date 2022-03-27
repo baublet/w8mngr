@@ -2,6 +2,7 @@ import React from "react";
 
 import { useEvents, useKeyPressHandler } from "../../helpers";
 import { AddableFood, AddableFoodProp } from "./AddableFood";
+import { VerticallyWindowed } from "../VerticallyWindowed";
 
 export function AddableFoods({
   foods,
@@ -26,7 +27,6 @@ export function AddableFoods({
 
   const selectFoodId = React.useCallback(
     (id: string) => (selected: boolean) => {
-      fire("addableFoodInert", uniqueKey);
       if (selected) {
         return setSelectedFoodId(id);
       }
@@ -73,22 +73,13 @@ export function AddableFoods({
 
   React.useEffect(() => {
     subscribe("foodLogAdded", "AddableFoodsDeselect", deselectFood);
-    subscribe("addableFoodInert", uniqueKey, (broadcasterUniqueKey) => {
-      if (uniqueKey === broadcasterUniqueKey) {
-        setInert(false);
-        return;
-      }
-      deselectFood();
-      setInert(true);
-    });
     return () => {
       unsubscribe("foodLogAdded", "AddableFoodsDeselect");
-      unsubscribe("addableFoodInert", uniqueKey);
     };
   }, []);
 
   return (
-    <>
+    <VerticallyWindowed percent={50}>
       {foods.map((food) => (
         <AddableFood
           key={food.id}
@@ -98,6 +89,6 @@ export function AddableFoods({
           setSelected={selectFoodId(food.id)}
         />
       ))}
-    </>
+    </VerticallyWindowed>
   );
 }

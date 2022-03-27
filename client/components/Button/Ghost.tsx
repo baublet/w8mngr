@@ -6,7 +6,6 @@ import { BaseButton, BaseButtonProps } from "./Base";
 const buttonClasses = `
 bg-transparent
 rounded
-text-xs
 uppercase
 text-slate-800
 hover:text-slate-600

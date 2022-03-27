@@ -38,6 +38,7 @@ export function BaseButton({
     return originalLeftIcon;
   }, [originalLeftIcon, loading]);
 
+  // Classes for the full button container
   const classNames = cx(className, "flex group items-center", {
     "block text-center w-full justify-center": full,
     "opacity-50 pointer-events-none": disabled,
@@ -53,6 +54,7 @@ export function BaseButton({
       size === "lg",
   });
 
+  // Class names for the text/children
   const textClassNames = cx({
     "pb-1": size === "extra-large",
   });

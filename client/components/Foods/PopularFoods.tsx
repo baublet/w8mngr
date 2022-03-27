@@ -15,15 +15,8 @@ export function PopularFoods({ day }: { day: string }) {
   }
 
   return (
-    <div className="flex flex-col w-full gap-4">
-      <PanelHeading>Popular Foods</PanelHeading>
-      <div className="flex flex-col w-full gap-2">
-        <AddableFoods
-          day={day}
-          foods={popularFoods}
-          uniqueKey="popular-foods"
-        />
-      </div>
+    <div className="flex flex-col w-full gap-2">
+      <AddableFoods day={day} foods={popularFoods} uniqueKey="popular-foods" />
     </div>
   );
 }

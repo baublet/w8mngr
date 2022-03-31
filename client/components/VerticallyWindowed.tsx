@@ -10,10 +10,12 @@ export function VerticallyWindowed({
   className,
   gap = "gap-2",
   children,
+  scroll = "SMALL-SCREENS-ONLY",
 }: React.PropsWithChildren<{
   percent: number;
   gap?: "gap-2";
   className?: string;
+  scroll?: "ALL" | "SMALL-SCREENS-ONLY";
 }>) {
   const [height, setHeight] = React.useState("999px");
   const [applyHeight, setApplyHeight] = React.useState(false);
@@ -37,7 +39,7 @@ export function VerticallyWindowed({
     <div
       className={cx("overflow-x-hidden w-full overflow-y-auto", className)}
       style={{
-        maxHeight: applyHeight ? height : undefined,
+        maxHeight: applyHeight && scroll ? height : undefined,
       }}
     >
       <div className={cx("flex flex-col w-full", gap)}>{children}</div>

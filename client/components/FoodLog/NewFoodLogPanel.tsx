@@ -113,14 +113,10 @@ export function NewFoodLogPanel({
       return;
     }
 
-    console.log({ currentUser });
-
     const enabled = findOrFail(
       currentUser.preferences,
       (pref) => pref.key === "FATURDAYS"
     );
-
-    console.log({ enabled });
 
     if (!enabled.value) {
       return;
@@ -144,15 +140,6 @@ export function NewFoodLogPanel({
         currentUser.preferences,
         (pref) => pref.key === "FATURDAY_PROTEIN"
       ).value || 0;
-
-    console.log({
-      day,
-      description: "Faturday!",
-      calories,
-      fat,
-      carbs,
-      protein,
-    });
 
     createFood({
       awaitRefetchQueries: true,

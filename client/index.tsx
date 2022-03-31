@@ -1,6 +1,6 @@
 import { ApolloProvider } from "@apollo/client";
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import { Application } from "./Application";
@@ -18,14 +18,15 @@ boot().then(async () => {
     throw new Error("No mount node found");
   }
 
-  ReactDOM.render(
+  ReactDOM.createRoot(mountNode).render(
     <BrowserRouter>
-      <EventProvider>
-        <ApolloProvider client={apolloClient}>
-          <Application />
-        </ApolloProvider>
-      </EventProvider>
-    </BrowserRouter>,
-    mountNode
+      <React.StrictMode>
+        <EventProvider>
+          <ApolloProvider client={apolloClient}>
+            <Application />
+          </ApolloProvider>
+        </EventProvider>
+      </React.StrictMode>
+    </BrowserRouter>
   );
 });

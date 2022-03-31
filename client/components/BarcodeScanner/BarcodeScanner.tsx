@@ -105,7 +105,7 @@ function initializeBarcodeScanner({
       },
       (error?: Error) => {
         if (error) {
-          console.log(error);
+          console.error(error);
           return;
         }
         console.log("Initialization finished. Ready to start");

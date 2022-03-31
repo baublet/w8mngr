@@ -43,8 +43,6 @@ export function ActivityLogEntry({
     initialValues: log,
   });
 
-  console.log({ log });
-
   const showReps = SHOW_REPS[activityType];
   const workLabel = WORK_LABELS[activityType];
   const handleDelete = React.useCallback(() => {
@@ -79,10 +77,6 @@ export function ActivityLogEntry({
   }
 
   const loading = or(deleteLoading, saveLoading);
-
-  console.log({
-    reps: formData.getValue("reps"),
-  });
 
   return (
     <Panel loading={loading}>

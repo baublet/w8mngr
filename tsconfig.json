@@ -11,8 +11,7 @@
     "types": [
       "./types/json-stringify-deterministic",
       "./types/quagga",
-      "jest",
-      "react/next"
+      "jest"
     ]
   },
   "ts-node": {

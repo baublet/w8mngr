@@ -112,7 +112,7 @@ export function BarcodeScanner({ day }: { day: string }) {
             })}
           />
           {showShutter && (
-            <div className="absolute top-0 right-0 bottom-0 left-0 bg-purple-100 shutter" />
+            <div className="absolute top-0 right-0 bottom-0 left-0 bg-slate-50 shutter" />
           )}
           <div
             className={cx(

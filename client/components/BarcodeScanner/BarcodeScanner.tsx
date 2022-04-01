@@ -15,7 +15,7 @@ type BarCodeScanner = {
 };
 
 export function BarcodeScanner({ day }: { day: string }) {
-  const [codes, setCodes] = React.useState<string[]>(["850009682307"]);
+  const [codes, setCodes] = React.useState<string[]>([]);
   const [showShutter, setShowShutter] = React.useState(false);
   const [searchingBarcode, setSearchingBarcode] = React.useState(false);
   const [notFoundShown, setNotFoundShown] = React.useState(false);

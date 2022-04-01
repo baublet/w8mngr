@@ -172,10 +172,9 @@ export function ScannerResults({
   return (
     <div
       className={cx(
-        "toast flex flex-col gap-2 bg-opacity-95 bg-slate-900 shadow-lg text-slate-100 rounded overflow:hidden",
+        "toast flex flex-col gap-2 bg-opacity-95 bg-slate-900 shadow-lg text-slate-100 rounded overflow:hidden p-2 md:p-4",
         {
-          "p-2 md:p-4": open,
-          "p-1 hover:bg-slate-800": !open,
+          "hover:bg-slate-800": !open,
           "opacity-75 pointer-events-none": saving,
         }
       )}
@@ -186,9 +185,8 @@ export function ScannerResults({
           onClick={() => setOpen(!open)}
         >
           <h4
-            className={cx("", {
-              "font-thin": open,
-              "font-bold p-4 opacity-75 hover:opacity-100": !open,
+            className={cx("font-thin", {
+              "opacity-75 hover:opacity-100": !open,
             })}
           >
             {result.name}

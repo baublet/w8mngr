@@ -44,7 +44,7 @@ export function ScannerResults({
   >(undefined);
 
   React.useEffect(() => {
-      fetch(`https://world.openfoodfacts.org/api/v0/product/${code}.json`)
+    fetch(`https://world.openfoodfacts.org/api/v0/product/${code}.json`)
       .then(async (result) => {
         const json: {
           product: {
@@ -174,7 +174,7 @@ export function ScannerResults({
       className={cx(
         "toast flex flex-col gap-2 bg-opacity-95 bg-slate-900 shadow-lg text-slate-100 rounded overflow:hidden",
         {
-          "p-4": open,
+          "p-2 md:p-4": open,
           "p-1 hover:bg-slate-800": !open,
           "opacity-75 pointer-events-none": saving,
         }
@@ -286,17 +286,22 @@ function Measurement({
   }, []);
 
   return (
-    <div className="flex gap-2 w-full">
-      <div>
+    <div
+      className="flex gap-2 w-full cursor-pointer"
+      tabIndex={1}
+      aria-role="button"
+      title="Add food"
+    >
+      <div className="hidden md:block">
         <SecondaryOutlineButton
           onClick={save}
-          className="h-12 w-12 rounded-full flex items-center justify-center hover:bg-teal-500 hover:border-transparent hover:text-slate-50"
+          className="h-12 w-12 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:border-transparent hover:text-slate-50"
         >
           <Add />
         </SecondaryOutlineButton>
       </div>
-      <div className="flex gap-2 items-end w-full text-sm flex-col md:flex-row">
-        <div className="flex gap-2 items-end w-full">
+      <div className="flex gap-2 items-end w-full text-sm flex-col md:flex-row pointer-events-none">
+        <div className="flex gap-2 items-end w-full pointer-events-auto">
           <div className="w-20">
             <Input
               placeholder="Amount"
@@ -308,9 +313,17 @@ function Measurement({
             />
             <Label input>amount</Label>
           </div>
-          <div className="flex-grow">
+          <div className="grow">
             {measurement}
             <Label>measurement</Label>
+          </div>
+          <div className="md:hidden">
+            <SecondaryOutlineButton
+              onClick={save}
+              className="h-12 w-12 rounded-full flex items-center justify-center hover:bg-emerald-500 hover:border-transparent hover:text-slate-50"
+            >
+              <Add />
+            </SecondaryOutlineButton>
           </div>
         </div>
         <div className="flex gap-2 items-end w-full">

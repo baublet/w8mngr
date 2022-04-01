@@ -15,7 +15,7 @@ type BarCodeScanner = {
 };
 
 export function BarcodeScanner({ day }: { day: string }) {
-  const [codes, setCodes] = React.useState<string[]>([]);
+  const [codes, setCodes] = React.useState<string[]>(["850009682307"]);
   const [showShutter, setShowShutter] = React.useState(false);
   const [searchingBarcode, setSearchingBarcode] = React.useState(false);
   const [notFoundShown, setNotFoundShown] = React.useState(false);
@@ -134,7 +134,7 @@ export function BarcodeScanner({ day }: { day: string }) {
               }
             )}
           >
-            <div className="bg-slate-800 rounded-lg p-4 text-slate-50 flex gap-4">
+            <div className="bg-slate-800 rounded-lg p-2 md:p-4 text-slate-50 flex gap-4">
               <span className="text-rose-500">
                 <CloseIcon />
               </span>

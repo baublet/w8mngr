@@ -1,35 +1,28 @@
 import React from "react";
 import cx from "classnames";
 
-import { PrimaryLoader } from "../Loading/Primary";
 import {
   GetCurrentUserFoodLogDocument,
   useCreateOrUpdateFoodLogMutation,
 } from "../../generated";
 import { Input } from "../Forms";
-import {
-  getMeasurementWithMultiplier,
-  measurementStringToNumberOrUndefined,
-} from "../Foods/FoodListItem";
-import { SecondaryIconButton } from "../Button/SecondaryIcon";
+import { getMeasurementWithMultiplier } from "../Foods/FoodListItem";
 import { Add } from "../Icons/Add";
 import { SecondaryOutlineButton } from "../Button/SecondaryOutline";
-import { PrimaryButton } from "../Button/Primary";
-import _ from "lodash";
-import { DeleteIconButton } from "../Button/DeleteIconButton";
 import { CloseIcon } from "../Icons/Close";
-import { SecondaryButton } from "../Button/Secondary";
 
 export function ScannerResults({
   code,
   day,
   close,
   setLoadingFinished,
+  notFound,
 }: {
   code: string;
   day: string;
   close: () => void;
   setLoadingFinished: () => void;
+  notFound: () => void;
 }) {
   const [loading, setLoading] = React.useState(true);
   const [open, setOpen] = React.useState(false);
@@ -89,9 +82,9 @@ export function ScannerResults({
           };
         } = await result.json();
         if (!json || !json.product) {
+          notFound();
           return;
         }
-        setLoading(false);
         setResult({
           name: json.product.product_name_en,
           description: json.product.product_name_en_imported,
@@ -118,7 +111,10 @@ export function ScannerResults({
       .catch((error) => {
         console.error(error);
       })
-      .finally(() => setLoadingFinished());
+      .finally(() => {
+        setLoading(false);
+        setLoadingFinished();
+      });
   }, [code]);
 
   const [createFoodLog, { loading: saving }] = useCreateOrUpdateFoodLogMutation(

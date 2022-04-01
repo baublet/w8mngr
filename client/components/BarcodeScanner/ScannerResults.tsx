@@ -24,10 +24,12 @@ export function ScannerResults({
   code,
   day,
   close,
+  setLoadingFinished,
 }: {
   code: string;
   day: string;
   close: () => void;
+  setLoadingFinished: () => void;
 }) {
   const [loading, setLoading] = React.useState(true);
   const [open, setOpen] = React.useState(false);
@@ -115,7 +117,8 @@ export function ScannerResults({
       })
       .catch((error) => {
         console.error(error);
-      });
+      })
+      .finally(() => setLoadingFinished());
   }, [code]);
 
   const [createFoodLog, { loading: saving }] = useCreateOrUpdateFoodLogMutation(

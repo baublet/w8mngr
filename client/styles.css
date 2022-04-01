@@ -145,6 +145,13 @@ input:focus-visible ~ .toggleInner {
   animation-timing-function: cubic-bezier(0.2, 1, 0, 0.9);
 }
 
+.shutter {
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  animation-duration: 0.75s;
+  animation-name: fadeOut;
+}
+
 @keyframes toastSlideUp {
   from {
     transform: translateY(100px);

@@ -44,7 +44,8 @@ export function ScannerResults({
   >(undefined);
 
   React.useEffect(() => {
-    fetch(`https://world.openfoodfacts.org/api/v0/product/${code}.json`)
+    fetch(`https://world.openfoodfacts.org/api/v0/product/850009682307.json`)
+      // fetch(`https://world.openfoodfacts.org/api/v0/product/${code}.json`)
       .then(async (result) => {
         const json: {
           product: {
@@ -85,6 +86,7 @@ export function ScannerResults({
           notFound();
           return;
         }
+        console.log({ json });
         setResult({
           name: json.product.product_name_en,
           description: json.product.product_name_en_imported,
@@ -97,14 +99,18 @@ export function ScannerResults({
               carbs: json.product.nutriments.carbohydrates_100g,
               protein: json.product.nutriments.proteins_100g,
             },
-            {
-              amount: 1,
-              measurement: `serving (${json.product.serving_size})`,
-              calories: json.product.nutriments["energy-kcal_serving"],
-              fat: json.product.nutriments.fat_serving,
-              carbs: json.product.nutriments.carbohydrates_serving,
-              protein: json.product.nutriments.proteins_serving,
-            },
+            ...(!json.product.serving_size
+              ? []
+              : [
+                  {
+                    amount: 1,
+                    measurement: `serving (${json.product.serving_size})`,
+                    calories: json.product.nutriments["energy-kcal_serving"],
+                    fat: json.product.nutriments.fat_serving,
+                    carbs: json.product.nutriments.carbohydrates_serving,
+                    protein: json.product.nutriments.proteins_serving,
+                  },
+                ]),
           ],
         });
       })
@@ -183,8 +189,8 @@ export function ScannerResults({
         >
           <h4
             className={cx("", {
-              "text-2xl font-thin": open,
-              "text-sm font-bold p-4 opacity-75 hover:opacity-100": !open,
+              "font-thin": open,
+              "font-bold p-4 opacity-75 hover:opacity-100": !open,
             })}
           >
             {result.name}
@@ -282,59 +288,67 @@ function Measurement({
   }, []);
 
   return (
-    <div className="flex gap-2 items-end w-full text-sm">
-      <SecondaryOutlineButton
-        onClick={save}
-        className="h-12 w-12 rounded-full flex items-center justify-center hover:bg-teal-500 hover:border-transparent hover:text-slate-50"
-      >
-        <Add />
-      </SecondaryOutlineButton>
-      <div className="w-20">
-        <Input
-          placeholder="Amount"
-          value={amount}
-          onChange={setAmount}
-          type="text"
-          size="sm"
-          className="text-slate-900"
-        />
-        <Label input>amount</Label>
-      </div>
-      <div className="flex-grow">
-        {measurement}
-        <Label>measurement</Label>
-      </div>
+    <div className="flex gap-2 w-full">
       <div>
-        {getMeasurementWithMultiplier({
-          currentAmount: amountNumber,
-          originalAmount: defaultAmount,
-          measurementValue: calories,
-        })}
-        <Label>calories</Label>
+        <SecondaryOutlineButton
+          onClick={save}
+          className="h-12 w-12 rounded-full flex items-center justify-center hover:bg-teal-500 hover:border-transparent hover:text-slate-50"
+        >
+          <Add />
+        </SecondaryOutlineButton>
       </div>
-      <div>
-        {getMeasurementWithMultiplier({
-          currentAmount: amountNumber,
-          originalAmount: defaultAmount,
-          measurementValue: fat,
-        })}
-        <Label>fat</Label>
-      </div>
-      <div>
-        {getMeasurementWithMultiplier({
-          currentAmount: amountNumber,
-          originalAmount: defaultAmount,
-          measurementValue: carbs,
-        })}
-        <Label>carbs</Label>
-      </div>
-      <div>
-        {getMeasurementWithMultiplier({
-          currentAmount: amountNumber,
-          originalAmount: defaultAmount,
-          measurementValue: protein,
-        })}
-        <Label>protein</Label>
+      <div className="flex gap-2 items-end w-full text-sm flex-col md:flex-row">
+        <div className="flex gap-2 items-end w-full">
+          <div className="w-20">
+            <Input
+              placeholder="Amount"
+              value={amount}
+              onChange={setAmount}
+              type="text"
+              size="sm"
+              className="text-slate-900"
+            />
+            <Label input>amount</Label>
+          </div>
+          <div className="flex-grow">
+            {measurement}
+            <Label>measurement</Label>
+          </div>
+        </div>
+        <div className="flex gap-2 items-end w-full">
+          <div className="grow">
+            {getMeasurementWithMultiplier({
+              currentAmount: amountNumber,
+              originalAmount: defaultAmount,
+              measurementValue: calories,
+            })}
+            <Label>calories</Label>
+          </div>
+          <div className="grow">
+            {getMeasurementWithMultiplier({
+              currentAmount: amountNumber,
+              originalAmount: defaultAmount,
+              measurementValue: fat,
+            })}
+            <Label>fat</Label>
+          </div>
+          <div className="grow">
+            {getMeasurementWithMultiplier({
+              currentAmount: amountNumber,
+              originalAmount: defaultAmount,
+              measurementValue: carbs,
+            })}
+            <Label>carbs</Label>
+          </div>
+          <div className="grow">
+            {getMeasurementWithMultiplier({
+              currentAmount: amountNumber,
+              originalAmount: defaultAmount,
+              measurementValue: protein,
+            })}
+            <Label>protein</Label>
+          </div>
+        </div>
       </div>
     </div>
   );

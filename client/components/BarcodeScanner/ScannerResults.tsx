@@ -44,8 +44,7 @@ export function ScannerResults({
   >(undefined);
 
   React.useEffect(() => {
-    fetch(`https://world.openfoodfacts.org/api/v0/product/850009682307.json`)
-      // fetch(`https://world.openfoodfacts.org/api/v0/product/${code}.json`)
+      fetch(`https://world.openfoodfacts.org/api/v0/product/${code}.json`)
       .then(async (result) => {
         const json: {
           product: {

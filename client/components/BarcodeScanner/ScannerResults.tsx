@@ -86,7 +86,6 @@ export function ScannerResults({
           notFound();
           return;
         }
-        console.log({ json });
         setResult({
           name: json.product.product_name_en,
           description: json.product.product_name_en_imported,

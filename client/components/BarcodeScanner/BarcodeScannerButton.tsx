@@ -35,7 +35,7 @@ export function BarcodeScannerButton({ day }: { day: string }) {
             <Link to="https://world.openfoodfacts.org/">Open Food Facts</Link>{" "}
             database!
           </span>
-          {!open ? null : <BarcodeScanner day={day} />}
+          {!open ? null : <BarcodeScanner day={day} close={closeFunction} />}
         </div>
       </Modal>
     </>

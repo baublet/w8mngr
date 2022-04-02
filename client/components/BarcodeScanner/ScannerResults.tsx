@@ -17,15 +17,16 @@ export function ScannerResults({
   close,
   setLoadingFinished,
   notFound,
+  onAdded,
 }: {
   code: string;
   day: string;
   close: () => void;
   setLoadingFinished: () => void;
   notFound: () => void;
+  onAdded: () => void;
 }) {
   const [loading, setLoading] = React.useState(true);
-  const [open, setOpen] = React.useState(false);
   const [result, setResult] = React.useState<
     | {
         name: string;
@@ -123,6 +124,9 @@ export function ScannerResults({
 
   const [createFoodLog, { loading: saving }] = useCreateOrUpdateFoodLogMutation(
     {
+      onCompleted: () => {
+        onAdded();
+      },
       refetchQueries: [
         {
           query: GetCurrentUserFoodLogDocument,
@@ -136,17 +140,19 @@ export function ScannerResults({
   const getSaveFoodLogHandler = React.useCallback(
     ({
       amount,
+      name,
       measurement,
       ...foodLog
     }: {
       amount: number;
       measurement: string;
+      name: string;
       calories?: number;
       fat?: number;
       carbs?: number;
       protein?: number;
     }) => {
-      const description = `${amount} ${measurement}`;
+      const description = `${amount} ${measurement} ${name}`;
       return () =>
         createFoodLog({
           variables: {
@@ -180,10 +186,7 @@ export function ScannerResults({
       )}
     >
       <div className="flex gap-4 justify-between items-center">
-        <button
-          className="w-full flex flex-col gap-2 flex-shrink cursor-pointer"
-          onClick={() => setOpen(!open)}
-        >
+        <div className="w-full flex flex-col gap-2 flex-shrink cursor-pointer">
           <h4
             className={cx("font-thin", {
               "opacity-75 hover:opacity-100": !open,
@@ -191,8 +194,8 @@ export function ScannerResults({
           >
             {result.name}
           </h4>
-          {open && <div className="text-xs">{result.description}</div>}
-        </button>
+          <div className="text-xs">{result.description}</div>
+        </div>
         <button
           onClick={close}
           className={"bg-rose-600 hover:bg-rose-400 p-4 rounded"}
@@ -200,19 +203,22 @@ export function ScannerResults({
           <CloseIcon />
         </button>
       </div>
-      {open &&
-        result.measurements.map((measurement, i) => (
+      <div>
+        {result.measurements.map((measurement, i) => (
           <Measurement
+            name={result.name}
             measurement={measurement}
             key={i}
             getHandler={getSaveFoodLogHandler}
           />
         ))}
+      </div>
     </div>
   );
 }
 
 function Measurement({
+  name,
   getHandler,
   measurement: {
     amount: defaultAmount,
@@ -223,8 +229,10 @@ function Measurement({
     protein,
   },
 }: {
+  name: string;
   getHandler: (args: {
     amount: number;
+    name: string;
     measurement: string;
     calories: number;
     fat: number;
@@ -248,6 +256,7 @@ function Measurement({
     setAmount((currentAmountString) => {
       const currentAmount = stringValueToNumberOrZero(currentAmountString);
       getHandler({
+        name,
         amount: amountNumber,
         measurement,
         calories: stringValueToNumberOrZero(

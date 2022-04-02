@@ -14,7 +14,8 @@ type BarCodeScanner = {
   resume: () => void;
 };
 
-export function BarcodeScanner({ day }: { day: string }) {
+export function BarcodeScanner({ day, close }: { day: string, close: () => void }) {
+  // Good test code: "850009682307"
   const [codes, setCodes] = React.useState<string[]>([]);
   const [showShutter, setShowShutter] = React.useState(false);
   const [searchingBarcode, setSearchingBarcode] = React.useState(false);
@@ -152,6 +153,7 @@ export function BarcodeScanner({ day }: { day: string }) {
                 close={getHandleClose(code)}
                 setLoadingFinished={() => setSearchingBarcode(false)}
                 notFound={showNotFound}
+                onAdded={close}
               />
             ))}
           </div>

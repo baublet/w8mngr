@@ -47,7 +47,7 @@
     "add": "^2.0.6",
     "algoliasearch": "^4.12.1",
     "apollo-server": "^3.5.0",
-    "apollo-server-core": "^3.5.0",
+    "apollo-server-core": "^3.10.1",
     "apollo-server-lambda": "^3.5.0",
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",

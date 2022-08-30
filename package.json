@@ -120,7 +120,7 @@
     "pinst": ">=2",
     "pm2": "^5.1.2",
     "prettier": "^2.5.1",
-    "vite": "^2.7.1",
+    "vite": "^2.9.13",
     "why-is-node-running": "^2.2.1"
   },
   "importSort": {

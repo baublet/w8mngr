@@ -26,3 +26,4 @@ scripts/*.js
 scripts/*.js.map
 tmp
 .node-path
+!migrations/*

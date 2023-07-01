@@ -1,4 +1,3 @@
 import { createDataService } from "../createDataService";
-import { getQuery } from "./query";
 
-export const rootService = createDataService(getQuery, "Token");
+export const rootService = createDataService("W8MNGR_1", "token");

@@ -8,4 +8,4 @@ export const weightLogDataService = {
   saveMutation,
 };
 
-export { WeightLog } from "./types";
+export type { WeightLogEntity } from "./types";

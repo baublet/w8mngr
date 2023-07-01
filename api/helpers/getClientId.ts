@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request } from "@cloudflare/workers-types";
 import { ulid } from "ulid";
 
 /**
@@ -7,19 +7,12 @@ import { ulid } from "ulid";
  * with a particular machine per account so we can safely reuse and selectively
  * expire them.
  */
-export function getClientId(req: Request, res: Response): string {
-  const existingClientIdentifier: string | undefined =
-    req.cookies.w8mngrClientId;
+export function getClientId(request: Request): string {
+  const existingClientIdentifier = request.headers.get("w8mngr-client-id");
 
   if (existingClientIdentifier) {
     return existingClientIdentifier;
   }
 
-  const clientIdentifier = ulid();
-  res.cookie("w8mngrClientId", clientIdentifier, {
-    httpOnly: true,
-    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 10), // 10 year expiry for these
-  });
-
-  return clientIdentifier;
+  return ulid();
 }

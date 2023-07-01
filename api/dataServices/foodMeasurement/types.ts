@@ -1,11 +1,3 @@
-export type FoodMeasurement = {
-  id: string;
-  foodId: string;
-  userId: string;
-  measurement: string;
-  amount: number;
-  calories: number;
-  fat: number;
-  carbs: number;
-  protein: number;
-};
+import { InsertableDatabaseRecord, Database } from "../../config/db";
+
+export type FoodMeasurementEntity = InsertableDatabaseRecord<Database["foodMeasurement"]>;

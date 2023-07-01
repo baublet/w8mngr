@@ -1,6 +1,7 @@
-import { foodDataService, userDataService } from "../dataServices";
+import { foodDataService } from "../dataServices/food";
+import { userDataService } from "../dataServices/user";
 import { QueryResolvers } from "../generated";
-import { globalInMemoryCache } from "../helpers";
+import { globalInMemoryCache } from "../helpers/globalInMemoryCache";
 
 export const searchFoods: QueryResolvers["searchFoods"] = async (
   parent,
@@ -28,20 +29,10 @@ export const searchFoods: QueryResolvers["searchFoods"] = async (
       searchTerm,
     },
     fn: async () => {
-      const algoliaResults = await foodDataService.searchRecordsInAlgolia(
-        context,
-        {
-          searchTerm,
-          filters: userIds.map((userId) => `userId:${userId}`).join(" OR "),
-        }
-      );
-
-      if (algoliaResults.length) {
-        return algoliaResults;
-      }
-
       return foodDataService.findBy(context, (q) =>
-        q.whereIn("userId", userIds).andWhere("name", "like", `%${searchTerm}%`)
+        q
+          .where("userId", "in", userIds)
+          .where("name", "like", `%${searchTerm}%`)
       );
     },
   });

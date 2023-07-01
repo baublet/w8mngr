@@ -1,5 +1,5 @@
 import { log } from "../../config/log";
-import { userDataService } from "../../dataServices";
+import { userDataService } from "../../dataServices/user";
 import { MutationResolvers } from "../../generated";
 
 export const resetPassword: MutationResolvers["resetPassword"] = async (

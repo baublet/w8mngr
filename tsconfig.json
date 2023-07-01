@@ -7,16 +7,6 @@
     "lib": ["es2018", "dom"],
     "strict": true,
     "noImplicitAny": true,
-    "skipLibCheck": true,
-    "types": [
-      "./types/json-stringify-deterministic",
-      "./types/quagga",
-      "jest"
-    ]
-  },
-  "ts-node": {
-    "transpileOnly": true,
-    "transpiler": "ts-node/transpilers/swc-experimental",
-    "require": ["tsconfig-paths/register"]
+    "skipLibCheck": true
   }
 }

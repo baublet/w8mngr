@@ -1,5 +1,5 @@
 import { log } from "../../config/log";
-import { uploadDataService } from "../../dataServices";
+import { uploadDataService } from "../../dataServices/upload";
 import { UploadResolvers } from "../../generated";
 
 export const publicUrl: UploadResolvers["publicUrl"] = (

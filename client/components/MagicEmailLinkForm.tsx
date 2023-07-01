@@ -3,7 +3,8 @@ import React from "react";
 import { SecondaryButton } from "../components/Button/Secondary";
 import { Form, Input } from "../components/Forms";
 import { useRequestEmailLoginLinkMutation } from "../generated";
-import { useForm, useToast } from "../helpers";
+import { useForm } from "../helpers/useForm";
+import { useToast } from "../helpers/useToast";
 import { EmailIcon } from "./Icons/Email";
 import { PageHeading } from "./Type/PageHeading";
 

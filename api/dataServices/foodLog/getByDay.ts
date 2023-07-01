@@ -1,5 +1,5 @@
 import { Context } from "../../createContext";
-import { getQuery } from "./query";
+import { rootService } from "./rootService";
 import { FoodLogEntity } from "./types";
 
 export async function getByDay(
@@ -7,9 +7,7 @@ export async function getByDay(
   day: string
 ): Promise<FoodLogEntity[]> {
   const userId = context.getCurrentUserId(true);
-  const queryFactory = await getQuery(context);
-  return queryFactory()
-    .select("*")
-    .where("userId", "=", userId)
-    .andWhere("day", "=", day);
+  return rootService.findBy(context, (q) =>
+    q.where("userId", "=", userId).where("day", "=", day)
+  );
 }

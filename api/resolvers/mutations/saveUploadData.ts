@@ -1,6 +1,4 @@
-import { errors } from "api/helpers";
-
-import { uploadDataService } from "../../dataServices";
+import { uploadDataService } from "../../dataServices/upload";
 import { MutationResolvers } from "../../generated";
 
 export const saveUploadData: MutationResolvers["saveUploadData"] = async (
@@ -19,34 +17,38 @@ export const saveUploadData: MutationResolvers["saveUploadData"] = async (
       q.where("userId", "=", currentUserId);
 
       if (id) {
-        q.andWhere("id", "=", id);
+        q.where("id", "=", id);
       }
 
       if (publicId) {
-        q.andWhere("publicId", "=", publicId);
+        q.where("publicId", "=", publicId);
       }
+
+      return q;
     },
     {
       entityId: input.entityId,
       entityType: input.entityType,
       extension: input.extension,
-      updatedAt: new Date(),
+      updatedAt: Date.now(),
     }
   );
 
-  const upload = await uploadDataService.findOneOrFail(context, (q) => {
+  const upload = await uploadDataService.findOneOrFailBy(context, (q) => {
     const id = input.id;
     const publicId = input.publicId;
 
     q.where("userId", "=", currentUserId);
 
     if (id) {
-      q.andWhere("id", "=", id);
+      q.where("id", "=", id);
     }
 
     if (publicId) {
-      q.andWhere("publicId", "=", publicId);
+      q.where("publicId", "=", publicId);
     }
+
+    return q;
   });
 
   return {

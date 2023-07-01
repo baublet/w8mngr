@@ -11,14 +11,8 @@ export async function logout(
   const databaseService = await context.services.get(dbService);
   await databaseService.transact();
   try {
-    const authToken: string | undefined =
-      context.getRequest()?.cookies?.w8mngrAuth;
-    const rememberToken: string | undefined =
-      context.getRequest()?.cookies?.w8mngrRemember;
-    const tokensToExpire: string[] = filterFalsyKeys([
-      authToken,
-      rememberToken,
-    ]);
+    const { authToken, rememberToken } = context.getAuthTokens();
+    const tokensToExpire = filterFalsyKeys([authToken, rememberToken]);
 
     await tokenDataService.deleteByTokenDigests(context, tokensToExpire);
 

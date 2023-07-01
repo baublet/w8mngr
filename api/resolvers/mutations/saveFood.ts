@@ -1,7 +1,6 @@
-import { assertIsTruthy } from "../../../shared";
-import { foodDataService } from "../../dataServices";
+import { foodDataService } from "../../dataServices/food";
 import { MutationResolvers } from "../../generated";
-import { foodPermissionService } from "../../permissionsServices";
+import { foodPermissionService } from "../../permissionsServices/food";
 
 export const saveFood: MutationResolvers["saveFood"] = async (
   parent,

@@ -2,7 +2,7 @@ import { ServiceContainer } from "@baublet/service-container";
 
 import { log } from "../config/log";
 import { Context, contextService } from "../createContext";
-import { errors } from "../helpers";
+import { Unauthorized } from "../helpers/errors/Unauthorized";
 
 type PermissionFunction = (
   context: Context,
@@ -64,7 +64,7 @@ export function createPermissionService<
 
 export function requireAuth(context: Context) {
   if (!context.getCurrentUser()) {
-    throw new errors.Unauthorized(context);
+    throw new Unauthorized(context);
   }
   return true as const;
 }

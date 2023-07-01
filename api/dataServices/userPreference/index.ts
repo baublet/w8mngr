@@ -7,7 +7,7 @@ export const userPreferenceDataService = {
 };
 
 export {
-  UserPreferenceEntity,
   UserPreferenceValues,
   userPreferenceTypes,
+  UserPreferenceEntity,
 } from "./types";

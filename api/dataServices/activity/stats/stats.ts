@@ -1,12 +1,13 @@
 import dateDistance from "date-fns/formatDistance";
 
-import { dayStringFromDate, dayStringToDate } from "../../../../shared";
+import { dayStringFromDate } from "../../../../shared/dayStringFromDate";
+import { dayStringToDate } from "../../../../shared/dayStringToDate";
 import { Resolvable } from "../../../../shared/types";
 import { Context } from "../../../createContext";
 import { ActivityStats, ActivityType } from "../../../generated";
-import { numberToContextualUnit } from "../../../helpers";
-import { activityDataService } from "../";
-import { activityLogDataService } from "../..";
+import { numberToContextualUnit } from "../../../helpers/numberToContextualUnit";
+import { activityDataService } from "../../activity";
+import { activityLogDataService } from "../../activityLog";
 import { getVisualizationDataResolvers } from "./visualizationData";
 
 export async function stats(
@@ -19,9 +20,7 @@ export async function stats(
     activityId: string;
   }
 ): Promise<Resolvable<ActivityStats>> {
-  const activity = await activityDataService.findOneOrFail(context, (q) =>
-    q.where({ id: activityId })
-  );
+  const activity = await activityDataService.findOneOrFail(context, activityId);
 
   const now = new Date();
   const todayDateString = dayStringFromDate(now);
@@ -32,8 +31,8 @@ export async function stats(
       (q) =>
         q
           .where("activityId", "=", activityId)
-          .andWhere("userId", "=", userId)
-          .andWhere("day", "<", todayDateString)
+          .where("userId", "=", userId)
+          .where("day", "<", todayDateString)
           .orderBy("day", "desc")
           .limit(1)
     );
@@ -56,8 +55,8 @@ export async function stats(
         ? (activityLogDataService.findBy(context, (q) =>
             q
               .where("activityId", "=", activityId)
-              .andWhere("day", "=", lastLogDayString)
-              .andWhere("userId", "=", userId)
+              .where("day", "=", lastLogDayString)
+              .where("userId", "=", userId)
               .orderBy("createdAt", "asc")
           ) as any)
         : undefined,
@@ -69,7 +68,7 @@ export async function stats(
     const personalRecord = await activityLogDataService.findBy(context, (q) =>
       q
         .where("activityId", "=", activityId)
-        .andWhere("userId", "=", userId)
+        .where("userId", "=", userId)
         .orderBy(recordColumn, "desc")
         .orderBy("createdAt", "asc")
         .limit(1)

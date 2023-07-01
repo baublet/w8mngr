@@ -7,7 +7,7 @@ type LoadableComponentProps = {
   loadingComponent?: React.ComponentType<any>;
 };
 
-export function LoadableComponent<
+export function _LoadableComponent<
   T extends LoadableComponentProps,
   TKey extends ReturnType<T["load"]> extends Promise<infer TModule>
     ? keyof TModule
@@ -43,8 +43,12 @@ export function LoadableComponent<
       })
       .catch((reason) => {
         console.error(reason);
-        if(reason?.message.includes("Failed to fetch dynamically imported module")) {
-          console.log("New version of w8mngr detected! Reloading...")
+        if (
+          reason?.message.includes(
+            "Failed to fetch dynamically imported module"
+          )
+        ) {
+          console.log("New version of w8mngr detected! Reloading...");
           window.location.reload();
         }
       });
@@ -66,7 +70,7 @@ type LoadableRouteProps = LoadableComponentProps & {
   exact?: boolean;
 };
 
-export function getLoadableComponentFor<
+export function LoadableComponent<
   T extends LoadableRouteProps,
   TKey extends ReturnType<T["load"]> extends Promise<infer TModule>
     ? keyof TModule
@@ -79,15 +83,11 @@ export function getLoadableComponentFor<
   component?: TKey;
   props?: T[TKey] extends (props: infer TProps) => any ? TProps : never;
 }) {
-  const Component = React.useCallback(
-    () => (
-      <LoadableComponent
-        load={load}
-        component={component as any}
-        props={props as any}
-      />
-    ),
-    []
+  return (
+    <_LoadableComponent
+      load={load}
+      component={component as any}
+      props={props as any}
+    />
   );
-  return Component;
 }

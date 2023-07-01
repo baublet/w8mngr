@@ -1,8 +1,7 @@
-import { createDataService } from "../createDataService";
-import { getQuery } from "./query";
+import { rootService } from "./rootService";
 
 export const foodLogFoodDataService = {
-  ...createDataService(getQuery, "FoodLogFood"),
+  ...rootService,
 };
 
-export { FoodLogFood } from "./types";
+export { FoodLogFoodEntity } from "./types";

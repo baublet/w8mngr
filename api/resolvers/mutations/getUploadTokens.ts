@@ -1,5 +1,5 @@
 import { log } from "../../config/log";
-import { uploadTokenDataService } from "../../dataServices";
+import { uploadTokenDataService } from "../../dataServices/uploadToken";
 import { MutationResolvers } from "../../generated";
 
 export const getUploadTokens: MutationResolvers["getUploadTokens"] = async (

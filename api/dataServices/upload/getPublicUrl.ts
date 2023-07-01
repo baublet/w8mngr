@@ -1,5 +1,4 @@
-import crypto from "crypto";
-
+import { createSha1Digest } from "../../authentication/createDigest";
 import { config } from "../../config/config";
 import { Context } from "../../createContext";
 import { UploadUrlType } from "../../generated";
@@ -29,11 +28,12 @@ export async function getPublicUrl(
   }
 
   const currentUserId = context.getCurrentUserId();
-  const upload = await rootService.findOneOrFail(context, (q) => {
+  const upload = await rootService.findOneOrFailBy(context, (q) => {
     q.where("id", "=", uploadId);
     if (currentUserId) {
-      q.andWhere("userId", "=", currentUserId);
+      q.where("userId", "=", currentUserId);
     }
+    return q;
   });
   const publicId = upload.publicId;
   const transformationsUrlPart =
@@ -41,9 +41,9 @@ export async function getPublicUrl(
   const extension = upload.extension || "jpg";
   const fileName = `${publicId}.${extension}`;
   const toSign = [transformationsUrlPart, fileName].join("/");
-  const shasum = crypto.createHash("sha1");
-  shasum.update(toSign + config.get("CLOUDINARY_API_SECRET"));
-  const signedSignature = shasum.digest("hex");
+  const signedSignature = await createSha1Digest(
+    toSign + config.get("CLOUDINARY_API_SECRET")
+  );
 
   const signature =
     "s--" + Buffer.from(signedSignature).toString("base64").substr(0, 8) + "--";

@@ -1,6 +1,6 @@
-import { getWithDefault } from "../../../shared";
-import { activityDataService } from "../../dataServices";
-import { userDataService } from "../../dataServices";
+import { getWithDefault } from "../../../shared/getWithDefault";
+import { activityDataService } from "../../dataServices/activity";
+import { userDataService } from "../../dataServices/user";
 import { UserResolvers } from "../../generated";
 
 export const activities: UserResolvers["activities"] = async (
@@ -13,13 +13,15 @@ export const activities: UserResolvers["activities"] = async (
   const adminUsers = await userDataService.getAdminUsers(context);
   const connectionResolver = await activityDataService.getConnection(context, {
     applyCustomConstraint: (query) => {
-      query.whereIn("userId", [currentUserId, ...adminUsers.map((u) => u.id)]);
+      query = query.where("userId", "in", [
+        currentUserId,
+        ...adminUsers.map((u) => u.id),
+      ]);
       const searchString = input?.filter?.searchString;
       if (searchString) {
-        query.andWhereRaw("UPPER(name) LIKE ?", [
-          "%" + searchString.toUpperCase() + "%",
-        ]);
+        query = query.where("name", "ilike", searchString);
       }
+      return query;
     },
     constraint: {
       id: filters.id,

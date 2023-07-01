@@ -1,13 +1,3 @@
-import { UploadEntityType } from "../../generated";
+import { InsertableDatabaseRecord, Database } from "../../config/db";
 
-export type Upload = {
-  id: string;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date;
-  name: string;
-  publicId: string;
-  entityType?: UploadEntityType;
-  entityId?: string;
-  extension?: string;
-};
+export type UploadEntity = InsertableDatabaseRecord<Database["upload"]>;

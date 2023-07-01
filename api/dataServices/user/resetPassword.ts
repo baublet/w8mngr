@@ -1,7 +1,7 @@
 import { assertIsError } from "../../../shared";
 import { ReturnTypeWithErrors } from "../../../shared/types";
-import { createDigest, hashPassword } from "../../authentication";
-import { dbService } from "../../config/db";
+import { createDigest } from "../../authentication/createDigest";
+import { hashPassword } from "../../authentication/hashPassword";
 import { Context } from "../../createContext";
 import { tokenDataService } from "../token";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
@@ -27,20 +27,17 @@ export async function resetPassword(
     throw new Error("Passwords don't match");
   }
 
-  const tokenDigest = createDigest(credentials.passwordResetToken);
-  const token = await tokenDataService.findOneOrFail(context, (q) =>
-    q
-      .where("tokenDigest", "=", tokenDigest)
-      .andWhere("type", "=", "passwordReset")
+  const tokenDigest = await createDigest(credentials.passwordResetToken);
+  const token = await tokenDataService.findOneOrFailBy(context, (q) =>
+    q.where("tokenDigest", "=", tokenDigest).where("type", "=", "passwordReset")
   );
 
-  const databaseService = await context.services.get(dbService);
-  await databaseService.transact();
   try {
     const passwordHash = await hashPassword(credentials.password);
 
-    const account = await userAccountDataService.findOneOrFail(context, (q) =>
-      q.where("id", "=", token.userAccountId)
+    const account = await userAccountDataService.findOneOrFail(
+      context,
+      token.userAccountId
     );
 
     await userAccountDataService.update(
@@ -49,13 +46,9 @@ export async function resetPassword(
       { passwordHash }
     );
 
-    const user = await userDataService.findOneOrFail(context, (q) =>
-      q.where("id", "=", account.userId)
-    );
+    const user = await userDataService.findOneOrFail(context, account.userId);
 
-    await tokenDataService.deleteBy(context, (q) =>
-      q.where("id", "=", token.id)
-    );
+    await tokenDataService.deleteByIds(context, [token.id]);
 
     const authTokenResult = await tokenDataService.getOrCreate(context, {
       type: "auth",
@@ -66,8 +59,6 @@ export async function resetPassword(
       type: "remember",
       userAccountId: account.id,
     });
-
-    await databaseService.commit();
 
     context.setCookie("w8mngrAuth", authTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
@@ -82,7 +73,6 @@ export async function resetPassword(
       rememberToken: rememberTokenResult.token,
     };
   } catch (error) {
-    await databaseService.rollback(error);
     assertIsError(error);
     return error;
   }

@@ -1,4 +1,4 @@
-import { activityDataService } from "../../dataServices";
+import { activityDataService } from "../../dataServices/activity";
 import { UserResolvers } from "../../generated";
 
 export const userPopularActivities: UserResolvers["popularActivities"] = (

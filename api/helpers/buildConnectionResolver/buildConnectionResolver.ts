@@ -1,6 +1,6 @@
 import { assertIsError } from "../../../shared";
 import { Resolvable } from "../../../shared/types";
-import { QueryBuilder } from "../../config/db";
+import { SelectQueryBuilder } from "../../config/db";
 import { log } from "../../config/log";
 import { isBefore } from "./isBefore";
 import { validateArguments } from "./validateArguments";
@@ -33,8 +33,15 @@ function defaultEntityTransformer(entity: any) {
   return entity;
 }
 
-export async function buildConnectionResolver<TEntity, TNode = TEntity>(
-  query: QueryBuilder,
+export async function buildConnectionResolver<
+  TEntity extends {
+    [x: string]: any;
+  },
+  TNode extends {
+    [x: string]: any;
+  } = TEntity
+>(
+  query: SelectQueryBuilder<any>,
   args: {
     before?: string | null;
     last?: number | null;
@@ -60,14 +67,10 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
       idProp = "id",
     } = args;
     const isBeforeQuery = isBefore(args);
-    const totalCountQuery = query.clone().clearSelect().count("id AS count");
-    const resultSetQuery = query.clone();
-    const firstResultQuery = query
-      .clone()
-      .clearSelect()
-      .select(idProp)
-      .limit(1);
-    const lastResultQuery = query.clone().clearSelect().select(idProp).limit(1);
+    const totalCountQuery = query.select((db) => db.fn.countAll().as("count"));
+    let resultSetQuery = query.selectAll();
+    let firstResultQuery = query.select(idProp).limit(1);
+    let lastResultQuery = query.clearSelect().select(idProp).limit(1);
 
     let cursor: Cursor | undefined;
 
@@ -84,13 +87,13 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
         cursor.cursorData
       )) {
         if (isBeforeQuery) {
-          resultSetQuery.where(
+          resultSetQuery = resultSetQuery.where(
             column,
             sortDirection === "desc" ? ">" : "<",
             value
           );
         } else {
-          resultSetQuery.where(
+          resultSetQuery = resultSetQuery.where(
             column,
             sortDirection === "desc" ? "<" : ">",
             value
@@ -101,29 +104,36 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
 
     for (const [key, direction] of Object.entries(sort)) {
       if (isBeforeQuery) {
-        resultSetQuery.orderBy(key, flipDirection(direction));
-        firstResultQuery.orderBy(key, flipDirection(direction));
-        lastResultQuery.orderBy(key, direction);
+        resultSetQuery = resultSetQuery.orderBy(key, flipDirection(direction));
+        firstResultQuery = firstResultQuery.orderBy(
+          key,
+          flipDirection(direction)
+        );
+        lastResultQuery = lastResultQuery.orderBy(key, direction);
       } else {
-        resultSetQuery.orderBy(key, direction);
-        firstResultQuery.orderBy(key, direction);
-        lastResultQuery.orderBy(key, flipDirection(direction));
+        resultSetQuery = resultSetQuery.orderBy(key, direction);
+        firstResultQuery = firstResultQuery.orderBy(key, direction);
+        lastResultQuery = lastResultQuery.orderBy(
+          key,
+          flipDirection(direction)
+        );
       }
     }
 
     if (isBeforeQuery && last) {
-      resultSetQuery.limit(last);
+      resultSetQuery = resultSetQuery.limit(last);
     }
     if (!isBeforeQuery && first) {
-      resultSetQuery.limit(first);
+      resultSetQuery = resultSetQuery.limit(first);
     }
 
     let totalCount: Promise<number>;
     const totalCountFn = () => {
       if (!totalCount) {
         totalCount = new Promise<number>(async (resolve) => {
-          const count = await totalCountQuery;
-          resolve(orZero(count[0].count));
+          const result = await totalCountQuery.executeTakeFirst();
+          const count = orZero(result?.count);
+          resolve(count);
         });
       }
       return totalCount;
@@ -152,17 +162,17 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
             node: TNode;
           }[] = [];
 
-          const results = await resultSetQuery;
+          const results = await resultSetQuery.execute();
           for (const result of results) {
             const edge = {
               cursor: serializeCursor(result, idProp, sort),
               entity: result,
-              node: await nodeTransformer(result),
+              node: await nodeTransformer(result as any),
             };
             if (isBeforeQuery) {
-              edges.unshift(edge);
+              edges.unshift(edge as any);
             } else {
-              edges.push(edge);
+              edges.push(edge as any);
             }
           }
 
@@ -195,10 +205,9 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
 
           // Get the last ID of the full result set and compare it to the first
           // result of subset. If they don't match, there's more before this!
-          const lastResults = isBeforeQuery
-            ? await firstResultQuery
-            : await lastResultQuery;
-          const lastResult = lastResults[0];
+          const lastResult = isBeforeQuery
+            ? await firstResultQuery.executeTakeFirst()
+            : await lastResultQuery.executeTakeFirst();
 
           if (!lastResult) {
             return resolve(false);
@@ -230,10 +239,9 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
 
           // Get the first ID of the full result set and compare it to the first
           // result of subset. If they don't match, there's more before this!
-          const firstResults = isBeforeQuery
-            ? await lastResultQuery
-            : await firstResultQuery;
-          const firstResult = firstResults[0];
+          const firstResult = isBeforeQuery
+            ? await lastResultQuery.executeTakeFirst()
+            : await firstResultQuery.executeTakeFirst();
 
           if (!firstResult) {
             return resolve(false);
@@ -257,7 +265,7 @@ export async function buildConnectionResolver<TEntity, TNode = TEntity>(
         hasPreviousPage: hasPreviousPageFn,
       },
       edges: edgesFn,
-      _resultsQueryText: resultSetQuery.toQuery(),
+      _resultsQueryText: resultSetQuery.compile().sql,
     };
   } catch (error) {
     assertIsError(error);

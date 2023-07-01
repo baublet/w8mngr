@@ -1,7 +1,6 @@
-import React from "react";
+import { useSearchParams } from "react-router-dom";
 
-export function useUrlQueryParameters() {
-  const fullUrl = window.location.origin + window.location.search;
-  const urlParams = React.useMemo(() => new URL(fullUrl), [fullUrl]);
-  return (paramName: string) => urlParams.searchParams.get(paramName);
+export function useUrlQueryParameters(): (paramName: string) => string | null {
+  const [searchParams] = useSearchParams();
+  return (paramName: string) => searchParams.get(paramName);
 }

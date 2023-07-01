@@ -1,6 +1,3 @@
-export type FoodLogFood = {
-  id: string;
-  foodId: string;
-  userId: string;
-  day: string;
-};
+import { InsertableDatabaseRecord, Database } from "../../config/db";
+
+export type FoodLogFoodEntity = InsertableDatabaseRecord<Database["foodLogFood"]>;

@@ -1,6 +1,6 @@
 import { Context } from "../createContext";
-import { activityDataService } from "../dataServices";
-import { errors } from "../helpers";
+import { activityDataService } from "../dataServices/activity";
+import { Unauthorized } from "../helpers/errors/Unauthorized";
 import { createPermissionService } from "./createPermissionService";
 
 export const activityObjectPermissionService = createPermissionService({
@@ -12,11 +12,9 @@ async function contextUserIsOwner(
   context: Context,
   activityId: string
 ): Promise<true | Error> {
-  const found = await activityDataService.findOneOrFail(context, (q) =>
-    q.where("id", "=", activityId)
-  );
+  const found = await activityDataService.findOneOrFail(context, activityId);
   if (found.userId !== context.getCurrentUserId()) {
-    return new errors.Unauthorized(context);
+    return new Unauthorized(context);
   }
   return true;
 }

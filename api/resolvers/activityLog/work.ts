@@ -1,6 +1,6 @@
-import { activityDataService } from "../../dataServices";
+import { activityDataService } from "../../dataServices/activity";
 import { ActivityLogResolvers } from "../../generated";
-import { numberToContextualUnit } from "../../helpers";
+import { numberToContextualUnit } from "../../helpers/numberToContextualUnit";
 
 export const activityLogWork: ActivityLogResolvers["work"] = async (
   parent,
@@ -15,8 +15,9 @@ export const activityLogWork: ActivityLogResolvers["work"] = async (
 
   const requestedWorkUnit = args.unit;
 
-  const activity = await activityDataService.findOneOrFail(context, (q) =>
-    q.where("id", "=", parent.activityId)
+  const activity = await activityDataService.findOneOrFail(
+    context,
+    parent.activityId
   );
 
   return numberToContextualUnit(context, {

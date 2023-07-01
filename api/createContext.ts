@@ -2,14 +2,9 @@ import {
   ServiceContainer,
   createServiceContainer,
 } from "@baublet/service-container";
-import { ContextFunction } from "apollo-server-core";
-import { Request, Response } from "express";
 
-import { authenticateRequest } from "./authentication/authenticateRequest";
-import { log } from "./config/log";
-import { UserAccountEntity } from "./dataServices";
-import { UserEntity } from "./dataServices/user";
-import { getClientId } from "./helpers";
+import type { UserAccountEntity } from "./dataServices/userAccount";
+import type { UserEntity } from "./dataServices/user";
 
 export interface Context {
   destroy: () => Promise<void>;
@@ -39,42 +34,47 @@ export interface Context {
     }
   ) => void;
   getCookies: () => Map<string, { value: string | undefined; options: any }>;
-  getResponse: () => Response | undefined;
-  setResponse: (response: Response) => void;
-  getRequest: () => Request | undefined;
-  setRequest: (request: Request) => void;
   toString: () => string;
   toJSON: () => any;
+  setAuthTokens: (authToken?: string, rememberToken?: string) => void;
+  getAuthTokens: () => { authToken?: string; rememberToken?: string };
 }
 
-export function createContext(
-  {
-    clientId,
-    currentUser,
-    services = createServiceContainer(),
-    currentUserAccount,
-  }: Partial<Context> & {
-    clientId: string;
-    currentUser?: UserEntity;
-    currentUserAccount?: UserAccountEntity;
-  } = {
-    clientId: "no-client-hash-set",
-  }
-): Context {
+export function createContext({
+  clientId,
+  currentUser,
+  services = createServiceContainer(),
+  currentUserAccount,
+}: Partial<Context> & {
+  clientId: string;
+  currentUser?: UserEntity;
+  currentUserAccount?: UserAccountEntity;
+}): Context {
   const cookiesToSet = new Map<
     string,
     { value: string | undefined; options: any }
   >();
-  let contextResponse: Response;
-  let contextRequest: Request;
-
   let currentUserRecord: UserEntity | undefined = Object.assign(
     {},
     currentUser
   );
   let userAccount = currentUserAccount;
+  let authTokens: {
+    authToken?: string;
+    rememberToken?: string;
+  } = {
+    authToken: undefined,
+    rememberToken: undefined,
+  };
 
   const context: Context = {
+    getAuthTokens: () => authTokens,
+    setAuthTokens: (authToken?: string, rememberToken?: string) => {
+      authTokens = {
+        authToken,
+        rememberToken,
+      };
+    },
     destroy: async () => {
       const serviceArray = services.getAll();
       await Promise.all(
@@ -109,8 +109,6 @@ export function createContext(
       (userAccount = newUserAccount),
     getClientId: () => clientId,
     getCookies: () => cookiesToSet,
-    getRequest: () => contextRequest,
-    getResponse: () => contextResponse,
     getCurrentUser: <T extends boolean | undefined>(orThrow?: T) => {
       const currentUser = currentUserRecord;
       if (!currentUser && orThrow) {
@@ -132,8 +130,6 @@ export function createContext(
     services,
     setCookie: (key, value, options) =>
       cookiesToSet.set(key, { value, options }),
-    setRequest: (request) => (contextRequest = request),
-    setResponse: (response) => (contextResponse = response),
     toJSON: () => ({ clientId }),
     toString: () => clientId,
   };
@@ -142,40 +138,6 @@ export function createContext(
 
   return context;
 }
-
-export const createGraphqlContext: ContextFunction<
-  {
-    req: Request;
-    res: Response;
-  },
-  Context
-> = async ({ req, res }) => {
-  const token = req.cookies?.w8mngr;
-  const clientId = getClientId(req, res);
-
-  const context = createContext({
-    clientId,
-  });
-
-  context.setResponse(res);
-  context.setRequest(req);
-
-  log("debug", "New request", {
-    token,
-    clientId,
-    cookies: req.cookies,
-    headers: req.headers,
-  });
-
-  const authenticationResult = await authenticateRequest(req, context);
-
-  if (authenticationResult) {
-    context.setCurrentUser(authenticationResult.user);
-    context.setCurrentUserAccount(authenticationResult.userAccount);
-  }
-
-  return context;
-};
 
 export function contextService(serviceContainer: ServiceContainer): Context {
   if (serviceContainer.has(contextService)) {

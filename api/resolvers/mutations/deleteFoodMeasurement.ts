@@ -1,8 +1,5 @@
-import { assertIsTruthy } from "../../../shared";
-import {
-  foodDataService,
-  foodMeasurementDataService,
-} from "../../dataServices";
+import { foodDataService } from "../../dataServices/food";
+import { foodMeasurementDataService } from "../../dataServices/foodMeasurement";
 import { MutationResolvers } from "../../generated";
 
 export const deleteFoodMeasurement: Required<MutationResolvers>["deleteFoodMeasurement"] =
@@ -18,8 +15,6 @@ export const deleteFoodMeasurement: Required<MutationResolvers>["deleteFoodMeasu
     );
 
     return {
-      food: foodDataService.findOneOrFail(context, (q) =>
-        q.where("id", "=", foodId)
-      ),
+      food: foodDataService.findOneOrFail(context, foodId),
     };
   };

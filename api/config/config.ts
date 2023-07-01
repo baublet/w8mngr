@@ -33,8 +33,6 @@ function createConfig<TConfig extends Record<string, ConfigOption>>(
 }
 
 export const config = createConfig({
-  ALGOLIA_APPLICATION_ID: "",
-  ALGOLIA_ADMIN_API_KEY: "",
   CLOUDINARY_API_KEY: "",
   CLOUDINARY_API_SECRET: "",
   CLOUDINARY_URL: "https://api.cloudinary.com/v1_1/baublet/auto/upload",
@@ -49,7 +47,6 @@ export const config = createConfig({
   NODE_ENV: "production",
   PUBLIC_URL: otherEnvValuesOrDefault(["URL"], "http://localhost:8080"),
   SALT: "Don't use the default, please!",
-  SUPPRESS_ALGOLIA: "true",
   SUPPRESS_CONSOLE_LOGGING: "true",
   SUPPRESS_EMAILS: "true",
 });

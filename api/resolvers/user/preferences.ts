@@ -1,4 +1,4 @@
-import { userPreferenceDataService } from "../../dataServices";
+import { userPreferenceDataService } from "../../dataServices/userPreference";
 import { UserResolvers } from "../../generated";
 
 export const usePreferences: UserResolvers["preferences"] = (

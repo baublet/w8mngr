@@ -1,0 +1,10 @@
+name = "w8mngr-graphql"
+main = "api/graphql.ts"
+compatibility_date = "2023-06-22"
+node_compat = true
+
+[[ d1_databases ]]
+binding = "W8MNGR_1"
+database_name = "w8mngr_1"
+database_id = "54ab163b-1931-4aac-937e-8697837b433e"
+preview_database_id = "54ab163b-1931-4aac-937e-8697837b433e"

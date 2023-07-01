@@ -1,5 +1,5 @@
 import { dayStringFromDate } from "../../../shared";
-import { activityLogDataService } from "../../dataServices";
+import { activityLogDataService } from "../../dataServices/activityLog";
 import { ActivityResolvers } from "../../generated";
 
 export const activityLogs: ActivityResolvers["logs"] = (

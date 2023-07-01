@@ -1,4 +1,4 @@
-import { activityMuscleDataService } from "../../dataServices";
+import { activityMuscleDataService } from "../../dataServices/activityMuscle";
 import { ActivityResolvers } from "../../generated";
 
 export const activityMuscleGroups: ActivityResolvers["muscleGroups"] = async (

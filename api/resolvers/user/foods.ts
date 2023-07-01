@@ -1,5 +1,6 @@
 import { getWithDefault } from "../../../shared";
-import { foodDataService, userDataService } from "../../dataServices";
+import { foodDataService } from "../../dataServices/food";
+import { userDataService } from "../../dataServices/user";
 import { UserResolvers } from "../../generated";
 
 export const foods: UserResolvers["foods"] = async (

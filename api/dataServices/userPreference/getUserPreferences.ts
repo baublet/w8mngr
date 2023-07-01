@@ -1,15 +1,11 @@
 import format from "date-fns/format";
 
-import { stringToNumberOr } from "../../../shared";
+import { assertIsTruthy, stringToNumberOr } from "../../../shared";
 import { log } from "../../config/log";
+import { Database } from "../../config/db";
 import { Context } from "../../createContext";
-import { UserPreference } from "../../generated";
 import { rootService } from "./rootService";
-import {
-  UserPreferenceEntity,
-  UserPreferenceValues,
-  userPreferenceTypes,
-} from "./types";
+import { UserPreferenceValues, userPreferenceTypes } from "./types";
 
 const defaultValues: UserPreferenceValues = {
   BIRTHDAY: null,
@@ -50,23 +46,31 @@ const preferenceSerializers: Record<
 export async function getUserPreferences(
   context: Context,
   { userId }: { userId: string }
-): Promise<UserPreference[]> {
+) {
   const preferences = await rootService.findBy(context, (q) =>
     q.where("userId", "=", userId)
   );
-  const values: UserPreference[] = await Promise.all(
+  const values = await Promise.all(
     userPreferenceTypes.map(async (type) => {
       let entity = preferences.find((p) => p.preference === type);
       if (!entity) {
-        entity = await rootService.create(context, {
-          preference: type,
-          userId,
-          value: JSON.stringify(defaultValues[type]),
-        });
+        const created = await rootService.create(context, [
+          {
+            preference: type,
+            userId,
+            value: JSON.stringify(defaultValues[type]),
+          },
+        ]);
+        entity = created[0];
       }
 
-      const value = getPreferenceOrDefault({
+      assertIsTruthy(
         entity,
+        "User preference entity not found and could not be created."
+      );
+
+      const value = getPreferenceOrDefault({
+        entity: entity as any,
         defaultValue: defaultValues[type],
         serializer: preferenceSerializers[type],
       });
@@ -87,7 +91,7 @@ function getPreferenceOrDefault<T>({
   defaultValue,
   serializer,
 }: {
-  entity: UserPreferenceEntity;
+  entity: Database["userPreference"];
   defaultValue: T;
   serializer: (value: string) => any;
 }): T {

@@ -6,13 +6,13 @@ import {
   weightedClamp,
 } from "../../../shared";
 import {
-  Activity,
   ActivityLog,
-  activityDataService,
   activityLogDataService,
-} from "../../dataServices";
+} from "../../dataServices/activityLog";
+import { Activity, activityDataService } from "../../dataServices/activity";
 import { UserResolvers } from "../../generated";
-import { getDateRangeWithDefault, globalInMemoryCache } from "../../helpers";
+import { globalInMemoryCache } from "../../helpers/globalInMemoryCache";
+import { getDateRangeWithDefault } from "../../helpers/getDateRangeWithDefault";
 
 export const userActivitySummary: UserResolvers["activitySummary"] = async (
   parent,

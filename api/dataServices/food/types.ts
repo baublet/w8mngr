@@ -1,12 +1,3 @@
-export type FoodEntity = {
-  id: string;
-  archived: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  userId: string;
-  name: string;
-  description?: string;
-  imageUploadId?: string;
-  legacyId?: number;
-  ndbno?: string;
-};
+import { InsertableDatabaseRecord, Database } from "../../config/db";
+
+export type FoodEntity = InsertableDatabaseRecord<Database["food"]>;

@@ -1,11 +1,7 @@
-import knex from "knex";
-
 import { Context } from "../../createContext";
-import { getQuery as getActivityLogQuery } from "../activityLog/query";
-import { getQuery } from "./query";
-import { Activity } from "./types";
+import { ActivityEntity } from "./types";
 
-export async function popular(context: Context): Promise<Activity[]> {
+export async function popular(context: Context): Promise<ActivityEntity[]> {
   const userId = context.getCurrentUserId(true);
   const activityLogQueryFactory = await getActivityLogQuery(context);
   const popularQuery = activityLogQueryFactory();

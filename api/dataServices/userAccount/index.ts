@@ -1,13 +1,11 @@
 import { create } from "./create";
 import { accountExists } from "./accountExists";
-
-import { getQuery } from "./query";
-import { createDataService } from "../createDataService";
+import { rootService } from "./rootService";
 
 export const userAccountDataService = {
-  ...createDataService(getQuery, "UserAccount"),
+  ...rootService,
   accountExists,
   create,
 };
 
-export { UserAccountEntity } from "./types";
+export type { UserAccountEntity } from "./types";

@@ -5,7 +5,8 @@ import subYears from "date-fns/subYears";
 import { dayStringFromDate, dayStringToDate } from "../../../shared";
 import { Context } from "../../createContext";
 import { WeightLogSummary, WeightLogSummaryInput } from "../../generated";
-import { numberToStringUnit, settingsService } from "../../helpers";
+import { numberToStringUnit } from "../../helpers/numberToStringUnit";
+import { settingsService } from "../../helpers/settingsService";
 import { rootService } from "./rootService";
 
 export async function getVisualizationData(
@@ -46,12 +47,10 @@ export async function getVisualizationData(
   });
 
   const entries = await rootService.findBy(context, (q) =>
-    q.where((q) =>
-      q
-        .where("userId", "=", userId)
-        .andWhere("day", ">=", from)
-        .andWhere("day", "<=", to)
-    )
+    q
+      .where("userId", "=", userId)
+      .where("day", ">=", from)
+      .where("day", "<=", to)
   );
 
   if (entries.length === 0) {

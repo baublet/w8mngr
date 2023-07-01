@@ -1,4 +1,4 @@
-import { uploadDataService } from "../../dataServices";
+import { uploadDataService } from "../../dataServices/upload";
 import { FoodResolvers } from "../../generated";
 
 export const foodImage: FoodResolvers["image"] = (
@@ -11,9 +11,7 @@ export const foodImage: FoodResolvers["image"] = (
     return Promise.resolve(undefined);
   }
   try {
-    return uploadDataService.findOneOrFail(context, (q) =>
-      q.where("id", "=", imageUploadId)
-    );
+    return uploadDataService.findOneOrFail(context, imageUploadId);
   } catch (e) {
     return Promise.resolve(undefined);
   }

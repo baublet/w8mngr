@@ -1,16 +1,10 @@
-import { flattenArray } from "../../../../shared";
+import { flattenArray } from "../../../../shared/flattenArray";
 import { Context } from "../../../createContext";
-import {
-  ActivityType,
-  ActivityVisualizationInput,
-} from "../../../generated";
-import {
-  getDateRangeWithDefault,
-  globalInMemoryCache,
-  numberToContextualUnit,
-} from "../../../helpers";
-import { getQuery } from "../../activityLog/query";
-import { ActivityLog } from "../../activityLog/types";
+import { ActivityType, ActivityVisualizationInput } from "../../../generated";
+import { getDateRangeWithDefault } from "../../../helpers/getDateRangeWithDefault";
+import { globalInMemoryCache } from "../../../helpers/globalInMemoryCache";
+import { numberToContextualUnit } from "../../../helpers/numberToContextualUnit";
+import { ActivityLogEntity } from "../../activityLog/types";
 
 export function getVisualizationDataResolvers({
   activityId,
@@ -108,14 +102,14 @@ function getSetHandlerByDay({
   key: string;
   context: Context;
   accumulator?: (
-    log: Pick<ActivityLog, "day" | "reps" | "work">[]
+    log: Pick<ActivityLogEntity, "day" | "reps" | "work">[]
   ) => any | any[];
   activityId: string;
   userId: string;
 }): (
   parent: unknown,
   args: any
-) => Promise<Pick<ActivityLog, "work" | "reps" | "day">[]> {
+) => Promise<Pick<ActivityLogEntity, "work" | "reps" | "day">[]> {
   return async (
     parent: unknown,
     args: { input?: ActivityVisualizationInput } = {}
@@ -132,7 +126,7 @@ function getSetHandlerByDay({
         const query = queryFactory();
         const results = await query
           .select("day", "work", "reps")
-          .whereIn("day", (query) =>
+          .where("day", "in", (query) =>
             query
               .distinct("day")
               .where("activityId", "=", activityId)
@@ -156,7 +150,7 @@ function getSetHandlerByDay({
           }
           acc[log.day].push(log);
           return acc;
-        }, {} as Record<string, Pick<ActivityLog, "work" | "reps" | "day">[]>);
+        }, {} as Record<string, Pick<ActivityLogEntity, "work" | "reps" | "day">[]>);
 
         // Transform the logs by day
         return flattenArray(

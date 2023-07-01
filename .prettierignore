@@ -1,6 +1,0 @@
-*.js
-*.cjs
-generated.ts
-graphql-types.ts
-migrations/*
-tailwind.css

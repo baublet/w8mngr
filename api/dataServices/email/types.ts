@@ -1,14 +1,3 @@
-import { EmailTemplateKey } from "./templates";
+import { InsertableDatabaseRecord, Database } from "../../config/db";
 
-export type EmailEntity = {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  sent: boolean;
-  toEmail: string;
-  toUserId?: string;
-  templateId: EmailTemplateKey;
-  payload: string;
-  history: string;
-  idempotenceKey: string;
-};
+export type EmailEntity = InsertableDatabaseRecord<Database["email"]>;

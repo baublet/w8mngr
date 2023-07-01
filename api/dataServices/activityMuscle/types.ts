@@ -1,7 +1,3 @@
-import { Muscle } from "../../generated";
+import { InsertableDatabaseRecord, Database } from "../../config/db";
 
-export type ActivityMuscle = {
-  id: string;
-  activityId: string;
-  muscle: Muscle;
-};
+export type ActivityMuscleEntity = InsertableDatabaseRecord<Database["food"]>;

@@ -1,10 +1,3 @@
-export interface UserAccountEntity {
-  id: string;
-  userId: string;
-  source: "github" | "local";
-  sourceIdentifier: string;
-  passwordHash?: string;
-  verified: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { InsertableDatabaseRecord, Database } from "../../config/db";
+
+export type UserAccountEntity = InsertableDatabaseRecord<Database["userAccount"]>;

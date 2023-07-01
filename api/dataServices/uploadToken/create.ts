@@ -21,8 +21,6 @@ export async function create({
   const CLOUDINARY_URL = config.get("CLOUDINARY_URL");
   const userId = context.getCurrentUserId();
   assertIsTruthy(userId);
-  const db = await context.services.get(dbService);
-  await db.transact();
   try {
     if (!CLOUDINARY_API_KEY) {
       throw new Error(`No CLOUDINARY_API_KEY in environment variables...`);
@@ -48,10 +46,14 @@ export async function create({
           shasum.update(signature);
           const signedSignature = shasum.digest("hex");
 
-          const upload = await uploadDataService.create(context, {
-            publicId: `${folder}/${publicId}`,
-            userId,
-          });
+          const results = await uploadDataService.create(context, [
+            {
+              publicId: `${folder}/${publicId}`,
+              userId,
+            },
+          ]);
+          const upload = results[0];
+          assertIsTruthy(upload, "Expected upload create to return a record");
 
           tokens.push({
             uploadId: upload.id,
@@ -69,11 +71,8 @@ export async function create({
     }
 
     await Promise.all(promises);
-
-    await db.commit();
     return tokens;
   } catch (error) {
-    await db.rollback(error);
     assertIsError(error);
     return error;
   }

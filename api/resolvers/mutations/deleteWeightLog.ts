@@ -1,4 +1,4 @@
-import { weightLogDataService } from "../../dataServices";
+import { weightLogDataService } from "../../dataServices/weightLog";
 import { MutationResolvers } from "../../generated";
 
 export const deleteWeightLog: MutationResolvers["deleteWeightLog"] = async (
@@ -6,10 +6,10 @@ export const deleteWeightLog: MutationResolvers["deleteWeightLog"] = async (
   { input },
   context
 ) => {
-  const log = await weightLogDataService.findOneOrFail(context, (q) =>
+  const log = await weightLogDataService.findOneOrFailBy(context, (q) =>
     q
       .where("id", "=", input.id)
-      .andWhere("userId", "=", context.getCurrentUserId(true))
+      .where("userId", "=", context.getCurrentUserId(true))
   );
   await weightLogDataService.deleteByIds(context, [log.id]);
 

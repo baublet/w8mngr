@@ -1,8 +1,7 @@
-import { createDataService } from "../createDataService";
-import { getQuery } from "./query";
+import { rootService } from "./rootService";
 
 export const activityMuscleDataService = {
-  ...createDataService(getQuery, "ActivityMuscle"),
+  ...rootService
 };
 
-export { ActivityMuscle } from "./types";
+export { ActivityMuscleEntity } from "./types";

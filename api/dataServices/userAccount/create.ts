@@ -1,15 +1,14 @@
 import { ulid } from "ulid";
 
 import { Context } from "../../createContext";
-import { UserAccountEntity } from "./types";
-import { getQuery } from "./query";
-import { userAccountDataService } from "./";
+import type { UserAccountEntity } from "./types";
+import { rootService } from "./rootService";
+import { assertIsTruthy } from "../../../shared";
 
 export async function create(
   context: Context,
   userAccount: Partial<UserAccountEntity> = {}
 ): Promise<UserAccountEntity> {
-  const queryFactory = await getQuery(context);
   const id = ulid();
   const normalizedUserAccountData: Pick<
     UserAccountEntity,
@@ -20,8 +19,10 @@ export async function create(
     userId: "temporary",
     ...userAccount,
   };
-  await queryFactory().insert(normalizedUserAccountData);
-  return userAccountDataService.findOneOrFail(context, (q) =>
-    q.where("id", "=", id)
-  );
+  const results = await rootService.create(context, [
+    normalizedUserAccountData,
+  ]);
+  const result = results[0];
+  assertIsTruthy(result, "Expected user account to be truthy");
+  return result;
 }

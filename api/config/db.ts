@@ -1,146 +1,47 @@
-import { Knex, knex } from "knex";
+import { ServiceContainer } from "@baublet/service-container";
+import { D1Database } from "@cloudflare/workers-types";
+import {
+  Kysely,
+  Insertable,
+  UpdateResult,
+  UpdateQueryBuilder as KyselyUpdateQueryBuilder,
+  SelectQueryBuilder as KyselySelectQueryBuilder,
+  DeleteQueryBuilder as KyselyDeleteQueryBuilder,
+} from "kysely";
+import { DB } from "kysely-codegen";
+import { D1Dialect } from "kysely-d1";
 
-import knexConfig from "../../knexfile";
-import type { Context } from "../createContext";
-import { config } from "./config";
-import { log } from "./log";
+import { W8mngrMap } from "../../shared/Map";
 
-export type Connection<TEntity = any> = Knex<TEntity, unknown[]>;
-export type QueryBuilder<T = any> = Knex.QueryBuilder<T, any>;
-
-const database = config.get("DATABASE");
-assertIsValidDatabase(database);
-const dbSettings: Knex.Config = knexConfig[database];
-
-export function withSchema(knex: Knex) {
-  return knex.schema.withSchema(config.get("DATABASE_SCHEMA"));
+export interface Env {
+  W8MNGR_1: D1Database;
 }
 
-export function attachSchema<T extends Knex>(knex: T) {
-  return knex.withSchema(config.get("DATABASE_SCHEMA"));
+export type Database = DB;
+export type QueryBuilder = Kysely<DB>;
+export type UpdateQueryBuilder<T extends keyof Database> =
+  KyselyUpdateQueryBuilder<DB, T, T, UpdateResult>;
+export type SelectQueryBuilder<T extends keyof Database> =
+  KyselySelectQueryBuilder<DB, T, {}>;
+export type InsertableDatabaseRecord<T> = Insertable<T>;
+export type DeleteQueryBuilder<T extends keyof Database> =
+  KyselyDeleteQueryBuilder<DB, T, unknown>;
+
+function envService(): Env {
+  throw new Error("You must set the env service value before using it");
 }
 
-function assertIsValidDatabase(
-  database: string
-): asserts database is keyof typeof knexConfig {
-  if (database in knexConfig) {
-    return;
-  }
-  throw new Error(`Invalid database config environment: ${database}`);
+function dbService(container: ServiceContainer) {
+  const env = container.get(envService);
+  const dbMaps = new W8mngrMap<keyof Env, Kysely<DB>>();
+  return (db: keyof Env) =>
+    dbMaps.getOrSet(
+      db,
+      () =>
+        new Kysely({
+          dialect: new D1Dialect({ database: env[db] }),
+        })
+    );
 }
 
-if (!dbSettings) {
-  throw new Error(
-    `Unable to startup. Invalid database config. Database: ${database}. Available databases: ${Object.keys(
-      knexConfig
-    )}`
-  );
-} else {
-  if (config.get("NODE_ENV") !== "test") {
-    log("info", "Database driver initializing", { dbSettings });
-  }
-}
-
-// Our general-purpose query handler
-const openConnections: any[] = []; // We track them so we can free them up and shut down the app safely
-
-export async function getConnection(): Promise<Knex> {
-  log("info", "Requesting a database connection from the pool", {
-    openConnections: openConnections.length,
-  });
-  const connection = knex(dbSettings);
-  openConnections.push(connection);
-  return connection;
-}
-
-function closeConnection(connection: any) {
-  if (!openConnections.includes(connection)) {
-    return;
-  }
-
-  openConnections.splice(openConnections.indexOf(connection), 1);
-  return connection?.destroy?.();
-}
-
-async function dbService() {
-  let schema = "public";
-  const connection = await getConnection();
-  const serviceConnections: any[] = [connection];
-  let transactingConnection: Knex.Transaction<any, any[]> | undefined;
-
-  return {
-    getConnection: () => {
-      return transactingConnection || connection;
-    },
-    assertIsTransacting: () => {
-      if (!transactingConnection) {
-        throw new Error(
-          "Expected to be in a transaction, but no transaction started!"
-        );
-      }
-    },
-    transact: async () => {
-      if (!transactingConnection) {
-        transactingConnection = await connection.transaction();
-      } else {
-        throw new Error(
-          "Transaction already started. Nested transactions are not supported."
-        );
-      }
-    },
-    commit: async () => {
-      if (transactingConnection) {
-        await transactingConnection.commit();
-        transactingConnection = undefined;
-      } else {
-        throw new Error("No transaction started. Nothing to commit!");
-      }
-    },
-    destroy: async () => {
-      await transactingConnection?.commit();
-      await Promise.all(serviceConnections.map(closeConnection));
-      transactingConnection = undefined;
-    },
-    rollback: async (error: unknown) => {
-      if (!transactingConnection) {
-        return;
-      }
-      log("warn", "Transaction failed. Rolling back.", { error });
-      await transactingConnection?.rollback();
-      transactingConnection = undefined;
-    },
-    /**
-     * For testing purposes, we need to be able to migrate the database into
-     * another schema for better testing isolation.
-     */
-    setSchema: (newSchema: string) => {
-      schema = newSchema;
-    },
-    getSchema: () => schema,
-  };
-}
-
-export type DBConnection<TEntity = any> = Knex<TEntity>;
-export type DBQuery<TEntity = any, TResult = any> = Knex.QueryBuilder<
-  TEntity,
-  TResult
->;
-
-function getQueryBuilderFactory<TEntity = any>(tableName: string) {
-  return async (context: Context) => {
-    const dbFactory = await context.services.get(dbService);
-    const { getConnection } = dbFactory;
-    const connection = await getConnection();
-    return () =>
-      connection<TEntity>(tableName).withSchema(dbFactory.getSchema());
-  };
-}
-
-export { dbService, dbSettings, getQueryBuilderFactory };
-
-export type QueryBuilderForQuery<
-  T extends (
-    context: Context,
-    performQuery: (query: Knex.QueryBuilder<any, any>) => any
-  ) => Promise<any[]>
-> = Parameters<Parameters<T>[1]>[0];
+export { dbService };

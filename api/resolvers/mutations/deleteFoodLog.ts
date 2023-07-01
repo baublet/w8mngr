@@ -1,6 +1,6 @@
-import { foodLogDataService } from "../../dataServices";
+import { foodLogDataService } from "../../dataServices/foodLog";
 import { MutationResolvers } from "../../generated";
-import { foodLogPermissionService } from "../../permissionsServices";
+import { foodLogPermissionService } from "../../permissionsServices/foodLog";
 
 export const deleteFoodLog: MutationResolvers["deleteFoodLog"] = async (
   parent,
@@ -12,8 +12,8 @@ export const deleteFoodLog: MutationResolvers["deleteFoodLog"] = async (
 
   const userId = context.getCurrentUserId(true);
 
-  const foodLog = await foodLogDataService.findOneOrFail(context, (q) =>
-    q.where("id", "=", input.id).andWhere("userId", "=", userId)
+  const foodLog = await foodLogDataService.findOneOrFailBy(context, (q) =>
+    q.where("id", "=", input.id).where("userId", "=", userId)
   );
   await foodLogDataService.deleteBy(context, (q) =>
     q.where("id", "=", foodLog.id)

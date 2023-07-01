@@ -1,184 +1,232 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, BrowserRouter } from "react-router-dom";
 
-import { getLoadableComponentFor } from "./components/LoadableComponent";
-import { useVerifyEmail } from "./helpers";
+import { LoadableComponent } from "./components/LoadableComponent";
+import { useVerifyEmail } from "./helpers/useVerifyEmail";
 
 export function Routes() {
   useVerifyEmail();
   return (
     <div className="relative">
       <div className="toast">
-        <Switch>
+        <BrowserRouter>
           <Route
-            exact
             path="/"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/Home"),
-              component: "Home",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/Home")}
+                component="Home"
+              />
+            }
           />
           <Route
-            exact
             path="/login"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/Login"),
-              component: "Login",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/Login")}
+                component="Login"
+              />
+            }
           />
           <Route
-            exact
             path="/logging-in"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/LoggingIn"),
-              component: "LoggingIn",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/LoggingIn")}
+                component="LoggingIn"
+              />
+            }
           />
           <Route
-            exact
             path="/preferences"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/UserPreferences"),
-              component: "UserPreferences",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/UserPreferences")}
+                component="UserPreferences"
+              />
+            }
           />
           <Route
-            exact
             path="/reset-password/:token"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/ResetPassword"),
-              component: "ResetPassword",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/ResetPassword")}
+                component="ResetPassword"
+              />
+            }
           />
           <Route
-            exact
             path="/forgot-password"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/ForgotPassword"),
-              component: "ForgotPassword",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/ForgotPassword")}
+                component="ForgotPassword"
+              />
+            }
           />
           <Route
-            exact
             path="/register"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/Register"),
-              component: "Register",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/Register")}
+                component="Register"
+              />
+            }
           />
           <Route
-            exact
             path="/nutrition"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/Nutrition"),
-              component: "Nutrition",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/Nutrition")}
+                component="Nutrition"
+              />
+            }
           />
           <Route
-            exact
-            path={["/foodlog", "/foodlog/:day"]}
-            component={getLoadableComponentFor({
-              load: () => import("./pages/FoodLog"),
-              component: "FoodLog",
-            })}
+            path={"/foodlog/:day"}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/FoodLog")}
+                component="FoodLog"
+              />
+            }
           />
           <Route
-            exact
+            path={"/foodlog"}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/FoodLog")}
+                component="FoodLog"
+              />
+            }
+          />
+          <Route
             path="/foods"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/Foods"),
-              component: "Foods",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/Foods")}
+                component="Foods"
+              />
+            }
           />
           <Route
-            exact
             path="/foods/new"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/NewFood"),
-              component: "NewFood",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/NewFood")}
+                component="NewFood"
+              />
+            }
           />
           <Route
-            exact
             path="/foods/edit/:id"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/EditFood"),
-              component: "EditFood",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/EditFood")}
+                component="EditFood"
+              />
+            }
           />
           <Route
-            exact
             path="/activities"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/Activities"),
-              component: "Activities",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/Activities")}
+                component="Activities"
+              />
+            }
           />
           <Route
-            exact
             path="/activities/new"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/NewActivity"),
-              component: "NewActivity",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/NewActivity")}
+                component="NewActivity"
+              />
+            }
           />
           <Route
-            exact
             path="/activities/edit/:id"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/EditActivity"),
-              component: "EditActivity",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/EditActivity")}
+                component="EditActivity"
+              />
+            }
           />
           <Route
-            exact
-            path={["/activities/:id/log", "/activities/:id/log/:day"]}
-            component={getLoadableComponentFor({
-              load: () => import("./pages/ActivityLog"),
-              component: "ActivityLog",
-            })}
+            path={"/activities/:id/log"}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/ActivityLog")}
+                component="ActivityLog"
+              />
+            }
+          />{" "}
+          <Route
+            path={"/activities/:id/log/:day"}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/ActivityLog")}
+                component="ActivityLog"
+              />
+            }
           />
           <Route
-            exact
             path="/activities/:id"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/Activity"),
-              component: "Activity",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/Activity")}
+                component="Activity"
+              />
+            }
           />
           <Route
-            exact
-            path={["/weightlog", "/weightlog/:day"]}
-            component={getLoadableComponentFor({
-              load: () => import("./pages/WeightLog"),
-              component: "WeightLog",
-            })}
+            path={"/weightlog/:day"}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/WeightLog")}
+                component="WeightLog"
+              />
+            }
           />
           <Route
-            exact
+            path={"/weightlog"}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/WeightLog")}
+                component="WeightLog"
+              />
+            }
+          />
+          <Route
             path="/logout"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/Logout"),
-              component: "Logout",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/Logout")}
+                component="Logout"
+              />
+            }
           />
           <Route
-            exact
             path="/tos"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/TermsOfService"),
-              component: "TermsOfService",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/TermsOfService")}
+                component="TermsOfService"
+              />
+            }
           />
           <Route
-            exact
             path="/privacy"
-            component={getLoadableComponentFor({
-              load: () => import("./pages/Privacy"),
-              component: "Privacy",
-            })}
+            element={
+              <LoadableComponent
+                load={() => import("./pages/Privacy")}
+                component="Privacy"
+              />
+            }
           />
-        </Switch>
+        </BrowserRouter>
       </div>
     </div>
   );

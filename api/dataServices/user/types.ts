@@ -1,6 +1,3 @@
-export type UserEntity = {
-  id: string;
-  preferredName: string;
-  createdAt: Date;
-  role?: "admin";
-};
+import { InsertableDatabaseRecord, Database } from "../../config/db";
+
+export type UserEntity = InsertableDatabaseRecord<Database["user"]>;

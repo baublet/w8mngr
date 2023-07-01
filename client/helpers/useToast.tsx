@@ -19,7 +19,8 @@ type ToastMessage = {
 
 export const ToastContext = React.createContext<{
   success: (message: React.ReactNode, options?: ToastOptions) => void;
-  error: (message: React.ReactNode | Error, options?: ToastOptions) => void;
+  error(message: Error): void;
+  error(message: React.ReactNode | Error, options?: ToastOptions): void;
 }>({
   success: notImplemented,
   error: notImplemented,

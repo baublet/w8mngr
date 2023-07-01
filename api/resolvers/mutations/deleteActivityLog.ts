@@ -1,4 +1,4 @@
-import { activityLogDataService } from "../../dataServices";
+import { activityLogDataService } from "../../dataServices/activityLog";
 import { MutationResolvers } from "../../generated";
 
 export const deleteActivityLog: MutationResolvers["deleteActivityLog"] = async (
@@ -7,11 +7,12 @@ export const deleteActivityLog: MutationResolvers["deleteActivityLog"] = async (
   context
 ) => {
   const userId = context.getCurrentUserId(true);
-  const activityLog = await activityLogDataService.findOneOrFail(context, (q) =>
-    q.where("id", "=", args.input.id).andWhere("userId", "=", userId)
+  const activityLog = await activityLogDataService.findOneOrFailBy(
+    context,
+    (q) => q.where("id", "=", args.input.id).where("userId", "=", userId)
   );
   await activityLogDataService.deleteBy(context, (q) =>
-    q.where("id", "=", activityLog.id).andWhere("userId", "=", userId)
+    q.where("id", "=", activityLog.id).where("userId", "=", userId)
   );
 
   return {

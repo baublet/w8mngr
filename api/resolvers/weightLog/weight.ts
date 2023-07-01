@@ -1,5 +1,5 @@
 import { WeightLogResolvers } from "../../generated";
-import { numberToNumericUnit } from "../../helpers";
+import { numberToNumericUnit } from "../../helpers/numberToNumericUnit";
 
 export const weightLogWeight: WeightLogResolvers["weight"] = async (
   parent,

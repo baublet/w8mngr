@@ -1,9 +1,3 @@
-export type WeightLog = {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  day: string;
-  userId: string;
-  // In grams
-  weight: number;
-};
+import { InsertableDatabaseRecord, Database } from "../../config/db";
+
+export type WeightLogEntity = InsertableDatabaseRecord<Database["weightLog"]>;

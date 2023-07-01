@@ -1,16 +1,5 @@
-import { ActivityType } from "../../generated";
+import { InsertableDatabaseRecord, Database } from "../../config/db";
 
-export type Activity = {
-  id: string;
-  userId: string;
-  name: string;
-  description?: string;
-  exrx?: string;
-  type: ActivityType;
-  popularity: number;
-  createdAt: Date;
-  updatedAt: Date;
-  intensity: number;
-  archived: Boolean;
-  legacyId?: number;
-};
+export type ActivityEntity = InsertableDatabaseRecord<
+  Database["activity"]
+>;

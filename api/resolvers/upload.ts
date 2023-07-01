@@ -1,4 +1,4 @@
-import { uploadDataService } from "../dataServices";
+import { uploadDataService } from "../dataServices/upload";
 import { QueryResolvers } from "../generated";
 
 export const upload: QueryResolvers["upload"] = (

@@ -1,7 +1,7 @@
 import React from "react";
 import format from "date-fns/format";
 
-import { dayStringToDate } from "../../../shared";
+import { dayStringToDate } from "../../../shared/dayStringToDate";
 import { useGetActivitiesSummaryQuery } from "../../generated";
 import { PrimaryLoader } from "../Loading/Primary";
 import { TileMap } from "../TileMap";

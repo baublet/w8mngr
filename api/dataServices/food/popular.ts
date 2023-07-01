@@ -1,5 +1,4 @@
 import { Context } from "../../createContext";
-import { getQuery } from "./query";
 import { FoodEntity } from "./types";
 import { userDataService } from "../user";
 import { foodDataService } from ".";

@@ -1,7 +1,5 @@
-import { dedupe, filterOutErrors, weightedClamp } from "../../../shared";
-import { weightLogDataService } from "../../dataServices";
+import { weightLogDataService } from "../../dataServices/weightLog";
 import { UserResolvers } from "../../generated";
-import { getDateRangeWithDefault, globalInMemoryCache } from "../../helpers";
 
 export const userWeightLogSummary: UserResolvers["weightLogSummary"] = async (
   parent,

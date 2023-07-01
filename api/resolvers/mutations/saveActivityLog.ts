@@ -1,5 +1,5 @@
 import { log } from "../../config/log";
-import { activityLogDataService } from "../../dataServices";
+import { activityLogDataService } from "../../dataServices/activityLog";
 import { MutationResolvers } from "../../generated";
 
 export const saveActivityLog: MutationResolvers["saveActivityLog"] = async (

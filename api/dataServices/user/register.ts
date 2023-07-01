@@ -1,9 +1,6 @@
-import { ulid } from "ulid";
-
 import { assertIsError } from "../../../shared";
 import { ReturnTypeWithErrors } from "../../../shared/types";
-import { hashPassword } from "../../authentication";
-import { dbService } from "../../config/db";
+import { hashPassword } from "../../authentication/hashPassword";
 import { Context } from "../../createContext";
 import { emailDataService } from "../email";
 import { tokenDataService } from "../token";
@@ -30,8 +27,7 @@ export async function register(
   if (userData.password !== userData.passwordConfirmation) {
     throw new Error("Passwords don't match");
   }
-  const databaseService = await context.services.get(dbService);
-  await databaseService.transact();
+
   try {
     const passwordHash = await hashPassword(userData.password);
     const user = await create(context, {
@@ -52,7 +48,7 @@ export async function register(
       source: "local",
       sourceIdentifier: userData.email,
       passwordHash,
-      verified: false,
+      verified: 0,
     });
 
     const authTokenResult = await tokenDataService.getOrCreate(context, {
@@ -64,8 +60,6 @@ export async function register(
       type: "remember",
       userAccountId: account.id,
     });
-
-    await databaseService.commit();
 
     context.setCookie("w8mngrAuth", authTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
@@ -95,7 +89,6 @@ export async function register(
       rememberToken: rememberTokenResult.token,
     };
   } catch (error) {
-    await databaseService.rollback(error);
     assertIsError(error);
     return error;
   }

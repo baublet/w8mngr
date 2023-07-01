@@ -2,7 +2,7 @@ import FormData from "form-data";
 import MailGun from "mailgun.js";
 import { ulid } from "ulid";
 
-import { assertIsError } from "../../shared";
+import { assertIsError } from "../../shared/assertIsError";
 import { config } from "../config/config";
 import { log } from "../config/log";
 

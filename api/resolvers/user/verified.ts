@@ -1,6 +1,6 @@
-import { userAccountDataService } from "../../dataServices";
 import { UserResolvers } from "../../generated";
-import { globalInMemoryCache } from "../../helpers";
+import { userAccountDataService } from "../../dataServices/userAccount";
+import { globalInMemoryCache } from "../../helpers/globalInMemoryCache";
 
 export const userVerified: UserResolvers["verified"] = async (
   parent,
@@ -17,8 +17,8 @@ export const userVerified: UserResolvers["verified"] = async (
         (q) =>
           q
             .where("userId", "=", parent.id)
-            .andWhere("source", "=", "local")
-            .andWhere("verified", "=", true)
+            .where("source", "=", "local")
+            .where("verified", "=", 1)
       );
 
       return userVerifiedAccounts.length > 0;

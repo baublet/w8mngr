@@ -1,12 +1,16 @@
-import { Knex } from "knex";
-import omit from "lodash.omit";
-import { ulid } from "ulid";
-
-import { assertIsError } from "../../shared";
-import { ReturnTypeWithErrors, SomeRequired } from "../../shared/types";
-import { log } from "../config/log";
 import type { Context } from "../createContext";
-import { algoliaService, buildConnectionResolver, errors } from "../helpers";
+import {
+  dbService,
+  Env,
+  Database,
+  UpdateQueryBuilder,
+  SelectQueryBuilder,
+  InsertableDatabaseRecord,
+  DeleteQueryBuilder,
+} from "../config/db";
+import { NotFoundError } from "../helpers/errors/NotFoundError";
+import { buildConnectionResolver } from "../helpers/buildConnectionResolver";
+import { assertIsError } from "../../shared/assertIsError";
 
 type PartiallyMaybe<T extends Record<string, any>> = {
   [K in keyof T]?: T[K] | undefined;
@@ -16,151 +20,193 @@ type PartiallyMaybeWithNull<T extends Record<string, any>> = {
   [K in keyof T]?: T[K] | undefined | null;
 };
 
-type QueryFactoryFunction = (
-  context: Context
-) => Promise<() => Knex.QueryBuilder<any, any>>;
-
-type WhereFunctionFromQueryFactory<T extends QueryFactoryFunction> = (
-  q: QueryBuilderFromFactory<T>
-) => void;
-
-type QueryBuilderFromFactory<T extends QueryFactoryFunction> = T extends (
-  context: Context
-) => Promise<() => infer TQueryBuilder>
-  ? TQueryBuilder
-  : never;
-
-type EntityFromQueryFactoryFunction<T extends QueryFactoryFunction> =
-  T extends (
-    context: Context
-  ) => Promise<() => Knex.QueryBuilder<infer TEntity, any>>
-    ? TEntity
-    : unknown;
-
-export function createDataService<T extends QueryFactoryFunction>(
-  queryFactory: T,
-  entityName: string
+export function createDataService<T extends keyof Database>(
+  provider: keyof Env,
+  tableName: T
 ) {
   return {
-    create: getCreate(queryFactory, entityName),
-    deleteBy: getDeleteBy(queryFactory),
-    deleteByIds: getDeleteByIds(queryFactory),
-    findBy: getFindBy(queryFactory),
-    findOneBy: getFindOneBy(queryFactory),
-    findOneOrFail: getFindOneOrFail(queryFactory, entityName),
-    getConnection: getConnection(queryFactory),
-    update: getUpdate(queryFactory),
-    upsert: getUpsert(queryFactory, entityName),
-    upsertBy: getUpsertBy(queryFactory, entityName),
-    upsertRecordsToAlgolia: getUpsertRecordsToAlgolia(queryFactory, entityName),
-    searchRecordsInAlgolia: getSearchRecordsInAlgolia(queryFactory, entityName),
+    create: getCreate(provider, tableName),
+    deleteByIds: getDeleteByIds(provider, tableName),
+    deleteBy: getDeleteBy(provider, tableName),
+    findOneBy: getFindOneBy(provider, tableName),
+    findOneOrFailBy: getFindOneOrFailBy(provider, tableName),
+    findBy: getFindBy(provider, tableName),
+    findOneOrFail: getFindOneOrFail(provider, tableName),
+    update: getUpdate(provider, tableName),
+    upsert: getUpsert(provider, tableName),
+    upsertBy: getUpsertBy(provider, tableName),
+    getConnection: getConnectionBuilder(provider, tableName),
   };
 }
 
-function getFindOneOrFail<T extends QueryFactoryFunction>(
-  queryFactory: T,
-  entityName: string
+function getUpsertBy<T extends keyof Database>(
+  provider: keyof Env,
+  tableName: T
 ) {
-  return async (
+  return (
     context: Context,
-    where: WhereFunctionFromQueryFactory<T>
-  ): Promise<EntityFromQueryFactoryFunction<T>> => {
-    const getQuery = await queryFactory(context);
-    const query = getQuery();
-    query.select("*");
-    await where(query as QueryBuilderFromFactory<typeof queryFactory>);
-    query.limit(1);
-    const results = await query;
-    if (!results[0]) {
-      throw new errors.NotFoundError(`${entityName}.findOneOrFail: not found`);
+    items: Partial<InsertableDatabaseRecord<Database[T]>>[],
+    columns: (keyof InsertableDatabaseRecord<Database[T]>)[]
+  ) => {
+    return context.services
+      .get(dbService)(provider)
+      .insertInto(tableName)
+      .values(items as any)
+      .onConflict(
+        (q) =>
+          q.columns(columns as any).doUpdateSet({
+            ...columns.reduce((acc, column) => {
+              acc[column] = (eb: any) => eb.ref(`excluded.${String(column)}`);
+              return acc;
+            }, {} as any),
+          }) as any
+      );
+  };
+}
+
+function getFindBy<T extends keyof Database>(
+  provider: keyof Env,
+  tableName: T
+) {
+  return (
+    context: Context,
+    where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>
+  ) => {
+    return where(
+      context.services.get(dbService)(provider).selectFrom(tableName) as any
+    )
+      .selectAll()
+      .execute();
+  };
+}
+
+function getFindOneBy<T extends keyof Database>(
+  provider: keyof Env,
+  tableName: T
+) {
+  return (
+    context: Context,
+    where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>
+  ) => {
+    return where(
+      context.services.get(dbService)(provider).selectFrom(tableName) as any
+    )
+      .selectAll()
+      .limit(1)
+      .executeTakeFirst();
+  };
+}
+
+function getFindOneOrFailBy<T extends keyof Database>(
+  provider: keyof Env,
+  tableName: T
+) {
+  return (
+    context: Context,
+    where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>
+  ) => {
+    return where(
+      context.services.get(dbService)(provider).selectFrom(tableName) as any
+    )
+      .selectAll()
+      .limit(1)
+      .executeTakeFirstOrThrow();
+  };
+}
+
+function getFindOneOrFail<T extends keyof Database>(
+  provider: keyof Env,
+  tableName: T
+) {
+  return async (context: Context, id: string) => {
+    const result = await context.services
+      .get(dbService)(provider)
+      .selectFrom(tableName)
+      .selectAll()
+      .where("id", "=", id as any)
+      .limit(1)
+      .executeTakeFirst();
+
+    if (!result) {
+      throw new NotFoundError(`${tableName}.findOneOrFail: not found`);
     }
-    return results[0];
+
+    return result;
   };
 }
 
-function getDeleteByIds<T extends QueryFactoryFunction>(queryFactory: T) {
-  return async (context: Context, ids: string[]): Promise<void> => {
-    const getQuery = await queryFactory(context);
-    const query = getQuery();
-    await query.delete().whereIn("id", ids);
-  };
-}
-
-function getDeleteBy<T extends QueryFactoryFunction>(queryFactory: T) {
-  return async (
-    context: Context,
-    where: WhereFunctionFromQueryFactory<T>
-  ): Promise<void> => {
-    const getQuery = await queryFactory(context);
-    const query = getQuery();
-    query.delete();
-    await where(query as QueryBuilderFromFactory<typeof queryFactory>);
-    return query;
-  };
-}
-
-function getFindOneBy<T extends QueryFactoryFunction>(queryFactory: T) {
-  return async (
-    context: Context,
-    where: WhereFunctionFromQueryFactory<T>
-  ): Promise<EntityFromQueryFactoryFunction<T> | undefined> => {
-    const getQuery = await queryFactory(context);
-    const query = getQuery();
-    query.select();
-    await where(query as QueryBuilderFromFactory<typeof queryFactory>);
-    const results = await query;
-    return results[0];
-  };
-}
-
-function getFindBy<T extends QueryFactoryFunction>(queryFactory: T) {
-  return async (
-    context: Context,
-    where: WhereFunctionFromQueryFactory<T>
-  ): Promise<EntityFromQueryFactoryFunction<T>[]> => {
-    const getQuery = await queryFactory(context);
-    const query = getQuery();
-    query.select();
-    await where(query as QueryBuilderFromFactory<typeof queryFactory>);
-    return query;
-  };
-}
-
-function getCreate<T extends QueryFactoryFunction>(
-  queryFactory: T,
-  entityName: string
+function getDeleteByIds<T extends keyof Database>(
+  provider: keyof Env,
+  tableName: T
 ) {
-  const findOneOrFail = getFindOneOrFail(queryFactory, entityName);
-  return async (
-    context: Context,
-    input: PartiallyMaybe<EntityFromQueryFactoryFunction<T>>
-  ): Promise<EntityFromQueryFactoryFunction<T>> => {
-    const id = (input as any)["id"] || ulid();
-    const getQuery = await queryFactory(context);
-    const query = getQuery();
-    await query.insert({ id, ...input });
-    return findOneOrFail(context, (q) => q.where("id", "=", id));
+  return async (context: Context, ids: string[]): Promise<void> => {
+    await context.services
+      .get(dbService)(provider)
+      .deleteFrom(tableName)
+      .where("id", "in", ids as any)
+      .execute();
   };
 }
 
-function getUpdate<T extends QueryFactoryFunction>(queryFactory: T) {
+function getDeleteBy<T extends keyof Database>(
+  provider: keyof Env,
+  tableName: T
+) {
   return async (
     context: Context,
-    where: WhereFunctionFromQueryFactory<T>,
-    newValues: PartiallyMaybe<EntityFromQueryFactoryFunction<T>>
+    where: (qb: DeleteQueryBuilder<T>) => DeleteQueryBuilder<T>
   ): Promise<void> => {
-    const getQuery = await queryFactory(context);
-    const query = getQuery();
-    query.update({ updatedAt: new Date(), ...newValues });
-    await where(query as QueryBuilderFromFactory<typeof queryFactory>);
-    return query;
+    await where(
+      context.services.get(dbService)(provider).deleteFrom(tableName) as any
+    ).execute();
   };
 }
 
-function getUpsert<T extends QueryFactoryFunction>(
-  queryFactory: T,
-  entityName: string,
-  idProp: string = "id"
+function getCreate<T extends keyof Database>(
+  provider: keyof Env,
+  tableName: T
+) {
+  return async (
+    context: Context,
+    input: Partial<InsertableDatabaseRecord<Database[T]>>[]
+  ) => {
+    if (input.length === 0) {
+      return [];
+    }
+
+    const results = await context.services
+      .get(dbService)(provider)
+      .insertInto(tableName)
+      .values(input as any)
+      .returningAll()
+      .execute();
+
+    return results;
+  };
+}
+
+function getUpdate<T extends keyof Database>(
+  provider: keyof Env,
+  tableName: T
+) {
+  return async (
+    context: Context,
+    where: (qb: UpdateQueryBuilder<T>) => UpdateQueryBuilder<T>,
+    newValues: PartiallyMaybe<InsertableDatabaseRecord<Database[T]>>
+  ) => {
+    return where(
+      context.services.get(dbService)(provider).updateTable(tableName) as any
+    )
+      .set(newValues as any)
+      .returningAll()
+      .execute();
+  };
+}
+
+function getUpsert<T extends keyof Database>(
+  provider: keyof Env,
+  tableName: T,
+  idProp: keyof Database[T] = "id"
 ) {
   /**
    * Upserts a record. Please note that you must specify transactional boundaries if you
@@ -168,132 +214,96 @@ function getUpsert<T extends QueryFactoryFunction>(
    */
   return async (
     context: Context,
-    upsertItems: PartiallyMaybeWithNull<EntityFromQueryFactoryFunction<T>>[],
-    applyAdditionalWhereConstraints?: WhereFunctionFromQueryFactory<T>
-  ): Promise<{ id: string; insertOrUpdate: "INSERT" | "UPDATE" }[]> => {
-    const getQuery = await queryFactory(context);
-    const payloads = await Promise.all(
-      upsertItems.map(async (item) => {
-        const query = getQuery();
-
-        const idPropValue = item[idProp];
-        const id = idPropValue || ulid();
-        const insertOrUpdate = Boolean(idPropValue)
-          ? ("UPDATE" as const)
-          : ("INSERT" as const);
-
-        if (insertOrUpdate === "UPDATE") {
-          query.update({
-            ...omit(item, idProp),
-          });
-          query.where(idProp, "=", id);
-          await query.andWhere((q) => {
-            q.whereRaw("1 = 1");
-            applyAdditionalWhereConstraints?.(q as any);
-          });
-        } else {
-          await query.insert({
-            ...item,
-            [idProp]: id,
-          });
+    upsertItems: PartiallyMaybeWithNull<
+      InsertableDatabaseRecord<Database[T]>
+    >[],
+    where: (qb: UpdateQueryBuilder<T>) => UpdateQueryBuilder<T> = (qb) => qb
+  ): Promise<
+    (
+      | {
+          entity: InsertableDatabaseRecord<Database[T]>;
+          insertOrUpdate: "INSERT" | "UPDATE";
         }
-
-        return { id, insertOrUpdate };
-      })
-    );
-
-    await getUpsertRecordsToAlgolia(queryFactory, entityName)(context, {
-      ids: payloads.map((p) => p.id),
-    });
-
-    return payloads;
-  };
-}
-
-function getUpsertBy<T extends QueryFactoryFunction>(
-  queryFactory: T,
-  entityName: string,
-  idProp: string = "id"
-) {
-  /**
-   * Upserts a set of records by one or more unique constraints. Please note that
-   * you must specify transactional boundaries if you want to perform these upserts
-   * within a transaction.
-   */
-  return async <TColumns extends (keyof EntityFromQueryFactoryFunction<T>)[]>({
-    context,
-    items,
-    columns,
-  }: {
-    context: Context;
-    items: SomeRequired<
-      PartiallyMaybeWithNull<EntityFromQueryFactoryFunction<T>>,
-      TColumns[number]
-    >[];
-    columns: TColumns;
-  }): Promise<
-    ReturnTypeWithErrors<{ id: string; insertOrUpdate: "INSERT" | "UPDATE" }[]>
+      | { error: string }
+    )[]
   > => {
-    const getQuery = await queryFactory(context);
-    const payloads = await Promise.all(
-      items.map(async (item) => {
-        let insertOrUpdate: "INSERT" | "UPDATE" = "INSERT";
-        let id = "";
+    return Promise.all(
+      upsertItems.map(async (upsertItem) => {
+        async function insert() {
+          const result = await context.services
+            .get(dbService)(provider)
+            .insertInto(tableName)
+            .values(upsertItem as any)
+            .returningAll()
+            .execute();
 
-        const query = getQuery();
-
-        const anyItem: any = item;
-        query.whereRaw("1=1");
-        for (const prop of columns as string[]) {
-          query.andWhere(prop, "=", anyItem[prop]);
-        }
-        const extant = await query.limit(1);
-        const element = extant[0];
-
-        if (!element) {
-          insertOrUpdate = "INSERT";
-          id = ulid();
-
-          await getQuery().insert({
-            ...element,
-            ...item,
-            [idProp]: id,
-          });
-        } else {
-          insertOrUpdate = "UPDATE";
-          id = element.id;
-          const query = getQuery().update({
-            ...element,
-            ...item,
-            [idProp]: id,
-          });
-          query.whereRaw("1=1");
-          for (const prop of columns as string[]) {
-            query.andWhere(prop, "=", anyItem[prop]);
+          if (!result) {
+            return {
+              error: `Unexpected error in ${tableName}.upsert(insert): No result returned`,
+            };
           }
-          await query.limit(1);
+
+          return { entity: result, insertOrUpdate: "INSERT" as const };
         }
 
-        return { id, insertOrUpdate };
-      })
+        async function update() {
+          const result = await where(
+            context.services
+              .get(dbService)(provider)
+              .updateTable(tableName)
+              .set(upsertItem as any) as any
+          )
+            .returningAll()
+            .execute();
+
+          if (!result) {
+            return {
+              error: `Unexpected error in ${tableName}.upsert(update): No result returned`,
+            };
+          }
+
+          return { entity: result, insertOrUpdate: "UPDATE" as const };
+        }
+
+        const id = (upsertItem as any)[idProp];
+        if (!id) {
+          return { error: `No id provided for upsert in ${tableName}` };
+        }
+
+        const results = await context.services
+          .get(dbService)(provider)
+          .selectFrom(tableName)
+          .select(idProp as any)
+          .where(idProp as any, "=", id)
+          .execute();
+
+        //
+        // Insert!
+        //
+        if (results.length === 0) {
+          return insert();
+        }
+
+        //
+        // Otherwise, update
+        //
+        return update();
+      }) as any
     );
-
-    await getUpsertRecordsToAlgolia(queryFactory, entityName)(context, {
-      ids: payloads.map((p) => p.id),
-    });
-
-    return payloads;
   };
 }
 
-function getConnection<T extends QueryFactoryFunction>(queryFactory: T) {
-  return async <TEntity, TNode>(
+function getConnectionBuilder<T extends keyof Database>(
+  provider: keyof Env,
+  tableName: T
+) {
+  return async (
     context: Context,
     input: {
       applyCustomConstraint?: (
-        query: Knex.QueryBuilder<EntityFromQueryFactoryFunction<T>, any>
-      ) => void;
-      constraint?: PartiallyMaybe<EntityFromQueryFactoryFunction<T>>;
+        query: SelectQueryBuilder<T>
+      ) => SelectQueryBuilder<T>;
+      constraint?: PartiallyMaybe<InsertableDatabaseRecord<Database[T]>>;
       connectionResolverParameters?: Parameters<
         typeof buildConnectionResolver
       >[1];
@@ -302,21 +312,23 @@ function getConnection<T extends QueryFactoryFunction>(queryFactory: T) {
     }
   ) => {
     try {
-      const getQuery = await queryFactory(context);
-      const query = getQuery();
+      let query = context.services
+        .get(dbService)(provider)
+        .selectFrom(tableName)
+        .selectAll();
 
       const constraint = input.constraint;
       if (constraint) {
-        query.where((q) => {
-          q.whereRaw("1=1");
-          for (const [key, value] of Object.entries(constraint)) {
-            if (value === undefined) continue;
-            q.andWhere(key, value);
-          }
-        });
+        query = query.where((q) =>
+          q.and(
+            Object.entries(constraint).map(([key, value]) =>
+              q.cmpr(key as any, "=", value)
+            )
+          )
+        );
       }
 
-      input.applyCustomConstraint?.(query);
+      query = (input.applyCustomConstraint?.(query as any) as any) || query;
 
       return buildConnectionResolver(
         query,
@@ -329,61 +341,6 @@ function getConnection<T extends QueryFactoryFunction>(queryFactory: T) {
     } catch (error) {
       assertIsError(error);
       return error;
-    }
-  };
-}
-
-function getUpsertRecordsToAlgolia<T extends QueryFactoryFunction>(
-  queryFactory: T,
-  entityName: string
-) {
-  return async (
-    context: Context,
-    input: {
-      ids: string[];
-    }
-  ) => {
-    try {
-      const algolia = await context.services
-        .get(algoliaService)()
-        .getIndex(entityName);
-      const getQuery = await queryFactory(context);
-      const query = getQuery();
-      const entities = await query.select().whereIn("id", input.ids);
-      await algolia.upsertObjects(entities);
-    } catch (error) {
-      log("error", "Error upserting records to Algolia", {
-        error,
-      });
-    }
-  };
-}
-
-function getSearchRecordsInAlgolia<T extends QueryFactoryFunction>(
-  queryFactory: T,
-  entityName: string
-) {
-  return async (
-    context: Context,
-    input: {
-      searchTerm: string;
-      filters?: string;
-    }
-  ): Promise<EntityFromQueryFactoryFunction<T>[]> => {
-    try {
-      const algolia = await context.services
-        .get(algoliaService)()
-        .getIndex(entityName);
-      const searchResults: any[] = await algolia.searchObjects(
-        input.searchTerm,
-        input.filters
-      );
-      return searchResults;
-    } catch (error) {
-      log("error", "Error searching records in Algolia", {
-        error,
-      });
-      return [];
     }
   };
 }

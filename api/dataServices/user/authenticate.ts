@@ -1,24 +1,25 @@
-import { Request } from "express";
-
 import { Context } from "../../createContext";
-import { UserEntity } from "./types";
+import { InsertableDatabaseRecord, Database } from "../../config/db";
 import { tokenDataService } from "../token";
 import { userDataService } from "./";
-import { userAccountDataService, UserAccountEntity } from "../userAccount";
+import { userAccountDataService } from "../userAccount";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
-import { globalInMemoryCache } from "../../helpers";
+import { globalInMemoryCache } from "../../helpers/globalInMemoryCache";
 
 export type AuthenticationResult = {
-  user: UserEntity;
-  userAccount: UserAccountEntity;
+  user: InsertableDatabaseRecord<Database["user"]>;
+  userAccount: InsertableDatabaseRecord<Database["userAccount"]>;
 };
 
-export async function authenticate(
-  request: Request,
-  context: Context
-): Promise<AuthenticationResult | undefined> {
-  const authToken: string | undefined = request.cookies?.w8mngrAuth;
-  const rememberToken: string | undefined = request.cookies?.w8mngrRemember;
+export async function authenticate({
+  context,
+  authToken,
+  rememberToken,
+}: {
+  authToken?: string;
+  rememberToken?: string;
+  context: Context;
+}): Promise<AuthenticationResult | undefined> {
   return globalInMemoryCache.getOrSet({
     key: "authentication-" + authToken + "-" + rememberToken,
     expiry: Date.now() + 1000 * 60, // 1 minute
@@ -31,10 +32,11 @@ export async function authenticate(
         if (tokenEntity) {
           const userAccount = await userAccountDataService.findOneOrFail(
             context,
-            (q) => q.where("id", "=", tokenEntity.userAccountId)
+            tokenEntity.userAccountId
           );
-          const user = await userDataService.findOneOrFail(context, (q) =>
-            q.where("id", "=", userAccount.userId)
+          const user = await userDataService.findOneOrFail(
+            context,
+            userAccount.userId
           );
           return {
             user,
@@ -64,10 +66,11 @@ export async function authenticate(
 
           const userAccount = await userAccountDataService.findOneOrFail(
             context,
-            (q) => q.where("id", "=", tokenEntity.userAccountId)
+            tokenEntity.userAccountId
           );
-          const user = await userDataService.findOneOrFail(context, (q) =>
-            q.where("id", "=", userAccount.userId)
+          const user = await userDataService.findOneOrFail(
+            context,
+            userAccount.userId
           );
 
           return {

@@ -1,7 +1,7 @@
 import { ServiceContainer } from "@baublet/service-container";
 
 import { contextService } from "../createContext";
-import { userPreferenceDataService } from "../dataServices";
+import { userPreferenceDataService } from "../dataServices/userPreference";
 import { Unit } from "../generated";
 
 type Settings = {
@@ -22,7 +22,7 @@ export async function settingsService(
   }
   
   const userSettings = await userPreferenceDataService.findBy(context, (q) =>
-    q.where("userId", "=", userId).andWhere("preference", "=", "DEFAULT_UNIT")
+    q.where("userId", "=", userId).where("preference", "=", "DEFAULT_UNIT")
   );
 
   const defaultUnit =

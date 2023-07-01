@@ -1,5 +1,5 @@
 import { assertIsTruthy } from "../../../shared";
-import { activityDataService } from "../../dataServices";
+import { activityDataService } from "../../dataServices/activity";
 import { MutationResolvers } from "../../generated";
 
 export const saveActivity: Required<MutationResolvers>["saveActivity"] = async (

@@ -3,18 +3,20 @@ import { isValidTemplate, renderEmailTemplate } from "./templates";
 import { Context } from "../../createContext";
 import { EmailEntity } from "./types";
 import { assertIsError } from "../../../shared";
-import { emailService } from "../../helpers";
-import { getQuery } from "./query";
+import { emailService } from "../../helpers/emailService";
 import { log } from "../../config/log";
+import { dbService } from "../../config/db";
 import { rootService } from "./rootService";
 
 export async function sendPendingEmails(context: Context) {
   try {
-    const queryFactory = await getQuery(context);
-    const emails = await queryFactory()
-      .select("*")
-      .where("sent", "=", false)
-      .limit(1);
+    const emails = await context.services
+      .get(dbService)("W8MNGR_1")
+      .selectFrom("email")
+      .where("sent", "=", 0)
+      .selectAll()
+      .limit(10)
+      .execute();
     if (emails.length === 0) {
       log("debug", "Email queue is empty");
       return;
@@ -26,7 +28,7 @@ export async function sendPendingEmails(context: Context) {
 async function sendEmail(context: Context, email: EmailEntity): Promise<void> {
   if (!isValidTemplate(email.templateId)) {
     await rootService.update(context, (q) => q.where("id", "=", email.id), {
-      sent: false,
+      sent: 0,
     });
     log("warn", "Invalid email template ID", { email });
     await logHistory({
@@ -38,12 +40,12 @@ async function sendEmail(context: Context, email: EmailEntity): Promise<void> {
   }
 
   await rootService.update(context, (q) => q.where("id", "=", email.id), {
-    sent: true,
+    sent: 1,
   });
 
   const { subject, body } = renderEmailTemplate(
     email.templateId,
-    JSON.parse(email.payload)
+    JSON.parse(email.payload || "{}")
   );
 
   const sendEmail = context.services.get(emailService);

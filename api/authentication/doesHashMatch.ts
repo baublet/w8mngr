@@ -1,9 +1,10 @@
-import bcrypt from "bcrypt";
+import { hashPassword } from "./hashPassword";
 
-export function doesHashMatch(
+export async function doesHashMatch(
   plainTextPassword: string,
   hashedPassword: undefined | string | null
 ): Promise<boolean> {
   const hashedPasswordWithDefault = hashedPassword || "";
-  return bcrypt.compare(plainTextPassword, hashedPasswordWithDefault);
+  const hashPlainTextPassword = await hashPassword(plainTextPassword);
+  return hashPlainTextPassword === hashedPasswordWithDefault;
 }

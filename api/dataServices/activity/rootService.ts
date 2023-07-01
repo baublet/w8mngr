@@ -1,4 +1,3 @@
 import { createDataService } from "../createDataService";
-import { getQuery } from "./query";
 
-export const rootService = createDataService(getQuery, "Activity");
+export const rootService = createDataService("W8MNGR_1", "activity");

@@ -12,8 +12,9 @@ import {
 import { Maybe } from "../../../shared/types";
 import { Context } from "../../createContext";
 import { FoodLogDataPoint } from "../../generated";
-import { globalInMemoryCache } from "../../helpers";
-import { FoodLogEntity, foodLogDataService } from ".";
+import { globalInMemoryCache } from "../../helpers/globalInMemoryCache";
+import { rootService } from "./rootService";
+import type { FoodLogEntity } from "./types";
 
 export async function stats(
   context: Context,
@@ -25,11 +26,11 @@ export async function stats(
     key: cacheKey,
     expiry: Date.now() + 1000 * 60 * 2,
     fn: async () => {
-      const foodLogsInRange = await foodLogDataService.findBy(context, (q) =>
+      const foodLogsInRange = await rootService.findBy(context, (q) =>
         q
           .where("userId", "=", userId)
-          .andWhere("day", ">=", from)
-          .andWhere("day", "<=", to)
+          .where("day", ">=", from)
+          .where("day", "<=", to)
       );
       const foodLogsGroupedByDay: Record<string, FoodLogEntity[]> =
         groupBy<any>(foodLogsInRange, (log) => log.day);

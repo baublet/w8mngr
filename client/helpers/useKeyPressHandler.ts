@@ -1,12 +1,5 @@
 import React from "react";
 
-type Options = {
-  /**
-   * To prevent double-taps, we use a default throttle of 100ms.
-   */
-  throttleTimeMs?: number;
-};
-
 export function useKeyPressHandler(
   key: "up" | "down" | "left" | "right" | "enter" | "esc",
   passedHandler: (event: KeyboardEvent) => void

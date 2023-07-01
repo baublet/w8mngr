@@ -1,4 +1,4 @@
-import { weightLogDataService } from "../../dataServices";
+import { weightLogDataService } from "../../dataServices/weightLog";
 import { MutationResolvers } from "../../generated";
 
 export const saveWeightLog: MutationResolvers["saveWeightLog"] = async (

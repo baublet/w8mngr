@@ -1,4 +1,6 @@
-import type { UserPreferenceType } from "../../generated";
+import { InsertableDatabaseRecord, Database } from "../../config/db";
+
+export type UserPreferenceEntity = InsertableDatabaseRecord<Database["userPreference"]>;
 
 export type UserPreferenceValues = {
   BIRTHDAY: Date | undefined | null;
@@ -21,12 +23,3 @@ export const userPreferenceTypes = [
   "FATURDAYS",
   "HEIGHT",
 ] as const;
-
-export type UserPreferenceEntity = {
-  id: string;
-  userId: string;
-  preference: UserPreferenceType;
-  value: string;
-  createdAt: Date;
-  updatedAt: Date;
-};

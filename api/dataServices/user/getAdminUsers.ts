@@ -1,8 +1,12 @@
 import { Context } from "../../createContext";
-import { getQuery } from "./query";
+import { dbService } from "../../config/db";
 import { UserEntity } from "./types";
 
 export async function getAdminUsers(context: Context): Promise<UserEntity[]> {
-  const query = (await getQuery(context))();
-  return query.select("*").where("role", "=", "admin");
+  return context.services
+    .get(dbService)("W8MNGR_1")
+    .selectFrom("user")
+    .selectAll()
+    .where("role", "=", "admin")
+    .execute();
 }

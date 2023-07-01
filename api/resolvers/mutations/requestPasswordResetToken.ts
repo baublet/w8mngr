@@ -1,10 +1,8 @@
 import { getRoundedDate } from "../../../shared";
 import { log } from "../../config/log";
-import {
-  emailDataService,
-  tokenDataService,
-  userAccountDataService,
-} from "../../dataServices";
+import { emailDataService } from "../../dataServices/email";
+import { tokenDataService } from "../../dataServices/token";
+import { userAccountDataService } from "../../dataServices/userAccount";
 import { MutationResolvers } from "../../generated";
 
 export const requestPasswordResetToken: MutationResolvers["requestPasswordResetToken"] =

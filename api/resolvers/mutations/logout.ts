@@ -1,4 +1,4 @@
-import { userDataService } from "../../dataServices";
+import { userDataService } from "../../dataServices/user";
 import { MutationResolvers } from "../../generated";
 
 export const logout: Required<MutationResolvers>["logout"] = async (

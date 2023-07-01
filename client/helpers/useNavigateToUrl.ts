@@ -1,16 +1,16 @@
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 export function useNavigateToUrl() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     url: string,
     options: { replace?: boolean; scroll?: boolean } = {}
   ) => {
     if (options.replace) {
-      history.replace(url);
+      navigate(url, { replace: true });
     } else {
-      history.push(url);
+      navigate(url);
     }
 
     if (options.scroll === false) {

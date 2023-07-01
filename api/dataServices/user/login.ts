@@ -1,10 +1,9 @@
 import { assertIsError } from "../../../shared";
 import { ReturnTypeWithErrors } from "../../../shared/types";
-import { doesHashMatch } from "../../authentication";
-import { dbService } from "../../config/db";
+import { doesHashMatch } from "../../authentication/doesHashMatch";
 import { log } from "../../config/log";
 import { Context } from "../../createContext";
-import { errors } from "../../helpers";
+import { LoginFailedError } from "../../helpers/errors/LoginFailedError";
 import { tokenDataService } from "../token";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types";
 import { userAccountDataService } from "../userAccount";
@@ -24,10 +23,8 @@ export async function login(
     rememberToken: string;
   }>
 > {
-  const databaseService = await context.services.get(dbService);
-  await databaseService.transact();
   try {
-    const account = await userAccountDataService.findOneOrFail(context, (q) =>
+    const account = await userAccountDataService.findOneOrFailBy(context, (q) =>
       q.where("sourceIdentifier", "=", credentials.email)
     );
 
@@ -39,12 +36,10 @@ export async function login(
       log("error", "Login attempt failed. Passwords don't match.", {
         account,
       });
-      throw new errors.LoginFailedError("Invalid credentials");
+      throw new LoginFailedError("Invalid credentials");
     }
 
-    const user = await rootService.findOneOrFail(context, (q) =>
-      q.where("id", "=", account.userId)
-    );
+    const user = await rootService.findOneOrFail(context, account.userId);
 
     const authTokenResult = await tokenDataService.getOrCreate(context, {
       type: "auth",
@@ -63,15 +58,12 @@ export async function login(
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.remember),
     });
 
-    await databaseService.commit();
-
     return {
       user,
       token: authTokenResult.token,
       rememberToken: rememberTokenResult.token,
     };
   } catch (error) {
-    await databaseService.rollback(error);
     assertIsError(error);
     return error;
   }

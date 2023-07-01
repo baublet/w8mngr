@@ -15,5 +15,3 @@ export const tokenDataService = {
   getOrCreate,
   findByToken,
 };
-
-export { TokenEntity } from "./types";

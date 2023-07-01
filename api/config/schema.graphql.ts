@@ -1,3 +1,19 @@
+import type { DocumentNode } from "graphql";
+
+let schemaPromise: Promise<DocumentNode> | undefined;
+export function getSchema() {
+  if (schemaPromise) {
+    return schemaPromise;
+  }
+  schemaPromise = new Promise((resolve) => {
+    import("graphql").then((graphql) => {
+      const gql = graphql.parse;
+
+      resolve(
+        gql(`
+
+
+
 scalar Date
 scalar ID
 scalar JSON
@@ -701,4 +717,15 @@ type UserPreference {
   key: UserPreferenceType!
   "The JSON.parsed value of the preference"
   value: JSON
+}
+
+
+
+
+`)
+      );
+    });
+  });
+
+  return schemaPromise;
 }

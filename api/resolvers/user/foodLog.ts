@@ -1,4 +1,4 @@
-import { foodLogDataService } from "../../dataServices";
+import { foodLogDataService } from "../../dataServices/foodLog";
 import { UserResolvers } from "../../generated";
 
 export const foodLog: UserResolvers["foodLog"] = async (

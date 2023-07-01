@@ -1,10 +1,10 @@
-import { errors } from "../helpers";
+import { Unauthorized } from "../helpers/errors/Unauthorized";
 
 import {
   createPermissionService,
   requireAuth,
 } from "./createPermissionService";
-import { foodLogDataService } from "../dataServices";
+import { foodLogDataService } from "../dataServices/foodLog";
 import { Context } from "api/createContext";
 
 export const foodLogPermissionService = createPermissionService({
@@ -16,11 +16,9 @@ async function contextUserOwnerOfFoodLog(
   context: Context,
   foodLogId: string
 ): Promise<true | Error> {
-  const found = await foodLogDataService.findOneOrFail(context, (q) =>
-    q.where("id", "=", foodLogId)
-  );
+  const found = await foodLogDataService.findOneOrFail(context, foodLogId);
   if (found.userId !== context.getCurrentUserId()) {
-    return new errors.Unauthorized(context);
+    return new Unauthorized(context);
   }
   return true;
 }

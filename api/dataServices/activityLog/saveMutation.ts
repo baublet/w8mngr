@@ -3,9 +3,10 @@ import { Maybe } from "../../../shared/types";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
 import { ActivityLogInput } from "../../generated";
-import { doTimes, rawInputToUnit } from "../../helpers";
+import { doTimes } from "../../helpers/doTimes";
+import { rawInputToUnit } from "../../helpers/rawInputToUnit";
 import { rootService } from "./rootService";
-import { activityDataService } from "..";
+import { activityDataService } from "../activity";
 
 export async function saveMutation(
   context: Context,

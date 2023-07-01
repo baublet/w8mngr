@@ -1,4 +1,4 @@
-import { foodDataService } from "../../dataServices";
+import { foodDataService } from "../../dataServices/food";
 import { UserResolvers } from "../../generated";
 
 export const userPopularFoods: UserResolvers["popularFoods"] = (

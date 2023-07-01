@@ -1,12 +1,10 @@
-import { createDataService } from "../createDataService";
+import { rootService } from "./rootService";
 
 import { getByDay } from "./getByDay";
 import { stats } from "./stats";
 
-import { getQuery } from "./query";
-
 export const foodLogDataService = {
-  ...createDataService(getQuery, "FoodLog"),
+  ...rootService,
   getByDay,
   stats,
 };

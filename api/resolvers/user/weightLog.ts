@@ -1,4 +1,4 @@
-import { weightLogDataService } from "../../dataServices";
+import { weightLogDataService } from "../../dataServices/weightLog";
 import { UserResolvers } from "../../generated";
 
 export const weightLog: UserResolvers["weightLog"] = async (

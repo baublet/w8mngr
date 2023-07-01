@@ -1,6 +1,6 @@
 import { ActivityType } from "../generated";
 
-export function activityTypeToHumanReadable(type: ActivityType) {
+export function activityTypeToHumanReadable(type: ActivityType): string {
   switch (type) {
     case "DISTANCE":
       return "Distance exercise";

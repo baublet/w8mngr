@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   GetCurrentUserDocument,
@@ -9,7 +9,7 @@ import { useToast } from "./useToast";
 import { useUrlQueryParameters } from "./useUrlQueryParameters";
 
 export function useLoginWithToken() {
-  const { replace } = useHistory();
+  const navigate = useNavigate();
   const { error, success } = useToast();
   const [login] = useLoginWithTokenMutation({
     refetchQueries: [GetCurrentUserDocument],
@@ -20,7 +20,7 @@ export function useLoginWithToken() {
     onCompleted: () => {
       setTimeout(() => {
         success("Logged in");
-        replace("/nutrition");
+        navigate("/nutrition", { replace: true });
       }, 50);
     },
   });

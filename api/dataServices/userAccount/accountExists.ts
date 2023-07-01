@@ -1,5 +1,5 @@
-import { Context } from "../../createContext";
-import { getQuery } from "./query";
+import type { Context } from "../../createContext";
+import { rootService } from "./rootService";
 
 export async function accountExists(
   context: Context,
@@ -11,16 +11,13 @@ export async function accountExists(
     source: string;
   }
 ): Promise<boolean> {
-  const queryFactory = await getQuery(context);
-  const found = await queryFactory()
-    .select("*")
-    .where("source", "=", source)
-    .andWhere("sourceIdentifier", "=", sourceIdentifier)
-    .limit(1);
+  const found = await rootService.findOneBy(context, (q) =>
+    q
+      .where("source", "=", source)
+      .where("sourceIdentifier", "=", sourceIdentifier)
+  );
 
-  const foundItem = found[0];
-
-  if (foundItem) {
+  if (found) {
     return true;
   }
 

@@ -1,4 +1,4 @@
-export function scrollTo(element: string = "main") {
+export function scrollTo(element: string = "main"): void {
   if (!document) {
     return;
   }

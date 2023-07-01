@@ -1,10 +1,11 @@
 import { ulid } from "ulid";
 
 import { Context } from "../../createContext";
-import { userAccountDataService } from "../";
+import { userAccountDataService } from "../userAccount";
 import { EmailEntity, emailDataService } from "./";
-import { getQuery } from "./query";
 import { EmailTemplateKey, EmailTemplates } from "./templates";
+import { dbService } from "../../config/db";
+import { assertIsTruthy } from "../../../shared";
 
 export async function create<TTemplateKey extends EmailTemplateKey>(
   context: Context,
@@ -27,7 +28,7 @@ export async function create<TTemplateKey extends EmailTemplateKey>(
     if (email) {
       return email;
     }
-    if (account.sourceIdentifier.includes("@")) {
+    if (account.sourceIdentifier?.includes("@")) {
       return account.sourceIdentifier;
     }
     return email;
@@ -37,21 +38,26 @@ export async function create<TTemplateKey extends EmailTemplateKey>(
     throw new Error(`No email found for user: ${toUserId}`);
   }
 
-  const queryFactory = await getQuery(context);
   const insertedEmailId = ulid();
-  await queryFactory().insert({
-    id: insertedEmailId,
-    toUserId,
-    sent: false,
-    templateId,
-    payload: JSON.stringify(templateVariables),
-    toEmail,
-    idempotenceKey,
-  });
+  const insertedResult = await context.services
+    .get(dbService)("W8MNGR_1")
+    .insertInto("email")
+    .values({
+      id: insertedEmailId,
+      toUserId,
+      sent: false,
+      templateId,
+      payload: JSON.stringify(templateVariables),
+      toEmail,
+      idempotenceKey,
+    })
+    .returningAll()
+    .execute();
 
   await emailDataService.sendPendingEmails(context);
 
-  return emailDataService.findOneOrFail(context, (q) =>
-    q.where("id", "=", insertedEmailId)
-  );
+  const insertedEmail = insertedResult[0];
+  assertIsTruthy(insertedEmail, "Email failed to insert");
+
+  return insertedEmail;
 }

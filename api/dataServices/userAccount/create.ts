@@ -1,15 +1,14 @@
-import { ulid } from "ulid";
-
 import { Context } from "../../createContext";
 import type { UserAccountEntity } from "./types";
 import { rootService } from "./rootService";
 import { assertIsTruthy } from "../../../shared";
+import { getUniqueId } from "../../../shared/getUniqueId";
 
 export async function create(
   context: Context,
   userAccount: Partial<UserAccountEntity> = {}
 ): Promise<UserAccountEntity> {
-  const id = ulid();
+  const id = getUniqueId();
   const normalizedUserAccountData: Pick<
     UserAccountEntity,
     "id" | "source" | "userId"

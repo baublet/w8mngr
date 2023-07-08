@@ -1,7 +1,3 @@
-import dotenv from "dotenv";
-
-dotenv.config();
-
 type ConfigOption = string | ((key: string | undefined) => any);
 
 type KeyTypeMap<T extends Record<string, ConfigOption>> = {

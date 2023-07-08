@@ -15,8 +15,8 @@ export const activityLogs: ActivityResolvers["logs"] = (
     applyCustomConstraint: (q) =>
       q
         .where("userId", "=", userId)
-        .andWhere("day", "=", day)
-        .andWhere("activityId", "=", activityId),
+        .where("day", "=", day)
+        .where("activityId", "=", activityId),
     additionalRootResolvers: {
       day,
     },

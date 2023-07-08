@@ -1,7 +1,7 @@
 import React from "react";
 import { boolean, date, number, object, string } from "yup";
 
-import { getWithDefault, objectEntries } from "../../shared";
+import { getWithDefault } from "../../shared/getWithDefault";
 import { GhostButton } from "../components/Button/Ghost";
 import { PrimaryButton } from "../components/Button/Primary";
 import { ContentContainer } from "../components/Containers/ContentContainer";
@@ -14,7 +14,8 @@ import {
   useGetCurrentUserQuery,
   useSaveUserPreferencesMutation,
 } from "../generated";
-import { useForm, useToast } from "../helpers";
+import { useForm } from "../helpers/useForm";
+import { useToast } from "../helpers/useToast";
 
 type PreferencesForm = {
   birthday: string;

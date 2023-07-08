@@ -1,5 +1,3 @@
-import { ulid } from "ulid";
-
 import { createDigest } from "../../authentication/createDigest";
 import { Context } from "../../createContext";
 import { create } from "./create";
@@ -7,6 +5,7 @@ import { Database, dbService, InsertableDatabaseRecord } from "../../config/db";
 import { rootService as tokenDataService } from "./rootService";
 import { TOKEN_EXPIRY_OFFSET, assertIsTokenType } from "./types";
 import { assertIsTruthy } from "../../../shared";
+import { getUniqueId } from "../../../shared/getUniqueId";
 
 export async function getOrCreate(
   context: Context,
@@ -27,7 +26,7 @@ export async function getOrCreate(
     .selectAll()
     .executeTakeFirst();
 
-  const newToken = ulid();
+  const newToken = getUniqueId();
   const newTokenDigest = await createDigest(newToken);
   const tokenType = token.type;
   assertIsTokenType(tokenType);

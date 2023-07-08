@@ -22,7 +22,7 @@ export const deleteWeightLog: MutationResolvers["deleteWeightLog"] = async (
       applyCustomConstraint: (q) =>
         q
           .where("userId", "=", context.getCurrentUserId(true))
-          .andWhere("day", "=", log.day),
+          .where("day", "=", log.day),
     }),
   };
 };

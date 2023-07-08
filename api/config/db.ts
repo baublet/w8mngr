@@ -17,6 +17,8 @@ export interface Env {
   W8MNGR_1: D1Database;
 }
 
+export { sql } from "kysely";
+
 export type Database = DB;
 export type QueryBuilder = Kysely<DB>;
 export type UpdateQueryBuilder<T extends keyof Database> =

@@ -1,10 +1,11 @@
 import { flattenArray } from "../../../../shared/flattenArray";
 import { Context } from "../../../createContext";
+import { dbService } from "../../../config/db";
 import { ActivityType, ActivityVisualizationInput } from "../../../generated";
 import { getDateRangeWithDefault } from "../../../helpers/getDateRangeWithDefault";
 import { globalInMemoryCache } from "../../../helpers/globalInMemoryCache";
 import { numberToContextualUnit } from "../../../helpers/numberToContextualUnit";
-import { ActivityLogEntity } from "../../activityLog/types";
+import { ActivityLog } from "../../activityLog/types";
 
 export function getVisualizationDataResolvers({
   activityId,
@@ -22,10 +23,10 @@ export function getVisualizationDataResolvers({
       key: "maximumWork",
       context,
       accumulator: (logs) => {
-        const work = logs.reduce(
-          (acc, log) => (log.work > acc ? log.work : acc),
-          0
-        );
+        const work = logs.reduce((acc, log) => {
+          const work = log.work || 0;
+          return work > acc ? work : acc;
+        }, 0);
         return {
           work,
           workLabel: numberToContextualUnit(context, {
@@ -42,7 +43,8 @@ export function getVisualizationDataResolvers({
       key: "averageWork",
       context,
       accumulator: (logs) => {
-        const work = logs.reduce((acc, log) => acc + log.work, 0) / logs.length;
+        const work =
+          logs.reduce((acc, log) => acc + (log.work || 0), 0) / logs.length;
         return {
           work,
           workLabel: numberToContextualUnit(context, {
@@ -59,7 +61,10 @@ export function getVisualizationDataResolvers({
       key: "maximumReps",
       context,
       accumulator: (logs) => ({
-        work: logs.reduce((acc, log) => (log.work > acc ? log.reps : acc), 0),
+        work: logs.reduce(
+          (acc, log) => ((log.work || 0) > acc ? log.reps || 0 : acc),
+          0
+        ),
         day: logs[0].day,
       }),
       activityId,
@@ -69,7 +74,7 @@ export function getVisualizationDataResolvers({
       key: "averageReps",
       context,
       accumulator: (logs) => ({
-        work: logs.reduce((acc, log) => acc + log.work, 0) / logs.length,
+        work: logs.reduce((acc, log) => acc + (log.work || 0), 0) / logs.length,
         day: logs[0].day,
       }),
       activityId,
@@ -102,14 +107,14 @@ function getSetHandlerByDay({
   key: string;
   context: Context;
   accumulator?: (
-    log: Pick<ActivityLogEntity, "day" | "reps" | "work">[]
+    log: Pick<ActivityLog, "day" | "reps" | "work">[]
   ) => any | any[];
   activityId: string;
   userId: string;
 }): (
   parent: unknown,
   args: any
-) => Promise<Pick<ActivityLogEntity, "work" | "reps" | "day">[]> {
+) => Promise<Pick<ActivityLog, "work" | "reps" | "day">[]> {
   return async (
     parent: unknown,
     args: { input?: ActivityVisualizationInput } = {}
@@ -122,22 +127,25 @@ function getSetHandlerByDay({
       expiry: Date.now() + 1000 * 60,
       fn: async () => {
         const { from, to } = getDateRangeWithDefault(args?.input);
-        const queryFactory = await getQuery(context);
-        const query = queryFactory();
-        const results = await query
-          .select("day", "work", "reps")
+        const db = context.services.get(dbService)("W8MNGR_1");
+        const results = await db
+          .selectFrom("activityLog")
+          .select(["day", "work", "reps"])
           .where("day", "in", (query) =>
             query
-              .distinct("day")
+              .selectFrom("activityLog")
+              .select("day")
+              .distinct()
               .where("activityId", "=", activityId)
-              .andWhere("userId", "=", userId)
-              .andWhere("day", ">=", from)
-              .andWhere("day", "<=", to)
+              .where("userId", "=", userId)
+              .where("day", ">=", from)
+              .where("day", "<=", to)
           )
-          .andWhere("userId", "=", userId)
-          .andWhere("activityId", "=", activityId)
+          .where("userId", "=", userId)
+          .where("activityId", "=", activityId)
           .orderBy("day", "asc")
-          .orderBy("createdAt");
+          .orderBy("createdAt")
+          .execute();
 
         if (!accumulator) {
           return results;
@@ -150,7 +158,7 @@ function getSetHandlerByDay({
           }
           acc[log.day].push(log);
           return acc;
-        }, {} as Record<string, Pick<ActivityLogEntity, "work" | "reps" | "day">[]>);
+        }, {} as Record<string, Pick<ActivityLog, "work" | "reps" | "day">[]>);
 
         // Transform the logs by day
         return flattenArray(

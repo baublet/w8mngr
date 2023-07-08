@@ -1,6 +1,6 @@
 import React from "react";
 
-import { usePaginatedQuery } from "../../helpers";
+import { usePaginatedQuery } from "../../helpers/usePaginatedQuery";
 import { useGetActivitiesQuery } from "../../generated";
 
 import { PrimaryLoader } from "../Loading/Primary";

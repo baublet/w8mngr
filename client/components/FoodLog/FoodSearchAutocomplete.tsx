@@ -5,7 +5,7 @@ import { useQuickSearchFoodsQuery } from "../../generated";
 import { ButtonSpinnerIcon } from "../Loading/ButtonSpinner";
 import { SideBarHeading } from "../Type/SideBarHeading";
 import { AddableFoods } from "../Foods";
-import { useEvents } from "../../helpers";
+import { useEvents } from "../../helpers/useEvents";
 import { PopularFoods } from "../Foods";
 import { ClearButton } from "../Button/ClearButton";
 import { CloseIcon } from "../Icons/Close";

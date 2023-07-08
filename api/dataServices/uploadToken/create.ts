@@ -1,13 +1,12 @@
 import crypto from "crypto";
 
-import { ulid } from "ulid";
-
 import { assertIsError, assertIsTruthy } from "../../../shared";
 import { config } from "../../config/config";
 import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
 import { uploadDataService } from "../upload";
 import { UploadToken } from "./type";
+import { getUniqueId } from "../../../shared/getUniqueId";
 
 export async function create({
   context,
@@ -37,7 +36,7 @@ export async function create({
       promises.push(
         new Promise<void>(async (resolve) => {
           const unixTime = `${Date.now()}`.substr(0, 10);
-          const publicId = ulid();
+          const publicId = getUniqueId();
           const folder =
             config.get("NODE_ENV") === "production" ? "prod" : "non-prod";
 

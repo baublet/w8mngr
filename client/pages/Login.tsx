@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { SecondaryButton } from "../components/Button/Secondary";
 import { ContentContainer } from "../components/Containers/ContentContainer";
@@ -9,10 +9,11 @@ import { LoginIcon } from "../components/Icons/Login";
 import { Link } from "../components/Link";
 import { PageHeading } from "../components/Type/PageHeading";
 import { GetCurrentUserDocument, useLoginMutation } from "../generated";
-import { useForm, useToast } from "../helpers";
+import { useForm } from "../helpers/useForm";
+import { useToast } from "../helpers/useToast";
 
 export function Login() {
-  const { push } = useHistory();
+  const push = useNavigate();
   const loginForm = useForm<{
     email: string;
     password: string;

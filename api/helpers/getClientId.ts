@@ -1,5 +1,4 @@
-import { Request } from "@cloudflare/workers-types";
-import { ulid } from "ulid";
+import { getUniqueId } from "../../shared/getUniqueId";
 
 /**
  * This is a weak approximation of a machine's fingerprint. We don't care about
@@ -14,5 +13,5 @@ export function getClientId(request: Request): string {
     return existingClientIdentifier;
   }
 
-  return ulid();
+  return getUniqueId();
 }

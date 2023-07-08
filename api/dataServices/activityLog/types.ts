@@ -1,5 +1,5 @@
 import { InsertableDatabaseRecord, Database } from "../../config/db";
 
-export type ActivityLogEntity = InsertableDatabaseRecord<
+export type ActivityLog = InsertableDatabaseRecord<
   Database["activityLog"]
 >;

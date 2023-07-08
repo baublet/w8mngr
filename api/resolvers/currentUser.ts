@@ -12,7 +12,8 @@ export const currentUser: Required<QueryResolvers>["currentUser"] = (
     const userAccount = context.getCurrentUserAccount(true);
     return {
       ...user,
-      verified: userAccount.verified,
+      verified: Boolean(userAccount.verified),
+      preferredName: user.preferredName || userAccount.sourceIdentifier,
     };
   } catch (error) {
     assertIsError(error);

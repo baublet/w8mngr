@@ -1,15 +1,15 @@
 import React from "react";
-import { ulid } from "ulid";
 
 import { Maybe } from "../../../api/generated";
 import { or } from "../../../shared";
 import { FoodMeasurement, useDeleteMeasurementMutation } from "../../generated";
-import { useForm } from "../../helpers";
+import { useForm } from "../../helpers/useForm";
 import { DeleteIconButton } from "../Button/DeleteIconButton";
 import { SystemOutlineIconButton } from "../Button/SystemOutlineIcon";
 import { Input } from "../Forms";
 import { Add } from "../Icons/Add";
 import { FormSubHeading } from "../Type/FormSubHeading";
+import { getUniqueId } from "../../../shared/getUniqueId";
 
 export type FormMeasurementInput = Partial<
   Pick<
@@ -35,7 +35,7 @@ export function FoodMeasurementsForm({
     setMeasurements((measurements) => [
       ...measurements,
       {
-        internalId: ulid(),
+        internalId: getUniqueId(),
       },
     ]);
   }, []);

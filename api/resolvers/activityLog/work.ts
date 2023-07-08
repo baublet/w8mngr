@@ -1,5 +1,5 @@
 import { activityDataService } from "../../dataServices/activity";
-import { ActivityLogResolvers } from "../../generated";
+import { ActivityLogResolvers, ActivityType } from "../../generated";
 import { numberToContextualUnit } from "../../helpers/numberToContextualUnit";
 
 export const activityLogWork: ActivityLogResolvers["work"] = async (
@@ -21,7 +21,7 @@ export const activityLogWork: ActivityLogResolvers["work"] = async (
   );
 
   return numberToContextualUnit(context, {
-    activityType: activity.type,
+    activityType: activity.type as ActivityType,
     work: parentWork,
     requestedWorkUnit,
   });

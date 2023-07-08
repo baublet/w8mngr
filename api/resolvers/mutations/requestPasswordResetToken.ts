@@ -12,7 +12,7 @@ export const requestPasswordResetToken: MutationResolvers["requestPasswordResetT
       (q) =>
         q
           .where("source", "=", "local")
-          .andWhere("sourceIdentifier", "=", args.input.email)
+          .where("sourceIdentifier", "=", args.input.email)
     );
 
     if (!matchingAccount) {

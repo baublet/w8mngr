@@ -5,7 +5,7 @@ import {
   GetCurrentUserFoodLogDocument,
   useCreateOrUpdateFoodLogMutation,
 } from "../../generated";
-import { Input } from "../Forms";
+import { Input } from "../Forms/Input";
 import { getMeasurementWithMultiplier } from "../Foods/FoodListItem";
 import { Add } from "../Icons/Add";
 import { SecondaryOutlineButton } from "../Button/SecondaryOutline";

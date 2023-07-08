@@ -1,5 +1,3 @@
-import { Request } from "@cloudflare/workers-types";
-
 import { Context, createContext } from "../createContext";
 import { getClientId } from "../helpers/getClientId";
 import { userDataService, UserEntity } from "../dataServices/user";

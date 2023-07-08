@@ -7,7 +7,7 @@ import {
   useGetActivityDetailsQuery,
   useSaveActivityMutation,
 } from "../../generated";
-import { useToast } from "../../helpers";
+import { useToast } from "../../helpers/useToast";
 import { PrimaryLoader } from "../Loading/Primary";
 import { ActivityForm } from "./ActivityForm";
 

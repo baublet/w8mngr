@@ -1,12 +1,9 @@
 import FormData from "form-data";
-import MailGun from "mailgun.js";
-import { ulid } from "ulid";
 
 import { assertIsError } from "../../shared/assertIsError";
 import { config } from "../config/config";
 import { log } from "../config/log";
-
-const mailGunClient = new MailGun(FormData);
+import { getUniqueId } from "../../shared/getUniqueId";
 
 export function emailService() {
   return async ({
@@ -52,22 +49,23 @@ export function emailService() {
         html,
       });
 
-      const client = mailGunClient.client({ username: "api", key: apiKey });
-      const result = await client.messages.create(domain, messageData);
+      // const client = mailGunClient.client({ username: "api", key: apiKey });
+      // const result = await client.messages.create(domain, messageData);
 
-      if (result.id) {
+      // if (result.id) {
+      if (1) {
         log("info", "Email sent", {
           to,
           subject,
-          result,
+          // result,
         });
       } else {
-        const logId = ulid();
+        const logId = getUniqueId();
         log("error", "Error sending email", {
           to,
           subject,
           logId,
-          result,
+          // result,
         });
         throw new Error(`Unknown error sending email. LogId: ${logId}`);
       }

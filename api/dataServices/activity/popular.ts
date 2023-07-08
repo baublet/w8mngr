@@ -1,35 +1,35 @@
 import { Context } from "../../createContext";
-import { ActivityEntity } from "./types";
+import { Activity } from "./types";
+import { dbService, sql } from "../../config/db";
 
-export async function popular(context: Context): Promise<ActivityEntity[]> {
+export async function popular(context: Context): Promise<Activity[]> {
   const userId = context.getCurrentUserId(true);
-  const activityLogQueryFactory = await getActivityLogQuery(context);
-  const popularQuery = activityLogQueryFactory();
-  const popularActivityIds: { activityId: string }[] = await popularQuery
+  const db = context.services.get(dbService)("W8MNGR_1");
+
+  const popularActivityIds: { activityId: string }[] = await db
+    .selectFrom("activityLog")
     .select("activityId")
-    .count("id", { as: "activityCount" })
+    .select(({ fn }) => fn.count("id").as("activityCount"))
     .where("userId", "=", userId)
-    .andWhere("archived", "=", false)
+    .where("archived", "=", 0)
     .groupBy("activityId")
-    .orderBy("activityCount", "DESC")
-    .limit(10);
+    .orderBy(sql`"activityCount" DESC`)
+    .limit(10)
+    .execute();
 
-  const activityQueryFactory = await getQuery(context);
-  const activitiesQuery = activityQueryFactory();
-  const activities = await activitiesQuery.select("*").whereIn(
-    "id",
-    popularActivityIds.map(({ activityId }) => activityId)
-  );
-
-  const activitiesToReturn: Activity[] = [];
-  for (const activity of popularActivityIds) {
-    const activityToReturn = activities.find(
-      ({ id }) => id === activity.activityId
-    );
-    if (activityToReturn) {
-      activitiesToReturn.push(activityToReturn);
-    }
+  if (popularActivityIds.length === 0) {
+    return [];
   }
 
-  return activitiesToReturn;
+  const activities = await db
+    .selectFrom("activity")
+    .where(
+      "id",
+      "in",
+      popularActivityIds.map(({ activityId }) => activityId)
+    )
+    .selectAll()
+    .execute();
+
+  return activities;
 }

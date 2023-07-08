@@ -1,5 +1,4 @@
-import { ulid } from "ulid";
-
+import { getUniqueId } from "../../shared/getUniqueId";
 import { Context, createContext } from "../createContext";
 
 export const runWithContext = async <T>(
@@ -7,7 +6,7 @@ export const runWithContext = async <T>(
   runner: (context: Context) => T
 ): Promise<T> => {
   const context = await createContext({
-    clientId: `${id}-${ulid()}`,
+    clientId: `${id}-${getUniqueId()}`,
   });
 
   const result = await runner(context);

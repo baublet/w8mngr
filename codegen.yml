@@ -11,8 +11,9 @@ generates:
       enumsAsTypes: true
       maybeValue: T | undefined
       contextType: ./createContext#Context
+      scalars:
+        ID: string
       mappers:
-        ID: String
         Food: Omit<Food, "measurements">
         Activity: Omit<Activity, "muscleGroups" | "logs" | "stats" | "permissions">
         User: |

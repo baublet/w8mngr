@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import { Application } from "./Application";
 import { boot } from "./boot";
-import { EventProvider } from "./helpers";
+import { EventProvider } from "./helpers/useEvents";
 import { apolloClientService } from "./helpers/apolloClientService";
 
 boot().then(async () => {

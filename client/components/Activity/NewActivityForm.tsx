@@ -1,17 +1,19 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { ActivityForm, PartialFormData } from "./ActivityForm";
 import { useSaveActivityMutation } from "../../generated";
-import { useToast } from "../../helpers";
+import { useToast } from "../../helpers/useToast";
 
 export function NewActivityForm() {
-  const { replace } = useHistory();
+  const navigate = useNavigate();
   const { error, success } = useToast();
   const [saveActivity, { loading }] = useSaveActivityMutation({
     onCompleted: (data) => {
       success("New activity created");
-      replace(`/activities/edit/${data.saveActivity.activity?.id}`);
+      navigate(`/activities/edit/${data.saveActivity.activity?.id}`, {
+        replace: true,
+      });
     },
     onError: error,
   });

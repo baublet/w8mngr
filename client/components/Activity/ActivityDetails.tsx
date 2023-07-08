@@ -2,7 +2,7 @@ import React from "react";
 import cx from "classnames";
 
 import { ActivityType, Muscle, GetActivityDetailsQuery } from "../../generated";
-import { activityTypeToHumanReadable } from "../../helpers";
+import { activityTypeToHumanReadable } from "../../helpers/activityTypeToHumanReadable";
 import { MuscleMap } from "../MuscleMap";
 import { AsyncMarkdown } from "../Markdown";
 import { IntensityScale } from "./IntensityScale";

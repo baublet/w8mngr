@@ -1,7 +1,7 @@
 import cx from "classnames";
 import { addDays, isPast } from "date-fns";
 import React from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { or } from "../../shared";
 import { formatDate } from "../../shared/dateFormat";
@@ -21,7 +21,7 @@ export function DayNavigator({
   const todayDayString = React.useMemo(() => dayStringFromDate(new Date()), []);
 
   const params = useParams<{ day: string }>();
-  const { replace } = useHistory();
+  const navigate = useNavigate();
 
   const [dayString, setDayString] = React.useState(
     or(params.day, todayDayString)
@@ -59,20 +59,20 @@ export function DayNavigator({
     const nextDay = addDays(dayStringToDate(dayString), 1);
     const nextDayString = dayStringFromDate(nextDay);
     setDayString(nextDayString);
-    replace(`${rootUrl}${nextDayString}`);
+    navigate(`${rootUrl}${nextDayString}`, { replace: true });
   }, [dayString, rootUrl]);
 
   const prevDay = React.useCallback(() => {
     const prevDay = addDays(dayStringToDate(dayString), -1);
     const prevDayString = dayStringFromDate(prevDay);
     setDayString(prevDayString);
-    replace(`${rootUrl}${prevDayString}`);
+    navigate(`${rootUrl}${prevDayString}`, { replace: true });
   }, [dayString, rootUrl]);
 
   const today = React.useCallback(() => {
     const today = dayStringFromDate(new Date());
     setDayString(today);
-    replace(`${rootUrl}${today}`);
+    navigate(`${rootUrl}${today}`, { replace: true });
   }, []);
 
   return (

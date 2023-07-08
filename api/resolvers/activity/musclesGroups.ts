@@ -1,5 +1,5 @@
 import { activityMuscleDataService } from "../../dataServices/activityMuscle";
-import { ActivityResolvers } from "../../generated";
+import { ActivityResolvers, Muscle } from "../../generated";
 
 export const activityMuscleGroups: ActivityResolvers["muscleGroups"] = async (
   parent,
@@ -10,5 +10,5 @@ export const activityMuscleGroups: ActivityResolvers["muscleGroups"] = async (
     q.where("activityId", "=", parent.id)
   );
 
-  return muscles.map((muscle) => muscle.muscle);
+  return muscles.map((muscle) => muscle.muscle as Muscle);
 };

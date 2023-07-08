@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router";
 
 import { SecondaryButton } from "../components/Button/Secondary";
 import { ContentContainer } from "../components/Containers/ContentContainer";
@@ -8,7 +7,9 @@ import { Form, Input } from "../components/Forms";
 import { RegisterIcon } from "../components/Icons/Register";
 import { PageHeading } from "../components/Type/PageHeading";
 import { GetCurrentUserDocument, useRegisterMutation } from "../generated";
-import { useForm, useToast, useNavigateToUrl } from "../helpers";
+import { useForm } from "../helpers/useForm";
+import { useToast } from "../helpers/useToast";
+import { useNavigateToUrl } from "../helpers/useNavigateToUrl";
 
 export function Register() {
   const navigate = useNavigateToUrl();

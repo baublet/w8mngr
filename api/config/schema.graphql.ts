@@ -1,16 +1,7 @@
-import type { DocumentNode } from "graphql";
+import { parse as gql } from "graphql";
 
-let schemaPromise: Promise<DocumentNode> | undefined;
 export function getSchema() {
-  if (schemaPromise) {
-    return schemaPromise;
-  }
-  schemaPromise = new Promise((resolve) => {
-    import("graphql").then((graphql) => {
-      const gql = graphql.parse;
-
-      resolve(
-        gql(`
+  return gql(`
 
 
 
@@ -22,7 +13,7 @@ scalar JSON
 type User {
   id: ID!
   verified: Boolean!
-  preferredName: String!
+  preferredName: String
   weightLog(day: String!): WeightLogConnection!
   weightLogSummary(input: WeightLogSummaryInput): WeightLogSummary!
   foodLog(day: String!): FoodLogConnection!
@@ -722,10 +713,5 @@ type UserPreference {
 
 
 
-`)
-      );
-    });
-  });
-
-  return schemaPromise;
+`);
 }

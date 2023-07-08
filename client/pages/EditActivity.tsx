@@ -1,7 +1,7 @@
 import React from "react";
-import { useHistory, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
-import { EditActivityForm } from "../components/Activity";
+import { EditActivityForm } from "../components/Activity/EditActivityForm";
 import { BackToButton } from "../components/Button/BackTo";
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { HealthCircleIcon } from "../components/Icons/HealthCircle";
@@ -9,7 +9,7 @@ import { PageHeading } from "../components/Type/PageHeading";
 
 export function EditActivity() {
   const { id } = useParams<{ id: string }>();
-  const { goBack } = useHistory();
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col gap-4 w-full">
       <ContentContainer>
@@ -17,7 +17,7 @@ export function EditActivity() {
           icon={<HealthCircleIcon />}
           quickLinks={
             <>
-              <BackToButton {...backButtonProps(id, goBack)}>
+              <BackToButton {...backButtonProps(id, () => navigate(-1))}>
                 View Activity
               </BackToButton>
             </>

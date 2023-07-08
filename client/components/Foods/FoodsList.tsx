@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useGetFoodsQuery } from "../../generated";
-import { usePaginatedQuery } from "../../helpers";
+import { usePaginatedQuery } from "../../helpers/usePaginatedQuery";
 import { SystemOutlineButton } from "../Button/SystemOutline";
 import { LeftIcon } from "../Icons/Left";
 import { RightIcon } from "../Icons/Right";

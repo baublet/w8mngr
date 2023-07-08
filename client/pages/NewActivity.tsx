@@ -1,6 +1,6 @@
 import React from "react";
 
-import { NewActivityForm } from "../components/Activity";
+import { NewActivityForm } from "../components/Activity/NewActivityForm";
 import { BackToButton } from "../components/Button/BackTo";
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { HealthCircleIcon } from "../components/Icons/HealthCircle";

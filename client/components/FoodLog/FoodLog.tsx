@@ -1,10 +1,10 @@
 import cx from "classnames";
 import React from "react";
-import { useParams } from "react-router";
 
-import { dayStringFromDate, getWithDefault, or } from "../../../shared";
+import { or } from "../../../shared/coalesce";
+import { getWithDefault } from "../../../shared/getWithDefault";
 import { useGetCurrentUserFoodLogQuery } from "../../generated";
-import { useDebouncedValue } from "../../helpers";
+import { useDebouncedValue } from "../../helpers/useDebouncedValue";
 import { DayNavigator } from "../DayNavigator";
 import { PrimaryLoader } from "../Loading/Primary";
 import { FoodSearchAutocomplete } from "./FoodSearchAutocomplete";

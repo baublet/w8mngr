@@ -60,7 +60,9 @@ function getUpsertBy<T extends keyof Database>(
               return acc;
             }, {} as any),
           }) as any
-      );
+      )
+      .returningAll()
+      .execute();
   };
 }
 

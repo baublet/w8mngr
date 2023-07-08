@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { PrimaryLoader } from "../components/Loading/Primary";
@@ -7,7 +7,7 @@ import { PageHeading } from "../components/Type/PageHeading";
 import { GetCurrentUserDocument, useLogoutMutation } from "../generated";
 
 export function Logout() {
-  const { push } = useHistory();
+  const push = useNavigate();
 
   const [logout] = useLogoutMutation({
     refetchQueries: [GetCurrentUserDocument],

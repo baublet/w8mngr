@@ -7,7 +7,7 @@ import { ContentContainer } from "./components/Containers/ContentContainer";
 import { Link } from "./components/Link";
 import { Logo } from "./components/Logo";
 import { HeaderNavigation } from "./components/Navigation/HeaderNavigation";
-import { ToastProvider } from "./helpers";
+import { ToastProvider } from "./helpers/useToast";
 import { Routes } from "./Routes";
 
 export function Application(): React.ReactComponentElement<any> {

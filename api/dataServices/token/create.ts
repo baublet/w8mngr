@@ -1,10 +1,9 @@
-import { ulid } from "ulid";
-
 import { createDigest } from "../../authentication/createDigest";
 import { Context } from "../../createContext";
-import { rootService, rootService as tokenDataService } from "./rootService";
+import { rootService } from "./rootService";
 import { TOKEN_EXPIRY_OFFSET, TokenEntity, assertIsTokenType } from "./types";
 import { assertIsTruthy } from "../../../shared";
+import { getUniqueId } from "../../../shared/getUniqueId";
 
 export async function create(
   context: Context,
@@ -15,7 +14,7 @@ export async function create(
     token: string;
   }
 ): Promise<TokenEntity> {
-  const id = ulid();
+  const id = getUniqueId();
   const tokenDigest = await createDigest(token);
   const type = input.type;
   assertIsTokenType(type);

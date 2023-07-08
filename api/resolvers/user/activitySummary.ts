@@ -64,7 +64,7 @@ export const userActivitySummary: UserResolvers["activitySummary"] = async (
       }
       const relatedActivityIds = dedupe(activityIds);
       const relatedActivities = await activityDataService.findBy(context, (q) =>
-        q.whereIn("id", relatedActivityIds)
+        q.where("id", "in", relatedActivityIds)
       );
       const activityMap = filterOutErrors(relatedActivities).reduce(
         (map, value) => {

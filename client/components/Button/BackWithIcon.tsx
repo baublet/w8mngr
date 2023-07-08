@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { or } from "../../../shared";
+import { or } from "../../../shared/coalesce";
 import { BaseButtonProps } from "./Base";
 
 export function BackWithIconButton(

@@ -7,7 +7,8 @@ import { SecondaryButton } from "../Button/Secondary";
 import { ContentContainer } from "../Containers/ContentContainer";
 import { ContentLayout } from "../Containers/ContentLayout";
 
-import { activityTypeToHumanReadable, useForm } from "../../helpers";
+import { useForm } from "../../helpers/useForm";
+import { activityTypeToHumanReadable } from "../../helpers/activityTypeToHumanReadable";
 import { ActivityType, Muscle } from "../../generated";
 import { MuscleMap } from "../MuscleMap";
 import { IntensityScale } from "./IntensityScale";

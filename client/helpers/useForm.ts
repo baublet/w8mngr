@@ -1,9 +1,9 @@
 import React from "react";
-import { ObjectSchema } from "yup";
+import { ObjectSchema, object, number, string } from "yup";
 
 import { Maybe } from "../../shared/types";
 
-export function useForm<T extends Record<string, any>>({
+function useForm<T extends Record<string, any>>({
   initialValues = {},
   schema,
   onChange,
@@ -118,3 +118,5 @@ export type FormStateObject<T extends Record<string, any>> = {
   ) => void;
   setValue: <K extends keyof T>(key: K, value: T[K]) => void;
 };
+
+export { object, number, string, useForm };

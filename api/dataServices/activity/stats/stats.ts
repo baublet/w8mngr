@@ -64,7 +64,7 @@ export async function stats(
   };
 
   const personalRecordNode = async () => {
-    const recordColumn = getPersonalRecordColumn(activity.type);
+    const recordColumn = getPersonalRecordColumn(activity.type as ActivityType);
     const personalRecord = await activityLogDataService.findBy(context, (q) =>
       q
         .where("activityId", "=", activityId)
@@ -86,7 +86,7 @@ export async function stats(
     const reps = personalRecordLog.reps;
     const rawWork = personalRecordLog.work;
     const work = await numberToContextualUnit(context, {
-      activityType: activity.type,
+      activityType: activity.type as ActivityType,
       work: rawWork,
     });
     const personalRecordLink = `/activities/${activityId}/log/${personalRecordLog.day}`;
@@ -106,7 +106,7 @@ export async function stats(
       activityId,
       userId,
       context,
-      activityType: activity.type,
+      activityType: activity.type as ActivityType,
     }),
   };
 }

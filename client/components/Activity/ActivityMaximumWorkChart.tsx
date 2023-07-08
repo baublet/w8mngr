@@ -10,7 +10,7 @@ import {
 import formatDate from "date-fns/format";
 
 import { TrophyIcon } from "../Icons/Trophy";
-import { dayStringToDate } from "../../../shared";
+import { dayStringToDate } from "../../../shared/dayStringToDate";
 
 export function ActivityMaximumWorkChart({
   data,

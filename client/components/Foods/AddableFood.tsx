@@ -6,7 +6,7 @@ import {
   GetCurrentUserFoodLogDocument,
   useCreateOrUpdateFoodLogMutation,
 } from "../../generated";
-import { useEvents } from "../../helpers";
+import { useEvents } from "../../helpers/useEvents";
 import { SystemOutlineIconButton } from "../Button/SystemOutlineIcon";
 import { Add } from "../Icons/Add";
 import { AddableFoodMeasurements } from "./AddableFoodMeasurements";

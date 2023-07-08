@@ -1,8 +1,8 @@
 import Quagga from "@ericblade/quagga2";
 import cx from "classnames";
 import React from "react";
-import { CloseIcon } from "../Icons/Close";
 
+import { CloseIcon } from "../Icons/Close";
 import { ButtonSpinnerIcon } from "../Loading/ButtonSpinner";
 import { PrimaryLoader } from "../Loading/Primary";
 import { ScannerResults } from "./ScannerResults";

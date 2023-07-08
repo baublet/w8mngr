@@ -1,4 +1,3 @@
-import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
 import { ActivityInput } from "../../generated";
 import { activityMuscleDataService } from "../activityMuscle";
@@ -8,15 +7,13 @@ export async function saveMutation(
   context: Context,
   { input, userId }: { input: ActivityInput; userId: string }
 ) {
-  const db = await context.services.get(dbService);
-  await db.transact();
   try {
     const { muscleGroups, ...activityProperties } = input;
 
-    const upsertResults = await rootService.upsert(
+    const upsertResults = await rootService.upsertBy(
       context,
       [{ ...activityProperties, userId }],
-      (q) => q.where("userId", "=", userId)
+      ["userId"]
     );
     const activityId = upsertResults[0].id;
 
@@ -38,15 +35,13 @@ export async function saveMutation(
       );
     }
 
-    await db.commit();
     return {
-      activity: rootService.findOneOrFail(context, (q) =>
-        q.where("id", "=", activityId).andWhere("userId", "=", userId)
+      activity: rootService.findOneOrFailBy(context, (q) =>
+        q.where("id", "=", activityId).where("userId", "=", userId)
       ),
       errors: [],
     };
   } catch (error) {
-    await db.rollback(error);
     return {
       activity: undefined,
       errors: [error],

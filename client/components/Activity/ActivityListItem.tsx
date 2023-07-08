@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { ActivityType, Muscle } from "../../generated";
-import { activityTypeToHumanReadable } from "../../helpers";
+import { activityTypeToHumanReadable } from "../../helpers/activityTypeToHumanReadable";
 import { Panel } from "../Containers/Panel";
 import { AsyncMarkdown } from "../Markdown";
 import { MuscleMap } from "../MuscleMap";

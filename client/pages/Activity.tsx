@@ -1,11 +1,9 @@
 import React from "react";
-import { useHistory, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
-import { dayStringFromDate } from "../../shared";
-import {
-  ActivityDetails,
-  ActivityStatsComponent,
-} from "../components/Activity";
+import { dayStringFromDate } from "../../shared/dayStringFromDate";
+import { ActivityDetails } from "../components/Activity/ActivityDetails";
+import { ActivityStatsComponent } from "../components/Activity/ActivityStats";
 import { BackToButton } from "../components/Button/BackTo";
 import { SecondaryButton } from "../components/Button/Secondary";
 import { SecondaryOutlineButton } from "../components/Button/SecondaryOutline";
@@ -18,7 +16,7 @@ import { useGetActivityDetailsQuery } from "../generated";
 
 export function Activity() {
   const { id = "id" } = useParams<{ id?: string }>();
-  const { goBack } = useHistory();
+  const navigate = useNavigate();
   const { data } = useGetActivityDetailsQuery({
     variables: {
       id,
@@ -42,7 +40,7 @@ export function Activity() {
           icon={<HealthCircleIcon />}
           quickLinks={
             <>
-              <BackToButton {...backButtonProps(goBack)}>
+              <BackToButton {...backButtonProps(() => navigate(-1))}>
                 Back to Activities
               </BackToButton>
             </>

@@ -1,29 +1,28 @@
+import { createServiceContainer } from "@baublet/service-container";
 import "minifaker/locales/en";
 
 import addDays from "date-fns/addDays";
 import subYears from "date-fns/subYears";
-import knex from "knex";
-import { clamp } from "lodash";
 import { arrayElement, date, email, number, word } from "minifaker";
+import clamp from "lodash.clamp";
 
 import { config } from "../api/config/config";
 import { dbService } from "../api/config/db";
 import { createContext } from "../api/createContext";
+import { Activity, activityDataService } from "../api/dataServices/activity";
 import {
-  Activity,
   ActivityLog,
-  UserAccountEntity,
-  UserEntity,
-  activityDataService,
   activityLogDataService,
-  foodDataService,
-  foodLogDataService,
-  foodMeasurementDataService,
+} from "../api/dataServices/activityLog";
+import { foodDataService } from "../api/dataServices/food";
+import { foodLogDataService } from "../api/dataServices/foodLog";
+import { foodMeasurementDataService } from "../api/dataServices/foodMeasurement";
+import {
+  UserAccountEntity,
   userAccountDataService,
-  userDataService,
-  weightLogDataService,
-} from "../api/dataServices";
-import knexConfig from "../knexfile";
+} from "../api/dataServices/userAccount";
+import { UserEntity, userDataService } from "../api/dataServices/user";
+import { weightLogDataService } from "../api/dataServices/weightLog";
 import { dayStringFromDate } from "../shared";
 
 const minDate = subYears(new Date(), 1);
@@ -88,11 +87,13 @@ function paragraphs(num: number): string {
 (async () => {
   console.log("Initializing and testing database connections");
 
-  const database = config.get("DATABASE");
-  const newDb = knex((knexConfig as any)[database]);
-  const getNewDb = () => newDb;
+  const serviceContainer = createServiceContainer();
 
-  await getNewDb().raw("SELECT 1");
+  const database = config.get("DATABASE");
+  const dbInstance = serviceContainer.get(dbService);
+  const getNewDb = () => dbInstance("W8MNGR_1");
+
+  await getNewDb().selectFrom("user").selectAll().limit(1).executeTakeFirst();
 
   console.log(
     "Databases working! Connections: ",
@@ -109,7 +110,6 @@ function paragraphs(num: number): string {
   await seedFoodEntries();
 
   const db = await context.services.get(dbService);
-  await db.destroy();
   console.log("Done");
   process.exit(0);
 });
@@ -154,7 +154,7 @@ async function seedUsers() {
     }
     users.push(user.user);
 
-    const userAccount = await userAccountDataService.findOneOrFail(
+    const userAccount = await userAccountDataService.findOneOrFailBy(
       context,
       (q) => q.where("userId", "=", user.user.id)
     );
@@ -181,13 +181,15 @@ async function seedActivities() {
     for (let i = 0; i < userActivitiesCount; i++) {
       total++;
       process.stdout.write(".");
-      const activity = await activityDataService.create(context, {
-        userId: user.id,
-        name: `${word()} ${word()}`,
-        description: paragraphs(number({ min: 1, max: 3 })),
-        type: activityTypes[number({ min: 0, max: 3 })],
-      });
-      userActivities[user.id].push(activity);
+      const activities = await activityDataService.create(context, [
+        {
+          userId: user.id,
+          name: `${word()} ${word()}`,
+          description: paragraphs(number({ min: 1, max: 3 })),
+          type: activityTypes[number({ min: 0, max: 3 })],
+        },
+      ]);
+      userActivities[user.id].push(...activities);
     }
   }
 
@@ -224,6 +226,7 @@ async function saveActivityEntries() {
           work: number({ min: 100, max: 2000 }),
         };
     }
+    throw new Error("Unknown randomRepsAndWork type: " + type);
   }
 
   // Everyone else
@@ -264,23 +267,28 @@ async function seedFoods() {
     for (let i = 0; i < userFoodsCount; i++) {
       total++;
       process.stdout.write(".");
-      const food = await foodDataService.create(context, {
-        userId: user.id,
-        name: `${word()} ${word()}`,
-        description: paragraphs(number({ min: 1, max: 3 })),
-      });
+      const foods = await foodDataService.create(context, [
+        {
+          userId: user.id,
+          name: `${word()} ${word()}`,
+          description: paragraphs(number({ min: 1, max: 3 })),
+        },
+      ]);
+      const food = foods[0];
       const foodMeasurements = number({ min: 0, max: 3 });
       for (let j = 0; j < foodMeasurements; j++) {
-        await foodMeasurementDataService.create(context, {
-          foodId: food.id,
-          userId: user.id,
-          amount: number({ min: 1, max: 10, float: true }),
-          measurement: word(),
-          calories: number({ min: 1, max: 500 }),
-          fat: number({ min: 1, max: 50 }),
-          carbs: number({ min: 1, max: 50 }),
-          protein: number({ min: 1, max: 50 }),
-        });
+        await foodMeasurementDataService.create(context, [
+          {
+            foodId: food.id,
+            userId: user.id,
+            amount: number({ min: 1, max: 10, float: true }),
+            measurement: word(),
+            calories: number({ min: 1, max: 500 }),
+            fat: number({ min: 1, max: 50 }),
+            carbs: number({ min: 1, max: 50 }),
+            protein: number({ min: 1, max: 50 }),
+          },
+        ]);
       }
     }
   }

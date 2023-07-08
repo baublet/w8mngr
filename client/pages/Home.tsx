@@ -10,7 +10,7 @@ import { HeartIcon } from "../components/Icons/Heart";
 import { Ping } from "../components/Ping";
 import { PageHeading } from "../components/Type/PageHeading";
 
-import { useWindowSize } from "../helpers";
+import { useWindowSize } from "../helpers/useWindowSize";
 
 export function Home() {
   const { ratio } = useWindowSize();

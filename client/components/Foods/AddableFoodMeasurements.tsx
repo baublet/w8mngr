@@ -2,7 +2,8 @@ import cx from "classnames";
 import React from "react";
 
 import { coalesce, or } from "../../../shared";
-import { useForm, useKeyPressHandler } from "../../helpers";
+import { useForm } from "../../helpers/useForm";
+import { useKeyPressHandler } from "../../helpers/useKeyPressHandler";
 import { PrimaryIconButton } from "../Button/PrimaryIcon";
 import { SystemOutlineButton } from "../Button/SystemOutline";
 import {

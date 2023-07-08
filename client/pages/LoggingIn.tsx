@@ -3,7 +3,7 @@ import React from "react";
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { PrimaryLoader } from "../components/Loading/Primary";
 import { PageHeading } from "../components/Type/PageHeading";
-import { useLoginWithToken } from "../helpers";
+import { useLoginWithToken } from "../helpers/useLoginWithToken";
 
 export function LoggingIn() {
   useLoginWithToken();

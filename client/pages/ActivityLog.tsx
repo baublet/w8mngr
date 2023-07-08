@@ -1,8 +1,8 @@
 import React from "react";
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 
-import { ActivityStatsComponent } from "../components/Activity";
-import { ActivityLog as ActivityLogComponent } from "../components/ActivityLog";
+import { ActivityStatsComponent } from "../components/Activity/ActivityStats";
+import { ActivityLog as ActivityLogComponent } from "../components/ActivityLog/ActivityLog";
 import { BackToButton } from "../components/Button/BackTo";
 import { BackWithIconButton } from "../components/Button/BackWithIcon";
 import { ContentContainer } from "../components/Containers/ContentContainer";
@@ -13,7 +13,7 @@ import { PrimaryLoader } from "../components/Loading/Primary";
 import { MuscleMap } from "../components/MuscleMap";
 import { PageHeading } from "../components/Type/PageHeading";
 import { useGetActivityDetailsQuery } from "../generated";
-import { useNavigateToUrl } from "../helpers";
+import { useNavigateToUrl } from "../helpers/useNavigateToUrl";
 
 export function ActivityLog() {
   const { id, day = "" } = useParams<{ id: string; day: string }>();

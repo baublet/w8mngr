@@ -9,12 +9,12 @@ export const upload: QueryResolvers["upload"] = (
   return uploadDataService.findOneOrFail(context, (q) => {
     const id = input?.id;
     if (id) {
-      q.andWhere("id", "=", id);
+      q.where("id", "=", id);
     }
 
     const publicId = input?.publicId;
     if (publicId) {
-      q.andWhere("publicId", "=", publicId);
+      q.where("publicId", "=", publicId);
     }
   });
 };

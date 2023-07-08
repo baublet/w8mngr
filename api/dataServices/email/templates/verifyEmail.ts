@@ -1,8 +1,7 @@
 import { config } from "../../../config/config";
-import { UserEntity } from "../../";
+import { UserEntity } from "../../user/types";
 
 export const verifyEmailTemplate = ({
-  user,
   emailVerificationToken,
 }: {
   user: UserEntity;

@@ -13,7 +13,7 @@ export const foods: UserResolvers["foods"] = async (
   const filters = getWithDefault(input?.filter, {});
   const connectionResolver = await foodDataService.getConnection(context, {
     applyCustomConstraint: (q) =>
-      q.whereIn("userId", [currentUserId, ...adminUsers.map((u) => u.id)]),
+      q.where("userId", "in", [currentUserId, ...adminUsers.map((u) => u.id)]),
     constraint: {
       id: filters.id,
     },

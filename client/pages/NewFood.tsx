@@ -2,7 +2,7 @@ import React from "react";
 
 import { BackToButton } from "../components/Button/BackTo";
 import { ContentContainer } from "../components/Containers/ContentContainer";
-import { NewFoodForm } from "../components/Foods";
+import { NewFoodForm } from "../components/Foods/NewFoodForm";
 import { FoodCircleIcon } from "../components/Icons/FoodCircle";
 import { PageHeading } from "../components/Type/PageHeading";
 

@@ -1,8 +1,7 @@
 import { config } from "../../../config/config";
-import { UserEntity } from "../../";
+import { UserEntity } from "../../user/types";
 
 export const forgotPasswordTemplate = ({
-  user,
   resetToken,
 }: {
   user: UserEntity;

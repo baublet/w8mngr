@@ -10,10 +10,10 @@ export async function saveMutation(
   try {
     const { measurements, ...foodProperties } = input;
 
-    const upsertResults = await rootService.upsert(
+    const upsertResults = await rootService.upsertBy(
       context,
       [{ ...foodProperties, id: foodProperties.id, userId }],
-      (q) => q.where("userId", "=", userId)
+      ["userId"]
     );
     const result = upsertResults[0];
 
@@ -31,14 +31,14 @@ export async function saveMutation(
         measurements.map((measurement) => ({
           ...measurement,
           userId,
-          foodId,
+          foodId: result.id,
         }))
       );
     }
 
     return {
-      food: rootService.findOneOrFail(context, (q) =>
-        q.where("id", "=", foodId).andWhere("userId", "=", userId)
+      food: rootService.findOneOrFailBy(context, (q) =>
+        q.where("id", "=", result.id).where("userId", "=", userId)
       ),
     };
   } catch (error) {

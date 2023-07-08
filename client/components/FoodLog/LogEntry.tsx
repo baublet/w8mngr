@@ -1,6 +1,5 @@
 import cx from "classnames";
 import React from "react";
-import { number, object, string } from "yup";
 
 import { or } from "../../../shared";
 import {
@@ -8,10 +7,12 @@ import {
   useCreateOrUpdateFoodLogMutation,
   useDeleteFoodLogMutation,
 } from "../../generated";
-import { useForm, useToast } from "../../helpers";
+import { useForm, object, string, number } from "../../helpers/useForm";
+import { useToast } from "../../helpers/useToast";
 import { DeleteIconButton } from "../Button/DeleteIconButton";
 import { Panel } from "../Containers";
-import { Form, InputFoodEntry } from "../Forms";
+import { Form } from "../Forms/Form";
+import { InputFoodEntry } from "../Forms/InputFoodEntry";
 
 const schema = object().shape({
   id: string().required(),

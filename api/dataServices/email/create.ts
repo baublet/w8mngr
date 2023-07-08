@@ -1,11 +1,10 @@
-import { ulid } from "ulid";
-
 import { Context } from "../../createContext";
 import { userAccountDataService } from "../userAccount";
 import { EmailEntity, emailDataService } from "./";
 import { EmailTemplateKey, EmailTemplates } from "./templates";
 import { dbService } from "../../config/db";
 import { assertIsTruthy } from "../../../shared";
+import { getUniqueId } from "../../../shared/getUniqueId";
 
 export async function create<TTemplateKey extends EmailTemplateKey>(
   context: Context,
@@ -38,19 +37,21 @@ export async function create<TTemplateKey extends EmailTemplateKey>(
     throw new Error(`No email found for user: ${toUserId}`);
   }
 
-  const insertedEmailId = ulid();
+  const insertedEmailId = getUniqueId();
   const insertedResult = await context.services
     .get(dbService)("W8MNGR_1")
     .insertInto("email")
-    .values({
-      id: insertedEmailId,
-      toUserId,
-      sent: false,
-      templateId,
-      payload: JSON.stringify(templateVariables),
-      toEmail,
-      idempotenceKey,
-    })
+    .values([
+      {
+        id: insertedEmailId,
+        toUserId,
+        sent: 0,
+        templateId,
+        payload: JSON.stringify(templateVariables),
+        toEmail,
+        idempotenceKey,
+      },
+    ])
     .returningAll()
     .execute();
 

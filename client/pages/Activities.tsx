@@ -1,7 +1,8 @@
 import React from "react";
 
-import { ActivitiesTileMap, ActivityList } from "../components/Activity";
-import { ActivityPageHelpers } from "../components/Activity";
+import { ActivitiesTileMap } from "../components/Activity/ActivitiesTileMap";
+import { ActivityList } from "../components/Activity/ActivityList";
+import { ActivityPageHelpers } from "../components/Activity/ActivityPageHelpers";
 import { SecondaryButton } from "../components/Button/Secondary";
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { ContentLayout } from "../components/Containers/ContentLayout";

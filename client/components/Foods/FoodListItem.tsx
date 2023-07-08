@@ -1,9 +1,9 @@
 import cx from "classnames";
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { or } from "../../../shared";
-import { foodLogLocalStorage } from "../../helpers";
+import { foodLogLocalStorage } from "../../helpers/foodLogLocalStorage";
 import { GhostInvertedButton } from "../Button/GhostInverted";
 import { SystemGhostIconButton } from "../Button/SystemGhostIcon";
 import { Input } from "../Forms";
@@ -174,7 +174,7 @@ function Measurement({
 }) {
   const [uiMutableAmount, setAmount] = React.useState(amount);
   const amountString = uiMutableAmount.toString();
-  const { push } = useHistory();
+  const navigate = useNavigate();
 
   const logThisEntry = () => {
     const foodLogStorage = foodLogLocalStorage();
@@ -209,7 +209,7 @@ function Measurement({
         })
       ),
     });
-    push("/foodlog");
+    navigate("/foodlog");
   };
 
   return (

@@ -1,6 +1,5 @@
 import { assertIsError } from "../../../shared";
 import { Maybe } from "../../../shared/types";
-import { dbService } from "../../config/db";
 import { Context } from "../../createContext";
 import { ActivityLogInput } from "../../generated";
 import { doTimes } from "../../helpers/doTimes";
@@ -22,9 +21,7 @@ export async function saveMutation(
     day: string;
   }
 ): Promise<Error | undefined> {
-  const activity = await activityDataService.findOneOrFail(context, (q) =>
-    q.where("id", "=", activityId)
-  );
+  const activity = await activityDataService.findOneOrFail(context, activityId);
 
   const entries: { work?: number; reps?: number; id?: Maybe<string> }[] = [];
   for (const { reps: inputReps, work, id } of input) {
@@ -57,9 +54,6 @@ export async function saveMutation(
     }
   }
 
-  const db = await context.services.get(dbService);
-  await db.transact();
-
   try {
     const upsertResults = await rootService.upsert(
       context,
@@ -78,15 +72,12 @@ export async function saveMutation(
           upsertResults
         )}`
       );
-      await db.rollback(error);
       return error;
     }
 
-    await db.commit();
     return undefined;
   } catch (error) {
     assertIsError(error);
-    await db.rollback(error);
     return error;
   }
 }

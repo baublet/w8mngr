@@ -1,12 +1,20 @@
 import { userPreferenceDataService } from "../../dataServices/userPreference";
-import { UserResolvers } from "../../generated";
+import { UserResolvers, UserPreferenceType } from "../../generated";
 
-export const usePreferences: UserResolvers["preferences"] = (
+export const usePreferences: UserResolvers["preferences"] = async (
   parent,
   args,
   context
 ) => {
-  return userPreferenceDataService.getUserPreferences(context, {
-    userId: parent.id,
-  });
+  const preferences = await userPreferenceDataService.getUserPreferences(
+    context,
+    {
+      userId: parent.id,
+    }
+  );
+
+  return preferences.map((p) => ({
+    ...p,
+    key: p.key as UserPreferenceType,
+  }));
 };

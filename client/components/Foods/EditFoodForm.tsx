@@ -8,7 +8,7 @@ import {
   useGetFoodDetailsQuery,
   useSaveFoodMutation,
 } from "../../generated";
-import { useToast } from "../../helpers";
+import { useToast } from "../../helpers/useToast";
 import { PrimaryLoader } from "../Loading/Primary";
 import { FoodForm } from "./FoodForm";
 

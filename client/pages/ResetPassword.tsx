@@ -37,7 +37,7 @@ export function ResetPassword() {
       variables: {
         input: {
           ...formData.getValues(),
-          resetToken: token,
+          resetToken: token || "",
         },
       },
     });

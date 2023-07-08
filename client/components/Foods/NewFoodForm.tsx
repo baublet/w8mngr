@@ -1,20 +1,20 @@
 import omit from "lodash.omit";
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { withNumericKeys } from "../../../shared";
+import { withNumericKeys } from "../../../shared/withNumericKeys";
 import { Maybe } from "../../../shared/types";
 import { MeasurementInput, useSaveFoodMutation } from "../../generated";
-import { useToast } from "../../helpers";
+import { useToast } from "../../helpers/useToast";
 import { FoodForm } from "./FoodForm";
 
 export function NewFoodForm() {
   const { error, success } = useToast();
-  const { replace } = useHistory();
+  const navigate = useNavigate();
   const [saveFood, { loading }] = useSaveFoodMutation({
     onCompleted: (data) => {
       success("New Food created");
-      replace(`/foods/edit/${data.saveFood.food?.id}`);
+      navigate(`/foods/edit/${data.saveFood.food?.id}`, { replace: true });
     },
     onError: error,
   });

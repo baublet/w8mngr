@@ -16,7 +16,7 @@ import {
   FoodLogDataPoint,
   WeightLogVisualizationDataPoint,
 } from "../../generated";
-import { useNavigateToUrl } from "../../helpers";
+import { useNavigateToUrl } from "../../helpers/useNavigateToUrl";
 
 export type NutritionChartProps = {
   data: FoodLogDataPoint[];

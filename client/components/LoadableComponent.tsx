@@ -7,7 +7,7 @@ type LoadableComponentProps = {
   loadingComponent?: React.ComponentType<any>;
 };
 
-export function _LoadableComponent<
+export function LoadableComponent<
   T extends LoadableComponentProps,
   TKey extends ReturnType<T["load"]> extends Promise<infer TModule>
     ? keyof TModule
@@ -64,30 +64,4 @@ export function _LoadableComponent<
   }
 
   return <Component {...(props as any)} />;
-}
-
-type LoadableRouteProps = LoadableComponentProps & {
-  exact?: boolean;
-};
-
-export function LoadableComponent<
-  T extends LoadableRouteProps,
-  TKey extends ReturnType<T["load"]> extends Promise<infer TModule>
-    ? keyof TModule
-    : never
->({
-  load,
-  component,
-  props,
-}: T & {
-  component?: TKey;
-  props?: T[TKey] extends (props: infer TProps) => any ? TProps : never;
-}) {
-  return (
-    <_LoadableComponent
-      load={load}
-      component={component as any}
-      props={props as any}
-    />
-  );
 }

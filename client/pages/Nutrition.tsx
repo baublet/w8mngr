@@ -6,7 +6,8 @@ import { ContentContainer } from "../components/Containers/ContentContainer";
 import { ContentLayout } from "../components/Containers/ContentLayout";
 import { FoodCircleIcon } from "../components/Icons/FoodCircle";
 import { PrimaryLoader } from "../components/Loading/Primary";
-import { MacrosPieChart, NutritionChart } from "../components/Nutrition";
+import { MacrosPieChart } from "../components/Nutrition/MacrosPieChart";
+import { NutritionChart } from "../components/Nutrition/NutritionChart";
 import { PageHeading } from "../components/Type/PageHeading";
 import {
   useGetFoodLogStatsQuery,

@@ -6,15 +6,19 @@ export const upload: QueryResolvers["upload"] = (
   { input },
   context
 ) => {
-  return uploadDataService.findOneOrFail(context, (q) => {
+  return uploadDataService.findOneOrFailBy(context, (q) => {
     const id = input?.id;
+
+    let query = q;
     if (id) {
-      q.where("id", "=", id);
+      query = query.where("id", "=", id);
     }
 
     const publicId = input?.publicId;
     if (publicId) {
-      q.where("publicId", "=", publicId);
+      query = query.where("publicId", "=", publicId);
     }
+
+    return query;
   });
 };

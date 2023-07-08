@@ -5,7 +5,7 @@ import { ActivityType, ActivityVisualizationInput } from "../../../generated";
 import { getDateRangeWithDefault } from "../../../helpers/getDateRangeWithDefault";
 import { globalInMemoryCache } from "../../../helpers/globalInMemoryCache";
 import { numberToContextualUnit } from "../../../helpers/numberToContextualUnit";
-import { ActivityLog } from "../../activityLog/types";
+import { ActivityLogEntity } from "../../activityLog/types";
 
 export function getVisualizationDataResolvers({
   activityId,
@@ -107,14 +107,14 @@ function getSetHandlerByDay({
   key: string;
   context: Context;
   accumulator?: (
-    log: Pick<ActivityLog, "day" | "reps" | "work">[]
+    log: Pick<ActivityLogEntity, "day" | "reps" | "work">[]
   ) => any | any[];
   activityId: string;
   userId: string;
 }): (
   parent: unknown,
   args: any
-) => Promise<Pick<ActivityLog, "work" | "reps" | "day">[]> {
+) => Promise<Pick<ActivityLogEntity, "work" | "reps" | "day">[]> {
   return async (
     parent: unknown,
     args: { input?: ActivityVisualizationInput } = {}
@@ -158,7 +158,7 @@ function getSetHandlerByDay({
           }
           acc[log.day].push(log);
           return acc;
-        }, {} as Record<string, Pick<ActivityLog, "work" | "reps" | "day">[]>);
+        }, {} as Record<string, Pick<ActivityLogEntity, "work" | "reps" | "day">[]>);
 
         // Transform the logs by day
         return flattenArray(

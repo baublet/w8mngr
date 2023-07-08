@@ -1,3 +1,4 @@
-import { InsertableDatabaseRecord, Database } from "../../config/db";
+import { InsertableDatabaseRecord, SelectableDatabaseRecord, Database } from "../../config/db";
 
-export type FoodEntity = InsertableDatabaseRecord<Database["food"]>;
+export type FoodEntity = SelectableDatabaseRecord<Database["food"]>;
+export type InsertableFoodEntity = InsertableDatabaseRecord<Database["food"]>;

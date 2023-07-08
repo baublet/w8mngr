@@ -1,6 +1,7 @@
 import React from "react";
 
-import { useEvents, useKeyPressHandler } from "../../helpers";
+import { useEvents } from "../../helpers/useEvents";
+import { useKeyPressHandler } from "../../helpers/useKeyPressHandler";
 import { AddableFood, AddableFoodProp } from "./AddableFood";
 import { VerticallyWindowed } from "../VerticallyWindowed";
 

@@ -3,6 +3,7 @@ import { D1Database } from "@cloudflare/workers-types";
 import {
   Kysely,
   Insertable,
+  Selectable,
   UpdateResult,
   UpdateQueryBuilder as KyselyUpdateQueryBuilder,
   SelectQueryBuilder as KyselySelectQueryBuilder,
@@ -26,6 +27,7 @@ export type UpdateQueryBuilder<T extends keyof Database> =
 export type SelectQueryBuilder<T extends keyof Database> =
   KyselySelectQueryBuilder<DB, T, {}>;
 export type InsertableDatabaseRecord<T> = Insertable<T>;
+export type SelectableDatabaseRecord<T> = Selectable<T>;
 export type DeleteQueryBuilder<T extends keyof Database> =
   KyselyDeleteQueryBuilder<DB, T, unknown>;
 

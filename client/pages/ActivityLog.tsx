@@ -19,7 +19,7 @@ export function ActivityLog() {
   const { id, day = "" } = useParams<{ id: string; day: string }>();
   const { data, loading } = useGetActivityDetailsQuery({
     variables: {
-      id,
+      id: id || "id",
     },
   });
   const activity = data?.currentUser?.activities.edges[0].node;

@@ -1,12 +1,13 @@
 import cx from "classnames";
 import React from "react";
 
-import { or } from "../../../shared";
-import { useForm } from "../../helpers";
+import { or } from "../../../shared/coalesce";
+import { useForm } from "../../helpers/useForm";
 import { SecondaryButton } from "../Button/Secondary";
 import { ContentContainer } from "../Containers/ContentContainer";
 import { ContentLayout } from "../Containers/ContentLayout";
-import { Input, MultilineInput } from "../Forms";
+import { Input } from "../Forms/Input";
+import { MultilineInput } from "../Forms/MultilineInput";
 import { Upload } from "../Forms/Upload";
 import { Spacer } from "../Spacer";
 import {

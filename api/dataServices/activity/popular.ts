@@ -1,8 +1,8 @@
 import { Context } from "../../createContext";
-import { Activity } from "./types";
+import { ActivityEntity } from "./types";
 import { dbService, sql } from "../../config/db";
 
-export async function popular(context: Context): Promise<Activity[]> {
+export async function popular(context: Context): Promise<ActivityEntity[]> {
   const userId = context.getCurrentUserId(true);
   const db = context.services.get(dbService)("W8MNGR_1");
 

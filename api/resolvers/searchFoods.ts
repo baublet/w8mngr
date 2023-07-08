@@ -29,11 +29,15 @@ export const searchFoods: QueryResolvers["searchFoods"] = async (
       searchTerm,
     },
     fn: async () => {
-      return foodDataService.findBy(context, (q) =>
+      const foods = await foodDataService.findBy(context, (q) =>
         q
           .where("userId", "in", userIds)
           .where("name", "like", `%${searchTerm}%`)
       );
+      return foods.map(f => ({
+        ...f,
+        description: f.description || undefined,
+      }))
     },
   });
 };

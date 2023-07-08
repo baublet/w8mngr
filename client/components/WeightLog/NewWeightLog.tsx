@@ -5,10 +5,12 @@ import {
   GetCurrentUserWeightLogDocument,
   useCreateOrUpdateWeightLogMutation,
 } from "../../generated";
-import { useForm, useToast } from "../../helpers";
+import { useForm } from "../../helpers/useForm";
+import { useToast } from "../../helpers/useToast";
 import { PrimaryLightSaveButton } from "../Button/PrimaryLightSave";
 import { PanelInverted } from "../Containers/PanelInverted";
-import { Form, InputInverted } from "../Forms";
+import { Form } from "../Forms/Form";
+import { InputInverted } from "../Forms/InputInverted";
 import { NewWeightLogFormObject } from "./types";
 
 export function NewWeightLog({ day }: { day: string }) {

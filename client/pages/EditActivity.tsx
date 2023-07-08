@@ -17,7 +17,7 @@ export function EditActivity() {
           icon={<HealthCircleIcon />}
           quickLinks={
             <>
-              <BackToButton {...backButtonProps(id, () => navigate(-1))}>
+              <BackToButton {...backButtonProps(id || "", () => navigate(-1))}>
                 View Activity
               </BackToButton>
             </>

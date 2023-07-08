@@ -13,7 +13,8 @@ export const currentUser: Required<QueryResolvers>["currentUser"] = (
     return {
       ...user,
       verified: Boolean(userAccount.verified),
-      preferredName: user.preferredName || userAccount.sourceIdentifier,
+      preferredName:
+        user.preferredName || userAccount.sourceIdentifier || undefined,
     };
   } catch (error) {
     assertIsError(error);

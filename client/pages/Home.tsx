@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "wouter";
 
 import { IsLoggedIn } from "../components/Auth/IsLoggedIn";
 import { IsLoggedOut } from "../components/Auth/IsLoggedOut";

@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import useLocation from "wouter/use-location";
 
 import { ContentContainer } from "../components/Containers/ContentContainer";
 import { PrimaryLoader } from "../components/Loading/Primary";
@@ -7,13 +7,13 @@ import { PageHeading } from "../components/Type/PageHeading";
 import { GetCurrentUserDocument, useLogoutMutation } from "../generated";
 
 export function Logout() {
-  const push = useNavigate();
+  const [, navigate] = useLocation();
 
   const [logout] = useLogoutMutation({
     refetchQueries: [GetCurrentUserDocument],
     onCompleted: () => {
       setTimeout(() => {
-        push("/");
+        navigate("/");
       }, 500);
     },
   });

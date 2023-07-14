@@ -5,7 +5,7 @@ import getDay from "date-fns/getDay";
 import subDays from "date-fns/subDays";
 import React from "react";
 import { usePopper } from "react-popper";
-import { Link } from "react-router-dom";
+import { Link } from "wouter";
 
 import { dayStringFromDate, dayStringToDate } from "../../shared";
 

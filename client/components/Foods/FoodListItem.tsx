@@ -1,6 +1,7 @@
 import cx from "classnames";
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "wouter";
+import useLocation from "wouter/use-location";
 
 import { or } from "../../../shared";
 import { foodLogLocalStorage } from "../../helpers/foodLogLocalStorage";
@@ -174,7 +175,7 @@ function Measurement({
 }) {
   const [uiMutableAmount, setAmount] = React.useState(amount);
   const amountString = uiMutableAmount.toString();
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
 
   const logThisEntry = () => {
     const foodLogStorage = foodLogLocalStorage();

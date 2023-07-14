@@ -1,6 +1,6 @@
 import { NetworkStatus } from "@apollo/client";
 import React from "react";
-import { useLocation } from "react-router-dom";
+import useLocation from "wouter/use-location";
 
 import { useNavigateToUrl } from "./useNavigateToUrl";
 
@@ -72,11 +72,11 @@ export function usePaginatedQuery<
 } {
   const navigate = useNavigateToUrl();
 
-  const { search, pathname: baseUrl } = useLocation();
-  const queryParams = React.useMemo(
-    () => new URLSearchParams(search),
-    [search, baseUrl]
-  );
+  const [baseUrl] = useLocation();
+  const queryParams = React.useMemo(() => {
+    const search = window.location.search;
+    return new URLSearchParams(search);
+  }, [baseUrl]);
 
   const cursor = queryParams.get("cursor");
   const beforeOrAfter = queryParams.get("beforeOrAfter") || "after";
@@ -114,7 +114,7 @@ export function usePaginatedQuery<
     params.set("beforeOrAfter", "before");
     params.set("firstOrLast", "last");
     return `${baseUrl}?${params.toString()}`;
-  }, [queryParams, search, data]);
+  }, [queryParams, data]);
 
   const nextPageLink = React.useMemo(() => {
     if (!lastCursor) return "";
@@ -123,7 +123,7 @@ export function usePaginatedQuery<
     params.set("beforeOrAfter", "after");
     params.set("firstOrLast", "first");
     return `${baseUrl}?${params.toString()}`;
-  }, [queryParams, search, data]);
+  }, [queryParams, data]);
 
   return {
     loading,

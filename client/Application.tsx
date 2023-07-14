@@ -1,5 +1,6 @@
 import React from "react";
-import { Link as ReactRouterLink, useLocation } from "react-router-dom";
+import { Link as ReactRouterLink } from "wouter";
+import useLocation from "wouter/use-location";
 
 import { IsLoggedIn } from "./components/Auth/IsLoggedIn";
 import { IsLoggedOut } from "./components/Auth/IsLoggedOut";
@@ -12,11 +13,11 @@ import { Routes } from "./Routes";
 
 export function Application(): React.ReactComponentElement<any> {
   // When the URL changes, scroll to the top
-  const { pathname, search } = useLocation();
+  const [location] = useLocation();
   React.useEffect(() => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-  }, [pathname, search]);
+  }, [location]);
 
   return (
     <div className="max-w-screen-xl w-full flex flex-col min-h-full px-1 sm:px-2 md:px-8 bg-white pt-8">
@@ -24,12 +25,10 @@ export function Application(): React.ReactComponentElement<any> {
         <header className="overflow-x-auto lg:overflow-x-hidden">
           <ContentContainer className="flex items-center">
             <h1 className="text-center text-emerald-400 mr-12">
-              <ReactRouterLink
-                to="/"
-                title="w8mngr"
-                className="flex items-center text-6xl"
-              >
-                <Logo />
+              <ReactRouterLink to="/">
+                <a title="w8mngr" className="flex items-center text-6xl">
+                  <Logo />
+                </a>
               </ReactRouterLink>
             </h1>
             <HeaderNavigation />

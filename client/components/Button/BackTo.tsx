@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "wouter";
 
 import { or } from "../../../shared/coalesce";
 import { LeftIcon } from "../Icons/Left";

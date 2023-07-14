@@ -1,6 +1,6 @@
 import omit from "lodash.omit";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import useLocation from "wouter/use-location";
 
 import { withNumericKeys } from "../../../shared/withNumericKeys";
 import { Maybe } from "../../../shared/types";
@@ -10,7 +10,7 @@ import { FoodForm } from "./FoodForm";
 
 export function NewFoodForm() {
   const { error, success } = useToast();
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const [saveFood, { loading }] = useSaveFoodMutation({
     onCompleted: (data) => {
       success("New Food created");

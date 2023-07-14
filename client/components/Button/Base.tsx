@@ -1,6 +1,6 @@
 import cx from "classnames";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "wouter";
 
 import { ButtonSpinnerIcon } from "../Loading/ButtonSpinner";
 

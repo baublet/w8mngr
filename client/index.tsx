@@ -1,7 +1,7 @@
 import { ApolloProvider } from "@apollo/client";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "wouter";
 
 import { Application } from "./Application";
 import { boot } from "./boot";
@@ -19,14 +19,18 @@ boot().then(async () => {
   }
 
   ReactDOM.createRoot(mountNode).render(
-    <BrowserRouter>
-      <React.StrictMode>
-        <EventProvider>
-          <ApolloProvider client={apolloClient}>
-            <Application />
-          </ApolloProvider>
-        </EventProvider>
-      </React.StrictMode>
-    </BrowserRouter>
+    <div className="relative">
+      <div className="toast">
+        <React.StrictMode>
+          <Router>
+            <EventProvider>
+              <ApolloProvider client={apolloClient}>
+                <Application />
+              </ApolloProvider>
+            </EventProvider>
+          </Router>
+        </React.StrictMode>
+      </div>
+    </div>
   );
 });

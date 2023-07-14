@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import useLocation from "wouter/use-location";
 
 export function useNavigateToUrl() {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
 
   return (
     url: string,

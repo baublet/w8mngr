@@ -1,7 +1,8 @@
 import cx from "classnames";
 import { addDays, isPast } from "date-fns";
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useRoute } from "wouter";
+import useLocation from "wouter/use-location";
 
 import { or } from "../../shared";
 import { formatDate } from "../../shared/dateFormat";
@@ -20,11 +21,11 @@ export function DayNavigator({
 }) {
   const todayDayString = React.useMemo(() => dayStringFromDate(new Date()), []);
 
-  const params = useParams<{ day: string }>();
-  const navigate = useNavigate();
+  const [, params] = useRoute("/users/:day");
+  const [, navigate] = useLocation();
 
   const [dayString, setDayString] = React.useState(
-    or(params.day, todayDayString)
+    or(params?.day, todayDayString)
   );
 
   const dayDate = React.useMemo(() => dayStringToDate(dayString), [dayString]);

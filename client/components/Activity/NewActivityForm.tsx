@@ -1,12 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import useLocation from "wouter/use-location";
 
 import { ActivityForm, PartialFormData } from "./ActivityForm";
 import { useSaveActivityMutation } from "../../generated";
 import { useToast } from "../../helpers/useToast";
 
 export function NewActivityForm() {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const { error, success } = useToast();
   const [saveActivity, { loading }] = useSaveActivityMutation({
     onCompleted: (data) => {

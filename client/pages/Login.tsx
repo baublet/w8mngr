@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import useLocation from "wouter/use-location";
 
 import { SecondaryButton } from "../components/Button/Secondary";
 import { ContentContainer } from "../components/Containers/ContentContainer";
@@ -13,7 +13,7 @@ import { useForm } from "../helpers/useForm";
 import { useToast } from "../helpers/useToast";
 
 export function Login() {
-  const push = useNavigate();
+  const [, push] = useLocation();
   const loginForm = useForm<{
     email: string;
     password: string;
@@ -71,7 +71,11 @@ export function Login() {
                   size="lg"
                   disabled={loading}
                   loading={loading}
-                  leftIcon={<div className="translate-y-px"><LoginIcon /></div>}
+                  leftIcon={
+                    <div className="translate-y-px">
+                      <LoginIcon />
+                    </div>
+                  }
                 >
                   Login
                 </SecondaryButton>

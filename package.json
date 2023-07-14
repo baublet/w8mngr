@@ -24,7 +24,8 @@
     "db:migrate": "pnpm db:migrate:command --local --persist-to tmp",
     "db:migrate:command": "pnpm wrangler d1 migrations apply w8mngr_1 -c graphql.wrangler.toml",
     "db:reset": "rm -rf tmp/v3/d1/54ab163b-1931-4aac-937e-8697837b433e && pnpm db:migrate && pnpm db:generateTypes",
-    "develop": "wrangler dev -c graphql.wrangler.toml --remote"
+    "develop:api": "wrangler dev -c graphql.wrangler.toml --remote",
+    "develop:ui": "pnpm vite"
   },
   "author": "Ryan M. Poe",
   "license": "ISC",
@@ -34,6 +35,7 @@
     "@as-integrations/cloudflare-workers": "^0.1.1",
     "@baublet/service-container": "^0.8.3",
     "@cloudflare/workers-types": "^4.20230518.0",
+    "@ericblade/quagga2": "^1.8.2",
     "@graphql-codegen/cli": "^4.0.1",
     "@graphql-codegen/import-types-preset": "^2.2.6",
     "@graphql-codegen/typescript": "^4.0.0",
@@ -86,12 +88,12 @@
     "react-markdown": "^8.0.7",
     "react-popper": "^2.3.0",
     "react-router": "^6.13.0",
-    "react-router-dom": "^6.13.0",
     "recharts": "^2.7.1",
     "type-fest": "^3.12.0",
     "typescript": "^5.1.3",
     "ulid-workers": "^2.1.0",
     "vite": "^4.3.9",
+    "wouter": "^2.11.0",
     "wrangler": "^3.1.1",
     "yup": "^1.2.0"
   },
@@ -99,6 +101,7 @@
     "*.{js,css,md}": "prettier --write"
   },
   "devDependencies": {
-    "@types/lodash.clamp": "^4.0.7"
+    "@types/lodash.clamp": "^4.0.7",
+    "tailwindcss": "^3.3.3"
   }
 }

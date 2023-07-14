@@ -1,12 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import useLocation from "wouter/use-location";
 
 import { useVerifyEmailMutation } from "../generated";
 import { useToast } from "./useToast";
 import { useUrlQueryParameters } from "./useUrlQueryParameters";
 
 export function useVerifyEmail() {
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const { error, success } = useToast();
   const [verifyEmail] = useVerifyEmailMutation({
     onError: error,

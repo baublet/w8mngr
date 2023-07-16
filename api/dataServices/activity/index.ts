@@ -10,4 +10,4 @@ export const activityDataService = {
   stats,
 };
 
-export { ActivityEntity as Activity } from "./types";
+export type { ActivityEntity as Activity } from "./types";

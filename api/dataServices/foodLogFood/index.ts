@@ -4,4 +4,4 @@ export const foodLogFoodDataService = {
   ...rootService,
 };
 
-export { FoodLogFoodEntity } from "./types";
+export type { FoodLogFoodEntity } from "./types";

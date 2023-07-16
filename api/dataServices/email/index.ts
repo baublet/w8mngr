@@ -8,4 +8,4 @@ export const emailDataService = {
   sendPendingEmails,
 };
 
-export { EmailEntity } from "./types";
+export type { EmailEntity } from "./types";

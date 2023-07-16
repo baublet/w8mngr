@@ -6,8 +6,6 @@ export const userPreferenceDataService = {
   getUserPreferences,
 };
 
-export {
-  UserPreferenceValues,
-  userPreferenceTypes,
-  UserPreferenceEntity,
-} from "./types";
+export type { UserPreferenceValues, UserPreferenceEntity } from "./types";
+
+export { userPreferenceTypes } from "./types";

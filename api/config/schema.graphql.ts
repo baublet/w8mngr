@@ -1,4 +1,4 @@
-import { parse as gql } from "graphql";
+const gql = (gql: string) => gql;
 
 export function getSchema() {
   return gql(`

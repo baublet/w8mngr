@@ -1,5 +1,5 @@
 import { Context } from "../../createContext";
-import { ActivityEntity } from "./types";
+import type { ActivityEntity } from "./types";
 import { dbService, sql } from "../../config/db";
 
 export async function popular(context: Context): Promise<ActivityEntity[]> {

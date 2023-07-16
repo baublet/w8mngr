@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "ESNext",
+    "baseUrl": ".",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "lib": ["es2018", "dom"],
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node"
+  }
+}

@@ -4,4 +4,4 @@ export const activityMuscleDataService = {
   ...rootService
 };
 
-export { ActivityMuscleEntity } from "./types";
+export type { ActivityMuscleEntity } from "./types";

@@ -100,9 +100,9 @@ export function Home() {
         <div className="what-is-it">
           <PageHeading
             icon={
-              <span className="text-4xl">
+              <div className="text-4xl p-2">
                 <HeartIcon />
-              </span>
+              </div>
             }
           >
             What is it?

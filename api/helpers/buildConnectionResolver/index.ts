@@ -1,5 +1,3 @@
-export {
-  Connection,
-  Cursor,
-  buildConnectionResolver,
-} from "./buildConnectionResolver";
+export { buildConnectionResolver } from "./buildConnectionResolver";
+
+export type { Connection, Cursor } from "./buildConnectionResolver";

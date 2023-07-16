@@ -31,7 +31,7 @@ export type SelectableDatabaseRecord<T> = Selectable<T>;
 export type DeleteQueryBuilder<T extends keyof Database> =
   KyselyDeleteQueryBuilder<DB, T, unknown>;
 
-function envService(): Env {
+export function envService(): Env {
   throw new Error("You must set the env service value before using it");
 }
 

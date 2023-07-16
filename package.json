@@ -1,7 +1,6 @@
 {
   "name": "w8mngr",
   "version": "0.0.2",
-  "type": "module",
   "engines": {
     "node": ">=16"
   },
@@ -24,8 +23,9 @@
     "db:migrate": "pnpm db:migrate:command --local --persist-to tmp",
     "db:migrate:command": "pnpm wrangler d1 migrations apply w8mngr_1 -c graphql.wrangler.toml",
     "db:reset": "rm -rf tmp/v3/d1/54ab163b-1931-4aac-937e-8697837b433e && pnpm db:migrate && pnpm db:generateTypes",
-    "develop:api": "wrangler dev -c graphql.wrangler.toml --remote",
-    "develop:ui": "pnpm vite"
+    "develop:api": "tsx api/develop.ts",
+    "develop:ui": "pnpm vite",
+    "develop": "concurrently --kill-others npm:develop:api npm:develop:ui"
   },
   "author": "Ryan M. Poe",
   "license": "ISC",
@@ -58,11 +58,13 @@
     "axios": "^1.4.0",
     "better-sqlite3": "^8.4.0",
     "classnames": "^2.3.2",
+    "concurrently": "^8.2.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dataloader": "^2.2.2",
     "date-fns": "^2.30.0",
-    "esbuild": "^0.18.4",
+    "esbuild": "^0.18.13",
+    "esbuild-register": "^3.4.2",
     "form-data": "^4.0.0",
     "graphql": "^16.7.1",
     "husky": ">=6",
@@ -80,6 +82,7 @@
     "lodash.omit": "^4.5.0",
     "lru-cache": "^10.0.0",
     "minifaker": "^1.34.1",
+    "node-fetch": "^3.3.1",
     "object-hash": "^3.0.0",
     "pinst": ">=2",
     "prettier": "^2.5.1",
@@ -94,7 +97,7 @@
     "ulid-workers": "^2.1.0",
     "vite": "^4.3.9",
     "wouter": "^2.11.0",
-    "wrangler": "^3.1.1",
+    "wrangler": "^3.2.0",
     "yup": "^1.2.0"
   },
   "lint-staged": {

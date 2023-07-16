@@ -8,4 +8,4 @@ export const foodDataService = {
   saveMutation,
 };
 
-export { FoodEntity as FoodEntity } from "./types";
+export type { FoodEntity as FoodEntity } from "./types";

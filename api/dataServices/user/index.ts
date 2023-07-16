@@ -20,4 +20,4 @@ export const userDataService = {
   resetPassword,
 };
 
-export { UserEntity } from "./types";
+export type{ UserEntity } from "./types";

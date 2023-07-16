@@ -19,18 +19,18 @@ boot().then(async () => {
   }
 
   ReactDOM.createRoot(mountNode).render(
-    <div className="relative">
-      <div className="toast">
-        <React.StrictMode>
-          <Router>
-            <EventProvider>
-              <ApolloProvider client={apolloClient}>
+    <React.StrictMode>
+      <Router>
+        <EventProvider>
+          <ApolloProvider client={apolloClient}>
+            <div className="relative">
+              <div className="toast">
                 <Application />
-              </ApolloProvider>
-            </EventProvider>
-          </Router>
-        </React.StrictMode>
-      </div>
-    </div>
+              </div>
+            </div>
+          </ApolloProvider>
+        </EventProvider>
+      </Router>
+    </React.StrictMode>
   );
 });

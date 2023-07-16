@@ -6,4 +6,4 @@ export const foodMeasurementDataService = {
   deleteFoodMeasurement,
 };
 
-export { FoodMeasurementEntity } from "./types";
+export type { FoodMeasurementEntity } from "./types";

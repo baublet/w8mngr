@@ -9,4 +9,4 @@ export const foodLogDataService = {
   stats,
 };
 
-export { FoodLogEntity } from "./types";
+export type { FoodLogEntity } from "./types";

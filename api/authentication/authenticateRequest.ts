@@ -1,7 +1,15 @@
+import { ServiceContainer } from "@baublet/service-container";
+
 import { Context, createContext } from "../createContext";
 import { getClientId } from "../helpers/getClientId";
 import { userDataService, UserEntity } from "../dataServices/user";
 import type { UserAccountEntity } from "../dataServices/userAccount";
+
+declare global {
+  interface Request {
+    services: ServiceContainer;
+  }
+}
 
 export async function authenticateRequest({
   request,
@@ -18,6 +26,7 @@ export async function authenticateRequest({
   const clientId = getClientId(request);
   const context = createContext({
     clientId,
+    services: request.services,
   });
 
   const authToken: string | undefined = (request.headers

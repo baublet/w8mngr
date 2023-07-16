@@ -6,4 +6,4 @@ export const uploadDataService = {
   getPublicUrl,
 };
 
-export { UploadEntity } from "./types";
+export type { UploadEntity } from "./types";

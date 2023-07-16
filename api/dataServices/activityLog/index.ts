@@ -6,4 +6,4 @@ export const activityLogDataService = {
   saveMutation,
 };
 
-export { ActivityLogEntity as ActivityLog } from "./types";
+export type { ActivityLogEntity as ActivityLog } from "./types";

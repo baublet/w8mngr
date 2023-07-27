@@ -34,7 +34,7 @@ export async function uploadFiles({
   files: FileInput[];
 }): Promise<UploadedFile[]> {
   try {
-    const client = await window.w8mngrServiceContainer.get(apolloClientService);
+    const client = await window.w8mngrServiceContainer.get(apolloClientService).getClient();
     const count = files.length;
 
     const result = await client.mutate<

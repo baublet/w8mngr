@@ -22,7 +22,7 @@ boot().then(async () => {
     <React.StrictMode>
       <Router>
         <EventProvider>
-          <ApolloProvider client={apolloClient}>
+          <ApolloProvider client={apolloClient.getClient()}>
             <div className="relative">
               <div className="toast">
                 <Application />

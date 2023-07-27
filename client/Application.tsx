@@ -46,10 +46,10 @@ export function Application(): React.ReactComponentElement<any> {
             <div className="w-full md:w-1/3">
               <FooterHeader>About</FooterHeader>
               <div className="flex flex-col gap-2">
-                <p>Copyright 2009-2022, Ryan Poe</p>
+                <p>Copyright 2009-2023, Ryan Poe</p>
                 <p>
                   w8mngr was built from scratch with TypeScript, React,
-                  Tailwind, and Apollo. Hosted by Netlify.
+                  Tailwind, and Apollo. Hosted by CloudFlare Workers.
                 </p>
                 <p>
                   This software is open source. Want to add a feature or report

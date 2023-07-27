@@ -92,6 +92,9 @@ dependencies:
   concurrently:
     specifier: ^8.2.0
     version: 8.2.0
+  cookie:
+    specifier: ^0.5.0
+    version: 0.5.0
   cookie-parser:
     specifier: ^1.4.6
     version: 1.4.6
@@ -214,6 +217,9 @@ dependencies:
     version: 1.2.0
 
 devDependencies:
+  '@types/cookie':
+    specifier: ^0.5.1
+    version: 0.5.1
   '@types/lodash.clamp':
     specifier: ^4.0.7
     version: 4.0.7
@@ -2780,6 +2786,10 @@ packages:
     dependencies:
       '@types/express': 4.17.17
     dev: false
+
+  /@types/cookie@0.5.1:
+    resolution: {integrity: sha512-COUnqfB2+ckwXXSFInsFdOAWQzCCx+a5hq2ruyj+Vjund94RJQd4LG2u9hnvJrTgunKAaax7ancBYlDrNYxA0g==}
+    dev: true
 
   /@types/d3-array@3.0.5:
     resolution: {integrity: sha512-Qk7fpJ6qFp+26VeQ47WY0mkwXaiq8+76RJcncDEfMc2ocRzXLO67bLFRNI4OX1aGBoPzsM5Y2T+/m1pldOgD+A==}

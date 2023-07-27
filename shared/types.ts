@@ -1,5 +1,7 @@
 export type ReturnTypeWithErrors<T> = Error | T;
 
+export type PromiseResolutionValue<T> = T extends Promise<infer U> ? U : never;
+
 export type SomeRequired<T, TRequired extends keyof T> = Omit<T, TRequired> &
   Required<Pick<T, TRequired>>;
 

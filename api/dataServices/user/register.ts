@@ -40,7 +40,7 @@ export async function register(
       sourceIdentifier: userData.email,
     });
     if (accountExists) {
-      throw new Error("Email taken");
+      throw new Error("That email address is already registered");
     }
 
     const account = await userAccountDataService.create(context, {

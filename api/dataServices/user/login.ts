@@ -27,7 +27,6 @@ export async function login(
     const account = await userAccountDataService.findOneOrFailBy(context, (q) =>
       q.where("sourceIdentifier", "=", credentials.email)
     );
-
     const passwordsMatch = await doesHashMatch(
       credentials.password,
       account.passwordHash

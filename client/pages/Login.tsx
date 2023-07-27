@@ -11,21 +11,36 @@ import { PageHeading } from "../components/Type/PageHeading";
 import { GetCurrentUserDocument, useLoginMutation } from "../generated";
 import { useForm } from "../helpers/useForm";
 import { useToast } from "../helpers/useToast";
+import { apolloClientService } from "../helpers/apolloClientService";
 
 export function Login() {
   const [, push] = useLocation();
   const loginForm = useForm<{
     email: string;
     password: string;
-  }>();
+  }>({
+    initialValues: {
+      email: "baublet@gmail.com",
+      password: "Testing123!",
+    },
+  });
   const { error } = useToast();
 
   const [login, { loading }] = useLoginMutation({
     variables: {
       input: loginForm.getValues(),
     },
+    awaitRefetchQueries: false,
     refetchQueries: [GetCurrentUserDocument],
-    onCompleted: () => push("/"),
+    onCompleted: (data) => {
+      window.w8mngrServiceContainer
+        .get(apolloClientService)
+        .setAuthToken(data.login.token);
+      window.w8mngrServiceContainer
+        .get(apolloClientService)
+        .setRememberToken(data.login.rememberToken);
+      push("/");
+    },
     onError: error,
   });
 

@@ -8,6 +8,6 @@ export function getConfigValue<T extends keyof typeof CONFIG_VALUES>(
 }
 
 const CONFIG_VALUES = {
-  GRAPHQL_ENDPOINT: "http://127.0.0.1:8787/",
+  GRAPHQL_ENDPOINT: "/graphql",
   MINIMUM_REQUEST_MS: 50,
 } as const;

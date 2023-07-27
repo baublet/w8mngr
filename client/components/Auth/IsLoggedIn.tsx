@@ -9,7 +9,9 @@ export function IsLoggedIn({
 }: React.PropsWithChildren<{ showLoader?: boolean }>) {
   const { data, loading } = useGetCurrentUserQuery({
     fetchPolicy: "cache-first",
+    pollInterval: 10000
   });
+  console.log({ data })
   if (loading || !data?.currentUser) {
     if (loading && showLoader) {
       return <ButtonSpinnerIcon />;

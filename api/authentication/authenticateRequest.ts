@@ -29,11 +29,24 @@ export async function authenticateRequest({
     services: request.services,
   });
 
-  const authToken: string | undefined = (request.headers
-    .get("authorization")
-    ?.split(" ") || [])[1];
-  const rememberToken = request.headers.get("remember-token") || undefined;
-  context.setAuthTokens(authToken, rememberToken);
+  const rawCookies = request.headers.get("Cookie");
+  const cookies = rawCookies?.split(";").map((c) => c.trim()) || [];
+  const cookieMap = cookies.reduce((acc, cookie) => {
+    const [key, value] = cookie.split("=");
+    acc[key] = value;
+    return acc;
+  }, {} as Record<string, string>);
+
+  const authToken =
+    cookieMap["w8mngrAuth"] ||
+    (request.headers.get("Authorization")?.split(" ") || [])[1] ||
+    request.headers.get("Authorization") ||
+    undefined;
+
+  const rememberToken =
+    cookieMap["w8mngrRemember"] ||
+    request.headers.get("Remember-Token") ||
+    undefined;
 
   if (!authToken && !rememberToken) {
     return {

@@ -59,6 +59,9 @@ function useForm<T extends Record<string, any>>({
       element: TElement,
       defaultValue?: any
     ): T[TElement] => {
+      if (!formState.has(element)) {
+        formState.set(element, defaultValue);
+      }
       const value = formState.get(element);
       return (value === undefined ? defaultValue : value) as any;
     },

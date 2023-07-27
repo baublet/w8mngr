@@ -17,7 +17,13 @@ export function Register() {
     email: string;
     password: string;
     passwordConfirmation: string;
-  }>();
+  }>({
+    initialValues: {
+      email: "baublet@gmail.com",
+      password: "Testing123!",
+      passwordConfirmation: "Testing123!",
+    },
+  });
   const { error, success } = useToast();
   const [register, { loading }] = useRegisterMutation({
     refetchQueries: [GetCurrentUserDocument],

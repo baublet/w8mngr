@@ -11,7 +11,12 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/.netlify/functions/graphql": "http://localhost:8081",
+      "/graphql": {
+        target: "http://127.0.0.1:8787/",
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      },
     },
   },
 });

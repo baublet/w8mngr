@@ -1,6 +1,8 @@
 import format from "date-fns/format";
 
-import { assertIsTruthy, stringToNumberOr } from "../../../shared";
+import { stringToNumberOr } from "../../../shared/stringToNumberOr";
+import { assertIsTruthy } from "../../../shared/assertIsTruthy";
+import { getUniqueId } from "../../../shared/getUniqueId";
 import { log } from "../../config/log";
 import { Database } from "../../config/db";
 import { Context } from "../../createContext";
@@ -56,6 +58,7 @@ export async function getUserPreferences(
       if (!entity) {
         const created = await rootService.create(context, [
           {
+            id: getUniqueId(),
             preference: type,
             userId,
             value: JSON.stringify(defaultValues[type]),

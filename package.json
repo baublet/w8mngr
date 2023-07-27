@@ -23,7 +23,7 @@
     "db:migrate": "pnpm db:migrate:command --local --persist-to tmp",
     "db:migrate:command": "pnpm wrangler d1 migrations apply w8mngr_1 -c graphql.wrangler.toml",
     "db:reset": "rm -rf tmp/v3/d1/54ab163b-1931-4aac-937e-8697837b433e && pnpm db:migrate && pnpm db:generateTypes",
-    "develop:api": "tsx api/develop.ts",
+    "develop:api": "wrangler dev -c graphql.wrangler.toml api/graphql --persist-to tmp",
     "develop:ui": "pnpm vite",
     "develop": "concurrently --kill-others npm:develop:api npm:develop:ui"
   },
@@ -59,6 +59,7 @@
     "better-sqlite3": "^8.4.0",
     "classnames": "^2.3.2",
     "concurrently": "^8.2.0",
+    "cookie": "^0.5.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dataloader": "^2.2.2",
@@ -104,6 +105,7 @@
     "*.{js,css,md}": "prettier --write"
   },
   "devDependencies": {
+    "@types/cookie": "^0.5.1",
     "@types/lodash.clamp": "^4.0.7",
     "tailwindcss": "^3.3.3"
   }

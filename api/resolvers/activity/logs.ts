@@ -1,4 +1,4 @@
-import { dayStringFromDate } from "../../../shared";
+import { dayStringFromDate } from "../../../shared/dayStringFromDate";
 import { activityLogDataService } from "../../dataServices/activityLog";
 import { ActivityResolvers } from "../../generated";
 

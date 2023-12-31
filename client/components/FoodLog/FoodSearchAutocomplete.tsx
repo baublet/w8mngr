@@ -34,10 +34,7 @@ export function FoodSearchAutocomplete({
       })}
     >
       {searchTerm.length < 3 ? (
-        <div>
-          <SideBarHeading>Popular Foods</SideBarHeading>
           <PopularFoods day={day} />
-        </div>
       ) : (
         <div>
           <SideBarHeading>

@@ -1,4 +1,4 @@
-import { assertIsError } from "../../../shared";
+import { assertIsError } from "../../../shared/assertIsError";
 import { ReturnTypeWithErrors } from "../../../shared/types";
 import { hashPassword } from "../../authentication/hashPassword";
 import { Context } from "../../createContext";
@@ -29,20 +29,26 @@ export async function register(
   }
 
   try {
+    console.log("aaaa")
     const passwordHash = await hashPassword(userData.password);
+    console.log("basdca", userData)
     const user = await create(context, {
       preferredName: userData.email,
       role: userData.role,
     });
+    console.log("b")
 
+    console.log("made it here 1")
+    
     const accountExists = await userAccountDataService.accountExists(context, {
       source: "local",
       sourceIdentifier: userData.email,
     });
+    console.log("made it here 2")
     if (accountExists) {
       throw new Error("That email address is already registered");
     }
-
+    
     const account = await userAccountDataService.create(context, {
       userId: user.id,
       source: "local",
@@ -50,17 +56,20 @@ export async function register(
       passwordHash,
       verified: 0,
     });
-
+    console.log("made it here 3")
+    
     const authTokenResult = await tokenDataService.getOrCreate(context, {
       type: "auth",
       userAccountId: account.id,
     });
-
+    
+    console.log("made it here 4")
     const rememberTokenResult = await tokenDataService.getOrCreate(context, {
       type: "remember",
       userAccountId: account.id,
     });
-
+    
+    console.log("made it here 5")
     context.setCookie("w8mngrAuth", authTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
     });

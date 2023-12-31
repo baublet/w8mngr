@@ -94,7 +94,7 @@ function renderCustomizedLabel({
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
   return (
-    <>
+    <div>
       <text
         x={x - 15}
         y={y}
@@ -115,6 +115,6 @@ function renderCustomizedLabel({
       >
         {`${(percent * 100).toFixed(0)}%`}
       </text>
-    </>
+    </div>
   );
 }

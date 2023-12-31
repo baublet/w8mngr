@@ -12,11 +12,7 @@ export function NewFood() {
       <ContentContainer>
         <PageHeading
           icon={<FoodCircleIcon />}
-          quickLinks={
-            <>
-              <BackToButton to="/foods">Back to Foods</BackToButton>
-            </>
-          }
+          quickLinks={<BackToButton to="/foods">Back to Foods</BackToButton>}
         >
           New Food
         </PageHeading>

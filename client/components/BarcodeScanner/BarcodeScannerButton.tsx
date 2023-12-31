@@ -13,7 +13,7 @@ export function BarcodeScannerButton({ day }: { day: string }) {
   const openFunction = React.useCallback(() => setOpen(true), []);
 
   return (
-    <>
+    <div>
       <SecondaryIconButton onClick={openFunction}>
         <BarcodeIcon />
       </SecondaryIconButton>
@@ -38,6 +38,6 @@ export function BarcodeScannerButton({ day }: { day: string }) {
           {!open ? null : <BarcodeScanner day={day} close={closeFunction} />}
         </div>
       </Modal>
-    </>
+    </div>
   );
 }

@@ -23,7 +23,7 @@ boot().then(async () => {
       <Router>
         <EventProvider>
           <ApolloProvider client={apolloClient.getClient()}>
-            <div className="relative">
+            <div className="relative min-w-full">
               <div className="toast">
                 <Application />
               </div>

@@ -1,7 +1,7 @@
 import cx from "classnames";
 import React from "react";
 
-import { filterFalsyKeys } from "../../../shared";
+import { filterFalsyKeys } from "../../../shared/filterFalsyKeys";
 import {
   GetUploadDataDocument,
   GetUploadDataQueryResult,
@@ -48,10 +48,10 @@ export function Upload({
   aspectRatio = "1/1",
   onChange,
   placeholder = (
-    <>
+    <div>
       <strong>Choose a file</strong>
       <span> or drag it here</span>
-    </>
+    </div>
   ),
   defaultSelectedUploadIds = [],
 }: {
@@ -258,7 +258,7 @@ export function Upload({
   }
 
   return (
-    <>
+    <div>
       <div
         className={cx(
           "p-2 bg-emerald-50 bg-opacity-25 hover:bg-opacity-50 rounded",
@@ -371,7 +371,7 @@ export function Upload({
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -387,7 +387,9 @@ function useLoadInitialData({
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   React.useEffect(() => {
-    const client = window.w8mngrServiceContainer.get(apolloClientService).getClient();
+    const client = window.w8mngrServiceContainer
+      .get(apolloClientService)
+      .getClient();
 
     if (initialSelectedUploadIds.length === 0) {
       setLoading(false);

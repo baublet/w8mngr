@@ -14,7 +14,13 @@ type BarCodeScanner = {
   resume: () => void;
 };
 
-export function BarcodeScanner({ day, close }: { day: string, close: () => void }) {
+export function BarcodeScanner({
+  day,
+  close,
+}: {
+  day: string;
+  close: () => void;
+}) {
   // Good test code: "850009682307"
   const [codes, setCodes] = React.useState<string[]>([]);
   const [showShutter, setShowShutter] = React.useState(false);
@@ -93,73 +99,71 @@ export function BarcodeScanner({ day, close }: { day: string, close: () => void 
   }, [searchingBarcode]);
 
   return (
-    <>
+    <div
+      className="rounded-lg overflow-hidden border border-slate-200 p-2 relative"
+      onClick={cancelItAll}
+    >
       <div
-        className="rounded-lg overflow-hidden border border-slate-200 p-2 relative"
-        onClick={cancelItAll}
+        className={cx(
+          "aspect-square w-full rounded-lg overflow-hidden relative items-center select-none pointer-events-none"
+        )}
       >
+        <div className="absolute top-0 right-0 bottom-0 left-0 bg-slate-900 flex text-slate-50 justify-center items-center">
+          <ButtonSpinnerIcon />
+        </div>
+        <div
+          id={scannerVideoId}
+          className={cx("absolute top-0 right-0 bottom-0 left-0", {
+            "opacity-50": searchingBarcode,
+          })}
+        />
+        {showShutter && (
+          <div className="absolute top-0 right-0 bottom-0 left-0 bg-slate-50 shutter" />
+        )}
         <div
           className={cx(
-            "aspect-square w-full rounded-lg overflow-hidden relative items-center select-none pointer-events-none"
+            "absolute right-0 top-0 bottom-0 left-0 50 justify-center items-center flex",
+            {
+              "opacity-0": !searchingBarcode,
+              "opacity-100": searchingBarcode,
+            }
           )}
         >
-          <div className="absolute top-0 right-0 bottom-0 left-0 bg-slate-900 flex text-slate-50 justify-center items-center">
-            <ButtonSpinnerIcon />
-          </div>
-          <div
-            id={scannerVideoId}
-            className={cx("absolute top-0 right-0 bottom-0 left-0", {
-              "opacity-50": searchingBarcode,
-            })}
-          />
-          {showShutter && (
-            <div className="absolute top-0 right-0 bottom-0 left-0 bg-slate-50 shutter" />
-          )}
-          <div
-            className={cx(
-              "absolute right-0 top-0 bottom-0 left-0 50 justify-center items-center flex",
-              {
-                "opacity-0": !searchingBarcode,
-                "opacity-100": searchingBarcode,
-              }
-            )}
-          >
-            <PrimaryLoader />
-          </div>
-          <div
-            className={cx(
-              "absolute right-0 top-0 bottom-0 left-0 50 justify-center items-center flex",
-              {
-                "opacity-0": !notFoundShown,
-                fadeOut: notFoundShown,
-              }
-            )}
-          >
-            <div className="bg-slate-800 rounded-lg p-2 md:p-4 text-slate-50 flex gap-4">
-              <span className="text-rose-500">
-                <CloseIcon />
-              </span>
-              <span className="font-bold">Not Found. Try again</span>
-            </div>
-          </div>
+          <PrimaryLoader />
         </div>
-        <div className="absolute top-2 right-2 bottom-2 left-2 overflow-x-hidden overflow-y-auto p-2">
-          <div className="flex flex-col justify-end gap-2">
-            {codes.map((code, i) => (
-              <ScannerResults
-                code={code}
-                key={code}
-                day={day}
-                close={getHandleClose(code)}
-                setLoadingFinished={() => setSearchingBarcode(false)}
-                notFound={showNotFound}
-                onAdded={close}
-              />
-            ))}
+        <div
+          className={cx(
+            "absolute right-0 top-0 bottom-0 left-0 50 justify-center items-center flex",
+            {
+              "opacity-0": !notFoundShown,
+              fadeOut: notFoundShown,
+            }
+          )}
+        >
+          <div className="bg-slate-800 rounded-lg p-2 md:p-4 text-slate-50 flex gap-4">
+            <span className="text-rose-500">
+              <CloseIcon />
+            </span>
+            <span className="font-bold">Not Found. Try again</span>
           </div>
         </div>
       </div>
-    </>
+      <div className="absolute top-2 right-2 bottom-2 left-2 overflow-x-hidden overflow-y-auto p-2">
+        <div className="flex flex-col justify-end gap-2">
+          {codes.map((code, i) => (
+            <ScannerResults
+              code={code}
+              key={code}
+              day={day}
+              close={getHandleClose(code)}
+              setLoadingFinished={() => setSearchingBarcode(false)}
+              notFound={showNotFound}
+              onAdded={close}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 

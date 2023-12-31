@@ -1,3 +1,6 @@
 import { createDataService } from "../createDataService";
 
-export const rootService = createDataService("W8MNGR_1", "token");
+export const rootService = createDataService({
+  provider: "W8MNGR_1",
+  tableName: "token",
+});

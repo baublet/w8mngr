@@ -1,7 +1,7 @@
 import cx from "classnames";
 import React from "react";
 
-import { coalesce, or } from "../../../shared";
+import { coalesce, or } from "../../../shared/coalesce";
 import { useForm } from "../../helpers/useForm";
 import { useKeyPressHandler } from "../../helpers/useKeyPressHandler";
 import { PrimaryIconButton } from "../Button/PrimaryIcon";

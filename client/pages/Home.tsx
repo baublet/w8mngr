@@ -100,14 +100,14 @@ export function Home() {
         <div className="what-is-it">
           <PageHeading
             icon={
-              <div className="text-4xl p-2">
+              <div className="text-4xl p-4">
                 <HeartIcon />
               </div>
             }
           >
             What is it?
           </PageHeading>
-          <ContentContainer>
+          <ContentContainer className="mt-6">
             <p>
               <b>w</b>8<b>mngr</b> (pronounced "weight manager") is a food,
               fitness, and health tracker to help you maintain a healthy

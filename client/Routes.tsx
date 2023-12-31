@@ -7,7 +7,7 @@ import { useVerifyEmail } from "./helpers/useVerifyEmail";
 export function Routes() {
   useVerifyEmail();
   return (
-    <>
+    <div>
       <Route
         path="/"
         component={() => (
@@ -160,7 +160,7 @@ export function Routes() {
             component="ActivityLog"
           />
         )}
-      />{" "}
+      />
       <Route
         path={"/activities/:id/log/:day"}
         component={() => (
@@ -224,6 +224,6 @@ export function Routes() {
           />
         )}
       />
-    </>
+    </div>
   );
 }

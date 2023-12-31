@@ -1,4 +1,4 @@
-import { assertIsError } from "../../shared";
+import { assertIsError } from "../../shared/assertIsError";
 import { log } from "../config/log";
 import { QueryResolvers } from "../generated";
 

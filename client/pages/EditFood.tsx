@@ -19,9 +19,7 @@ export function EditFood() {
         <PageHeading
           icon={<FoodCircleIcon />}
           quickLinks={
-            <>
               <BackToButton to="/foods">Back to Foods</BackToButton>
-            </>
           }
         >
           Edit Food

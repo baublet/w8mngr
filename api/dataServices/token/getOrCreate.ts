@@ -4,7 +4,7 @@ import { create } from "./create";
 import { Database, dbService, InsertableDatabaseRecord } from "../../config/db";
 import { rootService as tokenDataService } from "./rootService";
 import { TOKEN_EXPIRY_OFFSET, assertIsTokenType } from "./types";
-import { assertIsTruthy } from "../../../shared";
+import { assertIsTruthy } from "../../../shared/assertIsTruthy";
 import { getUniqueId } from "../../../shared/getUniqueId";
 
 export async function getOrCreate(

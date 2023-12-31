@@ -2,7 +2,7 @@ import { createDigest } from "../../authentication/createDigest";
 import { Context } from "../../createContext";
 import { rootService } from "./rootService";
 import { TOKEN_EXPIRY_OFFSET, TokenEntity, assertIsTokenType } from "./types";
-import { assertIsTruthy } from "../../../shared";
+import { assertIsTruthy } from "../../../shared/assertIsTruthy";
 import { getUniqueId } from "../../../shared/getUniqueId";
 
 export async function create(

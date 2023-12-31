@@ -1,7 +1,7 @@
 import React from "react";
 import { number, object, string } from "yup";
 
-import { findOrFail } from "../../../shared";
+import { findOrFail } from "../../../shared/findOrFail";
 import {
   GetCurrentUserFoodLogDocument,
   useCreateOrUpdateFoodLogMutation,
@@ -50,15 +50,6 @@ export function NewFoodLogPanel({
   const newFoodLogForm = useForm<NewFoodLogFormState>({ schema });
   const descriptionInputRef = React.useRef<HTMLInputElement | null>(null);
   const { success, error } = useToast();
-  const { subscribe, unsubscribe, fire } = useEvents();
-
-  React.useEffect(() => {
-    subscribe("foodLogAdded", "focusFoodLogDescription", () => {
-      descriptionInputRef.current?.focus();
-      newFoodLogForm.clear();
-    });
-    return () => unsubscribe("foodLogAdded", "focusFoodLogDescription");
-  }, []);
 
   if (parentDescriptionInputRef) {
     parentDescriptionInputRef.current = descriptionInputRef.current;
@@ -68,20 +59,16 @@ export function NewFoodLogPanel({
     formStateRef.current = newFoodLogForm;
   }
 
-  const [createFood, { loading }] = useCreateOrUpdateFoodLogMutation({
-    refetchQueries: [GetCurrentUserFoodLogDocument],
-    onCompleted: () => {
-      newFoodLogForm.clear();
-      fire("foodLogAdded");
-      success("Food log created");
-    },
-    onError: error,
-  });
+  const [createFood, { loading }] = useCreateOrUpdateFoodLogMutation();
   const create = () => {
     createFood({
       awaitRefetchQueries: true,
       refetchQueries: [GetCurrentUserFoodLogDocument],
-      onCompleted: newFoodLogForm.clear,
+      onCompleted: () => {
+        newFoodLogForm.clear();
+        success("Food log created");
+      },
+      onError: error,
       variables: {
         input: { day, foodLogs: [newFoodLogForm.getCastValues()] },
       },

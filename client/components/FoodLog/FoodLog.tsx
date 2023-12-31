@@ -21,7 +21,6 @@ const columns: ["calories", "fat", "carbs", "protein"] = [
 
 export function FoodLog({ day }: { day: string }) {
   const { data } = useGetCurrentUserFoodLogQuery({
-    fetchPolicy: "network-only",
     variables: {
       day,
     },
@@ -59,7 +58,7 @@ export function FoodLog({ day }: { day: string }) {
         className={cx(
           "flex flex-wrap gap-4 md:flex-nowrap justify-around w-full transition-opacity",
           {
-            "opacity-50": !entries.length,
+            "opacity-75": !entries.length,
           }
         )}
       >
@@ -103,7 +102,7 @@ export function FoodLog({ day }: { day: string }) {
       )}
       {!loading && entries.length === 0 ? (
         <div className="flex flex-col max-w-md pointer-events-none">
-          <div className="pt-4 border-t border-slate-50 mt-4 opacity-25 max-w-sm font-thin text-2xl">
+          <div className="pt-4 border-t border-slate-50 mt-4 text-slate-400 max-w-sm font-thin text-2xl">
             Nothing here, yet! Get started by entering a food in the form below.
           </div>
         </div>

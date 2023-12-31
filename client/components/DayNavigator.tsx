@@ -4,7 +4,7 @@ import React from "react";
 import { useRoute } from "wouter";
 import useLocation from "wouter/use-location";
 
-import { or } from "../../shared";
+import { or } from "../../shared/coalesce";
 import { formatDate } from "../../shared/dateFormat";
 import { dayStringFromDate } from "../../shared/dayStringFromDate";
 import { dayStringToDate } from "../../shared/dayStringToDate";
@@ -93,13 +93,13 @@ export function DayNavigator({
         title="Go to today"
       >
         <div className="relative text-slate-800 px-4 py-2 text-center flex items-center justify-center">
-          <div className="rounded absolute -bottom-5 px-2 py-1 text-xs text-slate-400 text-opacity-50 bg-white">
+          <div className="rounded absolute -bottom-5 px-2 py-1 text-xs text-slate-400 bg-white">
             {dayDate.getFullYear()}
           </div>
           {isCurrentDayToday ? null : (
             <div className="flex absolute text-purple-50 text-xs -top-5 rounded-full bg-purple-600 px-2 py-1 shadow left-0 group-hover:bg-purple-500">
-              {isCurrentDayInPast ? null : <>&#x2039;</>} go to today{" "}
-              {isCurrentDayInPast ? <>&#x203A;</> : null}
+              {isCurrentDayInPast ? null : "&#x2039;"} go to today{" "}
+              {isCurrentDayInPast ? "&#x203A;" : null}
             </div>
           )}
           <span className="font-bold text-emerald-50" onClick={onRefresh}>

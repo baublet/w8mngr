@@ -71,12 +71,14 @@ export function ToastProvider({ children }: React.PropsWithChildren<{}>) {
     []
   );
 
+  const toastValue = React.useMemo(() => ({ success, error }), []);
+
   const getDismissHandler = React.useCallback((id: string) => {
     return () => setMessages((message) => message.filter((m) => m.id !== id));
   }, []);
 
   return (
-    <ToastContext.Provider value={{ success, error }}>
+    <ToastContext.Provider value={toastValue}>
       <div className="relative">
         <div className="absolute right-0 top-0 space-y-4 z-50 pointer-events-none">
           {messages.map((message) => (

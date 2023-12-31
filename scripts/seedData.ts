@@ -23,7 +23,7 @@ import {
 } from "../api/dataServices/userAccount";
 import { UserEntity, userDataService } from "../api/dataServices/user";
 import { weightLogDataService } from "../api/dataServices/weightLog";
-import { dayStringFromDate } from "../shared";
+import { dayStringFromDate } from "../shared/dayStringFromDate";
 
 const minDate = subYears(new Date(), 1);
 const minDay = dayStringFromDate(minDate);

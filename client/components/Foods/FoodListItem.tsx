@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "wouter";
 import useLocation from "wouter/use-location";
 
-import { or } from "../../../shared";
+import { or } from "../../../shared/coalesce";
 import { foodLogLocalStorage } from "../../helpers/foodLogLocalStorage";
 import { GhostInvertedButton } from "../Button/GhostInverted";
 import { SystemGhostIconButton } from "../Button/SystemGhostIcon";

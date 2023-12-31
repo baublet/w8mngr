@@ -1,7 +1,7 @@
 import cx from "classnames";
 import React from "react";
 
-import { or } from "../../../shared";
+import { or } from "../../../shared/coalesce";
 import {
   GetCurrentUserWeightLogDocument,
   useCreateOrUpdateWeightLogMutation,

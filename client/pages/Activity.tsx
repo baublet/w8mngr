@@ -39,11 +39,9 @@ export function Activity() {
         <PageHeading
           icon={<HealthCircleIcon />}
           quickLinks={
-            <>
-              <BackToButton {...backButtonProps(() => navigate(-1))}>
-                Back to Activities
-              </BackToButton>
-            </>
+            <BackToButton {...backButtonProps(() => navigate(-1))}>
+              Back to Activities
+            </BackToButton>
           }
         >
           {activity.name}

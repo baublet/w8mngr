@@ -15,8 +15,8 @@ export function Panel(
     hover:bg-slate-50
     hover:bg-opacity-50
     border
-    border-slate-200
-    hover:border-slate-300
+    border-slate-50
+    hover:border-slate-100
     rounded-lg
     hover:shadow-slate-500/10
     hover:shadow-lg

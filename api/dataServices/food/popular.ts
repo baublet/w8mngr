@@ -2,7 +2,6 @@ import { Context } from "../../createContext";
 import { FoodEntity } from "./types";
 import { userDataService } from "../user";
 import { rootService } from "./rootService";
-import { findOrFail } from "../../../shared";
 import { dbService } from "../../config/db";
 
 const POPULARITY_PERIOD_MS = 1000 * 60 * 60 * 24 * 30;

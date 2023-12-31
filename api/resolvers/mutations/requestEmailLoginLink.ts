@@ -1,4 +1,4 @@
-import { getRoundedDate } from "../../../shared";
+import { getRoundedDate } from "../../../shared/getRoundedDate";
 import { log } from "../../config/log";
 import { emailDataService } from "../../dataServices/email";
 import { tokenDataService } from "../../dataServices/token";

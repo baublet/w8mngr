@@ -1,12 +1,13 @@
 import React from "react";
 
 import { useGetPopularFoodsQuery } from "../../generated";
-import { FoodsListItem } from "./FoodListItem";
-import { PanelHeading } from "../Type/PanelHeading";
 import { AddableFoods } from "./AddableFoods";
+import { SideBarHeading } from "../Type/SideBarHeading";
 
 export function PopularFoods({ day }: { day: string }) {
-  const { data } = useGetPopularFoodsQuery();
+  const { data } = useGetPopularFoodsQuery({
+    fetchPolicy: "cache-first",
+  });
 
   const popularFoods = data?.currentUser?.popularFoods;
 
@@ -15,8 +16,15 @@ export function PopularFoods({ day }: { day: string }) {
   }
 
   return (
-    <div className="flex flex-col w-full gap-2">
-      <AddableFoods day={day} foods={popularFoods} uniqueKey="popular-foods" />
+    <div>
+      <SideBarHeading>Popular Foods</SideBarHeading>
+      <div className="flex flex-col w-full gap-2">
+        <AddableFoods
+          day={day}
+          foods={popularFoods}
+          uniqueKey="popular-foods"
+        />
+      </div>
     </div>
   );
 }

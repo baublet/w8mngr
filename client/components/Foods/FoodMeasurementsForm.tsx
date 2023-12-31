@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Maybe } from "../../../api/generated";
-import { or } from "../../../shared";
+import { or } from "../../../shared/coalesce";
 import { FoodMeasurement, useDeleteMeasurementMutation } from "../../generated";
 import { useForm } from "../../helpers/useForm";
 import { DeleteIconButton } from "../Button/DeleteIconButton";

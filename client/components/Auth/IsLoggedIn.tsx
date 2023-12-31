@@ -11,12 +11,11 @@ export function IsLoggedIn({
     fetchPolicy: "cache-first",
     pollInterval: 10000
   });
-  console.log({ data })
   if (loading || !data?.currentUser) {
     if (loading && showLoader) {
       return <ButtonSpinnerIcon />;
     }
     return null;
   }
-  return <>{children}</>;
+  return children;
 }

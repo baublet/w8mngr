@@ -122,17 +122,15 @@ export function FoodForm({
           </form>
         }
         sideContent={
-          <>
-            <Upload
-              onChange={foodFormData.getHandler("selectedUploadIds")}
-              defaultSelectedUploadIds={defaultSelectedUploadIds}
-              placeholder={
-                <span>
-                  <b>Food image</b> (optional)
-                </span>
-              }
-            />
-          </>
+          <Upload
+            onChange={foodFormData.getHandler("selectedUploadIds")}
+            defaultSelectedUploadIds={defaultSelectedUploadIds}
+            placeholder={
+              <span>
+                <b>Food image</b> (optional)
+              </span>
+            }
+          />
         }
       />
     </ContentContainer>

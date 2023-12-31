@@ -60,15 +60,13 @@ export function BaseButton({
   });
 
   return to ? (
-    <>
-      <Link {...props} to={to} className={classNames}>
-        {leftIcon && (
-          <span className="opacity-75 group-hover:opacity-100">{leftIcon}</span>
-        )}
-        <div className={textClassNames}>{children}</div>
-        {rightIcon}
-      </Link>
-    </>
+    <Link {...props} to={to} className={classNames}>
+      {leftIcon && (
+        <span className="opacity-75 group-hover:opacity-100">{leftIcon}</span>
+      )}
+      <div className={textClassNames}>{children}</div>
+      {rightIcon}
+    </Link>
   ) : (
     <button {...props} className={classNames} type={type}>
       {leftIcon && (

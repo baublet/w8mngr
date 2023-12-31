@@ -50,9 +50,6 @@ export function AddableFood({
       },
     ],
     awaitRefetchQueries: true,
-    onCompleted: () => {
-      fire("foodLogAdded");
-    },
   });
 
   const saveFood: (input: FoodLogInput) => void = React.useCallback(

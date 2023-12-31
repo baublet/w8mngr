@@ -2,7 +2,7 @@ import { isValidTemplate, renderEmailTemplate } from "./templates";
 
 import { Context } from "../../createContext";
 import { EmailEntity } from "./types";
-import { assertIsError } from "../../../shared";
+import { assertIsError } from "../../../shared/assertIsError";
 import { emailService } from "../../helpers/emailService";
 import { log } from "../../config/log";
 import { dbService } from "../../config/db";

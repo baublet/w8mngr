@@ -8,6 +8,6 @@
     "strict": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
-    "moduleResolution": "node"
+    "moduleResolution": "Node16"
   }
 }

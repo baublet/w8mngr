@@ -1,7 +1,7 @@
 import cx from "classnames";
 import React from "react";
 
-import { or } from "../../../shared";
+import { or } from "../../../shared/coalesce";
 import { InputProps } from "./Input";
 
 let count = 0;
@@ -30,7 +30,7 @@ export function MultilineInput(
   }, [label]);
 
   return (
-    <>
+    <div>
       {labelPlacement === "top" && labelMarkup}
       <textarea
         onChange={(event) => props.onChange(event.target.value)}
@@ -57,6 +57,6 @@ export function MultilineInput(
         placeholder={props.placeholder}
       />
       {labelPlacement === "bottom" && labelMarkup}
-    </>
+    </div>
   );
 }

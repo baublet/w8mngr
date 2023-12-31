@@ -7,6 +7,8 @@ type LoadableComponentProps = {
   loadingComponent?: React.ComponentType<any>;
 };
 
+const defaultProps: any = {};
+
 export function LoadableComponent<
   T extends LoadableComponentProps,
   TKey extends ReturnType<T["load"]> extends Promise<infer TModule>
@@ -19,7 +21,7 @@ export function LoadableComponent<
   load,
   loadingComponent = PrimaryLoader,
   component,
-  props = {} as any,
+  props = defaultProps,
 }: T & {
   component?: TKey;
   props?: TComponent extends (props: infer TProps) => any ? TProps : never;

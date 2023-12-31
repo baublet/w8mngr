@@ -1,7 +1,7 @@
 import { Context } from "../../createContext";
 import type { UserAccountEntity } from "./types";
 import { rootService } from "./rootService";
-import { assertIsTruthy } from "../../../shared";
+import { assertIsTruthy } from "../../../shared/assertIsTruthy";
 import { getUniqueId } from "../../../shared/getUniqueId";
 
 export async function create(

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { or } from "../../../shared";
+import { or } from "../../../shared/coalesce";
 import { InputProps } from "./Input";
 
 let count = 0;
@@ -25,7 +25,7 @@ export function InputAutocompleteFood(props: FoodEntryInputProps & InputProps) {
   }, []);
 
   return (
-    <>
+    <div>
       <input
         {...inputOnlyProps}
         className={`bg-transparent w-full border-transparent hover:border-foreground focus:border-foreground border-b ${className}`}
@@ -34,6 +34,6 @@ export function InputAutocompleteFood(props: FoodEntryInputProps & InputProps) {
       <label htmlFor={newProps.id} className="screen-reader-text">
         {label}
       </label>
-    </>
+    </div>
   );
 }

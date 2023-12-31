@@ -1,10 +1,9 @@
 import format from "date-fns/format";
-import {
-  dayStringToDate,
-  dedupe,
-  filterOutErrors,
-  weightedClamp,
-} from "../../../shared";
+import { dayStringToDate } from "../../../shared/dayStringToDate";
+import { dedupe } from "../../../shared/dedupe";
+import { filterOutErrors } from "../../../shared/filterOutErrors";
+import { weightedClamp } from "../../../shared/weightedClamp";
+
 import {
   ActivityLog,
   activityLogDataService,

@@ -72,13 +72,6 @@ export function AddableFoods({
   useKeyPressHandler("down", selectNextFood);
   useKeyPressHandler("up", selectPreviousFood);
 
-  React.useEffect(() => {
-    subscribe("foodLogAdded", "AddableFoodsDeselect", deselectFood);
-    return () => {
-      unsubscribe("foodLogAdded", "AddableFoodsDeselect");
-    };
-  }, []);
-
   return (
     <VerticallyWindowed percent={50}>
       {foods.map((food) => (

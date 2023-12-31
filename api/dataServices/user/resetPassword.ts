@@ -1,4 +1,4 @@
-import { assertIsError } from "../../../shared";
+import { assertIsError } from "../../../shared/assertIsError";
 import { ReturnTypeWithErrors } from "../../../shared/types";
 import { createDigest } from "../../authentication/createDigest";
 import { hashPassword } from "../../authentication/hashPassword";

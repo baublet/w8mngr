@@ -11,6 +11,8 @@ export const saveFoodLog: MutationResolvers["saveFoodLog"] = async (
   const permissions = context.services.get(foodLogPermissionService);
   await permissions.assert("create");
 
+  console.log({ input: JSON.stringify(input) });
+
   const day = input.day;
   const items: Partial<FoodLogEntity>[] = input.foodLogs.map((log) => ({
     calories: log.calories,
@@ -22,8 +24,11 @@ export const saveFoodLog: MutationResolvers["saveFoodLog"] = async (
     protein: log.protein,
     description: log.description,
   }));
+
+  console.log({ items: JSON.stringify(items) });
   await foodLogDataService.upsert(context, items);
 
+  console.log("madei t here");
   await foodLogFoodDataService.upsert(
     context,
     input.foodLogs
@@ -36,6 +41,7 @@ export const saveFoodLog: MutationResolvers["saveFoodLog"] = async (
       }))
   );
 
+  console.log("madei t here 2");
   const logs = await foodLogDataService.getConnection(context, {
     constraint: {
       day: input.day,

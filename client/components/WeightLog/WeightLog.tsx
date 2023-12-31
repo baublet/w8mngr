@@ -1,7 +1,8 @@
 import React from "react";
 import { useParams } from "react-router";
 
-import { dayStringFromDate, getWithDefault } from "../../../shared";
+import {  getWithDefault } from "../../../shared/getWithDefault";
+import { dayStringFromDate } from "../../../shared/dayStringFromDate";
 import { useGetCurrentUserWeightLogQuery } from "../../generated";
 import { DayNavigator } from "../DayNavigator";
 import { PrimaryLoader } from "../Loading/Primary";
@@ -40,7 +41,7 @@ export function WeightLog() {
       <div className="flex flex-col gap-4 md:flex-row">
         {!loading && entries.length === 0 ? (
           <div className="flex flex-col max-w-md pointer-events-none w-full md:w-1/2">
-            <div className="border-t border-slate-50 opacity-25 max-w-sm font-thin text-2xl">
+            <div className="pt-4 border-t border-slate-50 mt-4 text-slate-400 max-w-sm font-thin text-2xl">
               Nothing here, yet! Get started by entering a weight in the form
               below.
             </div>

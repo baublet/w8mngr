@@ -29,7 +29,7 @@ export function ActivityStatsComponent({
   }
 
   return (
-    <>
+    <div>
       <Panel className="flex flex-col gap-4">
         {personalRecord && (
           <div className="flex flex-col gap-2">
@@ -92,7 +92,7 @@ export function ActivityStatsComponent({
           </div>
         </Panel>
       )}
-    </>
+    </div>
   );
 }
 

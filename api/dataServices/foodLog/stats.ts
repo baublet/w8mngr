@@ -4,11 +4,9 @@ import format from "date-fns/format";
 import subMonths from "date-fns/subMonths";
 import groupBy from "lodash.groupby";
 
-import {
-  dayStringFromDate,
-  dayStringToDate,
-  objectEntries,
-} from "../../../shared";
+import { objectEntries } from "../../../shared/objectEntries";
+import { dayStringFromDate } from "../../../shared/dayStringFromDate";
+import { dayStringToDate } from "../../../shared/dayStringToDate";
 import { Maybe } from "../../../shared/types";
 import { Context } from "../../createContext";
 import { FoodLogDataPoint } from "../../generated";

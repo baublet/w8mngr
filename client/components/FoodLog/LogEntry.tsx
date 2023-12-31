@@ -1,7 +1,7 @@
 import cx from "classnames";
 import React from "react";
 
-import { or } from "../../../shared";
+import { or } from "../../../shared/coalesce";
 import {
   GetCurrentUserFoodLogDocument,
   useCreateOrUpdateFoodLogMutation,
@@ -166,9 +166,7 @@ export function LogEntry({
         </Form>
         <div className="absolute md:relative top-3 right-2 md:top-0 md:right-0">
           <DeleteIconButton
-            onClick={() => {
-              deleteFoodLog({ variables: { id } });
-            }}
+            onClick={() => deleteFoodLog({ variables: { id } })}
           />
         </div>
       </div>

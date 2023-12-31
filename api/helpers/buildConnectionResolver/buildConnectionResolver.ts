@@ -1,4 +1,4 @@
-import { assertIsError } from "../../../shared";
+import { assertIsError } from "../../../shared/assertIsError";
 import { Resolvable } from "../../../shared/types";
 import { SelectQueryBuilder } from "../../config/db";
 import { log } from "../../config/log";

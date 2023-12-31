@@ -7,7 +7,8 @@ import React from "react";
 import { usePopper } from "react-popper";
 import { Link } from "wouter";
 
-import { dayStringFromDate, dayStringToDate } from "../../shared";
+import { dayStringFromDate } from "../../shared/dayStringFromDate";
+import { dayStringToDate } from "../../shared/dayStringToDate";
 
 const DAYS_IN_TILE_MAP = 378;
 
@@ -168,7 +169,7 @@ export function TileMap({
   }, [showPopperElement]);
 
   return (
-    <>
+    <div>
       <div
         ref={popupElement}
         style={styles.popper}
@@ -223,7 +224,7 @@ export function TileMap({
           <div>{format(dayStringToDate(`${maxDay}`), "LLLL, yyyy")}</div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

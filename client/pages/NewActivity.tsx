@@ -13,9 +13,7 @@ export function NewActivity() {
         <PageHeading
           icon={<HealthCircleIcon />}
           quickLinks={
-            <>
-              <BackToButton to="/activities">Back to Activities</BackToButton>
-            </>
+            <BackToButton to="/activities">Back to Activities</BackToButton>
           }
         >
           New Activity

@@ -26,11 +26,9 @@ export function BaseIconButton({
   );
 
   return to ? (
-    <>
-      <Link {...props} to={to} className={classNames}>
-        {children}
-      </Link>
-    </>
+    <Link {...props} to={to} className={classNames}>
+      {children}
+    </Link>
   ) : (
     <button {...props} className={classNames} type={type}>
       {children}

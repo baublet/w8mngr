@@ -1,7 +1,7 @@
 import omit from "lodash.omit";
 import React from "react";
 
-import { withNumericKeys } from "../../../shared";
+import { withNumericKeys } from "../../../shared/withNumericKeys";
 import { Maybe } from "../../../shared/types";
 import {
   MeasurementInput,

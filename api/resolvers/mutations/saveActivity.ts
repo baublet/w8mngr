@@ -1,4 +1,3 @@
-import { assertIsTruthy } from "../../../shared";
 import { activityDataService } from "../../dataServices/activity";
 import { MutationResolvers } from "../../generated";
 

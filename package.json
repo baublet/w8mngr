@@ -18,11 +18,12 @@
     "postpublish": "pinst --enable",
     "prepublishOnly": "pinst --disable",
     "db:create": "wrangler d1 create w8mngr_1",
+    "db:delete": "wrangler d1 delete w8mngr_1 -y",
     "db:create:migration": "pnpm wrangler d1 migrations create w8mngr_1 -c graphql.wrangler.toml",
-    "db:generateTypes": "DATABASE_URL=tmp/v3/d1/54ab163b-1931-4aac-937e-8697837b433e/db.sqlite pnpm kysely-codegen ",
+    "db:generateTypes": "DATABASE_URL=tmp/v3/d1/miniflare-D1DatabaseObject/59fcf0bbdb3002caec852aff8c0375089f2f64c5130d3b84298cf8d0392750e5.sqlite pnpm kysely-codegen ",
     "db:migrate": "pnpm db:migrate:command --local --persist-to tmp",
     "db:migrate:command": "pnpm wrangler d1 migrations apply w8mngr_1 -c graphql.wrangler.toml",
-    "db:reset": "rm -rf tmp/v3/d1/54ab163b-1931-4aac-937e-8697837b433e && pnpm db:migrate && pnpm db:generateTypes",
+    "db:reset": "pnpm db:delete; pnpm db:create && pnpm db:migrate && pnpm db:generateTypes",
     "develop:api": "wrangler dev -c graphql.wrangler.toml api/graphql --persist-to tmp",
     "develop:ui": "pnpm vite",
     "develop": "concurrently --kill-others npm:develop:api npm:develop:ui"
@@ -98,7 +99,7 @@
     "ulid-workers": "^2.1.0",
     "vite": "^4.3.9",
     "wouter": "^2.11.0",
-    "wrangler": "^3.2.0",
+    "wrangler": "^3.22.1",
     "yup": "^1.2.0"
   },
   "lint-staged": {

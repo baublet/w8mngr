@@ -20,8 +20,8 @@ export function Application(): React.ReactComponentElement<any> {
   }, [location]);
 
   return (
-    <div className="max-w-screen-xl w-full flex flex-col min-h-full px-1 sm:px-2 md:px-8 bg-white pt-8">
-      <div className="min-h-screen flex flex-col gap-8 lg:gap-12">
+    <div className="max-w-screen-xl w-full flex flex-col min-h-full px-1 sm:px-2 md:px-8 bg-slate-50 pt-8 mx-auto">
+      <div className="min-h-screen flex flex-col gap-4">
         <header className="overflow-x-auto lg:overflow-x-hidden">
           <ContentContainer className="flex items-center">
             <h1 className="text-center text-emerald-400 mr-12">

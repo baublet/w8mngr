@@ -1,4 +1,4 @@
-import { getWithDefault } from "../../../shared";
+import { getWithDefault } from "../../../shared/getWithDefault";
 import { foodDataService } from "../../dataServices/food";
 import { userDataService } from "../../dataServices/user";
 import { UserResolvers } from "../../generated";

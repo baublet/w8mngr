@@ -1,4 +1,4 @@
-import { assertIsTruthy } from "../../../shared";
+import { assertIsTruthy } from "../../../shared/assertIsTruthy";
 import type { ActivityLog } from "../../dataServices/activityLog";
 import { activityDataService } from "../../dataServices/activity";
 import { ActivityLogResolvers } from "../../generated";

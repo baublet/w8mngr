@@ -1,4 +1,4 @@
-import { assertIsError } from "../../../shared";
+import { assertIsError } from "../../../shared/assertIsError";
 import { Maybe } from "../../../shared/types";
 import { Context } from "../../createContext";
 import { ActivityLogInput } from "../../generated";

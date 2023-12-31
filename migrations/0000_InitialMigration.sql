@@ -103,10 +103,10 @@ CREATE TABLE "foodLog" (
   "createdAt" INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updatedAt" INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
   description TEXT NOT NULL,
-  calories INTEGER NOT NULL,
-  fat INTEGER NOT NULL,
-  carbs INTEGER NOT NULL,
-  protein INTEGER NOT NULL,
+  calories INTEGER,
+  fat INTEGER,
+  carbs INTEGER,
+  protein INTEGER,
   CONSTRAINT food_log_pkey PRIMARY KEY (id ASC)
 );
 

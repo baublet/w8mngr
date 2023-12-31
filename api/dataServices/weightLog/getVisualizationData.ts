@@ -2,7 +2,8 @@ import format from "date-fns/format";
 import parse from "date-fns/parse";
 import subYears from "date-fns/subYears";
 
-import { dayStringFromDate, dayStringToDate } from "../../../shared";
+import { dayStringFromDate } from "../../../shared/dayStringFromDate";
+import { dayStringToDate } from "../../../shared/dayStringToDate";
 import { Context } from "../../createContext";
 import { WeightLogSummary, WeightLogSummaryInput } from "../../generated";
 import { numberToStringUnit } from "../../helpers/numberToStringUnit";

@@ -11,6 +11,7 @@ import {
 import { NotFoundError } from "../helpers/errors/NotFoundError";
 import { buildConnectionResolver } from "../helpers/buildConnectionResolver";
 import { assertIsError } from "../../shared/assertIsError";
+import { getUniqueId } from "../../shared/getUniqueId";
 
 type PartiallyMaybe<T extends Record<string, any>> = {
   [K in keyof T]?: T[K] | undefined;
@@ -20,29 +21,38 @@ type PartiallyMaybeWithNull<T extends Record<string, any>> = {
   [K in keyof T]?: T[K] | undefined | null;
 };
 
-export function createDataService<T extends keyof Database>(
-  provider: keyof Env,
-  tableName: T
-) {
+export function createDataService<T extends keyof Database>({
+  provider,
+  tableName,
+  idProp: _idProp,
+}: {
+  provider: keyof Env;
+  tableName: T;
+  idProp?: keyof Database[T];
+}) {
+  const idProp = (_idProp || "id") as any;
   return {
-    create: getCreate(provider, tableName),
-    deleteByIds: getDeleteByIds(provider, tableName),
-    deleteBy: getDeleteBy(provider, tableName),
-    findOneBy: getFindOneBy(provider, tableName),
-    findOneOrFailBy: getFindOneOrFailBy(provider, tableName),
-    findBy: getFindBy(provider, tableName),
-    findOneOrFail: getFindOneOrFail(provider, tableName),
-    update: getUpdate(provider, tableName),
-    upsert: getUpsert(provider, tableName),
-    upsertBy: getUpsertBy(provider, tableName),
-    getConnection: getConnectionBuilder(provider, tableName),
+    create: getCreate({ provider, tableName, idProp }),
+    deleteByIds: getDeleteByIds({ provider, tableName }),
+    deleteBy: getDeleteBy({ provider, tableName }),
+    findOneBy: getFindOneBy({ provider, tableName }),
+    findOneOrFailBy: getFindOneOrFailBy({ provider, tableName }),
+    findBy: getFindBy({ provider, tableName }),
+    findOneOrFail: getFindOneOrFail({ provider, tableName }),
+    update: getUpdate({ provider, tableName }),
+    upsert: getUpsert({ provider, tableName, idProp }),
+    upsertBy: getUpsertBy({ provider, tableName }),
+    getConnection: getConnectionBuilder({ provider, tableName }),
   };
 }
 
-function getUpsertBy<T extends keyof Database>(
-  provider: keyof Env,
-  tableName: T
-) {
+function getUpsertBy<T extends keyof Database>({
+  provider,
+  tableName,
+}: {
+  provider: keyof Env;
+  tableName: T;
+}) {
   return (
     context: Context,
     items: Partial<InsertableDatabaseRecord<Database[T]>>[],
@@ -66,10 +76,13 @@ function getUpsertBy<T extends keyof Database>(
   };
 }
 
-function getFindBy<T extends keyof Database>(
-  provider: keyof Env,
-  tableName: T
-) {
+function getFindBy<T extends keyof Database>({
+  provider,
+  tableName,
+}: {
+  provider: keyof Env;
+  tableName: T;
+}) {
   return (
     context: Context,
     where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>
@@ -82,10 +95,13 @@ function getFindBy<T extends keyof Database>(
   };
 }
 
-function getFindOneBy<T extends keyof Database>(
-  provider: keyof Env,
-  tableName: T
-) {
+function getFindOneBy<T extends keyof Database>({
+  provider,
+  tableName,
+}: {
+  provider: keyof Env;
+  tableName: T;
+}) {
   return (
     context: Context,
     where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>
@@ -99,10 +115,13 @@ function getFindOneBy<T extends keyof Database>(
   };
 }
 
-function getFindOneOrFailBy<T extends keyof Database>(
-  provider: keyof Env,
-  tableName: T
-) {
+function getFindOneOrFailBy<T extends keyof Database>({
+  provider,
+  tableName,
+}: {
+  provider: keyof Env;
+  tableName: T;
+}) {
   return (
     context: Context,
     where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>
@@ -116,10 +135,13 @@ function getFindOneOrFailBy<T extends keyof Database>(
   };
 }
 
-function getFindOneOrFail<T extends keyof Database>(
-  provider: keyof Env,
-  tableName: T
-) {
+function getFindOneOrFail<T extends keyof Database>({
+  provider,
+  tableName,
+}: {
+  provider: keyof Env;
+  tableName: T;
+}) {
   return async (context: Context, id: string) => {
     const result = await context.services
       .get(dbService)(provider)
@@ -137,10 +159,13 @@ function getFindOneOrFail<T extends keyof Database>(
   };
 }
 
-function getDeleteByIds<T extends keyof Database>(
-  provider: keyof Env,
-  tableName: T
-) {
+function getDeleteByIds<T extends keyof Database>({
+  provider,
+  tableName,
+}: {
+  provider: keyof Env;
+  tableName: T;
+}) {
   return async (context: Context, ids: string[]): Promise<void> => {
     await context.services
       .get(dbService)(provider)
@@ -150,10 +175,13 @@ function getDeleteByIds<T extends keyof Database>(
   };
 }
 
-function getDeleteBy<T extends keyof Database>(
-  provider: keyof Env,
-  tableName: T
-) {
+function getDeleteBy<T extends keyof Database>({
+  provider,
+  tableName,
+}: {
+  provider: keyof Env;
+  tableName: T;
+}) {
   return async (
     context: Context,
     where: (qb: DeleteQueryBuilder<T>) => DeleteQueryBuilder<T>
@@ -164,10 +192,15 @@ function getDeleteBy<T extends keyof Database>(
   };
 }
 
-function getCreate<T extends keyof Database>(
-  provider: keyof Env,
-  tableName: T
-) {
+function getCreate<T extends keyof Database>({
+  provider,
+  tableName,
+  idProp,
+}: {
+  provider: keyof Env;
+  tableName: T;
+  idProp: keyof Database[T];
+}) {
   return async (
     context: Context,
     input: Partial<InsertableDatabaseRecord<Database[T]>>[]
@@ -179,7 +212,9 @@ function getCreate<T extends keyof Database>(
     const results = await context.services
       .get(dbService)(provider)
       .insertInto(tableName)
-      .values(input as any)
+      .values(
+        input.map((item) => ({ ...item, [idProp]: getUniqueId() })) as any
+      )
       .returningAll()
       .execute();
 
@@ -187,10 +222,13 @@ function getCreate<T extends keyof Database>(
   };
 }
 
-function getUpdate<T extends keyof Database>(
-  provider: keyof Env,
-  tableName: T
-) {
+function getUpdate<T extends keyof Database>({
+  provider,
+  tableName,
+}: {
+  provider: keyof Env;
+  tableName: T;
+}) {
   return async (
     context: Context,
     where: (qb: UpdateQueryBuilder<T>) => UpdateQueryBuilder<T>,
@@ -205,11 +243,15 @@ function getUpdate<T extends keyof Database>(
   };
 }
 
-function getUpsert<T extends keyof Database>(
-  provider: keyof Env,
-  tableName: T,
-  idProp: keyof Database[T] = "id"
-) {
+function getUpsert<T extends keyof Database>({
+  idProp = "id",
+  provider,
+  tableName,
+}: {
+  provider: keyof Env;
+  tableName: T;
+  idProp: keyof Database[T];
+}) {
   /**
    * Upserts a record. Please note that you must specify transactional boundaries if you
    * want to perform these upserts within a transaction.
@@ -235,7 +277,10 @@ function getUpsert<T extends keyof Database>(
           const result = await context.services
             .get(dbService)(provider)
             .insertInto(tableName)
-            .values(upsertItem as any)
+            .values({
+              ...(upsertItem as any),
+              [idProp]: getUniqueId(),
+            })
             .returningAll()
             .execute();
 
@@ -253,11 +298,13 @@ function getUpsert<T extends keyof Database>(
             context.services
               .get(dbService)(provider)
               .updateTable(tableName)
+              .where(idProp as any, "=", (upsertItem as any)[idProp])
               .set(upsertItem as any) as any
           )
             .returningAll()
             .execute();
 
+          console.log("hello world");
           if (!result) {
             return {
               error: `Unexpected error in ${tableName}.upsert(update): No result returned`,
@@ -268,8 +315,9 @@ function getUpsert<T extends keyof Database>(
         }
 
         const id = (upsertItem as any)[idProp];
-        if (!id) {
-          return { error: `No id provided for upsert in ${tableName}` };
+
+        if (typeof id === "undefined") {
+          return insert();
         }
 
         const results = await context.services
@@ -279,26 +327,23 @@ function getUpsert<T extends keyof Database>(
           .where(idProp as any, "=", id)
           .execute();
 
-        //
-        // Insert!
-        //
         if (results.length === 0) {
           return insert();
         }
 
-        //
-        // Otherwise, update
-        //
         return update();
       }) as any
     );
   };
 }
 
-function getConnectionBuilder<T extends keyof Database>(
-  provider: keyof Env,
-  tableName: T
-) {
+function getConnectionBuilder<T extends keyof Database>({
+  provider,
+  tableName,
+}: {
+  provider: keyof Env;
+  tableName: T;
+}) {
   return async (
     context: Context,
     input: {
@@ -316,8 +361,7 @@ function getConnectionBuilder<T extends keyof Database>(
     try {
       let query = context.services
         .get(dbService)(provider)
-        .selectFrom(tableName)
-        .selectAll();
+        .selectFrom(tableName);
 
       const constraint = input.constraint;
       if (constraint) {

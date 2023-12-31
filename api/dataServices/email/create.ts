@@ -3,7 +3,7 @@ import { userAccountDataService } from "../userAccount";
 import { EmailEntity, emailDataService } from "./";
 import { EmailTemplateKey, EmailTemplates } from "./templates";
 import { dbService } from "../../config/db";
-import { assertIsTruthy } from "../../../shared";
+import { assertIsTruthy } from "../../../shared/assertIsTruthy";
 import { getUniqueId } from "../../../shared/getUniqueId";
 
 export async function create<TTemplateKey extends EmailTemplateKey>(

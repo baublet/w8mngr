@@ -1,6 +1,6 @@
 import React from "react";
 
-import { or } from "../../../shared";
+import { or } from "../../../shared/coalesce";
 import { Maybe } from "../../../shared/types";
 import {
   ActivityType,

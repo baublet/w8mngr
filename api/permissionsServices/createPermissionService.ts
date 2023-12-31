@@ -1,8 +1,8 @@
 import { ServiceContainer } from "@baublet/service-container";
 
-import { log } from "../config/log";
-import { Context, contextService } from "../createContext";
-import { Unauthorized } from "../helpers/errors/Unauthorized";
+import { log } from "../config/log.js";
+import { Context, contextService } from "../createContext.js";
+import { Unauthorized } from "../helpers/errors/Unauthorized.js";
 
 type PermissionFunction = (
   context: Context,

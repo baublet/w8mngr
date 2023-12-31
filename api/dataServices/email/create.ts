@@ -1,8 +1,8 @@
-import { Context } from "../../createContext";
-import { userAccountDataService } from "../userAccount";
-import { EmailEntity, emailDataService } from "./";
-import { EmailTemplateKey, EmailTemplates } from "./templates";
-import { dbService } from "../../config/db";
+import { Context } from "../../createContext.js";
+import { userAccountDataService } from "../userAccount/index.js";
+import { EmailEntity, emailDataService } from "./index.js";
+import { EmailTemplateKey, EmailTemplates } from "./templates/index.js";
+import { dbService } from "../../config/db.js";
 import { assertIsTruthy } from "../../../shared/assertIsTruthy";
 import { getUniqueId } from "../../../shared/getUniqueId";
 

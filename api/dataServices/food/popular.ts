@@ -1,8 +1,8 @@
-import { Context } from "../../createContext";
-import { FoodEntity } from "./types";
-import { userDataService } from "../user";
-import { rootService } from "./rootService";
-import { dbService } from "../../config/db";
+import { Context } from "../../createContext.js";
+import { FoodEntity } from "./types.js";
+import { userDataService } from "../user/index.js";
+import { rootService } from "./rootService.js";
+import { dbService } from "../../config/db.js";
 
 const POPULARITY_PERIOD_MS = 1000 * 60 * 60 * 24 * 30;
 

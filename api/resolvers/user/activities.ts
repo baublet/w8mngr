@@ -1,7 +1,7 @@
 import { getWithDefault } from "../../../shared/getWithDefault";
-import { activityDataService } from "../../dataServices/activity";
-import { userDataService } from "../../dataServices/user";
-import { UserResolvers } from "../../generated";
+import { activityDataService } from "../../dataServices/activity/index.js";
+import { userDataService } from "../../dataServices/user/index.js";
+import { UserResolvers } from "../../generated.js";
 
 export const activities: UserResolvers["activities"] = async (
   parent,

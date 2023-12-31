@@ -1,7 +1,7 @@
-import { rootService } from "./rootService";
+import { rootService } from "./rootService.js";
 
 export const activityMuscleDataService = {
   ...rootService
 };
 
-export type { ActivityMuscleEntity } from "./types";
+export type { ActivityMuscleEntity } from "./types.js";

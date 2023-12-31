@@ -1,5 +1,5 @@
-import { activityDataService } from "../../dataServices/activity";
-import { UserResolvers, ActivityType } from "../../generated";
+import { activityDataService } from "../../dataServices/activity/index.js";
+import { UserResolvers, ActivityType } from "../../generated.js";
 
 export const userPopularActivities: UserResolvers["popularActivities"] = async (
   parent,

@@ -1,6 +1,6 @@
-import { foodDataService } from "../../dataServices/food";
-import { MutationResolvers } from "../../generated";
-import { foodPermissionService } from "../../permissionsServices/food";
+import { foodDataService } from "../../dataServices/food/index.js";
+import { MutationResolvers } from "../../generated.js";
+import { foodPermissionService } from "../../permissionsServices/food.js";
 
 export const saveFood: MutationResolvers["saveFood"] = async (
   parent,

@@ -1,5 +1,5 @@
-import { WeightLogResolvers } from "../../generated";
-import { numberToContextualUnit } from "../../helpers/numberToContextualUnit";
+import { WeightLogResolvers } from "../../generated.js";
+import { numberToContextualUnit } from "../../helpers/numberToContextualUnit.js";
 
 export const weightLogWeightString: WeightLogResolvers["weightString"] = async (
   parent,

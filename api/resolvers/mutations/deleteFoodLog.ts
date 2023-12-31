@@ -1,6 +1,6 @@
-import { foodLogDataService } from "../../dataServices/foodLog";
-import { MutationResolvers } from "../../generated";
-import { foodLogPermissionService } from "../../permissionsServices/foodLog";
+import { foodLogDataService } from "../../dataServices/foodLog/index.js";
+import { MutationResolvers } from "../../generated.js";
+import { foodLogPermissionService } from "../../permissionsServices/foodLog.js";
 
 export const deleteFoodLog: MutationResolvers["deleteFoodLog"] = async (
   parent,

@@ -1,5 +1,5 @@
-import type { Context } from "../../createContext";
-import { rootService } from "./rootService";
+import type { Context } from "../../createContext.js";
+import { rootService } from "./rootService.js";
 
 export async function accountExists(
   context: Context,

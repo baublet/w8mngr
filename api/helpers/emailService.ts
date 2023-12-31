@@ -1,8 +1,8 @@
 import FormData from "form-data";
 
 import { assertIsError } from "../../shared/assertIsError";
-import { config } from "../config/config";
-import { log } from "../config/log";
+import { config } from "../config/config.js";
+import { log } from "../config/log.js";
 import { getUniqueId } from "../../shared/getUniqueId";
 
 export function emailService() {

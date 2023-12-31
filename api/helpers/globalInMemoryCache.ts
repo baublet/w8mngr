@@ -1,5 +1,5 @@
 import hash from "object-hash";
-import { log } from "../config/log";
+import { log } from "../config/log.js";
 
 const cache = new Map<string, { value: any; expiry: number }>();
 

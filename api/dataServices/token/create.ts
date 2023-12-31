@@ -1,7 +1,7 @@
-import { createDigest } from "../../authentication/createDigest";
-import { Context } from "../../createContext";
-import { rootService } from "./rootService";
-import { TOKEN_EXPIRY_OFFSET, TokenEntity, assertIsTokenType } from "./types";
+import { createDigest } from "../../authentication/createDigest.js";
+import { Context } from "../../createContext.js";
+import { rootService } from "./rootService.js";
+import { TOKEN_EXPIRY_OFFSET, TokenEntity, assertIsTokenType } from "./types.js";
 import { assertIsTruthy } from "../../../shared/assertIsTruthy";
 import { getUniqueId } from "../../../shared/getUniqueId";
 

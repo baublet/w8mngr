@@ -1,12 +1,12 @@
-import { authenticate } from "./authenticate";
-import { create } from "./create";
-import { getAdminUsers } from "./getAdminUsers";
-import { login } from "./login";
-import { loginWithToken } from "./loginWithToken";
-import { logout } from "./logout";
-import { register } from "./register";
-import { resetPassword } from "./resetPassword";
-import { rootService } from "./rootService";
+import { authenticate } from "./authenticate.js";
+import { create } from "./create.js";
+import { getAdminUsers } from "./getAdminUsers.js";
+import { login } from "./login.js";
+import { loginWithToken } from "./loginWithToken.js";
+import { logout } from "./logout.js";
+import { register } from "./register.js";
+import { resetPassword } from "./resetPassword.js";
+import { rootService } from "./rootService.js";
 
 export const userDataService = {
   ...rootService,
@@ -20,4 +20,4 @@ export const userDataService = {
   resetPassword,
 };
 
-export type{ UserEntity } from "./types";
+export type{ UserEntity } from "./types.js";

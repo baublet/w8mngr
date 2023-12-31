@@ -1,5 +1,5 @@
-import { emailDataService } from "./dataServices/email";
-import { runWithContext } from "./helpers/runWithContext";
+import { emailDataService } from "./dataServices/email/index.js";
+import { runWithContext } from "./helpers/runWithContext.js";
 
 export const handler = async () => {
   await Promise.all([

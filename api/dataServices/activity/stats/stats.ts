@@ -3,12 +3,12 @@ import dateDistance from "date-fns/formatDistance";
 import { dayStringFromDate } from "../../../../shared/dayStringFromDate";
 import { dayStringToDate } from "../../../../shared/dayStringToDate";
 import { Resolvable } from "../../../../shared/types";
-import { Context } from "../../../createContext";
-import { ActivityStats, ActivityType } from "../../../generated";
-import { numberToContextualUnit } from "../../../helpers/numberToContextualUnit";
-import { activityDataService } from "../../activity";
-import { activityLogDataService } from "../../activityLog";
-import { getVisualizationDataResolvers } from "./visualizationData";
+import { Context } from "../../../createContext.js";
+import { ActivityStats, ActivityType } from "../../../generated.js";
+import { numberToContextualUnit } from "../../../helpers/numberToContextualUnit.js";
+import { activityDataService } from "../../activity/index.js";
+import { activityLogDataService } from "../../activityLog/index.js";
+import { getVisualizationDataResolvers } from "./visualizationData.js";
 
 export async function stats(
   context: Context,

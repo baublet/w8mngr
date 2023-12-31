@@ -1,13 +1,13 @@
 import { assertIsError } from "../../../shared/assertIsError";
 import { ReturnTypeWithErrors } from "../../../shared/types";
-import { createDigest } from "../../authentication/createDigest";
-import { hashPassword } from "../../authentication/hashPassword";
-import { Context } from "../../createContext";
-import { tokenDataService } from "../token";
-import { TOKEN_EXPIRY_OFFSET } from "../token/types";
-import { userAccountDataService } from "../userAccount/";
-import { userDataService } from "./";
-import { UserEntity } from "./types";
+import { createDigest } from "../../authentication/createDigest.js";
+import { hashPassword } from "../../authentication/hashPassword.js";
+import { Context } from "../../createContext.js";
+import { tokenDataService } from "../token/index.js";
+import { TOKEN_EXPIRY_OFFSET } from "../token/types.js";
+import { userAccountDataService } from "../userAccount/index.js";
+import { userDataService } from "./index.js";
+import { UserEntity } from "./types.js";
 
 export async function resetPassword(
   context: Context,

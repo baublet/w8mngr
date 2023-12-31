@@ -1,8 +1,8 @@
-import { createSha1Digest } from "../../authentication/createDigest";
-import { config } from "../../config/config";
-import { Context } from "../../createContext";
-import { UploadUrlType } from "../../generated";
-import { rootService } from "./rootService";
+import { createSha1Digest } from "../../authentication/createDigest.js";
+import { config } from "../../config/config.js";
+import { Context } from "../../createContext.js";
+import { UploadUrlType } from "../../generated.js";
+import { rootService } from "./rootService.js";
 
 const TRANSFORMATIONS_MAP: Record<
   UploadUrlType,

@@ -1,9 +1,9 @@
-import { createDigest } from "../../authentication/createDigest";
-import { Context } from "../../createContext";
-import { create } from "./create";
-import { Database, dbService, InsertableDatabaseRecord } from "../../config/db";
-import { rootService as tokenDataService } from "./rootService";
-import { TOKEN_EXPIRY_OFFSET, assertIsTokenType } from "./types";
+import { createDigest } from "../../authentication/createDigest.js";
+import { Context } from "../../createContext.js";
+import { create } from "./create.js";
+import { Database, dbService, InsertableDatabaseRecord } from "../../config/db.js";
+import { rootService as tokenDataService } from "./rootService.js";
+import { TOKEN_EXPIRY_OFFSET, assertIsTokenType } from "./types.js";
 import { assertIsTruthy } from "../../../shared/assertIsTruthy";
 import { getUniqueId } from "../../../shared/getUniqueId";
 

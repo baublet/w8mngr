@@ -1,11 +1,11 @@
 import { flattenArray } from "../../../../shared/flattenArray";
-import { Context } from "../../../createContext";
-import { dbService } from "../../../config/db";
-import { ActivityType, ActivityVisualizationInput } from "../../../generated";
-import { getDateRangeWithDefault } from "../../../helpers/getDateRangeWithDefault";
-import { globalInMemoryCache } from "../../../helpers/globalInMemoryCache";
-import { numberToContextualUnit } from "../../../helpers/numberToContextualUnit";
-import { ActivityLogEntity } from "../../activityLog/types";
+import { Context } from "../../../createContext.js";
+import { dbService } from "../../../config/db.js";
+import { ActivityType, ActivityVisualizationInput } from "../../../generated.js";
+import { getDateRangeWithDefault } from "../../../helpers/getDateRangeWithDefault.js";
+import { globalInMemoryCache } from "../../../helpers/globalInMemoryCache.js";
+import { numberToContextualUnit } from "../../../helpers/numberToContextualUnit.js";
+import { ActivityLogEntity } from "../../activityLog/types.js";
 
 export function getVisualizationDataResolvers({
   activityId,

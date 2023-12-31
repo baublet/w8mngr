@@ -1,9 +1,9 @@
 import React from "react";
 import useLocation from "wouter/use-location";
 
-import { useVerifyEmailMutation } from "../generated";
+import { useVerifyEmailMutation } from "../generated.js";
 import { useToast } from "./useToast";
-import { useUrlQueryParameters } from "./useUrlQueryParameters";
+import { useUrlQueryParameters } from "./useUrlQueryParameters.js";
 
 export function useVerifyEmail() {
   const [, navigate] = useLocation();

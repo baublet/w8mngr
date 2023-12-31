@@ -3,11 +3,11 @@ import format from "date-fns/format";
 import { stringToNumberOr } from "../../../shared/stringToNumberOr";
 import { assertIsTruthy } from "../../../shared/assertIsTruthy";
 import { getUniqueId } from "../../../shared/getUniqueId";
-import { log } from "../../config/log";
-import { Database } from "../../config/db";
-import { Context } from "../../createContext";
-import { rootService } from "./rootService";
-import { UserPreferenceValues, userPreferenceTypes } from "./types";
+import { log } from "../../config/log.js";
+import { Database } from "../../config/db.js";
+import { Context } from "../../createContext.js";
+import { rootService } from "./rootService.js";
+import { UserPreferenceValues, userPreferenceTypes } from "./types.js";
 
 const defaultValues: UserPreferenceValues = {
   BIRTHDAY: null,

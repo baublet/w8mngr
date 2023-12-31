@@ -1,5 +1,5 @@
 import { ApolloServer } from "@apollo/server";
-import { parse, serialize } from "cookie";
+import { serialize } from "cookie";
 import {
   createServiceContainer,
   ServiceContainer,
@@ -10,12 +10,12 @@ import {
 } from "@as-integrations/cloudflare-workers";
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 
-import { getSchema } from "./config/schema.graphql";
-import { authenticateRequest } from "./authentication/authenticateRequest";
-import { resolvers } from "./resolvers";
-import { Env, envService } from "./config/db";
-import { Context } from "./createContext";
-import { PromiseResolutionValue } from "../shared/types";
+import { getSchema } from "./config/schema.graphql.js";
+import { authenticateRequest } from "./authentication/authenticateRequest.js";
+import { resolvers } from "./resolvers/index.js";
+import { Env, envService } from "./config/db.js";
+import { PromiseResolutionValue } from "../shared/types.js";
+import { Context } from "./createContext.js";
 
 declare global {
   interface Request {
@@ -24,9 +24,9 @@ declare global {
   }
 }
 
-const handleGraphQLRequest: CloudflareWorkersHandler =
+const handleGraphQLRequest =
   startServerAndCreateCloudflareWorkersHandler(
-    new ApolloServer({
+    new ApolloServer<Context>({
       typeDefs: getSchema(),
       resolvers,
       introspection: true,

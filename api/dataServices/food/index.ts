@@ -1,6 +1,6 @@
-import { rootService } from "./rootService";
-import { saveMutation } from "./saveMutation";
-import { popular } from "./popular";
+import { rootService } from "./rootService.js";
+import { saveMutation } from "./saveMutation.js";
+import { popular } from "./popular.js";
 
 export const foodDataService = {
   ...rootService,
@@ -8,4 +8,4 @@ export const foodDataService = {
   saveMutation,
 };
 
-export type { FoodEntity as FoodEntity } from "./types";
+export type { FoodEntity as FoodEntity } from "./types.js";

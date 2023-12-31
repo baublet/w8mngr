@@ -1,9 +1,9 @@
-import { create } from "./create";
-import { deleteByTokenDigests } from "./deleteByTokenDigests";
-import { deleteExpiredTokens } from "./deleteExpiredTokens";
-import { findByToken } from "./findByToken";
-import { getOrCreate } from "./getOrCreate";
-import { rootService } from "./rootService";
+import { create } from "./create.js";
+import { deleteByTokenDigests } from "./deleteByTokenDigests.js";
+import { deleteExpiredTokens } from "./deleteExpiredTokens.js";
+import { findByToken } from "./findByToken.js";
+import { getOrCreate } from "./getOrCreate.js";
+import { rootService } from "./rootService.js";
 
 export const tokenDataService = {
   ...rootService,

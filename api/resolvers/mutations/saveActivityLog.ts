@@ -1,6 +1,6 @@
-import { log } from "../../config/log";
-import { activityLogDataService } from "../../dataServices/activityLog";
-import { MutationResolvers } from "../../generated";
+import { log } from "../../config/log.js";
+import { activityLogDataService } from "../../dataServices/activityLog/index.js";
+import { MutationResolvers } from "../../generated.js";
 
 export const saveActivityLog: MutationResolvers["saveActivityLog"] = async (
   parent,

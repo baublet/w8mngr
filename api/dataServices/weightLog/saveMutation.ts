@@ -1,7 +1,7 @@
-import { Context } from "../../createContext";
-import { WeightLogInput } from "../../generated";
-import { rawInputToUnit } from "../../helpers/rawInputToUnit";
-import { rootService } from "./rootService";
+import { Context } from "../../createContext.js";
+import { WeightLogInput } from "../../generated.js";
+import { rawInputToUnit } from "../../helpers/rawInputToUnit.js";
+import { rootService } from "./rootService.js";
 
 export async function saveMutation(
   context: Context,

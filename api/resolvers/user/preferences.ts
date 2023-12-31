@@ -1,5 +1,5 @@
-import { userPreferenceDataService } from "../../dataServices/userPreference";
-import { UserResolvers, UserPreferenceType } from "../../generated";
+import { userPreferenceDataService } from "../../dataServices/userPreference/index.js";
+import { UserResolvers, UserPreferenceType } from "../../generated.js";
 
 export const usePreferences: UserResolvers["preferences"] = async (
   parent,

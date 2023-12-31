@@ -1,6 +1,6 @@
-import { create } from "./create";
-import { rootService } from "./rootService";
-import { sendPendingEmails } from "./sendPendingEmails";
+import { create } from "./create.js";
+import { rootService } from "./rootService.js";
+import { sendPendingEmails } from "./sendPendingEmails.js";
 
 export const emailDataService = {
   ...rootService,
@@ -8,4 +8,4 @@ export const emailDataService = {
   sendPendingEmails,
 };
 
-export type { EmailEntity } from "./types";
+export type { EmailEntity } from "./types.js";

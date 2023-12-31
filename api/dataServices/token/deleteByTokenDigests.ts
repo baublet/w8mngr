@@ -1,5 +1,5 @@
-import { Context } from "../../createContext";
-import { rootService } from "./rootService";
+import { Context } from "../../createContext.js";
+import { rootService } from "./rootService.js";
 
 export async function deleteByTokenDigests(
   context: Context,

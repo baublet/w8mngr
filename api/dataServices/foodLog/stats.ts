@@ -8,11 +8,11 @@ import { objectEntries } from "../../../shared/objectEntries";
 import { dayStringFromDate } from "../../../shared/dayStringFromDate";
 import { dayStringToDate } from "../../../shared/dayStringToDate";
 import { Maybe } from "../../../shared/types";
-import { Context } from "../../createContext";
-import { FoodLogDataPoint } from "../../generated";
-import { globalInMemoryCache } from "../../helpers/globalInMemoryCache";
-import { rootService } from "./rootService";
-import type { FoodLogEntity } from "./types";
+import { Context } from "../../createContext.js";
+import { FoodLogDataPoint } from "../../generated.js";
+import { globalInMemoryCache } from "../../helpers/globalInMemoryCache.js";
+import { rootService } from "./rootService.js";
+import type { FoodLogEntity } from "./types.js";
 
 export async function stats(
   context: Context,

@@ -1,6 +1,6 @@
-import { foodDataService } from "../../dataServices/food";
-import { foodMeasurementDataService } from "../../dataServices/foodMeasurement";
-import { MutationResolvers } from "../../generated";
+import { foodDataService } from "../../dataServices/food/index.js";
+import { foodMeasurementDataService } from "../../dataServices/foodMeasurement/index.js";
+import { MutationResolvers } from "../../generated.js";
 
 export const deleteFoodMeasurement: Required<MutationResolvers>["deleteFoodMeasurement"] =
   async (parent, { input }, context) => {

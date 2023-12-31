@@ -1,4 +1,4 @@
-import { leftPad } from "./leftPad";
+import { leftPad } from "./leftPad.js";
 
 export function dayStringFromDate(date: Date): string {
   const year = date.getFullYear();

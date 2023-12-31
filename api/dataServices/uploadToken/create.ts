@@ -2,10 +2,10 @@ import crypto from "crypto";
 
 import { assertIsTruthy } from "../../../shared/assertIsTruthy";
 import { assertIsError } from "../../../shared/assertIsError";
-import { config } from "../../config/config";
-import { Context } from "../../createContext";
-import { uploadDataService } from "../upload";
-import { UploadToken } from "./type";
+import { config } from "../../config/config.js";
+import { Context } from "../../createContext.js";
+import { uploadDataService } from "../upload/index.js";
+import { UploadToken } from "./type.js";
 import { getUniqueId } from "../../../shared/getUniqueId";
 
 export async function create({

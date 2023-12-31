@@ -1,5 +1,5 @@
-import { foodMeasurementDataService } from "../../dataServices/foodMeasurement";
-import { FoodResolvers } from "../../generated";
+import { foodMeasurementDataService } from "../../dataServices/foodMeasurement/index.js";
+import { FoodResolvers } from "../../generated.js";
 
 export const foodMeasurements: Required<FoodResolvers>["measurements"] = (
   parent,

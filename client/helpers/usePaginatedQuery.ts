@@ -2,7 +2,7 @@ import { NetworkStatus } from "@apollo/client";
 import React from "react";
 import useLocation from "wouter/use-location";
 
-import { useNavigateToUrl } from "./useNavigateToUrl";
+import { useNavigateToUrl } from "./useNavigateToUrl.js";
 
 type HookFunction = (args: {
   fetchPolicy?: any;

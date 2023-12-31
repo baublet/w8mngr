@@ -4,11 +4,11 @@ import subYears from "date-fns/subYears";
 
 import { dayStringFromDate } from "../../../shared/dayStringFromDate";
 import { dayStringToDate } from "../../../shared/dayStringToDate";
-import { Context } from "../../createContext";
-import { WeightLogSummary, WeightLogSummaryInput } from "../../generated";
-import { numberToStringUnit } from "../../helpers/numberToStringUnit";
-import { settingsService } from "../../helpers/settingsService";
-import { rootService } from "./rootService";
+import { Context } from "../../createContext.js";
+import { WeightLogSummary, WeightLogSummaryInput } from "../../generated.js";
+import { numberToStringUnit } from "../../helpers/numberToStringUnit.js";
+import { settingsService } from "../../helpers/settingsService.js";
+import { rootService } from "./rootService.js";
 
 export async function getVisualizationData(
   context: Context,

@@ -1,5 +1,5 @@
 import { getUniqueId } from "../../shared/getUniqueId";
-import { Context, createContext } from "../createContext";
+import { Context, createContext } from "../createContext.js";
 
 export const runWithContext = async <T>(
   id: string,

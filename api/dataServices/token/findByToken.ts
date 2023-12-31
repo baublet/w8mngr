@@ -1,7 +1,7 @@
-import { createDigest } from "../../authentication/createDigest";
-import { Context } from "../../createContext";
-import { rootService } from "./rootService";
-import { TokenEntity } from "./types";
+import { createDigest } from "../../authentication/createDigest.js";
+import { Context } from "../../createContext.js";
+import { rootService } from "./rootService.js";
+import { TokenEntity } from "./types.js";
 
 export async function findByToken(
   context: Context,

@@ -1,6 +1,6 @@
-import { getVisualizationData } from "./getVisualizationData";
-import { rootService } from "./rootService";
-import { saveMutation } from "./saveMutation";
+import { getVisualizationData } from "./getVisualizationData.js";
+import { rootService } from "./rootService.js";
+import { saveMutation } from "./saveMutation.js";
 
 export const weightLogDataService = {
   ...rootService,
@@ -8,4 +8,4 @@ export const weightLogDataService = {
   saveMutation,
 };
 
-export type { WeightLogEntity } from "./types";
+export type { WeightLogEntity } from "./types.js";

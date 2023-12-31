@@ -1,7 +1,7 @@
-import { foodDataService } from "../dataServices/food";
-import { userDataService } from "../dataServices/user";
-import { QueryResolvers } from "../generated";
-import { globalInMemoryCache } from "../helpers/globalInMemoryCache";
+import { foodDataService } from "../dataServices/food/index.js";
+import { userDataService } from "../dataServices/user/index.js";
+import { QueryResolvers } from "../generated.js";
+import { globalInMemoryCache } from "../helpers/globalInMemoryCache.js";
 
 export const searchFoods: QueryResolvers["searchFoods"] = async (
   parent,

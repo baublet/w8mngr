@@ -1,5 +1,5 @@
-import { uploadDataService } from "../../dataServices/upload";
-import { FoodResolvers } from "../../generated";
+import { uploadDataService } from "../../dataServices/upload/index.js";
+import { FoodResolvers } from "../../generated.js";
 
 export const foodImage: FoodResolvers["image"] = (
   parent: any,

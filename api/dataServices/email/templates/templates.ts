@@ -1,6 +1,6 @@
-import { forgotPasswordTemplate } from "./forgotPassword";
-import { verifyEmailTemplate } from "./verifyEmail";
-import { emailLoginTemplate } from "./emailLogin";
+import { forgotPasswordTemplate } from "./forgotPassword.js";
+import { verifyEmailTemplate } from "./verifyEmail.js";
+import { emailLoginTemplate } from "./emailLogin.js";
 
 export const templates = {
   emailLogin: emailLoginTemplate,

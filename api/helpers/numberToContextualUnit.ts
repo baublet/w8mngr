@@ -1,8 +1,8 @@
 import { Maybe } from "../../shared/types";
-import { Context } from "../createContext";
-import { ActivityType, Unit } from "../generated";
-import { numberToStringUnit } from "./numberToStringUnit";
-import { settingsService } from "./settingsService";
+import { Context } from "../createContext.js";
+import { ActivityType, Unit } from "../generated.js";
+import { numberToStringUnit } from "./numberToStringUnit.js";
+import { settingsService } from "./settingsService.js";
 
 export async function numberToContextualUnit(
   context: Context,

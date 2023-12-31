@@ -4,9 +4,9 @@ import useLocation from "wouter/use-location";
 import {
   GetCurrentUserDocument,
   useLoginWithTokenMutation,
-} from "../generated";
+} from "../generated.js";
 import { useToast } from "./useToast";
-import { useUrlQueryParameters } from "./useUrlQueryParameters";
+import { useUrlQueryParameters } from "./useUrlQueryParameters.js";
 
 export function useLoginWithToken() {
   const [, navigate] = useLocation();

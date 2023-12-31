@@ -1,7 +1,7 @@
 import {
   createPermissionService,
   requireAuth,
-} from "./createPermissionService";
+} from "./createPermissionService.js";
 
 export const foodPermissionService = createPermissionService({
   listFoods: requireAuth,

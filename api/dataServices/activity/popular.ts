@@ -1,6 +1,6 @@
-import { Context } from "../../createContext";
-import type { ActivityEntity } from "./types";
-import { dbService, sql } from "../../config/db";
+import { Context } from "../../createContext.js";
+import type { ActivityEntity } from "./types.js";
+import { dbService, sql } from "../../config/db.js";
 
 export async function popular(context: Context): Promise<ActivityEntity[]> {
   const userId = context.getCurrentUserId(true);

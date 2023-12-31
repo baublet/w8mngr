@@ -1,9 +1,9 @@
 import { assertIsError } from "../../../shared/assertIsError";
 import { Resolvable } from "../../../shared/types";
-import { SelectQueryBuilder } from "../../config/db";
-import { log } from "../../config/log";
-import { isBefore } from "./isBefore";
-import { validateArguments } from "./validateArguments";
+import { SelectQueryBuilder } from "../../config/db.js";
+import { log } from "../../config/log.js";
+import { isBefore } from "./isBefore.js";
+import { validateArguments } from "./validateArguments.js";
 
 export type Connection<TEntity, TNode = TEntity> = Resolvable<{
   pageInfo: {

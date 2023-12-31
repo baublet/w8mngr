@@ -1,8 +1,8 @@
 import { assertIsError } from "../../../shared/assertIsError";
 import { filterFalsyKeys } from "../../../shared/filterFalsyKeys";
 import { ReturnTypeWithErrors } from "../../../shared/types";
-import { Context } from "../../createContext";
-import { tokenDataService } from "../token";
+import { Context } from "../../createContext.js";
+import { tokenDataService } from "../token/index.js";
 
 export async function logout(
   context: Context

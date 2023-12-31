@@ -1,1 +1,1 @@
-export { resolvers } from "./resolvers";
+export { resolvers } from "./resolvers.js";

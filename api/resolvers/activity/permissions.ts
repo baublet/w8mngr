@@ -1,5 +1,5 @@
-import { ActivityResolvers } from "../../generated";
-import { activityObjectPermissionService } from "../../permissionsServices/activity";
+import { ActivityResolvers } from "../../generated.js";
+import { activityObjectPermissionService } from "../../permissionsServices/activity.js";
 
 export const activityPermissions: ActivityResolvers["permissions"] = (
   parent,

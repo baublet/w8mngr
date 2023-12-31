@@ -1,6 +1,6 @@
-import type { Context } from "../../createContext";
-import type { UserEntity } from "./types";
-import { rootService } from "./rootService";
+import type { Context } from "../../createContext.js";
+import type { UserEntity } from "./types.js";
+import { rootService } from "./rootService.js";
 import { assertIsTruthy } from "../../../shared/assertIsTruthy";
 import { getUniqueId } from "../../../shared/getUniqueId";
 

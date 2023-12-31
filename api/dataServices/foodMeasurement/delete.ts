@@ -1,6 +1,6 @@
-import { Context } from "../../createContext";
-import { rootService } from "./rootService";
-import { FoodMeasurementEntity } from "./types";
+import { Context } from "../../createContext.js";
+import { rootService } from "./rootService.js";
+import { FoodMeasurementEntity } from "./types.js";
 
 export async function deleteFoodMeasurement(
   context: Context,

@@ -1,11 +1,11 @@
 import { assertIsError } from "../../../shared/assertIsError";
 import { Maybe } from "../../../shared/types";
-import { Context } from "../../createContext";
-import { ActivityLogInput } from "../../generated";
-import { doTimes } from "../../helpers/doTimes";
-import { rawInputToUnit } from "../../helpers/rawInputToUnit";
-import { rootService } from "./rootService";
-import { activityDataService } from "../activity";
+import { Context } from "../../createContext.js";
+import { ActivityLogInput } from "../../generated.js";
+import { doTimes } from "../../helpers/doTimes.js";
+import { rawInputToUnit } from "../../helpers/rawInputToUnit.js";
+import { rootService } from "./rootService.js";
+import { activityDataService } from "../activity/index.js";
 
 export async function saveMutation(
   context: Context,

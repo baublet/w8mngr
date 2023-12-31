@@ -1,4 +1,4 @@
-import { hashPassword } from "./hashPassword";
+import { hashPassword } from "./hashPassword.js";
 
 export async function doesHashMatch(
   plainTextPassword: string,

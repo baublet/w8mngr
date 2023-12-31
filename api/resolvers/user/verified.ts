@@ -1,6 +1,6 @@
-import { UserResolvers } from "../../generated";
-import { userAccountDataService } from "../../dataServices/userAccount";
-import { globalInMemoryCache } from "../../helpers/globalInMemoryCache";
+import { UserResolvers } from "../../generated.js";
+import { userAccountDataService } from "../../dataServices/userAccount/index.js";
+import { globalInMemoryCache } from "../../helpers/globalInMemoryCache.js";
 
 export const userVerified: UserResolvers["verified"] = async (
   parent,

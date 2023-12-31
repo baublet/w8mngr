@@ -1,5 +1,5 @@
-import { uploadDataService } from "../../dataServices/upload";
-import { MutationResolvers } from "../../generated";
+import { uploadDataService } from "../../dataServices/upload/index.js";
+import { MutationResolvers } from "../../generated.js";
 
 export const saveUploadData: MutationResolvers["saveUploadData"] = async (
   parent,

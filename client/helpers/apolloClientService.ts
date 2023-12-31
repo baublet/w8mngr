@@ -1,6 +1,6 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 
-import { getConfigValue } from "./getConfigValue";
+import { getConfigValue } from "./getConfigValue.js";
 
 export function apolloClientService() {
   const tokens: {

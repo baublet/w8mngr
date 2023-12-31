@@ -1,7 +1,7 @@
-import { create } from "./create";
+import { create } from "./create.js";
 
 export const uploadTokenDataService = {
   create,
 };
 
-export { UploadToken } from "./type";
+export { UploadToken } from "./type.js";

@@ -1,6 +1,6 @@
-import { log } from "../../config/log";
-import { uploadDataService } from "../../dataServices/upload";
-import { UploadResolvers } from "../../generated";
+import { log } from "../../config/log.js";
+import { uploadDataService } from "../../dataServices/upload/index.js";
+import { UploadResolvers } from "../../generated.js";
 
 export const publicUrl: UploadResolvers["publicUrl"] = (
   parent,

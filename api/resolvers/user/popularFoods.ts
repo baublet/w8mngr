@@ -1,5 +1,5 @@
-import { foodDataService } from "../../dataServices/food";
-import { UserResolvers } from "../../generated";
+import { foodDataService } from "../../dataServices/food/index.js";
+import { UserResolvers } from "../../generated.js";
 
 export const userPopularFoods: UserResolvers["popularFoods"] = async (
   parent,

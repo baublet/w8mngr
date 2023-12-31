@@ -1,10 +1,10 @@
-import { Unauthorized } from "../helpers/errors/Unauthorized";
+import { Unauthorized } from "../helpers/errors/Unauthorized.js";
 
 import {
   createPermissionService,
   requireAuth,
-} from "./createPermissionService";
-import { foodLogDataService } from "../dataServices/foodLog";
+} from "./createPermissionService.js";
+import { foodLogDataService } from "../dataServices/foodLog/index.js";
 import { Context } from "api/createContext";
 
 export const foodLogPermissionService = createPermissionService({

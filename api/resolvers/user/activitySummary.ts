@@ -7,11 +7,11 @@ import { weightedClamp } from "../../../shared/weightedClamp";
 import {
   ActivityLog,
   activityLogDataService,
-} from "../../dataServices/activityLog";
-import { Activity, activityDataService } from "../../dataServices/activity";
-import { UserResolvers } from "../../generated";
-import { globalInMemoryCache } from "../../helpers/globalInMemoryCache";
-import { getDateRangeWithDefault } from "../../helpers/getDateRangeWithDefault";
+} from "../../dataServices/activityLog/index.js";
+import { Activity, activityDataService } from "../../dataServices/activity/index.js";
+import { UserResolvers } from "../../generated.js";
+import { globalInMemoryCache } from "../../helpers/globalInMemoryCache.js";
+import { getDateRangeWithDefault } from "../../helpers/getDateRangeWithDefault.js";
 
 export const userActivitySummary: UserResolvers["activitySummary"] = async (
   parent,

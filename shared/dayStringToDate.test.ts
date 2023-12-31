@@ -1,4 +1,4 @@
-import { dayStringToDate } from "./dayStringToDate";
+import { dayStringToDate } from "./dayStringToDate.js";
 
 it.each([
   ["20211122", "2021-11-22"],

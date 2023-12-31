@@ -1,4 +1,4 @@
-import { getRoundedDate } from "./getRoundedDate";
+import { getRoundedDate } from "./getRoundedDate.js";
 
 it.each`
   interval     | intervalAmount | inputDate                           | expectedDate

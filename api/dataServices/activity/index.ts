@@ -1,7 +1,7 @@
-import { popular } from "./popular";
-import { rootService } from "./rootService";
-import { saveMutation } from "./saveMutation";
-import { stats } from "./stats";
+import { popular } from "./popular.js";
+import { rootService } from "./rootService.js";
+import { saveMutation } from "./saveMutation.js";
+import { stats } from "./stats/index.js";
 
 export const activityDataService = {
   ...rootService,
@@ -10,4 +10,4 @@ export const activityDataService = {
   stats,
 };
 
-export type { ActivityEntity as Activity } from "./types";
+export type { ActivityEntity as Activity } from "./types.js";

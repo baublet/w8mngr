@@ -1,3 +1,3 @@
-import { InsertableDatabaseRecord, Database } from "../../config/db";
+import { InsertableDatabaseRecord, Database } from "../../config/db.js";
 
 export type UploadEntity = InsertableDatabaseRecord<Database["upload"]>;

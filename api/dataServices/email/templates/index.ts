@@ -1,6 +1,6 @@
 import { assertIsError } from "../../../../shared/assertIsError";
-import { log } from "../../../config/log";
-import { Templates, templates } from "./templates";
+import { log } from "../../../config/log.js";
+import { Templates, templates } from "./templates.js";
 
 export type EmailTemplateKey = keyof Templates;
 export type EmailTemplates = Templates;

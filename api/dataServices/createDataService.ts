@@ -1,4 +1,4 @@
-import type { Context } from "../createContext";
+import type { Context } from "../createContext.js";
 import {
   dbService,
   Env,
@@ -7,9 +7,9 @@ import {
   SelectQueryBuilder,
   InsertableDatabaseRecord,
   DeleteQueryBuilder,
-} from "../config/db";
-import { NotFoundError } from "../helpers/errors/NotFoundError";
-import { buildConnectionResolver } from "../helpers/buildConnectionResolver";
+} from "../config/db.js";
+import { NotFoundError } from "../helpers/errors/NotFoundError.js";
+import { buildConnectionResolver } from "../helpers/buildConnectionResolver/index.js";
 import { assertIsError } from "../../shared/assertIsError";
 import { getUniqueId } from "../../shared/getUniqueId";
 

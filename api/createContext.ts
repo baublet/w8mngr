@@ -3,8 +3,8 @@ import {
   createServiceContainer,
 } from "@baublet/service-container";
 
-import type { UserAccountEntity } from "./dataServices/userAccount";
-import type { UserEntity } from "./dataServices/user";
+import type { UserAccountEntity } from "./dataServices/userAccount/index.js";
+import type { UserEntity } from "./dataServices/user/index.js";
 
 export interface Context {
   destroy: () => Promise<void>;

@@ -1,13 +1,13 @@
 import { assertIsError } from "../../../shared/assertIsError";
 import { ReturnTypeWithErrors } from "../../../shared/types";
-import { createDigest } from "../../authentication/createDigest";
-import { Context } from "../../createContext";
-import { LoginFailedError } from "../../helpers/errors/LoginFailedError";
-import { tokenDataService } from "../token";
-import { TOKEN_EXPIRY_OFFSET } from "../token/types";
-import { userAccountDataService } from "../userAccount/";
-import { userDataService } from "./";
-import { UserEntity } from "./types";
+import { createDigest } from "../../authentication/createDigest.js";
+import { Context } from "../../createContext.js";
+import { LoginFailedError } from "../../helpers/errors/LoginFailedError.js";
+import { tokenDataService } from "../token/index.js";
+import { TOKEN_EXPIRY_OFFSET } from "../token/types.js";
+import { userAccountDataService } from "../userAccount/index.js";
+import { userDataService } from "./index.js";
+import { UserEntity } from "./types.js";
 
 export async function loginWithToken(
   context: Context,

@@ -1,7 +1,7 @@
 import { getWithDefault } from "../../../shared/getWithDefault";
-import { foodDataService } from "../../dataServices/food";
-import { userDataService } from "../../dataServices/user";
-import { UserResolvers } from "../../generated";
+import { foodDataService } from "../../dataServices/food/index.js";
+import { userDataService } from "../../dataServices/user/index.js";
+import { UserResolvers } from "../../generated.js";
 
 export const foods: UserResolvers["foods"] = async (
   parent,

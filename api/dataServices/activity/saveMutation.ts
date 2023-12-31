@@ -1,7 +1,7 @@
-import { Context } from "../../createContext";
-import { ActivityInput } from "../../generated";
-import { activityMuscleDataService } from "../activityMuscle";
-import { rootService } from "./rootService";
+import { Context } from "../../createContext.js";
+import { ActivityInput } from "../../generated.js";
+import { activityMuscleDataService } from "../activityMuscle/index.js";
+import { rootService } from "./rootService.js";
 
 export async function saveMutation(
   context: Context,

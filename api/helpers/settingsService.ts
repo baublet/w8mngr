@@ -1,8 +1,8 @@
 import { ServiceContainer } from "@baublet/service-container";
 
-import { contextService } from "../createContext";
-import { userPreferenceDataService } from "../dataServices/userPreference";
-import { Unit } from "../generated";
+import { contextService } from "../createContext.js";
+import { userPreferenceDataService } from "../dataServices/userPreference/index.js";
+import { Unit } from "../generated.js";
 
 type Settings = {
   defaultDistanceMeasurement: Unit[];

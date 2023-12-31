@@ -1,5 +1,5 @@
-import { activityDataService } from "../../dataServices/activity";
-import { ActivityResolvers } from "../../generated";
+import { activityDataService } from "../../dataServices/activity/index.js";
+import { ActivityResolvers } from "../../generated.js";
 
 export const activityStats: ActivityResolvers["stats"] = async (
   parent,

@@ -1,9 +1,9 @@
 import { getRoundedDate } from "../../../shared/getRoundedDate";
-import { log } from "../../config/log";
-import { emailDataService } from "../../dataServices/email";
-import { tokenDataService } from "../../dataServices/token";
-import { userAccountDataService } from "../../dataServices/userAccount";
-import { MutationResolvers } from "../../generated";
+import { log } from "../../config/log.js";
+import { emailDataService } from "../../dataServices/email/index.js";
+import { tokenDataService } from "../../dataServices/token/index.js";
+import { userAccountDataService } from "../../dataServices/userAccount/index.js";
+import { MutationResolvers } from "../../generated.js";
 
 export const requestEmailLoginLink: MutationResolvers["requestEmailLoginLink"] =
   async (parent, args, context) => {

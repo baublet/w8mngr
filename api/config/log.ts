@@ -1,6 +1,6 @@
 import stringify from "json-stringify-safe";
 
-import { config } from "./config";
+import { config } from "./config.js";
 
 export function log(
   level: "debug" | "error" | "info" | "warn",

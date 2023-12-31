@@ -1,6 +1,6 @@
 import { assertIsError } from "../../shared/assertIsError";
-import { log } from "../config/log";
-import { QueryResolvers } from "../generated";
+import { log } from "../config/log.js";
+import { QueryResolvers } from "../generated.js";
 
 export const currentUser: Required<QueryResolvers>["currentUser"] = (
   parent,

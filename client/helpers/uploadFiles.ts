@@ -8,8 +8,8 @@ import {
   UpdateUploadDataDocument,
   UpdateUploadDataMutationResult,
   UpdateUploadDataMutationVariables,
-} from "../generated";
-import { apolloClientService } from "./apolloClientService";
+} from "../generated.js";
+import { apolloClientService } from "./apolloClientService.js";
 
 type FileInput = {
   id: string;

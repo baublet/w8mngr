@@ -1,13 +1,14 @@
 {
+  "include": ["./*.ts", "./**/*.ts"],
   "compilerOptions": {
     "target": "ESNext",
-    "module": "Node16",
+    "module": "NodeNext",
     "baseUrl": ".",
     "esModuleInterop": true,
     "lib": ["es2018", "DOM"],
     "strict": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
-    "moduleResolution": "Node16"
+    "moduleResolution": "NodeNext"
   }
 }

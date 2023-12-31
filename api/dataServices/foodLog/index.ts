@@ -1,7 +1,7 @@
-import { rootService } from "./rootService";
+import { rootService } from "./rootService.js";
 
-import { getByDay } from "./getByDay";
-import { stats } from "./stats";
+import { getByDay } from "./getByDay.js";
+import { stats } from "./stats.js";
 
 export const foodLogDataService = {
   ...rootService,
@@ -9,4 +9,4 @@ export const foodLogDataService = {
   stats,
 };
 
-export type { FoodLogEntity } from "./types";
+export type { FoodLogEntity } from "./types.js";

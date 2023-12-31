@@ -1,7 +1,7 @@
-import { log } from "../../config/log";
-import { tokenDataService } from "../../dataServices/token";
-import { userAccountDataService } from "../../dataServices/userAccount";
-import { MutationResolvers } from "../../generated";
+import { log } from "../../config/log.js";
+import { tokenDataService } from "../../dataServices/token/index.js";
+import { userAccountDataService } from "../../dataServices/userAccount/index.js";
+import { MutationResolvers } from "../../generated.js";
 
 export const verifyEmail: MutationResolvers["verifyEmail"] = async (
   parent,

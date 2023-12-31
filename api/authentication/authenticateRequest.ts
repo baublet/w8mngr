@@ -1,9 +1,9 @@
 import { ServiceContainer } from "@baublet/service-container";
 
-import { Context, createContext } from "../createContext";
-import { getClientId } from "../helpers/getClientId";
-import { userDataService, UserEntity } from "../dataServices/user";
-import type { UserAccountEntity } from "../dataServices/userAccount";
+import { Context, createContext } from "../createContext.js";
+import { getClientId } from "../helpers/getClientId.js";
+import { userDataService, UserEntity } from "../dataServices/user/index.js";
+import type { UserAccountEntity } from "../dataServices/userAccount/index.js";
 
 declare global {
   interface Request {

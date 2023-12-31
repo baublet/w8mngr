@@ -1,5 +1,5 @@
-import { userDataService } from "../../dataServices/user";
-import { MutationResolvers } from "../../generated";
+import { userDataService } from "../../dataServices/user/index.js";
+import { MutationResolvers } from "../../generated.js";
 
 export const logout: Required<MutationResolvers>["logout"] = async (
   parent,

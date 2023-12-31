@@ -1,6 +1,6 @@
-import { Context } from "../../createContext";
-import { rootService } from "./rootService";
-import { FoodLogEntity } from "./types";
+import { Context } from "../../createContext.js";
+import { rootService } from "./rootService.js";
+import { FoodLogEntity } from "./types.js";
 
 export async function getByDay(
   context: Context,

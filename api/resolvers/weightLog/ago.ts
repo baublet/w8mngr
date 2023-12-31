@@ -1,6 +1,6 @@
 import formatDistance from "date-fns/formatDistance";
 
-import { WeightLogResolvers } from "../../generated";
+import { WeightLogResolvers } from "../../generated.js";
 
 export const weightLogAgo: WeightLogResolvers["ago"] = async (parent) => {
   const lastLoggedDate = new Date(parent.createdAt);

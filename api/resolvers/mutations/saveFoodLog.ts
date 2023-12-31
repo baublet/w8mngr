@@ -1,7 +1,7 @@
-import { FoodLogEntity, foodLogDataService } from "../../dataServices/foodLog";
-import { foodLogFoodDataService } from "../../dataServices/foodLogFood";
-import { MutationResolvers } from "../../generated";
-import { foodLogPermissionService } from "../../permissionsServices/foodLog";
+import { FoodLogEntity, foodLogDataService } from "../../dataServices/foodLog/index.js";
+import { foodLogFoodDataService } from "../../dataServices/foodLogFood/index.js";
+import { MutationResolvers } from "../../generated.js";
+import { foodLogPermissionService } from "../../permissionsServices/foodLog.js";
 
 export const saveFoodLog: MutationResolvers["saveFoodLog"] = async (
   parent,

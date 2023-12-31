@@ -1,6 +1,6 @@
 import { dayStringFromDate } from "../../../shared/dayStringFromDate";
-import { activityLogDataService } from "../../dataServices/activityLog";
-import { ActivityResolvers } from "../../generated";
+import { activityLogDataService } from "../../dataServices/activityLog/index.js";
+import { ActivityResolvers } from "../../generated.js";
 
 export const activityLogs: ActivityResolvers["logs"] = (
   parent,

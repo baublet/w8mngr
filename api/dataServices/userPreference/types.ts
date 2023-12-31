@@ -1,4 +1,4 @@
-import { InsertableDatabaseRecord, Database } from "../../config/db";
+import { InsertableDatabaseRecord, Database } from "../../config/db.js";
 
 export type UserPreferenceEntity = InsertableDatabaseRecord<Database["userPreference"]>;
 

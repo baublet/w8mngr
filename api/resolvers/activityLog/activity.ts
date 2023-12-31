@@ -1,7 +1,7 @@
 import { assertIsTruthy } from "../../../shared/assertIsTruthy";
-import type { ActivityLog } from "../../dataServices/activityLog";
-import { activityDataService } from "../../dataServices/activity";
-import { ActivityLogResolvers } from "../../generated";
+import type { ActivityLog } from "../../dataServices/activityLog/index.js";
+import { activityDataService } from "../../dataServices/activity/index.js";
+import { ActivityLogResolvers } from "../../generated.js";
 
 export const activityLogActivity: ActivityLogResolvers["activity"] = (
   parent,

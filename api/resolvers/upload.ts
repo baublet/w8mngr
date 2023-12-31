@@ -1,5 +1,5 @@
-import { uploadDataService } from "../dataServices/upload";
-import { QueryResolvers } from "../generated";
+import { uploadDataService } from "../dataServices/upload/index.js";
+import { QueryResolvers } from "../generated.js";
 
 export const upload: QueryResolvers["upload"] = (
   parent,

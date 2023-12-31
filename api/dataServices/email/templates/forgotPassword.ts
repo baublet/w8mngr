@@ -1,5 +1,5 @@
-import { config } from "../../../config/config";
-import { UserEntity } from "../../user/types";
+import { config } from "../../../config/config.js";
+import { UserEntity } from "../../user/types.js";
 
 export const forgotPasswordTemplate = ({
   resetToken,

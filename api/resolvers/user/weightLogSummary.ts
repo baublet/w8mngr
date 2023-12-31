@@ -1,5 +1,5 @@
-import { weightLogDataService } from "../../dataServices/weightLog";
-import { UserResolvers } from "../../generated";
+import { weightLogDataService } from "../../dataServices/weightLog/index.js";
+import { UserResolvers } from "../../generated.js";
 
 export const userWeightLogSummary: UserResolvers["weightLogSummary"] = async (
   parent,

@@ -1,6 +1,6 @@
-import { log } from "../../config/log";
-import { uploadTokenDataService } from "../../dataServices/uploadToken";
-import { MutationResolvers } from "../../generated";
+import { log } from "../../config/log.js";
+import { uploadTokenDataService } from "../../dataServices/uploadToken/index.js";
+import { MutationResolvers } from "../../generated.js";
 
 export const getUploadTokens: MutationResolvers["getUploadTokens"] = async (
   parent,

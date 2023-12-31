@@ -1,10 +1,9 @@
-import { Context } from "../../createContext";
-import { InsertableDatabaseRecord, Database } from "../../config/db";
-import { tokenDataService } from "../token";
-import { userDataService } from "./";
-import { userAccountDataService } from "../userAccount";
-import { TOKEN_EXPIRY_OFFSET } from "../token/types";
-import { globalInMemoryCache } from "../../helpers/globalInMemoryCache";
+import { Context } from "../../createContext.js";
+import { InsertableDatabaseRecord, Database } from "../../config/db.js";
+import { tokenDataService } from "../token/index.js";
+import { userDataService } from "./index.js";
+import { userAccountDataService } from "../userAccount/index.js";
+import { TOKEN_EXPIRY_OFFSET } from "../token/types.js";
 
 export type AuthenticationResult = {
   user: InsertableDatabaseRecord<Database["user"]>;

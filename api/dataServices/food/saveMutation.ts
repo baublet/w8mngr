@@ -1,7 +1,7 @@
-import { Context } from "../../createContext";
-import { FoodInput } from "../../generated";
-import { foodMeasurementDataService } from "../foodMeasurement";
-import { rootService } from "./rootService";
+import { Context } from "../../createContext.js";
+import { FoodInput } from "../../generated.js";
+import { foodMeasurementDataService } from "../foodMeasurement/index.js";
+import { rootService } from "./rootService.js";
 
 export async function saveMutation(
   context: Context,

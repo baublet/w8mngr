@@ -1,6 +1,6 @@
-import { log } from "../../config/log";
-import { userPreferenceDataService } from "../../dataServices/userPreference";
-import { MutationResolvers } from "../../generated";
+import { log } from "../../config/log.js";
+import { userPreferenceDataService } from "../../dataServices/userPreference/index.js";
+import { MutationResolvers } from "../../generated.js";
 
 export const saveUserPreferences: MutationResolvers["saveUserPreferences"] =
   async (parent, { input }, context) => {

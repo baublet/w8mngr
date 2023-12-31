@@ -1,4 +1,4 @@
-import { coalesce } from "./coalesce";
+import { coalesce } from "./coalesce.js";
 
 it.each([
   [[false, "3"], "3"],

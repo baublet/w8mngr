@@ -1,1 +1,1 @@
-export { getMovingAverage } from "./getMovingAverage";
+export { getMovingAverage } from "./getMovingAverage.js";

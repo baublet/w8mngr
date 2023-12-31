@@ -1,13 +1,13 @@
 import { assertIsError } from "../../../shared/assertIsError";
 import { ReturnTypeWithErrors } from "../../../shared/types";
-import { hashPassword } from "../../authentication/hashPassword";
-import { Context } from "../../createContext";
-import { emailDataService } from "../email";
-import { tokenDataService } from "../token";
-import { TOKEN_EXPIRY_OFFSET } from "../token/types";
-import { userAccountDataService } from "../userAccount/";
-import { create } from "./create";
-import { UserEntity } from "./types";
+import { hashPassword } from "../../authentication/hashPassword.js";
+import { Context } from "../../createContext.js";
+import { emailDataService } from "../email/index.js";
+import { tokenDataService } from "../token/index.js";
+import { TOKEN_EXPIRY_OFFSET } from "../token/types.js";
+import { userAccountDataService } from "../userAccount/index.js";
+import { create } from "./create.js";
+import { UserEntity } from "./types.js";
 
 export async function register(
   context: Context,

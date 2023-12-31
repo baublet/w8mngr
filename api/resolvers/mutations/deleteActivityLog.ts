@@ -1,5 +1,5 @@
-import { activityLogDataService } from "../../dataServices/activityLog";
-import { MutationResolvers } from "../../generated";
+import { activityLogDataService } from "../../dataServices/activityLog/index.js";
+import { MutationResolvers } from "../../generated.js";
 
 export const deleteActivityLog: MutationResolvers["deleteActivityLog"] = async (
   parent,

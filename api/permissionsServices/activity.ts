@@ -1,7 +1,7 @@
-import { Context } from "../createContext";
-import { activityDataService } from "../dataServices/activity";
-import { Unauthorized } from "../helpers/errors/Unauthorized";
-import { createPermissionService } from "./createPermissionService";
+import { Context } from "../createContext.js";
+import { activityDataService } from "../dataServices/activity/index.js";
+import { Unauthorized } from "../helpers/errors/Unauthorized.js";
+import { createPermissionService } from "./createPermissionService.js";
 
 export const activityObjectPermissionService = createPermissionService({
   edit: contextUserIsOwner,

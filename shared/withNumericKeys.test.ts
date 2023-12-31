@@ -1,4 +1,4 @@
-import { withNumericKeys } from "./withNumericKeys";
+import { withNumericKeys } from "./withNumericKeys.js";
 
 it("turns certain keys numeric", () => {
   expect(

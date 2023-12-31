@@ -1,4 +1,4 @@
-import { ActivityType } from "../generated";
+import { ActivityType } from "../generated.js";
 
 export function activityTypeToHumanReadable(type: ActivityType): string {
   switch (type) {

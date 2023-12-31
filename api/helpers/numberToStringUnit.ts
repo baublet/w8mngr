@@ -1,6 +1,6 @@
 import Qty from "js-quantities";
 
-import { log } from "../config/log";
+import { log } from "../config/log.js";
 
 export function numberToStringUnit({
   work: startingWork,

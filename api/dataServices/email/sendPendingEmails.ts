@@ -1,12 +1,12 @@
-import { isValidTemplate, renderEmailTemplate } from "./templates";
+import { isValidTemplate, renderEmailTemplate } from "./templates/index.js";
 
-import { Context } from "../../createContext";
-import { EmailEntity } from "./types";
+import { Context } from "../../createContext.js";
+import { EmailEntity } from "./types.js";
 import { assertIsError } from "../../../shared/assertIsError";
-import { emailService } from "../../helpers/emailService";
-import { log } from "../../config/log";
-import { dbService } from "../../config/db";
-import { rootService } from "./rootService";
+import { emailService } from "../../helpers/emailService.js";
+import { log } from "../../config/log.js";
+import { dbService } from "../../config/db.js";
+import { rootService } from "./rootService.js";
 
 export async function sendPendingEmails(context: Context) {
   try {

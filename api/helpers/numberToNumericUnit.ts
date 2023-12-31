@@ -1,7 +1,7 @@
 import Qty from "js-quantities";
 
-import { log } from "../config/log";
-import { Context } from "../createContext";
+import { log } from "../config/log.js";
+import { Context } from "../createContext.js";
 
 export function numberToNumericUnit({
   context,

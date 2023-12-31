@@ -1,5 +1,5 @@
-import { activityDataService } from "../../dataServices/activity";
-import { MutationResolvers } from "../../generated";
+import { activityDataService } from "../../dataServices/activity/index.js";
+import { MutationResolvers } from "../../generated.js";
 
 export const saveActivity: Required<MutationResolvers>["saveActivity"] = async (
   parent,

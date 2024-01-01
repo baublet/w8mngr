@@ -1,8 +1,8 @@
-import format from "date-fns/format";
+import format from "date-fns/format/index.js";
 
-import { stringToNumberOr } from "../../../shared/stringToNumberOr";
-import { assertIsTruthy } from "../../../shared/assertIsTruthy";
-import { getUniqueId } from "../../../shared/getUniqueId";
+import { stringToNumberOr } from "../../../shared/stringToNumberOr.js";
+import { assertIsTruthy } from "../../../shared/assertIsTruthy.js";
+import { getUniqueId } from "../../../shared/getUniqueId.js";
 import { log } from "../../config/log.js";
 import { Database } from "../../config/db.js";
 import { Context } from "../../createContext.js";

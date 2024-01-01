@@ -1,9 +1,9 @@
 import FormData from "form-data";
 
-import { assertIsError } from "../../shared/assertIsError";
+import { assertIsError } from "../../shared/assertIsError.js";
 import { config } from "../config/config.js";
 import { log } from "../config/log.js";
-import { getUniqueId } from "../../shared/getUniqueId";
+import { getUniqueId } from "../../shared/getUniqueId.js";
 
 export function emailService() {
   return async ({

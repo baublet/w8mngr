@@ -1,4 +1,4 @@
-import { flattenArray } from "../../../../shared/flattenArray";
+import { flattenArray } from "../../../../shared/flattenArray.js";
 import { Context } from "../../../createContext.js";
 import { dbService } from "../../../config/db.js";
 import { ActivityType, ActivityVisualizationInput } from "../../../generated.js";

@@ -1,5 +1,5 @@
-import { assertIsError } from "../../../shared/assertIsError";
-import { Maybe } from "../../../shared/types";
+import { assertIsError } from "../../../shared/assertIsError.js";
+import { Maybe } from "../../../shared/types.js";
 import { Context } from "../../createContext.js";
 import { ActivityLogInput } from "../../generated.js";
 import { doTimes } from "../../helpers/doTimes.js";

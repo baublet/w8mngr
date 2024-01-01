@@ -1,4 +1,4 @@
-import { assertIsError } from "../../shared/assertIsError";
+import { assertIsError } from "../../shared/assertIsError.js";
 import { log } from "../config/log.js";
 import { QueryResolvers } from "../generated.js";
 

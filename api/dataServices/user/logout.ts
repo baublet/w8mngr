@@ -1,6 +1,6 @@
-import { assertIsError } from "../../../shared/assertIsError";
-import { filterFalsyKeys } from "../../../shared/filterFalsyKeys";
-import { ReturnTypeWithErrors } from "../../../shared/types";
+import { assertIsError } from "../../../shared/assertIsError.js";
+import { filterFalsyKeys } from "../../../shared/filterFalsyKeys.js";
+import { ReturnTypeWithErrors } from "../../../shared/types.js";
 import { Context } from "../../createContext.js";
 import { tokenDataService } from "../token/index.js";
 

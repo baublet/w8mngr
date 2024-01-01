@@ -3,8 +3,8 @@ import { userAccountDataService } from "../userAccount/index.js";
 import { EmailEntity, emailDataService } from "./index.js";
 import { EmailTemplateKey, EmailTemplates } from "./templates/index.js";
 import { dbService } from "../../config/db.js";
-import { assertIsTruthy } from "../../../shared/assertIsTruthy";
-import { getUniqueId } from "../../../shared/getUniqueId";
+import { assertIsTruthy } from "../../../shared/assertIsTruthy.js";
+import { getUniqueId } from "../../../shared/getUniqueId.js";
 
 export async function create<TTemplateKey extends EmailTemplateKey>(
   context: Context,

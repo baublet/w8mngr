@@ -1,8 +1,8 @@
-import dateDistance from "date-fns/formatDistance";
+import dateDistance from "date-fns/formatDistance/index.js";
 
-import { dayStringFromDate } from "../../../../shared/dayStringFromDate";
-import { dayStringToDate } from "../../../../shared/dayStringToDate";
-import { Resolvable } from "../../../../shared/types";
+import { dayStringFromDate } from "../../../../shared/dayStringFromDate.js";
+import { dayStringToDate } from "../../../../shared/dayStringToDate.js";
+import { Resolvable } from "../../../../shared/types.js";
 import { Context } from "../../../createContext.js";
 import { ActivityStats, ActivityType } from "../../../generated.js";
 import { numberToContextualUnit } from "../../../helpers/numberToContextualUnit.js";

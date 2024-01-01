@@ -1,4 +1,4 @@
-import type { ActivityType, Unit } from "../api/generated";
+import type { ActivityType, Unit } from "../api/generated.js";
 
 export function workToUnit({
   work,

@@ -1,4 +1,4 @@
-import { getWithDefault } from "../../../shared/getWithDefault";
+import { getWithDefault } from "../../../shared/getWithDefault.js";
 import { activityDataService } from "../../dataServices/activity/index.js";
 import { userDataService } from "../../dataServices/user/index.js";
 import { UserResolvers } from "../../generated.js";

@@ -1,13 +1,13 @@
-import addDays from "date-fns/addDays";
-import addMonths from "date-fns/addMonths";
-import format from "date-fns/format";
-import subMonths from "date-fns/subMonths";
+import addDays from "date-fns/addDays/index.js";
+import addMonths from "date-fns/addMonths/index.js";
+import format from "date-fns/format/index.js";
+import subMonths from "date-fns/subMonths/index.js";
 import groupBy from "lodash.groupby";
 
-import { objectEntries } from "../../../shared/objectEntries";
-import { dayStringFromDate } from "../../../shared/dayStringFromDate";
-import { dayStringToDate } from "../../../shared/dayStringToDate";
-import { Maybe } from "../../../shared/types";
+import { objectEntries } from "../../../shared/objectEntries.js";
+import { dayStringFromDate } from "../../../shared/dayStringFromDate.js";
+import { dayStringToDate } from "../../../shared/dayStringToDate.js";
+import { Maybe } from "../../../shared/types.js";
 import { Context } from "../../createContext.js";
 import { FoodLogDataPoint } from "../../generated.js";
 import { globalInMemoryCache } from "../../helpers/globalInMemoryCache.js";

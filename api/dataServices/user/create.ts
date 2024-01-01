@@ -1,8 +1,8 @@
 import type { Context } from "../../createContext.js";
 import type { UserEntity } from "./types.js";
 import { rootService } from "./rootService.js";
-import { assertIsTruthy } from "../../../shared/assertIsTruthy";
-import { getUniqueId } from "../../../shared/getUniqueId";
+import { assertIsTruthy } from "../../../shared/assertIsTruthy.js";
+import { getUniqueId } from "../../../shared/getUniqueId.js";
 
 export async function create(
   context: Context,

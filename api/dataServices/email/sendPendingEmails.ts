@@ -2,7 +2,7 @@ import { isValidTemplate, renderEmailTemplate } from "./templates/index.js";
 
 import { Context } from "../../createContext.js";
 import { EmailEntity } from "./types.js";
-import { assertIsError } from "../../../shared/assertIsError";
+import { assertIsError } from "../../../shared/assertIsError.js";
 import { emailService } from "../../helpers/emailService.js";
 import { log } from "../../config/log.js";
 import { dbService } from "../../config/db.js";

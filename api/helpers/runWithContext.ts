@@ -1,4 +1,4 @@
-import { getUniqueId } from "../../shared/getUniqueId";
+import { getUniqueId } from "../../shared/getUniqueId.js";
 import { Context, createContext } from "../createContext.js";
 
 export const runWithContext = async <T>(

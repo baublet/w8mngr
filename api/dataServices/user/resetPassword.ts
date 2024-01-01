@@ -1,5 +1,5 @@
-import { assertIsError } from "../../../shared/assertIsError";
-import { ReturnTypeWithErrors } from "../../../shared/types";
+import { assertIsError } from "../../../shared/assertIsError.js";
+import { ReturnTypeWithErrors } from "../../../shared/types.js";
 import { createDigest } from "../../authentication/createDigest.js";
 import { hashPassword } from "../../authentication/hashPassword.js";
 import { Context } from "../../createContext.js";

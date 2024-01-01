@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getWithDefault } from "../../shared/getWithDefault";
+import { getWithDefault } from "../../shared/getWithDefault.js";
 import {
   GetUploadTokensDocument,
   GetUploadTokensMutationResult,

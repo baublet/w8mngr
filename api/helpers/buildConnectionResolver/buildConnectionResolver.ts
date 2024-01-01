@@ -1,5 +1,5 @@
-import { assertIsError } from "../../../shared/assertIsError";
-import { Resolvable } from "../../../shared/types";
+import { assertIsError } from "../../../shared/assertIsError.js";
+import { Resolvable } from "../../../shared/types.js";
 import { SelectQueryBuilder } from "../../config/db.js";
 import { log } from "../../config/log.js";
 import { isBefore } from "./isBefore.js";

@@ -1,7 +1,7 @@
 import React from "react";
 import { ObjectSchema, object, number, string } from "yup";
 
-import { Maybe } from "../../shared/types";
+import { Maybe } from "../../shared/types.js";
 
 function useForm<T extends Record<string, any>>({
   initialValues = {},

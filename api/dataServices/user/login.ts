@@ -1,5 +1,5 @@
-import { assertIsError } from "../../../shared/assertIsError";
-import { ReturnTypeWithErrors } from "../../../shared/types";
+import { assertIsError } from "../../../shared/assertIsError.js";
+import { ReturnTypeWithErrors } from "../../../shared/types.js";
 import { doesHashMatch } from "../../authentication/doesHashMatch.js";
 import { log } from "../../config/log.js";
 import { Context } from "../../createContext.js";

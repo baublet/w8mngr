@@ -1,8 +1,8 @@
-import format from "date-fns/format";
-import { dayStringToDate } from "../../../shared/dayStringToDate";
-import { dedupe } from "../../../shared/dedupe";
-import { filterOutErrors } from "../../../shared/filterOutErrors";
-import { weightedClamp } from "../../../shared/weightedClamp";
+import format from "date-fns/format/index.js";
+import { dayStringToDate } from "../../../shared/dayStringToDate.js";
+import { dedupe } from "../../../shared/dedupe.js";
+import { filterOutErrors } from "../../../shared/filterOutErrors.js";
+import { weightedClamp } from "../../../shared/weightedClamp.js";
 
 import {
   ActivityLog,

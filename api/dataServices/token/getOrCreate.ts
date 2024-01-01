@@ -4,8 +4,8 @@ import { create } from "./create.js";
 import { Database, dbService, InsertableDatabaseRecord } from "../../config/db.js";
 import { rootService as tokenDataService } from "./rootService.js";
 import { TOKEN_EXPIRY_OFFSET, assertIsTokenType } from "./types.js";
-import { assertIsTruthy } from "../../../shared/assertIsTruthy";
-import { getUniqueId } from "../../../shared/getUniqueId";
+import { assertIsTruthy } from "../../../shared/assertIsTruthy.js";
+import { getUniqueId } from "../../../shared/getUniqueId.js";
 
 export async function getOrCreate(
   context: Context,

@@ -1,8 +1,8 @@
-import addYears from "date-fns/addYears";
-import subYears from "date-fns/subYears";
+import addYears from "date-fns/addYears/index.js";
+import subYears from "date-fns/subYears/index.js";
 
-import { dayStringFromDate } from "../../shared/dayStringFromDate";
-import { Maybe } from "../../shared/types";
+import { dayStringFromDate } from "../../shared/dayStringFromDate.js";
+import { Maybe } from "../../shared/types.js";
 
 export function getDateRangeWithDefault(args?: {
   from?: Maybe<Date>;

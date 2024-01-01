@@ -1,9 +1,9 @@
-import format from "date-fns/format";
-import parse from "date-fns/parse";
-import subYears from "date-fns/subYears";
+import format from "date-fns/format/index.js";
+import parse from "date-fns/parse/index.js";
+import subYears from "date-fns/subYears/index.js";
 
-import { dayStringFromDate } from "../../../shared/dayStringFromDate";
-import { dayStringToDate } from "../../../shared/dayStringToDate";
+import { dayStringFromDate } from "../../../shared/dayStringFromDate.js";
+import { dayStringToDate } from "../../../shared/dayStringToDate.js";
 import { Context } from "../../createContext.js";
 import { WeightLogSummary, WeightLogSummaryInput } from "../../generated.js";
 import { numberToStringUnit } from "../../helpers/numberToStringUnit.js";

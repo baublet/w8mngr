@@ -1,29 +1,29 @@
 import { createServiceContainer } from "@baublet/service-container";
 import "minifaker/locales/en";
 
-import addDays from "date-fns/addDays";
-import subYears from "date-fns/subYears";
+import addDays from "date-fns/addDays/index.js";
+import subYears from "date-fns/subYears/index.js";
 import { arrayElement, date, email, number, word } from "minifaker";
 import clamp from "lodash.clamp";
 
-import { config } from "../api/config/config";
-import { dbService } from "../api/config/db";
-import { createContext } from "../api/createContext";
-import { Activity, activityDataService } from "../api/dataServices/activity";
+import { config } from "../api/config/config.js";
+import { dbService } from "../api/config/db.js";
+import { createContext } from "../api/createContext.js";
+import { Activity, activityDataService } from "../api/dataServices/activity/index.js";
 import {
   ActivityLog,
   activityLogDataService,
-} from "../api/dataServices/activityLog";
-import { foodDataService } from "../api/dataServices/food";
-import { foodLogDataService } from "../api/dataServices/foodLog";
-import { foodMeasurementDataService } from "../api/dataServices/foodMeasurement";
+} from "../api/dataServices/activityLog/index.js";
+import { foodDataService } from "../api/dataServices/food/index.js";
+import { foodLogDataService } from "../api/dataServices/foodLog/index.js";
+import { foodMeasurementDataService } from "../api/dataServices/foodMeasurement/index.js";
 import {
   UserAccountEntity,
   userAccountDataService,
-} from "../api/dataServices/userAccount";
-import { UserEntity, userDataService } from "../api/dataServices/user";
-import { weightLogDataService } from "../api/dataServices/weightLog";
-import { dayStringFromDate } from "../shared/dayStringFromDate";
+} from "../api/dataServices/userAccount/index.js";
+import { UserEntity, userDataService } from "../api/dataServices/user/index.js";
+import { weightLogDataService } from "../api/dataServices/weightLog/index.js";
+import { dayStringFromDate } from "../shared/dayStringFromDate.js";
 
 const minDate = subYears(new Date(), 1);
 const minDay = dayStringFromDate(minDate);

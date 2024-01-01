@@ -10,8 +10,8 @@ import {
 } from "../config/db.js";
 import { NotFoundError } from "../helpers/errors/NotFoundError.js";
 import { buildConnectionResolver } from "../helpers/buildConnectionResolver/index.js";
-import { assertIsError } from "../../shared/assertIsError";
-import { getUniqueId } from "../../shared/getUniqueId";
+import { assertIsError } from "../../shared/assertIsError.js";
+import { getUniqueId } from "../../shared/getUniqueId.js";
 
 type PartiallyMaybe<T extends Record<string, any>> = {
   [K in keyof T]?: T[K] | undefined;
@@ -63,7 +63,7 @@ function getUpsertBy<T extends keyof Database>({
       .insertInto(tableName)
       .values(items as any)
       .onConflict(
-        (q) =>
+        (q: any) =>
           q.columns(columns as any).doUpdateSet({
             ...columns.reduce((acc, column) => {
               acc[column] = (eb: any) => eb.ref(`excluded.${String(column)}`);
@@ -147,7 +147,7 @@ function getFindOneOrFail<T extends keyof Database>({
       .get(dbService)(provider)
       .selectFrom(tableName)
       .selectAll()
-      .where("id", "=", id as any)
+      .where("id" as any, "=", id as any)
       .limit(1)
       .executeTakeFirst();
 
@@ -170,7 +170,7 @@ function getDeleteByIds<T extends keyof Database>({
     await context.services
       .get(dbService)(provider)
       .deleteFrom(tableName)
-      .where("id", "in", ids as any)
+      .where("id" as any, "in", ids as any)
       .execute();
   };
 }
@@ -244,7 +244,7 @@ function getUpdate<T extends keyof Database>({
 }
 
 function getUpsert<T extends keyof Database>({
-  idProp = "id",
+  idProp = "id" as any,
   provider,
   tableName,
 }: {

@@ -1,4 +1,4 @@
-import { Maybe } from "../../shared/types";
+import { Maybe } from "../../shared/types.js";
 import { Context } from "../createContext.js";
 import { ActivityType, Unit } from "../generated.js";
 import { numberToStringUnit } from "./numberToStringUnit.js";

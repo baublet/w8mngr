@@ -12,7 +12,7 @@ import {
 import { DB } from "kysely-codegen";
 import { D1Dialect } from "kysely-d1";
 
-import { W8mngrMap } from "../../shared/Map";
+import { W8mngrMap } from "../../shared/Map.js";
 
 export interface Env {
   W8MNGR_1: D1Database;

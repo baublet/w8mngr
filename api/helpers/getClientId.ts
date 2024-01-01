@@ -1,4 +1,4 @@
-import { getUniqueId } from "../../shared/getUniqueId";
+import { getUniqueId } from "../../shared/getUniqueId.js";
 
 /**
  * This is a weak approximation of a machine's fingerprint. We don't care about

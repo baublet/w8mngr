@@ -1,11 +1,13 @@
 import FormData from "form-data";
+import { ServiceContainer } from "@baublet/service-container";
 
 import { assertIsError } from "../../shared/assertIsError.js";
-import { config } from "../config/config.js";
+import { configService } from "../config/config.js";
 import { log } from "../config/log.js";
 import { getUniqueId } from "../../shared/getUniqueId.js";
 
-export function emailService() {
+export function emailService(serviceContainer: ServiceContainer) {
+  const config = serviceContainer.get(configService);
   return async ({
     to,
     subject,
@@ -38,7 +40,7 @@ export function emailService() {
         html,
       };
 
-      log("info", "Sending email", {
+      log(serviceContainer, "info", "Sending email", {
         to,
         subject,
         url: `${baseUrl}/messages`,
@@ -54,14 +56,14 @@ export function emailService() {
 
       // if (result.id) {
       if (1) {
-        log("info", "Email sent", {
+        log(serviceContainer, "info", "Email sent", {
           to,
           subject,
           // result,
         });
       } else {
         const logId = getUniqueId();
-        log("error", "Error sending email", {
+        log(serviceContainer, "error", "Error sending email", {
           to,
           subject,
           logId,
@@ -71,7 +73,11 @@ export function emailService() {
       }
     } catch (error) {
       assertIsError(error);
-      log("error", "Error sending email", { error, to, subject });
+      log(serviceContainer, "error", "Error sending email", {
+        error,
+        to,
+        subject,
+      });
       throw error;
     }
   };

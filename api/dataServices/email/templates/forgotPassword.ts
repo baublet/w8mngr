@@ -1,15 +1,13 @@
-import { config } from "../../../config/config.js";
 import { UserEntity } from "../../user/types.js";
 
 export const forgotPasswordTemplate = ({
-  resetToken,
+  link,
 }: {
   user: UserEntity;
-  resetToken: string;
+  link: string;
 }) => {
-  const link = `${config.get("PUBLIC_URL")}/reset-password/${resetToken}`;
   return {
-    subject: "w8mngr | Forgot Password",
+    subject: "w8mngr | Forgot password",
     body: `Reset your password: <a href="${link}">${link}</a>`,
   };
 };

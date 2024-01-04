@@ -1,4 +1,5 @@
 import { getRoundedDate } from "../../../shared/getRoundedDate.js";
+import { configService } from "../../config/config.js";
 import { log } from "../../config/log.js";
 import { emailDataService } from "../../dataServices/email/index.js";
 import { tokenDataService } from "../../dataServices/token/index.js";
@@ -13,9 +14,14 @@ export const requestEmailLoginLink: MutationResolvers["requestEmailLoginLink"] =
     );
 
     if (!matchingAccount) {
-      log("warn", "Request email login token tried with invalid email", {
-        args,
-      });
+      log(
+        context,
+        "warn",
+        "Request email login token tried with invalid email",
+        {
+          args,
+        }
+      );
       return {
         errors: [],
       };
@@ -47,15 +53,27 @@ export const requestEmailLoginLink: MutationResolvers["requestEmailLoginLink"] =
       };
     }
 
+    const link = `${context.services
+      .get(configService)
+      .get("PUBLIC_URL")}/logging-in?loginToken=${loginToken.token}`;
+
     await emailDataService.create(context, {
       templateId: "emailLogin",
       toUserId: matchingAccount.userId,
       templateVariables: {
-        loginToken: loginToken.token,
         user: context.getCurrentUser(true) as any,
+        link,
       },
       idempotenceKey,
     });
+
+    if (
+      context.services
+        .get(configService)
+        .get("DANGEROUSLY_LOG_EMAIL_LOGIN_LINKS") === "true"
+    ) {
+      log(context, "debug", "\n\nEmail login link: " + link + "\n\n");
+    }
 
     return {
       errors: [],

@@ -4,16 +4,14 @@ import {
   createServiceContainer,
   ServiceContainer,
 } from "@baublet/service-container";
-import {
-  startServerAndCreateCloudflareWorkersHandler,
-  CloudflareWorkersHandler,
-} from "@as-integrations/cloudflare-workers";
+import { startServerAndCreateCloudflareWorkersHandler } from "@as-integrations/cloudflare-workers";
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 
 import { getSchema } from "./config/schema.graphql.js";
 import { authenticateRequest } from "./authentication/authenticateRequest.js";
 import { resolvers } from "./resolvers/index.js";
-import { Env, envService } from "./config/db.js";
+import { DBEnv, dbEnvService } from "./config/db.js";
+import { Env, envService } from "./config/env.js";
 import { PromiseResolutionValue } from "../shared/types.js";
 import { Context } from "./createContext.js";
 
@@ -24,34 +22,33 @@ declare global {
   }
 }
 
-const handleGraphQLRequest =
-  startServerAndCreateCloudflareWorkersHandler(
-    new ApolloServer<Context>({
-      typeDefs: getSchema(),
-      resolvers,
-      introspection: true,
-      logger: console,
-      plugins: [
-        ApolloServerPluginLandingPageLocalDefault({
-          footer: false,
-          embed: {
-            runTelemetry: false,
-          },
-          includeCookies: true,
-        }),
-      ],
-    }),
-    {
-      context: async ({ request }) => {
-        const authResult = await authenticateRequest({ request });
-        request.authResult = authResult;
-        return authResult.context;
-      },
-    }
-  );
+const handleGraphQLRequest = startServerAndCreateCloudflareWorkersHandler(
+  new ApolloServer<Context>({
+    typeDefs: getSchema(),
+    resolvers,
+    introspection: true,
+    logger: console,
+    plugins: [
+      ApolloServerPluginLandingPageLocalDefault({
+        footer: false,
+        embed: {
+          runTelemetry: false,
+        },
+        includeCookies: true,
+      }),
+    ],
+  }),
+  {
+    context: async ({ request }) => {
+      const authResult = await authenticateRequest({ request });
+      request.authResult = authResult;
+      return authResult.context;
+    },
+  }
+);
 
 export default {
-  async fetch(request: Request, env: Env) {
+  async fetch(request: Request, env: DBEnv & Env) {
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
@@ -67,6 +64,7 @@ export default {
 
     request.services = createServiceContainer();
     request.services.set(envService, env);
+    request.services.set(dbEnvService, env);
 
     const response = await handleGraphQLRequest(request);
 

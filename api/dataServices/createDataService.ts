@@ -1,7 +1,7 @@
 import type { Context } from "../createContext.js";
 import {
   dbService,
-  Env,
+  DBEnv,
   Database,
   UpdateQueryBuilder,
   SelectQueryBuilder,
@@ -26,7 +26,7 @@ export function createDataService<T extends keyof Database>({
   tableName,
   idProp: _idProp,
 }: {
-  provider: keyof Env;
+  provider: keyof DBEnv;
   tableName: T;
   idProp?: keyof Database[T];
 }) {
@@ -50,7 +50,7 @@ function getUpsertBy<T extends keyof Database>({
   provider,
   tableName,
 }: {
-  provider: keyof Env;
+  provider: keyof DBEnv;
   tableName: T;
 }) {
   return (
@@ -80,7 +80,7 @@ function getFindBy<T extends keyof Database>({
   provider,
   tableName,
 }: {
-  provider: keyof Env;
+  provider: keyof DBEnv;
   tableName: T;
 }) {
   return (
@@ -99,7 +99,7 @@ function getFindOneBy<T extends keyof Database>({
   provider,
   tableName,
 }: {
-  provider: keyof Env;
+  provider: keyof DBEnv;
   tableName: T;
 }) {
   return (
@@ -119,7 +119,7 @@ function getFindOneOrFailBy<T extends keyof Database>({
   provider,
   tableName,
 }: {
-  provider: keyof Env;
+  provider: keyof DBEnv;
   tableName: T;
 }) {
   return (
@@ -139,7 +139,7 @@ function getFindOneOrFail<T extends keyof Database>({
   provider,
   tableName,
 }: {
-  provider: keyof Env;
+  provider: keyof DBEnv;
   tableName: T;
 }) {
   return async (context: Context, id: string) => {
@@ -163,7 +163,7 @@ function getDeleteByIds<T extends keyof Database>({
   provider,
   tableName,
 }: {
-  provider: keyof Env;
+  provider: keyof DBEnv;
   tableName: T;
 }) {
   return async (context: Context, ids: string[]): Promise<void> => {
@@ -179,7 +179,7 @@ function getDeleteBy<T extends keyof Database>({
   provider,
   tableName,
 }: {
-  provider: keyof Env;
+  provider: keyof DBEnv;
   tableName: T;
 }) {
   return async (
@@ -197,7 +197,7 @@ function getCreate<T extends keyof Database>({
   tableName,
   idProp,
 }: {
-  provider: keyof Env;
+  provider: keyof DBEnv;
   tableName: T;
   idProp: keyof Database[T];
 }) {
@@ -226,7 +226,7 @@ function getUpdate<T extends keyof Database>({
   provider,
   tableName,
 }: {
-  provider: keyof Env;
+  provider: keyof DBEnv;
   tableName: T;
 }) {
   return async (
@@ -248,7 +248,7 @@ function getUpsert<T extends keyof Database>({
   provider,
   tableName,
 }: {
-  provider: keyof Env;
+  provider: keyof DBEnv;
   tableName: T;
   idProp: keyof Database[T];
 }) {
@@ -286,7 +286,9 @@ function getUpsert<T extends keyof Database>({
 
           if (!result) {
             return {
-              error: `Unexpected error in ${tableName}.upsert(insert): No result returned`,
+              error: `Unexpected error in ${
+                tableName as string
+              }.upsert(insert): No result returned`,
             };
           }
 
@@ -307,7 +309,9 @@ function getUpsert<T extends keyof Database>({
           console.log("hello world");
           if (!result) {
             return {
-              error: `Unexpected error in ${tableName}.upsert(update): No result returned`,
+              error: `Unexpected error in ${
+                tableName as string
+              }.upsert(update): No result returned`,
             };
           }
 
@@ -341,7 +345,7 @@ function getConnectionBuilder<T extends keyof Database>({
   provider,
   tableName,
 }: {
-  provider: keyof Env;
+  provider: keyof DBEnv;
   tableName: T;
 }) {
   return async (
@@ -365,10 +369,10 @@ function getConnectionBuilder<T extends keyof Database>({
 
       const constraint = input.constraint;
       if (constraint) {
-        query = query.where((q) =>
-          q.and(
+        query = query.where((eb) =>
+          eb.and(
             Object.entries(constraint).map(([key, value]) =>
-              q.cmpr(key as any, "=", value)
+              eb(key as any, "=", value)
             )
           )
         );

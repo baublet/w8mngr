@@ -2,7 +2,7 @@ import crypto from "crypto";
 
 import { assertIsTruthy } from "../../../shared/assertIsTruthy.js";
 import { assertIsError } from "../../../shared/assertIsError.js";
-import { config } from "../../config/config.js";
+import { configService } from "../../config/config.js";
 import { Context } from "../../createContext.js";
 import { uploadDataService } from "../upload/index.js";
 import { UploadToken } from "./type.js";
@@ -15,6 +15,7 @@ export async function create({
   context: Context;
   count: number;
 }): Promise<Error | (UploadToken & { uploadId: string })[]> {
+  const config = context.services.get(configService);
   const CLOUDINARY_API_KEY = config.get("CLOUDINARY_API_KEY");
   const CLOUDINARY_API_SECRET = config.get("CLOUDINARY_API_SECRET");
   const CLOUDINARY_URL = config.get("CLOUDINARY_URL");

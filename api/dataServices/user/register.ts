@@ -29,16 +29,11 @@ export async function register(
   }
 
   try {
-    console.log("aaaa")
     const passwordHash = await hashPassword(userData.password);
-    console.log("basdca", userData)
     const user = await create(context, {
       preferredName: userData.email,
       role: userData.role,
     });
-    console.log("b")
-
-    console.log("made it here 1")
     
     const accountExists = await userAccountDataService.accountExists(context, {
       source: "local",

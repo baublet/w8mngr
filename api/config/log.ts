@@ -1,13 +1,22 @@
 import stringify from "json-stringify-safe";
 
-import { config } from "./config.js";
+import { configService } from "./config.js";
+import { Context } from "../createContext.js";
+import { ServiceContainer } from "@baublet/service-container";
 
 export function log(
+  contextOrServiceContainer: Context | ServiceContainer,
   level: "debug" | "error" | "info" | "warn",
   message: string,
   details?: Record<string, any>
 ): void {
-  const suppressConsoleLogging = config.get("SUPPRESS_CONSOLE_LOGGING");
+  const services =
+    "services" in contextOrServiceContainer
+      ? contextOrServiceContainer.services
+      : contextOrServiceContainer;
+  const suppressConsoleLogging = services
+    .get(configService)
+    .get("SUPPRESS_CONSOLE_LOGGING");
   if (suppressConsoleLogging === "true") {
     return;
   }

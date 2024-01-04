@@ -1,17 +1,13 @@
-import { config } from "../../../config/config.js";
 import { UserEntity } from "../../user/types.js";
 
 export const verifyEmailTemplate = ({
-  emailVerificationToken,
+  link,
 }: {
   user: UserEntity;
-  emailVerificationToken: string;
+  link: string;
 }) => {
-  const link = `${config.get(
-    "PUBLIC_URL"
-  )}/?verifyEmailToken=${emailVerificationToken}`;
   return {
-    subject: "w8mngr | Verify Email",
+    subject: "w8mngr | Verify email",
     body: `Verify your email: <a href="${link}">${link}</a>`,
   };
 };

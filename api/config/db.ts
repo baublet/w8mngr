@@ -14,7 +14,7 @@ import { D1Dialect } from "kysely-d1";
 
 import { W8mngrMap } from "../../shared/Map.js";
 
-export interface Env {
+export type DBEnv = {
   W8MNGR_1: D1Database;
 }
 
@@ -31,19 +31,19 @@ export type SelectableDatabaseRecord<T> = Selectable<T>;
 export type DeleteQueryBuilder<T extends keyof Database> =
   KyselyDeleteQueryBuilder<DB, T, unknown>;
 
-export function envService(): Env {
+export function dbEnvService(): DBEnv {
   throw new Error("You must set the env service value before using it");
 }
 
 function dbService(container: ServiceContainer) {
-  const env = container.get(envService);
-  const dbMaps = new W8mngrMap<keyof Env, Kysely<DB>>();
-  return (db: keyof Env) =>
+  const env = container.get(dbEnvService);
+  const dbMaps = new W8mngrMap<keyof DBEnv, Kysely<DB>>();
+  return (db: keyof DBEnv) =>
     dbMaps.getOrSet(
       db,
       () =>
         new Kysely({
-          dialect: new D1Dialect({ database: env[db] }),
+          dialect: new D1Dialect({ database: env[db] }) as any,
         })
     );
 }

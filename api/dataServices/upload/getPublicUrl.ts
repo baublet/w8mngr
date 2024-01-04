@@ -1,5 +1,5 @@
 import { createSha1Digest } from "../../authentication/createDigest.js";
-import { config } from "../../config/config.js";
+import { configService } from "../../config/config.js";
 import { Context } from "../../createContext.js";
 import { UploadUrlType } from "../../generated.js";
 import { rootService } from "./rootService.js";
@@ -23,7 +23,7 @@ export async function getPublicUrl(
   context: Context,
   { type = "PREVIEW", uploadId }: { uploadId: string; type?: UploadUrlType }
 ): Promise<string> {
-  if (!config.get("CLOUDINARY_API_SECRET")) {
+  if (!context.services.get(configService).get("CLOUDINARY_API_SECRET")) {
     throw new Error(`No CLOUDINARY_API_SECRET in environment variables...`);
   }
 
@@ -42,7 +42,7 @@ export async function getPublicUrl(
   const fileName = `${publicId}.${extension}`;
   const toSign = [transformationsUrlPart, fileName].join("/");
   const signedSignature = await createSha1Digest(
-    toSign + config.get("CLOUDINARY_API_SECRET")
+    toSign + context.services.get(configService).get("CLOUDINARY_API_SECRET")
   );
 
   const signature =

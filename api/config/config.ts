@@ -49,7 +49,7 @@ export function configService(serviceContainer: ServiceContainer) {
     MAILGUN_DOMAIN: "",
     NETLIFY: "false",
     NODE_ENV: "production",
-    PUBLIC_URL: otherEnvValuesOrDefault(env, ["URL"], "http://localhost:8080"),
+    PUBLIC_URL: otherEnvValuesOrDefault(env, ["URL"], "http://localhost:5173"),
     SALT: "Don't use the default, please!",
     SUPPRESS_CONSOLE_LOGGING: "true",
     SUPPRESS_EMAILS: "true",

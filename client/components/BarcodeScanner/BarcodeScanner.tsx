@@ -175,26 +175,23 @@ function initializeBarcodeScanner({
   onBarcodeScannerCreated?: (barcodeScanner: BarCodeScanner) => void;
 }) {
   function start() {
+    const scannerVideoElement = document.querySelector(`#${scannerVideoId}`);
+    if(!scannerVideoElement) {
+      return;
+    }
     Quagga.init(
       {
         inputStream: {
           name: "Live",
           type: "LiveStream",
           singleChannel: true,
-          target: document.querySelector(`#${scannerVideoId}`),
-          locate: false,
+          target: scannerVideoElement,
           constraints: {
             facingMode: "environment",
             aspectRatio: { min: 1, max: 1 },
             width: { min: 640, ideal: 1920, max: 4096 },
             height: { min: 640, ideal: 1920, max: 4096 },
           },
-          locator: {
-            patchSize: "medium",
-            halfSample: true,
-          },
-          multiple: true,
-          frequency: 10,
         },
         decoder: {
           readers: ["upc_reader", "upc_e_reader"],
@@ -206,8 +203,12 @@ function initializeBarcodeScanner({
           return;
         }
         console.log("Initialization finished. Ready to start");
-        Quagga.onDetected((code: { codeResult: { code: string } }) => {
-          onScanSuccess(code.codeResult.code);
+        Quagga.onDetected((code: { codeResult: { code: string | null } }) => {
+          const codeResult = code.codeResult.code;
+          if(!codeResult) {
+            return;
+          }
+          onScanSuccess(codeResult);
         });
         Quagga.start();
         onBarcodeScannerCreated({

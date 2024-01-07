@@ -28,6 +28,7 @@ export async function login(
       q.where("sourceIdentifier", "=", credentials.email)
     );
     const passwordsMatch = await doesHashMatch(
+      context,
       credentials.password,
       account.passwordHash
     );

@@ -10,6 +10,8 @@ export default defineConfig({
     outDir: path.resolve(process.cwd(), "client-build"),
   },
   server: {
+    open: true,
+    port: 5173,
     proxy: {
       "/graphql": {
         target: "http://127.0.0.1:8787/",

@@ -39,5 +39,5 @@ export async function numberToContextualUnit(
     outgoingUnits = [requestedWorkUnit];
   }
 
-  return numberToStringUnit({ work, incomingUnit, outgoingUnits });
+  return numberToStringUnit({ context, work, incomingUnit, outgoingUnits });
 }

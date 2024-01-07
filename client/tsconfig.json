@@ -6,6 +6,7 @@
     "jsx": "react",
     "esModuleInterop": true,
     "lib": ["es2018", "dom"],
+    "noEmit": true,
     "strict": true,
     "noImplicitAny": true,
     "skipLibCheck": true,

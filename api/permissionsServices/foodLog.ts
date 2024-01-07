@@ -5,7 +5,7 @@ import {
   requireAuth,
 } from "./createPermissionService.js";
 import { foodLogDataService } from "../dataServices/foodLog/index.js";
-import { Context } from "api/createContext";
+import { Context } from "../createContext.js";
 
 export const foodLogPermissionService = createPermissionService({
   create: requireAuth,

@@ -26,7 +26,11 @@
     "db:reset": "pnpm db:delete; pnpm db:migrate",
     "develop:api": "wrangler dev -c graphql.wrangler.toml api/graphql --persist-to tmp --port 8787 --var DANGEROUSLY_LOG_EMAIL_LOGIN_LINKS:true SUPPRESS_CONSOLE_LOGGING:false",
     "develop:ui": "pnpm vite",
-    "develop": "concurrently --kill-others npm:develop:api npm:develop:ui"
+    "develop": "concurrently --kill-others npm:develop:api npm:develop:ui",
+    "lint:tsc": "pnpm lint:tsc:api && pnpm lint:tsc:client && pnpm lint:tsc:shared",
+    "lint:tsc:api": "pnpm tsc -p api/tsconfig.json",
+    "lint:tsc:client": "pnpm tsc -p client/tsconfig.json",
+    "lint:tsc:shared": "pnpm tsc -p shared/tsconfig.json"
   },
   "author": "Ryan M. Poe",
   "license": "ISC",

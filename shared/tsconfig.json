@@ -1,10 +1,12 @@
 {
+  "exclude": ["node_modules", "*.test.ts"],
   "compilerOptions": {
     "target": "ES2015",
     "module": "ESNext",
     "baseUrl": ".",
     "esModuleInterop": true,
-    "lib": ["es2018"],
+    "lib": ["es2018", "DOM"],
+    "noEmit": true,
     "strict": true,
     "noImplicitAny": true,
     "skipLibCheck": true,

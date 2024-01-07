@@ -1,6 +1,7 @@
 import { assertIsError } from "../../../shared/assertIsError.js";
 import { ReturnTypeWithErrors } from "../../../shared/types.js";
 import { hashPassword } from "../../authentication/hashPassword.js";
+import { configService } from "../../config/config.js";
 import { Context } from "../../createContext.js";
 import { emailDataService } from "../email/index.js";
 import { tokenDataService } from "../token/index.js";
@@ -29,21 +30,22 @@ export async function register(
   }
 
   try {
-    const passwordHash = await hashPassword(userData.password);
+    const salt = context.services.get(configService).get("SALT");
+    const passwordHash = await hashPassword(userData.password, salt);
     const user = await create(context, {
       preferredName: userData.email,
       role: userData.role,
     });
-    
+
     const accountExists = await userAccountDataService.accountExists(context, {
       source: "local",
       sourceIdentifier: userData.email,
     });
-    console.log("made it here 2")
+    console.log("made it here 2");
     if (accountExists) {
       throw new Error("That email address is already registered");
     }
-    
+
     const account = await userAccountDataService.create(context, {
       userId: user.id,
       source: "local",
@@ -51,20 +53,20 @@ export async function register(
       passwordHash,
       verified: 0,
     });
-    console.log("made it here 3")
-    
+    console.log("made it here 3");
+
     const authTokenResult = await tokenDataService.getOrCreate(context, {
       type: "auth",
       userAccountId: account.id,
     });
-    
-    console.log("made it here 4")
+
+    console.log("made it here 4");
     const rememberTokenResult = await tokenDataService.getOrCreate(context, {
       type: "remember",
       userAccountId: account.id,
     });
-    
-    console.log("made it here 5")
+
+    console.log("made it here 5");
     context.setCookie("w8mngrAuth", authTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
     });
@@ -77,11 +79,12 @@ export async function register(
       type: "emailVerification",
       userAccountId: account.id,
     });
+    const publicUrl = context.services.get(configService).get("PUBLIC_URL");
     await emailDataService.create(context, {
       templateId: "verifyEmail",
       templateVariables: {
+        link: `${publicUrl}/?verifyEmailToken=${emailVerificationToken}`,
         user,
-        emailVerificationToken: emailVerificationToken.token,
       },
       toUserId: user.id,
       idempotenceKey: `email-verification-${emailVerificationToken.token}}`,

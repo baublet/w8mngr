@@ -42,6 +42,7 @@ export async function getVisualizationData(
   const to = dayStringFromDate(toDate);
 
   const currentWeightLabel = numberToStringUnit({
+    context,
     work: latestWeight.weight,
     incomingUnit: "GRAMS",
     outgoingUnits: settings.defaultMassMeasurement,
@@ -69,6 +70,7 @@ export async function getVisualizationData(
       dayLabel: format(dayStringToDate(entry.day), "PP"),
       weight: entry.weight,
       weightLabel: numberToStringUnit({
+        context,
         work: entry.weight,
         incomingUnit: "GRAMS",
         outgoingUnits: settings.defaultMassMeasurement,

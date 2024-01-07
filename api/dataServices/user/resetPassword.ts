@@ -2,6 +2,7 @@ import { assertIsError } from "../../../shared/assertIsError.js";
 import { ReturnTypeWithErrors } from "../../../shared/types.js";
 import { createDigest } from "../../authentication/createDigest.js";
 import { hashPassword } from "../../authentication/hashPassword.js";
+import { configService } from "../../config/config.js";
 import { Context } from "../../createContext.js";
 import { tokenDataService } from "../token/index.js";
 import { TOKEN_EXPIRY_OFFSET } from "../token/types.js";
@@ -33,7 +34,8 @@ export async function resetPassword(
   );
 
   try {
-    const passwordHash = await hashPassword(credentials.password);
+    const salt = context.services.get(configService).get("SALT");
+    const passwordHash = await hashPassword(credentials.password, salt);
 
     const account = await userAccountDataService.findOneOrFail(
       context,

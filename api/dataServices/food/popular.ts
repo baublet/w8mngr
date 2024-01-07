@@ -22,8 +22,8 @@ export async function popular(context: Context): Promise<FoodEntity[]> {
         .where("archived", "=", 0)
         .where((q) =>
           q.or([
-            q.cmpr("userId", "=", userId),
-            q.cmpr(
+            q("userId", "=", userId),
+            q(
               "userId",
               "in",
               admins.map((a) => a.id)

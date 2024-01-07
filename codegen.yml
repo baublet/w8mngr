@@ -10,7 +10,7 @@ generates:
       allowParentTypeOverride: true
       enumsAsTypes: true
       maybeValue: T | undefined
-      contextType: ./createContext#Context
+      contextType: ./createContext.js#Context
       scalars:
         ID: string
       mappers:
@@ -35,7 +35,7 @@ generates:
           args: TArgs,
           context: TContext
         ) => Resolvable<TResult>;
-        import type { Resolvable } from "../shared/types";
+        import type { Resolvable } from "../shared/types.js";
 
   ./client/generated.ts:
     plugins:

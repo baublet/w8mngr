@@ -13,7 +13,7 @@ export const getUploadTokens: MutationResolvers["getUploadTokens"] = async (
   });
 
   if (result instanceof Error) {
-    log("error", "Error creating upload tokens", {
+    log(context, "error", "Error creating upload tokens", {
       result,
     });
     return {

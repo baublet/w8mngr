@@ -1,5 +1,4 @@
 import hash from "object-hash";
-import { log } from "../config/log.js";
 
 const cache = new Map<string, { value: any; expiry: number }>();
 
@@ -22,7 +21,6 @@ export const globalInMemoryCache = {
     const existingRecord = cache.get(keyHash);
     const now = Date.now();
     if (existingRecord && existingRecord.expiry + now > now) {
-      log("debug", `Cache hit for key ${JSON.stringify(key)}`);
       return existingRecord.value;
     }
 
@@ -32,18 +30,9 @@ export const globalInMemoryCache = {
         value: newValue,
         expiry,
       });
-      log(
-        "debug",
-        `Cache miss for key ${JSON.stringify(
-          key
-        )}. Saving to cache for ${expiry}ms`
-      );
 
       return newValue;
     } catch (error) {
-      log("error", "getOrSet cache function error", {
-        error,
-      });
       throw error;
     }
   },

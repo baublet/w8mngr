@@ -9,14 +9,14 @@ import {
   SelectQueryBuilder as KyselySelectQueryBuilder,
   DeleteQueryBuilder as KyselyDeleteQueryBuilder,
 } from "kysely";
-import { DB } from "kysely-codegen";
 import { D1Dialect } from "kysely-d1";
+import { DB } from "./db.types.js";
 
 import { W8mngrMap } from "../../shared/Map.js";
 
 export type DBEnv = {
   W8MNGR_1: D1Database;
-}
+};
 
 export { sql } from "kysely";
 

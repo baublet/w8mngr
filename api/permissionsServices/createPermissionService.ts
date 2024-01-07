@@ -50,7 +50,7 @@ export function createPermissionService<
               ...functionArgs
             );
             if (value instanceof Error) {
-              log("warn", "Permission function returned false", { value });
+              log(context, "warn", "Permission function returned false", { value });
               return false;
             }
             return true;

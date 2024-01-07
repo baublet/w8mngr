@@ -18,6 +18,6 @@ export const currentUser: Required<QueryResolvers>["currentUser"] = (
     };
   } catch (error) {
     assertIsError(error);
-    log("error", "Error getting current user", { error });
+    log(context, "error", "Error getting current user", { error });
   }
 };

@@ -1,12 +1,15 @@
 import Qty from "js-quantities";
 
 import { log } from "../config/log.js";
+import { Context } from "../createContext.js";
 
 export function numberToStringUnit({
+  context,
   work: startingWork,
   incomingUnit,
   outgoingUnits,
 }: {
+  context: Context
   work?: number | string;
   incomingUnit: string;
   outgoingUnits: string[];
@@ -50,7 +53,7 @@ export function numberToStringUnit({
 
     return quantityStrings.join(" ");
   } catch (error) {
-    log("error", "Unknown error converting units", {
+    log(context, "error", "Unknown error converting units", {
       incomingUnit,
       outgoingUnits,
       work,

@@ -55,10 +55,10 @@ export async function create<TTemplateKey extends EmailTemplateKey>(
     .returningAll()
     .execute();
 
-  await emailDataService.sendPendingEmails(context);
-
   const insertedEmail = insertedResult[0];
   assertIsTruthy(insertedEmail, "Email failed to insert");
+
+  await emailDataService.sendPendingEmails(context);
 
   return insertedEmail;
 }

@@ -18,7 +18,7 @@ export async function sendPendingEmails(context: Context) {
       .limit(10)
       .execute();
     if (emails.length === 0) {
-      log("debug", "Email queue is empty");
+      log(context, "debug", "Email queue is empty");
       return;
     }
     await Promise.all(emails.map((email) => sendEmail(context, email)));
@@ -30,7 +30,7 @@ async function sendEmail(context: Context, email: EmailEntity): Promise<void> {
     await rootService.update(context, (q) => q.where("id", "=", email.id), {
       sent: 0,
     });
-    log("warn", "Invalid email template ID", { email });
+    log(context, "warn", "Invalid email template ID", { email });
     await logHistory({
       context,
       email,
@@ -44,6 +44,7 @@ async function sendEmail(context: Context, email: EmailEntity): Promise<void> {
   });
 
   const { subject, body } = renderEmailTemplate(
+    context,
     email.templateId,
     JSON.parse(email.payload || "{}")
   );
@@ -82,7 +83,7 @@ async function logHistory({
     });
   } catch (error) {
     assertIsError(error);
-    log("error", "Unexpected error updating email history!", {
+    log(context, "error", "Unexpected error updating email history!", {
       error,
       email,
     });

@@ -17,7 +17,7 @@ export const saveUserPreferences: MutationResolvers["saveUserPreferences"] =
     );
 
     if (result instanceof Error) {
-      log("error", "Error saving user preferences", { error: result });
+      log(context, "error", "Error saving user preferences", { error: result });
       return {
         errors: [result.message],
         user: { id: userId },

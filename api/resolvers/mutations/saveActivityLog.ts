@@ -17,7 +17,7 @@ export const saveActivityLog: MutationResolvers["saveActivityLog"] = async (
   });
 
   if (mutationResult instanceof Error) {
-    log("error", "Unexpected error saving activity log", { mutationResult });
+    log(context, "error", "Unexpected error saving activity log", { mutationResult });
     return {
       errors: [mutationResult.message],
     };

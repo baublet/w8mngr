@@ -32,7 +32,7 @@ export async function login(
       account.passwordHash
     );
     if (!passwordsMatch) {
-      log("error", "Login attempt failed. Passwords don't match.", {
+      log(context, "error", "Login attempt failed. Passwords don't match.", {
         account,
       });
       throw new LoginFailedError("Invalid credentials");

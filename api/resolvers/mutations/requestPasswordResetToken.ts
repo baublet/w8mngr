@@ -1,4 +1,5 @@
 import { getRoundedDate } from "../../../shared/getRoundedDate.js";
+import { configService } from "../../config/config.js";
 import { log } from "../../config/log.js";
 import { emailDataService } from "../../dataServices/email/index.js";
 import { tokenDataService } from "../../dataServices/token/index.js";
@@ -16,9 +17,14 @@ export const requestPasswordResetToken: MutationResolvers["requestPasswordResetT
     );
 
     if (!matchingAccount) {
-      log("warn", "Request password reset token tried with invalid email", {
-        args,
-      });
+      log(
+        context,
+        "warn",
+        "Request password reset token tried with invalid email",
+        {
+          args,
+        }
+      );
       return {
         errors: [],
       };
@@ -55,8 +61,10 @@ export const requestPasswordResetToken: MutationResolvers["requestPasswordResetT
       toUserId: matchingAccount.userId,
       idempotenceKey,
       templateVariables: {
-        resetToken: resetToken.token,
-        user: context.getCurrentUser(true) as any,
+        link: `${context.services
+          .get(configService)
+          .get("PUBLIC_URL")}/reset-password/${resetToken}`,
+        user: context.getCurrentUser(true),
       },
     });
 

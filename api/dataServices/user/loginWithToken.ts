@@ -22,9 +22,11 @@ export async function loginWithToken(
 > {
   try {
     const tokenDigest = await createDigest(input.loginToken);
+
     const token = await tokenDataService.findOneOrFailBy(context, (q) =>
       q.where("tokenDigest", "=", tokenDigest)
     );
+
     await tokenDataService.deleteByIds(context, [token.id]);
 
     const account = await userAccountDataService.findOneOrFail(
@@ -47,6 +49,7 @@ export async function loginWithToken(
     context.setCookie("w8mngrAuth", authTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
     });
+
     context.setCookie("w8mngrRemember", rememberTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.remember),
     });

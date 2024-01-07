@@ -14,7 +14,7 @@ export const resetPassword: MutationResolvers["resetPassword"] = async (
   });
 
   if (result instanceof Error) {
-    log("error", "Error resetting password", { result });
+    log(context, "error", "Error resetting password", { result });
     return {
       errors: [result.message],
     };

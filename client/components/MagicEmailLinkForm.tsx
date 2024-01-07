@@ -17,7 +17,7 @@ export function MagicEmailLinkForm() {
     onCompleted: (response) => {
       if (response.requestEmailLoginLink.errors.length > 0) {
         error(response.requestEmailLoginLink.errors[0]);
-        setSent(true);
+        setSent(false);
       } else {
         success("Check your email for your login link!");
         setSent(true);

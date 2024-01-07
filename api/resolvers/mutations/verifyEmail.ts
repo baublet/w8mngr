@@ -20,7 +20,7 @@ export const verifyEmail: MutationResolvers["verifyEmail"] = async (
     (q) => q.where("id", "=", token.userAccountId),
     { verified: 1 }
   );
-  log("debug", "User account verified", {
+  log(context, "debug", "User account verified", {
     userAccountID: token.userAccountId,
   });
   return {

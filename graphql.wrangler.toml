@@ -6,5 +6,5 @@ node_compat = true
 [[ d1_databases ]]
 binding = "W8MNGR_1"
 database_name = "w8mngr_1"
-database_id = "54ab163b-1931-4aac-937e-8697837b433e"
-preview_database_id = "54ab163b-1931-4aac-937e-8697837b433e"
+database_id = "e3ef7a16-f7f3-4b60-85bd-ac364bf676c9"
+preview_database_id = "e3ef7a16-f7f3-4b60-85bd-ac364bf676c9"

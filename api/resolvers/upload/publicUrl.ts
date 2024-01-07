@@ -13,7 +13,7 @@ export const publicUrl: UploadResolvers["publicUrl"] = (
       type: input?.type,
     });
   } catch (error) {
-    log("error", "Unknown error generating a public URL", {
+    log(context, "error", "Unknown error generating a public URL", {
       error,
     });
     return "";

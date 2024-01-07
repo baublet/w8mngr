@@ -73,6 +73,7 @@ export async function getUserPreferences(
       );
 
       const value = getPreferenceOrDefault({
+        context,
         entity: entity as any,
         defaultValue: defaultValues[type],
         serializer: preferenceSerializers[type],
@@ -93,10 +94,12 @@ function getPreferenceOrDefault<T>({
   entity,
   defaultValue,
   serializer,
+  context
 }: {
   entity: Database["userPreference"];
   defaultValue: T;
   serializer: (value: string) => any;
+  context: Context
 }): T {
   if (entity) {
     try {
@@ -105,7 +108,7 @@ function getPreferenceOrDefault<T>({
         return serializer(parsedValue);
       }
     } catch (error) {
-      log("error", "Error parsing user preference", {
+      log(context, "error", "Error parsing user preference", {
         error,
         entity,
       });

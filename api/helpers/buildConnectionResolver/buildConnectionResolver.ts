@@ -1,7 +1,6 @@
 import { assertIsError } from "../../../shared/assertIsError.js";
 import { Resolvable } from "../../../shared/types.js";
 import { SelectQueryBuilder } from "../../config/db.js";
-import { log } from "../../config/log.js";
 import { isBefore } from "./isBefore.js";
 import { validateArguments } from "./validateArguments.js";
 
@@ -175,11 +174,6 @@ export async function buildConnectionResolver<
               edges.push(edge as any);
             }
           }
-
-          log("info", "Result set query information", {
-            query: resultSetQuery.toString(),
-          });
-
           resolve(edges);
         });
       }

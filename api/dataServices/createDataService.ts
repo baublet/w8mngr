@@ -33,7 +33,7 @@ export function createDataService<T extends keyof Database>({
   const idProp = (_idProp || "id") as any;
   return {
     create: getCreate({ provider, tableName, idProp }),
-    deleteByIds: getDeleteByIds({ provider, tableName }),
+    deleteByIds: getDeleteByIds({ provider, tableName, idProp }),
     deleteBy: getDeleteBy({ provider, tableName }),
     findOneBy: getFindOneBy({ provider, tableName }),
     findOneOrFailBy: getFindOneOrFailBy({ provider, tableName }),
@@ -122,11 +122,11 @@ function getFindOneOrFailBy<T extends keyof Database>({
   provider: keyof DBEnv;
   tableName: T;
 }) {
-  return (
+  return async (
     context: Context,
     where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>
   ) => {
-    return where(
+    return (
       context.services.get(dbService)(provider).selectFrom(tableName) as any
     )
       .selectAll()
@@ -162,15 +162,17 @@ function getFindOneOrFail<T extends keyof Database>({
 function getDeleteByIds<T extends keyof Database>({
   provider,
   tableName,
+  idProp,
 }: {
   provider: keyof DBEnv;
   tableName: T;
+  idProp: keyof Database[T];
 }) {
   return async (context: Context, ids: string[]): Promise<void> => {
     await context.services
       .get(dbService)(provider)
       .deleteFrom(tableName)
-      .where("id" as any, "in", ids as any)
+      .where(idProp as any, "in", ids as any)
       .execute();
   };
 }

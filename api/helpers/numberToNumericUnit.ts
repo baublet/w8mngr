@@ -25,7 +25,7 @@ export function numberToNumericUnit({
     const roundedQuantity = round(quantity.scalar);
     return new Qty(roundedQuantity, loweredOutgoingUnit).scalar;
   } catch (error) {
-    log("error", "Unknown error converting units", {
+    log(context, "error", "Unknown error converting units", {
       incomingUnit,
       outgoingUnit,
       work,

@@ -2,7 +2,7 @@ import React from "react";
 import useLocation from "wouter/use-location";
 
 import { useVerifyEmailMutation } from "../generated.js";
-import { useToast } from "./useToast";
+import { useToast } from "./useToast.js";
 import { useUrlQueryParameters } from "./useUrlQueryParameters.js";
 
 export function useVerifyEmail() {

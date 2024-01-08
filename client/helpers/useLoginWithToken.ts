@@ -5,7 +5,7 @@ import {
   GetCurrentUserDocument,
   useLoginWithTokenMutation,
 } from "../generated.js";
-import { useToast } from "./useToast";
+import { useToast } from "./useToast.js";
 import { useUrlQueryParameters } from "./useUrlQueryParameters.js";
 
 export function useLoginWithToken() {

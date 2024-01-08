@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useRoute } from "wouter";
 
 import { ActivityStatsComponent } from "../components/Activity/ActivityStats";
 import { ActivityLog as ActivityLogComponent } from "../components/ActivityLog/ActivityLog";
@@ -16,7 +16,10 @@ import { useGetActivityDetailsQuery } from "../generated";
 import { useNavigateToUrl } from "../helpers/useNavigateToUrl";
 
 export function ActivityLog() {
-  const { id, day = "" } = useParams<{ id: string; day: string }>();
+  const [, params] = useRoute("/activities/:id/log/:day?");
+  const id = params?.id || ""
+  const day = params?.day || ""
+
   const { data, loading } = useGetActivityDetailsQuery({
     variables: {
       id: id || "id",

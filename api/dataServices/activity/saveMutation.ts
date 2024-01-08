@@ -1,3 +1,4 @@
+import { getUniqueId } from "../../../shared/getUniqueId.js";
 import { Context } from "../../createContext.js";
 import { ActivityInput } from "../../generated.js";
 import { activityMuscleDataService } from "../activityMuscle/index.js";
@@ -10,10 +11,12 @@ export async function saveMutation(
   try {
     const { muscleGroups, ...activityProperties } = input;
 
+    activityProperties.id = activityProperties.id || getUniqueId();
+
     const upsertResults = await rootService.upsertBy(
       context,
       [{ ...activityProperties, userId }],
-      ["userId"]
+      ["id"]
     );
     const activityId = upsertResults[0].id;
 

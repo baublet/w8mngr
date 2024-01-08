@@ -53,7 +53,7 @@ export function MagicEmailLinkForm() {
         <SecondaryButton
           size="lg"
           type="submit"
-          disabled={loading}
+          disabled={loading || !formData.getValue("email")}
           loading={loading}
           leftIcon={
             <div className="translate-y-px">

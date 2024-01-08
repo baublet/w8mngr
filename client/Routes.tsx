@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "wouter";
+import { Route, Switch } from "wouter";
 
 import { LoadableComponent } from "./components/LoadableComponent";
 import { useVerifyEmail } from "./helpers/useVerifyEmail";
@@ -7,7 +7,7 @@ import { useVerifyEmail } from "./helpers/useVerifyEmail";
 export function Routes() {
   useVerifyEmail();
   return (
-    <div>
+    <Switch>
       <Route
         path="/"
         component={() => (
@@ -224,6 +224,6 @@ export function Routes() {
           />
         )}
       />
-    </div>
+    </Switch>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router";
+import { useRoute, useLocation } from "wouter";
 
 import { EditActivityForm } from "../components/Activity/EditActivityForm";
 import { BackToButton } from "../components/Button/BackTo";
@@ -8,17 +8,22 @@ import { HealthCircleIcon } from "../components/Icons/HealthCircle";
 import { PageHeading } from "../components/Type/PageHeading";
 
 export function EditActivity() {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  const [, params] = useRoute("/activities/edit/:id");
+  const id = params?.id || "id";
+  const [, setLocation] = useLocation();
   return (
     <div className="flex flex-col gap-4 w-full">
       <ContentContainer>
         <PageHeading
           icon={<HealthCircleIcon />}
           quickLinks={
-              <BackToButton {...backButtonProps(id || "", () => navigate(-1))}>
-                View Activity
-              </BackToButton>
+            <BackToButton
+              {...backButtonProps(id || "", () =>
+                setLocation(`/activities/${id}`)
+              )}
+            >
+              View Activity
+            </BackToButton>
           }
         >
           Edit Activity

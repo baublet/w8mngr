@@ -1,7 +1,7 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useRoute } from "wouter";
 
-import {  getWithDefault } from "../../../shared/getWithDefault";
+import { getWithDefault } from "../../../shared/getWithDefault";
 import { dayStringFromDate } from "../../../shared/dayStringFromDate";
 import { useGetCurrentUserWeightLogQuery } from "../../generated";
 import { DayNavigator } from "../DayNavigator";
@@ -10,7 +10,8 @@ import { NewWeightLog } from "./NewWeightLog";
 import { WeightLogEntry } from "./WeightLogEntry";
 
 export function WeightLog() {
-  const { day } = useParams<{ day?: string }>();
+  const [, params] = useRoute("/weightlog/:day");
+  const day = params?.day || "no-day-in-url";
   const dayString = React.useMemo(() => {
     if (!day) {
       return dayStringFromDate(new Date());

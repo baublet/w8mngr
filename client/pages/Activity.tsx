@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router";
+import { useRoute } from "wouter";
 
 import { dayStringFromDate } from "../../shared/dayStringFromDate";
 import { ActivityDetails } from "../components/Activity/ActivityDetails";
@@ -15,8 +15,8 @@ import { PageHeading } from "../components/Type/PageHeading";
 import { useGetActivityDetailsQuery } from "../generated";
 
 export function Activity() {
-  const { id = "id" } = useParams<{ id?: string }>();
-  const navigate = useNavigate();
+  const [, params] = useRoute("/activities/:id");
+  const id = params?.id || "no-id-in-url";
   const { data } = useGetActivityDetailsQuery({
     variables: {
       id,
@@ -39,13 +39,17 @@ export function Activity() {
         <PageHeading
           icon={<HealthCircleIcon />}
           quickLinks={
-            <BackToButton {...backButtonProps(() => navigate(-1))}>
+            <BackToButton
+              {...backButtonProps(() => {
+                window.history.back();
+              })}
+            >
               Back to Activities
             </BackToButton>
           }
         >
           {activity.name}
-        </PageHeading>{" "}
+        </PageHeading>
       </ContentContainer>
       <ContentContainer>
         <ContentLayout

@@ -8,8 +8,8 @@ export function IsLoggedIn({
   showLoader,
 }: React.PropsWithChildren<{ showLoader?: boolean }>) {
   const { data, loading } = useGetCurrentUserQuery({
-    fetchPolicy: "cache-first",
-    pollInterval: 10000
+    fetchPolicy: "cache-and-network",
+    pollInterval: 60000
   });
   if (loading || !data?.currentUser) {
     if (loading && showLoader) {

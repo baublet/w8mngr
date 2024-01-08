@@ -370,12 +370,13 @@ function getConnectionBuilder<T extends keyof Database>({
         .selectFrom(tableName);
 
       const constraint = input.constraint;
-      if (constraint) {
+      const constraintEntries = (
+        constraint ? Object.entries(constraint) : []
+      ).filter((pair) => typeof pair[1] !== "undefined");
+      if (constraintEntries.length > 0) {
         query = query.where((eb) =>
           eb.and(
-            Object.entries(constraint).map(([key, value]) =>
-              eb(key as any, "=", value)
-            )
+            constraintEntries.map(([key, value]) => eb(key as any, "=", value))
           )
         );
       }

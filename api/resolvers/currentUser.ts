@@ -8,8 +8,13 @@ export const currentUser: Required<QueryResolvers>["currentUser"] = (
   context
 ) => {
   try {
-    const user = context.getCurrentUser(true);
-    const userAccount = context.getCurrentUserAccount(true);
+    const user = context.getCurrentUser(false);
+    const userAccount = context.getCurrentUserAccount(false);
+
+    if (!user || !userAccount) {
+      return undefined
+    }
+
     return {
       ...user,
       verified: Boolean(userAccount.verified),
@@ -19,5 +24,6 @@ export const currentUser: Required<QueryResolvers>["currentUser"] = (
   } catch (error) {
     assertIsError(error);
     log(context, "error", "Error getting current user", { error });
+    return undefined
   }
 };

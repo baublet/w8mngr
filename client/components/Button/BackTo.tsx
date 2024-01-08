@@ -21,7 +21,6 @@ export function BackToButton(
           props.onClick();
         }
       }}
-      replace
     >
       <LeftIcon />
       <span

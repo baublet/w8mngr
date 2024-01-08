@@ -18,7 +18,7 @@ export interface Activity {
   exrx: string | null;
   id: string;
   intensity: Generated<number>;
-  legacyId: number;
+  legacyId: number | null;
   name: string;
   popularity: Generated<number>;
   type: string;

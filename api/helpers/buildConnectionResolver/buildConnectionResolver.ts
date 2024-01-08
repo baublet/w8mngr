@@ -154,27 +154,36 @@ export async function buildConnectionResolver<
             entity: TEntity;
             node: TNode;
           }[]
-        >(async (resolve) => {
-          const edges: {
-            cursor: string;
-            entity: TEntity;
-            node: TNode;
-          }[] = [];
+        >(async (resolve, reject) => {
+          try {
+            const edges: {
+              cursor: string;
+              entity: TEntity;
+              node: TNode;
+            }[] = [];
 
-          const results = await resultSetQuery.execute();
-          for (const result of results) {
-            const edge = {
-              cursor: serializeCursor(result, idProp, sort),
-              entity: result,
-              node: await nodeTransformer(result as any),
-            };
-            if (isBeforeQuery) {
-              edges.unshift(edge as any);
-            } else {
-              edges.push(edge as any);
+            console.log(
+              "buildConnectionResolver 111 ",
+              resultSetQuery.compile()
+            );
+            const results = await resultSetQuery.execute();
+            console.log("buildConnectionResolver 222 ");
+            for (const result of results) {
+              const edge = {
+                cursor: serializeCursor(result, idProp, sort),
+                entity: result,
+                node: await nodeTransformer(result as any),
+              };
+              if (isBeforeQuery) {
+                edges.unshift(edge as any);
+              } else {
+                edges.push(edge as any);
+              }
             }
+            resolve(edges);
+          } catch (error) {
+            reject(error);
           }
-          resolve(edges);
         });
       }
       return edges;

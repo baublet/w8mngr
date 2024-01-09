@@ -6,6 +6,7 @@ w8mngr utilizing Netlify's functions and a React SPA
 
 # Todo
 
+- [ ] https://github.com/yuhonas/free-exercise-db Add this
 - [ ] Faturdays
 - [ ] Reminders
 - [ ] Routines

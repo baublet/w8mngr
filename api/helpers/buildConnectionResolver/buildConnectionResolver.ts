@@ -162,12 +162,7 @@ export async function buildConnectionResolver<
               node: TNode;
             }[] = [];
 
-            console.log(
-              "buildConnectionResolver 111 ",
-              resultSetQuery.compile()
-            );
             const results = await resultSetQuery.execute();
-            console.log("buildConnectionResolver 222 ");
             for (const result of results) {
               const edge = {
                 cursor: serializeCursor(result, idProp, sort),

@@ -59,7 +59,7 @@ export function FoodForm({
     const ids = foodFormData.getValue("selectedUploadIds");
     foodFormData.setValue(
       "imageUploadId",
-      Array.isArray(ids) ? ids[0] || null : undefined || null,
+      Array.isArray(ids) ? ids[0] : undefined,
     );
   }, [foodFormData.getValue("selectedUploadIds")]);
 

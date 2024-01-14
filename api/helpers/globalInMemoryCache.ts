@@ -24,16 +24,12 @@ export const globalInMemoryCache = {
       return existingRecord.value;
     }
 
-    try {
-      const newValue = await fn();
-      cache.set(keyHash, {
-        value: newValue,
-        expiry,
-      });
+    const newValue = await fn();
+    cache.set(keyHash, {
+      value: newValue,
+      expiry,
+    });
 
-      return newValue;
-    } catch (error) {
-      throw error;
-    }
+    return newValue;
   },
 };

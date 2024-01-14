@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "type": "module",
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "description": "w8mngr - the lifestyle tracker",
   "scripts": {

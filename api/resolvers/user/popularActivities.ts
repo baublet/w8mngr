@@ -15,16 +15,20 @@ export const userPopularActivities: UserResolvers["popularActivities"] = async (
 
   const popularActivities = dedupeBy(
     [
-      ...popularUserActivities,
+      ...popularUserActivities.map((a) => ({
+        ...a,
+        __typename: "Activity" as const,
+      })),
       ...popularLibraryActivities.map((a) => ({
         ...a,
-        __typename: "ActivityLibraryActivity",
+        __typename: "ActivityLibraryActivity" as const,
       })),
     ],
     "id",
   ).slice(0, 10);
 
   return popularActivities.map((a) => ({
+    __typename: a.__typename as any,
     id: a.id,
     createdAt: a.createdAt || Date.now(),
     updatedAt: a.updatedAt || Date.now(),

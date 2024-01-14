@@ -113,4 +113,19 @@ export const resolvers: Resolvers = {
     saveWeightLog,
     verifyEmail,
   },
+  ActivityOrActivityLibraryActivity: {
+    __resolveType: (obj) => {
+      const typename = obj.__typename;
+      if (typename) {
+        return typename;
+      }
+
+      const stats = "stats" in obj ? obj.stats : undefined;
+      if (stats) {
+        return "Activity";
+      }
+
+      return "ActivityLibraryActivity";
+    },
+  },
 };

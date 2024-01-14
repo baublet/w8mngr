@@ -417,7 +417,7 @@ function useLoadInitialData({
         if (!uploadData) {
           console.error("Upload not found...", { id });
           setSelectedUploadIds((uploadIds) =>
-            uploadIds.filter((id) => id !== id),
+            uploadIds.filter((uploadId) => uploadId !== id),
           );
           return;
         }
@@ -513,7 +513,12 @@ function idFromFile(file: File): string {
 function UploadPreview({ url }: { url: string }) {
   return (
     <div className="inline-block w-8 h-8" style={{ aspectRatio: "1" }}>
-      <img src={url} title="Upload preview" className="w-full h-full" />
+      <img
+        src={url}
+        title="Upload preview"
+        alt="This is a preview of your upload"
+        className="w-full h-full"
+      />
     </div>
   );
 }

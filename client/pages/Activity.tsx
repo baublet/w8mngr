@@ -48,7 +48,7 @@ export function Activity() {
             </BackToButton>
           }
         >
-          {activity.name}
+          {activity.name || " "}
         </PageHeading>
       </ContentContainer>
       <ContentContainer>
@@ -62,7 +62,7 @@ export function Activity() {
               >
                 Log Activity
               </SecondaryButton>
-              {activity.permissions.edit && (
+              {activity.permissions.canEdit && (
                 <SecondaryOutlineButton full to={`/activities/edit/${id}`}>
                   Edit Activity
                 </SecondaryOutlineButton>

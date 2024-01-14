@@ -3,8 +3,6 @@ const gql = (gql: string) => gql;
 export function getSchema() {
   return gql(`
 
-
-
 scalar Date
 scalar ID
 scalar JSON
@@ -68,6 +66,8 @@ type Mutation {
   # Activities
   saveActivity(input: ActivityInput!): ActivityMutationPayload!
   deleteActivity(input: DeleteActivityInput!): ActivityMutationPayload!
+  activityLibrary: ActivityLibraryActivityConnection!
+  saveActivityFromLibrary(input: ActivityLibraryActivityToClone!): ActivityMutationPayload!
 
   # Activity Log
   saveActivityLog(input: SaveActivityLogInput!): ActivityLogMutationPayload!
@@ -81,6 +81,11 @@ type Mutation {
 #################
 # Enums         #
 #################
+
+enum ActivitySourceType {
+  LIBRARY
+  ORIGINAL
+}
 
 enum UploadEntityType {
   FOOD_IMAGE
@@ -171,6 +176,10 @@ enum UserPreferenceType {
 #################
 # Inputs        #
 #################
+
+input ActivityLibraryActivityToClone {
+  id: String!
+}
 
 input SaveUserPreferencesInput {
   preferences: [UserPreferenceInput!]!
@@ -514,6 +523,16 @@ type ActivityConnection {
   edges: [ActivityEdge!]!
 }
 
+type ActivityLibraryActivityConnection {
+  pageInfo: PageInfo!
+  edges: [ActivityLibraryActivityEdge!]!
+}
+
+type ActivityLibraryActivityEdge {
+  cursor: String!
+  node: Activity!
+}
+
 type ActivityEdge {
   cursor: String!
   node: Activity!
@@ -523,22 +542,22 @@ type Activity {
   id: ID!
   createdAt: Date!
   updatedAt: Date!
-  name: String!
+  name: String
   description: String
   "Activity's ExRx.net link"
   exrx: String
-  type: ActivityType!
+  type: ActivityType
   "Muscle groups targeted with this exercise"
   muscleGroups: [Muscle!]!
-  intensity: Int!
+  intensity: Int
   logs(day: String): ActivityLogConnection!
   stats: ActivityStats!
   permissions: GenericObjectPermissions!
 }
 
 type GenericObjectPermissions {
-  edit: Boolean!
-  delete: Boolean!
+  canEdit: Boolean!
+  canDelete: Boolean!
 }
 
 type Upload {

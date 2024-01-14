@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useRoute } from "wouter";
 
 import { SecondaryButton } from "../components/Button/Secondary";
 import { ContentContainer } from "../components/Containers/ContentContainer";
@@ -13,7 +13,7 @@ import { useToast } from "../helpers/useToast";
 import { useNavigateToUrl } from "../helpers/useNavigateToUrl";
 
 export function ResetPassword() {
-  const { token } = useParams<{ token: string }>();
+  const [, params] = useRoute("/reset-password/:resetToken");
   const navigate = useNavigateToUrl();
   const formData = useForm<{
     password: string;
@@ -37,7 +37,7 @@ export function ResetPassword() {
       variables: {
         input: {
           ...formData.getValues(),
-          resetToken: token || "",
+          resetToken: params?.resetToken || "",
         },
       },
     });

@@ -1,6 +1,10 @@
 import { Context } from "../../createContext.js";
 import type { ActivityEntity } from "./types.js";
 import { dbService, sql } from "../../config/db.js";
+import { userPopularActivities } from "../../resolvers/user/popularActivities.js";
+import { activityLibraryDataService } from "../activityLibrary/index.js";
+import { assertIsTruthy } from "../../../shared/assertIsTruthy.js";
+import { log } from "../../config/log.js";
 
 export async function popular(context: Context): Promise<ActivityEntity[]> {
   const userId = context.getCurrentUserId(true);
@@ -30,6 +34,39 @@ export async function popular(context: Context): Promise<ActivityEntity[]> {
     )
     .selectAll()
     .execute();
+
+  const libraryActivitiesToFetch = activities
+    .filter((a) => typeof a.activityLibraryId !== "undefined")
+    .map((a) => a.id);
+
+  const libraryActivities = await activityLibraryDataService.findBy(
+    context,
+    (q) => q.where("id", "in", libraryActivitiesToFetch)
+  );
+
+  if (libraryActivitiesToFetch.length > 0) {
+    // Mutate the popular activities stuff
+    for (const userActivity of activities) {
+      if (typeof userActivity.activityLibraryId !== "undefined") {
+        const activity = libraryActivities.find(
+          (a) => a.id === userActivity.activityLibraryId
+        );
+        if (!activity) {
+          log(
+            context,
+            "error",
+            "Invariance violation. A user activity is associated with a library activity. But the library activity does not exist.",
+            {
+              userActivity,
+              libraryActivities,
+            }
+          );
+          continue;
+        }
+        Object.assign(userActivity, activity, { id: userActivity.id });
+      }
+    }
+  }
 
   return activities;
 }

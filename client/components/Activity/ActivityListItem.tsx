@@ -17,12 +17,12 @@ export function ActivityListItem({
   type,
   intensity,
 }: {
-  id: string;
-  name: string;
+  id?: string | null;
+  name?: string | null;
   description?: string | null;
   muscleGroups: Muscle[];
-  type: ActivityType;
-  intensity: number;
+  type?: ActivityType | null;
+  intensity?: number | null;
 }) {
   return (
     <Panel>
@@ -42,10 +42,10 @@ export function ActivityListItem({
               <ItemHeading>{name}</ItemHeading>
               <div className="flex items-start gap-2">
                 <div className="opacity-75 group-hover:opacity-100">
-                  <IntensityScale intensity={intensity} size="tiny" />
+                  <IntensityScale intensity={intensity || 0} size="tiny" />
                 </div>
                 <div className="text-sm uppercase opacity-40 group-hover:opacity-60 leading-tight">
-                  {activityTypeToHumanReadable(type)}
+                  {activityTypeToHumanReadable(type || "WEIGHT")}
                 </div>
               </div>
               {description && (

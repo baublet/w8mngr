@@ -217,6 +217,9 @@ devDependencies:
   tailwindcss:
     specifier: ^3.3.3
     version: 3.3.3
+  ulid:
+    specifier: 2.3.0
+    version: 2.3.0
 
 packages:
 
@@ -7863,6 +7866,11 @@ packages:
   /ulid-workers@2.1.0:
     resolution: {integrity: sha512-D4+5fwPt5FEoGdMQtx5YwRHUZ4SDWSypraDZiXT3Y8U7T0C6h99dXhpWJQScNckoVRU+zi+BDuoBKHAffrn9vg==}
     dev: false
+
+  /ulid@2.3.0:
+    resolution: {integrity: sha512-keqHubrlpvT6G2wH0OEfSW4mquYRcbe/J8NMmveoQOjUqmo+hXtO+ORCpWhdbZ7k72UtY61BL7haGxW6enBnjw==}
+    hasBin: true
+    dev: true
 
   /unc-path-regex@0.1.2:
     resolution: {integrity: sha512-eXL4nmJT7oCpkZsHZUOJo8hcX3GbsiDOa0Qu9F646fi8dT3XuSVopVqAcEiVzSKKH7UoDti23wNX3qGFxcW5Qg==}

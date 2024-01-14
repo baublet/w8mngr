@@ -1,4 +1,5 @@
 import { activityDataService } from "../../dataServices/activity/index.js";
+import { activityLibraryDataService } from "../../dataServices/activityLibrary/index.js";
 import { UserResolvers, ActivityType } from "../../generated.js";
 
 export const userPopularActivities: UserResolvers["popularActivities"] = async (
@@ -6,14 +7,24 @@ export const userPopularActivities: UserResolvers["popularActivities"] = async (
   args,
   context
 ) => {
-  const popularActivities = await activityDataService.popular(context);
+  const [popularUserActivities, popularLibraryActivities] = await Promise.all([
+    activityDataService.popular(context),
+    activityLibraryDataService.popular(context),
+  ]);
+
+  const popularActivities = [
+    ...popularUserActivities,
+    ...popularLibraryActivities,
+  ].slice(0, 15);
+
   return popularActivities.map((a) => ({
-    ...a,
+    id: a.id,
     createdAt: a.createdAt || Date.now(),
     updatedAt: a.updatedAt || Date.now(),
     description: a.description || undefined,
-    exrx: a.exrx || undefined,
+    exrx: "exrx" in a ? (a.exrx ? String(a.exrx) : undefined) : undefined,
     intensity: a.intensity || 0,
     type: (a.type || "WEIGHT") as ActivityType,
+    name: a.name,
   }));
 };

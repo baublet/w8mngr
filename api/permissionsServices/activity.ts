@@ -4,8 +4,8 @@ import { Unauthorized } from "../helpers/errors/Unauthorized.js";
 import { createPermissionService } from "./createPermissionService.js";
 
 export const activityObjectPermissionService = createPermissionService({
-  edit: contextUserIsOwner,
-  delete: contextUserIsOwner,
+  canEdit: contextUserIsOwner,
+  canDelete: contextUserIsOwner,
 });
 
 async function contextUserIsOwner(

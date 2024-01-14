@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useRoute } from "wouter";
 
 import { dayStringFromDate } from "../../shared/dayStringFromDate";
 import { ContentContainer } from "../components/Containers/ContentContainer";
@@ -9,7 +9,8 @@ import { FoodCircleIcon } from "../components/Icons/FoodCircle";
 import { PageHeading } from "../components/Type/PageHeading";
 
 export function FoodLog() {
-  const { day } = useParams<{ day?: string }>();
+  const [, params] = useRoute("/foodlog/:day")
+  const day = params?.day;
   const dayString = React.useMemo(() => {
     if (!day) {
       return dayStringFromDate(new Date());

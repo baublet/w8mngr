@@ -27,3 +27,4 @@ scripts/*.js.map
 tmp
 .node-path
 !migrations/*
+scripts/createActivityLibrarySql/free-exercise-db

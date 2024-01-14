@@ -12,6 +12,7 @@ export interface _CfKV {
 }
 
 export interface Activity {
+  activityLibraryId: string | null;
   archived: Generated<number>;
   createdAt: Generated<number>;
   description: string | null;
@@ -24,6 +25,18 @@ export interface Activity {
   type: string;
   updatedAt: Generated<number>;
   userId: string;
+}
+
+export interface ActivityLibrary {
+  archived: Generated<number>;
+  createdAt: Generated<number>;
+  description: string | null;
+  id: string;
+  intensity: Generated<number>;
+  name: string;
+  popularity: Generated<number>;
+  type: string;
+  updatedAt: Generated<number>;
 }
 
 export interface ActivityLog {
@@ -177,6 +190,7 @@ export interface WeightLog {
 export interface DB {
   _cf_KV: _CfKV;
   activity: Activity;
+  activityLibrary: ActivityLibrary;
   activityLog: ActivityLog;
   activityMuscle: ActivityMuscle;
   d1_migrations: D1Migrations;

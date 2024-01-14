@@ -3,12 +3,13 @@ CREATE TABLE activity (
   archived INTEGER NOT NULL DEFAULT 0,
   id TEXT NOT NULL,
   "userId" TEXT NOT NULL,
-  name TEXT NOT NULL,
-  description TEXT NULL,
-  exrx TEXT NULL,
-  type TEXT NOT NULL,
-  intensity INTEGER NOT NULL DEFAULT 0,
-  popularity INTEGER NOT NULL DEFAULT 0,
+  name TEXT,
+  description TEXT,
+  exrx TEXT,
+  type TEXT,
+  intensity INTEGER DEFAULT 0,
+  popularity INTEGER DEFAULT 0,
+  "activityLibraryId" TEXT,
   "createdAt" INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updatedAt" INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "legacyId" INTEGER,
@@ -26,6 +27,33 @@ CREATE INDEX activity_popularity_index ON activity (popularity ASC);
 CREATE INDEX activity_legacyid_index ON activity ("legacyId" ASC);
 
 CREATE UNIQUE INDEX activity_legacyid_unique ON activity ("legacyId" ASC);
+
+CREATE TABLE "activityLibrary" (
+  archived INTEGER NOT NULL DEFAULT 0,
+  id TEXT NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT NULL,
+  exrx TEXT NULL,
+  type TEXT NOT NULL,
+  intensity INTEGER NOT NULL DEFAULT 0,
+  popularity INTEGER NOT NULL DEFAULT 0,
+  "createdAt" INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT activity_library_pkey PRIMARY KEY (id ASC)
+);
+
+CREATE INDEX activity_library_archived_index ON "activityLibrary" (archived ASC);
+
+CREATE INDEX activity_library_type_index ON "activityLibrary" (type ASC);
+
+CREATE INDEX activity_library_popularity_index ON "activityLibrary" (popularity ASC);
+
+CREATE TABLE "activityLibraryActivityMuscle" (
+  id TEXT NOT NULL,
+  "activityLibraryActivityId" TEXT NOT NULL,
+  muscle TEXT NOT NULL,
+  CONSTRAINT activity_library_muscle_pkey PRIMARY KEY (id ASC)
+);
 
 CREATE TABLE "activityLog" (
   id TEXT NOT NULL,

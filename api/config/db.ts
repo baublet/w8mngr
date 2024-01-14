@@ -4,6 +4,7 @@ import {
   Kysely,
   Insertable,
   Selectable,
+  Simplify,
   UpdateResult,
   UpdateQueryBuilder as KyselyUpdateQueryBuilder,
   SelectQueryBuilder as KyselySelectQueryBuilder,
@@ -30,6 +31,7 @@ export type InsertableDatabaseRecord<T> = Insertable<T>;
 export type SelectableDatabaseRecord<T> = Selectable<T>;
 export type DeleteQueryBuilder<T extends keyof Database> =
   KyselyDeleteQueryBuilder<DB, T, unknown>;
+export type EntityType<T> = Simplify<T>;
 
 export function dbEnvService(): DBEnv {
   throw new Error("You must set the env service value before using it");

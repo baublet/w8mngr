@@ -33,12 +33,8 @@ function defaultEntityTransformer(entity: any) {
 }
 
 export async function buildConnectionResolver<
-  TEntity extends {
-    [x: string]: any;
-  },
-  TNode extends {
-    [x: string]: any;
-  } = TEntity
+  TEntity extends Record<string, any>,
+  TNode extends Record<string, any> = TEntity
 >(
   query: SelectQueryBuilder<any>,
   args: {
@@ -48,7 +44,7 @@ export async function buildConnectionResolver<
     after?: string | null;
     sort?: Record<string | keyof TEntity, "asc" | "desc">;
     idProp?: string;
-  },
+  } = {},
   nodeTransformer: (
     entity: TEntity
   ) => Promise<TNode> = defaultEntityTransformer,

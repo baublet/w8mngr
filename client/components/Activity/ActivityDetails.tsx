@@ -33,7 +33,7 @@ export function ActivityDetails({ data }: { data: GetActivityDetailsQuery }) {
         <div className="z-20">
           <ActivityTileMap
             activityId={id}
-            activityType={type}
+            activityType={type || "WEIGHT"}
             data={scatterPlotData}
           />
         </div>
@@ -50,7 +50,7 @@ export function ActivityDetails({ data }: { data: GetActivityDetailsQuery }) {
           <div>
             <div className="flex items-center mt-2 gap-4">
               <div className="opacity-75 -ml-4">
-                <IntensityScale intensity={intensity} />
+                <IntensityScale intensity={intensity || 0} />
               </div>
               <div className="text-5xl font-thin">{intensity}</div>
               <div className="flex flex-col">
@@ -65,7 +65,7 @@ export function ActivityDetails({ data }: { data: GetActivityDetailsQuery }) {
           <div>
             <div className="flex items-center mt-2">
               <div className="text-xl font-thin">
-                {activityTypeToHumanReadable(type)}
+                {activityTypeToHumanReadable(type || "WEIGHT")}
               </div>
             </div>
             <SubHeader>type</SubHeader>

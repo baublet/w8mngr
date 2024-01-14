@@ -7,6 +7,7 @@ import {
   SelectQueryBuilder,
   InsertableDatabaseRecord,
   DeleteQueryBuilder,
+  SelectableDatabaseRecord
 } from "../config/db.js";
 import { NotFoundError } from "../helpers/errors/NotFoundError.js";
 import { buildConnectionResolver } from "../helpers/buildConnectionResolver/index.js";
@@ -350,17 +351,25 @@ function getConnectionBuilder<T extends keyof Database>({
   provider: keyof DBEnv;
   tableName: T;
 }) {
-  return async (
+  return async <
+  TEntity extends Record<string, any> = InsertableDatabaseRecord<Database[T]>,
+  TNode extends Record<string, any> = TEntity
+>(
     context: Context,
     input: {
       applyCustomConstraint?: (
         query: SelectQueryBuilder<T>
       ) => SelectQueryBuilder<T>;
       constraint?: PartiallyMaybe<InsertableDatabaseRecord<Database[T]>>;
-      connectionResolverParameters?: Parameters<
-        typeof buildConnectionResolver
-      >[1];
-      nodeTransformer?: Parameters<typeof buildConnectionResolver>[2];
+      connectionResolverParameters?: {
+        before?: string | null;
+        last?: number | null;
+        first?: number | null;
+        after?: string | null;
+        sort?: Record<string | keyof TEntity, "asc" | "desc">;
+        idProp?: string;
+      };
+      nodeTransformer?: (node: SelectableDatabaseRecord<Database[T]>) => Promise<TNode>
       additionalRootResolvers?: Record<string, any>;
     }
   ) => {
@@ -383,12 +392,10 @@ function getConnectionBuilder<T extends keyof Database>({
 
       query = (input.applyCustomConstraint?.(query as any) as any) || query;
 
-      return buildConnectionResolver(
+      return buildConnectionResolver<TEntity, TNode>(
         query,
-        {
-          ...input.connectionResolverParameters,
-        },
-        input.nodeTransformer,
+        input.connectionResolverParameters,
+        input.nodeTransformer as any, // Library code... can fix later
         input.additionalRootResolvers
       );
     } catch (error) {

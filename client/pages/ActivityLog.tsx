@@ -65,7 +65,7 @@ export function ActivityLog() {
             </div>
           }
         >
-          {activity.name}
+          {activity.name || " "}
         </PageHeading>
       </ContentContainer>
       <ContentContainer>
@@ -79,7 +79,7 @@ export function ActivityLog() {
               <ActivityLogComponent
                 activityId={activity.id}
                 day={day}
-                activityType={activity.type}
+                activityType={activity.type || "WEIGHT"}
                 underInput={<ActivityStatsComponent queryData={data} />}
               />
             </div>

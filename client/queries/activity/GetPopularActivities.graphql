@@ -1,8 +1,15 @@
 query GetPopularActivities {
   currentUser {
     popularActivities {
-      id
-      name
+      __typename
+      ... on Activity {
+        id
+        name
+      }
+      ... on ActivityLibraryActivity {
+        id
+        name
+      }
     }
   }
 }

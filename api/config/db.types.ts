@@ -18,11 +18,11 @@ export interface Activity {
   description: string | null;
   exrx: string | null;
   id: string;
-  intensity: Generated<number>;
+  intensity: Generated<number | null>;
   legacyId: number | null;
-  name: string;
-  popularity: Generated<number>;
-  type: string;
+  name: string | null;
+  popularity: Generated<number | null>;
+  type: string | null;
   updatedAt: Generated<number>;
   userId: string;
 }
@@ -31,12 +31,19 @@ export interface ActivityLibrary {
   archived: Generated<number>;
   createdAt: Generated<number>;
   description: string | null;
+  exrx: string | null;
   id: string;
   intensity: Generated<number>;
   name: string;
   popularity: Generated<number>;
   type: string;
   updatedAt: Generated<number>;
+}
+
+export interface ActivityLibraryActivityMuscle {
+  activityLibraryActivityId: string;
+  id: string;
+  muscle: string;
 }
 
 export interface ActivityLog {
@@ -191,6 +198,7 @@ export interface DB {
   _cf_KV: _CfKV;
   activity: Activity;
   activityLibrary: ActivityLibrary;
+  activityLibraryActivityMuscle: ActivityLibraryActivityMuscle;
   activityLog: ActivityLog;
   activityMuscle: ActivityMuscle;
   d1_migrations: D1Migrations;

@@ -63,7 +63,10 @@ export async function popular(context: Context): Promise<ActivityEntity[]> {
           );
           continue;
         }
-        Object.assign(userActivity, activity, { id: userActivity.id });
+        Object.assign(userActivity, activity, {
+          id: userActivity.id,
+          __typename: "ActivityLibraryActivity",
+        });
       }
     }
   }

@@ -18,7 +18,7 @@ type User {
   foods(input: FoodQueryInput): FoodConnection!
   activities(input: ActivityQueryInput): ActivityConnection!
   activitySummary(input: ActivityVisualizationInput): [TileMapDataPoint!]!
-  popularActivities: [Activity!]!
+  popularActivities: [ActivityOrActivityLibraryActivity!]!
   popularFoods: [Food!]!
   foodLogStats: FoodLogStats!
   preferences: [UserPreference!]!
@@ -523,6 +523,8 @@ type ActivityConnection {
   edges: [ActivityEdge!]!
 }
 
+union ActivityOrActivityLibraryActivity = Activity | ActivityLibraryActivity
+
 type ActivityLibraryActivityConnection {
   pageInfo: PageInfo!
   edges: [ActivityLibraryActivityEdge!]!
@@ -536,6 +538,23 @@ type ActivityLibraryActivityEdge {
 type ActivityEdge {
   cursor: String!
   node: Activity!
+}
+
+type ActivityLibraryActivity {
+  id: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  name: String
+  description: String
+  "Activity's ExRx.net link"
+  exrx: String
+  type: ActivityType
+  "Muscle groups targeted with this exercise"
+  muscleGroups: [Muscle!]!
+  intensity: Int
+  logs(day: String): ActivityLogConnection!
+  stats: ActivityStats!
+  permissions: GenericObjectPermissions!
 }
 
 type Activity {

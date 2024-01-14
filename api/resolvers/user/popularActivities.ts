@@ -1,6 +1,7 @@
 import { activityDataService } from "../../dataServices/activity/index.js";
 import { activityLibraryDataService } from "../../dataServices/activityLibrary/index.js";
 import { UserResolvers, ActivityType } from "../../generated.js";
+import { dedupeBy } from "../../../shared/dedupeBy.js";
 
 export const userPopularActivities: UserResolvers["popularActivities"] = async (
   parent,
@@ -12,10 +13,16 @@ export const userPopularActivities: UserResolvers["popularActivities"] = async (
     activityLibraryDataService.popular(context),
   ]);
 
-  const popularActivities = [
-    ...popularUserActivities,
-    ...popularLibraryActivities,
-  ].slice(0, 15);
+  const popularActivities = dedupeBy(
+    [
+      ...popularUserActivities,
+      ...popularLibraryActivities.map((a) => ({
+        ...a,
+        __typename: "ActivityLibraryActivity",
+      })),
+    ],
+    "id"
+  ).slice(0, 10);
 
   return popularActivities.map((a) => ({
     id: a.id,

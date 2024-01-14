@@ -106,7 +106,7 @@
     "yup": "^1.2.0"
   },
   "lint-staged": {
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,ts,tsx,json,md,graphql,css,scss,html}": "prettier --write"
   },
   "devDependencies": {
     "@types/cookie": "^0.5.1",

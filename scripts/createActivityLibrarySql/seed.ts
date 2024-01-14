@@ -10,16 +10,16 @@ const sqlFilePath = path.join(
   "..",
   "..",
   "migrations",
-  "0001_SeedActivities.sql"
+  "0001_SeedActivities.sql",
 );
 
 const exercisesDocumentPath = path.join(
   __dirname,
-  "free-exercise-db/dist/exercises.json"
+  "free-exercise-db/dist/exercises.json",
 );
 
 const exercisesDocuments = JSON.parse(
-  fs.readFileSync(exercisesDocumentPath, "utf8")
+  fs.readFileSync(exercisesDocumentPath, "utf8"),
 );
 
 type ActivityCategory =
@@ -100,8 +100,8 @@ function getIntensity(document: {
     document.mechanic === "compound" && totalMusclesUsed > 3 // Weeds out things like "bicep curls" which aren't really compounds
       ? "compound"
       : document.mechanic === "compound"
-      ? "isolation"
-      : document.mechanic;
+        ? "isolation"
+        : document.mechanic;
   if (mechanic === "compound") {
     score += 2;
   } else if (mechanic === "isolation") {
@@ -166,7 +166,7 @@ for (const document of exercisesDocuments) {
     type = excluded.type,
     intensity = excluded.intensity
 ;
-`.replace(/[\s\n]+/g, " ")
+`.replace(/[\s\n]+/g, " "),
   );
 
   if (lines.length > 999) {

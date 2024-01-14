@@ -38,7 +38,7 @@ export function EditActivityForm({ id = "id" }: { id?: string }) {
         intensity?: Maybe<number>;
         muscleGroups?: Maybe<Muscle[]>;
       },
-      onComplete?: Function
+      onComplete?: Function,
     ) => {
       await saveActivity({
         variables: {
@@ -53,7 +53,7 @@ export function EditActivityForm({ id = "id" }: { id?: string }) {
         },
       });
     },
-    []
+    [],
   );
 
   if (loading || !loadedData) {

@@ -4,7 +4,7 @@ import { FoodResolvers } from "../../generated.js";
 export const foodImage: FoodResolvers["image"] = (
   parent: any,
   args,
-  context
+  context,
 ) => {
   const imageUploadId = parent.imageUploadId;
   if (!imageUploadId) {

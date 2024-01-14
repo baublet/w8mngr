@@ -3,6 +3,6 @@ export function assertIsError(error: unknown): asserts error is Error {
     return;
   }
   throw new Error(
-    `Non-error object thrown. Type: ${typeof error}. Value: ${error}`
+    `Non-error object thrown. Type: ${typeof error}. Value: ${error}`,
   );
 }

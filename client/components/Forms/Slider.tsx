@@ -25,7 +25,7 @@ export function Slider({
 }) {
   const midPoint = min + (max - min) / 2;
   const [value, setValue] = React.useState(
-    defaultValue === undefined ? midPoint : defaultValue
+    defaultValue === undefined ? midPoint : defaultValue,
   );
 
   React.useEffect(() => onChange?.(value), [value]);
@@ -37,7 +37,7 @@ export function Slider({
         setValue(numeric);
       }
     },
-    []
+    [],
   );
 
   return (

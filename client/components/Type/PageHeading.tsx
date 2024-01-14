@@ -27,7 +27,7 @@ export function PageHeading(props: PageHeadingProps) {
         <h3
           className={cx(
             "text-xl md:text-3xl font-thin text-slate-500 block w-full",
-            props.className
+            props.className,
           )}
         >
           {props.children}

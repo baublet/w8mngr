@@ -34,7 +34,7 @@ function defaultEntityTransformer(entity: any) {
 
 export async function buildConnectionResolver<
   TEntity extends Record<string, any>,
-  TNode extends Record<string, any> = TEntity
+  TNode extends Record<string, any> = TEntity,
 >(
   query: SelectQueryBuilder<any>,
   args: {
@@ -46,9 +46,9 @@ export async function buildConnectionResolver<
     idProp?: string;
   } = {},
   nodeTransformer: (
-    entity: TEntity
+    entity: TEntity,
   ) => Promise<TNode> = defaultEntityTransformer,
-  additionalRootResolvers?: Record<string, any>
+  additionalRootResolvers?: Record<string, any>,
 ): Promise<Connection<TEntity, TNode> | Error> {
   try {
     validateArguments(args);
@@ -79,19 +79,19 @@ export async function buildConnectionResolver<
 
     if (cursor) {
       for (const [column, [sortDirection, value]] of Object.entries(
-        cursor.cursorData
+        cursor.cursorData,
       )) {
         if (isBeforeQuery) {
           resultSetQuery = resultSetQuery.where(
             column,
             sortDirection === "desc" ? ">" : "<",
-            value
+            value,
           );
         } else {
           resultSetQuery = resultSetQuery.where(
             column,
             sortDirection === "desc" ? "<" : ">",
-            value
+            value,
           );
         }
       }
@@ -102,7 +102,7 @@ export async function buildConnectionResolver<
         resultSetQuery = resultSetQuery.orderBy(key, flipDirection(direction));
         firstResultQuery = firstResultQuery.orderBy(
           key,
-          flipDirection(direction)
+          flipDirection(direction),
         );
         lastResultQuery = lastResultQuery.orderBy(key, direction);
       } else {
@@ -110,7 +110,7 @@ export async function buildConnectionResolver<
         firstResultQuery = firstResultQuery.orderBy(key, direction);
         lastResultQuery = lastResultQuery.orderBy(
           key,
-          flipDirection(direction)
+          flipDirection(direction),
         );
       }
     }
@@ -270,7 +270,7 @@ export async function buildConnectionResolver<
 function deserializeCursor(cursorString: string): Cursor {
   try {
     const cursorResults: Cursor = JSON.parse(
-      Buffer.from(cursorString, "base64").toString("utf-8")
+      Buffer.from(cursorString, "base64").toString("utf-8"),
     );
     return cursorResults;
   } catch (e) {
@@ -281,7 +281,7 @@ function deserializeCursor(cursorString: string): Cursor {
 function serializeCursor(
   entity: Record<string, any>,
   idProp: string,
-  sortFields: Record<string, "asc" | "desc">
+  sortFields: Record<string, "asc" | "desc">,
 ): string {
   const cursor: Cursor = { id: entity[idProp], cursorData: {} };
   for (const [column, direction] of Object.entries(sortFields)) {
@@ -295,7 +295,7 @@ class InvalidCursorError extends Error {
     super(
       `Invalid cursor! Expect cursor to deserialize into an object. ${cursor}${
         message ?? `\n\n${message}`
-      }`
+      }`,
     );
   }
 }

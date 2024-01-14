@@ -18,10 +18,10 @@ export async function getVisualizationData(
   }: {
     userId: string;
     input?: WeightLogSummaryInput;
-  }
+  },
 ): Promise<WeightLogSummary> {
   const latestWeight = await rootService.findOneBy(context, (q) =>
-    q.where("userId", "=", userId).orderBy("day", "desc")
+    q.where("userId", "=", userId).orderBy("day", "desc"),
   );
 
   // If they have no "latest" value here, we can't do anything because the user
@@ -52,7 +52,7 @@ export async function getVisualizationData(
     q
       .where("userId", "=", userId)
       .where("day", ">=", from)
-      .where("day", "<=", to)
+      .where("day", "<=", to),
   );
 
   if (entries.length === 0) {

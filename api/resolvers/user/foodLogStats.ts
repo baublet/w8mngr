@@ -4,7 +4,7 @@ import { UserResolvers } from "../../generated.js";
 export const userFoodLogStats: UserResolvers["foodLogStats"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   return foodLogDataService.stats(context, {
     userId: parent.id,

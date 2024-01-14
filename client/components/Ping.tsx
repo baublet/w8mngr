@@ -30,7 +30,7 @@ export function Ping({
       <span
         className={cx(
           "animate-ping absolute inline-flex h-full w-full rounded-full opacity-75",
-          baseColor
+          baseColor,
         )}
       ></span>
       <span

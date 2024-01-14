@@ -4,7 +4,7 @@ import { MutationResolvers } from "../../generated.js";
 export const logout: Required<MutationResolvers>["logout"] = async (
   parent,
   unknown,
-  context
+  context,
 ) => {
   const result = await userDataService.logout(context);
 

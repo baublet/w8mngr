@@ -6,7 +6,7 @@ interface ItemHeadingLinkProps {
 }
 
 export function ItemHeadingLink(
-  props: React.HTMLProps<HTMLInputElement> & ItemHeadingLinkProps
+  props: React.HTMLProps<HTMLInputElement> & ItemHeadingLinkProps,
 ) {
   return (
     <h4 className="text-base">

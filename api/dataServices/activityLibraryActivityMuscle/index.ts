@@ -1,7 +1,7 @@
 import { rootService } from "./rootService.js";
 
 export const activityLibraryActivityMuscleDataService = {
-  ...rootService
+  ...rootService,
 };
 
 export type { ActivityLibraryActivityMuscleEntity } from "./types.js";

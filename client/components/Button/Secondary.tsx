@@ -23,7 +23,7 @@ export function SecondaryButton(props: SecondaryButtonProps) {
         hover:shadow-md
         focus:shadow:md
         text-l`,
-        props.className
+        props.className,
       )}
     />
   );

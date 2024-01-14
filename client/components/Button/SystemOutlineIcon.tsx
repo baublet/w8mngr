@@ -14,7 +14,7 @@ export function SystemOutlineIconButton(props: SystemOutlineProps) {
         "border border-purple-500 text-purple-500",
         "hover:bg-purple-500 hover:text-purple-50",
         "focus:text-purple-50 focus:bg-purple-500",
-        props.className
+        props.className,
       )}
     />
   );

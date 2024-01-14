@@ -26,13 +26,16 @@ export function ActivityTileMap({
     intensity: number;
     link: string;
   }[] = React.useMemo(() => {
-    const groupedByDay = data.reduce((acc, dataPoint) => {
-      if (!acc[dataPoint.day]) {
-        acc[dataPoint.day] = [];
-      }
-      acc[dataPoint.day].push(dataPoint);
-      return acc;
-    }, {} as Record<string, { reps: number; work: number; workLabel: string }[]>);
+    const groupedByDay = data.reduce(
+      (acc, dataPoint) => {
+        if (!acc[dataPoint.day]) {
+          acc[dataPoint.day] = [];
+        }
+        acc[dataPoint.day].push(dataPoint);
+        return acc;
+      },
+      {} as Record<string, { reps: number; work: number; workLabel: string }[]>,
+    );
 
     const dataToRender: {
       day: string;

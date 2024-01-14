@@ -4,7 +4,7 @@ import { activityObjectPermissionService } from "../../permissionsServices/activ
 export const activityPermissions: ActivityResolvers["permissions"] = (
   parent,
   args,
-  context
+  context,
 ) => {
   const permissions = context.services.get(activityObjectPermissionService);
   return permissions.materializeToPermissionsObject({

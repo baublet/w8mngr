@@ -28,7 +28,7 @@ export function Spacer({
           ["w-8"]: s == "m" && o == "horizontal",
           ["w-16"]: s == "l" && o == "horizontal",
           ["w-32"]: s == "xl" && o == "horizontal",
-        }
+        },
       )}
     />
   );

@@ -8,7 +8,7 @@ export function Panel(
     className?: string;
     loading?: boolean;
     size?: "s";
-  }>
+  }>,
 ) {
   const classNames = cx(
     `
@@ -27,7 +27,7 @@ export function Panel(
       "opacity-50 pointer-events-none": props.loading === true,
       "p-4": props.size !== "s",
       "p-2": props.size === "s",
-    }
+    },
   );
   return (
     <div className={classNames}>

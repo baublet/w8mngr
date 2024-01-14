@@ -8,7 +8,10 @@ import {
   ActivityLog,
   activityLogDataService,
 } from "../../dataServices/activityLog/index.js";
-import { Activity, activityDataService } from "../../dataServices/activity/index.js";
+import {
+  Activity,
+  activityDataService,
+} from "../../dataServices/activity/index.js";
 import { UserResolvers } from "../../generated.js";
 import { globalInMemoryCache } from "../../helpers/globalInMemoryCache.js";
 import { getDateRangeWithDefault } from "../../helpers/getDateRangeWithDefault.js";
@@ -16,7 +19,7 @@ import { getDateRangeWithDefault } from "../../helpers/getDateRangeWithDefault.j
 export const userActivitySummary: UserResolvers["activitySummary"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   const { from, to } = getDateRangeWithDefault(args.input);
   const cacheKey = `userActivitySummary-${parent.id}-${from}-${to}`;
@@ -28,7 +31,7 @@ export const userActivitySummary: UserResolvers["activitySummary"] = async (
         q
           .where("userId", "=", parent.id)
           .where("day", ">=", from)
-          .where("day", "<=", to)
+          .where("day", "<=", to),
       );
 
       const groupedByDays: Record<string, ActivityLog[]> = activities.reduce(
@@ -40,15 +43,18 @@ export const userActivitySummary: UserResolvers["activitySummary"] = async (
           map[value.day].push(value);
           return map;
         },
-        {} as Record<string, ActivityLog[]>
+        {} as Record<string, ActivityLog[]>,
       );
-      const dayCounts = Object.keys(groupedByDays).reduce((map, day) => {
-        if (!map[day]) {
-          map[day] = 0;
-        }
-        map[day] += groupedByDays[day].length;
-        return map;
-      }, {} as Record<string, number>);
+      const dayCounts = Object.keys(groupedByDays).reduce(
+        (map, day) => {
+          if (!map[day]) {
+            map[day] = 0;
+          }
+          map[day] += groupedByDays[day].length;
+          return map;
+        },
+        {} as Record<string, number>,
+      );
       const setMax = Object.keys(dayCounts).reduce((map, day) => {
         if (!dayCounts[day]) {
           dayCounts[day] = 0;
@@ -63,7 +69,7 @@ export const userActivitySummary: UserResolvers["activitySummary"] = async (
       }
       const relatedActivityIds = dedupe(activityIds);
       const relatedActivities = await activityDataService.findBy(context, (q) =>
-        q.where("id", "in", relatedActivityIds)
+        q.where("id", "in", relatedActivityIds),
       );
       const activityMap = filterOutErrors(relatedActivities).reduce(
         (map, value) => {
@@ -73,7 +79,7 @@ export const userActivitySummary: UserResolvers["activitySummary"] = async (
           };
           return map;
         },
-        {} as Record<string, Pick<Activity, "id" | "name">>
+        {} as Record<string, Pick<Activity, "id" | "name">>,
       );
 
       return Object.keys(groupedByDays).map((day) => {
@@ -82,8 +88,8 @@ export const userActivitySummary: UserResolvers["activitySummary"] = async (
           dayLabel: format(dayStringToDate(day), "PP"),
           labelData: JSON.stringify(
             dedupe(groupedByDays[day].map((a) => a.activityId)).map(
-              (id) => activityMap[id]
-            )
+              (id) => activityMap[id],
+            ),
           ),
           intensity: weightedClamp({
             max: 10,

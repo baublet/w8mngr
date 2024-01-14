@@ -11,7 +11,7 @@ export function renderEmailTemplate<T extends keyof Templates>(
   template: T,
   args: Parameters<Templates[T]>[0] extends undefined
     ? never
-    : Parameters<Templates[T]>[0]
+    : Parameters<Templates[T]>[0],
 ) {
   try {
     return templates[template](args as any);

@@ -11,7 +11,7 @@ export const deleteFoodMeasurement: Required<MutationResolvers>["deleteFoodMeasu
       {
         id: input.id,
         userId,
-      }
+      },
     );
 
     return {

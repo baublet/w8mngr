@@ -9,7 +9,7 @@ import { FoodCircleIcon } from "../components/Icons/FoodCircle";
 import { PageHeading } from "../components/Type/PageHeading";
 
 export function FoodLog() {
-  const [, params] = useRoute("/foodlog/:day")
+  const [, params] = useRoute("/foodlog/:day");
   const day = params?.day;
   const dayString = React.useMemo(() => {
     if (!day) {
@@ -24,9 +24,7 @@ export function FoodLog() {
         <PageHeading icon={<FoodCircleIcon />}>Food Log</PageHeading>
       </ContentContainer>
       <ContentContainer>
-        <ContentLayout
-          mainContent={<FoodLogComponent day={dayString} />}
-        />
+        <ContentLayout mainContent={<FoodLogComponent day={dayString} />} />
       </ContentContainer>
     </div>
   );

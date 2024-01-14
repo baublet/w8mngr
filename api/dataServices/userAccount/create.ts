@@ -6,7 +6,7 @@ import { getUniqueId } from "../../../shared/getUniqueId.js";
 
 export async function create(
   context: Context,
-  userAccount: Partial<UserAccountEntity> = {}
+  userAccount: Partial<UserAccountEntity> = {},
 ): Promise<UserAccountEntity> {
   const id = getUniqueId();
   const normalizedUserAccountData: Pick<

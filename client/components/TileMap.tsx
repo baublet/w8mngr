@@ -55,7 +55,7 @@ export function TileMap({
     while (currentDayString !== maxDayString) {
       allDays.add(currentDayString);
       currentDayString = dayStringFromDate(
-        addDays(dayStringToDate(currentDayString), 1)
+        addDays(dayStringToDate(currentDayString), 1),
       );
     }
 
@@ -112,11 +112,11 @@ export function TileMap({
 
   const { styles, attributes, forceUpdate } = usePopper(
     referenceElement?.current,
-    popupElement?.current
+    popupElement?.current,
   );
   const [showPopperElement, setShowPopperElement] = React.useState(false);
   const [hoveredDay, setHoveredDay] = React.useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [locked, setLocked] = React.useState(false);
 
@@ -178,7 +178,7 @@ export function TileMap({
           "rounded bg-slate-900 text-slate-50 p-4 shadow-lg text-xs",
           {
             hidden: !showPopperElement,
-          }
+          },
         )}
       >
         <div key={hoveredDay}>{selectedDayLabel}</div>
@@ -236,7 +236,7 @@ function getDayData(
     intensity: number;
     link?: string;
   }[],
-  day: string
+  day: string,
 ): {
   day: string;
   label: React.ReactNode;
@@ -303,7 +303,7 @@ function Tile({
           ["bg-emerald-500"]: intensity > 5 && intensity <= 7,
           ["bg-emerald-700"]: intensity > 7 && intensity <= 9,
           ["bg-emerald-800"]: intensity > 9,
-        }
+        },
       )}
       title={displayDate}
     />

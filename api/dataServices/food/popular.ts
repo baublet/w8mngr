@@ -26,15 +26,15 @@ export async function popular(context: Context): Promise<FoodEntity[]> {
             q(
               "userId",
               "in",
-              admins.map((a) => a.id)
+              admins.map((a) => a.id),
             ),
-          ])
-        )
+          ]),
+        ),
     )
     .where(
       "createdAt",
       ">",
-      new Date(Date.now() - POPULARITY_PERIOD_MS).getMilliseconds()
+      new Date(Date.now() - POPULARITY_PERIOD_MS).getMilliseconds(),
     )
     .groupBy("foodId")
     .orderBy("foodCount", "desc")
@@ -45,7 +45,7 @@ export async function popular(context: Context): Promise<FoodEntity[]> {
     q.where(
       "id",
       "in",
-      foodLogFoods.map((f) => f.foodId)
-    )
+      foodLogFoods.map((f) => f.foodId),
+    ),
   );
 }

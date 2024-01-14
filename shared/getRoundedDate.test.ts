@@ -19,7 +19,7 @@ it.each`
         date: inputDate,
         interval,
         intervalAmount,
-      })
+      }),
     ).toEqual(expectedDate);
-  }
+  },
 );

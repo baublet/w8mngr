@@ -5,14 +5,14 @@ import { QueryResolvers } from "../generated.js";
 export const currentUser: Required<QueryResolvers>["currentUser"] = (
   parent,
   args,
-  context
+  context,
 ) => {
   try {
     const user = context.getCurrentUser(false);
     const userAccount = context.getCurrentUserAccount(false);
 
     if (!user || !userAccount) {
-      return undefined
+      return undefined;
     }
 
     return {
@@ -24,6 +24,6 @@ export const currentUser: Required<QueryResolvers>["currentUser"] = (
   } catch (error) {
     assertIsError(error);
     log(context, "error", "Error getting current user", { error });
-    return undefined
+    return undefined;
   }
 };

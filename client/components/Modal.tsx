@@ -16,7 +16,7 @@ export function Modal({
 }>) {
   const modalRootElement = React.useMemo(
     () => document.getElementById("modalRoot"),
-    []
+    [],
   );
   const bodyElement = React.useMemo(() => document.body, []);
 
@@ -52,7 +52,7 @@ export function Modal({
         `pointer-events-auto bg-slate-800 bg-opacity-75 flex items-center justify-center p-8 sm:p-12 lg:p-16 h-full`,
         {
           "pointer-events-none -z-50 opacity-0": !open,
-        }
+        },
       )}
     >
       <div
@@ -68,6 +68,6 @@ export function Modal({
         {children}
       </div>
     </div>,
-    modalRootElement
+    modalRootElement,
   );
 }

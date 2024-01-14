@@ -1,5 +1,5 @@
 export function valueNullOrUndefinedToValueUndefined<TOriginal>(
-  value: TOriginal
+  value: TOriginal,
 ): Exclude<TOriginal, null> | undefined {
   if (value === null) {
     return undefined;

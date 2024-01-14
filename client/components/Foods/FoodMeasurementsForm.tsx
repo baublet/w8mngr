@@ -53,11 +53,11 @@ export function FoodMeasurementsForm({
       }
       setMeasurements((measurements) =>
         measurements.filter(
-          (measurement) => measurement.internalId !== internalId
-        )
+          (measurement) => measurement.internalId !== internalId,
+        ),
       );
     },
-    []
+    [],
   );
 
   const updateMeasurement = React.useCallback((internalId: string) => {

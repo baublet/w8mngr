@@ -9,7 +9,7 @@ export function PrimaryLoader({
   timeBeforeRender?: number;
 }) {
   const [render, setRender] = React.useState(
-    timeBeforeRender > 0 ? false : true
+    timeBeforeRender > 0 ? false : true,
   );
 
   React.useEffect(() => {

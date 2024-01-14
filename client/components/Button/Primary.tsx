@@ -11,7 +11,7 @@ export function PrimaryButton(props: PrimaryButtonProps) {
       {...props}
       className={cx(
         "bg-purple-700 hover:bg-purple-800 text-slate-50 font-bold bg-opacity-90 hover:bg-opacity-100 text-sm uppercase",
-        props.className
+        props.className,
       )}
     />
   );

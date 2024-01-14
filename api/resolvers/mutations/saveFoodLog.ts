@@ -1,4 +1,7 @@
-import { FoodLogEntity, foodLogDataService } from "../../dataServices/foodLog/index.js";
+import {
+  FoodLogEntity,
+  foodLogDataService,
+} from "../../dataServices/foodLog/index.js";
 import { foodLogFoodDataService } from "../../dataServices/foodLogFood/index.js";
 import { MutationResolvers } from "../../generated.js";
 import { foodLogPermissionService } from "../../permissionsServices/foodLog.js";
@@ -6,7 +9,7 @@ import { foodLogPermissionService } from "../../permissionsServices/foodLog.js";
 export const saveFoodLog: MutationResolvers["saveFoodLog"] = async (
   parent,
   { input },
-  context
+  context,
 ) => {
   const permissions = context.services.get(foodLogPermissionService);
   await permissions.assert("create");
@@ -38,7 +41,7 @@ export const saveFoodLog: MutationResolvers["saveFoodLog"] = async (
         foodId: log.foodId,
         id: log.id,
         userId: context.getCurrentUserId(true),
-      }))
+      })),
   );
 
   console.log("madei t here 2");

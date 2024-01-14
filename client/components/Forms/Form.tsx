@@ -20,7 +20,7 @@ export function Form({
         {
           ["opacity-50 pointer-events-none"]: loading,
         },
-        className
+        className,
       )}
       onSubmit={(e) => {
         e.preventDefault();

@@ -10,7 +10,7 @@ export const tokenTypes = [
   "emailLogin",
 ] as const;
 
-export type TokenTypes = typeof tokenTypes[number];
+export type TokenTypes = (typeof tokenTypes)[number];
 
 export function assertIsTokenType(value: string): asserts value is TokenTypes {
   if (!tokenTypes.includes(value as TokenTypes)) {

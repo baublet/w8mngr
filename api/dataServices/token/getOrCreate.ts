@@ -1,7 +1,11 @@
 import { createDigest } from "../../authentication/createDigest.js";
 import { Context } from "../../createContext.js";
 import { create } from "./create.js";
-import { Database, dbService, InsertableDatabaseRecord } from "../../config/db.js";
+import {
+  Database,
+  dbService,
+  InsertableDatabaseRecord,
+} from "../../config/db.js";
 import { rootService as tokenDataService } from "./rootService.js";
 import { TOKEN_EXPIRY_OFFSET, assertIsTokenType } from "./types.js";
 import { assertIsTruthy } from "../../../shared/assertIsTruthy.js";
@@ -12,7 +16,7 @@ export async function getOrCreate(
   token: Omit<
     InsertableDatabaseRecord<Database["token"]>,
     "id" | "tokenDigest" | "expires" | "clientId"
-  >
+  >,
 ): Promise<{
   entity: InsertableDatabaseRecord<Database["token"]>;
   token: string;
@@ -39,7 +43,7 @@ export async function getOrCreate(
       {
         tokenDigest: newTokenDigest,
         expires: Date.now() + TOKEN_EXPIRY_OFFSET[tokenType],
-      }
+      },
     );
     const token = tokens[0];
     assertIsTruthy(token, "Expected token to be truthy");

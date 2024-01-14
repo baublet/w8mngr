@@ -4,7 +4,7 @@ import { UserResolvers } from "../../generated.js";
 export const foodLog: UserResolvers["foodLog"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   const log = await foodLogDataService.getConnection(context, {
     constraint: { day: args.day, userId: parent.id },

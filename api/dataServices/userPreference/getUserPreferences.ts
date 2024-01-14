@@ -47,10 +47,10 @@ const preferenceSerializers: Record<
 
 export async function getUserPreferences(
   context: Context,
-  { userId }: { userId: string }
+  { userId }: { userId: string },
 ) {
   const preferences = await rootService.findBy(context, (q) =>
-    q.where("userId", "=", userId)
+    q.where("userId", "=", userId),
   );
   const values = await Promise.all(
     userPreferenceTypes.map(async (type) => {
@@ -69,7 +69,7 @@ export async function getUserPreferences(
 
       assertIsTruthy(
         entity,
-        "User preference entity not found and could not be created."
+        "User preference entity not found and could not be created.",
       );
 
       const value = getPreferenceOrDefault({
@@ -84,7 +84,7 @@ export async function getUserPreferences(
         key: entity.preference,
         value,
       };
-    })
+    }),
   );
 
   return values;
@@ -94,12 +94,12 @@ function getPreferenceOrDefault<T>({
   entity,
   defaultValue,
   serializer,
-  context
+  context,
 }: {
   entity: Database["userPreference"];
   defaultValue: T;
   serializer: (value: string) => any;
-  context: Context
+  context: Context;
 }): T {
   if (entity) {
     try {

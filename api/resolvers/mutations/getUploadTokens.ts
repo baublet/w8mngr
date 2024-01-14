@@ -5,7 +5,7 @@ import { MutationResolvers } from "../../generated.js";
 export const getUploadTokens: MutationResolvers["getUploadTokens"] = async (
   parent,
   { input },
-  context
+  context,
 ) => {
   const result = await uploadTokenDataService.create({
     context,

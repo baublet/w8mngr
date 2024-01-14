@@ -4,7 +4,7 @@ import { FoodResolvers } from "../../generated.js";
 export const foodMeasurements: Required<FoodResolvers>["measurements"] = (
   parent,
   args,
-  context
+  context,
 ) => {
   return foodMeasurementDataService.getConnection(context, {
     constraint: {

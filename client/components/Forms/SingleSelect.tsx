@@ -6,7 +6,7 @@ export function SingleSelect<
   T extends {
     text: string;
     key: string;
-  }
+  },
 >({
   options,
   id,
@@ -23,7 +23,7 @@ export function SingleSelect<
   defaultSelectedKey?: T["key"];
 }) {
   const [selectedKey, setSelectedKey] = React.useState<T["key"] | undefined>(
-    defaultSelectedKey
+    defaultSelectedKey,
   );
 
   React.useEffect(() => {

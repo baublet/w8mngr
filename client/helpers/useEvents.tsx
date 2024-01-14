@@ -46,7 +46,7 @@ export function eventService() {
       eventKey: string,
       listener: UIEvents[T] extends undefined
         ? () => void
-        : (args: UIEvents[T]) => void
+        : (args: UIEvents[T]) => void,
     ) => {
       let listenerMap: Map<string, Function> | undefined = listeners.get(event);
       if (!listenerMap) {

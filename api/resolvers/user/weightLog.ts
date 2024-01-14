@@ -4,7 +4,7 @@ import { UserResolvers } from "../../generated.js";
 export const weightLog: UserResolvers["weightLog"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   const log = await weightLogDataService.getConnection(context, {
     constraint: {

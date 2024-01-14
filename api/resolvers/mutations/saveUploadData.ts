@@ -4,7 +4,7 @@ import { MutationResolvers } from "../../generated.js";
 export const saveUploadData: MutationResolvers["saveUploadData"] = async (
   parent,
   { input },
-  context
+  context,
 ) => {
   const currentUserId = context.getCurrentUserId(true);
 
@@ -31,7 +31,7 @@ export const saveUploadData: MutationResolvers["saveUploadData"] = async (
       entityType: input.entityType,
       extension: input.extension,
       updatedAt: Date.now(),
-    }
+    },
   );
 
   const upload = await uploadDataService.findOneOrFailBy(context, (q) => {

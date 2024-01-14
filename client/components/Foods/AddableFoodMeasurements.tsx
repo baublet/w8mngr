@@ -43,7 +43,7 @@ export function AddableFoodMeasurements({
   const measurements = coalesce(food.measurements, { edges: [] });
 
   const [selectedMeasurementId, setSelectedMeasurementId] = React.useState(
-    measurements.edges[0]?.node.id
+    measurements.edges[0]?.node.id,
   );
 
   const selectedMeasurement = React.useMemo(() => {
@@ -51,7 +51,7 @@ export function AddableFoodMeasurements({
       return undefined;
     }
     return measurements.edges.find(
-      (measurement) => measurement.node.id === selectedMeasurementId
+      (measurement) => measurement.node.id === selectedMeasurementId,
     )?.node;
   }, [selectedMeasurementId]);
 
@@ -60,7 +60,7 @@ export function AddableFoodMeasurements({
       return false;
     }
     const selectedIndex = measurements.edges.findIndex(
-      (measurement) => measurement.node.id === selectedMeasurementId
+      (measurement) => measurement.node.id === selectedMeasurementId,
     );
     if (selectedIndex < 1) {
       return false;
@@ -74,7 +74,7 @@ export function AddableFoodMeasurements({
         return selectedMeasurementId;
       }
       const selectedIndex = measurements.edges.findIndex(
-        (measurement) => measurement.node.id === selectedMeasurementId
+        (measurement) => measurement.node.id === selectedMeasurementId,
       );
       if (selectedIndex < 1) {
         return selectedMeasurementId;
@@ -94,7 +94,7 @@ export function AddableFoodMeasurements({
     }
 
     const selectedIndex = measurements.edges.findIndex(
-      (measurement) => measurement.node.id === selectedMeasurementId
+      (measurement) => measurement.node.id === selectedMeasurementId,
     );
     if (selectedIndex === -1) {
       return false;
@@ -112,7 +112,7 @@ export function AddableFoodMeasurements({
         return selectedMeasurementId;
       }
       const selectedIndex = measurements.edges.findIndex(
-        (measurement) => measurement.node.id === selectedMeasurementId
+        (measurement) => measurement.node.id === selectedMeasurementId,
       );
       if (selectedIndex === -1) {
         return selectedMeasurementId;
@@ -153,32 +153,32 @@ export function AddableFoodMeasurements({
             currentAmount: amountFormData.getValue("amount"),
             measurementValue: or(selectedMeasurement.calories, 0),
             originalAmount: selectedMeasurement.amount,
-          })
+          }),
         ),
         fat: measurementStringToNumberOrUndefined(
           getMeasurementWithMultiplier({
             currentAmount: amountFormData.getValue("amount"),
             measurementValue: or(selectedMeasurement.fat, 0),
             originalAmount: selectedMeasurement.amount,
-          })
+          }),
         ),
         carbs: measurementStringToNumberOrUndefined(
           getMeasurementWithMultiplier({
             currentAmount: amountFormData.getValue("amount"),
             measurementValue: or(selectedMeasurement.carbs, 0),
             originalAmount: selectedMeasurement.amount,
-          })
+          }),
         ),
         protein: measurementStringToNumberOrUndefined(
           getMeasurementWithMultiplier({
             currentAmount: amountFormData.getValue("amount"),
             measurementValue: or(selectedMeasurement.protein, 0),
             originalAmount: selectedMeasurement.amount,
-          })
+          }),
         ),
       });
     },
-    [selectedMeasurement]
+    [selectedMeasurement],
   );
 
   useKeyPressHandler("left", goToPrevious);

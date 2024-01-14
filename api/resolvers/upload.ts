@@ -4,7 +4,7 @@ import { QueryResolvers } from "../generated.js";
 export const upload: QueryResolvers["upload"] = (
   parent,
   { input },
-  context
+  context,
 ) => {
   return uploadDataService.findOneOrFailBy(context, (q) => {
     const id = input?.id;

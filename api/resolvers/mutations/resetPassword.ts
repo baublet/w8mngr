@@ -5,7 +5,7 @@ import { MutationResolvers } from "../../generated.js";
 export const resetPassword: MutationResolvers["resetPassword"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   const result = await userDataService.resetPassword(context, {
     password: args.input.password,

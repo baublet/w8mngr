@@ -50,7 +50,7 @@ export function LogEntryLoadingBullet({
           {
             "opacity-0": !isVisible,
             "opacity-1": isVisible,
-          }
+          },
         )}
         title="Updating"
       />

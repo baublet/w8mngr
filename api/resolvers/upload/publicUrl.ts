@@ -5,7 +5,7 @@ import { UploadResolvers } from "../../generated.js";
 export const publicUrl: UploadResolvers["publicUrl"] = (
   parent,
   { input },
-  context
+  context,
 ) => {
   try {
     return uploadDataService.getPublicUrl(context, {

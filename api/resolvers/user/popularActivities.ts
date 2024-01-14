@@ -6,7 +6,7 @@ import { dedupeBy } from "../../../shared/dedupeBy.js";
 export const userPopularActivities: UserResolvers["popularActivities"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   const [popularUserActivities, popularLibraryActivities] = await Promise.all([
     activityDataService.popular(context),
@@ -21,7 +21,7 @@ export const userPopularActivities: UserResolvers["popularActivities"] = async (
         __typename: "ActivityLibraryActivity",
       })),
     ],
-    "id"
+    "id",
   ).slice(0, 10);
 
   return popularActivities.map((a) => ({
@@ -34,6 +34,6 @@ export const userPopularActivities: UserResolvers["popularActivities"] = async (
     type: (a.type || "WEIGHT") as ActivityType,
     name: a.name,
     muscleGroups: [],
-    stats: {}
+    stats: {},
   }));
 };

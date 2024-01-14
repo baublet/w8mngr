@@ -10,7 +10,7 @@ export const activityObjectPermissionService = createPermissionService({
 
 async function contextUserIsOwner(
   context: Context,
-  activityId: string
+  activityId: string,
 ): Promise<true | Error> {
   const found = await activityDataService.findOneOrFail(context, activityId);
   if (found.userId !== context.getCurrentUserId()) {

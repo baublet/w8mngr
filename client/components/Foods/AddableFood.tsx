@@ -66,7 +66,7 @@ export function AddableFood({
         },
       });
     },
-    [day, food.name, food.id]
+    [day, food.name, food.id],
   );
 
   const saveFoodWithoutMeasurements = React.useCallback(
@@ -87,7 +87,7 @@ export function AddableFood({
         },
       });
     },
-    [food.name]
+    [food.name],
   );
 
   return (
@@ -102,14 +102,14 @@ export function AddableFood({
           "flex w-full flex-col text-xs hover:text-slate-600 hover:bg-slate-50 rounded-lg",
           {
             "bg-slate-100": selected,
-          }
+          },
         )}
       >
         <div className="flex w-full">
           <button
             type="button"
             className={cx(
-              "block w-full text-left p-2 uppercase font-bold text-slate-500"
+              "block w-full text-left p-2 uppercase font-bold text-slate-500",
             )}
             onClick={() => setSelected(true)}
           >

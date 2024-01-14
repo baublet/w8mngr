@@ -13,7 +13,7 @@ export async function loginWithToken(
   context: Context,
   input: {
     loginToken: string;
-  }
+  },
 ): Promise<
   ReturnTypeWithErrors<{
     currentUser: UserEntity;
@@ -24,14 +24,14 @@ export async function loginWithToken(
     const tokenDigest = await createDigest(input.loginToken);
 
     const token = await tokenDataService.findOneOrFailBy(context, (q) =>
-      q.where("tokenDigest", "=", tokenDigest)
+      q.where("tokenDigest", "=", tokenDigest),
     );
 
     await tokenDataService.deleteByIds(context, [token.id]);
 
     const account = await userAccountDataService.findOneOrFail(
       context,
-      token.userAccountId
+      token.userAccountId,
     );
 
     const user = await userDataService.findOneOrFail(context, account.userId);

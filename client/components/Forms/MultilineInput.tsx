@@ -9,7 +9,7 @@ let count = 0;
 export type MultilineInputProps = InputProps;
 
 export function MultilineInput(
-  props: MultilineInputProps
+  props: MultilineInputProps,
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = or(props.id, `multi-line-${count++}`);
   const label = or(props.label, props.placeholder);
@@ -50,7 +50,7 @@ export function MultilineInput(
             bg-opacity-50
             hover:bg-opacity-100
           `,
-          props.className
+          props.className,
         )}
         value={props.defaultValue}
         defaultValue={props.value}

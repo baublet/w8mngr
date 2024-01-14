@@ -20,7 +20,7 @@ export function MuscleMap({
     return () => {
       setSelectedMuscles((selectedMuscles) => {
         return selectedMuscles.filter(
-          (selectedMuscle) => selectedMuscle !== muscle
+          (selectedMuscle) => selectedMuscle !== muscle,
         );
       });
     };
@@ -42,7 +42,7 @@ export function MuscleMap({
             const isSelected = selectedMuscles.includes(muscle);
             if (isSelected) {
               return selectedMuscles.filter(
-                (selectedMuscle) => selectedMuscle !== muscle
+                (selectedMuscle) => selectedMuscle !== muscle,
               );
             }
             return [...selectedMuscles, muscle];

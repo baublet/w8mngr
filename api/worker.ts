@@ -4,7 +4,7 @@ import { runWithContext } from "./helpers/runWithContext.js";
 export const handler = async () => {
   await Promise.all([
     runWithContext("worker", (context) =>
-      emailDataService.sendPendingEmails(context)
+      emailDataService.sendPendingEmails(context),
     ),
   ]);
 

@@ -22,7 +22,7 @@ export function BaseIconButton({
     {
       "opacity-50 pointer-events-none": disabled,
     },
-    className
+    className,
   );
 
   return to ? (

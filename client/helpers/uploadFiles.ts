@@ -34,7 +34,9 @@ export async function uploadFiles({
   files: FileInput[];
 }): Promise<UploadedFile[]> {
   try {
-    const client = await window.w8mngrServiceContainer.get(apolloClientService).getClient();
+    const client = await window.w8mngrServiceContainer
+      .get(apolloClientService)
+      .getClient();
     const count = files.length;
 
     const result = await client.mutate<
@@ -91,7 +93,7 @@ export async function uploadFiles({
           .catch((err) => {
             console.error("Upload error", err);
           });
-      })
+      }),
     );
 
     await Promise.all(
@@ -111,7 +113,7 @@ export async function uploadFiles({
 
         file.previewUrl = result.data?.saveUploadData.upload.preview || "";
         file.smallUrl = result.data?.saveUploadData.upload.small || "";
-      })
+      }),
     );
 
     return uploadedFiles;

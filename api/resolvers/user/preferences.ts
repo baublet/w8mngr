@@ -4,13 +4,13 @@ import { UserResolvers, UserPreferenceType } from "../../generated.js";
 export const usePreferences: UserResolvers["preferences"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   const preferences = await userPreferenceDataService.getUserPreferences(
     context,
     {
       userId: parent.id,
-    }
+    },
   );
 
   return preferences.map((p) => ({

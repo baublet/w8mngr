@@ -14,7 +14,7 @@ function useForm<T extends Record<string, any>>({
 } = {}): FormStateObject<T> {
   const formState = React.useMemo(
     () => new Map<keyof T, Maybe<T[keyof T]>>(Object.entries(initialValues)),
-    []
+    [],
   );
   const formHandlers = React.useMemo(() => {
     return new Map<keyof T, (data: T[keyof T]) => void>();
@@ -51,13 +51,13 @@ function useForm<T extends Record<string, any>>({
       }
       return formHandlers.get(element) as (data: T[keyof T]) => void;
     },
-    []
+    [],
   );
 
   const getValue = React.useCallback(
     <TElement extends keyof T>(
       element: TElement,
-      defaultValue?: any
+      defaultValue?: any,
     ): T[TElement] => {
       if (!formState.has(element)) {
         formState.set(element, defaultValue);
@@ -65,7 +65,7 @@ function useForm<T extends Record<string, any>>({
       const value = formState.get(element);
       return (value === undefined ? defaultValue : value) as any;
     },
-    []
+    [],
   );
 
   const getCastValues = React.useCallback(() => {
@@ -82,18 +82,18 @@ function useForm<T extends Record<string, any>>({
       }
       render();
     },
-    []
+    [],
   );
 
   const setValue = React.useCallback(
     <TElement extends keyof T>(
       element: TElement,
-      value: Maybe<T[TElement]>
+      value: Maybe<T[TElement]>,
     ) => {
       formState.set(element, value);
       render();
     },
-    []
+    [],
   );
 
   return {
@@ -114,10 +114,10 @@ export type FormStateObject<T extends Record<string, any>> = {
   getCastValues: () => T;
   getValue: <K extends keyof T, TDefault extends any>(
     key: K,
-    defaultValue?: TDefault
+    defaultValue?: TDefault,
   ) => TDefault extends undefined ? T[K] : TDefault;
   setValues: (
-    values: Partial<{ [K in keyof T]?: T[K] | undefined | null }>
+    values: Partial<{ [K in keyof T]?: T[K] | undefined | null }>,
   ) => void;
   setValue: <K extends keyof T>(key: K, value: T[K]) => void;
 };

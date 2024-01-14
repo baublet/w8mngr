@@ -46,7 +46,7 @@ async function sendEmail(context: Context, email: EmailEntity): Promise<void> {
   const { subject, body } = renderEmailTemplate(
     context,
     email.templateId,
-    JSON.parse(email.payload || "{}")
+    JSON.parse(email.payload || "{}"),
   );
 
   const sendEmail = context.services.get(emailService);

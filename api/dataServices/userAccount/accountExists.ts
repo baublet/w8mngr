@@ -9,12 +9,12 @@ export async function accountExists(
   }: {
     sourceIdentifier: string;
     source: string;
-  }
+  },
 ): Promise<boolean> {
   const found = await rootService.findOneBy(context, (q) =>
     q
       .where("source", "=", source)
-      .where("sourceIdentifier", "=", sourceIdentifier)
+      .where("sourceIdentifier", "=", sourceIdentifier),
   );
 
   if (found) {

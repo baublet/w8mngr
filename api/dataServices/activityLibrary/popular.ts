@@ -3,7 +3,7 @@ import type { ActivityLibraryEntity } from "./types.js";
 import { dbService } from "../../config/db.js";
 
 export async function popular(
-  context: Context
+  context: Context,
 ): Promise<ActivityLibraryEntity[]> {
   const db = context.services.get(dbService)("W8MNGR_1");
 

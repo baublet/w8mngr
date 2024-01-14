@@ -10,7 +10,7 @@ export const requestEmailLoginLink: MutationResolvers["requestEmailLoginLink"] =
   async (parent, args, context) => {
     const matchingAccount = await userAccountDataService.findOneBy(
       context,
-      (q) => q.where("sourceIdentifier", "=", args.input.email)
+      (q) => q.where("sourceIdentifier", "=", args.input.email),
     );
 
     if (!matchingAccount) {
@@ -20,7 +20,7 @@ export const requestEmailLoginLink: MutationResolvers["requestEmailLoginLink"] =
         "Request email login token tried with invalid email",
         {
           args,
-        }
+        },
       );
       return {
         errors: [],
@@ -42,7 +42,7 @@ export const requestEmailLoginLink: MutationResolvers["requestEmailLoginLink"] =
       }).toISOString();
 
     const extantEmail = await emailDataService.findOneBy(context, (q) =>
-      q.where("idempotenceKey", "=", idempotenceKey)
+      q.where("idempotenceKey", "=", idempotenceKey),
     );
 
     if (extantEmail) {

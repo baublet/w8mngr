@@ -4,7 +4,7 @@ import { MutationResolvers } from "../../generated.js";
 export const saveActivity: Required<MutationResolvers>["saveActivity"] = async (
   parent,
   { input },
-  context
+  context,
 ) => {
   const userId = context.getCurrentUserId(true);
 

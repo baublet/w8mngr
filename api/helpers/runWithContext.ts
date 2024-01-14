@@ -3,7 +3,7 @@ import { Context, createContext } from "../createContext.js";
 
 export const runWithContext = async <T>(
   id: string,
-  runner: (context: Context) => T
+  runner: (context: Context) => T,
 ): Promise<T> => {
   const context = await createContext({
     clientId: `${id}-${getUniqueId()}`,

@@ -19,7 +19,7 @@ export function EditActivity() {
           quickLinks={
             <BackToButton
               {...backButtonProps(id || "", () =>
-                setLocation(`/activities/${id}`)
+                setLocation(`/activities/${id}`),
               )}
             >
               View Activity

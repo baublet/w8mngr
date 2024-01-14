@@ -28,11 +28,11 @@ export async function authenticate({
     if (tokenEntity) {
       const userAccount = await userAccountDataService.findOneOrFail(
         context,
-        tokenEntity.userAccountId
+        tokenEntity.userAccountId,
       );
       const user = await userDataService.findOneOrFail(
         context,
-        userAccount.userId
+        userAccount.userId,
       );
       return {
         user,
@@ -44,7 +44,7 @@ export async function authenticate({
   if (rememberToken) {
     const tokenEntity = await tokenDataService.findByToken(
       context,
-      rememberToken
+      rememberToken,
     );
     if (tokenEntity) {
       // Make a new auth token to set
@@ -59,11 +59,11 @@ export async function authenticate({
 
       const userAccount = await userAccountDataService.findOneOrFail(
         context,
-        tokenEntity.userAccountId
+        tokenEntity.userAccountId,
       );
       const user = await userDataService.findOneOrFail(
         context,
-        userAccount.userId
+        userAccount.userId,
       );
 
       return {

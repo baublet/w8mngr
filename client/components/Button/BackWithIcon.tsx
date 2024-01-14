@@ -9,7 +9,7 @@ export function BackWithIconButton(
     to?: string;
     onClick?: () => void;
     icon: JSX.Element;
-  }
+  },
 ) {
   return (
     <Link

@@ -10,9 +10,8 @@ import { apolloClientService } from "./helpers/apolloClientService";
 
 boot().then(async () => {
   const mountNode = document.getElementById("root");
-  const apolloClient = await window.w8mngrServiceContainer.get(
-    apolloClientService
-  );
+  const apolloClient =
+    await window.w8mngrServiceContainer.get(apolloClientService);
 
   if (!mountNode) {
     throw new Error("No mount node found");
@@ -31,6 +30,6 @@ boot().then(async () => {
           </ApolloProvider>
         </EventProvider>
       </Router>
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 });

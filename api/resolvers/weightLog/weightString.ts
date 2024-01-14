@@ -4,7 +4,7 @@ import { numberToContextualUnit } from "../../helpers/numberToContextualUnit.js"
 export const weightLogWeightString: WeightLogResolvers["weightString"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   return numberToContextualUnit(context, {
     activityType: "WEIGHT",

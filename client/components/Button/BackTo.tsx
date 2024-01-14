@@ -9,7 +9,7 @@ export function BackToButton(
   props: Omit<BaseButtonProps, "leftIcon" | "onClick"> & {
     to?: string;
     onClick?: () => void;
-  }
+  },
 ) {
   return (
     <Link

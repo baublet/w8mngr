@@ -19,7 +19,7 @@ export async function saveMutation(
     userId: string;
     activityId: string;
     day: string;
-  }
+  },
 ): Promise<Error | undefined> {
   const activity = await activityDataService.findOneOrFail(context, activityId);
 
@@ -49,7 +49,7 @@ export async function saveMutation(
           id,
           reps: reps,
           work: rawInputToUnit({ work, unit: "grams", defaultUnit: "pounds" }),
-        })
+        }),
       );
     }
   }
@@ -63,14 +63,14 @@ export async function saveMutation(
         day,
         ...activityLog,
       })),
-      (q) => q.where("userId", "=", userId)
+      (q) => q.where("userId", "=", userId),
     );
 
     if (!activityId) {
       const error = new Error(
         `Unknown error upserting activity log. Expected an upsert result. Instead received ${JSON.stringify(
-          upsertResults
-        )}`
+          upsertResults,
+        )}`,
       );
       return error;
     }

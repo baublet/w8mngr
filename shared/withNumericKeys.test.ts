@@ -8,8 +8,8 @@ it("turns certain keys numeric", () => {
         str: "string",
         uhOh: "string!",
       },
-      ["id", "uhOh"]
-    )
+      ["id", "uhOh"],
+    ),
   ).toEqual({
     id: 1,
     str: "string",

@@ -7,15 +7,15 @@ export const activityLibraryActivityMuscleGroups: ActivityLibraryActivityResolve
   async (parent, args, context) => {
     const activity = await activityDataService.findOneOrFail(
       context,
-      parent.id
+      parent.id,
     );
     if (activity.activityLibraryId) {
       const [muscles, libraryMuscles] = await Promise.all([
         activityMuscleDataService.findBy(context, (q) =>
-          q.where("activityId", "=", parent.id)
+          q.where("activityId", "=", parent.id),
         ),
         await activityLibraryActivityMuscleDataService.findBy(context, (q) =>
-          q.where("activityLibraryActivityId", "=", activity.activityLibraryId)
+          q.where("activityLibraryActivityId", "=", activity.activityLibraryId),
         ),
       ]);
 
@@ -37,7 +37,7 @@ export const activityLibraryActivityMuscleGroups: ActivityLibraryActivityResolve
     }
 
     const muscles = await activityMuscleDataService.findBy(context, (q) =>
-      q.where("activityId", "=", parent.id)
+      q.where("activityId", "=", parent.id),
     );
 
     return muscles.map((muscle) => muscle.muscle as Muscle);

@@ -10,17 +10,17 @@ export interface Context {
   destroy: () => Promise<void>;
   getClientId: () => string;
   getCurrentUser: <T extends boolean | undefined>(
-    orThrow?: T
+    orThrow?: T,
   ) => T extends false | undefined ? UserEntity | undefined : UserEntity;
   getCurrentUserId: <T extends boolean>(
-    orThrow?: T
+    orThrow?: T,
   ) => T extends false ? string | undefined : string;
   getCurrentUserAccountId: <T extends boolean | undefined>(
-    orThrow?: T
+    orThrow?: T,
   ) => T extends false | undefined ? string | undefined : string;
   setCurrentUserAccount: (userAccountId: UserAccountEntity) => void;
   getCurrentUserAccount: <T extends boolean | undefined>(
-    orThrow?: T
+    orThrow?: T,
   ) => T extends false | undefined
     ? UserAccountEntity | undefined
     : UserAccountEntity;
@@ -31,7 +31,7 @@ export interface Context {
     value: string | undefined,
     options?: {
       expires?: Date;
-    }
+    },
   ) => void;
   getCookies: () => Map<string, { value: string | undefined; options: any }>;
   toString: () => string;
@@ -56,7 +56,7 @@ export function createContext({
   >();
   let currentUserRecord: UserEntity | undefined = Object.assign(
     {},
-    currentUser
+    currentUser,
   );
   let userAccount = currentUserAccount;
   let authTokens: {
@@ -87,7 +87,7 @@ export function createContext({
           if (isServiceWithDestroyFunction(resolvedService)) {
             return resolvedService.destroy();
           }
-        })
+        }),
       );
     },
     getCurrentUserAccountId: (orThrow?: boolean) => {
@@ -147,7 +147,7 @@ export function contextService(serviceContainer: ServiceContainer): Context {
 }
 
 function isServiceWithDestroyFunction(
-  value: unknown
+  value: unknown,
 ): value is { destroy: () => Promise<void> } {
   if (typeof value !== "object") {
     return false;

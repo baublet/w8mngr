@@ -64,7 +64,7 @@ export function ToastProvider({ children }: React.PropsWithChildren<{}>) {
         }, timeoutMs);
       }
     },
-    []
+    [],
   );
 
   const error = React.useCallback(
@@ -94,7 +94,7 @@ export function ToastProvider({ children }: React.PropsWithChildren<{}>) {
         }, timeoutMs);
       }
     },
-    []
+    [],
   );
 
   const toastValue = React.useMemo(() => ({ success, error }), []);
@@ -162,7 +162,7 @@ function Message({
             "border-rose-500": type === "error",
             "border-emerald-500": type === "success",
             "text-slate-900": occurrences > 1,
-          }
+          },
         )}
       >
         {occurrences > 1 && type === "error" ? (

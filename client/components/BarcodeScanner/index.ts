@@ -1,1 +1,1 @@
-export { BarcodeScannerButton } from "./BarcodeScannerButton"
+export { BarcodeScannerButton } from "./BarcodeScannerButton";

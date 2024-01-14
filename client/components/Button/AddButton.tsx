@@ -16,7 +16,7 @@ export function AddButton(props: GhostInvertedButtonProps) {
         hover:bg-foregroundSlight
         focus:bg-foregroundSlight
       `,
-        props.className
+        props.className,
       )}
     >
       &#43;&nbsp;&nbsp;Add

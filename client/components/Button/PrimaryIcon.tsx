@@ -9,7 +9,7 @@ export function PrimaryIconButton(props: BaseButtonProps) {
       {...props}
       className={cx(
         "rounded-full p-1 bg-emerald-400 text-emerald-50",
-        props.className
+        props.className,
       )}
     />
   );

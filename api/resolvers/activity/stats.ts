@@ -4,7 +4,7 @@ import { ActivityResolvers } from "../../generated.js";
 export const activityStats: ActivityResolvers["stats"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   const userId = context.getCurrentUserId(true);
 

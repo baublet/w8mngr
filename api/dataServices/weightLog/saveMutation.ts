@@ -13,7 +13,7 @@ export async function saveMutation(
     input: WeightLogInput[];
     userId: string;
     day: string;
-  }
+  },
 ) {
   const results = await rootService.upsert(
     context,
@@ -26,7 +26,7 @@ export async function saveMutation(
       }),
       userId,
       day,
-    }))
+    })),
   );
 
   const errorResults = getErrors(results);
@@ -39,7 +39,7 @@ export async function saveMutation(
 }
 
 function getErrors<T extends {}>(
-  results: (T | { error: string })[]
+  results: (T | { error: string })[],
 ): { error: string }[] {
   return results.filter((result) => "error" in result) as any;
 }

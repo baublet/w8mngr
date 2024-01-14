@@ -51,7 +51,7 @@ export function ActivityForm({
       }
       onSave(formData.getValues());
     },
-    []
+    [],
   );
 
   return (

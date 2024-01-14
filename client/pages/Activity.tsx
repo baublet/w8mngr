@@ -24,7 +24,7 @@ export function Activity() {
   });
   const todayDateString = React.useMemo(
     () => dayStringFromDate(new Date()),
-    []
+    [],
   );
 
   const activity = data?.currentUser?.activities.edges[0]?.node;

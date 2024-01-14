@@ -5,7 +5,7 @@ import { hashPassword } from "./hashPassword.js";
 export async function doesHashMatch(
   context: Context,
   plainTextPassword: string,
-  hashedPassword: undefined | string | null
+  hashedPassword: undefined | string | null,
 ): Promise<boolean> {
   const salt = context.services.get(configService).get("SALT");
   const hashedPasswordWithDefault = hashedPassword || "";

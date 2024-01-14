@@ -1,6 +1,6 @@
 export function stringToNumberOr<T>(
   value: string,
-  defaultValue: T
+  defaultValue: T,
 ): T | number {
   if (value === "") {
     return defaultValue;

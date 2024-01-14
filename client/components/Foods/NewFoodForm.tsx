@@ -35,10 +35,10 @@ export function NewFoodForm() {
           withNumericKeys(
             measurement,
             ["amount", "calories", "carbs", "fat", "protein"],
-            0
+            0,
           ),
-          "internalId"
-        )
+          "internalId",
+        ),
       );
       saveFood({
         variables: {
@@ -51,7 +51,7 @@ export function NewFoodForm() {
         },
       });
     },
-    []
+    [],
   );
   return <FoodForm loading={loading} onSave={handleSave} />;
 }

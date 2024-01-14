@@ -237,7 +237,7 @@ export function UserPreferences() {
                         placeholder="e.g., 2000"
                         type="text"
                         onChange={preferencesForm.getHandler(
-                          "faturdayCalories"
+                          "faturdayCalories",
                         )}
                         value={preferencesForm.getValue("faturdayCalories")}
                       />

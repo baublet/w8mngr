@@ -13,7 +13,7 @@ export const saveUserPreferences: MutationResolvers["saveUserPreferences"] =
         value: JSON.stringify(input.value),
         userId,
       })),
-      ["preference", "userId"]
+      ["preference", "userId"],
     );
 
     if (result instanceof Error) {

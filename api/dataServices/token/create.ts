@@ -1,7 +1,11 @@
 import { createDigest } from "../../authentication/createDigest.js";
 import { Context } from "../../createContext.js";
 import { rootService } from "./rootService.js";
-import { TOKEN_EXPIRY_OFFSET, TokenEntity, assertIsTokenType } from "./types.js";
+import {
+  TOKEN_EXPIRY_OFFSET,
+  TokenEntity,
+  assertIsTokenType,
+} from "./types.js";
 import { assertIsTruthy } from "../../../shared/assertIsTruthy.js";
 import { getUniqueId } from "../../../shared/getUniqueId.js";
 
@@ -12,7 +16,7 @@ export async function create(
     ...input
   }: Omit<TokenEntity, "id" | "tokenDigest" | "expires"> & {
     token: string;
-  }
+  },
 ): Promise<TokenEntity> {
   const id = getUniqueId();
   const tokenDigest = await createDigest(token);

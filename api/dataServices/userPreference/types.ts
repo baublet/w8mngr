@@ -1,6 +1,8 @@
 import { InsertableDatabaseRecord, Database } from "../../config/db.js";
 
-export type UserPreferenceEntity = InsertableDatabaseRecord<Database["userPreference"]>;
+export type UserPreferenceEntity = InsertableDatabaseRecord<
+  Database["userPreference"]
+>;
 
 export type UserPreferenceValues = {
   BIRTHDAY: Date | undefined | null;

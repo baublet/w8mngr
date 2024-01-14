@@ -20,7 +20,7 @@ export function ClearButton(props: GhostButtonProps) {
         focus:text-white
         rounded-full
       `,
-        props.className
+        props.className,
       )}
     />
   );

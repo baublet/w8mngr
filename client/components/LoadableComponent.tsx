@@ -16,7 +16,7 @@ export function LoadableComponent<
     : never,
   TComponent = ReturnType<T["load"]> extends Promise<infer TModule>
     ? TModule[TKey]
-    : never
+    : never,
 >({
   load,
   loadingComponent = PrimaryLoader,
@@ -37,7 +37,7 @@ export function LoadableComponent<
         const moduleComponent = module[component];
         if (!moduleComponent) {
           throw new Error(
-            `Could not find component ${component} in module ${module}`
+            `Could not find component ${component} in module ${module}`,
           );
         }
         setComponent(() => moduleComponent);
@@ -47,7 +47,7 @@ export function LoadableComponent<
         console.error(reason);
         if (
           reason?.message.includes(
-            "Failed to fetch dynamically imported module"
+            "Failed to fetch dynamically imported module",
           )
         ) {
           console.log("New version of w8mngr detected! Reloading...");

@@ -5,7 +5,7 @@ export function useNavigateToUrl() {
 
   return (
     url: string,
-    options: { replace?: boolean; scroll?: boolean } = {}
+    options: { replace?: boolean; scroll?: boolean } = {},
   ) => {
     if (options.replace) {
       navigate(url, { replace: true });

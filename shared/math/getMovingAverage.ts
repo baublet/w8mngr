@@ -1,6 +1,6 @@
 export function getMovingAverage(
   series: number[],
-  { span = 7 }: { span?: number } = {}
+  { span = 7 }: { span?: number } = {},
 ): number[] {
   const averages: number[] = [];
   const seriesLength = series.length;
@@ -15,11 +15,10 @@ export function getMovingAverage(
       continue;
     }
     averages.push(
-      subSeries.reduce((total, num) => total + num, 0) / subSeries.length
+      subSeries.reduce((total, num) => total + num, 0) / subSeries.length,
     );
     i += span - 1;
   }
-
 
   return averages;
 }

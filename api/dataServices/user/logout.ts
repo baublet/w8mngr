@@ -5,7 +5,7 @@ import { Context } from "../../createContext.js";
 import { tokenDataService } from "../token/index.js";
 
 export async function logout(
-  context: Context
+  context: Context,
 ): Promise<ReturnTypeWithErrors<string[]>> {
   await tokenDataService.deleteExpiredTokens(context);
   try {

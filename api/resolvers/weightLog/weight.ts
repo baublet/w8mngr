@@ -4,7 +4,7 @@ import { numberToNumericUnit } from "../../helpers/numberToNumericUnit.js";
 export const weightLogWeight: WeightLogResolvers["weight"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   return numberToNumericUnit({
     context,

@@ -4,7 +4,7 @@ import { UserResolvers } from "../../generated.js";
 export const userWeightLogSummary: UserResolvers["weightLogSummary"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   return weightLogDataService.getVisualizationData(context, {
     userId: parent.id,

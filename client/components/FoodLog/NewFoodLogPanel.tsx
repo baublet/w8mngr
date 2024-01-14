@@ -104,7 +104,7 @@ export function NewFoodLogPanel({
 
     const enabled = findOrFail(
       currentUser.preferences,
-      (pref) => pref.key === "FATURDAYS"
+      (pref) => pref.key === "FATURDAYS",
     );
 
     if (!enabled.value) {
@@ -114,7 +114,7 @@ export function NewFoodLogPanel({
     const calories =
       findOrFail(
         currentUser.preferences,
-        (pref) => pref.key === "FATURDAY_CALORIES"
+        (pref) => pref.key === "FATURDAY_CALORIES",
       ).value || 0;
     const fat =
       findOrFail(currentUser.preferences, (pref) => pref.key === "FATURDAY_FAT")
@@ -122,12 +122,12 @@ export function NewFoodLogPanel({
     const carbs =
       findOrFail(
         currentUser.preferences,
-        (pref) => pref.key === "FATURDAY_CARBS"
+        (pref) => pref.key === "FATURDAY_CARBS",
       ).value || 0;
     const protein =
       findOrFail(
         currentUser.preferences,
-        (pref) => pref.key === "FATURDAY_PROTEIN"
+        (pref) => pref.key === "FATURDAY_PROTEIN",
       ).value || 0;
 
     createFood({
@@ -160,7 +160,7 @@ export function NewFoodLogPanel({
 
     const enabled = findOrFail(
       currentUser.preferences,
-      (pref) => pref.key === "FATURDAYS"
+      (pref) => pref.key === "FATURDAYS",
     );
 
     return Boolean(enabled.value);

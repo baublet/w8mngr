@@ -44,7 +44,7 @@ const handleGraphQLRequest = startServerAndCreateCloudflareWorkersHandler(
       request.authResult = authResult;
       return authResult.context;
     },
-  }
+  },
 );
 
 export default {

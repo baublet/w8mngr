@@ -105,7 +105,7 @@ export function LogEntry({
           "rounded bg-purple-50 bg-opacity-5 flex w-full gap-4 items-top md:items-center",
           {
             "pointer-events-none": loading,
-          }
+          },
         )}
       >
         <Form loading={loading} onSubmit={save}>

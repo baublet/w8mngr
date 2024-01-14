@@ -18,7 +18,7 @@ export function rawInputToUnit({
 
   if (pairs.length === 0) {
     return Math.floor(
-      new Qty(`${work} ${defaultUnit.toLowerCase()}`).to(unit).scalar
+      new Qty(`${work} ${defaultUnit.toLowerCase()}`).to(unit).scalar,
     );
   }
 
@@ -31,7 +31,7 @@ export function rawInputToUnit({
 }
 
 export function breakInputIntoValueUnitPairs(
-  input: string
+  input: string,
 ): [number, string][] {
   const valueUnitPairs: [number, string][] = [];
 

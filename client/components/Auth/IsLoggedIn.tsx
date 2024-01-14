@@ -9,7 +9,7 @@ export function IsLoggedIn({
 }: React.PropsWithChildren<{ showLoader?: boolean }>) {
   const { data, loading } = useGetCurrentUserQuery({
     fetchPolicy: "cache-and-network",
-    pollInterval: 60000
+    pollInterval: 60000,
   });
   if (loading || !data?.currentUser) {
     if (loading && showLoader) {

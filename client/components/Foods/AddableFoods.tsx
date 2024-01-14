@@ -33,12 +33,12 @@ export function AddableFoods({
       }
       setSelectedFoodId(undefined);
     },
-    [foods, day]
+    [foods, day],
   );
 
   const deselectFood = React.useCallback(
     () => setSelectedFoodId(undefined),
-    [inert]
+    [inert],
   );
 
   const selectNextFood = React.useCallback(() => {

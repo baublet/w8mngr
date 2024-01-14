@@ -5,10 +5,10 @@ import { TokenEntity } from "./types.js";
 
 export async function findByToken(
   context: Context,
-  token: string
+  token: string,
 ): Promise<TokenEntity | undefined> {
   const digest = await createDigest(token);
   return rootService.findOneBy(context, (q) =>
-    q.where("tokenDigest", "=", digest)
+    q.where("tokenDigest", "=", digest),
   );
 }

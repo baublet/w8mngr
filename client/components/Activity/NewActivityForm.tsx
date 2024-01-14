@@ -39,7 +39,7 @@ export function NewActivityForm() {
         },
       });
     },
-    []
+    [],
   );
   return <ActivityForm loading={loading} onSave={handleSave} />;
 }

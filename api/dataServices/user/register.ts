@@ -17,7 +17,7 @@ export async function register(
     password: string;
     passwordConfirmation: string;
     role?: UserEntity["role"];
-  }
+  },
 ): Promise<
   ReturnTypeWithErrors<{
     user: UserEntity;

@@ -16,7 +16,7 @@ export async function resetPassword(
     passwordResetToken: string;
     password: string;
     passwordConfirmation: string;
-  }
+  },
 ): Promise<
   ReturnTypeWithErrors<{
     user: UserEntity;
@@ -30,7 +30,9 @@ export async function resetPassword(
 
   const tokenDigest = await createDigest(credentials.passwordResetToken);
   const token = await tokenDataService.findOneOrFailBy(context, (q) =>
-    q.where("tokenDigest", "=", tokenDigest).where("type", "=", "passwordReset")
+    q
+      .where("tokenDigest", "=", tokenDigest)
+      .where("type", "=", "passwordReset"),
   );
 
   try {
@@ -39,13 +41,13 @@ export async function resetPassword(
 
     const account = await userAccountDataService.findOneOrFail(
       context,
-      token.userAccountId
+      token.userAccountId,
     );
 
     await userAccountDataService.update(
       context,
       (q) => q.where("id", "=", account.id),
-      { passwordHash }
+      { passwordHash },
     );
 
     const user = await userDataService.findOneOrFail(context, account.userId);

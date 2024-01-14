@@ -33,7 +33,7 @@ export type InputFoodEntriesProps = {
 };
 
 export function InputFoodEntry(
-  props: InputFoodEntriesProps
+  props: InputFoodEntriesProps,
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = or(props.id, `input-${count++}`);
   const label = props.label;
@@ -76,7 +76,7 @@ export function InputFoodEntry(
         <label
           htmlFor={newProps.id}
           className={cx(
-            "block border-b text-slate-600 text-sm border-transparent hover:opacity-100 group-hover:opacity-100 focus:opacity-100 uppercase opacity-75"
+            "block border-b text-slate-600 text-sm border-transparent hover:opacity-100 group-hover:opacity-100 focus:opacity-100 uppercase opacity-75",
           )}
         >
           {label}

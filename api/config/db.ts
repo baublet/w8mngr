@@ -46,7 +46,7 @@ function dbService(container: ServiceContainer) {
       () =>
         new Kysely({
           dialect: new D1Dialect({ database: env[db] }) as any,
-        })
+        }),
     );
 }
 

@@ -69,7 +69,7 @@ export function Input(props: InputProps) {
       <label
         htmlFor={newProps.id}
         className={cx(
-          "block text-xs uppercase whitespace-no-wrap overflow-hidden text-slate-500 hover:text-slate-600 group-hover:text-slate-600"
+          "block text-xs uppercase whitespace-no-wrap overflow-hidden text-slate-500 hover:text-slate-600 group-hover:text-slate-600",
         )}
       >
         {label}
@@ -99,7 +99,7 @@ export function Input(props: InputProps) {
             ["p-2"]: size === "md",
             ["p-4"]: size === "lg",
           },
-          className
+          className,
         )}
         value={value}
       />

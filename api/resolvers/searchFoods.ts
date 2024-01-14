@@ -6,7 +6,7 @@ import { globalInMemoryCache } from "../helpers/globalInMemoryCache.js";
 export const searchFoods: QueryResolvers["searchFoods"] = async (
   parent,
   { input },
-  context
+  context,
 ) => {
   const searchTerm = input.searchTerm;
 
@@ -32,12 +32,12 @@ export const searchFoods: QueryResolvers["searchFoods"] = async (
       const foods = await foodDataService.findBy(context, (q) =>
         q
           .where("userId", "in", userIds)
-          .where("name", "like", `%${searchTerm}%`)
+          .where("name", "like", `%${searchTerm}%`),
       );
-      return foods.map(f => ({
+      return foods.map((f) => ({
         ...f,
         description: f.description || undefined,
-      }))
+      }));
     },
   });
 };

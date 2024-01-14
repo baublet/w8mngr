@@ -30,7 +30,7 @@ export async function popular(context: Context): Promise<ActivityEntity[]> {
     .where(
       "id",
       "in",
-      popularActivityIds.map(({ activityId }) => activityId)
+      popularActivityIds.map(({ activityId }) => activityId),
     )
     .selectAll()
     .execute();
@@ -41,7 +41,7 @@ export async function popular(context: Context): Promise<ActivityEntity[]> {
 
   const libraryActivities = await activityLibraryDataService.findBy(
     context,
-    (q) => q.where("id", "in", libraryActivitiesToFetch)
+    (q) => q.where("id", "in", libraryActivitiesToFetch),
   );
 
   if (libraryActivitiesToFetch.length > 0) {
@@ -49,7 +49,7 @@ export async function popular(context: Context): Promise<ActivityEntity[]> {
     for (const userActivity of activities) {
       if (typeof userActivity.activityLibraryId !== "undefined") {
         const activity = libraryActivities.find(
-          (a) => a.id === userActivity.activityLibraryId
+          (a) => a.id === userActivity.activityLibraryId,
         );
         if (!activity) {
           log(
@@ -59,7 +59,7 @@ export async function popular(context: Context): Promise<ActivityEntity[]> {
             {
               userActivity,
               libraryActivities,
-            }
+            },
           );
           continue;
         }

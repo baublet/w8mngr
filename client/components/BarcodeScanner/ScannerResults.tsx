@@ -135,7 +135,7 @@ export function ScannerResults({
           },
         },
       ],
-    }
+    },
   );
   const getSaveFoodLogHandler = React.useCallback(
     ({
@@ -168,7 +168,7 @@ export function ScannerResults({
           },
         });
     },
-    []
+    [],
   );
 
   if (!result || loading || !result.name) {
@@ -182,7 +182,7 @@ export function ScannerResults({
         {
           "hover:bg-slate-800": !open,
           "opacity-75 pointer-events-none": saving,
-        }
+        },
       )}
     >
       <div className="flex gap-4 justify-between items-center">
@@ -264,28 +264,28 @@ function Measurement({
             currentAmount,
             originalAmount: defaultAmount,
             measurementValue: calories,
-          })
+          }),
         ),
         fat: stringValueToNumberOrZero(
           getMeasurementWithMultiplier({
             currentAmount,
             originalAmount: defaultAmount,
             measurementValue: fat,
-          })
+          }),
         ),
         carbs: stringValueToNumberOrZero(
           getMeasurementWithMultiplier({
             currentAmount,
             originalAmount: defaultAmount,
             measurementValue: carbs,
-          })
+          }),
         ),
         protein: stringValueToNumberOrZero(
           getMeasurementWithMultiplier({
             currentAmount,
             originalAmount: defaultAmount,
             measurementValue: protein,
-          })
+          }),
         ),
       })();
       return amount;

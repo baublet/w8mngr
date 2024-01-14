@@ -2,7 +2,7 @@ import React from "react";
 
 export function useKeyPressHandler(
   key: "up" | "down" | "left" | "right" | "enter" | "esc",
-  passedHandler: (event: KeyboardEvent) => void
+  passedHandler: (event: KeyboardEvent) => void,
 ): void {
   const handlerRef = React.useRef(passedHandler);
   const [, setLastMs] = React.useState(() => Date.now());
@@ -32,7 +32,7 @@ export function useKeyPressHandler(
 function runHandlerIfKeyMatches(
   userKey: "up" | "down" | "left" | "right" | "enter" | "esc",
   event: KeyboardEvent,
-  handler: (event: KeyboardEvent) => void
+  handler: (event: KeyboardEvent) => void,
 ) {
   const eventKey = event.key;
 

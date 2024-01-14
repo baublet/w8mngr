@@ -8,7 +8,7 @@ export function log(
   contextOrServiceContainer: Context | ServiceContainer,
   level: "debug" | "error" | "info" | "warn",
   message: string,
-  details?: Record<string, any>
+  details?: Record<string, any>,
 ): void {
   const services =
     "services" in contextOrServiceContainer
@@ -34,7 +34,7 @@ export function log(
         }
         return withSerializedErrors;
       },
-      {} as Record<string, any>
+      {} as Record<string, any>,
     );
     text += " " + stringify(withSerializedErrors);
   }

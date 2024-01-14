@@ -66,7 +66,7 @@ export async function create({
           });
 
           resolve();
-        })
+        }),
       );
     }
 

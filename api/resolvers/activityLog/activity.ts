@@ -6,7 +6,7 @@ import type { ActivityLogResolvers } from "../../generated.js";
 export const activityLogActivity: ActivityLogResolvers["activity"] = (
   parent,
   args,
-  context
+  context,
 ) => {
   const activityId = (parent as any as ActivityLog).activityId;
   assertIsTruthy(activityId);

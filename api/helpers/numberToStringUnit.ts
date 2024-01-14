@@ -9,7 +9,7 @@ export function numberToStringUnit({
   incomingUnit,
   outgoingUnits,
 }: {
-  context: Context
+  context: Context;
   work?: number | string;
   incomingUnit: string;
   outgoingUnits: string[];
@@ -40,7 +40,7 @@ export function numberToStringUnit({
       const rootUnit = new Qty(remainder, loweredIncomingUnit);
       const fullUnit = new Qty(
         roundingFunction(rootUnit.to(unit).scalar),
-        unit
+        unit,
       );
 
       if (fullUnit.scalar > 0) {
@@ -77,5 +77,5 @@ function startingWorkToNumber(work: undefined | string | number): number {
 }
 
 function getRoundedUnit(num: number): number {
-  return Math.round( num * 100 + Number.EPSILON ) / 100
+  return Math.round(num * 100 + Number.EPSILON) / 100;
 }

@@ -35,7 +35,7 @@ export type InputProps = {
 };
 
 export function InputInverted(
-  props: InputProps
+  props: InputProps,
 ): React.ReactElement<React.HTMLProps<HTMLInputElement>, any> {
   const id = or(props.id, `input-inverted-${count++}`);
   const label = props.label;
@@ -82,7 +82,7 @@ export function InputInverted(
         <label
           htmlFor={newProps.id}
           className={cx(
-            "block text-xs uppercase whitespace-no-wrap overflow-hidden pt-1 text-white text-opacity-40 hover:text-opacity-100 group-hover:text-opacity-100"
+            "block text-xs uppercase whitespace-no-wrap overflow-hidden pt-1 text-white text-opacity-40 hover:text-opacity-100 group-hover:text-opacity-100",
           )}
         >
           {label}

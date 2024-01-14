@@ -14,7 +14,7 @@ export async function numberToContextualUnit(
     work: Maybe<number> | undefined;
     activityType: ActivityType;
     requestedWorkUnit?: Maybe<Unit>;
-  }
+  },
 ): Promise<string> {
   if (!work) {
     return `${work === undefined ? "" : work}`;

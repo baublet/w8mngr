@@ -15,7 +15,7 @@ export async function login(
   credentials: {
     email: string;
     password: string;
-  }
+  },
 ): Promise<
   ReturnTypeWithErrors<{
     user: UserEntity;
@@ -25,12 +25,12 @@ export async function login(
 > {
   try {
     const account = await userAccountDataService.findOneOrFailBy(context, (q) =>
-      q.where("sourceIdentifier", "=", credentials.email)
+      q.where("sourceIdentifier", "=", credentials.email),
     );
     const passwordsMatch = await doesHashMatch(
       context,
       credentials.password,
-      account.passwordHash
+      account.passwordHash,
     );
     if (!passwordsMatch) {
       log(context, "error", "Login attempt failed. Passwords don't match.", {

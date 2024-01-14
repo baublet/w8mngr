@@ -5,7 +5,7 @@ import { numberToContextualUnit } from "../../helpers/numberToContextualUnit.js"
 export const activityLogWork: ActivityLogResolvers["work"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   const parentWork: number | undefined = parent.work as any;
 
@@ -17,7 +17,7 @@ export const activityLogWork: ActivityLogResolvers["work"] = async (
 
   const activity = await activityDataService.findOneOrFail(
     context,
-    parent.activityId
+    parent.activityId,
   );
 
   return numberToContextualUnit(context, {

@@ -31,6 +31,7 @@
     "lint:tsc:api": "pnpm tsc -p api/tsconfig.json",
     "lint:tsc:client": "pnpm tsc -p client/tsconfig.json",
     "lint:tsc:shared": "pnpm tsc -p shared/tsconfig.json",
+    "prettier:all": "prettier --write \"**/*.{js,ts,tsx,json,md,graphql,css,scss,html}\"",
     "seed:exercises": "./scripts/createActivityLibrarySql/seed.sh"
   },
   "author": "Ryan M. Poe",

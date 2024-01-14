@@ -43,7 +43,7 @@ export function NutritionChart({
       }
       return weightData.find((point) => point.day >= day);
     },
-    [weightData, data]
+    [weightData, data],
   );
   const transformedVisualizationData = React.useMemo(() => {
     return (

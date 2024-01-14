@@ -27,7 +27,7 @@ export function DeleteButton(props: GhostButtonProps) {
         hover:text-white
         focus:text-white
       `,
-        props.className
+        props.className,
       )}
       onClick={newOnclick}
     />

@@ -56,7 +56,7 @@ export function Toggle(props: ToggleProps) {
               {
                 "bg-slate-50 hover:bg-slate-100": !value,
                 "bg-emerald-400 hover:bg-emerald-500": value,
-              }
+              },
             )}
           ></div>
         </div>

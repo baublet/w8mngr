@@ -6,7 +6,7 @@ import { UserResolvers } from "../../generated.js";
 export const foods: UserResolvers["foods"] = async (
   parent,
   { input = {} },
-  context
+  context,
 ) => {
   const currentUserId = parent.id;
   const adminUsers = await userDataService.getAdminUsers(context);

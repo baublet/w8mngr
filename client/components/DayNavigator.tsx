@@ -25,7 +25,7 @@ export function DayNavigator({
   const [, navigate] = useLocation();
 
   const [dayString, setDayString] = React.useState(
-    or(params?.day, todayDayString)
+    or(params?.day, todayDayString),
   );
 
   const dayDate = React.useMemo(() => dayStringToDate(dayString), [dayString]);
@@ -86,7 +86,7 @@ export function DayNavigator({
       </PrimaryIconButton>
       <button
         className={cx(
-          "group bg flex-grow flex justify-center items-center bg-emerald-500"
+          "group bg flex-grow flex justify-center items-center bg-emerald-500",
         )}
         type="button"
         onClick={isCurrentDayToday ? onRefresh : today}

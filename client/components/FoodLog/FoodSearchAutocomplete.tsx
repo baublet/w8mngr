@@ -22,7 +22,7 @@ export function FoodSearchAutocomplete({
   const { data: searchData, loading: searchLoading } = useQuickSearchFoodsQuery(
     {
       variables: { input: { searchTerm } },
-    }
+    },
   );
   const { fire } = useEvents();
   const foods = searchData?.searchFoods;
@@ -34,7 +34,7 @@ export function FoodSearchAutocomplete({
       })}
     >
       {searchTerm.length < 3 ? (
-          <PopularFoods day={day} />
+        <PopularFoods day={day} />
       ) : (
         <div>
           <SideBarHeading>

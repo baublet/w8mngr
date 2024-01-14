@@ -31,17 +31,17 @@ export function FoodLog({ day }: { day: string }) {
     NewFoodLogFormObject | undefined
   >(undefined);
   const newFoodLogDescriptionInputRef = React.useRef<HTMLInputElement | null>(
-    null
+    null,
   );
   const clear = React.useCallback(
     () => newFoodLogFormObjectRef.current?.clear(),
-    []
+    [],
   );
 
   const loading = !Boolean(data?.currentUser?.foodLog);
 
   const entries = getWithDefault(data?.currentUser?.foodLog.edges, []).map(
-    (edge) => edge.node
+    (edge) => edge.node,
   );
   const stats = React.useMemo(() => {
     return {
@@ -59,7 +59,7 @@ export function FoodLog({ day }: { day: string }) {
           "flex flex-wrap gap-4 md:flex-nowrap justify-around w-full transition-opacity",
           {
             "opacity-75": !entries.length,
-          }
+          },
         )}
       >
         {columns.map((column) => {
@@ -76,7 +76,7 @@ export function FoodLog({ day }: { day: string }) {
                     "text-4xl font-thin text-slate-400 text-center truncate",
                     {
                       "text-7xl md:text-4xl": column === "calories",
-                    }
+                    },
                   )}
                 >
                   {stats[column].toLocaleString()}

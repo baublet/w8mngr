@@ -28,7 +28,7 @@ type HookFilters<T extends HookFunction> = NotNullOrUndefined<
 >["filter"];
 
 type GetConnectionFn<T extends HookFunction, TNode = any> = (
-  data: ReturnType<T>["data"]
+  data: ReturnType<T>["data"],
 ) =>
   | undefined
   | {
@@ -45,7 +45,7 @@ type GetConnectionFn<T extends HookFunction, TNode = any> = (
 
 export function usePaginatedQuery<
   THookFn extends HookFunction,
-  TGetConnection extends GetConnectionFn<THookFn>
+  TGetConnection extends GetConnectionFn<THookFn>,
 >(
   useQuery: THookFn,
   {
@@ -56,7 +56,7 @@ export function usePaginatedQuery<
     filter?: HookFilters<THookFn>;
     perPage?: number;
     getConnection: TGetConnection;
-  }
+  },
 ): {
   loading: boolean;
   hasNextPage: boolean;

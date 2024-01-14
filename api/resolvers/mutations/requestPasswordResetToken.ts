@@ -13,7 +13,7 @@ export const requestPasswordResetToken: MutationResolvers["requestPasswordResetT
       (q) =>
         q
           .where("source", "=", "local")
-          .where("sourceIdentifier", "=", args.input.email)
+          .where("sourceIdentifier", "=", args.input.email),
     );
 
     if (!matchingAccount) {
@@ -23,7 +23,7 @@ export const requestPasswordResetToken: MutationResolvers["requestPasswordResetT
         "Request password reset token tried with invalid email",
         {
           args,
-        }
+        },
       );
       return {
         errors: [],
@@ -40,7 +40,7 @@ export const requestPasswordResetToken: MutationResolvers["requestPasswordResetT
       }).toISOString();
 
     const extantEmail = await emailDataService.findOneBy(context, (q) =>
-      q.where("idempotenceKey", "=", idempotenceKey)
+      q.where("idempotenceKey", "=", idempotenceKey),
     );
 
     if (extantEmail) {

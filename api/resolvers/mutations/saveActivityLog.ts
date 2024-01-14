@@ -5,7 +5,7 @@ import { MutationResolvers } from "../../generated.js";
 export const saveActivityLog: MutationResolvers["saveActivityLog"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   const userId = context.getCurrentUserId(true);
 
@@ -17,7 +17,9 @@ export const saveActivityLog: MutationResolvers["saveActivityLog"] = async (
   });
 
   if (mutationResult instanceof Error) {
-    log(context, "error", "Unexpected error saving activity log", { mutationResult });
+    log(context, "error", "Unexpected error saving activity log", {
+      mutationResult,
+    });
     return {
       errors: [mutationResult.message],
     };

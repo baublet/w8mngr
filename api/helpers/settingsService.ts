@@ -11,7 +11,7 @@ type Settings = {
 };
 
 export async function settingsService(
-  services: ServiceContainer
+  services: ServiceContainer,
 ): Promise<Settings> {
   const context = services.get(contextService);
 
@@ -20,9 +20,9 @@ export async function settingsService(
   if (!userId) {
     return getDefaultImperialMeasurements();
   }
-  
+
   const userSettings = await userPreferenceDataService.findBy(context, (q) =>
-    q.where("userId", "=", userId).where("preference", "=", "DEFAULT_UNIT")
+    q.where("userId", "=", userId).where("preference", "=", "DEFAULT_UNIT"),
   );
 
   const defaultUnit =
@@ -31,7 +31,7 @@ export async function settingsService(
   if (defaultUnit === "metric") {
     return getDefaultMetricMeasurements();
   }
-  
+
   return getDefaultImperialMeasurements();
 }
 

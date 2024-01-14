@@ -7,7 +7,7 @@ import {
   SelectQueryBuilder,
   InsertableDatabaseRecord,
   DeleteQueryBuilder,
-  SelectableDatabaseRecord
+  SelectableDatabaseRecord,
 } from "../config/db.js";
 import { NotFoundError } from "../helpers/errors/NotFoundError.js";
 import { buildConnectionResolver } from "../helpers/buildConnectionResolver/index.js";
@@ -57,7 +57,7 @@ function getUpsertBy<T extends keyof Database>({
   return (
     context: Context,
     items: Partial<InsertableDatabaseRecord<Database[T]>>[],
-    columns: (keyof InsertableDatabaseRecord<Database[T]>)[]
+    columns: (keyof InsertableDatabaseRecord<Database[T]>)[],
   ) => {
     return context.services
       .get(dbService)(provider)
@@ -70,7 +70,7 @@ function getUpsertBy<T extends keyof Database>({
               acc[column] = (eb: any) => eb.ref(`excluded.${String(column)}`);
               return acc;
             }, {} as any),
-          }) as any
+          }) as any,
       )
       .returningAll()
       .execute();
@@ -86,10 +86,10 @@ function getFindBy<T extends keyof Database>({
 }) {
   return (
     context: Context,
-    where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>
+    where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>,
   ) => {
     return where(
-      context.services.get(dbService)(provider).selectFrom(tableName) as any
+      context.services.get(dbService)(provider).selectFrom(tableName) as any,
     )
       .selectAll()
       .execute();
@@ -105,10 +105,10 @@ function getFindOneBy<T extends keyof Database>({
 }) {
   return (
     context: Context,
-    where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>
+    where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>,
   ) => {
     return where(
-      context.services.get(dbService)(provider).selectFrom(tableName) as any
+      context.services.get(dbService)(provider).selectFrom(tableName) as any,
     )
       .selectAll()
       .limit(1)
@@ -125,7 +125,7 @@ function getFindOneOrFailBy<T extends keyof Database>({
 }) {
   return async (
     context: Context,
-    where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>
+    where: (qb: SelectQueryBuilder<T>) => SelectQueryBuilder<T>,
   ) => {
     return (
       context.services.get(dbService)(provider).selectFrom(tableName) as any
@@ -187,10 +187,10 @@ function getDeleteBy<T extends keyof Database>({
 }) {
   return async (
     context: Context,
-    where: (qb: DeleteQueryBuilder<T>) => DeleteQueryBuilder<T>
+    where: (qb: DeleteQueryBuilder<T>) => DeleteQueryBuilder<T>,
   ): Promise<void> => {
     await where(
-      context.services.get(dbService)(provider).deleteFrom(tableName) as any
+      context.services.get(dbService)(provider).deleteFrom(tableName) as any,
     ).execute();
   };
 }
@@ -206,7 +206,7 @@ function getCreate<T extends keyof Database>({
 }) {
   return async (
     context: Context,
-    input: Partial<InsertableDatabaseRecord<Database[T]>>[]
+    input: Partial<InsertableDatabaseRecord<Database[T]>>[],
   ) => {
     if (input.length === 0) {
       return [];
@@ -216,7 +216,7 @@ function getCreate<T extends keyof Database>({
       .get(dbService)(provider)
       .insertInto(tableName)
       .values(
-        input.map((item) => ({ ...item, [idProp]: getUniqueId() })) as any
+        input.map((item) => ({ ...item, [idProp]: getUniqueId() })) as any,
       )
       .returningAll()
       .execute();
@@ -235,10 +235,10 @@ function getUpdate<T extends keyof Database>({
   return async (
     context: Context,
     where: (qb: UpdateQueryBuilder<T>) => UpdateQueryBuilder<T>,
-    newValues: PartiallyMaybe<InsertableDatabaseRecord<Database[T]>>
+    newValues: PartiallyMaybe<InsertableDatabaseRecord<Database[T]>>,
   ) => {
     return where(
-      context.services.get(dbService)(provider).updateTable(tableName) as any
+      context.services.get(dbService)(provider).updateTable(tableName) as any,
     )
       .set(newValues as any)
       .returningAll()
@@ -264,7 +264,7 @@ function getUpsert<T extends keyof Database>({
     upsertItems: PartiallyMaybeWithNull<
       InsertableDatabaseRecord<Database[T]>
     >[],
-    where: (qb: UpdateQueryBuilder<T>) => UpdateQueryBuilder<T> = (qb) => qb
+    where: (qb: UpdateQueryBuilder<T>) => UpdateQueryBuilder<T> = (qb) => qb,
   ): Promise<
     (
       | {
@@ -304,7 +304,7 @@ function getUpsert<T extends keyof Database>({
               .get(dbService)(provider)
               .updateTable(tableName)
               .where(idProp as any, "=", (upsertItem as any)[idProp])
-              .set(upsertItem as any) as any
+              .set(upsertItem as any) as any,
           )
             .returningAll()
             .execute();
@@ -339,7 +339,7 @@ function getUpsert<T extends keyof Database>({
         }
 
         return update();
-      }) as any
+      }) as any,
     );
   };
 }
@@ -352,13 +352,13 @@ function getConnectionBuilder<T extends keyof Database>({
   tableName: T;
 }) {
   return async <
-  TEntity extends Record<string, any> = InsertableDatabaseRecord<Database[T]>,
-  TNode extends Record<string, any> = TEntity
->(
+    TEntity extends Record<string, any> = InsertableDatabaseRecord<Database[T]>,
+    TNode extends Record<string, any> = TEntity,
+  >(
     context: Context,
     input: {
       applyCustomConstraint?: (
-        query: SelectQueryBuilder<T>
+        query: SelectQueryBuilder<T>,
       ) => SelectQueryBuilder<T>;
       constraint?: PartiallyMaybe<InsertableDatabaseRecord<Database[T]>>;
       connectionResolverParameters?: {
@@ -369,9 +369,11 @@ function getConnectionBuilder<T extends keyof Database>({
         sort?: Record<string | keyof TEntity, "asc" | "desc">;
         idProp?: string;
       };
-      nodeTransformer?: (node: SelectableDatabaseRecord<Database[T]>) => Promise<TNode>
+      nodeTransformer?: (
+        node: SelectableDatabaseRecord<Database[T]>,
+      ) => Promise<TNode>;
       additionalRootResolvers?: Record<string, any>;
-    }
+    },
   ) => {
     try {
       let query = context.services
@@ -385,8 +387,8 @@ function getConnectionBuilder<T extends keyof Database>({
       if (constraintEntries.length > 0) {
         query = query.where((eb) =>
           eb.and(
-            constraintEntries.map(([key, value]) => eb(key as any, "=", value))
-          )
+            constraintEntries.map(([key, value]) => eb(key as any, "=", value)),
+          ),
         );
       }
 
@@ -396,7 +398,7 @@ function getConnectionBuilder<T extends keyof Database>({
         query,
         input.connectionResolverParameters,
         input.nodeTransformer as any, // Library code... can fix later
-        input.additionalRootResolvers
+        input.additionalRootResolvers,
       );
     } catch (error) {
       assertIsError(error);

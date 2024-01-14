@@ -16,7 +16,7 @@ import type { FoodLogEntity } from "./types.js";
 
 export async function stats(
   context: Context,
-  { userId, ...args }: { from?: Maybe<Date>; to?: Maybe<Date>; userId: string }
+  { userId, ...args }: { from?: Maybe<Date>; to?: Maybe<Date>; userId: string },
 ) {
   const { from, to } = getDateRangeWithDefault(args);
   const cacheKey = `food-log-stats-${userId}-${from}-${to}`;
@@ -28,7 +28,7 @@ export async function stats(
         q
           .where("userId", "=", userId)
           .where("day", ">=", from)
-          .where("day", "<=", to)
+          .where("day", "<=", to),
       );
       const foodLogsGroupedByDay: Record<string, FoodLogEntity[]> =
         groupBy<any>(foodLogsInRange, (log) => log.day);
@@ -73,11 +73,11 @@ export async function stats(
                 carbs: undefined,
                 fat: undefined,
                 protein: undefined,
-              } as Omit<FoodLogDataPoint, "day">
+              } as Omit<FoodLogDataPoint, "day">,
             ),
             dayLabel: format(dayStringToDate(day), "PP"),
           };
-        }
+        },
       );
 
       return {
@@ -127,7 +127,7 @@ function maybeAdd(originalValue: undefined | number, value: any) {
 function maybeAddToTotal<T extends Record<any, any>>(
   subject: T,
   key: keyof T,
-  value: any
+  value: any,
 ) {
   const valueToAdd = orZero(parseInt(value, 10));
   const anySubject: any = subject;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export function useDebouncedValue<T>(
   value: T,
-  debounceIntervalMs: number = 750
+  debounceIntervalMs: number = 750,
 ): T {
   const [debouncedValue, setDebouncedValue] = useState(value);
 

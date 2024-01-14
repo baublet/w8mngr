@@ -1,7 +1,10 @@
 import { flattenArray } from "../../../../shared/flattenArray.js";
 import { Context } from "../../../createContext.js";
 import { dbService } from "../../../config/db.js";
-import { ActivityType, ActivityVisualizationInput } from "../../../generated.js";
+import {
+  ActivityType,
+  ActivityVisualizationInput,
+} from "../../../generated.js";
 import { getDateRangeWithDefault } from "../../../helpers/getDateRangeWithDefault.js";
 import { globalInMemoryCache } from "../../../helpers/globalInMemoryCache.js";
 import { numberToContextualUnit } from "../../../helpers/numberToContextualUnit.js";
@@ -63,7 +66,7 @@ export function getVisualizationDataResolvers({
       accumulator: (logs) => ({
         work: logs.reduce(
           (acc, log) => ((log.work || 0) > acc ? log.reps || 0 : acc),
-          0
+          0,
         ),
         day: logs[0].day,
       }),
@@ -107,20 +110,20 @@ function getSetHandlerByDay({
   key: string;
   context: Context;
   accumulator?: (
-    log: Pick<ActivityLogEntity, "day" | "reps" | "work">[]
+    log: Pick<ActivityLogEntity, "day" | "reps" | "work">[],
   ) => any | any[];
   activityId: string;
   userId: string;
 }): (
   parent: unknown,
-  args: any
+  args: any,
 ) => Promise<Pick<ActivityLogEntity, "work" | "reps" | "day">[]> {
   return async (
     parent: unknown,
-    args: { input?: ActivityVisualizationInput } = {}
+    args: { input?: ActivityVisualizationInput } = {},
   ) => {
     const cacheKey = `getSetHandlerByDay-${activityId}-${userId}-${JSON.stringify(
-      args
+      args,
     )}-${key}`;
     return globalInMemoryCache.getOrSet({
       key: cacheKey,
@@ -139,7 +142,7 @@ function getSetHandlerByDay({
               .where("activityId", "=", activityId)
               .where("userId", "=", userId)
               .where("day", ">=", from)
-              .where("day", "<=", to)
+              .where("day", "<=", to),
           )
           .where("userId", "=", userId)
           .where("activityId", "=", activityId)
@@ -152,17 +155,23 @@ function getSetHandlerByDay({
         }
 
         // Group them by day
-        const dayLogs = results.reduce((acc, log) => {
-          if (!acc[log.day]) {
-            acc[log.day] = [];
-          }
-          acc[log.day].push(log);
-          return acc;
-        }, {} as Record<string, Pick<ActivityLogEntity, "work" | "reps" | "day">[]>);
+        const dayLogs = results.reduce(
+          (acc, log) => {
+            if (!acc[log.day]) {
+              acc[log.day] = [];
+            }
+            acc[log.day].push(log);
+            return acc;
+          },
+          {} as Record<
+            string,
+            Pick<ActivityLogEntity, "work" | "reps" | "day">[]
+          >,
+        );
 
         // Transform the logs by day
         return flattenArray(
-          Object.entries(dayLogs).map(([, logs]) => accumulator(logs))
+          Object.entries(dayLogs).map(([, logs]) => accumulator(logs)),
         );
       },
     });

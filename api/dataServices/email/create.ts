@@ -18,10 +18,10 @@ export async function create<TTemplateKey extends EmailTemplateKey>(
     templateId: TTemplateKey;
     templateVariables: Parameters<EmailTemplates[TTemplateKey]>[0];
     idempotenceKey: string;
-  }
+  },
 ): Promise<EmailEntity> {
   const accounts = await userAccountDataService.findBy(context, (q) =>
-    q.where("userId", "=", toUserId)
+    q.where("userId", "=", toUserId),
   );
   const toEmail = accounts.reduce((email, account) => {
     if (email) {

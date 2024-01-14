@@ -7,7 +7,7 @@ import { UserResolvers } from "../../generated.js";
 export const activities: UserResolvers["activities"] = async (
   parent,
   { input = {} },
-  context
+  context,
 ) => {
   const filters = getWithDefault(input?.filter, {});
   const currentUserId = parent.id;
@@ -18,7 +18,7 @@ export const activities: UserResolvers["activities"] = async (
       if (libraryId) {
         const libraryActivity = await activityLibraryDataService.findOneOrFail(
           context,
-          libraryId
+          libraryId,
         );
         return {
           ...node,

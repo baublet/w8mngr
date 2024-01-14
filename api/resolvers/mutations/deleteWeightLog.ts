@@ -4,12 +4,12 @@ import { MutationResolvers } from "../../generated.js";
 export const deleteWeightLog: MutationResolvers["deleteWeightLog"] = async (
   parent,
   { input },
-  context
+  context,
 ) => {
   const log = await weightLogDataService.findOneOrFailBy(context, (q) =>
     q
       .where("id", "=", input.id)
-      .where("userId", "=", context.getCurrentUserId(true))
+      .where("userId", "=", context.getCurrentUserId(true)),
   );
   await weightLogDataService.deleteByIds(context, [log.id]);
 

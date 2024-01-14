@@ -8,7 +8,7 @@ export function ContentLayout(props: {
 }) {
   const classNames = cx(
     "w-full flex flex-col lg:flex-row-reverse gap-4 lg:gap-8",
-    props.className
+    props.className,
   );
   return (
     <div className={classNames}>

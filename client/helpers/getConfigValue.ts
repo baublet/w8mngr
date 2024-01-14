@@ -2,8 +2,8 @@
  * Compile-time artifacts for the client
  */
 export function getConfigValue<T extends keyof typeof CONFIG_VALUES>(
-  key: T
-): typeof CONFIG_VALUES[T] {
+  key: T,
+): (typeof CONFIG_VALUES)[T] {
   return CONFIG_VALUES[key];
 }
 

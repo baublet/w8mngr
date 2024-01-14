@@ -73,7 +73,7 @@ export async function seedData({
 
       const userAccount = await userAccountDataService.findOneOrFailBy(
         context,
-        (q) => q.where("userId", "=", user.user.id)
+        (q) => q.where("userId", "=", user.user.id),
       );
       userAccounts[user.user.id] = userAccount;
     }
@@ -197,7 +197,7 @@ export async function seedData({
 
         const calories = randomNumberBetween(
           userTargetCalories - 500,
-          userTargetCalories + 500
+          userTargetCalories + 500,
         );
         const fat = randomNumberBetween(30, 100);
         const carbs = randomNumberBetween(30, 200);
@@ -234,8 +234,8 @@ export async function seedData({
         let weight = Math.ceil(
           randomNumberBetween(
             userTargetWeightInLbs - 3,
-            userTargetWeightInLbs + 3
-          ) * 453.592
+            userTargetWeightInLbs + 3,
+          ) * 453.592,
         );
 
         if (trend === "down") {
@@ -243,7 +243,7 @@ export async function seedData({
           userTargetWeightInLbs = clamp(
             Math.ceil(userTargetWeightInLbs * 0.9),
             minWeight,
-            maxWeight
+            maxWeight,
           );
         }
 
@@ -252,7 +252,7 @@ export async function seedData({
           userTargetWeightInLbs = clamp(
             Math.ceil(userTargetWeightInLbs * 1.1),
             minWeight,
-            maxWeight
+            maxWeight,
           );
         }
 
@@ -323,7 +323,7 @@ function randomNumberBetween(min = 1, max = 10, decimalPlaces = 0) {
   const magnitudeMultiplier =
     decimalPlaces === 0 ? 1 : Math.pow(10, decimalPlaces);
   const random = Math.floor(
-    Math.random() * magnitudeMultiplier * (max - min + 1) + min
+    Math.random() * magnitudeMultiplier * (max - min + 1) + min,
   );
   return Number((random / magnitudeMultiplier).toFixed(decimalPlaces));
 }

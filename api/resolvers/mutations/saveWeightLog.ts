@@ -4,7 +4,7 @@ import { MutationResolvers } from "../../generated.js";
 export const saveWeightLog: MutationResolvers["saveWeightLog"] = async (
   parent,
   { input },
-  context
+  context,
 ) => {
   return weightLogDataService.saveMutation(context, {
     input: input.weightLogs,

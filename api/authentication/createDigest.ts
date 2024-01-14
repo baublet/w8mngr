@@ -1,7 +1,7 @@
 export async function createDigest(subject: string = ""): Promise<string> {
   const hashBuffer = await crypto.subtle.digest(
     "SHA-512",
-    new TextEncoder().encode(subject)
+    new TextEncoder().encode(subject),
   );
   const hashArray = Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array
   const hashHex = hashArray
@@ -13,7 +13,7 @@ export async function createDigest(subject: string = ""): Promise<string> {
 export async function createSha1Digest(subject: string = ""): Promise<string> {
   const hashBuffer = await crypto.subtle.digest(
     "SHA-1",
-    new TextEncoder().encode(subject)
+    new TextEncoder().encode(subject),
   );
   const hashArray = Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array
   const hashHex = hashArray

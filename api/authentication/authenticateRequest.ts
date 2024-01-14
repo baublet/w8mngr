@@ -31,11 +31,14 @@ export async function authenticateRequest({
 
   const rawCookies = request.headers.get("Cookie");
   const cookies = rawCookies?.split(";").map((c) => c.trim()) || [];
-  const cookieMap = cookies.reduce((acc, cookie) => {
-    const [key, value] = cookie.split("=");
-    acc[key] = value;
-    return acc;
-  }, {} as Record<string, string>);
+  const cookieMap = cookies.reduce(
+    (acc, cookie) => {
+      const [key, value] = cookie.split("=");
+      acc[key] = value;
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
 
   const authToken =
     cookieMap["w8mngrAuth"] ||

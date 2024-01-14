@@ -6,7 +6,7 @@ import { getUniqueId } from "../../../shared/getUniqueId.js";
 
 export async function create(
   context: Context,
-  user: Omit<Partial<UserEntity>, "id">
+  user: Omit<Partial<UserEntity>, "id">,
 ): Promise<UserEntity> {
   const results = await rootService.create(context, [
     {

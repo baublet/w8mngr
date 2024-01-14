@@ -5,7 +5,7 @@ import { globalInMemoryCache } from "../../helpers/globalInMemoryCache.js";
 export const userVerified: UserResolvers["verified"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   const key = `user-${parent.id}-verified`;
   return globalInMemoryCache.getOrSet({
@@ -18,7 +18,7 @@ export const userVerified: UserResolvers["verified"] = async (
           q
             .where("userId", "=", parent.id)
             .where("source", "=", "local")
-            .where("verified", "=", 1)
+            .where("verified", "=", 1),
       );
 
       return userVerifiedAccounts.length > 0;

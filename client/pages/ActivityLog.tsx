@@ -17,8 +17,8 @@ import { useNavigateToUrl } from "../helpers/useNavigateToUrl";
 
 export function ActivityLog() {
   const [, params] = useRoute("/activities/:id/log/:day?");
-  const id = params?.id || ""
-  const day = params?.day || ""
+  const id = params?.id || "";
+  const day = params?.day || "";
 
   const { data, loading } = useGetActivityDetailsQuery({
     variables: {

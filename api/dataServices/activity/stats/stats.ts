@@ -18,7 +18,7 @@ export async function stats(
   }: {
     userId: string;
     activityId: string;
-  }
+  },
 ): Promise<Resolvable<ActivityStats>> {
   const activity = await activityDataService.findOneOrFail(context, activityId);
 
@@ -34,7 +34,7 @@ export async function stats(
           .where("userId", "=", userId)
           .where("day", "<", todayDateString)
           .orderBy("day", "desc")
-          .limit(1)
+          .limit(1),
     );
     const lastLog = lastLoggedActivity[0];
 
@@ -57,7 +57,7 @@ export async function stats(
               .where("activityId", "=", activityId)
               .where("day", "=", lastLogDayString)
               .where("userId", "=", userId)
-              .orderBy("createdAt", "asc")
+              .orderBy("createdAt", "asc"),
           ) as any)
         : undefined,
     };
@@ -71,7 +71,7 @@ export async function stats(
         .where("userId", "=", userId)
         .orderBy(recordColumn, "desc")
         .orderBy("createdAt", "asc")
-        .limit(1)
+        .limit(1),
     );
     const personalRecordLog = personalRecord[0];
 

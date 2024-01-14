@@ -13,7 +13,7 @@ export function PrimaryLightSaveButton(props: PrimaryButtonProps) {
       {...props}
       className={cx(
         "bg-purple-500 text-slate-50 font-bold bg-opacity-50 hover:bg-opacity-100 p-4 rounded text-sm uppercase shadow hover:shadow-md focus:shadow:md text-l",
-        props.className
+        props.className,
       )}
       leftIcon={<Add />}
       title="Save"

@@ -7,13 +7,13 @@ type KeyTypeMap<T extends Record<string, ConfigOption>> = {
   [K in keyof T]: T[K] extends string
     ? string
     : T[K] extends (key: string | undefined) => infer TFunctionReturn
-    ? TFunctionReturn
-    : never;
+      ? TFunctionReturn
+      : never;
 };
 
 function createConfig<TConfig extends Record<string, ConfigOption>>(
   env: Env,
-  config: TConfig
+  config: TConfig,
 ): {
   get: <T extends keyof TConfig>(key: T) => KeyTypeMap<TConfig>[T];
 } {
@@ -59,7 +59,7 @@ export function configService(serviceContainer: ServiceContainer) {
 function otherEnvValuesOrDefault(
   env: Env,
   vars: string[],
-  defaultValue: string
+  defaultValue: string,
 ): (value: string | undefined) => string {
   return (value) => {
     if (value) {

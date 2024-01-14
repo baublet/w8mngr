@@ -14,7 +14,7 @@ export const foodLogPermissionService = createPermissionService({
 
 async function contextUserOwnerOfFoodLog(
   context: Context,
-  foodLogId: string
+  foodLogId: string,
 ): Promise<true | Error> {
   const found = await foodLogDataService.findOneOrFail(context, foodLogId);
   if (found.userId !== context.getCurrentUserId()) {

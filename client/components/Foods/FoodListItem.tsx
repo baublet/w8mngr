@@ -117,7 +117,8 @@ w-full
                   full
                 >
                   {Math.abs(
-                    trimmedMeasurements.edges.length - measurements.edges.length
+                    trimmedMeasurements.edges.length -
+                      measurements.edges.length,
                   )}{" "}
                   more
                 </GhostInvertedButton>
@@ -147,7 +148,7 @@ function Label({
     <div
       className={cx(
         "text-xs text-slate-400 group-hover:text-slate-600",
-        className
+        className,
       )}
     >
       {children}
@@ -186,28 +187,28 @@ function Measurement({
           currentAmount: uiMutableAmount,
           originalAmount: amount,
           measurementValue: calories,
-        })
+        }),
       ),
       fat: measurementStringToNumberOrUndefined(
         getMeasurementWithMultiplier({
           currentAmount: uiMutableAmount,
           originalAmount: amount,
           measurementValue: fat,
-        })
+        }),
       ),
       carbs: measurementStringToNumberOrUndefined(
         getMeasurementWithMultiplier({
           currentAmount: uiMutableAmount,
           originalAmount: amount,
           measurementValue: carbs,
-        })
+        }),
       ),
       protein: measurementStringToNumberOrUndefined(
         getMeasurementWithMultiplier({
           currentAmount: uiMutableAmount,
           originalAmount: amount,
           measurementValue: protein,
-        })
+        }),
       ),
     });
     navigate("/foodlog");
@@ -283,7 +284,7 @@ function Measurement({
 }
 
 export function measurementStringToNumberOrUndefined(
-  subject?: string
+  subject?: string,
 ): number | undefined {
   if (subject === undefined) {
     return undefined;

@@ -4,15 +4,15 @@ import { MutationResolvers } from "../../generated.js";
 export const deleteActivityLog: MutationResolvers["deleteActivityLog"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   const userId = context.getCurrentUserId(true);
   const activityLog = await activityLogDataService.findOneOrFailBy(
     context,
-    (q) => q.where("id", "=", args.input.id).where("userId", "=", userId)
+    (q) => q.where("id", "=", args.input.id).where("userId", "=", userId),
   );
   await activityLogDataService.deleteBy(context, (q) =>
-    q.where("id", "=", activityLog.id).where("userId", "=", userId)
+    q.where("id", "=", activityLog.id).where("userId", "=", userId),
   );
 
   return {

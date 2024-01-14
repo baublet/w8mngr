@@ -4,7 +4,7 @@ import { UserResolvers } from "../../generated.js";
 export const userPopularFoods: UserResolvers["popularFoods"] = async (
   parent,
   args,
-  context
+  context,
 ) => {
   const foods = await foodDataService.popular(context);
   return foods.map((f) => ({

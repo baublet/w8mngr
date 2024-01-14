@@ -68,15 +68,15 @@ export function Upload({
   const [isDragging, setIsDragging] = React.useState(false);
   const [droppedFiles, setDroppedFiles] = React.useState<DroppedFile[]>([]);
   const [selectedUploadIds, setSelectedUploadIds] = React.useState<string[]>(
-    defaultSelectedUploadIds
+    defaultSelectedUploadIds,
   );
   const [loading, setLoading] = React.useState(
-    defaultSelectedUploadIds.length > 0
+    defaultSelectedUploadIds.length > 0,
   );
 
   const selectHandlers = React.useMemo(
     () => new Map<string, (e: React.ChangeEvent<HTMLInputElement>) => void>(),
-    []
+    [],
   );
   const getSelectHandler = React.useCallback((fileId: string) => {
     const handler = selectHandlers.get(fileId);
@@ -116,7 +116,7 @@ export function Upload({
       event.stopPropagation();
       event.preventDefault();
     },
-    []
+    [],
   );
   const onDragOver = React.useCallback(() => {
     setIsDragging(true);
@@ -153,7 +153,7 @@ export function Upload({
       return undefined;
     }
     const selectedFile = droppedFiles.find(
-      (file) => file.uploadId === selectedId
+      (file) => file.uploadId === selectedId,
     );
     if (!selectedFile) {
       return undefined;
@@ -163,7 +163,7 @@ export function Upload({
 
   const deleteUpload = React.useCallback((id: string, uploadId?: string) => {
     setSelectedUploadIds((uploadIds) =>
-      uploadIds.filter((id) => id !== id && id !== uploadId)
+      uploadIds.filter((id) => id !== id && id !== uploadId),
     );
     setDroppedFiles((files) => files.filter((file) => file.id !== id));
   }, []);
@@ -185,7 +185,7 @@ export function Upload({
     }
 
     const unUploadedFile = droppedFiles.filter(
-      (file) => file.uploadId === undefined
+      (file) => file.uploadId === undefined,
     );
 
     if (unUploadedFile.length === 0) {
@@ -211,7 +211,7 @@ export function Upload({
           copiedFiles.push(file);
         }
         setSelectedUploadIds((ids) =>
-          [...ids, ...newIdsToSelect].slice(0, limit)
+          [...ids, ...newIdsToSelect].slice(0, limit),
         );
         return copiedFiles;
       });
@@ -264,7 +264,7 @@ export function Upload({
           "p-2 bg-emerald-50 bg-opacity-25 hover:bg-opacity-50 rounded",
           {
             "bg-emerald-100": isDragging,
-          }
+          },
         )}
         style={{
           backgroundImage: "url(" + uploadAreaBackgroundImage + ")",
@@ -323,7 +323,7 @@ export function Upload({
       <div className="flex flex-col gap-2">
         {droppedFiles.map((file) => {
           const isSelected = selectedUploadIds.includes(
-            file.uploadId as string
+            file.uploadId as string,
           );
           return (
             <div
@@ -334,7 +334,7 @@ export function Upload({
                   "opacity-75": file.previewUrl,
                   "border-purple-500 border-opacity-50 bg-purple-50 bg-opacity-50":
                     isSelected,
-                }
+                },
               )}
               key={file.id}
             >
@@ -417,7 +417,7 @@ function useLoadInitialData({
         if (!uploadData) {
           console.error("Upload not found...", { id });
           setSelectedUploadIds((uploadIds) =>
-            uploadIds.filter((id) => id !== id)
+            uploadIds.filter((id) => id !== id),
           );
           return;
         }
@@ -436,7 +436,7 @@ function useLoadInitialData({
             uploadedPublicId: uploadData.publicId,
           },
         ]);
-      })
+      }),
     )
       .then(() => setLoading(false))
       .catch(() => setLoading(false));
@@ -501,7 +501,7 @@ function setFiles({
   });
   setSelectedUploadIds((ids) => {
     return filterFalsyKeys(
-      [...ids, ...filesToSet.map((file) => file.uploadId)].slice(0, limit)
+      [...ids, ...filesToSet.map((file) => file.uploadId)].slice(0, limit),
     );
   });
 }

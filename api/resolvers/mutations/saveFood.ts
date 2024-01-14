@@ -5,7 +5,7 @@ import { foodPermissionService } from "../../permissionsServices/food.js";
 export const saveFood: MutationResolvers["saveFood"] = async (
   parent,
   { input },
-  context
+  context,
 ) => {
   const permissions = context.services.get(foodPermissionService);
   await permissions.assert("createFood");

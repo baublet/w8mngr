@@ -5,7 +5,7 @@ import { ActivityResolvers } from "../../generated.js";
 export const activityLogs: ActivityResolvers["logs"] = (
   parent,
   args,
-  context
+  context,
 ) => {
   const day = args.day || dayStringFromDate(new Date());
   const userId = context.getCurrentUserId(true);

@@ -28,7 +28,7 @@ export function WeightLog() {
 
   const loading = !Boolean(data?.currentUser?.weightLog);
   const entries = getWithDefault(data?.currentUser?.weightLog.edges, []).map(
-    (edge) => edge.node
+    (edge) => edge.node,
   );
 
   return (

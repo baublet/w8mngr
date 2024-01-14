@@ -38,18 +38,18 @@ export function EditFoodForm({ id }: { id: string }) {
         imageUploadId?: Maybe<string>;
         measurements?: Maybe<MeasurementInput[]>;
       },
-      onComplete?: Function
+      onComplete?: Function,
     ) => {
       const measurementsToSave = measurements?.map((measurement) =>
         omit(
           withNumericKeys(
             measurement,
             ["amount", "calories", "carbs", "fat", "protein"],
-            0
+            0,
           ),
           "internalId",
-          "__typename"
-        )
+          "__typename",
+        ),
       );
 
       await saveFood({
@@ -64,7 +64,7 @@ export function EditFoodForm({ id }: { id: string }) {
         },
       });
     },
-    []
+    [],
   );
 
   if (loading || !loadedData) {

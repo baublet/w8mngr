@@ -64,7 +64,7 @@ export function BarcodeScanner({
       setSearchingBarcode(false);
       setCodes((codes) => codes.filter((stateCode) => stateCode !== code));
     },
-    []
+    [],
   );
 
   const cancelItAll = React.useCallback(() => {
@@ -82,7 +82,7 @@ export function BarcodeScanner({
         onBarcodeScannerCreated: (barcodeScanner) =>
           (barcodeScannerRef.current = barcodeScanner),
       }),
-    []
+    [],
   );
 
   React.useEffect(() => {
@@ -105,7 +105,7 @@ export function BarcodeScanner({
     >
       <div
         className={cx(
-          "aspect-square w-full rounded-lg overflow-hidden relative items-center select-none pointer-events-none"
+          "aspect-square w-full rounded-lg overflow-hidden relative items-center select-none pointer-events-none",
         )}
       >
         <div className="absolute top-0 right-0 bottom-0 left-0 bg-slate-900 flex text-slate-50 justify-center items-center">
@@ -126,7 +126,7 @@ export function BarcodeScanner({
             {
               "opacity-0": !searchingBarcode,
               "opacity-100": searchingBarcode,
-            }
+            },
           )}
         >
           <PrimaryLoader />
@@ -137,7 +137,7 @@ export function BarcodeScanner({
             {
               "opacity-0": !notFoundShown,
               fadeOut: notFoundShown,
-            }
+            },
           )}
         >
           <div className="bg-slate-800 rounded-lg p-2 md:p-4 text-slate-50 flex gap-4">
@@ -176,7 +176,7 @@ function initializeBarcodeScanner({
 }) {
   function start() {
     const scannerVideoElement = document.querySelector(`#${scannerVideoId}`);
-    if(!scannerVideoElement) {
+    if (!scannerVideoElement) {
       return;
     }
     Quagga.init(
@@ -205,7 +205,7 @@ function initializeBarcodeScanner({
         console.log("Initialization finished. Ready to start");
         Quagga.onDetected((code: { codeResult: { code: string | null } }) => {
           const codeResult = code.codeResult.code;
-          if(!codeResult) {
+          if (!codeResult) {
             return;
           }
           onScanSuccess(codeResult);
@@ -219,7 +219,7 @@ function initializeBarcodeScanner({
           },
           resume: start,
         });
-      }
+      },
     );
   }
   start();

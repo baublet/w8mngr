@@ -33,5 +33,7 @@ export const userPopularActivities: UserResolvers["popularActivities"] = async (
     intensity: a.intensity || 0,
     type: (a.type || "WEIGHT") as ActivityType,
     name: a.name,
+    muscleGroups: [],
+    stats: {}
   }));
 };

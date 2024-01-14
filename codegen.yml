@@ -9,7 +9,7 @@ generates:
     config:
       allowParentTypeOverride: true
       enumsAsTypes: true
-      maybeValue: T | undefined
+      maybeValue: T | undefined | null
       contextType: ./createContext.js#Context
       scalars:
         ID: string

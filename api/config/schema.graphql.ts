@@ -552,9 +552,7 @@ type ActivityLibraryActivity {
   "Muscle groups targeted with this exercise"
   muscleGroups: [Muscle!]!
   intensity: Int
-  logs(day: String): ActivityLogConnection!
   stats: ActivityStats!
-  permissions: GenericObjectPermissions!
 }
 
 type Activity {

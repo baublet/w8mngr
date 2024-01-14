@@ -41,7 +41,6 @@ export async function register(
       source: "local",
       sourceIdentifier: userData.email,
     });
-    console.log("made it here 2");
     if (accountExists) {
       throw new Error("That email address is already registered");
     }
@@ -53,20 +52,17 @@ export async function register(
       passwordHash,
       verified: 0,
     });
-    console.log("made it here 3");
 
     const authTokenResult = await tokenDataService.getOrCreate(context, {
       type: "auth",
       userAccountId: account.id,
     });
 
-    console.log("made it here 4");
     const rememberTokenResult = await tokenDataService.getOrCreate(context, {
       type: "remember",
       userAccountId: account.id,
     });
 
-    console.log("made it here 5");
     context.setCookie("w8mngrAuth", authTokenResult.token, {
       expires: new Date(Date.now() + TOKEN_EXPIRY_OFFSET.auth),
     });

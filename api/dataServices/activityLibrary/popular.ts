@@ -1,9 +1,10 @@
 import { Context } from "../../createContext.js";
 import type { ActivityLibraryEntity } from "./types.js";
-import { dbService, sql } from "../../config/db.js";
+import { dbService } from "../../config/db.js";
 
-export async function popular(context: Context): Promise<ActivityLibraryEntity[]> {
-  const userId = context.getCurrentUserId(true);
+export async function popular(
+  context: Context
+): Promise<ActivityLibraryEntity[]> {
   const db = context.services.get(dbService)("W8MNGR_1");
 
   const popularActivityLibraryActivities = await db
@@ -13,5 +14,5 @@ export async function popular(context: Context): Promise<ActivityLibraryEntity[]
     .limit(10)
     .execute();
 
-    return popularActivityLibraryActivities
+  return popularActivityLibraryActivities;
 }

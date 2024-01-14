@@ -1,5 +1,6 @@
 import { Resolvers } from "../generated.js";
 import { activityLogs } from "./activity/logs.js";
+import {activityLibraryActivityMuscleGroups} from "./activityLibraryActivity/musclesGroups.js"
 import { activityMuscleGroups } from "./activity/musclesGroups.js";
 import { activityPermissions } from "./activity/permissions.js";
 import { activityStats } from "./activity/stats.js";
@@ -47,6 +48,9 @@ import { weightLogWeight } from "./weightLog/weight.js";
 import { weightLogWeightString } from "./weightLog/weightString.js";
 
 export const resolvers: Resolvers = {
+  ActivityLibraryActivity: {
+    muscleGroups: activityLibraryActivityMuscleGroups
+  },
   ActivityLog: {
     activity: activityLogActivity,
     work: activityLogWork,

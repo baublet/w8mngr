@@ -92,7 +92,7 @@ function logText({
   switch (activityType) {
     case "DISTANCE":
     case "TIMED":
-      return <>{workLabel}</>;
+      return workLabel;
     case "REPETITIVE":
       return <>{reps}&nbsp;reps</>;
     case "WEIGHT":

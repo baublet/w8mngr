@@ -27,6 +27,7 @@
     "develop:api": "wrangler dev -c graphql.wrangler.toml api/graphql --persist-to tmp --port 8787 --var DANGEROUSLY_LOG_EMAIL_LOGIN_LINKS:true SUPPRESS_CONSOLE_LOGGING:false",
     "develop:ui": "pnpm vite",
     "develop": "concurrently --kill-others npm:develop:api npm:develop:ui",
+    "lint:code": "oxlint",
     "lint:tsc": "pnpm lint:tsc:api && pnpm lint:tsc:client && pnpm lint:tsc:shared",
     "lint:tsc:api": "pnpm tsc -p api/tsconfig.json",
     "lint:tsc:client": "pnpm tsc -p client/tsconfig.json",
@@ -106,11 +107,18 @@
     "yup": "^1.2.0"
   },
   "lint-staged": {
-    "*.{js,ts,tsx,json,md,graphql,css,scss,html}": "prettier --write"
+    "**/*.{json,md,graphql,css,scss,html}": [
+      "prettier --write"
+    ],
+    "**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,astro,svelte}": [
+      "prettier --write",
+      "oxlint"
+    ]
   },
   "devDependencies": {
     "@types/cookie": "^0.5.1",
     "@types/lodash.clamp": "^4.0.7",
+    "oxlint": "^0.2.0",
     "tailwindcss": "^3.3.3",
     "ulid": "2.3.0"
   }

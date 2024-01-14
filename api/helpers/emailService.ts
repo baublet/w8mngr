@@ -55,22 +55,22 @@ export function emailService(serviceContainer: ServiceContainer) {
       // const result = await client.messages.create(domain, messageData);
 
       // if (result.id) {
-      if (1) {
-        log(serviceContainer, "info", "Email sent", {
-          to,
-          subject,
-          // result,
-        });
-      } else {
-        const logId = getUniqueId();
-        log(serviceContainer, "error", "Error sending email", {
-          to,
-          subject,
-          logId,
-          // result,
-        });
-        throw new Error(`Unknown error sending email. LogId: ${logId}`);
-      }
+      // if (1) {
+      log(serviceContainer, "info", "Email sent", {
+        to,
+        subject,
+        // result,
+      });
+      // } else {
+      //   const logId = getUniqueId();
+      //   log(serviceContainer, "error", "Error sending email", {
+      //     to,
+      //     subject,
+      //     logId,
+      //     // result,
+      //   });
+      //   throw new Error(`Unknown error sending email. LogId: ${logId}`);
+      // }
     } catch (error) {
       assertIsError(error);
       log(serviceContainer, "error", "Error sending email", {

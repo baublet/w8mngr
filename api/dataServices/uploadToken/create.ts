@@ -7,6 +7,7 @@ import { Context } from "../../createContext.js";
 import { uploadDataService } from "../upload/index.js";
 import { UploadToken } from "./type.js";
 import { getUniqueId } from "../../../shared/getUniqueId.js";
+import { promiseHandler } from "../../../shared/promiseHandler.js";
 
 export async function create({
   context,
@@ -35,7 +36,7 @@ export async function create({
     const promises: Promise<void>[] = [];
     for (let i = 0; i < maximizedCount; i++) {
       promises.push(
-        new Promise<void>(async (resolve) => {
+        promiseHandler(async () => {
           const unixTime = `${Date.now()}`.substr(0, 10);
           const publicId = getUniqueId();
           const folder =
@@ -64,8 +65,6 @@ export async function create({
             apiKey: CLOUDINARY_API_KEY,
             folder,
           });
-
-          resolve();
         }),
       );
     }

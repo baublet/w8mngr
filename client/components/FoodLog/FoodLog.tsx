@@ -38,7 +38,7 @@ export function FoodLog({ day }: { day: string }) {
     [],
   );
 
-  const loading = !Boolean(data?.currentUser?.foodLog);
+  const loading = !data?.currentUser?.foodLog;
 
   const entries = getWithDefault(data?.currentUser?.foodLog.edges, []).map(
     (edge) => edge.node,

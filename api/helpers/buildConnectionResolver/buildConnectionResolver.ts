@@ -1,4 +1,5 @@
 import { assertIsError } from "../../../shared/assertIsError.js";
+import { promiseHandler } from "../../../shared/promiseHandler.js";
 import { Resolvable } from "../../../shared/types.js";
 import { SelectQueryBuilder } from "../../config/db.js";
 import { isBefore } from "./isBefore.js";
@@ -125,10 +126,10 @@ export async function buildConnectionResolver<
     let totalCount: Promise<number>;
     const totalCountFn = () => {
       if (!totalCount) {
-        totalCount = new Promise<number>(async (resolve) => {
+        totalCount = promiseHandler(async () => {
           const result = await totalCountQuery.executeTakeFirst();
           const count = orZero(result?.count);
-          resolve(count);
+          return count;
         });
       }
       return totalCount;
@@ -144,37 +145,27 @@ export async function buildConnectionResolver<
 
     const edgesFn = () => {
       if (!edges) {
-        edges = new Promise<
-          {
+        edges = promiseHandler(async () => {
+          const edges: {
             cursor: string;
             entity: TEntity;
             node: TNode;
-          }[]
-        >(async (resolve, reject) => {
-          try {
-            const edges: {
-              cursor: string;
-              entity: TEntity;
-              node: TNode;
-            }[] = [];
+          }[] = [];
 
-            const results = await resultSetQuery.execute();
-            for (const result of results) {
-              const edge = {
-                cursor: serializeCursor(result, idProp, sort),
-                entity: result,
-                node: await nodeTransformer(result as any),
-              };
-              if (isBeforeQuery) {
-                edges.unshift(edge as any);
-              } else {
-                edges.push(edge as any);
-              }
+          const results = await resultSetQuery.execute();
+          for (const result of results) {
+            const edge = {
+              cursor: serializeCursor(result, idProp, sort),
+              entity: result,
+              node: await nodeTransformer(result as any),
+            };
+            if (isBeforeQuery) {
+              edges.unshift(edge as any);
+            } else {
+              edges.push(edge as any);
             }
-            resolve(edges);
-          } catch (error) {
-            reject(error);
           }
+          return edges;
         });
       }
       return edges;
@@ -183,7 +174,7 @@ export async function buildConnectionResolver<
     let hasNextPage: Promise<boolean>;
     const hasNextPageFn = () => {
       if (!hasNextPage) {
-        hasNextPage = new Promise<boolean>(async (resolve) => {
+        hasNextPage = promiseHandler(async () => {
           const resolvedEdges = await edgesFn();
 
           const lastSubsetResultEdge:
@@ -194,7 +185,7 @@ export async function buildConnectionResolver<
             lastSubsetResultEdge?.node;
 
           if (!lastSubsetResult) {
-            return resolve(false);
+            return false;
           }
 
           // Get the last ID of the full result set and compare it to the first
@@ -204,12 +195,12 @@ export async function buildConnectionResolver<
             : await lastResultQuery.executeTakeFirst();
 
           if (!lastResult) {
-            return resolve(false);
+            return false;
           }
 
           const hasNextPage = lastResult[idProp] !== lastSubsetResult[idProp];
 
-          resolve(hasNextPage);
+          return hasNextPage;
         });
       }
       return hasNextPage;
@@ -218,7 +209,7 @@ export async function buildConnectionResolver<
     let hasPreviousPage: Promise<boolean>;
     const hasPreviousPageFn = () => {
       if (!hasPreviousPage) {
-        hasPreviousPage = new Promise<boolean>(async (resolve) => {
+        hasPreviousPage = promiseHandler(async () => {
           const resolvedEdges = await edgesFn();
 
           const firstSubsetResultEdge:
@@ -228,7 +219,7 @@ export async function buildConnectionResolver<
             firstSubsetResultEdge?.node;
 
           if (!firstSubsetResult) {
-            return resolve(false);
+            return false;
           }
 
           // Get the first ID of the full result set and compare it to the first
@@ -238,12 +229,12 @@ export async function buildConnectionResolver<
             : await firstResultQuery.executeTakeFirst();
 
           if (!firstResult) {
-            return resolve(false);
+            return false;
           }
 
           const hasPreviousPage =
             firstResult[idProp] !== firstSubsetResult[idProp];
-          resolve(hasPreviousPage);
+          return hasPreviousPage;
         });
       }
       return hasPreviousPage;

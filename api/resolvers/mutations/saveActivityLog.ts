@@ -11,6 +11,7 @@ export const saveActivityLog: MutationResolvers["saveActivityLog"] = async (
 
   const mutationResult = await activityLogDataService.saveMutation(context, {
     activityId: args.input.activityId,
+    activityLibraryActivityId: args.input.activityLibraryActivityId,
     day: args.input.day,
     userId,
     input: args.input.activityLogs,

@@ -6,6 +6,9 @@ import { doTimes } from "../../helpers/doTimes.js";
 import { rawInputToUnit } from "../../helpers/rawInputToUnit.js";
 import { rootService } from "./rootService.js";
 import { activityDataService } from "../activity/index.js";
+import { promiseHandler } from "../../../shared/promiseHandler.js";
+import { activityLibraryDataService } from "../activityLibrary/index.js";
+import { getUniqueId } from "../../../shared/getUniqueId.js";
 
 export async function saveMutation(
   context: Context,
@@ -14,14 +17,38 @@ export async function saveMutation(
     userId,
     day,
     activityId,
+    activityLibraryActivityId,
   }: {
     input: ActivityLogInput[];
     userId: string;
-    activityId: string;
+    activityId?: string | null;
+    activityLibraryActivityId?: string | null;
     day: string;
   },
 ): Promise<Error | undefined> {
-  const activity = await activityDataService.findOneOrFail(context, activityId);
+  if (!activityId && !activityLibraryActivityId) {
+    return new Error(
+      "Either activityId or activityLibraryActivityId must be provided. Received: " +
+        JSON.stringify({ activityId, activityLibraryActivityId }),
+    );
+  }
+
+  const activity = await promiseHandler(async () => {
+    if (activityId) {
+      return activityDataService.findOneOrFail(context, activityId);
+    }
+
+    if (activityLibraryActivityId) {
+      return activityLibraryDataService.copyToActivity(context, {
+        activityLibraryActivityId,
+        userId,
+      });
+    }
+
+    throw new Error(
+      "Unreachable code: activityId and activityLibraryActivityId were both falsy",
+    );
+  });
 
   const entries: { work?: number; reps?: number; id?: Maybe<string> }[] = [];
   for (const { reps: inputReps, work, id } of input) {

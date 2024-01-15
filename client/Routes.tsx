@@ -180,6 +180,24 @@ export function Routes() {
         )}
       />
       <Route
+        path="/activity-library/:id"
+        component={() => (
+          <LoadableComponent
+            load={() => import("./pages/ActivityLibraryActivity")}
+            component="ActivityLibraryActivity"
+          />
+        )}
+      />
+      <Route
+        path="/activity-library"
+        component={() => (
+          <LoadableComponent
+            load={() => import("./pages/ActivityLibrary")}
+            component="ActivityLibrary"
+          />
+        )}
+      />
+      <Route
         path={"/weightlog/:day"}
         component={() => (
           <LoadableComponent

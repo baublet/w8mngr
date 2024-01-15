@@ -24,7 +24,11 @@ export function ActivityPageHelpers() {
       <div className="flex gap-2 flex-wrap items-center text-sm">
         {data.currentUser?.popularActivities.map((activity) => (
           <Link
-            to={`/activities/${activity.id}`}
+            to={
+              activity.__typename === "Activity"
+                ? `/activities/${activity.id}`
+                : `/activity-library/${activity.id}`
+            }
             key={activity.id}
             className="bg-emerald-500 text-slate-50 p-1 px-2 rounded hover:bg-emerald-700 focus:bg-emerald-700"
           >

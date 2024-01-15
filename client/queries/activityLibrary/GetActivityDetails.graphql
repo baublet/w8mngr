@@ -1,0 +1,58 @@
+query GetActivityDetails($id: ID!) {
+  currentUser {
+    activities(input: { filter: { id: $id } }) {
+      pageInfo {
+        totalCount
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        cursor
+        node {
+          id
+          name
+          type
+          description
+          intensity
+          type
+          exrx
+          muscleGroups
+          permissions {
+            canDelete
+            canEdit
+          }
+          stats {
+            personalRecord {
+              reps
+              work
+              ago
+              link
+            }
+            lastLog {
+              day
+              ago
+              logs {
+                id
+                reps
+                work
+              }
+            }
+            visualizationData {
+              maximumWork {
+                day
+                work
+                workLabel
+              }
+              scatterPlot {
+                day
+                reps
+                work
+                workLabel
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -15,7 +15,7 @@ import { assertIsError } from "../../shared/assertIsError.js";
 import { getUniqueId } from "../../shared/getUniqueId.js";
 
 type PartiallyMaybe<T extends Record<string, any>> = {
-  [K in keyof T]?: T[K] | undefined;
+  [K in keyof T]?: T[K] | undefined | null;
 };
 
 type PartiallyMaybeWithNull<T extends Record<string, any>> = {

@@ -16,6 +16,7 @@ export function ActivityListItem({
   muscleGroups,
   type,
   intensity,
+  url = `/activities/${id}`,
 }: {
   id?: string | null;
   name?: string | null;
@@ -23,22 +24,23 @@ export function ActivityListItem({
   muscleGroups: Muscle[];
   type?: ActivityType | null;
   intensity?: number | null;
+  url?: string;
 }) {
   return (
     <Panel>
       <div
         className={`
           flex
-          flex-col
+          flex-col+
           w-full`}
       >
         <Link
-          to={`/activities/${id}`}
+          to={url}
           className="flex w-full justify-start items-center text-left group"
           title={`Edit Activity: ${name}`}
         >
-          <div className="flex w-full items-center gap-4">
-            <div className="flex w-full flex-col flex-grow gap-4">
+          <div className="flex w-full items-center gap-4 cursor-pointer">
+            <div className="flex w-full flex-col flex-grow gap-4 pointer-events-none">
               <ItemHeading>{name}</ItemHeading>
               <div className="flex items-start gap-2">
                 <div className="opacity-75 group-hover:opacity-100">
@@ -49,7 +51,10 @@ export function ActivityListItem({
                 </div>
               </div>
               {description && (
-                <div className="block text-slate-700 text-opacity-80 leading-tight">
+                <div
+                  className="block text-slate-700 text-opacity-80 leading-tight"
+                  style={{ minHeight: "67.5px" }}
+                >
                   <AsyncMarkdown
                     content={description}
                     maxLength={240}

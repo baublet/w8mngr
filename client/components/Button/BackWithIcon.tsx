@@ -21,7 +21,6 @@ export function BackWithIconButton(
           props.onClick();
         }
       }}
-      replace
     >
       {props.icon}
       <span

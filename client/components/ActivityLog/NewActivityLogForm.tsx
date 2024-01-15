@@ -36,10 +36,12 @@ export const SHOW_REPS: Record<ActivityType, boolean> = {
 
 export function NewActivityLogForm({
   activityId,
+  activityLibraryActivityId,
   activityType,
   day,
 }: {
-  activityId: string;
+  activityId?: string;
+  activityLibraryActivityId?: string;
   activityType: ActivityType;
   day: string;
 }) {
@@ -76,6 +78,7 @@ export function NewActivityLogForm({
       variables: {
         input: {
           activityId,
+          activityLibraryActivityId,
           day,
           activityLogs: [
             {
@@ -93,7 +96,6 @@ export function NewActivityLogForm({
       <PanelInverted className={cx({ "opacity-50": loading })}>
         <form
           className="flex gap-4"
-          aria-disabled={loading}
           onSubmit={(e) => {
             e.preventDefault();
             create();

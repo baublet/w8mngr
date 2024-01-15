@@ -18,9 +18,11 @@ export function ActivityLogEntry({
   log,
   activityType,
   activityId,
+  activityLibraryActivityId,
   day,
 }: {
-  activityId: string;
+  activityId?: string;
+  activityLibraryActivityId?: string;
   activityType: ActivityType;
   day: string;
   log: {
@@ -58,6 +60,7 @@ export function ActivityLogEntry({
       variables: {
         input: {
           activityId,
+          activityLibraryActivityId,
           day,
           activityLogs: [
             {

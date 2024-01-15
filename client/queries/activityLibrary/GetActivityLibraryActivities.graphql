@@ -1,0 +1,20 @@
+query GetActivityLibraryActivities($input: ActivityLibraryInput!) {
+  activityLibrary(input: $input) {
+    pageInfo {
+      totalCount
+      hasNextPage
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        id
+        name
+        type
+        description
+        muscleGroups
+        intensity
+      }
+    }
+  }
+}

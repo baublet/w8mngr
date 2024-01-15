@@ -1,8 +1,10 @@
 import { NetworkStatus } from "@apollo/client";
 import React from "react";
 import useLocation from "wouter/use-location";
+import { useRoute } from "wouter";
 
 import { useNavigateToUrl } from "./useNavigateToUrl.js";
+import { useUrlSearchParams } from "./useUrlSearchParams.js";
 
 type HookFunction = (args: {
   fetchPolicy?: any;
@@ -71,12 +73,8 @@ export function usePaginatedQuery<
   >[number]["node"][];
 } {
   const navigate = useNavigateToUrl();
-
+  const queryParams = useUrlSearchParams();
   const [baseUrl] = useLocation();
-  const queryParams = React.useMemo(() => {
-    const search = window.location.search;
-    return new URLSearchParams(search);
-  }, [baseUrl]);
 
   const cursor = queryParams.get("cursor");
   const beforeOrAfter = queryParams.get("beforeOrAfter") || "after";
@@ -108,7 +106,9 @@ export function usePaginatedQuery<
   const loading = isLoading(networkStatus);
 
   const previousPageLink = React.useMemo(() => {
-    if (!firstCursor) return "";
+    if (!firstCursor) {
+      return "";
+    }
     const params = new URLSearchParams(queryParams.toString());
     params.set("cursor", firstCursor);
     params.set("beforeOrAfter", "before");
@@ -117,7 +117,9 @@ export function usePaginatedQuery<
   }, [queryParams, data]);
 
   const nextPageLink = React.useMemo(() => {
-    if (!lastCursor) return "";
+    if (!lastCursor) {
+      return "";
+    }
     const params = new URLSearchParams(queryParams.toString());
     params.set("cursor", lastCursor);
     params.set("beforeOrAfter", "after");
@@ -137,13 +139,13 @@ export function usePaginatedQuery<
       queryParams.set("cursor", lastCursor);
       queryParams.set("beforeOrAfter", "after");
       queryParams.set("firstOrLast", "first");
-      navigate(`${baseUrl}?${queryParams.toString()}`, { replace: true });
+      navigate(`${baseUrl}?${queryParams.toString()}`);
     },
     previousPage: () => {
       queryParams.set("cursor", firstCursor);
       queryParams.set("beforeOrAfter", "before");
       queryParams.set("firstOrLast", "last");
-      navigate(`${baseUrl}?${queryParams.toString()}`, { replace: true });
+      navigate(`${baseUrl}?${queryParams.toString()}`);
     },
   } as any;
 }

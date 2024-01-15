@@ -29,6 +29,7 @@ type Query {
   upload(input: UploadInput): Upload!
   "Fast, auto-complete ready search for foods"
   searchFoods(input: SearchFoodsInput!): [Food!]!
+  activityLibrary(input: ActivityLibraryInput): ActivityLibraryActivityConnection!
 }
 
 type Mutation {
@@ -276,7 +277,8 @@ input SaveFoodLogInput {
 
 input SaveActivityLogInput {
   day: String!
-  activityId: ID!
+  activityId: ID
+  activityLibraryActivityId: ID
   activityLogs: [ActivityLogInput!]!
 }
 
@@ -376,6 +378,19 @@ input ActivityVisualizationInput {
 input WeightLogSummaryInput {
   from: Date
   to: Date
+}
+
+input ActivityLibraryInput {
+  filter: ActivityLibraryInputFilter
+  before: String
+  after: String
+  first: Int
+  last: Int
+}
+
+input ActivityLibraryInputFilter {
+  searchString: String
+  id: String
 }
 
 #################

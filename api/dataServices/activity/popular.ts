@@ -52,6 +52,8 @@ export async function popular(context: Context): Promise<ActivityEntity[]> {
           (a) => a.id === userActivity.activityLibraryId,
         );
         if (!activity) {
+          // This can happen if the user has no activities of their own, and it
+          // renders only library activities.
           continue;
         }
         Object.assign(userActivity, activity, {

@@ -111,7 +111,7 @@ export function ActivityLibraryActivity() {
           }
           sideContent={
             <div className="flex flex-col gap-4">
-              <SecondaryButton full to={`/activity-library/:id/log`}>
+              <SecondaryButton full to={`/activity-library/${activity.id}/log`}>
                 Log Activity
               </SecondaryButton>
             </div>

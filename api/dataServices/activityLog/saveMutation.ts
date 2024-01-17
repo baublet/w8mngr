@@ -8,7 +8,7 @@ import { rootService } from "./rootService.js";
 import { activityDataService } from "../activity/index.js";
 import { promiseHandler } from "../../../shared/promiseHandler.js";
 import { activityLibraryDataService } from "../activityLibrary/index.js";
-import { getUniqueId } from "../../../shared/getUniqueId.js";
+import { assertDayIsValid } from "../../../shared/assertDayIsValid.js";
 
 export async function saveMutation(
   context: Context,
@@ -26,6 +26,8 @@ export async function saveMutation(
     day: string;
   },
 ): Promise<Error | undefined> {
+  assertDayIsValid(day);
+
   if (!activityId && !activityLibraryActivityId) {
     return new Error(
       "Either activityId or activityLibraryActivityId must be provided. Received: " +
@@ -93,7 +95,7 @@ export async function saveMutation(
       (q) => q.where("userId", "=", userId),
     );
 
-    if (!activityId) {
+    if (!upsertResults.length) {
       const error = new Error(
         `Unknown error upserting activity log. Expected an upsert result. Instead received ${JSON.stringify(
           upsertResults,

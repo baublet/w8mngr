@@ -23,7 +23,7 @@ export function PageHeading(props: PageHeadingProps) {
           {props.icon}
         </div>
       )}
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full gap-2">
         <h3
           className={cx(
             "text-xl md:text-3xl font-thin text-slate-500 block w-full",

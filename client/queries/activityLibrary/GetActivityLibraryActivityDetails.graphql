@@ -1,0 +1,27 @@
+query GetActivityLibraryActivityDetails($id: String!, $day: String) {
+  activityLibrary(input: { filter: { id: $id } }) {
+    edges {
+      cursor
+      node {
+        id
+        name
+        type
+        description
+        intensity
+        type
+        exrx
+        muscleGroups
+        logs(day: $day) {
+          day
+          edges {
+            node {
+              id
+              reps
+              work
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { activityLibraryActivityMuscleGroups } from "./activityLibraryActivity/m
 import { activityMuscleGroups } from "./activity/musclesGroups.js";
 import { activityPermissions } from "./activity/permissions.js";
 import { activityStats } from "./activity/stats.js";
-import { activityLogActivity } from "./activityLog/activity.js";
+import { activityLogActivityLog } from "./activityLibraryActivity/logs.js";
 import { activityLibrary } from "./activityLibrary.js";
 import { activityLogWork } from "./activityLog/work.js";
 import { currentUser } from "./currentUser.js";
@@ -50,10 +50,10 @@ import { weightLogWeightString } from "./weightLog/weightString.js";
 
 export const resolvers: Resolvers = {
   ActivityLibraryActivity: {
+    logs: activityLogActivityLog,
     muscleGroups: activityLibraryActivityMuscleGroups,
   },
   ActivityLog: {
-    activity: activityLogActivity,
     work: activityLogWork,
   },
   Activity: {

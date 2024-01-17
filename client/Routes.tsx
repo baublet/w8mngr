@@ -153,16 +153,7 @@ export function Routes() {
         )}
       />
       <Route
-        path={"/activities/:id/log"}
-        component={() => (
-          <LoadableComponent
-            load={() => import("./pages/ActivityLog")}
-            component="ActivityLog"
-          />
-        )}
-      />
-      <Route
-        path={"/activities/:id/log/:day"}
+        path={"/activities/:id/log/:day?"}
         component={() => (
           <LoadableComponent
             load={() => import("./pages/ActivityLog")}
@@ -176,6 +167,15 @@ export function Routes() {
           <LoadableComponent
             load={() => import("./pages/Activity")}
             component="Activity"
+          />
+        )}
+      />
+      <Route
+        path="/activity-library/:id/log/:day?"
+        component={() => (
+          <LoadableComponent
+            load={() => import("./pages/ActivityLibraryActivityLog")}
+            component="ActivityLibraryActivityLog"
           />
         )}
       />

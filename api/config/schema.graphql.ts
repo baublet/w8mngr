@@ -499,6 +499,23 @@ type ActivityPersonalRecord {
   link: String!
 }
 
+type ActivityLibraryActivityLogConnection {
+  pageInfo: PageInfo!
+  day: String!
+  edges: [ActivityLibraryActivityLogEdge!]!
+}
+
+type ActivityLibraryActivityLogEdge {
+  cursor: String!
+  node: ActivityLibraryActivityLog!
+}
+
+type ActivityLibraryActivityLog {
+  id: ID!
+  reps: Int
+  work(unit: Unit): String
+}
+
 type ActivityLogConnection {
   pageInfo: PageInfo!
   day: String!
@@ -547,7 +564,7 @@ type ActivityLibraryActivityConnection {
 
 type ActivityLibraryActivityEdge {
   cursor: String!
-  node: Activity!
+  node: ActivityLibraryActivity!
 }
 
 type ActivityEdge {
@@ -568,6 +585,7 @@ type ActivityLibraryActivity {
   muscleGroups: [Muscle!]!
   intensity: Int
   stats: ActivityStats!
+  logs(day: String): ActivityLibraryActivityLogConnection!
 }
 
 type Activity {

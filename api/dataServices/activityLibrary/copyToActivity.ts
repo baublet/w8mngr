@@ -41,6 +41,7 @@ export async function copyToActivity(
     {
       ...libraryActivity,
       id: getUniqueId(),
+      activityLibraryId: libraryActivity.id,
       userId,
     },
   ]);

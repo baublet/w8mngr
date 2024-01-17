@@ -2,7 +2,7 @@ import { dayStringFromDate } from "../../../shared/dayStringFromDate.js";
 import { activityLogDataService } from "../../dataServices/activityLog/index.js";
 import { ActivityResolvers } from "../../generated.js";
 
-export const activityLogs: ActivityResolvers["logs"] = (
+export const activityLogs: ActivityResolvers["logs"] = async (
   parent,
   args,
   context,
@@ -11,7 +11,7 @@ export const activityLogs: ActivityResolvers["logs"] = (
   const userId = context.getCurrentUserId(true);
   const activityId = parent.id;
 
-  const connection = activityLogDataService.getConnection(context, {
+  const connection = await activityLogDataService.getConnection(context, {
     applyCustomConstraint: (q) =>
       q
         .where("userId", "=", userId)

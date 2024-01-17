@@ -3,6 +3,7 @@ import React from "react";
 
 import {
   ActivityType,
+  GetActivityLibraryActivityDetailsDocument,
   GetActivityLogDocument,
   useSaveActivityLogMutation,
 } from "../../generated";
@@ -53,7 +54,10 @@ export function NewActivityLogForm({
   const workRef = React.useRef<HTMLInputElement | null>(null);
   const { success, error } = useToast();
   const [createActivityLog, { loading }] = useSaveActivityLogMutation({
-    refetchQueries: [GetActivityLogDocument],
+    refetchQueries: [
+      GetActivityLogDocument,
+      GetActivityLibraryActivityDetailsDocument,
+    ],
     awaitRefetchQueries: true,
     onCompleted: () => {
       newActivityLogFormData.clear();

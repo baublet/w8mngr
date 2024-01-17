@@ -52,15 +52,6 @@ export async function popular(context: Context): Promise<ActivityEntity[]> {
           (a) => a.id === userActivity.activityLibraryId,
         );
         if (!activity) {
-          log(
-            context,
-            "error",
-            "Invariance violation. A user activity is associated with a library activity. But the library activity does not exist.",
-            {
-              userActivity,
-              libraryActivities,
-            },
-          );
           continue;
         }
         Object.assign(userActivity, activity, {

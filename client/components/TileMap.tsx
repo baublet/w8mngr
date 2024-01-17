@@ -297,8 +297,8 @@ function Tile({
       className={cx(
         "w-4 h-4 aspect-square cursor-pointer border rounded border-white hover:border-slate-900",
         {
-          ["bg-slate-100"]: intensity <= 1,
-          ["bg-emerald-100"]: intensity > 1 && intensity <= 3,
+          ["bg-slate-200"]: intensity <= 1,
+          ["bg-emerald-200"]: intensity > 1 && intensity <= 3,
           ["bg-emerald-300"]: intensity > 3 && intensity <= 5,
           ["bg-emerald-500"]: intensity > 5 && intensity <= 7,
           ["bg-emerald-700"]: intensity > 7 && intensity <= 9,

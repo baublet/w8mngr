@@ -1,8 +1,6 @@
 import React from "react";
 import { useRoute } from "wouter";
 
-import { ActivityStatsComponent } from "../components/Activity/ActivityStats";
-import { ActivityLog as ActivityLogComponent } from "../components/ActivityLog/ActivityLog";
 import { BackToButton } from "../components/Button/BackTo";
 import { BackWithIconButton } from "../components/Button/BackWithIcon";
 import { ContentContainer } from "../components/Containers/ContentContainer";
@@ -12,21 +10,23 @@ import { HealthCircleIcon } from "../components/Icons/HealthCircle";
 import { PrimaryLoader } from "../components/Loading/Primary";
 import { MuscleMap } from "../components/MuscleMap";
 import { PageHeading } from "../components/Type/PageHeading";
-import { useGetActivityDetailsQuery } from "../generated";
+import { useGetActivityLibraryActivityDetailsQuery } from "../generated";
 import { useNavigateToUrl } from "../helpers/useNavigateToUrl";
+import { ActivityLogUncontrolled } from "../components/ActivityLog/ActivityLogUncontrolled";
+import { getWithDefault } from "../../shared/getWithDefault";
 import { dayStringFromDate } from "../../shared/dayStringFromDate";
 
-export function ActivityLog() {
-  const [, params] = useRoute("/activities/:id/log/:day?");
+export function ActivityLibraryActivityLog() {
+  const [, params] = useRoute("/activity-library/:id/log/:day?");
   const id = params?.id || "";
   const day = params?.day || dayStringFromDate(new Date());
 
-  const { data, loading } = useGetActivityDetailsQuery({
+  const { data, loading } = useGetActivityLibraryActivityDetailsQuery({
     variables: {
       id: id || "id",
     },
   });
-  const activity = data?.currentUser?.activities.edges[0].node;
+  const activityLibraryActivity = data?.activityLibrary.edges[0].node;
 
   const navigate = useNavigateToUrl();
   const [stateDay, setDay] = React.useState(day);
@@ -34,7 +34,7 @@ export function ActivityLog() {
     if (!stateDay) {
       return;
     }
-    navigate(`/activities/${id}/log/${stateDay}`, { replace: true });
+    navigate(`/activity-library/${id}/log/${stateDay}`, { replace: true });
   }, [stateDay]);
   React.useEffect(() => {
     if (!day) {
@@ -45,9 +45,14 @@ export function ActivityLog() {
 
   const onRefresh = React.useCallback(() => {}, []);
 
-  if (loading || !activity) {
+  if (loading || !activityLibraryActivity) {
     return <PrimaryLoader />;
   }
+
+  const logs = getWithDefault(
+    data.activityLibrary.edges[0].node?.logs?.edges.map((e) => e.node),
+    [],
+  );
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -55,40 +60,45 @@ export function ActivityLog() {
         <PageHeading
           icon={<HealthCircleIcon />}
           quickLinks={
-            <div className="flex gap-4">
-              <BackToButton to="/activities">Back to Activities</BackToButton>
+            <div className="flex gap-2 md:gap-4 flex-wrap">
+              <BackToButton to="/activity-library">
+                Back to Library
+              </BackToButton>
               <BackWithIconButton
                 icon={<HealthCircleIcon />}
-                to={`/activities/${activity.id}`}
+                to={`/activity-library/${activityLibraryActivity.id}`}
               >
                 View Activity
               </BackWithIconButton>
             </div>
           }
         >
-          {activity.name || " "}
+          {activityLibraryActivity.name || " "}
         </PageHeading>
       </ContentContainer>
       <ContentContainer>
         <ContentLayout
           mainContent={
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-8">
               <DayNavigator
-                rootUrl={`/activities/${id}/log/`}
+                rootUrl={`/activity-library/${id}/log/`}
                 onRefresh={onRefresh}
               />
-              <ActivityLogComponent
-                activityId={activity.id}
+              <ActivityLogUncontrolled
+                activityType={activityLibraryActivity.type || "WEIGHT"}
+                activityLibraryActivityId={activityLibraryActivity.id}
                 day={day}
-                activityType={activity.type || "WEIGHT"}
-                underInput={<ActivityStatsComponent queryData={data} />}
+                logs={logs}
               />
             </div>
           }
           sideContent={
             <div className="flex-col gap-4 hidden lg:flex">
               <div>
-                <MuscleMap selected={activity.muscleGroups} showSummary />
+                <MuscleMap
+                  selected={activityLibraryActivity.muscleGroups}
+                  showSummary
+                />
               </div>
             </div>
           }
